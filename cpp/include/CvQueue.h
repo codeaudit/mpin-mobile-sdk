@@ -16,8 +16,6 @@
 #include <string>
 #include <list>
 
-using namespace std;
-
 namespace CvShared
 {
 	
@@ -46,8 +44,10 @@ public:
 	int		Size();
 
 private:
-	string			m_name;			///< The queue name (recommended to be unique)
-	list<T>			m_list;			///< Holds the queue elements
+	typedef std::list<T>	CList;
+	
+	String			m_name;			///< The queue name (recommended to be unique)
+	CList			m_list;			///< Holds the queue elements
 	CvSemaphore		m_semaphore;	///< Represents the queue elements count and provides the blocking mechanism
 	CvMutex			m_mutex;		///< Syncronizes multi-threaded access
 };
@@ -55,8 +55,8 @@ private:
 template <class T>
 CvQueue<T>::CvQueue( const char* apName ) :
 	m_name(apName),
-	m_semaphore( (string("sema4-") + apName).c_str() ),
-	m_mutex( (string("mutex-") + apName).c_str() )
+	m_semaphore( (String("sema4-") + apName).c_str() ),
+	m_mutex( (String("mutex-") + apName).c_str() )
 {
 	if ( !m_semaphore.Create(0) )
 	{

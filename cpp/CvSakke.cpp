@@ -118,7 +118,7 @@ miracl* CvSakke::mrsakdominit() //re-init miracl
 	return mr_mip;
 }
 
-void CvSakke::GetMasterKey( OUT string& aMasterKey )
+void CvSakke::GetMasterKey( OUT String& aMasterKey )
 {
 #ifdef __LEGACY_IMPLEMENTATION__
 	CMiracl miracl( m_sakkeDomain );
@@ -129,7 +129,7 @@ void CvSakke::GetMasterKey( OUT string& aMasterKey )
 #endif
 }
 
-void CvSakke::GetPublicParams( OUT string& aPublicParams )
+void CvSakke::GetPublicParams( OUT String& aPublicParams )
 {
 #ifdef __LEGACY_IMPLEMENTATION__
 	CMiracl miracl( m_sakkeDomain );
@@ -144,14 +144,14 @@ void CvSakke::GetPublicParams( OUT string& aPublicParams )
 #endif
 }
 
-void CvSakke::GetPublicKey( const string& aMasterKey, OUT string& aPublicKey, const string& aPublicParams )
+void CvSakke::GetPublicKey( const String& aMasterKey, OUT String& aPublicKey, const String& aPublicParams )
 {
 #ifdef __LEGACY_IMPLEMENTATION__
 	CMiracl miracl( m_sakkeDomain );
 	
 	size_t pos = aPublicParams.find("#");
 	
-	if ( pos == string::npos )
+	if ( pos == String::npos )
 		return;
 	
 	G1 point = g1_from_string( aPublicParams.substr(0, pos) );
@@ -162,7 +162,7 @@ void CvSakke::GetPublicKey( const string& aMasterKey, OUT string& aPublicKey, co
 #endif
 }
 
-void CvSakke::GetPrivateKey( const string& aMasterKey, const string& aIdentity, OUT string& aPrivateKey, const string& aPublicParams )
+void CvSakke::GetPrivateKey( const String& aMasterKey, const String& aIdentity, OUT String& aPrivateKey, const String& aPublicParams )
 {
 #ifdef __LEGACY_IMPLEMENTATION__
 	CMiracl miracl( m_sakkeDomain );
@@ -188,8 +188,8 @@ void CvSakke::GetPrivateKey( const string& aMasterKey, const string& aIdentity, 
 #endif	
 }
 
-bool CvSakke::Encapsulate( const string& aPlainData, const string& aPublicKey, const string& aIdentity,
-							string& aEncapsulatedData, const string& aPublicParams )
+bool CvSakke::Encapsulate( const String& aPlainData, const String& aPublicKey, const String& aIdentity,
+							String& aEncapsulatedData, const String& aPublicParams )
 {
 #ifdef __LEGACY_IMPLEMENTATION__
 
@@ -197,7 +197,7 @@ bool CvSakke::Encapsulate( const string& aPlainData, const string& aPublicKey, c
 	
 	size_t pos = aPublicParams.find("#");
 
-	if ( pos == string::npos )
+	if ( pos == String::npos )
 		return false;
 	
 	G1 Z_S = g1_from_string( aPublicKey );
@@ -246,7 +246,7 @@ bool CvSakke::Encapsulate( const string& aPlainData, const string& aPublicKey, c
 	encodedRbS[len++] = 0x04;
 	len += to_binary( x, FS, encodedRbS + len, TRUE );
 	len += to_binary( y, FS, encodedRbS + len, TRUE );
-	string str;
+	String str;
 	CvBase64::Encode( (uint8_t*)encodedRbS, sizeof(encodedRbS), str );
 
 	CvBase64::Encode( (uint8_t*)H, sizeof(H), aEncapsulatedData );
@@ -285,9 +285,9 @@ bool CvSakke::Encapsulate( const string& aPlainData, const string& aPublicKey, c
 #endif
 }
 
-bool CvSakke::Decapsulate( const string& aEncapsulatedData, const string& aPublicKey,
-							const string& aIdentity, const string& aPrivateKey, string& aPlainData,
-							const string& aPublicParams )
+bool CvSakke::Decapsulate( const String& aEncapsulatedData, const String& aPublicKey,
+							const String& aIdentity, const String& aPrivateKey, String& aPlainData,
+							const String& aPublicParams )
 {
 #ifdef __LEGACY_IMPLEMENTATION__
 
@@ -295,7 +295,7 @@ bool CvSakke::Decapsulate( const string& aEncapsulatedData, const string& aPubli
 	
 	size_t pos = aPublicParams.find("#");
 
-	if ( pos == string::npos )
+	if ( pos == String::npos )
 		return false;
 	
 	G1 Z_S = g1_from_string( aPublicKey );
@@ -306,14 +306,14 @@ bool CvSakke::Decapsulate( const string& aEncapsulatedData, const string& aPubli
 
 	pos = aEncapsulatedData.find(",");
 	
-	if ( pos == string::npos )
+	if ( pos == String::npos )
 		return false;
 	
-	string decodedHint;
+	String decodedHint;
 	CvBase64::Decode( aEncapsulatedData.substr(0, pos), decodedHint );
 	
 	/* Remove the prefix and recover the point. */
-	string decodedRbS;
+	String decodedRbS;
 	CvBase64::Decode( aEncapsulatedData.substr(pos+1), decodedRbS );
 
 	Big x = from_binary( FS, (char*)decodedRbS.data() + 1 );
@@ -397,7 +397,7 @@ bool CvSakke::Decapsulate( const string& aEncapsulatedData, const string& aPubli
 #endif
 }
 
-bool CvSakke::ValidatePrivateKey( const string& aPublicKey, const string& aIdentity, const string& aPrivateKey, const string& aPublicParams )
+bool CvSakke::ValidatePrivateKey( const String& aPublicKey, const String& aIdentity, const String& aPrivateKey, const String& aPublicParams )
 {
 #ifdef __LEGACY_IMPLEMENTATION__
 	
@@ -447,8 +447,8 @@ bool CvSakke::ValidatePrivateKey( const string& aPublicKey, const string& aIdent
 #endif
 }
 
-// Hash a zero-terminated string to a number < modulus
-Big CvSakke::HashIdentity( const string& aString )
+// Hash a zero-terminated String to a number < modulus
+Big CvSakke::HashIdentity( const String& aString )
 {
 #ifndef __LEGACY_IMPLEMENTATION__
 	CMiracl miracl( CvSakke::m_sakkeDomain );
@@ -495,7 +495,7 @@ Big CvSakke::HashIdentity( const string& aString )
 	return h % order;
 }
 
-void CvSakke::HashIdentity( const string& aString, octet& aID )
+void CvSakke::HashIdentity( const String& aString, octet& aID )
 {
 	Big hash = HashIdentity( aString );
 	
@@ -536,7 +536,7 @@ CDpkgConfig* CvSakke::GetSakkeParams() //temporary
 { return CDpkgConfig::Instance(); 
 }
 */
-bool CvSakke::DecodePublicKey( const string& aPublicKey, OUT octet& aZ_S )
+bool CvSakke::DecodePublicKey( const String& aPublicKey, OUT octet& aZ_S )
 {
 	OCTET_CLEAR(&aZ_S);
 	
@@ -560,7 +560,7 @@ bool CvSakke::DecodePublicKey( const string& aPublicKey, OUT octet& aZ_S )
 		 itr != tokens.end();
 		 ++itr )
 	{
-		string decoded;
+		String decoded;
 
 		CvBase64::Decode( *itr, decoded );
 		if ( decoded.size() != FS )
@@ -571,7 +571,7 @@ bool CvSakke::DecodePublicKey( const string& aPublicKey, OUT octet& aZ_S )
 	return true;
 }
 
-bool CvSakke::DecodePrivateKey( const string& aPrivateKey, OUT octet& aKbS )
+bool CvSakke::DecodePrivateKey( const String& aPrivateKey, OUT octet& aKbS )
 {
 	CMiracl miracl( m_sakkeDomain );
 	
@@ -599,7 +599,7 @@ bool CvSakke::DecodePrivateKey( const string& aPrivateKey, OUT octet& aKbS )
 		 itr != tokens.end();
 		 ++itr, ++i )
 	{
-		string decoded;
+		String decoded;
 		CvBase64::Decode( *itr, decoded );
 		bytes_to_big( _MIPP_ (int)decoded.size(), decoded.data(), pBigs[i]->getbig() );		
 	}
@@ -616,18 +616,18 @@ bool CvSakke::DecodePrivateKey( const string& aPrivateKey, OUT octet& aKbS )
 	return true;
 }
 
-void CvSakke::EncodeEncapsulatedData( const octet& aRbS, const octet& aH, OUT string& aEncapsulatedData )
+void CvSakke::EncodeEncapsulatedData( const octet& aRbS, const octet& aH, OUT String& aEncapsulatedData )
 {
-	string encodedRbS;
+	String encodedRbS;
 	CvBase64::Encode( (uint8_t*)aRbS.val, aRbS.len, encodedRbS );
 	
-	string encodedHint;
+	String encodedHint;
 	CvBase64::Encode( (uint8_t*)aH.val, aH.len, encodedHint );
 	
 	aEncapsulatedData = encodedHint + ',' + encodedRbS;
 }
 
-bool CvSakke::DecodeEncapsulatedData( const string& aEncapsulatedData, OUT octet& aRbS, OUT octet& aH )
+bool CvSakke::DecodeEncapsulatedData( const String& aEncapsulatedData, OUT octet& aRbS, OUT octet& aH )
 {
 	OCTET_CLEAR(&aRbS);
 	OCTET_CLEAR(&aH);
@@ -640,7 +640,7 @@ bool CvSakke::DecodeEncapsulatedData( const string& aEncapsulatedData, OUT octet
 	if ( tokens.size() != 2 )
 		return false;
 	
-	string decoded;
+	String decoded;
 
 	CvBase64::Decode( tokens[0], decoded );
 	if ( decoded.size() != aH.max )
@@ -656,7 +656,7 @@ bool CvSakke::DecodeEncapsulatedData( const string& aEncapsulatedData, OUT octet
 	return true;
 }
 
-bool CvSakke::DecodePublicParams( const string& aPublicParams, OUT octet& aPx, OUT octet& aPy )
+bool CvSakke::DecodePublicParams( const String& aPublicParams, OUT octet& aPx, OUT octet& aPy )
 {
 	CvString publicParams = aPublicParams;
 	
@@ -675,7 +675,7 @@ bool CvSakke::DecodePublicParams( const string& aPublicParams, OUT octet& aPx, O
 	if ( tokensP.size() != 2 )
 		return false;
 	
-	string decoded;
+	String decoded;
 	CvBase64::Decode( tokensP[0], decoded );
 	OCTET_JOIN_BYTES( decoded.data(), (int)decoded.size(), &aPx );
 
@@ -688,11 +688,11 @@ bool CvSakke::DecodePublicParams( const string& aPublicParams, OUT octet& aPx, O
 
 #ifdef __LEGACY_IMPLEMENTATION__
 
-string CvSakke::to_string( const Big& number )
+String CvSakke::to_string( const Big& number )
 {
 	unsigned char buffer[BN_BYTES] = { 0 };
 	int len;
-	string str;
+	String str;
 
 	len = to_binary( number, 2*AS, (char *)buffer, FALSE );
 	CvBase64::Encode( buffer, len, str );
@@ -700,15 +700,15 @@ string CvSakke::to_string( const Big& number )
 	return str;
 }
 
-Big CvSakke::big_from_string( const string& str )
+Big CvSakke::big_from_string( const String& str )
 {
-	string decoded;
+	String decoded;
 	CvBase64::Decode( str, decoded );
 	
 	return from_binary( (int)decoded.size(), (char*)decoded.data() );
 }
 
-string CvSakke::to_string( const ECn& point )
+String CvSakke::to_string( const ECn& point )
 {
 	Big x, y;
 	point.get(x, y);
@@ -716,18 +716,18 @@ string CvSakke::to_string( const ECn& point )
 	return "[" + to_string(x) + "," + to_string(y) + "]";
 }
 
-ECn CvSakke::ecn_from_string( const string& str )
+ECn CvSakke::ecn_from_string( const String& str )
 {
 	ECn result;
 	
 	size_t pos = str.find(",");
 
-	if ( pos == string::npos )
+	if ( pos == String::npos )
 		return result;
 	
 	Big x, y;
 	
-	string decoded;
+	String decoded;
 	CvBase64::Decode( str.substr( 1, pos-1 ), decoded );
 	x = from_binary( (int)decoded.size(), (char*)decoded.data() );
 	
@@ -740,7 +740,7 @@ ECn CvSakke::ecn_from_string( const string& str )
 	return result;
 }
 
-string CvSakke::to_string( const G1& point )
+String CvSakke::to_string( const G1& point )
 {
 	Big x, y;
 	point.g.get(x, y);
@@ -748,17 +748,17 @@ string CvSakke::to_string( const G1& point )
 	return "[" + to_string(x) + "," + to_string(y) + "]";
 }
 
-G1 CvSakke::g1_from_string( const string& str )
+G1 CvSakke::g1_from_string( const String& str )
 {
 	G1 result;
 	size_t pos = str.find(",");
 
-	if ( pos == string::npos )
+	if ( pos == String::npos )
 		return result;
 
 	Big x, y;
 	
-	string decoded;
+	String decoded;
 	CvBase64::Decode( str.substr( 1, pos-1 ), decoded );
 	x = from_binary( (int)decoded.size(), (char*)decoded.data() );
 	
@@ -771,7 +771,7 @@ G1 CvSakke::g1_from_string( const string& str )
 	return result;
 }
 
-string CvSakke::to_string( const G2& point )
+String CvSakke::to_string( const G2& point )
 {
 	ZZn2 x, y;
 	point.g.get(x, y);
@@ -783,24 +783,24 @@ string CvSakke::to_string( const G2& point )
 	return "[" + to_string(xx[0]) + "," + to_string(xx[1]) + "," + to_string(yy[0]) + "," + to_string(yy[1]) + "]";
 }
 
-G2 CvSakke::g2_from_string( const string& str )
+G2 CvSakke::g2_from_string( const String& str )
 {
 	G2 result;
 	
 	size_t pos = str.find(",");
-	if ( pos == string::npos )
+	if ( pos == String::npos )
 		return result;
 	
 	Big xx[2], yy[2];
 	size_t posStart = 1;
 	
-	string decoded;
+	String decoded;
 	CvBase64::Decode( str.substr( posStart, pos-1 ), decoded );
 	xx[0] = from_binary( (int)decoded.size(), (char*)decoded.data() );
 	
 	posStart = pos+1;
 	pos = str.find( ",", posStart );
-	if ( pos == string::npos )
+	if ( pos == String::npos )
 		return result;
 	
 	decoded.clear();
@@ -809,7 +809,7 @@ G2 CvSakke::g2_from_string( const string& str )
 
 	posStart = pos+1;
 	pos = str.find( ",", posStart );
-	if ( pos == string::npos )
+	if ( pos == String::npos )
 		return result;
 	
 	decoded.clear();

@@ -39,6 +39,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 #ifndef CVTHREAD_H
 #define	CVTHREAD_H
 
+#include "CvCommon.h"
+
 #if defined(_WIN32)
 
 	#include "windows.h"
@@ -59,8 +61,6 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 #endif
 
 #include <string>
-
-using namespace std;
 
 namespace CvShared
 {
@@ -90,7 +90,7 @@ protected:
 	THREAD_HANDLE           m_hThread;
 	THREAD_ID		m_id;
 
-	string			m_name;
+	String			m_name;
 	void*			m_pArgs;
 };
 

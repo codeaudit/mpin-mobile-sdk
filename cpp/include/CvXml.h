@@ -17,13 +17,11 @@
 #include "xml/rapidxml.hpp"
 #include "xml/rapidxml_print.hpp"
 
-using namespace rapidxml;
+typedef rapidxml::xml_document<>	CvXmlDoc;
+typedef rapidxml::xml_node<>		CvXmlNode;
+typedef rapidxml::xml_attribute<>	CvXmlAttr;
 
-typedef xml_document<>	CvXmlDoc;
-typedef xml_node<>		CvXmlNode;
-typedef xml_attribute<>	CvXmlAttr;
-
-typedef parse_error		CvXmlParseException;
+typedef rapidxml::parse_error		CvXmlParseException;
 
 #endif	/* CVXML_H */
 

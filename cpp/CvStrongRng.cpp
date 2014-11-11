@@ -18,13 +18,13 @@ namespace CvShared
 {
 
 bool CvStrongRng::m_bEnableEntropy = true;
-string CvStrongRng::m_aEntropyServerUrl = "";
-string CvStrongRng::m_aEntropyAlgorithm = "";
+String CvStrongRng::m_aEntropyServerUrl = "";
+String CvStrongRng::m_aEntropyAlgorithm = "";
 
 CvStrongRng::CvStrongRng(CSRNG_TYPE type)
 {
    const int size = ( AES_SECURITY/sizeof(mr_small) );
-   string random;
+   String random;
    char seed[size];
 
 #ifdef WIN32
@@ -81,7 +81,7 @@ CvStrongRng::CvStrongRng(CSRNG_TYPE type)
 	
 	strong_init( &m_csprng, size, seed, tod ); 
 }
-void CvStrongRng::Init( bool abEnableEntropy, const string& aEntropyServerUrl, const string& aEntropyAlgorithm )
+void CvStrongRng::Init( bool abEnableEntropy, const String& aEntropyServerUrl, const String& aEntropyAlgorithm )
 {
     m_bEnableEntropy = abEnableEntropy;
     m_aEntropyServerUrl = aEntropyServerUrl;
@@ -89,7 +89,7 @@ void CvStrongRng::Init( bool abEnableEntropy, const string& aEntropyServerUrl, c
 }
 
 //new interface
-CvStrongRng::CvStrongRng(CSRNG_MODE mode) : ISystemSource(new SystemCSPRNG()), IDongleSource(new m_DongleSource())
+CvStrongRng::CvStrongRng(CSRNG_MODE mode) : ISystemSource(new SystemCSPRNG()), IDongleSource(new CDongleSource())
 {
    const int size = ( AES_SECURITY/sizeof(mr_small) );
    char seed[size];
@@ -102,10 +102,10 @@ CvStrongRng::CvStrongRng(CSRNG_MODE mode) : ISystemSource(new SystemCSPRNG()), I
 
 CvStrongRng::~CvStrongRng(){}
 
-csprng& CvStrongRng::m_DongleSource::dongle_slurp(bool abEnableEntropy, const string& aEntropyServerUrl, const string& aEntropyAlgorithm)
+csprng& CvStrongRng::CDongleSource::dongle_slurp(bool abEnableEntropy, const String& aEntropyServerUrl, const String& aEntropyAlgorithm)
 {
     const int size = ( AES_SECURITY/sizeof(mr_small) );
-	string random;
+	String random;
 	char seed[size];
 	
 #ifdef WIN32

@@ -16,8 +16,6 @@
 #include "CvMutex.h"
 #include "CvTime.h"
 
-using namespace std;
-
 namespace CvShared
 {
 
@@ -44,7 +42,7 @@ protected:
 	
 	pthread_cond_t	m_hCondVar;
 	
-	string			m_name;
+	String			m_name;
 	bool			m_bValid;
 
 	CvMutex			m_mutex;

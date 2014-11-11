@@ -13,18 +13,18 @@ extern "C"
         #include "miracl.h"
 }
 
-#define CvByte unsigned char*
+typedef	unsigned char*	CvBytePtr;
 
 #include "CvCommon.h"
 
 #include <string>
 
-using namespace std;
-
 class CvEntropyServer
 {
 public:
-	CvEntropyServer( const string& aUrl );
+	typedef std::string	String;
+	
+	CvEntropyServer( const String& aUrl );
 	virtual ~CvEntropyServer();
 	
 	enum enAlgorithm_t
@@ -43,17 +43,17 @@ public:
 		enEncoding_Base64 = 1
 	};
 
-	bool Generate( enAlgorithm_t aAlgorithm, enEncoding_t aEncoding, int aLength, OUT string& aEntropy );
+	bool Generate( enAlgorithm_t aAlgorithm, enEncoding_t aEncoding, int aLength, OUT String& aEntropy );
 
 	static const char* AlgorithmToString( enAlgorithm_t aAlgorithm );
 	static const char* EncodingToString( enEncoding_t aEncoding );
-	static enAlgorithm_t StringToAlgorithm( const string& aAlgorithm );
-	static enEncoding_t StringToEncoding( const string& aEncoding );
+	static enAlgorithm_t StringToAlgorithm( const String& aAlgorithm );
+	static enEncoding_t StringToEncoding( const String& aEncoding );
 	
 private:
 	CvEntropyServer(const CvEntropyServer& orig){}
 	void operator=(const CvEntropyServer){}
-	string	m_url;
+	String	m_url;
 };
 
 class SystemCSPRNG
@@ -63,7 +63,7 @@ public:
     SystemCSPRNG();
     virtual ~SystemCSPRNG();
     
-    void rndPool(OUT CvByte pMemory, size_t req_len);
+    void rndPool(OUT CvBytePtr pMemory, size_t req_len);
     csprng& Csprng(); 
     
 private:

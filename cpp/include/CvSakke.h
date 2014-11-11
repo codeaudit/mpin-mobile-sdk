@@ -66,34 +66,34 @@ extern "C"
 	#include "pfc.h"
 #endif
 
-using namespace std;
-
 class CvSakke
 {
 public:
+	typedef std::string	String;
+	
 	CvSakke( csprng* apRng = NULL );
 	virtual ~CvSakke();
 	
 	static miracl* mrsakdominit();
 	
-	void	GetMasterKey( OUT string& aMasterKey );
-	void	GetPublicParams( OUT string& aPublicParams );
+	void	GetMasterKey( OUT String& aMasterKey );
+	void	GetPublicParams( OUT String& aPublicParams );
 	
-	void	GetPublicKey( const string& aMasterKey, OUT string& aPublicKey, const string& aPublicParams = "" );
-	void	GetPrivateKey( const string& aMasterKey, const string& aIdentity, OUT string& aPrivateKey, const string& aPublicParams = "" );
+	void	GetPublicKey( const String& aMasterKey, OUT String& aPublicKey, const String& aPublicParams = "" );
+	void	GetPrivateKey( const String& aMasterKey, const String& aIdentity, OUT String& aPrivateKey, const String& aPublicParams = "" );
 
 	/*! \brief Encapsulate the Shared Secret Value (SSV) */
-	bool	Encapsulate( const string& aPlainData, const string& aPublicKey, const string& aIdentity,
-						OUT string& aEncapsulatedData, const string& aPublicParams = "" );
+	bool	Encapsulate( const String& aPlainData, const String& aPublicKey, const String& aIdentity,
+						OUT String& aEncapsulatedData, const String& aPublicParams = "" );
 
 	/*! \brief Decapsulate the Shared Secret Value (SSV) */
-	bool	Decapsulate( const string& aEncapsulatedData, const string& aPublicKey, const string& aIdentity,
-						const string& aPrivateKey, OUT string& aPlainData, const string& aPublicParams = "" );
+	bool	Decapsulate( const String& aEncapsulatedData, const String& aPublicKey, const String& aIdentity,
+						const String& aPrivateKey, OUT String& aPlainData, const String& aPublicParams = "" );
 
 	/*! \brief Validate the Receiver Secret Key (RSK) */
-	bool	ValidatePrivateKey( const string& aPublicKey, const string& aIdentity, const string& aPrivateKey, const string& aPublicParams = "" );
+	bool	ValidatePrivateKey( const String& aPublicKey, const String& aIdentity, const String& aPrivateKey, const String& aPublicParams = "" );
 	
-	Big	HashIdentity( const string& aString );
+	Big	HashIdentity( const String& aString );
 	
 	int	GetLastError() const	{ return m_lastError; }	
 
@@ -117,23 +117,23 @@ private:
 		miracl*	m_pMip;
 	};
 	
-	void	HashIdentity( const string& aString, OUT octet& aID );
-	bool	DecodePublicKey( const string& aPublicKey, OUT octet& aZ_H );
-	bool	DecodePrivateKey( const string& aPrivateKey, OUT octet& aKbS );
-	void	EncodeEncapsulatedData( const octet& aRbS, const octet& aH, OUT string& aEncapsulatedData );
-	bool	DecodeEncapsulatedData( const string& aEncapsulatedData, OUT octet& aRbS, OUT octet& aH );	
-	bool	DecodePublicParams( const string& aPublicParams, OUT octet& aPx, OUT octet& aPy );
+	void	HashIdentity( const String& aString, OUT octet& aID );
+	bool	DecodePublicKey( const String& aPublicKey, OUT octet& aZ_H );
+	bool	DecodePrivateKey( const String& aPrivateKey, OUT octet& aKbS );
+	void	EncodeEncapsulatedData( const octet& aRbS, const octet& aH, OUT String& aEncapsulatedData );
+	bool	DecodeEncapsulatedData( const String& aEncapsulatedData, OUT octet& aRbS, OUT octet& aH );	
+	bool	DecodePublicParams( const String& aPublicParams, OUT octet& aPx, OUT octet& aPy );
 
 #ifdef __LEGACY_IMPLEMENTATION__
-	string	to_string( const Big& number );
-	string	to_string( const ECn& point );
-	string	to_string( const G1& point );
-	string	to_string( const G2& point );
+	String	to_string( const Big& number );
+	String	to_string( const ECn& point );
+	String	to_string( const G1& point );
+	String	to_string( const G2& point );
 	
-	Big		big_from_string( const string& str );
-	ECn		ecn_from_string( const string& str );
-	G1		g1_from_string( const string& str );
-	G2		g2_from_string( const string& str );
+	Big		big_from_string( const String& str );
+	ECn		ecn_from_string( const String& str );
+	G1		g1_from_string( const String& str );
+	G2		g2_from_string( const String& str );
 	
 	void	reverse( char* str, int len );
 #endif

@@ -66,13 +66,13 @@ CvFileAbs::CvList::~CvList()
 	}
 }
 
-CvFileAbs::CvFileAbs( const string& aPath ) :
+CvFileAbs::CvFileAbs( const String& aPath ) :
 	m_path( aPath )
 {
 	FixPath();
 }
 
-CvFileAbs::CvFileAbs( const wstring& aPath ) :
+CvFileAbs::CvFileAbs( const Wstring& aPath ) :
 	m_path( WstringToString(aPath) )
 {
 	FixPath();
@@ -85,26 +85,26 @@ void CvFileAbs::FixPath()
 		m_path.resize( pos+1 );
 }
 
-string CvFileAbs::GetPath() const
+String CvFileAbs::GetPath() const
 {
 	return m_path; 
 }
 
-wstring CvFileAbs::GetPathW() const
+Wstring CvFileAbs::GetPathW() const
 {
 	return StringToWstring( m_path ); 
 }
 
-string CvFileAbs::GetName() const
+String CvFileAbs::GetName() const
 {
 	size_t pos = m_path.find_last_of( "/" );
-	if ( pos == wstring::npos )
+	if ( pos == Wstring::npos )
 		return "";
 
-	return string( m_path, pos+1 );
+	return String( m_path, pos+1 );
 }
 
-wstring CvFileAbs::GetNameW() const
+Wstring CvFileAbs::GetNameW() const
 {
 	return StringToWstring( GetName() );	
 }
@@ -236,10 +236,10 @@ bool CvDirectory::List( OUT CvList& aListFiles, enType_t aFilter )
 
 		if ( ( bDirectory && aFilter != enType_File ) || ( !bDirectory && aFilter != enType_Directory ) )
 		{
-			string fileName = entry.d_name;
+			String fileName = entry.d_name;
 			if( fileName != "." && fileName != ".." )
 			{
-				string fullPath = m_path;
+				String fullPath = m_path;
 				fullPath += '/';
 				fullPath += fileName;
 

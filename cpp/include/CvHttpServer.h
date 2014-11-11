@@ -11,10 +11,7 @@
 #include "CvHttpCommon.h"
 #include "CvString.h"
 
-//#include <stdarg.h>
 #include <string.h>
-
-using namespace std;
 
 #define HTTP_SERVER_OPTION_PORT					"port"
 #define HTTP_SERVER_OPTION_NUM_THREADS			"num-threads"
@@ -23,7 +20,7 @@ using namespace std;
 class CvHttpServer
 {
 public:
-	typedef map<CvString,CvString>	CMapOptions;
+	typedef std::map<CvString,CvString>	CMapOptions;
 	
 	virtual ~CvHttpServer()	{}
 	

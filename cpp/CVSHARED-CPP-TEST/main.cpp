@@ -35,7 +35,6 @@
 #include "CvFileSystem.h"
 
 using namespace std;
-
 using namespace CvShared;
 
 #define TEST_THREADS_AND_MUTEXES	0
@@ -45,9 +44,9 @@ using namespace CvShared;
 #define TEST_JSON					0
 #define TEST_XML					0
 #define TEST_XCODING				0
-#define TEST_STATE_MACHINE			0
-#define TEST_QUEUE					0
-#define TEST_HTTP_REQUEST			0
+#define TEST_STATE_MACHINE			1
+#define TEST_QUEUE					1
+#define TEST_HTTP_REQUEST			1
 #define TEST_FILE_SYSTEM			1
 
 CvMutex mutex("mutex-test");
@@ -354,7 +353,7 @@ void TestXml()
 	
 	CvXmlDoc xmlDoc;
 	
-	CvXmlNode* pXmlNode = xmlDoc.allocate_node( node_declaration );
+	CvXmlNode* pXmlNode = xmlDoc.allocate_node( rapidxml::node_declaration );
 
 	CvXmlAttr* pAttr = xmlDoc.allocate_attribute( "version", "1.0" );
 
@@ -362,14 +361,14 @@ void TestXml()
 
 	xmlDoc.append_node( pXmlNode );
 
-	pXmlNode = xmlDoc.allocate_node( node_element, "one" );
+	pXmlNode = xmlDoc.allocate_node( rapidxml::node_element, "one" );
 	pAttr = xmlDoc.allocate_attribute( "attribute-one", "1 (One)" );
 
 	pXmlNode->append_attribute( pAttr );
 
 	xmlDoc.append_node( pXmlNode );
 	
-	pXmlNode->append_node( xmlDoc.allocate_node( node_element, "two" ) );
+	pXmlNode->append_node( xmlDoc.allocate_node( rapidxml::node_element, "two" ) );
 	
 	CvString xmlMsg;
 	
@@ -595,7 +594,7 @@ long CQueueConsumer::Body(void* apArgs)
 	{
 		CvString message;
 
-		if ( !queue.Pop( message, CMyQueue::TIMEOUT_NO_WAIT ) )
+		if ( !queue.Pop( message, CMyQueue::TIMEOUT_INFINITE ) )
 		{
 			LogMessage( enLogLevel_Info, "[%d] Couldn't pop element from queue", i+1 );
 			continue;
@@ -619,7 +618,7 @@ void TestQueue()
 	
 	consumer.Create( &queue );
 	
-	SleepFor( Minutes(5) );
+	SleepFor( Minutes(1) );
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -811,7 +810,7 @@ int main(int argc, char** argv)
 	
 	server.Start();
 	
-	Sleep( Hours(1) );
+	SleepFor( Hours(1) );
 #endif
 
 #if TEST_HTTP_SERVER_UV == 1
@@ -823,7 +822,7 @@ int main(int argc, char** argv)
 	
 	server.Start();
 	
-	Sleep( Hours(1) );
+	SleepFor( Hours(1) );
 #endif
 	
 #if TEST_STATE_MACHINE == 1

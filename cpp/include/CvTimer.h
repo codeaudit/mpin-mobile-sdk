@@ -15,8 +15,6 @@
 #include <time.h>
 #include <signal.h>
 
-using namespace std;
-
 namespace CvShared
 {
 
@@ -30,20 +28,20 @@ public:
 		virtual void OnTimerExpired( const CvTimer* apTimer ) = 0;
 	};
 	
-	CvTimer( const string& aName  = "" );
+	CvTimer( const String& aName  = "" );
 	virtual ~CvTimer();
 	
 	bool	Start( const Millisecs& aExpirationTime, CEventListener* apListener, bool abRecurrent = false );
 	bool	Stop();
 	
-	const string&	GetName() const	{ return m_name; }
+	const String&	GetName() const	{ return m_name; }
 	
 protected:
 	CvTimer(const CvTimer& orig)	{}
 	
 	static void		_CallbackExpired( union sigval aSigval );
 	
-	string			m_name;
+	String			m_name;
 	
 	timer_t			m_hTimer;
 	

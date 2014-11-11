@@ -36,10 +36,11 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/_ext/1472/CvXcode.o \
+	${OBJECTDIR}/_ext/1472/CvEntropyServer.o \
 	${OBJECTDIR}/_ext/2003432284/octet_c.o \
 	${OBJECTDIR}/_ext/1472/CvAesGcm.o \
-	${OBJECTDIR}/_ext/2003432284/big.o \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/_ext/2003432284/big.o \
 	${OBJECTDIR}/_ext/2003432284/eccsi_c.o \
 	${OBJECTDIR}/_ext/2003432284/aesGcm.o \
 	${OBJECTDIR}/_ext/1472/CvString.o \
@@ -91,6 +92,11 @@ ${OBJECTDIR}/_ext/1472/CvXcode.o: ../CvXcode.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../../../MIRACL -I../include -I../crypto-core -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1472/CvXcode.o ../CvXcode.cpp
 
+${OBJECTDIR}/_ext/1472/CvEntropyServer.o: ../CvEntropyServer.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1472
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../../../MIRACL -I../include -I../crypto-core -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1472/CvEntropyServer.o ../CvEntropyServer.cpp
+
 ${OBJECTDIR}/_ext/2003432284/octet_c.o: ../crypto-core/octet_c.c 
 	${MKDIR} -p ${OBJECTDIR}/_ext/2003432284
 	${RM} $@.d
@@ -101,15 +107,15 @@ ${OBJECTDIR}/_ext/1472/CvAesGcm.o: ../CvAesGcm.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../../../MIRACL -I../include -I../crypto-core -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1472/CvAesGcm.o ../CvAesGcm.cpp
 
-${OBJECTDIR}/_ext/2003432284/big.o: ../crypto-core/big.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/2003432284
-	${RM} $@.d
-	$(COMPILE.cc) -g -I../../../MIRACL -I../include -I../crypto-core -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/2003432284/big.o ../crypto-core/big.cpp
-
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../../../MIRACL -I../include -I../crypto-core -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+
+${OBJECTDIR}/_ext/2003432284/big.o: ../crypto-core/big.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/2003432284
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../../../MIRACL -I../include -I../crypto-core -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/2003432284/big.o ../crypto-core/big.cpp
 
 ${OBJECTDIR}/_ext/2003432284/eccsi_c.o: ../crypto-core/eccsi_c.c 
 	${MKDIR} -p ${OBJECTDIR}/_ext/2003432284

@@ -9,9 +9,9 @@ Note that CertiVox Ltd issues a patent grant for use of this software under spec
 Copyright (c) 2013, CertiVox UK Ltd																																														   *	
 All rights reserved.																																																	   *
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:																			   *
-•	Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.																						   *	
-•	Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.			   *	
-•	Neither the name of CertiVox UK Ltd nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.								   *
+ï¿½	Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.																						   *	
+ï¿½	Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.			   *	
+ï¿½	Neither the name of CertiVox UK Ltd nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.								   *
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,																		   *
 THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS																	   *
 BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE																	   *	
@@ -93,8 +93,6 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 #endif
 
 #include <string>
-
-using namespace std;
 
 namespace CvShared
 {
@@ -743,9 +741,9 @@ public:
 
 	bool	IsDstOn() const		{ return m_bDstOn; }
 	
-	inline string	GetMonthName( bool abAbbreviated = true ) const;
+	inline String	GetMonthName( bool abAbbreviated = true ) const;
 	inline int		GetDayOfWeek() const;
-	inline string	GetDayOfWeekName( bool abAbbreviated = true ) const;
+	inline String	GetDayOfWeekName( bool abAbbreviated = true ) const;
 	inline int		GetDayOfYear() const;	// 0 - 365
 	inline int		GetDaysInYear() const;
 	inline int		GetDaysInMonth() const;	
@@ -781,7 +779,7 @@ DateTime::DateTime() : m_day(0), m_month(0), m_year(0), m_hour(0), m_minute(0), 
 DateTime::DateTime( const struct tm& aTm )		{ *this = aTm; }
 DateTime::DateTime( const Seconds& aSeconds )	{ *this = aSeconds; }
 
-string DateTime::GetMonthName( bool abAbbreviated ) const
+String DateTime::GetMonthName( bool abAbbreviated ) const
 {
 	struct tm _tm;
 	ToTm(_tm);
@@ -797,7 +795,7 @@ int DateTime::GetDayOfWeek() const
 	return _tm.tm_wday + 1;
 }
 
-string DateTime::GetDayOfWeekName( bool abAbbreviated ) const
+String DateTime::GetDayOfWeekName( bool abAbbreviated ) const
 {
 	struct tm _tm;
 	ToTm(_tm);

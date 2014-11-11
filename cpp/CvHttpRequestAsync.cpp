@@ -11,11 +11,13 @@
 #include "CvHttpRequestAsync.h"
 #include "CvLogger.h"
 
-int								CvHttpRequestAsync::m_maxThreads = 0;
-CvHttpRequestAsync::CSetThreads	CvHttpRequestAsync::m_threads;
-CvMutex							CvHttpRequestAsync::m_mutexThreads;
-int								CvHttpRequestAsync::m_countIdleThreads = 0;
-CvQueue<CvHttpRequestAsync*>	CvHttpRequestAsync::m_queueExecute;
+int									CvHttpRequestAsync::m_maxThreads = 0;
+CvHttpRequestAsync::CSetThreads		CvHttpRequestAsync::m_threads;
+CvHttpRequestAsync::CvMutex			CvHttpRequestAsync::m_mutexThreads;
+int									CvHttpRequestAsync::m_countIdleThreads = 0;
+CvHttpRequestAsync::CQueueExecute	CvHttpRequestAsync::m_queueExecute;
+
+using namespace CvShared;
 
 CvHttpRequestAsync::CvHttpRequestAsync( enHttpMethod_t aMethod ) :
 	CvHttpRequest(aMethod), m_pListener(NULL), m_bDone(true)

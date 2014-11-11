@@ -9,9 +9,9 @@ Note that CertiVox Ltd issues a patent grant for use of this software under spec
 Copyright (c) 2013, CertiVox UK Ltd																																														   *	
 All rights reserved.																																																	   *
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:																			   *
-•	Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.																						   *	
-•	Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.			   *	
-•	Neither the name of CertiVox UK Ltd nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.								   *
+ï¿½	Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.																						   *	
+ï¿½	Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.			   *	
+ï¿½	Neither the name of CertiVox UK Ltd nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.								   *
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,																		   *
 THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS																	   *
 BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE																	   *	
@@ -69,7 +69,7 @@ CvMikey::~CvMikey()
 {
 }
 
-int CvMikey::GetSize( const string& aSenderId, const string& aReceiverId, const string& aSenderKms, const string& aReceiverKms ) const
+int CvMikey::GetSize( const String& aSenderId, const String& aReceiverId, const String& aSenderKms, const String& aReceiverKms ) const
 {
 	int length = 0;
 	
@@ -104,12 +104,12 @@ int CvMikey::GetSize( const string& aSenderId, const string& aReceiverId, const 
 	return ( ( length + 2 - ((length + 2) % 3) ) / 3 * 4 ) + 1;
 }
 	
-bool CvMikey::CreateMessage( const string& aKey, const string& aSenderId, const string& aReceiverId, const string& aSenderKms, const string& aReceiverKms,
-							const string& aSakkeParams, const string& aSakkeKmsPublicKey, const string& aEccsiSecret, const string& aEccsiPrivateKey,
-							const string& aEccsiKmsPublicKey, OUT string& aPacket )
+bool CvMikey::CreateMessage( const String& aKey, const String& aSenderId, const String& aReceiverId, const String& aSenderKms, const String& aReceiverKms,
+							const String& aSakkeParams, const String& aSakkeKmsPublicKey, const String& aEccsiSecret, const String& aEccsiPrivateKey,
+							const String& aEccsiKmsPublicKey, OUT String& aPacket )
 {
 	/* Allocate maximum size. */
-	string buf;
+	String buf;
 	buf.reserve( 2 + 10 + aSenderId.length() + aReceiverId.length() + 10 + aSenderKms.length() + aReceiverKms.length() + 5 + 5*AS + 1 + 2 + AES_SECURITY + 1 );
 
 	aPacket.clear();
@@ -168,19 +168,19 @@ bool CvMikey::CreateMessage( const string& aKey, const string& aSenderId, const 
 	}
 
 	/* Encapsulate symmetric key with SAKKE. */
-	string encapsulatedData;
+	String encapsulatedData;
 	
 	if ( !CvSakke(m_pRng).Encapsulate( aKey, aSakkeKmsPublicKey, aReceiverId, encapsulatedData, aSakkeParams ) )
 		return false;
 	
 	size_t pos = encapsulatedData.find(",");
-	if ( pos == string::npos )
+	if ( pos == String::npos )
 		return false;
 
-	string sakkeHint;
+	String sakkeHint;
 	CvBase64::Decode( encapsulatedData.substr(0,pos), sakkeHint );
 
-	string sakkePayload;
+	String sakkePayload;
 	CvBase64::Decode( encapsulatedData.substr(pos+1), sakkePayload );		
 
 	buf += (char)MIKEY_SIGN_PAYLOAD;
@@ -194,16 +194,16 @@ bool CvMikey::CreateMessage( const string& aKey, const string& aSenderId, const 
 	buf.append( sakkePayload.data(), sakkePayload.size() );
 
 	/* Sign the packet with ECCSI. */
-	string msg;
+	String msg;
 	CvBase64::Encode( (uint8_t*)buf.data(), (int)buf.length(), msg );
 
-	string signature;
+	String signature;
 
 	if ( !CvEccsi(m_pRng).Sign( msg.c_str(), (int)msg.length(), aSenderId, aEccsiKmsPublicKey, aEccsiSecret, aEccsiPrivateKey, signature ) ||
 			signature.empty() )
 		return false;
 	
-	string decodedSignature;
+	String decodedSignature;
 	CvBase64::Decode( signature, decodedSignature );
 
 	buf += (char)MIKEY_LAST_PAYLOAD;
@@ -217,23 +217,23 @@ bool CvMikey::CreateMessage( const string& aKey, const string& aSenderId, const 
 	return true;
 }
 	
-bool CvMikey::ProcessMessage( const string& aPacket, const string& aUserId, const string& aUserKms, const string& aSakkePrivateKey, const string& aSakkeParams,
-							  const string& aSakkeKmsPublicKey, const string& aEccsiKmsPublicKey, OUT string& aKey )
+bool CvMikey::ProcessMessage( const String& aPacket, const String& aUserId, const String& aUserKms, const String& aSakkePrivateKey, const String& aSakkeParams,
+							  const String& aSakkeKmsPublicKey, const String& aEccsiKmsPublicKey, OUT String& aKey )
 {
-	string senderId;
-	string senderKms;
-	string receiverId;
-	string receiverKms;
+	String senderId;
+	String senderKms;
+	String receiverId;
+	String receiverKms;
 	
 	int lenSakke, lenEccsi;
 	
-	string sakkeHint;
-	string sakkePayload;
-	string eccsiSignature;
+	String sakkeHint;
+	String sakkePayload;
+	String eccsiSignature;
 	
 	bool bDone = false;
 	
-	string decodedPacket;
+	String decodedPacket;
 	CvBase64::Decode( aPacket, decodedPacket );
 	
 	size_t packetSize = decodedPacket.size();
@@ -422,19 +422,19 @@ bool CvMikey::ProcessMessage( const string& aPacket, const string& aUserId, cons
 	if ( aUserId != receiverId || aUserKms != receiverKms )
 		return false;
 	
-	string encodedSignature;
+	String encodedSignature;
 	CvBase64::Encode( (const uint8_t*)eccsiSignature.data(), (int)eccsiSignature.size(), encodedSignature );
 
-	string encodedMessage;
+	String encodedMessage;
 	CvBase64::Encode( (const uint8_t*)decodedPacket.data(), (int)pos, encodedMessage );
 
 	if ( !CvEccsi(m_pRng).Verify( encodedMessage.c_str(), (int)encodedMessage.length(), senderId, aEccsiKmsPublicKey, encodedSignature ) )
 		return false;
 	
-	string encodedHint;
+	String encodedHint;
 	CvBase64::Encode( (const uint8_t*)sakkeHint.data(), (int)sakkeHint.size(), encodedHint );
 
-	string encodedPayload;
+	String encodedPayload;
 	CvBase64::Encode( (const uint8_t*)sakkePayload.data(), (int)sakkePayload.size(), encodedPayload );
 
 	if ( !CvSakke(m_pRng).Decapsulate( encodedHint + "," + encodedPayload, aSakkeKmsPublicKey, aUserId, aSakkePrivateKey, aKey, aSakkeParams ) )

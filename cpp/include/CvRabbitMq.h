@@ -16,13 +16,14 @@
 
 #include <string>
 
-using namespace std;
-using namespace CvShared;
-
 class CvRabbitMq
 {
 public:
-	CvRabbitMq( const string& aQueueName );
+	typedef std::string				String;
+	typedef CvShared::TimeValue_t	TimeValue_t;
+	typedef CvShared::Millisecs		Millisecs;
+	
+	CvRabbitMq( const String& aQueueName );
 	virtual ~CvRabbitMq();
 
 	static const TimeValue_t TIMEOUT_INFINITE = -1;
@@ -31,7 +32,7 @@ public:
 	bool	Read( OUT uint8_t* apBuf, size_t aMaxLen, OUT size_t& aReadLen, const Millisecs& aTimeout = TIMEOUT_INFINITE );
 	bool	Write( const uint8_t* apData, size_t aLen );	
 	
-	bool	Connect( const string& aHost, u_short aPort, const string& aUser, const string& aPassword );
+	bool	Connect( const String& aHost, u_short aPort, const String& aUser, const String& aPassword );
 	bool	Disconnect();
 	
 protected:
@@ -41,12 +42,12 @@ protected:
 	static bool	CheckForError( amqp_rpc_reply_t& aReply, const char* aContext );
 	static bool	CheckForError( amqp_connection_state_t& aConn, const char* aContext );	
 	
-	string					m_host;
+	String					m_host;
 	u_short					m_port;
-	string					m_user;
-	string					m_password;
+	String					m_user;
+	String					m_password;
 	
-	string					m_name;
+	String					m_name;
 	amqp_connection_state_t	m_amqpConn;
 	const amqp_channel_t	m_channel;
 };

@@ -56,7 +56,7 @@ void* CvThread::_Body( void* apThis )
 {
 	CvThread* pThis = (CvThread*)apThis;
 	
-	string name = pThis->m_name;
+	String name = pThis->m_name;
     
 #ifdef __linux__
 	prctl( PR_SET_NAME, name.c_str() );

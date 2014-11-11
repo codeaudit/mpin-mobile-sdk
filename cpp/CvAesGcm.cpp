@@ -57,12 +57,12 @@ void CvAesGcm::RandomiseBuffer( char* apBuffer, int aLength )
     }
 }
 
-bool CvAesGcm::GenerateKey( OUT string& aKey, int aLen )
+bool CvAesGcm::GenerateKey( OUT String& aKey, int aLen )
 {
 	if ( m_pRng == NULL )
 		return false;
 
-	string key( aLen, 0 );
+	String key( aLen, 0 );
 	RandomiseBuffer( (char*)key.data(), aLen );
 
 	CvBase64::Encode( (const uint8_t*)key.data(), aLen, aKey );
@@ -70,22 +70,22 @@ bool CvAesGcm::GenerateKey( OUT string& aKey, int aLen )
 	return true;
 }
 
-bool CvAesGcm::Decrypt( const string& aKey, const string& aCipher, string& aPlainData, int aLengthIV, int aLengthHeader )
+bool CvAesGcm::Decrypt( const String& aKey, const String& aCipher, String& aPlainData, int aLengthIV, int aLengthHeader )
 {
-    string keyDecoded;
+    String keyDecoded;
 	CvBase64::Decode( aKey, keyDecoded );
 
-    string cipherDecoded;
+    String cipherDecoded;
 	CvBase64::Decode( aCipher, cipherDecoded );	
 
-    string header( cipherDecoded.c_str(), aLengthHeader );
+    String header( cipherDecoded.c_str(), aLengthHeader );
 
-	string iv( cipherDecoded.c_str() + aLengthHeader, aLengthIV );
+	String iv( cipherDecoded.c_str() + aLengthHeader, aLengthIV );
 
     int cipherLength = (int)cipherDecoded.size() - ( aLengthHeader + aLengthIV + 16 );
-	string cipher( cipherDecoded.c_str() + aLengthHeader + aLengthIV, cipherLength );
+	String cipher( cipherDecoded.c_str() + aLengthHeader + aLengthIV, cipherLength );
 	
-	string tag( cipherDecoded.c_str() + aLengthHeader + aLengthIV + cipherLength, 16 );
+	String tag( cipherDecoded.c_str() + aLengthHeader + aLengthIV + cipherLength, 16 );
 
 	aPlainData.assign( cipherLength, 0 );
 
@@ -117,27 +117,27 @@ bool CvAesGcm::Decrypt( const string& aKey, const string& aCipher, string& aPlai
 //	printf( "]\n" );
 //}
 
-bool CvAesGcm::Encrypt( const string& aKey, const string& aPlainData, string& aCipher, int aLengthIV, int aLengthHeader )
+bool CvAesGcm::Encrypt( const String& aKey, const String& aPlainData, String& aCipher, int aLengthIV, int aLengthHeader )
 {
 	if ( m_pRng == NULL )
 		return false;
 	
-    string keyDecoded;
+    String keyDecoded;
 	CvBase64::Decode( aKey, keyDecoded );
 
-	string iv( aLengthIV, 0 );
+	String iv( aLengthIV, 0 );
 	RandomiseBuffer( (char*)iv.c_str(), aLengthIV );
 //	for ( int i = 0; i < aLengthIV; ++i )
 //		iv[i] = i;
 		
-	string header( aLengthHeader, 0 );
+	String header( aLengthHeader, 0 );
 	RandomiseBuffer( (char*)header.c_str(), aLengthHeader );
 //	for ( int i = 0; i < aLengthHeader; ++i )
 //		header[i] = i;
 
     //Prepare out cipher and tag output buffers here
-	string cipher( aPlainData.length(), 0 );
-    string tag( 16, 0 );
+	String cipher( aPlainData.length(), 0 );
+    String tag( 16, 0 );
 
 //	printBuffer( "Key", keyDecoded.data(), keyDecoded.size() );
 //	printBuffer( "IV", iv.data(), aLengthIV );
@@ -164,7 +164,7 @@ bool CvAesGcm::Encrypt( const string& aKey, const string& aPlainData, string& aC
 	
     int totalLength = aLengthHeader + aLengthIV + (int)cipher.length() + 16;
 	
-	string result;
+	String result;
 	result.reserve( totalLength );
 
 	result.append( header.data(), aLengthHeader );

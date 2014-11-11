@@ -16,7 +16,9 @@
 const amqp_table_t amqp_empty_table = { 0, NULL };
 const amqp_bytes_t amqp_empty_bytes = { 0, NULL };
 
-CvRabbitMq::CvRabbitMq( const string& aQueueName ) :
+using namespace CvShared;
+
+CvRabbitMq::CvRabbitMq( const String& aQueueName ) :
 	 m_name(aQueueName), m_port(0), m_amqpConn(NULL), m_channel(1)
 {
 }
@@ -26,7 +28,7 @@ CvRabbitMq::~CvRabbitMq()
 	Disconnect();
 }
 
-bool CvRabbitMq::Connect( const string& aHost, u_short aPort, const string& aUser, const string& aPassword )
+bool CvRabbitMq::Connect( const String& aHost, u_short aPort, const String& aUser, const String& aPassword )
 {
 	if ( m_amqpConn != NULL || !m_host.empty() )
 		Disconnect();

@@ -78,7 +78,7 @@ CvEcdh::~CvEcdh()
 	ECP_DOMAIN_KILL( &m_ecdhDomain );
 }
 
-bool CvEcdh::GenerateKeyPair( const string& aPassword )
+bool CvEcdh::GenerateKeyPair( const String& aPassword )
 	{
 	char PW[256] = {0};
 	char S[FS] = {0};
@@ -108,7 +108,7 @@ bool CvEcdh::GenerateKeyPair( const string& aPassword )
 	return true;
 }
 
-string CvEcdh::DeriveKey( const string& aPassword )
+String CvEcdh::DeriveKey( const String& aPassword )
 {
 	char PW[256] = {0};
 	char S[FS] = {0};
@@ -122,13 +122,13 @@ string CvEcdh::DeriveKey( const string& aPassword )
 
 	ECDH_PBKDF2( &octetPW, &m_octetSALT, 1000, FS, &octetS );
 	
-	string privateKey;
+	String privateKey;
 	CvBase64::Encode( (uint8_t*)octetS.val, octetS.len, privateKey );	
 
 	return privateKey;
 }
 
-bool CvEcdh::AuthenticateExternal( const string& aExternalPublicKey, const string& aCommonKey )
+bool CvEcdh::AuthenticateExternal( const String& aExternalPublicKey, const String& aCommonKey )
 {
 	char S[FS] = {0};
 	char W[2*FS+1] = {0};
@@ -141,12 +141,12 @@ bool CvEcdh::AuthenticateExternal( const string& aExternalPublicKey, const strin
 	octet octetZ1 = { 0, sizeof(Z1), Z1 };	
 
 	//GF2 private key
-	string decodedPrivateKey;
+	String decodedPrivateKey;
 	CvBase64::Decode( GetPrivateKey(), decodedPrivateKey );
 	OCTET_JOIN_BYTES( decodedPrivateKey.data(), (int)decodedPrivateKey.size(), &octetS );
 	
 	//dGF2 public key
-	string decodedExternalPublicKey;
+	String decodedExternalPublicKey;
 	CvBase64::Decode( aExternalPublicKey, decodedExternalPublicKey );
 	OCTET_JOIN_BYTES( decodedExternalPublicKey.data(), (int)decodedExternalPublicKey.size(), &octetW );	
 
@@ -156,14 +156,14 @@ bool CvEcdh::AuthenticateExternal( const string& aExternalPublicKey, const strin
 	if ( m_lastError != ECDH_OK )
 		return false;
 	
-	string decodedCommonKey;
+	String decodedCommonKey;
 	CvBase64::Decode( aCommonKey, decodedCommonKey );
 	OCTET_JOIN_BYTES( decodedCommonKey.data(), (int)decodedCommonKey.size(), &octetZ1 );
 
 	return ( OCTET_COMPARE( &octetZ0, &octetZ1 ) == TRUE );
 }
 
-bool CvEcdh::ComputeCommonKey( const string& aExternalPublicKey, OUT string& aCommonKey )
+bool CvEcdh::ComputeCommonKey( const String& aExternalPublicKey, OUT String& aCommonKey )
 {
 	char S[FS] = {0};
 	char W[2*FS+1] = {0};
@@ -174,12 +174,12 @@ bool CvEcdh::ComputeCommonKey( const string& aExternalPublicKey, OUT string& aCo
 	octet octetZ = { 0, sizeof(Z), Z };
 	
 	//GF2 private key
-	string decodedPrivateKey;
+	String decodedPrivateKey;
 	CvBase64::Decode( GetPrivateKey(), decodedPrivateKey );
 	OCTET_JOIN_BYTES( decodedPrivateKey.data(), (int)decodedPrivateKey.size(), &octetS );
 
 	//dGF2 public key
-	string decodedExternalPublicKey;
+	String decodedExternalPublicKey;
 	CvBase64::Decode( aExternalPublicKey, decodedExternalPublicKey );
 	OCTET_JOIN_BYTES( decodedExternalPublicKey.data(), (int)decodedExternalPublicKey.size(), &octetW );	
 	
@@ -194,7 +194,7 @@ bool CvEcdh::ComputeCommonKey( const string& aExternalPublicKey, OUT string& aCo
 	return true;
 }
 
-bool CvEcdh::EciesEncrypt( const string& aKey, const string& aMessage, OUT string& aCipher )
+bool CvEcdh::EciesEncrypt( const String& aKey, const String& aMessage, OUT String& aCipher )
 {
 	if ( m_pRng == NULL )
 		return false;
@@ -216,11 +216,11 @@ bool CvEcdh::EciesEncrypt( const string& aKey, const string& aMessage, OUT strin
 	octet octetT = { 0, sizeof(T), T };	
 	
 	//key: base64 to octet
-	string decodedKey;
+	String decodedKey;
 	CvBase64::Decode( aKey, decodedKey );
 	OCTET_JOIN_BYTES( decodedKey.data(), (int)decodedKey.size(), &octetW );
 	
-	string decodedMessage;
+	String decodedMessage;
 	CvBase64::Decode( aMessage, decodedMessage );
 	OCTET_JOIN_BYTES( decodedMessage.data(), (int)decodedMessage.size(), &octetM );
 
@@ -232,7 +232,7 @@ bool CvEcdh::EciesEncrypt( const string& aKey, const string& aMessage, OUT strin
 	return true;
 }
 
-bool CvEcdh::EciesDecrypt( const string& aKey, const string& aCipher, OUT string& aPlain )
+bool CvEcdh::EciesDecrypt( const String& aKey, const String& aCipher, OUT String& aPlain )
 {
 	char P1[] = { 0x0, 0x1, 0x2 };
 	char P2[] = { 0x0, 0x1, 0x2, 0x3 };	
@@ -251,7 +251,7 @@ bool CvEcdh::EciesDecrypt( const string& aKey, const string& aCipher, OUT string
 	octet octetT = { 0, sizeof(T), T };	
 	
 	//key: base64 to octet
-	string decodedKey;
+	String decodedKey;
 	CvBase64::Decode( aKey, decodedKey );
 	OCTET_JOIN_BYTES( decodedKey.data(), (int)decodedKey.size(), &octetS );
 
@@ -270,7 +270,7 @@ bool CvEcdh::EciesDecrypt( const string& aKey, const string& aCipher, OUT string
 	return true;
 }
 
-bool CvEcdh::EcdsaSign( const string& aKey, const string& aData, OUT string& aSignature )
+bool CvEcdh::EcdsaSign( const String& aKey, const String& aData, OUT String& aSignature )
 {
 	if ( m_pRng == NULL )
 		return false;
@@ -285,11 +285,11 @@ bool CvEcdh::EcdsaSign( const string& aKey, const string& aData, OUT string& aSi
 	octet octetCS = { 0, sizeof(CS), CS };
 	octet octetDS = { 0, sizeof(DS), DS };
 	
-	string decodedKey;
+	String decodedKey;
 	CvBase64::Decode( aKey, decodedKey );
 	OCTET_JOIN_BYTES( decodedKey.data(), (int)decodedKey.size(), &octetS );
 	
-	string decodedData;
+	String decodedData;
 	CvBase64::Decode( aData, decodedData );
 	OCTET_JOIN_BYTES( decodedData.data(), (int)decodedData.size(), &octetM );
 	
@@ -305,7 +305,7 @@ bool CvEcdh::EcdsaSign( const string& aKey, const string& aData, OUT string& aSi
 	return true;
 }
 
-bool CvEcdh::EcdsaVerify( const string& aKey, const string& aData, const string& aSignature )
+bool CvEcdh::EcdsaVerify( const String& aKey, const String& aData, const String& aSignature )
 {
 	char W[2*FS+1] = {0};
 	char M[32] = {0};
@@ -317,11 +317,11 @@ bool CvEcdh::EcdsaVerify( const string& aKey, const string& aData, const string&
 	octet octetCS = { 0, sizeof(CS), CS };
 	octet octetDS = { 0, sizeof(DS), DS };
 
-	string decodedKey;
+	String decodedKey;
 	CvBase64::Decode( aKey, decodedKey );
 	OCTET_JOIN_BYTES( decodedKey.data(), (int)decodedKey.size(), &octetW );
 	
-	string decodedData;
+	String decodedData;
 	CvBase64::Decode( aData, decodedData );
 	OCTET_JOIN_BYTES( decodedData.data(), (int)decodedData.size(), &octetM );
 	
@@ -333,9 +333,9 @@ bool CvEcdh::EcdsaVerify( const string& aKey, const string& aData, const string&
 	return m_lastError == ECDH_OK;
 }
 
-void CvEcdh::EncodeCipher( const octet& aV, const octet& aC, const octet& aT, OUT string& aCipher )
+void CvEcdh::EncodeCipher( const octet& aV, const octet& aC, const octet& aT, OUT String& aCipher )
 {
-	string b64;
+	String b64;
 	CvBase64::Encode( (uint8_t*)aV.val, aV.len, b64 );
 	aCipher = b64;
 	aCipher += ',';
@@ -350,7 +350,7 @@ void CvEcdh::EncodeCipher( const octet& aV, const octet& aC, const octet& aT, OU
 	aCipher += b64;
 }
 
-bool CvEcdh::DecodeCipher( const string& aCipher, OUT octet& aV, OUT octet& aC, OUT octet& aT )
+bool CvEcdh::DecodeCipher( const String& aCipher, OUT octet& aV, OUT octet& aC, OUT octet& aT )
 {
 	CvString cipher(aCipher);
 	
@@ -364,7 +364,7 @@ bool CvEcdh::DecodeCipher( const string& aCipher, OUT octet& aV, OUT octet& aC, 
 	if ( tokens.size() != 3 )
 		return false;
 	
-	string decoded;
+	String decoded;
 	CvBase64::Decode( tokens[0], decoded );
 	OCTET_JOIN_BYTES( decoded.data(), (int)decoded.size(), &aV );
 	
@@ -379,9 +379,9 @@ bool CvEcdh::DecodeCipher( const string& aCipher, OUT octet& aV, OUT octet& aC, 
 	return true;
 }
 
-void CvEcdh::EncodeSignature( const octet& aCS, const octet& aDS, OUT string& aSignature )
+void CvEcdh::EncodeSignature( const octet& aCS, const octet& aDS, OUT String& aSignature )
 {
-	string b64;
+	String b64;
 	CvBase64::Encode( (uint8_t*)aCS.val, aCS.len, b64 );
 	aSignature = b64;
 	aSignature += ',';
@@ -391,7 +391,7 @@ void CvEcdh::EncodeSignature( const octet& aCS, const octet& aDS, OUT string& aS
 	aSignature += b64;
 }
 
-bool CvEcdh::DecodeSignature( const string& aSignature, OUT octet& aCS, OUT octet& aDS )
+bool CvEcdh::DecodeSignature( const String& aSignature, OUT octet& aCS, OUT octet& aDS )
 {
 	CvString signature(aSignature);
 	
@@ -404,7 +404,7 @@ bool CvEcdh::DecodeSignature( const string& aSignature, OUT octet& aCS, OUT octe
 	if ( tokens.size() != 2 )
 		return false;
 	
-	string decoded;
+	String decoded;
 	CvBase64::Decode( tokens[0], decoded );
 	OCTET_JOIN_BYTES( decoded.data(), (int)decoded.size(), &aCS );
 	

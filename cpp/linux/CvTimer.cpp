@@ -16,7 +16,7 @@
 namespace CvShared
 {
 
-CvTimer::CvTimer( const string& aName ) :
+CvTimer::CvTimer( const String& aName ) :
 	m_name(aName), m_hTimer(NULL), m_bStarted(false),
 	m_pListener(NULL)
 {

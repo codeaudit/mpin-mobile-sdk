@@ -50,11 +50,11 @@ extern "C"
 
 #include <string>
 
-using namespace std;
-
 class CvEccsi
 {
 public:
+	typedef std::string	String;
+	
 	CvEccsi( csprng* apRng = NULL );
 	virtual ~CvEccsi();
 	
@@ -72,16 +72,16 @@ public:
 	void	GetPrivateKey( const Big& aRand, OUT ECn& aPvt );
 	
         /*! \brief Generate ECCSI private key as b64 string */
-        void	GetPrivateKey( const Big& aRand, OUT string& aPrivateKey );
+        void	GetPrivateKey( const Big& aRand, OUT String& aPrivateKey );
 	
         /*! \brief Generate ECCSI id secret using ECn formated private key */
 	void	GetSecret( const Big& aMasterKey, const Big& aRand, const char* aIdentity, int aLength, const ECn& aPublicKey, const ECn& aPvt, OUT Big& aSecret );	
 	
         /*! \brief Generate ECCSI id secret using b64 formated private key */
-        void	GetSecret( const Big& aMasterKey, const Big& aRand, const char* aIdentity, int aLength, const ECn& aPublicKey, const string& aPrivateKey, OUT Big& aSecret );
+        void	GetSecret( const Big& aMasterKey, const Big& aRand, const char* aIdentity, int aLength, const ECn& aPublicKey, const String& aPrivateKey, OUT Big& aSecret );
 	
         /*! \brief Transform ECCSI private key from ECn to b64 string */
-        void	EncodePvt( const ECn& aPvt, OUT string& aEncodedPvt );
+        void	EncodePvt( const ECn& aPvt, OUT String& aEncodedPvt );
         
         /*! \brief Transform b64 encoded ECCSI private key to ECn class */
 	bool	DecodePvt( const string& aEncodedPvt, OUT ECn& aPvt );
@@ -95,23 +95,23 @@ public:
         /*! End of ECCSI with miracl primitives interface. */
         
 	/*! \brief Generate prublic/private EC GF(p) key pair */
-	bool GenerateMasterKeyPair(OUT string& aPrivateKey, OUT string& aPublicKey);
+	bool GenerateMasterKeyPair(OUT String& aPrivateKey, OUT String& aPublicKey);
 
 	/*! \brief Generate prublic key with externally provided private key */
-	bool GenerateMasterPublicWithExternalPrivate(IN const string& aPrivateKey, OUT string& aPublicKey);
+	bool GenerateMasterPublicWithExternalPrivate(IN const String& aPrivateKey, OUT String& aPublicKey);
 
 	/*! \brief Generate user private/public key pair (SSK,PVT) */
-	bool GenerateUserKeyPair(IN const string& aUserId, IN const string& aPrivateKeyKSAK, IN const string& aPublicKeyKPAK, OUT string& SSK, OUT string& PVT);
+	bool GenerateUserKeyPair(IN const String& aUserId, IN const String& aPrivateKeyKSAK, IN const String& aPublicKeyKPAK, OUT String& SSK, OUT String& PVT);
 
 	/*! \brief Validate the Secret Signing Key (SSK) */
-	bool	ValidateSecret( const string& aIdentity, const string& aPublicKey, const string& aSecret, const string& aPrivateKey );
+	bool	ValidateSecret( const String& aIdentity, const String& aPublicKey, const String& aSecret, const String& aPrivateKey );
 
 	/*! \brief Sign a message */
-	bool	Sign( const char* apMessage, int aMsgLen, const string& aIdentity, const string& aPublicKey,
-				  const string& aSecret, const string& aPrivateKey, OUT string& aSignature );
+	bool	Sign( const char* apMessage, int aMsgLen, const String& aIdentity, const String& aPublicKey,
+				  const String& aSecret, const String& aPrivateKey, OUT String& aSignature );
 
 	/*! \brief Verify the signature */
-	bool	Verify( const char* apMessage, int aMsgLen, const string& aIdentity, const string& aPublicKey, const string& aSignature );
+	bool	Verify( const char* apMessage, int aMsgLen, const String& aIdentity, const String& aPublicKey, const String& aSignature );
 	
 	int	GetLastError() const	{ return m_lastError; }
         
@@ -132,10 +132,10 @@ private:
 		miracl*	m_pMip;
 	};
 	
-	bool	DecodePrivateKey( const string& aPrivateKey, OUT octet& aPVT );
-	bool	DecodeSecret( const string& aSecret, OUT octet& aSSK );
-	bool	DecodePublicKey( const string& aPublicKey, OUT octet& aKPAK );	
-	bool	HashHS( const octet& aKPAK, const string& aIdentity, const octet& aPVT, octet& aHS );
+	bool	DecodePrivateKey( const String& aPrivateKey, OUT octet& aPVT );
+	bool	DecodeSecret( const String& aSecret, OUT octet& aSSK );
+	bool	DecodePublicKey( const String& aPublicKey, OUT octet& aKPAK );	
+	bool	HashHS( const octet& aKPAK, const String& aIdentity, const octet& aPVT, octet& aHS );
 
 	ecp_domain		m_eccsiDomain;
 	int			m_lastError;

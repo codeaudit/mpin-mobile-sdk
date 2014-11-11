@@ -9,9 +9,9 @@ Note that CertiVox Ltd issues a patent grant for use of this software under spec
 Copyright (c) 2013, CertiVox UK Ltd																																														   *	
 All rights reserved.																																																	   *
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:																			   *
-•	Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.																						   *	
-•	Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.			   *	
-•	Neither the name of CertiVox UK Ltd nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.								   *
+ï¿½	Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.																						   *	
+ï¿½	Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.			   *	
+ï¿½	Neither the name of CertiVox UK Ltd nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.								   *
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,																		   *
 THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS																	   *
 BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE																	   *	
@@ -61,12 +61,13 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 
 #endif
 
-using namespace std;
-using namespace CvShared;
-
 class CvHttpRequest
 {
 public:
+
+	typedef std::string				String;
+	typedef CvShared::TimeValue_t	TimeValue_t;
+	typedef CvShared::Seconds		Seconds;
 
 	CvHttpRequest( enHttpMethod_t aMethod = enHttpMethod_GET );
 	~CvHttpRequest();
@@ -86,20 +87,20 @@ public:
 
 	void		SetContent( const char* apData, int64_t aSize )	{ m_req.data = apData; m_req.data_size = aSize; }
 	void		SetMethod( enHttpMethod_t aMethod )	{ m_req.method = aMethod; }
-	void		SetUrl( const string& aUrl )			{ m_req.url = aUrl; }
-	void		SetFileName( const string& aFileName )	{ m_req.fname = aFileName; };
+	void		SetUrl( const String& aUrl )			{ m_req.url = aUrl; }
+	void		SetFileName( const String& aFileName )	{ m_req.fname = aFileName; };
 	void		SetResumePos( int64_t aPos )			{ m_req.resume_from = aPos; }
-	void		SetProxy( const string& aProxy )		{ m_req.proxy = aProxy; }
+	void		SetProxy( const String& aProxy )		{ m_req.proxy = aProxy; }
 	
-	const string&	GetUrl() const		{ return m_req.url; }
+	const String&	GetUrl() const		{ return m_req.url; }
 	enHttpMethod_t	GetMethod() const	{ return m_req.method; }
 	
 	/////////////////////////////////////////////////////////////////////////////////////
 	
-	void			SetCancel()							{ CvMutexLock lock(m_mutex); m_bCancel = true; }
-	const string&	GetResponse() const					{ return m_response; }
+	void			SetCancel()							{ CvShared::CvMutexLock lock(m_mutex); m_bCancel = true; }
+	const String&	GetResponse() const					{ return m_response; }
 	long			GetResponseCode() const				{ return m_responseCode; }
-	const string&	GetResponseHeader( const string& aKey ) const;
+	const String&	GetResponseHeader( const String& aKey ) const;
 	const CMapHttpHeaders& GetResponseHeaders() const	{ return m_responseHeaders; }
 	int64_t			GetContentSize() const				{ return m_contentSize; }
 	int64_t			GetProgressUp() const				{ return m_progressUp; }
@@ -107,9 +108,11 @@ public:
 	
 	void			Clear();
 	
-	static bool		EncodeURL( const string& aUrl, OUT string& aEncodedUrl );
+	static bool		EncodeURL( const String& aUrl, OUT String& aEncodedUrl );
 	
 protected:
+	
+	typedef CvShared::CvMutex	CvMutex;
 	
 	struct sRequestData_t
 	{
@@ -117,7 +120,7 @@ protected:
 		void	Clear();
 		
 #if defined (_WIN32)
-		string				header_list;
+		String				header_list;
 #elif defined (__linux__) || defined(__MACH__)
 		struct curl_slist*	header_list;
 #endif
@@ -125,12 +128,12 @@ protected:
 		int64_t				data_size;
 
 		enHttpMethod_t		method;
-		string				url;
+		String				url;
 		long				no_progress;
 		int64_t				resume_from;
-		string				fname;
+		String				fname;
 		long long			resp_size;
-		string				proxy; // <host:port>
+		String				proxy; // <host:port>
 		time_t				timeout;	//in seconds
 	};
 	
@@ -158,7 +161,7 @@ protected:
 	sRequestData_t	m_req;
 
 	bool			m_bCancel;
-	string			m_response;
+	String			m_response;
 	long			m_responseCode;
 	CMapHttpHeaders m_responseHeaders;
 	int64_t			m_contentSize;
