@@ -194,7 +194,7 @@ CvEccsi::~CvEccsi()
 	ECP_DOMAIN_KILL( &m_eccsiDomain );	
 }
 
-bool CvEccsi::GenerateMasterKeyPair(OUT string& aPrivateKey, OUT string& aPublicKey)
+bool CvEccsi::GenerateMasterKeyPair(OUT String& aPrivateKey, OUT String& aPublicKey)
 {
 	char arrPublicKey [2*FS+1],
              arrPrivateKey[2*FS+1];
@@ -210,19 +210,19 @@ bool CvEccsi::GenerateMasterKeyPair(OUT string& aPrivateKey, OUT string& aPublic
 	return (m_lastError == ECCSI_OK);
 }
 
-bool CvEccsi::GenerateMasterPublicWithExternalPrivate(IN const string& aPrivateKey, OUT string& aPublicKey)
+bool CvEccsi::GenerateMasterPublicWithExternalPrivate(IN const String& aPrivateKey, OUT String& aPublicKey)
 {
 	char arrPublicKey[2*FS+1];
 
-	string decPrivateKey;
+	String decPrivateKey;
 
 	octet public_key =  {0, 2*FS+1, arrPublicKey}; 
 
 	CvBase64::Decode(aPrivateKey, decPrivateKey);
 
-	unique_ptr<char[]>arrPrivateKey(new char[decPrivateKey.size()]);
+	std::unique_ptr<char[]> arrPrivateKey( new char[decPrivateKey.size()] );
 
-	octet octPVK =  {0, (int)decPrivateKey.size(), arrPrivateKey.get()};
+	octet octPVK = {0, (int)decPrivateKey.size(), arrPrivateKey.get()};
 
 	OCTET_JOIN_BYTES(decPrivateKey.data(), octPVK.max, &octPVK);
 
@@ -233,13 +233,13 @@ bool CvEccsi::GenerateMasterPublicWithExternalPrivate(IN const string& aPrivateK
 	return (m_lastError == ECCSI_OK);
 }
 
-bool CvEccsi::GenerateUserKeyPair(IN const string& aUserId, IN const string& aPrivateKeyKSAK, IN const string& aPublicKeyKPAK, OUT string& SSK, OUT string& PVT)
+bool CvEccsi::GenerateUserKeyPair(IN const String& aUserId, IN const String& aPrivateKeyKSAK, IN const String& aPublicKeyKPAK, OUT String& SSK, OUT String& PVT)
 {
-	string decTrg;
+	String decTrg;
 	char chV[FS], // size = ?  chV receives id unique entropy 
-		 ch_kpak[2*FS+1], 
-		 ch_ssk[FS], 
-		 ch_pvt[2*FS+1];
+		ch_kpak[2*FS+1], 
+		ch_ssk[FS], 
+		ch_pvt[2*FS+1];
 
 	octet V = {0, 2*FS+1, chV}, 
 		ssk = {0, FS, ch_ssk}, 
@@ -247,7 +247,7 @@ bool CvEccsi::GenerateUserKeyPair(IN const string& aUserId, IN const string& aPr
 
 
 	CvBase64::Decode(aPrivateKeyKSAK, decTrg);
-	unique_ptr<char[]>ch_ksak(new char[decTrg.size()]);
+	std::unique_ptr<char[]> ch_ksak( new char[decTrg.size( )] );
 	octet ksak = {0, (int)decTrg.size(), ch_ksak.get()};
 	OCTET_JOIN_BYTES(decTrg.data(), ksak.max, &ksak);
 
@@ -265,7 +265,7 @@ bool CvEccsi::GenerateUserKeyPair(IN const string& aUserId, IN const string& aPr
 	return (m_lastError == ECCSI_OK);
 }
 
-bool CvEccsi::ValidateSecret( const string& aIdentity, const string& aPublicKey, const string& aSecret, const string& aPrivateKey )
+bool CvEccsi::ValidateSecret( const String& aIdentity, const String& aPublicKey, const String& aSecret, const String& aPrivateKey )
 {
 	char KPAK[2*FS+1] = {0};
 	char SSK[FS] = {0};
@@ -306,8 +306,8 @@ bool CvEccsi::ValidateSecret( const string& aIdentity, const string& aPublicKey,
 //}
 
 /*! \brief Sign a message */
-bool CvEccsi::Sign( const char* apMessage, int aMsgLen, const string& aIdentity, const string& aPublicKey,
-					const string& aSecret, const string& aPrivateKey, OUT string& aSignature )
+bool CvEccsi::Sign( const char* apMessage, int aMsgLen, const String& aIdentity, const String& aPublicKey,
+					const String& aSecret, const String& aPrivateKey, OUT String& aSignature )
 {
 	if ( m_pRng == NULL )
 		return false;
@@ -356,9 +356,9 @@ bool CvEccsi::Sign( const char* apMessage, int aMsgLen, const string& aIdentity,
 }
 
 /*! \brief Verify the signature */
-bool CvEccsi::Verify( const char* apMessage, int aMsgLen, const string& aIdentity, const string& aPublicKey, const string& aSignature )
+bool CvEccsi::Verify( const char* apMessage, int aMsgLen, const String& aIdentity, const String& aPublicKey, const String& aSignature )
 {
-	string decodedSignature;
+	String decodedSignature;
 	CvBase64::Decode( aSignature, decodedSignature );
 	
 	char KPAK[2*FS+1] = {0};
@@ -378,11 +378,11 @@ bool CvEccsi::Verify( const char* apMessage, int aMsgLen, const string& aIdentit
 	return m_lastError == ECCSI_OK;
 }
 
-bool CvEccsi::DecodePrivateKey( const string& aPrivateKey, OUT octet& aPVT )
+bool CvEccsi::DecodePrivateKey( const String& aPrivateKey, OUT octet& aPVT )
 {
 	OCTET_CLEAR(&aPVT);
 	
-	string decodedPrivateKey;
+	String decodedPrivateKey;
 	CvBase64::Decode( aPrivateKey, decodedPrivateKey );
 	
 	if ( decodedPrivateKey.size() != aPVT.max ) // incorrect, no need here, could be > 0
@@ -393,11 +393,11 @@ bool CvEccsi::DecodePrivateKey( const string& aPrivateKey, OUT octet& aPVT )
 	return true;
 }
 
-bool CvEccsi::DecodeSecret( const string& aSecret, OUT octet& aSSK )
+bool CvEccsi::DecodeSecret( const String& aSecret, OUT octet& aSSK )
 {
 	OCTET_CLEAR(&aSSK);
 	
-	string decodedSecret;
+	String decodedSecret;
 	CvBase64::Decode( aSecret, decodedSecret );
 	
 	if ( decodedSecret.size() != aSSK.max )
@@ -408,7 +408,7 @@ bool CvEccsi::DecodeSecret( const string& aSecret, OUT octet& aSSK )
 	return true;	
 }
 
-bool CvEccsi::DecodePublicKey( const string& aPublicKey, OUT octet& aKPAK )
+bool CvEccsi::DecodePublicKey( const String& aPublicKey, OUT octet& aKPAK )
 {
 	OCTET_CLEAR(&aKPAK);
 	
@@ -432,7 +432,7 @@ bool CvEccsi::DecodePublicKey( const string& aPublicKey, OUT octet& aKPAK )
 		 itr != tokens.end();
 		 ++itr )
 	{
-		string decoded;
+		String decoded;
 
 		CvBase64::Decode( *itr, decoded );
 		if ( decoded.size() != FS )
@@ -443,7 +443,7 @@ bool CvEccsi::DecodePublicKey( const string& aPublicKey, OUT octet& aKPAK )
 	return true;
 }
 
-bool CvEccsi::HashHS( const octet& aKPAK, const string& aIdentity, const octet& aPVT, octet& aHS )
+bool CvEccsi::HashHS( const octet& aKPAK, const String& aIdentity, const octet& aPVT, octet& aHS )
 {
 	CMiracl miracl( m_eccsiDomain ); //D2: need Miracl obj here due to use of Big numbers
 	
@@ -495,7 +495,7 @@ bool CvEccsi::HashHS( const octet& aKPAK, const string& aIdentity, const octet& 
 	return true;
 }
 
-void CvEccsi::EncodePvt( const ECn& aPvt, OUT string& aEncodedPvt )
+void CvEccsi::EncodePvt( const ECn& aPvt, OUT String& aEncodedPvt )
 {
 	Big x, y;	
 	aPvt.get( x, y );
@@ -512,9 +512,9 @@ void CvEccsi::EncodePvt( const ECn& aPvt, OUT string& aEncodedPvt )
 	CvBase64::Encode( (const uint8_t*)tmp, len, aEncodedPvt );
 }
 
-bool CvEccsi::DecodePvt( const string& aEncodedPvt, OUT ECn& aPvt )
+bool CvEccsi::DecodePvt( const String& aEncodedPvt, OUT ECn& aPvt )
 {
-	string str;
+	String str;
 	CvBase64::Decode( aEncodedPvt, str );
 	
 	char* pBuffer = (char*)str.c_str();	
@@ -541,7 +541,7 @@ void CvEccsi::GetPrivateKey( const Big& aRand, OUT ECn& aPvt )
 	aPvt = aRand * GetGenerator();
 }
 
-void CvEccsi::GetPrivateKey( const Big& aRand, OUT string& aPrivateKey )
+void CvEccsi::GetPrivateKey( const Big& aRand, OUT String& aPrivateKey )
 {
 	ECn pvt;
 	GetPrivateKey( aRand, pvt );
@@ -559,7 +559,7 @@ void CvEccsi::GetSecret( const Big& aMasterKey, const Big& aRand, const char* aI
 	aSecret = ( aMasterKey + modmult( hs, aRand, GetOrder() ) ) % GetOrder();
 }
 
-void CvEccsi::GetSecret( const Big& aMasterKey, const Big& aRand, const char* aIdentity, int aLength, const ECn& aPublicKey, const string& aPrivateKey, OUT Big& aSecret )
+void CvEccsi::GetSecret( const Big& aMasterKey, const Big& aRand, const char* aIdentity, int aLength, const ECn& aPublicKey, const String& aPrivateKey, OUT Big& aSecret )
 {
 	ECn pvt;
 	DecodePvt( aPrivateKey, pvt );

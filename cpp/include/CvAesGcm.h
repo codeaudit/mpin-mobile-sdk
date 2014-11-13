@@ -53,18 +53,18 @@ extern "C"
 	#undef mr_compare
 #endif
 
-using namespace std;
-
 class CvAesGcm
 {
 public:
+	typedef std::string	String;
+	
 	static const int DEFAULT_IV_LENGTH = 24;
 	static const int DEFAULT_HEADER_LENGTH = 16;
 	
 	CvAesGcm( csprng* apRng = NULL );
 	virtual ~CvAesGcm()	{}
 	
-	bool GenerateKey( OUT string& aKey, int aLen = AS );
+	bool GenerateKey( OUT String& aKey, int aLen = AS );
 
 	////////////////////////////////////////////////////////////////////
 	//	Encrypt
@@ -78,7 +78,7 @@ public:
 	///
 	/// @return	true on success, false otherwise.
 	////////////////////////////////////////////////////////////////////
-	bool Encrypt( const string& aKey, const string& aPlainData, OUT string& aCipher,
+	bool Encrypt( const String& aKey, const String& aPlainData, OUT String& aCipher,
 				int aLengthIV = DEFAULT_IV_LENGTH, int aLengthHeader = DEFAULT_HEADER_LENGTH );
 
 	////////////////////////////////////////////////////////////////////
@@ -93,7 +93,7 @@ public:
 	///
 	/// @return	true on success, false otherwise.
 	////////////////////////////////////////////////////////////////////
-	bool Decrypt( const string& aKey, const string& aCipher, OUT string& aPlainData,
+	bool Decrypt( const String& aKey, const String& aCipher, OUT String& aPlainData,
 				int aLengthIV = DEFAULT_IV_LENGTH, int aLengthHeader = DEFAULT_HEADER_LENGTH );
 	
 private:

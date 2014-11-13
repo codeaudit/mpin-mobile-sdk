@@ -44,54 +44,53 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 
 #include <string>
 
-using namespace std;
-
 class CvEcdh
 {
 public:
-	typedef int Salt_t[8];
+	typedef std::string	String;	
+	typedef int			Salt_t[8];
 	
 	CvEcdh( csprng* apRng = NULL, const Salt_t aSalt = NULL );
 	virtual ~CvEcdh();
 
-	bool	GenerateKeyPair( const string& aPassword );
-	string	DeriveKey( const string& aPassword );
+	bool	GenerateKeyPair( const String& aPassword );
+	String	DeriveKey( const String& aPassword );
 
 	/**
 		ECDH
 	*/
-	bool	AuthenticateExternal( const string& aExternalPublicKey, const string& aCommonKey );
+	bool	AuthenticateExternal( const String& aExternalPublicKey, const String& aCommonKey );
 
-	const string&	GetPrivateKey() const	{ return m_privateKey; }
-	const string&	GetPublicKey() const	{ return m_publicKey; }
+	const String&	GetPrivateKey() const	{ return m_privateKey; }
+	const String&	GetPublicKey() const	{ return m_publicKey; }
 	
-	void	SetPrivateKey( const string& aPrivateKey )	{ m_privateKey = aPrivateKey; }
-	void	SetPublicKey( const string& aPublicKey )	{ m_publicKey = aPublicKey; }
+	void	SetPrivateKey( const String& aPrivateKey )	{ m_privateKey = aPrivateKey; }
+	void	SetPublicKey( const String& aPublicKey )	{ m_publicKey = aPublicKey; }
 	
-	bool	ComputeCommonKey( const string& aExternalPublicKey, OUT string& aCommonKey );
+	bool	ComputeCommonKey( const String& aExternalPublicKey, OUT String& aCommonKey );
 
 	/**
 		ECIES
 	*/
-	bool	EciesEncrypt( const string& aKey, const string& aMessage, OUT string& aCipher );
-	bool	EciesDecrypt( const string& aKey, const string& aCipher, OUT string& aPlain );
+	bool	EciesEncrypt( const String& aKey, const String& aMessage, OUT String& aCipher );
+	bool	EciesDecrypt( const String& aKey, const String& aCipher, OUT String& aPlain );
 
 	/**
 		ECDSA
 	*/
-	bool	EcdsaSign( const string& aKey, const string& aData, OUT string& aSignature );
-	bool	EcdsaVerify( const string& aKey, const string& aData, const string& aSignature );
+	bool	EcdsaSign( const String& aKey, const String& aData, OUT String& aSignature );
+	bool	EcdsaVerify( const String& aKey, const String& aData, const String& aSignature );
 
 	int		GetLastError() const	{ return m_lastError; }
 	
 private:
 	CvEcdh( const CvEcdh& orig )	{}
 	
-	void	EncodeCipher( const octet& aV, const octet& aC, const octet& aT, OUT string& aCipher );
-	bool	DecodeCipher( const string& aCipher, OUT octet& aV, OUT octet& aC, OUT octet& aT );
+	void	EncodeCipher( const octet& aV, const octet& aC, const octet& aT, OUT String& aCipher );
+	bool	DecodeCipher( const String& aCipher, OUT octet& aV, OUT octet& aC, OUT octet& aT );
 	
-	void	EncodeSignature( const octet& aCS, const octet& aDS, OUT string& aSignature );
-	bool	DecodeSignature( const string& aSignature, OUT octet& aCS, OUT octet& aDS );
+	void	EncodeSignature( const octet& aCS, const octet& aDS, OUT String& aSignature );
+	bool	DecodeSignature( const String& aSignature, OUT octet& aCS, OUT octet& aDS );
 
 	ecp_domain	m_ecdhDomain;
 	int		m_lastError;
@@ -101,8 +100,8 @@ private:
 	char		SALT[32];
 	octet		m_octetSALT;
 
-	string		m_publicKey;
-	string		m_privateKey;
+	String		m_publicKey;
+	String		m_privateKey;
 };
 
 #endif // CVECDH_H_INCLUDED

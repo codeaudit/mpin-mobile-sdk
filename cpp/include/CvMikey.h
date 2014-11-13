@@ -47,22 +47,22 @@ extern "C"
 
 #include <string>
 
-using namespace std;
-
 class CvMikey
 {
 public:
+	typedef std::string	String;
+	
 	CvMikey( csprng* apRng = NULL );
 	virtual ~CvMikey();
 	
-	int	GetSize( const string& aSenderId, const string& aReceiverId, const string& aSenderKms, const string& aReceiverKms ) const;
+	int	GetSize( const String& aSenderId, const String& aReceiverId, const String& aSenderKms, const String& aReceiverKms ) const;
 	
-	bool	CreateMessage(  const string& aKey, const string& aSenderId, const string& aReceiverId, const string& aSenderKms, const string& aReceiverKms,
-							const string& aSakkeParams, const string& aSakkeKmsPublicKey, const string& aEccsiSecret, const string& aEccsiPrivateKey,
-							const string& aEccsiKmsPublicKey, OUT string& aPacket );
+	bool	CreateMessage(  const String& aKey, const String& aSenderId, const String& aReceiverId, const String& aSenderKms, const String& aReceiverKms,
+							const String& aSakkeParams, const String& aSakkeKmsPublicKey, const String& aEccsiSecret, const String& aEccsiPrivateKey,
+							const String& aEccsiKmsPublicKey, OUT String& aPacket );
 	
-	bool	ProcessMessage( const string& aPacket, const string& aUserId, const string& aUserKms, const string& aSakkePrivateKey, const string& aSakkeParams,
-							const string& aSakkeKmsPublicKey, const string& aEccsiKmsPublicKey, OUT string& aKey );
+	bool	ProcessMessage( const String& aPacket, const String& aUserId, const String& aUserKms, const String& aSakkePrivateKey, const String& aSakkeParams,
+							const String& aSakkeKmsPublicKey, const String& aEccsiKmsPublicKey, OUT String& aKey );
 	
 private:
 	CvMikey(const CvMikey& orig)	{}

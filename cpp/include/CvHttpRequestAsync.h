@@ -15,12 +15,10 @@
 
 #include <set>
 
-using namespace std;
-using namespace CvShared;
-
 class CvHttpRequestAsync : public CvHttpRequest
 {
 public:
+	
 	CvHttpRequestAsync( enHttpMethod_t aMethod = enHttpMethod_GET );
 	virtual ~CvHttpRequestAsync();
 	
@@ -39,32 +37,34 @@ public:
 	void SetContent( const char* apData, int64_t aSize );
 	
 private:
-	CvHttpRequestAsync(const CvHttpRequestAsync& orig)	{}
 	
-	enStatus_t Execute( bool abProgress = false );
-	
-	static bool CreateThread();
-	
-	class CThreadExecute : public CvThread
+	class CThreadExecute : public CvShared::CvThread
 	{
 	public:
 		CThreadExecute(uint32_t aId);
 	protected:
 		virtual long		Body( void* apArgs );
 	};
+
+	typedef std::set<CThreadExecute*>				CSetThreads;
+	typedef CvShared::CvQueue<CvHttpRequestAsync*>	CQueueExecute;
 	
-	typedef set<CThreadExecute*>	CSetThreads;
+	CvHttpRequestAsync(const CvHttpRequestAsync& orig)	{}
 	
-	string			m_content;
+	enStatus_t Execute( bool abProgress = false );
 	
-	CEventListener*	m_pListener;
-	bool			m_bDone;	
+	static bool CreateThread();
 	
-	static int							m_maxThreads;
-	static CSetThreads					m_threads;
-	static CvMutex						m_mutexThreads;
-	static int							m_countIdleThreads;
-	static CvQueue<CvHttpRequestAsync*>	m_queueExecute;
+	String					m_content;
+	
+	CEventListener*			m_pListener;
+	bool					m_bDone;	
+	
+	static int				m_maxThreads;
+	static CSetThreads		m_threads;
+	static CvMutex			m_mutexThreads;
+	static int				m_countIdleThreads;
+	static CQueueExecute	m_queueExecute;
 };
 
 #endif	/* CVHTTPREQUESTASYNC_H */

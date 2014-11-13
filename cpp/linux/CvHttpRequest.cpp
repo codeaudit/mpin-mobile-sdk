@@ -8,6 +8,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+using namespace std;
 using namespace CvShared;
 
 struct CurlWriteBuffer
@@ -39,9 +40,9 @@ void CvHttpRequest::SetHeaders( const CMapHttpHeaders& aHeaders )
 	}
 }
 
-const string& CvHttpRequest::GetResponseHeader( const string& aKey ) const
+const String& CvHttpRequest::GetResponseHeader( const String& aKey ) const
 {
-	static const string empty;
+	static const String empty;
 
 	if ( m_responseHeaders.count(aKey) < 1 )
 		return empty;
@@ -80,7 +81,7 @@ size_t CvHttpRequest::WriteData(void *ptr, size_t size, size_t nmemb, void *stre
 	if (readBuf->sizeleft > curlBufSize)
 	{
 		memcpy(ptr, (const void *) readBuf->data, curlBufSize);
-		string s = string((char *) ptr);
+		String s = String((char *) ptr);
 		retval = curlBufSize;
 		readBuf->sizeleft -= curlBufSize;
 		readBuf->data += curlBufSize;
@@ -297,7 +298,7 @@ CvHttpRequest::enStatus_t CvHttpRequest::Execute( const Seconds& aTimeout, bool 
 	return enStatus_Ok;
 }
 
-bool CvHttpRequest::EncodeURL( const string& aUrl, OUT string& aEncodedUrl )
+bool CvHttpRequest::EncodeURL( const String& aUrl, OUT String& aEncodedUrl )
 {
 	bool bOk = false;
 	

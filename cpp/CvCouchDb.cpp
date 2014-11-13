@@ -14,6 +14,9 @@
 #include "CvLogger.h"
 #include "json/writer.h"
 
+using namespace std;
+using namespace CvShared;
+
 CvCouchDb::CvCouchDb( const CvString& aHost, u_short aPort, const CvString& aUser, const CvString& aPassword ) :
 	m_host(aHost), m_port(aPort), m_user(aUser), m_password(aPassword)
 {

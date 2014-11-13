@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="89">
+<configurationDescriptor version="84">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
@@ -47,8 +47,6 @@
       <toolsSet>
         <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
         <compilerSet>default</compilerSet>
-        <dependencyChecking>true</dependencyChecking>
-        <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <ccTool>
@@ -71,53 +69,11 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="../CvCouchDb.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../CvHttpServer.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../CvHttpServerMg.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../CvHttpServerUv.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../CvStateMachine.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../CvString.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../CvTime.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../CvXcode.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../linux/CvCondVar.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../linux/CvFileSystem.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../linux/CvHttpRequest.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../linux/CvLdapConnection.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../linux/CvLogger.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../linux/CvMutex.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../linux/CvRabbitMq.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../linux/CvSemaphore.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../linux/CvThread.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../linux/CvTimer.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../mongoose/mongoose.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="main.cpp" ex="false" tool="1" flavor2="0">
-      </item>
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
         <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
         <compilerSet>default</compilerSet>
-        <dependencyChecking>true</dependencyChecking>
-        <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <cTool>
@@ -148,46 +104,6 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="../CvCouchDb.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../CvHttpServer.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../CvHttpServerMg.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../CvHttpServerUv.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../CvStateMachine.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../CvString.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../CvTime.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../CvXcode.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../linux/CvCondVar.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../linux/CvFileSystem.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../linux/CvHttpRequest.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../linux/CvLdapConnection.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../linux/CvLogger.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../linux/CvMutex.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../linux/CvRabbitMq.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../linux/CvSemaphore.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../linux/CvThread.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../linux/CvTimer.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="../mongoose/mongoose.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="main.cpp" ex="false" tool="1" flavor2="0">
-      </item>
     </conf>
   </confs>
 </configurationDescriptor>

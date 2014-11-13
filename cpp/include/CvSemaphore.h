@@ -15,8 +15,6 @@
 
 #include "CvTime.h"
 
-using namespace std;
-
 namespace CvShared
 {
 	
@@ -42,7 +40,7 @@ protected:
 	
 	sem_t		m_hSemaphore;
 	
-	string		m_name;
+	String		m_name;
 	bool		m_bValid;
 };
 

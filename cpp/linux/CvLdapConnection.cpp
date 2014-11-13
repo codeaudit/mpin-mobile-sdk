@@ -14,15 +14,15 @@
 #include <stdio.h>
 #include <list>
 
-using namespace std;
+using namespace CvShared;
 
-CvLdapConnection::CvLdapConnection( const string& aHostUri ) :
+CvLdapConnection::CvLdapConnection( const LdapString& aHostUri ) :
 	m_hostUri( aHostUri ), m_pLdapConnection(NULL), m_bBound(false)
 {
 	Init( aHostUri );
 }
 
-bool CvLdapConnection::Init( const string& aHostUri )
+bool CvLdapConnection::Init( const LdapString& aHostUri )
 {
 	m_hostUri = aHostUri;
 	
@@ -39,7 +39,7 @@ bool CvLdapConnection::Init( const string& aHostUri )
 	return true;
 }
 
-bool CvLdapConnection::Bind( const string& aUser, const string& aPassword, int& aErrCode, string& aErrDesc )
+bool CvLdapConnection::Bind( const LdapString& aUser, const LdapString& aPassword, int& aErrCode, LdapString& aErrDesc )
 {
 	if ( m_bBound )
 	{
@@ -86,15 +86,15 @@ bool CvLdapConnection::Unbind()
 bool CvLdapConnection::Reconnect()
 {
 	int err;
-	string errMsg;
+	LdapString errMsg;
 	
 	return ( Unbind() &&
 			Init( m_hostUri ) &&
 			Bind( m_user, m_password, err, errMsg ) );
 }
 
-bool CvLdapConnection::Search( const string& aBaseDn, enLdapScope_t aScope, const string& aFilter, const Millisecs& aTimeout,
-								OUT CvLdapResult& aResult, OUT int& aErrCode, OUT string& aErrDesc )
+bool CvLdapConnection::Search( const LdapString& aBaseDn, enLdapScope_t aScope, const LdapString& aFilter, const Millisecs& aTimeout,
+								OUT CvLdapResult& aResult, OUT int& aErrCode, OUT LdapString& aErrDesc )
 {
 	if ( m_pLdapConnection == NULL )
 	{

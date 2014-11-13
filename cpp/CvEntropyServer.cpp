@@ -23,8 +23,9 @@
 #define ENCODING_STRING_BASE64			"base64"
 #define ENCODING_STRING_UNKNOWN			"unknown"
 
+using namespace CvShared;
 
-CvEntropyServer::CvEntropyServer( const string& aUrl ) :
+CvEntropyServer::CvEntropyServer( const String& aUrl ) :
 	m_url(aUrl)
 {
 }
@@ -33,13 +34,13 @@ CvEntropyServer::~CvEntropyServer( )
 {
 }
 
-bool CvEntropyServer::Generate( enAlgorithm_t aAlgorithm, enEncoding_t aEncoding, int aLength, OUT string& aEntropy )
+bool CvEntropyServer::Generate( enAlgorithm_t aAlgorithm, enEncoding_t aEncoding, int aLength, OUT String& aEntropy )
 {
 	CvString url;
 	
 	url.Format( "%s/%s/%s/%d", m_url.c_str(), AlgorithmToString( aAlgorithm ), EncodingToString( aEncoding ), aLength );
 	
-        LogMessage( enLogLevel_Debug1, "Generating entropy from [%s]", url.c_str() );
+	LogMessage( enLogLevel_Debug1, "Generating entropy from [%s]", url.c_str() );
 
 	CvHttpRequest httpRequest( enHttpMethod_GET );
 	
@@ -83,7 +84,7 @@ const char* CvEntropyServer::EncodingToString( CvEntropyServer::enEncoding_t aEn
 	return ENCODING_STRING_UNKNOWN;
 }
 
-CvEntropyServer::enAlgorithm_t CvEntropyServer::StringToAlgorithm( const string& aAlgorithm )
+CvEntropyServer::enAlgorithm_t CvEntropyServer::StringToAlgorithm( const String& aAlgorithm )
 {
 	if ( aAlgorithm == ALGORITHM_STRING_UNSAFE )
 		return enAlgorithm_Unsafe;
@@ -97,7 +98,7 @@ CvEntropyServer::enAlgorithm_t CvEntropyServer::StringToAlgorithm( const string&
 	return enAlgorithm_Unknown;
 }
 
-CvEntropyServer::enEncoding_t CvEntropyServer::StringToEncoding( const string& aEncoding )
+CvEntropyServer::enEncoding_t CvEntropyServer::StringToEncoding( const String& aEncoding )
 {
 	if ( aEncoding == ENCODING_STRING_RAW )
 		return enEncoding_Raw;
@@ -119,46 +120,46 @@ SystemCSPRNG::~SystemCSPRNG()
 
 csprng& SystemCSPRNG::Csprng()
 {
-    const int size = ( AES_SECURITY/sizeof(mr_small) );
+	const int size = ( AES_SECURITY / sizeof (mr_small ) );
 	unsigned char seed[size] = {0};
-    
-    //use system entropy
-    rndPool(seed, (size_t)size);
-    
-    time_t tod;	
-    time( &tod );
-    
-    strong_init( &m_csprng, size, (char*)seed, tod );
-    
-    return m_csprng;
+
+	//use system entropy
+	rndPool( seed, (size_t)size );
+
+	time_t tod;
+	time( &tod );
+
+	strong_init( &m_csprng, size, (char*)seed, tod );
+
+	return m_csprng;
 }
 
-void SystemCSPRNG::rndPool(CvByte prpool, size_t req_len)
+void SystemCSPRNG::rndPool(CvBytePtr prpool, size_t req_len)
 {
 #if defined (_WIN32)
- 
- HCRYPTPROV hCryptProv = 0;
 
- SetSearchPathMode(BASE_SEARCH_PATH_ENABLE_SAFE_SEARCHMODE);
- LPCWSTR KEY_CONTAINER = L"CERTIVOXWINCSRNG";
+	HCRYPTPROV hCryptProv = 0;
 
- if(!CryptAcquireContext(&hCryptProv, 0, 0, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_SILENT))
- {
-  HRESULT HR = HRESULT_FROM_WIN32(GetLastError());
-  return;
- }
+	SetSearchPathMode( BASE_SEARCH_PATH_ENABLE_SAFE_SEARCHMODE );
+	LPCWSTR KEY_CONTAINER = L"CERTIVOXWINCSRNG";
 
- if(hCryptProv && !CryptGenRandom(hCryptProv, req_len, (BYTE*)prpool))
- {
-  HRESULT HR = HRESULT_FROM_WIN32(GetLastError());
-  return;
- }
+	if ( !CryptAcquireContext( &hCryptProv, 0, 0, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_SILENT ) )
+	{
+		HRESULT HR = HRESULT_FROM_WIN32( GetLastError( ) );
+		return;
+	}
 
- if(hCryptProv && !CryptReleaseContext(hCryptProv, 0))
- {
-  HRESULT HR = HRESULT_FROM_WIN32(GetLastError());
-  return;
- }
+	if ( hCryptProv && !CryptGenRandom( hCryptProv, req_len, (BYTE*)prpool ) )
+	{
+		HRESULT HR = HRESULT_FROM_WIN32( GetLastError( ) );
+		return;
+	}
+
+	if ( hCryptProv && !CryptReleaseContext( hCryptProv, 0 ) )
+	{
+		HRESULT HR = HRESULT_FROM_WIN32( GetLastError( ) );
+		return;
+	}
  
 #elif defined(__linux__) || defined (__MACH__)
  

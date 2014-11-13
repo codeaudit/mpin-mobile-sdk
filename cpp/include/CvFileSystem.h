@@ -49,19 +49,16 @@ the CertiVox SkyKey SDK with a closed source product.                      *
 
 #include "CvCommon.h"
 
-#include <string>
 #include <vector>
 
 namespace CvShared
 {
-
+	
 #ifdef _WIN32
-	#define PATH_TYPE	wstring
+	#define PATH_TYPE	Wstring
 #else
-	#define PATH_TYPE	string
+	#define PATH_TYPE	String
 #endif
-
-using namespace std;
 
 class CvFileAbs
 {
@@ -74,14 +71,14 @@ public:
 		enType_Directory
 	};
 
-	class CvList : public vector<CvFileAbs*>
+	class CvList : public std::vector<CvFileAbs*>
 	{
 	public:
 		virtual ~CvList();
 	};
 
-	CvFileAbs( const string& aPath );
-	CvFileAbs( const wstring& aPath );
+	CvFileAbs( const String& aPath );
+	CvFileAbs( const Wstring& aPath );
 
 	virtual ~CvFileAbs()	{}
 
@@ -91,10 +88,10 @@ public:
 
 	virtual enType_t	GetType() const	{ return enType_Unknown; }
 
-	string				GetPath() const;
-	wstring				GetPathW() const;
-	string				GetName() const;
-	wstring				GetNameW() const;
+	String				GetPath() const;
+	Wstring				GetPathW() const;
+	String				GetName() const;
+	Wstring				GetNameW() const;
 
 protected:
 	void				FixPath();
@@ -105,8 +102,8 @@ protected:
 class CvFile : public CvFileAbs
 {
 public:
-	CvFile( const string& aPath ) : CvFileAbs(aPath)	{}
-	CvFile( const wstring& aPath ) : CvFileAbs(aPath)	{}
+	CvFile( const String& aPath ) : CvFileAbs(aPath)	{}
+	CvFile( const Wstring& aPath ) : CvFileAbs(aPath)	{}
 
 	virtual ~CvFile();
 
@@ -122,8 +119,8 @@ public:
 class CvDirectory : public CvFileAbs
 {
 public:
-	CvDirectory( const string& aPath ) : CvFileAbs(aPath)	{}
-	CvDirectory( const wstring& aPath ) : CvFileAbs(aPath)	{}
+	CvDirectory( const String& aPath ) : CvFileAbs(aPath)	{}
+	CvDirectory( const Wstring& aPath ) : CvFileAbs(aPath)	{}
 
 	virtual ~CvDirectory();
 

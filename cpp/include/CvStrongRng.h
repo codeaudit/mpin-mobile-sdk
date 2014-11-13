@@ -12,8 +12,7 @@
 
 #include <string>
 #include <memory>
-
-using namespace std;
+#include <memory>
 
 namespace CvShared
 {
@@ -34,42 +33,42 @@ class CvStrongRng
         
     csprng	m_csprng;
         
-    class m_DongleSource 
-        {
-                public:
-                    m_DongleSource(){};            
-                    ~m_DongleSource(){strong_kill( &m_csprng );}
+    class CDongleSource 
+	{
+		public:
+			CDongleSource(){};            
+			~CDongleSource(){strong_kill( &m_csprng );}
 
-                    csprng& dongle_slurp( bool abEnableEntropy, const string& aEntropyServerUrl = "", const string& aEntropyAlgorithm = "" );
+			csprng& dongle_slurp( bool abEnableEntropy, const String& aEntropyServerUrl = "", const String& aEntropyAlgorithm = "" );
 
-                private:
-                    //forbid copy and =
-                    m_DongleSource(const m_DongleSource&);
-                    void operator=(const m_DongleSource&);
-                    
-                    csprng	m_csprng;
-        };
+		private:
+			//forbid copy and =
+			CDongleSource(const CDongleSource&);
+			void operator=(const CDongleSource&);
+
+			csprng	m_csprng;
+	};
         
 public:
         
-        CvStrongRng(CSRNG_TYPE);
-        CvStrongRng(CSRNG_MODE = NEWI);
+	CvStrongRng(CSRNG_TYPE);
+	CvStrongRng(CSRNG_MODE = NEWI);
         
 	virtual ~CvStrongRng();
         
         //old interface
-	static void Init( bool abEnableEntropy, const string& aEntropyServerUrl = "", const string& aEntropyAlgorithm = "" );
+	static void Init( bool abEnableEntropy, const String& aEntropyServerUrl = "", const String& aEntropyAlgorithm = "" );
         csprng& Csprng()
         { return m_csprng; 
         }
         
 	static bool m_bEnableEntropy;
-        static string m_aEntropyServerUrl;
-        static string m_aEntropyAlgorithm;
+        static String m_aEntropyServerUrl;
+        static String m_aEntropyAlgorithm;
         
         //new interface
-        const unique_ptr<SystemCSPRNG>    ISystemSource;
-        const unique_ptr<m_DongleSource>  IDongleSource;
+        const std::unique_ptr<SystemCSPRNG>		ISystemSource;
+        const std::unique_ptr<CDongleSource>	IDongleSource;
         
 };
 }

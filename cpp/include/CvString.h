@@ -9,9 +9,9 @@ Note that CertiVox Ltd issues a patent grant for use of this software under spec
 Copyright (c) 2013, CertiVox UK Ltd																																														   *	
 All rights reserved.																																																	   *
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:																			   *
-•	Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.																						   *	
-•	Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.			   *	
-•	Neither the name of CertiVox UK Ltd nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.								   *
+ï¿½	Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.																						   *	
+ï¿½	Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.			   *	
+ï¿½	Neither the name of CertiVox UK Ltd nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.								   *
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,																		   *
 THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS																	   *
 BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE																	   *	
@@ -58,33 +58,34 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 	#define SPRINTF		sprintf
 #endif
 
-using namespace std;
-
-class CvString : public string
+class CvString : public std::string
 {
 public:
+	typedef std::string				String;
+	typedef std::vector<CvString>	CStringVector;
+	
 	CvString()	{}
-	CvString( const string& aString ) : string(aString)	{}
-	CvString( const char* apString ) : string(apString)	{}
-	CvString( const CvString& aString ) : string(aString)	{}
-	CvString( const string& aString, size_t aPos, size_t aSize = npos ) : string(aString,aPos,aSize)	{}
-	CvString( const char* apString, size_t aSize ) : string(apString,aSize)	{}
-	CvString( size_t aSize, char aChar ) : string(aSize,aChar)	{}
+	CvString( const String& aString ) : String(aString)	{}
+	CvString( const char* apString ) : String(apString)	{}
+	CvString( const CvString& aString ) : String(aString)	{}
+	CvString( const String& aString, size_t aPos, size_t aSize = npos ) : String(aString,aPos,aSize)	{}
+	CvString( const char* apString, size_t aSize ) : String(apString,aSize)	{}
+	CvString( size_t aSize, char aChar ) : String(aSize,aChar)	{}
 	
 	CvString( uint32_t aUint )	{ *this = aUint; }
 	CvString( long aInt )	{ *this = aInt; }
 	
 	CvString&	Format( const char* apFormat, ... );
-	void		TrimLeft( const string& aChars = " \t\f\v\n\r" );
-	void		TrimRight( const string& aChars = " \t\f\v\n\r" );
-	int			ReplaceAll( const string& aPattern, const string& aReplacement );
-	void		Tokenize( const string& aDelimiters, OUT vector<CvString>& aTokens ) const;
+	void		TrimLeft( const String& aChars = " \t\f\v\n\r" );
+	void		TrimRight( const String& aChars = " \t\f\v\n\r" );
+	int			ReplaceAll( const String& aPattern, const String& aReplacement );
+	void		Tokenize( const String& aDelimiters, OUT CStringVector& aTokens ) const;
 	
 	inline long		Long( int aBase = 10 ) const;
 	inline uint32_t	Ulong( int aBase = 10 ) const;
 	
-	inline int		CompareNoCase( const string& aOther ) const;
-	inline int		CompareNoCase( const string& aOther, size_t n ) const;
+	inline int		CompareNoCase( const String& aOther ) const;
+	inline int		CompareNoCase( const String& aOther, size_t n ) const;
 	
 	inline CvString&	operator=( uint32_t aUint );
 	inline CvString&	operator=( long aInt );
@@ -105,12 +106,12 @@ uint32_t CvString::Ulong( int aBase ) const
 	return (uint32_t)strtoul( c_str(), &pEnd, aBase );
 }
 
-int CvString::CompareNoCase( const string& aOther ) const
+int CvString::CompareNoCase( const String& aOther ) const
 {
 	return STRCASECMP( c_str(), aOther.c_str() );
 }
 
-int CvString::CompareNoCase( const string& aOther, size_t n ) const
+int CvString::CompareNoCase( const String& aOther, size_t n ) const
 {
 	return STRNCASECMP( c_str(), aOther.c_str(), n );	
 }
@@ -133,8 +134,8 @@ CvString& CvString::operator=( long aInt )
     return *this;
 }
 
-wstring StringToWstring( const string& str );
-string WstringToString( const wstring& str );
+std::wstring StringToWstring( const std::string& str );
+std::string WstringToString( const std::wstring& str );
 
 #endif	/* CVSTRING_H */
 

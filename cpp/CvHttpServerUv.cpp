@@ -18,6 +18,8 @@ CvHttpServerUv::CMapHandleToServer		CvHttpServerUv::m_mapHandleToServer;
 CvHttpServerUv::CSetContexts			CvHttpServerUv::m_setValidContexts;
 http_parser_settings					CvHttpServerUv::m_httpParserSettings;
 
+using namespace CvShared;
+
 struct sWriteReq_t
 {
 	uv_write_t	m_writeReq;
@@ -277,17 +279,17 @@ void CvHttpServerUv::_OnAfterWrite( uv_write_t* apRequest, int aStatus )
 int CvHttpServerUv::_OnHttpUrl( http_parser* apHttpParser, const char *at, size_t length )
 {
 	CvContextUv* pContext = (CvContextUv*)apHttpParser->data;
-	
+
 	pContext->m_request.m_uri.assign( at, length );
-	
+
 	size_t pos = pContext->m_request.m_uri.find('?');
-	if ( pos != string::npos )
+	if ( pos != CvString::npos )
 	{
-		pContext->m_request.m_queryString = pContext->m_request.m_uri.substr( pos+1 );
+		pContext->m_request.m_queryString = pContext->m_request.m_uri.substr( pos + 1 );
 		pContext->m_request.m_uri.resize( pos );
 	}
 
-        return 0;
+	return 0;
 }
 
 int CvHttpServerUv::_OnHttpHeaderField( http_parser* apHttpParser, const char *at, size_t length )
@@ -308,7 +310,7 @@ int CvHttpServerUv::_OnHttpHeaderValue( http_parser* apHttpParser, const char *a
 	
 	if ( !pContext->m_lastHeaderField.empty() )
 	{
-		pContext->m_request.m_mapHeaders[ pContext->m_lastHeaderField ] = string( at, length );
+		pContext->m_request.m_mapHeaders[ pContext->m_lastHeaderField ] = CvString( at, length );
 		pContext->m_lastHeaderField.clear();
 	}
 

@@ -17,9 +17,6 @@
 #include <map>
 #include <string>
 
-using namespace std;
-using namespace CvShared;
-
 class CvLdapResult;
 
 enum enLdapScope_t
@@ -31,39 +28,42 @@ enum enLdapScope_t
 	enLdapScope_Children = LDAP_SCOPE_CHILDREN
 };
 
+typedef std::string	LdapString;
+	
 class CvLdapConnection
 {
 public:
+	typedef CvShared::Millisecs	Millisecs;
 	
-	CvLdapConnection( const string& aHostUri );
+	CvLdapConnection( const LdapString& aHostUri );
 	virtual ~CvLdapConnection();
 	
 	LDAP*	GetHandle() const	{ return m_pLdapConnection; }
 	
-	bool	Bind( const string& aUser, const string& aPassword, OUT int& aErrCode, OUT string& aErrDesc );
+	bool	Bind( const LdapString& aUser, const LdapString& aPassword, OUT int& aErrCode, OUT LdapString& aErrDesc );
 	
-	bool	Search( const string& aBaseDn, enLdapScope_t aScope, const string& aFilter, const Millisecs& aTimeout,
-					OUT CvLdapResult& aResult, OUT int& aErrCode, OUT string& aErrDesc );
+	bool	Search( const LdapString& aBaseDn, enLdapScope_t aScope, const LdapString& aFilter, const Millisecs& aTimeout,
+					OUT CvLdapResult& aResult, OUT int& aErrCode, OUT LdapString& aErrDesc );
 	
-	inline bool	Search( const string& aBaseDn, enLdapScope_t aScope, const Millisecs& aTimeout,
-					OUT CvLdapResult& aResult, OUT int& aErrCode, OUT string& aErrDesc );
+	inline bool	Search( const LdapString& aBaseDn, enLdapScope_t aScope, const Millisecs& aTimeout,
+					OUT CvLdapResult& aResult, OUT int& aErrCode, OUT LdapString& aErrDesc );
 	
 private:
 	CvLdapConnection(const CvLdapConnection& orig)	{}
-	bool	Init( const string& aHostUri );
+	bool	Init( const LdapString& aHostUri );
 	bool	Unbind();
 	bool	Reconnect();
 	
-	string	m_hostUri;
-	int		m_port;
-	string	m_user;
-	string	m_password;
+	LdapString	m_hostUri;
+	int			m_port;
+	LdapString	m_user;
+	LdapString	m_password;
 	
-	LDAP*	m_pLdapConnection;
-	bool	m_bBound;
+	LDAP*		m_pLdapConnection;
+	bool		m_bBound;
 };
 
-bool CvLdapConnection::Search( const string& aBaseDn, enLdapScope_t aScope, const Millisecs& aTimeout, OUT CvLdapResult& aResult, OUT int& aErrCode, OUT string& aErrDesc )
+bool CvLdapConnection::Search( const LdapString& aBaseDn, enLdapScope_t aScope, const Millisecs& aTimeout, OUT CvLdapResult& aResult, OUT int& aErrCode, OUT LdapString& aErrDesc )
 {
 	return Search( aBaseDn, aScope, "objectClass=*", aTimeout, aResult, aErrCode, aErrDesc );
 }
@@ -79,22 +79,22 @@ public:
 		friend class CvLdapResult;
 
 	public:
-		typedef list<string>				CListValues;
-		typedef map<string, CListValues>	CMapAttrs;
+		typedef std::list<LdapString>				CListValues;
+		typedef std::map<LdapString, CListValues>	CMapAttrs;
 
 		virtual ~CEntry()	{}
 
-		const string&		GetDn() const		{ return m_dn; }
+		const LdapString&	GetDn() const		{ return m_dn; }
 		const CMapAttrs&	GetAttrs() const	{ return m_mapAttrs; }
 
 	protected:
 		CEntry( const CvLdapConnection& aConnection, LDAPMessage* apLdapEntry );
 
-		string		m_dn;
+		LdapString	m_dn;
 		CMapAttrs	m_mapAttrs;
 	};
 	
-	typedef list<CEntry*>	CListEntries;
+	typedef std::list<CEntry*>	CListEntries;
 	
 	CvLdapResult()	{}
 	virtual ~CvLdapResult();
@@ -107,7 +107,7 @@ protected:
 	bool Init( const CvLdapConnection& aConnection, LDAPMessage* apLdapResult );
 	void Clear();
 	
-	CListEntries		m_listEntries;
+	CListEntries	m_listEntries;
 };
 
 #endif	/* CVLDAPCONNECTION_H */

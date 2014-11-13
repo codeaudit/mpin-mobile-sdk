@@ -30,8 +30,10 @@
       <itemPath>../include/CvAesGcm.h</itemPath>
       <itemPath>../include/CvEccsi.h</itemPath>
       <itemPath>../include/CvEcdh.h</itemPath>
+      <itemPath>../include/CvEntropyServer.h</itemPath>
       <itemPath>../include/CvMikey.h</itemPath>
       <itemPath>../include/CvSakke.h</itemPath>
+      <itemPath>../include/CvStrongRng.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
@@ -60,8 +62,10 @@
       <itemPath>../CvAesGcm.cpp</itemPath>
       <itemPath>../CvEccsi.cpp</itemPath>
       <itemPath>../CvEcdh.cpp</itemPath>
+      <itemPath>../CvEntropyServer.cpp</itemPath>
       <itemPath>../CvMikey.cpp</itemPath>
       <itemPath>../CvSakke.cpp</itemPath>
+      <itemPath>../CvStrongRng.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -105,6 +109,8 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="../CvStrongRng.cpp" ex="true" tool="1" flavor2="0">
+      </item>
     </conf>
     <conf name="Release" type="1">
       <toolsSet>

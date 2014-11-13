@@ -14,8 +14,6 @@
 #include <map>
 #include <list>
 
-using namespace std;
-
 namespace CvShared
 {
 
@@ -50,12 +48,12 @@ public:
 private:
 	CvStateMachine(const CvStateMachine& orig)	{}
 	
-	typedef map<State_t,CvString>					CMapStates;
-	typedef map<Event_t,CvString>					CMapEvents;
-	typedef pair<State_t, Event_t>					CTransitionKey;
-	typedef map<CTransitionKey, CvSmTransition*>	CMapTransitions;	
+	typedef std::map<State_t,CvString>					CMapStates;
+	typedef std::map<Event_t,CvString>					CMapEvents;
+	typedef std::pair<State_t, Event_t>					CTransitionKey;
+	typedef std::map<CTransitionKey, CvSmTransition*>	CMapTransitions;	
 	
-	CTransitionKey	MakeTransitionKey( State_t aState, Event_t aEvent ) const	{ return make_pair( aState, aEvent ); }
+	CTransitionKey	MakeTransitionKey( State_t aState, Event_t aEvent ) const	{ return std::make_pair( aState, aEvent ); }
 	
 	CvString		m_name;
 	State_t			m_state;
@@ -104,7 +102,7 @@ public:
 protected:
 	CvSmTransitionSimple( const CvSmTransitionSimple& aOther );
 
-	typedef list<CvSmEventHandler::Action_t>	CListActions;
+	typedef std::list<CvSmEventHandler::Action_t>	CListActions;
 
 	virtual CvSmTransition*	Duplicate() const;
 	virtual bool			Execute( void* apData, OUT CvStateMachine::State_t& aNewState );

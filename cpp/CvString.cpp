@@ -100,27 +100,27 @@ CvString& CvString::Format( const char* apFormat, ... )
 	return *this;
 }
 
-void CvString::TrimLeft( const string& aChars )
+void CvString::TrimLeft( const String& aChars )
 {
 	size_t found = find_first_not_of( aChars );
 
-	if ( found != string::npos )
+	if ( found != npos )
 		erase(0,found);
 	else
 		clear();
 }
 
-void CvString::TrimRight( const string& aChars )
+void CvString::TrimRight( const String& aChars )
 {
 	size_t found = find_last_not_of( aChars );
 
-	if ( found != string::npos )
+	if ( found != npos )
 		erase(found+1);
 	else
 		clear();
 }
 
-int CvString::ReplaceAll( const string& aPattern, const string& aReplacement )
+int CvString::ReplaceAll( const String& aPattern, const String& aReplacement )
 {
 	if ( aPattern.empty() )
 		return 0;
@@ -131,7 +131,7 @@ int CvString::ReplaceAll( const string& aPattern, const string& aReplacement )
 	
 	size_t pos = find( aPattern );
 
-	while ( pos != string::npos )
+	while ( pos != npos )
 	{
 		replace( pos, patternLen, aReplacement );
 		++count;
@@ -141,30 +141,32 @@ int CvString::ReplaceAll( const string& aPattern, const string& aReplacement )
 	return count;
 }
 
-void CvString::Tokenize( const string& aDelimiters, OUT vector<CvString>& aTokens ) const
+void CvString::Tokenize( const String& aDelimiters, OUT CStringVector& aTokens ) const
 {
 	aTokens.clear();
 
 	size_t posStart = 0;
 	size_t posEnd = find_first_of( aDelimiters );
 
-	while ( posEnd != string::npos )
+	while ( posEnd != npos )
 	{
 		aTokens.push_back( substr( posStart, posEnd - posStart ) );
 		
 		posStart = find_first_not_of( aDelimiters, posEnd );
 		
-		if ( posStart != string::npos )
+		if ( posStart != npos )
 			posEnd = find_first_of( aDelimiters, posStart );
 		else
-			posEnd = string::npos;
+			posEnd = npos;
 	}
 	
-	if ( posStart != string::npos )
+	if ( posStart != npos )
 	{
 		aTokens.push_back( substr( posStart ) );		
 	}
 }
+
+using namespace std;
 
 wstring StringToWstring( const string& str )
 {

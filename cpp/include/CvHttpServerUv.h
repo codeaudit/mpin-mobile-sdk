@@ -22,14 +22,12 @@
 #include <stdarg.h>
 #include <string.h>
 
-using namespace std;
-using namespace CvShared;
-
 class CvHttpServerUv : public CvHttpServer
 {
 	friend class CvContextUv;
-	
+
 public:
+
 	CvHttpServerUv() : m_bInitialized(false), m_port(-1), m_maxConnections(-1)	{}
 	CvHttpServerUv( IN CMapOptions& aOptions )	{ Init( aOptions ); }
 	virtual ~CvHttpServerUv();
@@ -39,6 +37,9 @@ public:
 	bool Start();
 	
 protected:
+	typedef CvShared::CvMutex		CvMutex;
+	typedef CvShared::CvMutexLock	CvMutexLock;
+	
 	CvHttpServerUv(const CvHttpServerUv& orig)	{}
 	
 	class CvContextUv : public CvContext
@@ -66,7 +67,7 @@ protected:
 	
 	typedef void* CvContextHandle;
 	
-	class CMapHandleToServer : private map<const uv_tcp_t*,CvHttpServerUv*>
+	class CMapHandleToServer : private std::map<const uv_tcp_t*,CvHttpServerUv*>
 	{
 	public:
 		CMapHandleToServer();
@@ -77,7 +78,7 @@ protected:
 		CvMutex		m_mutex;
 	};
 	
-	class CSetContexts : private set<const CvContextUv*>
+	class CSetContexts : private std::set<const CvContextUv*>
 	{
 	public:
 		CSetContexts();
