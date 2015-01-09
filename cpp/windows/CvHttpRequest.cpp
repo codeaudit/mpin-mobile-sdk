@@ -46,7 +46,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 #include <stdlib.h>
 
 using namespace CvShared;
-typedef std::string string;
+using std::string;
+//typedef std::string string;
 typedef std::wstring wstring;
 typedef std::runtime_error runtime_error;
 typedef std::exception exception;
