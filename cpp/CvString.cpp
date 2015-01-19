@@ -60,7 +60,7 @@ CvString& CvString::Format( const char* apFormat, ... )
 
 	va_end( args );
 
-#elif defined (__MACH__)
+#elif defined (__MACH__) || defined(ANDROID)
     
     char* pFormattedStr = NULL;
     
