@@ -76,8 +76,8 @@ public:
 	CvString( long aInt )	{ *this = aInt; }
 	
 	CvString&	Format( const char* apFormat, ... );
-	void		TrimLeft( const String& aChars = " \t\f\v\n\r" );
-	void		TrimRight( const String& aChars = " \t\f\v\n\r" );
+	CvString&	TrimLeft( const String& aChars = " \t\f\v\n\r" );
+	CvString&	TrimRight( const String& aChars = " \t\f\v\n\r" );
 	int			ReplaceAll( const String& aPattern, const String& aReplacement );
 	void		Tokenize( const String& aDelimiters, OUT CStringVector& aTokens ) const;
 	

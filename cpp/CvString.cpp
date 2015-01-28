@@ -100,7 +100,7 @@ CvString& CvString::Format( const char* apFormat, ... )
 	return *this;
 }
 
-void CvString::TrimLeft( const String& aChars )
+CvString& CvString::TrimLeft( const String& aChars )
 {
 	size_t found = find_first_not_of( aChars );
 
@@ -108,9 +108,11 @@ void CvString::TrimLeft( const String& aChars )
 		erase(0,found);
 	else
 		clear();
+    
+    return *this;
 }
 
-void CvString::TrimRight( const String& aChars )
+CvString& CvString::TrimRight( const String& aChars )
 {
 	size_t found = find_last_not_of( aChars );
 
@@ -118,6 +120,8 @@ void CvString::TrimRight( const String& aChars )
 		erase(found+1);
 	else
 		clear();
+    
+    return *this;
 }
 
 int CvString::ReplaceAll( const String& aPattern, const String& aReplacement )
