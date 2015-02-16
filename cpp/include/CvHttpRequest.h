@@ -69,6 +69,21 @@ public:
 	typedef CvShared::TimeValue_t	TimeValue_t;
 	typedef CvShared::Seconds		Seconds;
 
+#if defined(__linux__)
+	// OpenSSL Multi-treading support
+	class COpenSslMt
+	{
+	public:
+		COpenSslMt();
+		~COpenSslMt();
+	private:
+		static void LockCallback( int mode, int type, const char* file, int line );
+		static unsigned long ThreadId();
+		
+		static CvShared::CvMutex* m_lockArray;
+	};
+#endif
+	
 	CvHttpRequest( enHttpMethod_t aMethod = enHttpMethod_GET );
 	~CvHttpRequest();
 
@@ -132,7 +147,6 @@ protected:
 		long				no_progress;
 		int64_t				resume_from;
 		String				fname;
-		long long			resp_size;
 		String				proxy; // <host:port>
 		time_t				timeout;	//in seconds
 	};

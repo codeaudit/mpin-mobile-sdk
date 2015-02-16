@@ -8,8 +8,14 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include <openssl/crypto.h>
+
 using namespace std;
 using namespace CvShared;
+
+#if defined(__linux__)
+	CvShared::CvMutex* CvHttpRequest::COpenSslMt::m_lockArray = NULL;
+#endif
 
 struct CurlWriteBuffer
 {
@@ -263,7 +269,7 @@ void CvHttpRequest::Start()
 		{
 			if (m_responseCode > 202)
 			{
-				LogMessage( enLogLevel_Error, "<-- [%s] HTTP response: %s", m_req.url.c_str(), m_response.c_str() );
+				LogMessage( enLogLevel_Debug2, "<-- [%s] HTTP response: %s", m_req.url.c_str(), m_response.c_str() );
 				throw runtime_error( m_response.c_str() );
 			}
 		}
@@ -285,7 +291,7 @@ CvHttpRequest::enStatus_t CvHttpRequest::Execute( const Seconds& aTimeout, bool 
 	}
 	catch (exception &e)
 	{
-		LogMessage( enLogLevel_Error, "<-- HTTP Error: %s", e.what() );
+		LogMessage( enLogLevel_Debug2, "<-- HTTP Error: %s", e.what() );
 		
 		if (m_responseCode == 0)
 			return enStatus_NetworkError;
@@ -350,3 +356,43 @@ void CvHttpRequest::sRequestData_t::Clear()
 	fname.clear();
 	proxy.clear();
 }
+
+CvHttpRequest::COpenSslMt::COpenSslMt()
+{
+	int i;
+
+	m_lockArray = new CvMutex[ CRYPTO_num_locks() ];
+	
+	for ( int i = 0; i < CRYPTO_num_locks(); ++i )
+	{
+		m_lockArray[i].Create();
+	}
+
+	CRYPTO_set_id_callback( ThreadId );
+	CRYPTO_set_locking_callback( LockCallback );	
+}
+
+CvHttpRequest::COpenSslMt::~COpenSslMt()
+{
+	CRYPTO_set_locking_callback(NULL);
+
+	delete[] m_lockArray;
+}
+
+void CvHttpRequest::COpenSslMt::LockCallback( int mode, int type, const char*, int )
+{
+	if (mode & CRYPTO_LOCK)
+	{
+		m_lockArray[type].Lock();
+	}
+	else
+	{
+		m_lockArray[type].Unlock();
+	}
+}
+
+unsigned long CvHttpRequest::COpenSslMt::ThreadId()
+{
+	return (unsigned long)pthread_self();
+}
+
