@@ -379,10 +379,8 @@ CvHttpRequest::COpenSslMt::~COpenSslMt()
 	delete[] m_lockArray;
 }
 
-void CvHttpRequest::COpenSslMt::LockCallback( int mode, int type, const char* file, int line )
+void CvHttpRequest::COpenSslMt::LockCallback( int mode, int type, const char*, int )
 {
-	(void)file;	(void)line;
-	
 	if (mode & CRYPTO_LOCK)
 	{
 		m_lockArray[type].Lock();
