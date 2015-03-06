@@ -147,6 +147,7 @@ protected:
 		long				no_progress;
 		int64_t				resume_from;
 		String				fname;
+		long long			resp_size;	// Used only for Windows implementation
 		String				proxy; // <host:port>
 		time_t				timeout;	//in seconds
 	};
