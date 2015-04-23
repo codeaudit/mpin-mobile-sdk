@@ -74,7 +74,7 @@ DWORD CvThread::_Body( LPVOID apThis )
 {
 	CvThread* pThis = (CvThread*)apThis;
 	
-	string& name = pThis->m_name;
+	String& name = pThis->m_name;
 
 	LogMessage( enLogLevel_Debug1, "Starting thread [%s]", name.c_str() );
 	
