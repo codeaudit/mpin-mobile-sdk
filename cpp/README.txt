@@ -1,4 +1,4 @@
-The C++ shared components code might now be used by any of you for your C++ projects.
+﻿The C++ shared components code might now be used by any of you for your C++ projects.
 
 The idea is to:
  - Reuse tested and robust code for faster development
@@ -92,3 +92,6 @@ conjunction with the conditional variable.
 
 Have fun,
 Mony
+
+
+@@@@@@@
