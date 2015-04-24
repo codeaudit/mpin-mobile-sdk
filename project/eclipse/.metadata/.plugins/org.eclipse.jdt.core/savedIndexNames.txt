@@ -1,0 +1,2 @@
+INDEX VERSION 1.127+/home/georgi/Development/mobilesdk/project/eclipse/.metadata/.plugins/org.eclipse.jdt.core
+1377251446.index

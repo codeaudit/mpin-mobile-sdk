@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C47BB154-F9DF-4C88-81C0-A27510A16840}</ProjectGuid>
+    <RootNamespace>mpin_sdk</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../../ext/cvshared/cpp/include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;WinHttp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>../../ext/cvshared/cpp/include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;WinHttp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\ext\cvshared\cpp\CvString.cpp" />
+    <ClCompile Include="..\..\ext\cvshared\cpp\CvTime.cpp" />
+    <ClCompile Include="..\..\ext\cvshared\cpp\CvXcode.cpp" />
+    <ClCompile Include="..\..\ext\cvshared\cpp\windows\CvHttpRequest.cpp" />
+    <ClCompile Include="..\..\ext\cvshared\cpp\windows\CvLogger.cpp" />
+    <ClCompile Include="..\..\ext\cvshared\cpp\windows\CvMutex.cpp" />
+    <ClCompile Include="..\..\ext\cvshared\cpp\windows\CvThread.cpp" />
+    <ClCompile Include="..\..\src\core\crypto\aesGcmWrapper.c" />
+    <ClCompile Include="..\..\src\core\crypto\certivox.c" />
+    <ClCompile Include="..\..\src\core\crypto\eccsiWrapper.c" />
+    <ClCompile Include="..\..\src\core\crypto\eccsi_c.c" />
+    <ClCompile Include="..\..\src\core\crypto\mpinWrapper.c" />
+    <ClCompile Include="..\..\src\core\crypto\mpin_c.c" />
+    <ClCompile Include="..\..\src\core\crypto\mraes.c" />
+    <ClCompile Include="..\..\src\core\crypto\mralloc.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrarth0.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrarth1.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrarth2.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrarth3.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrbits.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrcombaWin32.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrcore.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrcurve.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrecn2.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrgcd.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrgcm.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrio1.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrjack.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrlucas.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrmonty.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrmuldvWin32.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrpower.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrprime.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrrand.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrshs.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrshs256.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrsmall.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrsroot.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrstrong.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrxgcd.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrzzn2.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrzzn2b.c" />
+    <ClCompile Include="..\..\src\core\crypto\mrzzn4.c" />
+    <ClCompile Include="..\..\src\core\crypto\octet.c" />
+    <ClCompile Include="..\..\src\core\crypto\sakkeWrapper.c" />
+    <ClCompile Include="..\..\src\core\crypto\sakke_bn_c.c" />
+    <ClCompile Include="..\..\src\core\mpin_crypto_non_tee.cpp" />
+    <ClCompile Include="..\..\src\core\mpin_sdk.cpp" />
+    <ClCompile Include="..\..\src\core\utils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\ext\cvshared\cpp\include\CvCommon.h" />
+    <ClInclude Include="..\..\ext\cvshared\cpp\include\CvHttpCommon.h" />
+    <ClInclude Include="..\..\ext\cvshared\cpp\include\CvHttpRequest.h" />
+    <ClInclude Include="..\..\ext\cvshared\cpp\include\CvLogger.h" />
+    <ClInclude Include="..\..\ext\cvshared\cpp\include\CvMutex.h" />
+    <ClInclude Include="..\..\ext\cvshared\cpp\include\CvString.h" />
+    <ClInclude Include="..\..\ext\cvshared\cpp\include\CvThread.h" />
+    <ClInclude Include="..\..\ext\cvshared\cpp\include\CvTime.h" />
+    <ClInclude Include="..\..\ext\cvshared\cpp\include\CvXcode.h" />
+    <ClInclude Include="..\..\src\core\crypto\aesGcmWrapper.h" />
+    <ClInclude Include="..\..\src\core\crypto\certivox.h" />
+    <ClInclude Include="..\..\src\core\crypto\DLLDefines.h" />
+    <ClInclude Include="..\..\src\core\crypto\eccsiWrapper.h" />
+    <ClInclude Include="..\..\src\core\crypto\eccsi_c.h" />
+    <ClInclude Include="..\..\src\core\crypto\miracl.h" />
+    <ClInclude Include="..\..\src\core\crypto\mirdef.h" />
+    <ClInclude Include="..\..\src\core\crypto\MPinCryptoConfig.h" />
+    <ClInclude Include="..\..\src\core\crypto\mpinWrapper.h" />
+    <ClInclude Include="..\..\src\core\crypto\mpin_c.h" />
+    <ClInclude Include="..\..\src\core\crypto\octet.h" />
+    <ClInclude Include="..\..\src\core\crypto\sakkeWrapper.h" />
+    <ClInclude Include="..\..\src\core\crypto\sakke_bn_c.h" />
+    <ClInclude Include="..\..\src\core\cv_shared_ptr.h" />
+    <ClInclude Include="..\..\src\core\json\elements.h" />
+    <ClInclude Include="..\..\src\core\json\reader.h" />
+    <ClInclude Include="..\..\src\core\json\visitor.h" />
+    <ClInclude Include="..\..\src\core\json\writer.h" />
+    <ClInclude Include="..\..\src\core\mpin_crypto.h" />
+    <ClInclude Include="..\..\src\core\mpin_crypto_non_tee.h" />
+    <ClInclude Include="..\..\src\core\mpin_sdk.h" />
+    <ClInclude Include="..\..\src\core\utf8.h" />
+    <ClInclude Include="..\..\src\core\utf8\checked.h" />
+    <ClInclude Include="..\..\src\core\utf8\core.h" />
+    <ClInclude Include="..\..\src\core\utf8\unchecked.h" />
+    <ClInclude Include="..\..\src\core\utils.h" />
+    <ClInclude Include="..\..\src\core\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\src\core\crypto\mirdef.gcc" />
+    <None Include="..\..\src\core\crypto\mirdef.lc32" />
+    <None Include="..\..\src\core\crypto\mirdef.lc64" />
+    <None Include="..\..\src\core\crypto\mirdef.wc32" />
+    <None Include="..\..\src\core\crypto\mirdef.wc64" />
+    <None Include="..\..\src\core\json\elements.inl" />
+    <None Include="..\..\src\core\json\reader.inl" />
+    <None Include="..\..\src\core\json\writer.inl" />
+    <None Include="unit_tests.vcxproj.filters" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

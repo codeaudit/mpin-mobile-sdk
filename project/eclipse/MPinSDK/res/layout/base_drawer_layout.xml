@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include layout="@layout/toolbar" />
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal" >
+
+        <!-- Activty content -->
+
+        <FrameLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray" >
+        </FrameLayout>
+        <!-- Activty content end -->
+
+
+        <!-- The navigation drawer -->
+
+        <LinearLayout
+            android:id="@+id/navigation_drawer_container"
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@color/white"
+            android:clickable="true"
+            android:orientation="vertical"
+            android:paddingTop="12dp" >
+
+            <TextView
+                android:id="@+id/drawer_title"
+                style="@style/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:text="@string/drawer_subtitle" />
+
+            <TextView
+                android:id="@+id/drawer_subtitle"
+                style="@style/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:text="@string/drawer_title" />
+
+            <LinearLayout
+                android:id="@+id/action_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="25dp" >
+
+                <TextView
+                    android:id="@+id/change_identitiy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/drawer_selector"
+                    android:clickable="true"
+                    android:drawableLeft="@drawable/ic_account"
+                    android:drawablePadding="20dp"
+                    android:drawableStart="@drawable/ic_account"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:text="@string/change_identitiy"
+                    android:textColor="@color/button_selector_white_textcolor"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/change_service"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/drawer_selector"
+                    android:clickable="true"
+                    android:drawableLeft="@drawable/ic_settings"
+                    android:drawablePadding="20dp"
+                    android:drawableStart="@drawable/ic_settings"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:text="@string/change_service"
+                    android:textColor="@color/button_selector_white_textcolor"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/about"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/drawer_selector"
+                    android:clickable="true"
+                    android:drawableLeft="@drawable/ic_about"
+                    android:drawablePadding="20dp"
+                    android:drawableStart="@drawable/ic_about"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:text="@string/about"
+                    android:textColor="@color/button_selector_white_textcolor"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+        <!-- The navigation drawer end -->
+    </android.support.v4.widget.DrawerLayout>
+
+</LinearLayout>

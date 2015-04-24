@@ -1,0 +1,35 @@
+/* 
+Copyright 2014 CertiVox UK Ltd, All Rights Reserved.
+
+The CertiVox M-Pin Client and Server Libraries are free software: you can
+redistribute it and/or modify it under the terms of the BSD 3-Clause
+License - http://opensource.org/licenses/BSD-3-Clause
+
+For full details regarding our CertiVox terms of service please refer to
+the following links:
+
+  * Our Terms and Conditions -
+    http://www.certivox.com/about-certivox/terms-and-conditions/
+  
+  * Our Security and Privacy -
+    http://www.certivox.com/about-certivox/security-privacy/
+
+  * Our Statement of Position and Our Promise on Software Patents -
+    http://www.certivox.com/about-certivox/patents/
+*/
+
+#define MR_LITTLE_ENDIAN
+#define MIRACL 64
+#define mr_utype long
+#define mr_unsign64 unsigned long long
+#define MR_IBITS 32
+#define MR_LBITS 64
+#define mr_unsign32 unsigned int
+#define MAXBASE ((mr_small)1<<(MIRACL-1))
+#define MR_BITSINCHAR 8
+#define MR_ALWAYS_BINARY
+#define MR_STRIPPED_DOWN
+#define MR_NOKOBLITZ
+#define MR_NO_SS
+#define MR_GENERIC_MT
+#define MR_COMBA 4

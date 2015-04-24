@@ -1,0 +1,136 @@
+12:33:28 **** Incremental Build of configuration Default for project MPinSDK ****
+/home/georgi/Development/android-ndk-r10/ndk-build all 
+Android NDK: WARNING: APP_PLATFORM android-19 is larger than android:minSdkVersion 14 in ./AndroidManifest.xml    
+[armeabi-v7a] Compile++ thumb: AndroidMpinSDK <= AndroidMpinSDK.cpp
+[armeabi-v7a] Compile++ thumb: AndroidMpinSDK <= HTTPConnector.cpp
+[armeabi-v7a] Compile++ thumb: AndroidMpinSDK <= Storage.cpp
+[armeabi-v7a] SharedLibrary  : libAndroidMpinSDK.so
+[armeabi-v7a] Install        : libAndroidMpinSDK.so => libs/armeabi-v7a/libAndroidMpinSDK.so
+[armeabi] Compile++ thumb: AndroidMpinSDK <= AndroidMpinSDK.cpp
+[armeabi] Compile++ thumb: AndroidMpinSDK <= HTTPConnector.cpp
+[armeabi] Compile++ thumb: AndroidMpinSDK <= Storage.cpp
+[armeabi] SharedLibrary  : libAndroidMpinSDK.so
+[armeabi] Install        : libAndroidMpinSDK.so => libs/armeabi/libAndroidMpinSDK.so
+[x86] Compile++      : AndroidMpinSDK <= AndroidMpinSDK.cpp
+[x86] Compile++      : AndroidMpinSDK <= HTTPConnector.cpp
+[x86] Compile++      : AndroidMpinSDK <= Storage.cpp
+[x86] SharedLibrary  : libAndroidMpinSDK.so
+[x86] Install        : libAndroidMpinSDK.so => libs/x86/libAndroidMpinSDK.so
+[mips] Compile++      : AndroidMpinSDK <= AndroidMpinSDK.cpp
+[mips] Compile++      : AndroidMpinSDK <= HTTPConnector.cpp
+[mips] Compile++      : AndroidMpinSDK <= Storage.cpp
+[mips] SharedLibrary  : libAndroidMpinSDK.so
+[mips] Install        : libAndroidMpinSDK.so => libs/mips/libAndroidMpinSDK.so
+12:34:11 **** Clean-only build of configuration Default for project MPinSDK ****
+/home/georgi/Development/android-ndk-r10/ndk-build clean 
+Android NDK: WARNING: APP_PLATFORM android-19 is larger than android:minSdkVersion 14 in ./AndroidManifest.xml    
+[armeabi-v7a] Clean          : AndroidMpinSDK [armeabi-v7a]
+[armeabi-v7a] Clean          : stlport_shared [armeabi-v7a]
+[armeabi-v7a] Clean          : stlport_static [armeabi-v7a]
+[armeabi] Clean          : AndroidMpinSDK [armeabi]
+[armeabi] Clean          : stlport_shared [armeabi]
+[armeabi] Clean          : stlport_static [armeabi]
+[x86] Clean          : AndroidMpinSDK [x86]
+[x86] Clean          : stlport_shared [x86]
+[x86] Clean          : stlport_static [x86]
+[mips] Clean          : AndroidMpinSDK [mips]
+[mips] Clean          : stlport_shared [mips]
+[mips] Clean          : stlport_static [mips]
+12:36:56 **** Clean-only build of configuration Default for project MPinSDK ****
+/home/georgi/Development/android-ndk-r10/ndk-build clean 
+Android NDK: WARNING: APP_PLATFORM android-19 is larger than android:minSdkVersion 14 in ./AndroidManifest.xml    
+[armeabi-v7a] Clean          : AndroidMpinSDK [armeabi-v7a]
+[armeabi-v7a] Clean          : stlport_shared [armeabi-v7a]
+[armeabi-v7a] Clean          : stlport_static [armeabi-v7a]
+[armeabi] Clean          : AndroidMpinSDK [armeabi]
+[armeabi] Clean          : stlport_shared [armeabi]
+[armeabi] Clean          : stlport_static [armeabi]
+[x86] Clean          : AndroidMpinSDK [x86]
+[x86] Clean          : stlport_shared [x86]
+[x86] Clean          : stlport_static [x86]
+[mips] Clean          : AndroidMpinSDK [mips]
+[mips] Clean          : stlport_shared [mips]
+[mips] Clean          : stlport_static [mips]
+12:37:43 **** Clean-only build of configuration Default for project MPinSDK ****
+/home/georgi/Development/android-ndk-r10/ndk-build clean 
+Android NDK: WARNING: APP_PLATFORM android-19 is larger than android:minSdkVersion 14 in ./AndroidManifest.xml    
+[armeabi-v7a] Clean          : AndroidMpinSDK [armeabi-v7a]
+[armeabi-v7a] Clean          : stlport_shared [armeabi-v7a]
+[armeabi-v7a] Clean          : stlport_static [armeabi-v7a]
+[armeabi] Clean          : AndroidMpinSDK [armeabi]
+[armeabi] Clean          : stlport_shared [armeabi]
+[armeabi] Clean          : stlport_static [armeabi]
+[x86] Clean          : AndroidMpinSDK [x86]
+[x86] Clean          : stlport_shared [x86]
+[x86] Clean          : stlport_static [x86]
+[mips] Clean          : AndroidMpinSDK [mips]
+[mips] Clean          : stlport_shared [mips]
+[mips] Clean          : stlport_static [mips]
+12:41:57 **** Clean-only build of configuration Default for project MPinSDK ****
+/home/georgi/Development/android-ndk-r10/ndk-build clean 
+Android NDK: WARNING: APP_PLATFORM android-19 is larger than android:minSdkVersion 14 in ./AndroidManifest.xml    
+[armeabi-v7a] Clean          : AndroidMpinSDK [armeabi-v7a]
+[armeabi-v7a] Clean          : stlport_shared [armeabi-v7a]
+[armeabi-v7a] Clean          : stlport_static [armeabi-v7a]
+[armeabi] Clean          : AndroidMpinSDK [armeabi]
+[armeabi] Clean          : stlport_shared [armeabi]
+[armeabi] Clean          : stlport_static [armeabi]
+[x86] Clean          : AndroidMpinSDK [x86]
+[x86] Clean          : stlport_shared [x86]
+[x86] Clean          : stlport_static [x86]
+[mips] Clean          : AndroidMpinSDK [mips]
+[mips] Clean          : stlport_shared [mips]
+[mips] Clean          : stlport_static [mips]
+12:54:56 **** Clean-only build of configuration Default for project MPinSDK ****
+/home/georgi/Development/android-ndk-r10/ndk-build clean 
+Android NDK: WARNING: APP_PLATFORM android-19 is larger than android:minSdkVersion 14 in ./AndroidManifest.xml    
+[armeabi-v7a] Clean          : AndroidMpinSDK [armeabi-v7a]
+[armeabi-v7a] Clean          : stlport_shared [armeabi-v7a]
+[armeabi-v7a] Clean          : stlport_static [armeabi-v7a]
+[armeabi] Clean          : AndroidMpinSDK [armeabi]
+[armeabi] Clean          : stlport_shared [armeabi]
+[armeabi] Clean          : stlport_static [armeabi]
+[x86] Clean          : AndroidMpinSDK [x86]
+[x86] Clean          : stlport_shared [x86]
+[x86] Clean          : stlport_static [x86]
+[mips] Clean          : AndroidMpinSDK [mips]
+[mips] Clean          : stlport_shared [mips]
+[mips] Clean          : stlport_static [mips]
+12:55:17 **** Build of configuration Default for project MPinSDK ****
+/home/georgi/Development/android-ndk-r10/ndk-build all 
+Android NDK: WARNING: APP_PLATFORM android-19 is larger than android:minSdkVersion 14 in ./AndroidManifest.xml    
+[armeabi-v7a] Compile++ thumb: AndroidMpinSDK <= AndroidMpinSDK.cpp
+[armeabi-v7a] Compile++ thumb: AndroidMpinSDK <= HTTPConnector.cpp
+[armeabi-v7a] Compile++ thumb: AndroidMpinSDK <= Storage.cpp
+[armeabi-v7a] SharedLibrary  : libAndroidMpinSDK.so
+[armeabi-v7a] Install        : libAndroidMpinSDK.so => libs/armeabi-v7a/libAndroidMpinSDK.so
+[armeabi] Compile++ thumb: AndroidMpinSDK <= AndroidMpinSDK.cpp
+[armeabi] Compile++ thumb: AndroidMpinSDK <= HTTPConnector.cpp
+[armeabi] Compile++ thumb: AndroidMpinSDK <= Storage.cpp
+[armeabi] SharedLibrary  : libAndroidMpinSDK.so
+[armeabi] Install        : libAndroidMpinSDK.so => libs/armeabi/libAndroidMpinSDK.so
+[x86] Compile++      : AndroidMpinSDK <= AndroidMpinSDK.cpp
+[x86] Compile++      : AndroidMpinSDK <= HTTPConnector.cpp
+[x86] Compile++      : AndroidMpinSDK <= Storage.cpp
+[x86] SharedLibrary  : libAndroidMpinSDK.so
+[x86] Install        : libAndroidMpinSDK.so => libs/x86/libAndroidMpinSDK.so
+[mips] Compile++      : AndroidMpinSDK <= AndroidMpinSDK.cpp
+[mips] Compile++      : AndroidMpinSDK <= HTTPConnector.cpp
+[mips] Compile++      : AndroidMpinSDK <= Storage.cpp
+[mips] SharedLibrary  : libAndroidMpinSDK.so
+[mips] Install        : libAndroidMpinSDK.so => libs/mips/libAndroidMpinSDK.so
+12:55:52 **** Clean-only build of configuration Default for project MPinSDK ****
+/home/georgi/Development/android-ndk-r10/ndk-build clean 
+Android NDK: WARNING: APP_PLATFORM android-19 is larger than android:minSdkVersion 14 in ./AndroidManifest.xml    
+[armeabi-v7a] Clean          : AndroidMpinSDK [armeabi-v7a]
+[armeabi-v7a] Clean          : stlport_shared [armeabi-v7a]
+[armeabi-v7a] Clean          : stlport_static [armeabi-v7a]
+[armeabi] Clean          : AndroidMpinSDK [armeabi]
+[armeabi] Clean          : stlport_shared [armeabi]
+[armeabi] Clean          : stlport_static [armeabi]
+[x86] Clean          : AndroidMpinSDK [x86]
+[x86] Clean          : stlport_shared [x86]
+[x86] Clean          : stlport_static [x86]
+[mips] Clean          : AndroidMpinSDK [mips]
+[mips] Clean          : stlport_shared [mips]
+[mips] Clean          : stlport_static [mips]

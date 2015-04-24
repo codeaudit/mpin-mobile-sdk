@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:drawSelectorOnTop="true"
+    android:gravity="center_horizontal" >
+
+    <TextView
+        android:id="@+id/user_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:drawableLeft="@drawable/ic_avatar"
+        android:drawableStart="@drawable/ic_avatar"
+        android:gravity="center"
+        android:textColor="@color/base_text_color"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/access_number_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_email"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/access_number_text"
+        android:textColor="@color/green"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/access_number_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/access_number_title"
+        android:gravity="center"
+        android:text="@string/access_number_info"
+        android:textColor="@color/base_text_color"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/pinpad_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/access_number_info"
+        android:layout_marginEnd="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:inputType="text"
+        android:padding="12dp"
+        android:textColor="@color/textColor"
+        android:textSize="26sp" />
+
+    <TableLayout
+        android:id="@+id/pinpad_keys"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:stretchColumns="*" >
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/pinpad_key_1"
+                style="@style/pin_button"
+                android:layout_width="match_parent"
+                android:text="@string/one" />
+
+            <TextView
+                android:id="@+id/pinpad_key_2"
+                style="@style/pin_button"
+                android:layout_width="match_parent"
+                android:text="@string/two" />
+
+            <TextView
+                android:id="@+id/pinpad_key_3"
+                style="@style/pin_button"
+                android:layout_width="match_parent"
+                android:text="@string/three" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/pinpad_key_4"
+                style="@style/pin_button"
+                android:layout_width="match_parent"
+                android:text="@string/four" />
+
+            <TextView
+                android:id="@+id/pinpad_key_5"
+                style="@style/pin_button"
+                android:layout_width="match_parent"
+                android:text="@string/five" />
+
+            <TextView
+                android:id="@+id/pinpad_key_6"
+                style="@style/pin_button"
+                android:layout_width="match_parent"
+                android:text="@string/six" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/pinpad_key_7"
+                style="@style/pin_button"
+                android:layout_width="match_parent"
+                android:text="@string/seven" />
+
+            <TextView
+                android:id="@+id/pinpad_key_8"
+                style="@style/pin_button"
+                android:layout_width="match_parent"
+                android:text="@string/eight" />
+
+            <TextView
+                android:id="@+id/pinpad_key_9"
+                style="@style/pin_button"
+                android:layout_width="match_parent"
+                android:text="@string/nine" />
+        </TableRow>
+
+        <TableRow>
+
+            <ImageButton
+                android:id="@+id/pinpad_key_clear"
+                style="@style/pin_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/delete_button"
+                android:src="@drawable/ic_delete" />
+
+            <TextView
+                android:id="@+id/pinpad_key_0"
+                style="@style/pin_button"
+                android:layout_width="match_parent"
+                android:text="@string/zero" />
+
+            <ImageButton
+                android:id="@+id/pinpad_key_login"
+                style="@style/pin_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/login_button"
+                android:src="@drawable/ic_enter" />
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>

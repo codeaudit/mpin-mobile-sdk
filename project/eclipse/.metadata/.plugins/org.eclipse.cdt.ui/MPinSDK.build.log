@@ -1,0 +1,18 @@
+12:55:52 **** Clean-only build of configuration Default for project MPinSDK ****
+/home/georgi/Development/android-ndk-r10/ndk-build clean 
+Android NDK: WARNING: APP_PLATFORM android-19 is larger than android:minSdkVersion 14 in ./AndroidManifest.xml    
+[armeabi-v7a] Clean          : AndroidMpinSDK [armeabi-v7a]
+[armeabi-v7a] Clean          : stlport_shared [armeabi-v7a]
+[armeabi-v7a] Clean          : stlport_static [armeabi-v7a]
+[armeabi] Clean          : AndroidMpinSDK [armeabi]
+[armeabi] Clean          : stlport_shared [armeabi]
+[armeabi] Clean          : stlport_static [armeabi]
+[x86] Clean          : AndroidMpinSDK [x86]
+[x86] Clean          : stlport_shared [x86]
+[x86] Clean          : stlport_static [x86]
+[mips] Clean          : AndroidMpinSDK [mips]
+[mips] Clean          : stlport_shared [mips]
+[mips] Clean          : stlport_static [mips]
+
+12:55:52 Build Finished (took 272ms)
+

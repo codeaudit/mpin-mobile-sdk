@@ -1,0 +1,18 @@
+PODS:
+  - ATMHud@dhoerl (3.0.0):
+    - ATMHud@dhoerl/Core (= 3.0.0)
+  - ATMHud@dhoerl/Core (3.0.0)
+  - MFSideMenu (0.5.5)
+  - SplunkMint-iOS (4.2)
+
+DEPENDENCIES:
+  - ATMHud@dhoerl (~> 3.0.0)
+  - MFSideMenu (~> 0.5.5)
+  - SplunkMint-iOS
+
+SPEC CHECKSUMS:
+  ATMHud@dhoerl: 3ec62b6a26511d2f099c0886533c9fc78769277c
+  MFSideMenu: 268122e6894f2747fc3a2b48578100b232506c60
+  SplunkMint-iOS: 058e5297f7cc8d335aea3dcaa8111eeb0f657371
+
+COCOAPODS: 0.35.0

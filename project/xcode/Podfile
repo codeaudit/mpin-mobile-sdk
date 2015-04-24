@@ -1,0 +1,8 @@
+workspace 'MPin'
+xcodeproj 'MPinApp/MPinApp.xcodeproj/'
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '7.0'
+pod 'ATMHud@dhoerl', '~> 3.0.0'
+source 'https://github.com/mikefrederick/MFSideMenu.git'
+pod 'MFSideMenu', '~> 0.5.5'
+pod 'SplunkMint-iOS'
