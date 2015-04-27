@@ -28,7 +28,7 @@ namespace MPinSDK.Models
         {
             get
             {
-                return user.GetId();
+                return this.Wrapper.GetId();
             }
         }
 

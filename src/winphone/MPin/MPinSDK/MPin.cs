@@ -96,7 +96,7 @@ namespace MPinSDK
             return new Status(sw.Code, sw.Error);
         }
 
-        public Status Authenticate(User user, ref string authResultData)
+        public Status Authenticate(User user, string authResultData)
         {
             if (user == null)
                 return new Status(-1, "Null user!");
@@ -105,7 +105,7 @@ namespace MPinSDK
             return new Status(sw.Code, sw.Error);
         }
 
-        public Status AuthenticateOTP(User user, ref OTP otp)
+        public Status AuthenticateOTP(User user, OTP otp)
         {
             //TODO: check shouldn't it be ref OTP
             if (otp == null)
@@ -122,8 +122,7 @@ namespace MPinSDK
         {
             if (user == null)
                 return new Status(-1, "Null user!");
-
-            //TODO: check shouldn't it be ref accessNumber
+            
             StatusWrapper sw = mPtr.AuthenticateAN(user.Wrapper, accessNumber);
             return new Status(sw.Code, sw.Error);
         }

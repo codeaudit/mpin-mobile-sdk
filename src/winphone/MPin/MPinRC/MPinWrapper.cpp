@@ -16,14 +16,17 @@ MPinWrapper::MPinWrapper() : sdk(new MPinSDK) {}
 
 MPinWrapper::~MPinWrapper()
 {
-	delete sdk;
+	if (sdk != nullptr)
+		delete sdk;
+
+	if (proxy != nullptr)
+		delete sdk;
 }
 
 MPinRC::StatusWrapper^ MPinWrapper::Construct(Windows::Foundation::Collections::IMap<Platform::String^, Platform::String^>^ config, MPinRC::IContext^ context)
 {
 	MPinSDK::StringMap map = ToNativeStringMap(config);
-	// TODO:: ask memory leak of proxy
-	MPinRC::ContextProxy* proxy = new ContextProxy(context);
+	this->proxy = new ContextProxy(context);
 	MPinSDK::Status s = sdk->Init(map, proxy);
 
 	return ref new StatusWrapper(s.GetStatusCode(), s.GetErrorMessage());
@@ -173,15 +176,15 @@ MPinRC::StatusWrapper^ MPinWrapper::AuthenticateOTP(MPinRC::UserWrapper^ user, M
 	if (otp == nullptr)
 	{
 		//return Authenticate(user);
-		
+
 		throw ref new InvalidArgumentException("OTP should not be null!");
 	}
 
-	MPinSDK::OTP& otpPtr = *otp->otp;
+	//MPinSDK::OTP& otpPtr = otp.otp;
 
 	//MPinSDK::OTP otpPtr;
-	MPinSDK::Status st = sdk->AuthenticateOTP(user->user, otpPtr);
-	otp = ref new OTPWrapper();
+	MPinSDK::Status st = sdk->AuthenticateOTP(user->user, otp->otp);
+	/*otp = ref new OTPWrapper();
 	if (st == MPinSDK::Status::OK)
 	{
 		otp->ExpireTime = otpPtr.expireTime;
@@ -189,14 +192,14 @@ MPinRC::StatusWrapper^ MPinWrapper::AuthenticateOTP(MPinRC::UserWrapper^ user, M
 		otp->Otp = MPinWrapper::ToStringHat(otpPtr.otp);
 		otp->Status = ref new StatusWrapper(otpPtr.status.GetStatusCode(), otpPtr.status.GetErrorMessage());
 		otp->TtlSeconds = otpPtr.ttlSeconds;
-	}
+	}*/
 
 	return ref new StatusWrapper(st.GetStatusCode(), st.GetErrorMessage());
 }
 
 MPinRC::StatusWrapper^ MPinWrapper::AuthenticateAN(MPinRC::UserWrapper^ user, Platform::String^ accessNumber)
 {
-	MPinSDK::String accessNumberString = MPinWrapper::ToNativeString(accessNumber);
+	const MPinSDK::String accessNumberString = MPinWrapper::ToNativeString(accessNumber);	
 	MPinSDK::Status st = sdk->AuthenticateAN(user->user, accessNumberString);
 	return ref new StatusWrapper(st.GetStatusCode(), st.GetErrorMessage());
 }
@@ -211,8 +214,8 @@ MPinRC::StatusWrapper^ MPinWrapper::TestBackend(Platform::String^ server, Platfo
 
 MPinRC::StatusWrapper^ MPinWrapper::SetBackend(Platform::String^ server, Platform::String^ rpsPrefix)
 {
-	MPinSDK::String ntvServer = ToNativeString(server); 
-	MPinSDK::String ntvRpsPrefix = ToNativeString(rpsPrefix); 
+	MPinSDK::String ntvServer = ToNativeString(server);
+	MPinSDK::String ntvRpsPrefix = ToNativeString(rpsPrefix);
 	MPinSDK::Status st = this->sdk->SetBackend(ntvServer, ntvRpsPrefix);
 	return ref new MPinRC::StatusWrapper(st.GetStatusCode(), (st.GetErrorMessage()));
 }
@@ -248,9 +251,6 @@ int UserWrapper::GetState()
 
 void UserWrapper::Destruct()
 {
-	// TODO: ASK memory leak
-	//this->user = nullptr;
-	//delete this->user;
 }
 #pragma endregion UserWrapper
 
@@ -294,37 +294,37 @@ MPinSDK::Status::Code StatusWrapper::ToCode(int codeInt)
 
 Platform::String^ StatusWrapper::Error::get()
 {
-	return MPinWrapper::ToStringHat(status->GetErrorMessage());
+	return MPinWrapper::ToStringHat(status.GetErrorMessage());
 }
 
 void StatusWrapper::Error::set(Platform::String^ value)
 {
-	status->SetErrorMessage(MPinWrapper::ToNativeString(value));
+	status.SetErrorMessage(MPinWrapper::ToNativeString(value));
 }
 
 #pragma endregion StatusWrapper
 
 #pragma region OtpWrapper
 
-Platform::String^ OTPWrapper::Otp::get() 
+Platform::String^ OTPWrapper::Otp::get()
 {
-	return MPinWrapper::ToStringHat(otp->otp); 
+	return MPinWrapper::ToStringHat(otp.otp);
 }
 void OTPWrapper::Otp::set(Platform::String^ value)
 {
-	otp->otp = MPinWrapper::ToNativeString(value);
+	otp.otp = MPinWrapper::ToNativeString(value);
 }
 
 MPinRC::StatusWrapper^ OTPWrapper::Status::get()
 {
-	return ref new MPinRC::StatusWrapper(otp->status.GetStatusCode(), otp->status.GetErrorMessage());
+	return ref new MPinRC::StatusWrapper(otp.status.GetStatusCode(), otp.status.GetErrorMessage());
 }
 void OTPWrapper::Status::set(MPinRC::StatusWrapper^ value)
 {
 	MPinSDK::Status::Code code = StatusWrapper::ToCode(value->Code);
 	MPinSDK::String error = MPinWrapper::ToNativeString(value->Error);
 	MPinSDK::Status newStatus = MPinSDK::Status(code, error);
-	otp->status = newStatus;
+	otp.status = newStatus;
 }
 
 #pragma endregion OtpWrapper
@@ -346,7 +346,7 @@ void PinPadProxy::SetPinPad(MPinRC::IPinPad^ pinPad)
 MPinSDK::String PinPadProxy::Show()
 {
 	Platform::String^ pin = this->managedPinPad->Show();
-	return MPinWrapper::ToNativeString(pin);	
+	return MPinWrapper::ToNativeString(pin);
 }
 
 #pragma endregion PinPadProxy

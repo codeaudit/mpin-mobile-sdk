@@ -70,7 +70,7 @@ namespace MPinSDK.Models
 
         [Flags]
         public enum Code
-        {
+        {            
             OK,
             PIN_INPUT_CANCELED, // Local error, returned when user cancels pin entering
             CRYPTO_ERROR, // Local error in crypto functions
@@ -83,7 +83,7 @@ namespace MPinSDK.Models
             REQUEST_EXPIRED, // Remote error - the register/authentication request expired
             REVOKED, // Remote error - cannot get time permit (propably the user is temporary suspended)
             INCORRECT_PIN, // Remote error - user entered wrong pin
-            BLOCKED, // Remote error - user entered wrong pin for more than N(3) times, user is removed and must register again
+            INCORRECT_ACCESS_NUMBER, // Remote/local error - wrong access number (checksum failed or RPS returned 412)
             HTTP_SERVER_ERROR, // Remote error, that was not reduced to one of the above - the remote server returned internal server error status (5xx)
             HTTP_REQUEST_ERROR // Remote error, that was not reduced to one of the above - invalid data sent to server, the remote server returned 4xx error status
         }

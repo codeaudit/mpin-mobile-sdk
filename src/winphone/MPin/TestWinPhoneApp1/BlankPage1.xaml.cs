@@ -299,11 +299,11 @@ namespace TestWinPhoneApp1
                 }
                 else if (otp != null)
                 {
-                    status = this.Sdk.AuthenticateOTP(user, ref otp);
+                    status = this.Sdk.AuthenticateOTP(user, otp);
                 }
                 else
                 {
-                    status = this.Sdk.Authenticate(user, ref resultData);
+                    status = this.Sdk.Authenticate(user, resultData);
                 }
             });
 
@@ -334,25 +334,6 @@ namespace TestWinPhoneApp1
 
             return status;
         }
-
-        //private async Task ProcessAuthentication(string accessNumber = "")
-        //{
-        //    Status status = await ShowAuthenticate(accessNumber);
-        //    //await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-        //    //{
-        //    //rootPage.NotifyUser(status == null ? "Authentication problem AccessNumber!" : "Status code " + status.StatusCode, status == null || status.StatusCode != Status.Code.OK ? MainPage.NotifyType.ErrorMessage : MainPage.NotifyType.StatusMessage);
-
-        //    //ListBoxItem authenticatedItem = UsersList.ItemContainerGenerator.ContainerFromItem(UsersList.SelectedItem) as ListBoxItem;
-        //    //if (authenticatedItem != null)
-        //    //    authenticatedItem.Background = new SolidColorBrush(status == null || status.StatusCode != Status.Code.OK ? Colors.Red : Colors.Green);
-
-        //    //(UsersList.SelectedItem as User).Id += (status == null || status.StatusCode != Status.Code.OK ? " Not authenticated!" : " Authenticated!");
-
-        //    Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-        //    mainFrame.Navigate(typeof(AuthenticationScreen), new List<object> { DataModel.CurrentUser, status });
-
-        //    //});           
-        //}
 
         #endregion
 
@@ -429,7 +410,7 @@ namespace TestWinPhoneApp1
         #endregion // services
 
         #region handlers
-
+        
         private void AddService_Click(object sender, RoutedEventArgs e)
         {
             // TODO
@@ -555,48 +536,4 @@ namespace TestWinPhoneApp1
 
         #endregion // handlers
     }
-
-    //// http://mikaelkoskinen.net/fixing-coredispatcher-invoke-how-to-invoke-method-in-ui-thread-in-windows-8-release-preview/
-    //public static class UIDispatcher
-    //{
-    //    private static CoreDispatcher dispatcher;
-
-    //    public static void Initialize()
-    //    {
-    //        dispatcher = Window.Current.Dispatcher;
-    //    }
-
-    //    public static void BeginExecute(Action action)
-    //    {
-    //        if (dispatcher.HasThreadAccess)
-    //            action();
-
-    //        else dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => action());
-    //    }
-
-    //    public static void Execute(Action action)
-    //    {
-    //        InnerExecute(action).Wait();
-    //    }
-
-    //    public static void ExecuteSynchronously(Action action)
-    //    {
-    //        InnerExecute(action).RunSynchronously();
-    //    }
-
-    //    private static async Task InnerExecute(Action action)
-    //    {
-    //        if (dispatcher.HasThreadAccess)
-    //            action();
-    //        else
-    //        {
-
-    //            if (dispatcher.HasThreadAccess)
-    //                action();
-
-    //            else await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => action());
-    //        }
-    //    }
-    //}
-
 }

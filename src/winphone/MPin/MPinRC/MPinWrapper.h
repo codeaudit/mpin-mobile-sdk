@@ -12,14 +12,14 @@ using namespace Platform::Collections;
 //[assembly:InternalsVisibleTo("")]
 
 namespace MPinRC
-{	
+{
 	public enum class CryptoType
 	{
 		CRYPTO_TEE,
 		CRYPTO_NON_TEE
 	};
 
-	#pragma region IPinPd
+#pragma region IPinPd
 	[Windows::Foundation::Metadata::WebHostHidden]
 	public interface class IPinPad
 	{
@@ -36,19 +36,19 @@ namespace MPinRC
 
 	public:
 		PinPadProxy(){};
-		PinPadProxy(MPinRC::IPinPad^ pinPad);			
+		PinPadProxy(MPinRC::IPinPad^ pinPad);
 
 		void SetPinPad(MPinRC::IPinPad^ pinPad);
 
 		virtual MPinSDK::String Show();
 	};
 
-	#pragma endregion IPinPd
+#pragma endregion IPinPd
 
-	#pragma region IContext
+#pragma region IContext
 	[Windows::Foundation::Metadata::WebHostHidden]
 	public interface class IContext
-	{			
+	{
 	public:
 		virtual IHttpRequest^ CreateHttpRequest() = 0;
 		virtual void ReleaseHttpRequest(IHttpRequest^ request) = 0;
@@ -56,7 +56,7 @@ namespace MPinRC
 		virtual IPinPad^ GetPinPad() = 0;
 		virtual CryptoType GetMPinCryptoType() = 0;
 	};
-	
+
 	class ContextProxy : public MPinSDK::IContext
 	{
 	private:
@@ -78,43 +78,42 @@ namespace MPinRC
 		virtual CryptoType GetMPinCryptoType() const;
 	};
 
-	#pragma endregion IContext
+#pragma endregion IContext
 
-	#pragma region UserWrapper
+#pragma region UserWrapper
 	public ref class UserWrapper sealed
 	{
 	internal:
 		MPinSDK::UserPtr user;
 		UserWrapper(MPinSDK::UserPtr);
 
-	public:		
+	public:
 		Platform::String^ GetId();
 		int GetState();
 		void Destruct();
 	};
-	#pragma endregion UserWrapper
+#pragma endregion UserWrapper
 
-	#pragma region StatusWrapper
+#pragma region StatusWrapper
 	public ref class StatusWrapper sealed
 	{
 	private:
-		MPinSDK::Status* status;
+		MPinSDK::Status status;
 
 	internal:
-		StatusWrapper(MPinSDK::Status::Code code) : status(new MPinSDK::Status(code)) {};
-		StatusWrapper(MPinSDK::Status::Code code, MPinSDK::String error) : status(new MPinSDK::Status(code, error)) {};
+		StatusWrapper(MPinSDK::Status::Code code) : status(code) {}
+		StatusWrapper(MPinSDK::Status::Code code, MPinSDK::String error) : status(code, error) {}
 		static MPinSDK::Status::Code ToCode(int codeInt);
 
 	public:
-		StatusWrapper() : status(new MPinSDK::Status) {};
-		virtual ~StatusWrapper() { delete this->status; };
+		StatusWrapper() {}
 
 		property int Code
 		{
-			int get() { return status->GetStatusCode(); }
-			void set(int value) 
+			int get() { return status.GetStatusCode(); }
+			void set(int value)
 			{
-				status->SetStatusCode(StatusWrapper::ToCode(value)); 
+				status.SetStatusCode(StatusWrapper::ToCode(value));
 			}
 		}
 
@@ -123,21 +122,17 @@ namespace MPinRC
 			Platform::String^ get();
 			void set(Platform::String^ value);
 		}
-				
-	};
-	#pragma endregion StatusWrapper
 
-	#pragma region OTPWrapper
+	};
+#pragma endregion StatusWrapper
+
+#pragma region OTPWrapper
 	public ref class OTPWrapper sealed
 	{
 	internal:
-		MPinSDK::OTP* otp;
-		OTPWrapper(MPinSDK::OTP nOtp){ this->otp = &nOtp; }; // TODO: check if necessary -> used in AuthenticateOtp(...)
+		MPinSDK::OTP otp;
 
-	public:		
-		OTPWrapper() : otp(new MPinSDK::OTP){};
-		virtual ~OTPWrapper() { if (otp != nullptr) delete otp; };
-
+	public:
 		property Platform::String^ Otp
 		{
 			Platform::String^ get();
@@ -146,36 +141,37 @@ namespace MPinRC
 
 		property int64 ExpireTime
 		{
-			int64 get() { return otp->expireTime; }
-			void set(int64 value) { otp->expireTime = value; }
+			int64 get() { return otp.expireTime; }
+			void set(int64 value) { otp.expireTime = value; }
 		}
 
 		property int TtlSeconds
 		{
-			int get() { return otp->ttlSeconds; }
-			void set(int value) { otp->ttlSeconds = value; }
+			int get() { return otp.ttlSeconds; }
+			void set(int value) { otp.ttlSeconds = value; }
 		}
 
 		property int64 NowTime
-		{ 
-			int64 get() { return otp->nowTime; }
-			void set(int64 value) { otp->nowTime = value; }
+		{
+			int64 get() { return otp.nowTime; }
+			void set(int64 value) { otp.nowTime = value; }
 		}
-		
+
 		property MPinRC::StatusWrapper^ Status
 		{
 			MPinRC::StatusWrapper^ get();
 			void set(MPinRC::StatusWrapper^ value);
 		}
 	};
-	#pragma endregion OTPWrapper
+#pragma endregion OTPWrapper
 
-	#pragma region MPinWrapper
+#pragma region MPinWrapper
 	[Windows::Foundation::Metadata::WebHostHidden]
 	public ref class MPinWrapper sealed
 	{
 	private:
 		MPinSDK* sdk;
+		MPinRC::ContextProxy* proxy;
 		void Log(Object^);
 	internal:
 		static MPinSDK::StringMap ToNativeStringMap(Windows::Foundation::Collections::IMap<Platform::String^, Platform::String^>^ managedMap);
@@ -193,12 +189,12 @@ namespace MPinRC
 		void ListUsers(Windows::Foundation::Collections::IVector<UserWrapper^>^ users);
 
 		UserWrapper^ MakeNewUser(Platform::String^ id, Platform::String^ deviceName);
-		void DeleteUser(UserWrapper^ user);		
+		void DeleteUser(UserWrapper^ user);
 		MPinRC::StatusWrapper^ ResetPin(UserWrapper^ user);
 		MPinRC::StatusWrapper^ StartRegistration(MPinRC::UserWrapper^ user, Platform::String^ userData);
 		MPinRC::StatusWrapper^ RestartRegistration(MPinRC::UserWrapper^ user, Platform::String^ userData);
 		MPinRC::StatusWrapper^ FinishRegistration(MPinRC::UserWrapper^ user);
-		
+
 		MPinRC::StatusWrapper^ Authenticate(MPinRC::UserWrapper^ user);
 		MPinRC::StatusWrapper^ AuthenticateResultData(MPinRC::UserWrapper^ user, Platform::String^ authResultData);
 		MPinRC::StatusWrapper^ AuthenticateOTP(MPinRC::UserWrapper^ user, MPinRC::OTPWrapper^ otp);
@@ -210,5 +206,5 @@ namespace MPinRC
 		bool CanLogout(UserWrapper^ user);
 		bool Logout(UserWrapper^ user);
 	};
-	#pragma endregion MPinWrapper
+#pragma endregion MPinWrapper
 }

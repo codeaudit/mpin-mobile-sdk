@@ -85,7 +85,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>../../../../src/core;../../../../ext/cvshared/cpp/include;$(ProjectDir);$(GeneratedFilesDir);$(IntDir);$(WindowsSDK_LibraryPath_x86);%(AdditionalIncludeDirectories);$(WindowsSDK_LibraryPath_x86);</AdditionalIncludeDirectories>
       <CompileAsWinRT>true</CompileAsWinRT>
-      <ExceptionHandling>false</ExceptionHandling>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <BrowseInformation>true</BrowseInformation>
     </ClCompile>

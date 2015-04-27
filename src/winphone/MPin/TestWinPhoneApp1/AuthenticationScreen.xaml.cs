@@ -71,6 +71,10 @@ namespace TestWinPhoneApp1
                         case Status.Code.OK:
                             AuthenticatedTB.Text = "is successfully authenticated!";
                             break;
+                            
+                        case Status.Code.INCORRECT_ACCESS_NUMBER :
+                            AuthenticatedTB.Text = "is NOT successfully authenticated due to incorrect access number!";
+                            break;
 
                         case Status.Code.INCORRECT_PIN:
                             AuthenticatedTB.Text = "is NOT authenticated due to an incorrect entered pin!";
