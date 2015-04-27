@@ -52,14 +52,14 @@ typedef sdk::Context Context;
 
 +(MpinStatus *) TestBackend:(const NSString * ) url {
     [lock lock];
-    Status s = mpin.TestBackend([url UTF8String]);
+    Status s = mpin.TestBackend((url == nil)?(""):([url UTF8String]));
     [lock unlock];
     return [[MpinStatus alloc] initWith:(MPinStatus)s.GetStatusCode() errorMessage:[NSString stringWithUTF8String:s.GetErrorMessage().c_str()]];
 }
 
 +(MpinStatus *) SetBackend:(const NSString * ) url {
     [lock lock];
-    Status s = mpin.SetBackend([url UTF8String]);
+    Status s = mpin.SetBackend((url == nil)?(""):([url UTF8String]));
     [lock unlock];
     return [[MpinStatus alloc] initWith:(MPinStatus)s.GetStatusCode() errorMessage:[NSString stringWithUTF8String:s.GetErrorMessage().c_str()]];
 }
