@@ -72,6 +72,7 @@ static NSString* const kAN = @"AN";
 - (IBAction)btnEditTap:(id)sender;
 - (IBAction)btnDeleteTap:(id)sender;
 - (IBAction)btnAuthTap:(id)sender;
+- (IBAction)onResetPinButtonClicked:(id)sender;
 
 - (void)deleteSelectedUser;
 
@@ -184,9 +185,6 @@ static NSString* const kAN = @"AN";
     [[ThemeManager sharedManager] beautifyViewController:self];
     [self stopLoading];
     self.users = [MPin listUsers];
-    
-
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -481,6 +479,18 @@ static NSString* const kAN = @"AN";
     [alert show];
 }
 
+-(IBAction)onResetPinButtonClicked:(id)sender {
+    [self startLoading];
+    [sdk ResetPin:currentUser];
+}
+
+- (IBAction)btnAuthTap:(id)sender
+{
+    ConfigurationManager* cf = [ConfigurationManager sharedManager];
+    [cf setSelectedUserForCurrentConfiguration:selectedIndexPath.row];
+    [self starAuthenticationFlow];
+}
+
 - (void)starAuthenticationFlow
 {
     id<IUser> iuser = (self.users)[selectedIndexPath.row];
@@ -537,14 +547,6 @@ static NSString* const kAN = @"AN";
             [[[UIAlertView alloc] initWithTitle:@"INFO" message:@"Unsupported State and Action!" delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil] show];
         break;
     }
-}
-
-- (IBAction)btnAuthTap:(id)sender
-{
-    ConfigurationManager* cf = [ConfigurationManager sharedManager];
-    [cf setSelectedUserForCurrentConfiguration:selectedIndexPath.row];
-
-    [self starAuthenticationFlow];
 }
 
 - (void)showPinPad
