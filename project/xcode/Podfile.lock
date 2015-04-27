@@ -8,7 +8,7 @@ PODS:
 DEPENDENCIES:
   - ATMHud@dhoerl (~> 3.0.0)
   - MFSideMenu (~> 0.5.5)
-  - SplunkMint-iOS
+  - SplunkMint-iOS (~> 4.2)
 
 SPEC CHECKSUMS:
   ATMHud@dhoerl: 3ec62b6a26511d2f099c0886533c9fc78769277c

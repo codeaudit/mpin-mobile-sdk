@@ -1033,11 +1033,7 @@
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/AppPlist/CertivoxMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/MPin-fkvltgzbxheajafuhhxznfslxxnp/Build/Products/Release-iphoneos",
-					"/Users/tihomirganev/Projects/project/xcode/Pods/build/Debug-iphoneos",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "../**";
@@ -1136,11 +1132,7 @@
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/AppPlist/CertivoxMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/MPin-fkvltgzbxheajafuhhxznfslxxnp/Build/Products/Release-iphoneos",
-					"/Users/tihomirganev/Projects/project/xcode/Pods/build/Debug-iphoneos",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "../**";
@@ -1245,11 +1237,7 @@
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/AppPlist/CertivoxMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/MPin-fkvltgzbxheajafuhhxznfslxxnp/Build/Products/Release-iphoneos",
-					"/Users/tihomirganev/Projects/project/xcode/Pods/build/Debug-iphoneos",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1351,11 +1339,7 @@
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/AppPlist/CertivoxMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/MPin-fkvltgzbxheajafuhhxznfslxxnp/Build/Products/Release-iphoneos",
-					"/Users/tihomirganev/Projects/project/xcode/Pods/build/Debug-iphoneos",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "../**";
@@ -1460,11 +1444,7 @@
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/AppPlist/CertivoxMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/MPin-fkvltgzbxheajafuhhxznfslxxnp/Build/Products/Release-iphoneos",
-					"/Users/tihomirganev/Projects/project/xcode/Pods/build/Debug-iphoneos",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
