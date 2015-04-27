@@ -295,15 +295,15 @@ namespace TestWinPhoneApp1
                 string resultData = string.Empty;
                 if (!string.IsNullOrEmpty(accessNumber))
                 {
-                    status = this.Sdk.AuthenticateAccessNumber(user, accessNumber);
+                    status = this.Sdk.AuthenticateAN(user, accessNumber);
                 }
                 else if (otp != null)
                 {
-                    status = this.Sdk.Authenticate(user, otp);
+                    status = this.Sdk.AuthenticateOTP(user, ref otp);
                 }
                 else
                 {
-                    status = this.Sdk.Authenticate(user, resultData);
+                    status = this.Sdk.Authenticate(user, ref resultData);
                 }
             });
 

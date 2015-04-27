@@ -116,6 +116,22 @@ namespace TestWinPhoneApp1.Models
 
             BackendsList.Add(new Backend()
             {
+                BackendUrl = "http://risso.certivox.org/",
+                RequestAccessNumber = false,
+                RequestOtp = true,
+                Title = "OTP login"
+            });
+
+            BackendsList.Add(new Backend()
+            {
+                BackendUrl = "ntt-vpn.certivox.org",
+                RequestAccessNumber = false,
+                RequestOtp = true,
+                Title = "OTP NTT login"
+            });
+
+            BackendsList.Add(new Backend()
+            {
                 BackendUrl = "http://tcb.certivox.org",
                 RequestAccessNumber = false,
                 RequestOtp = false,
@@ -137,6 +153,7 @@ namespace TestWinPhoneApp1.Models
                 RequestOtp = true,
                 Title = "VPN login"
             });
+
         }
         #endregion
 

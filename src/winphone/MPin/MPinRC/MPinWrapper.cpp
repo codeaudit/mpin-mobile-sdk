@@ -168,7 +168,7 @@ MPinRC::StatusWrapper^ MPinWrapper::AuthenticateResultData(MPinRC::UserWrapper^ 
 	return ref new StatusWrapper(st.GetStatusCode(), st.GetErrorMessage());
 }
 
-MPinRC::StatusWrapper^ MPinWrapper::AuthenticateOtp(MPinRC::UserWrapper^ user, MPinRC::OTPWrapper^ otp)
+MPinRC::StatusWrapper^ MPinWrapper::AuthenticateOTP(MPinRC::UserWrapper^ user, MPinRC::OTPWrapper^ otp)
 {
 	if (otp == nullptr)
 	{
@@ -194,7 +194,7 @@ MPinRC::StatusWrapper^ MPinWrapper::AuthenticateOtp(MPinRC::UserWrapper^ user, M
 	return ref new StatusWrapper(st.GetStatusCode(), st.GetErrorMessage());
 }
 
-MPinRC::StatusWrapper^ MPinWrapper::AuthenticateAccessNumber(MPinRC::UserWrapper^ user, Platform::String^ accessNumber)
+MPinRC::StatusWrapper^ MPinWrapper::AuthenticateAN(MPinRC::UserWrapper^ user, Platform::String^ accessNumber)
 {
 	MPinSDK::String accessNumberString = MPinWrapper::ToNativeString(accessNumber);
 	MPinSDK::Status st = sdk->AuthenticateAN(user->user, accessNumberString);

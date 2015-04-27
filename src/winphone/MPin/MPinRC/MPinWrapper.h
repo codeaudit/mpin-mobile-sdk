@@ -201,8 +201,8 @@ namespace MPinRC
 		
 		MPinRC::StatusWrapper^ Authenticate(MPinRC::UserWrapper^ user);
 		MPinRC::StatusWrapper^ AuthenticateResultData(MPinRC::UserWrapper^ user, Platform::String^ authResultData);
-		MPinRC::StatusWrapper^ AuthenticateOtp(MPinRC::UserWrapper^ user, MPinRC::OTPWrapper^ otp);
-		MPinRC::StatusWrapper^ AuthenticateAccessNumber(MPinRC::UserWrapper^ user, Platform::String^ accessNumber);
+		MPinRC::StatusWrapper^ AuthenticateOTP(MPinRC::UserWrapper^ user, MPinRC::OTPWrapper^ otp);
+		MPinRC::StatusWrapper^ AuthenticateAN(MPinRC::UserWrapper^ user, Platform::String^ accessNumber);
 
 		MPinRC::StatusWrapper^ TestBackend(Platform::String^ server, Platform::String^ rpsPrefix);
 		MPinRC::StatusWrapper^ SetBackend(Platform::String^ server, Platform::String^ rpsPrefix);
