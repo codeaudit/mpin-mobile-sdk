@@ -60,7 +60,6 @@
 		96130E4A1AEE4867005D2A86 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A901A88C0E20068E0F7 /* Settings.bundle */; };
 		96130E4B1AEE4867005D2A86 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A841A88C0E20068E0F7 /* OpenSans-ExtraBoldItalic.ttf */; };
 		96130E4C1AEE4867005D2A86 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A851A88C0E20068E0F7 /* OpenSans-Italic.ttf */; };
-		96130E4D1AEE4867005D2A86 /* Colors.plist in Resources */ = {isa = PBXBuildFile; fileRef = 968A18091ACA8C58000C0DB0 /* Colors.plist */; };
 		96130E4E1AEE4867005D2A86 /* IUser.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D451A2F1007007E83EF /* IUser.h */; };
 		96130E4F1AEE4867005D2A86 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 968CF31A1A77BB31002C4347 /* LaunchScreen.xib */; };
 		96130E501AEE4867005D2A86 /* Constants.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3C1A2F0FB7007E83EF /* Constants.h */; };
@@ -75,7 +74,6 @@
 		96130E591AEE4867005D2A86 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE49002F1A1A3CEB000030A4 /* Main_iPad.storyboard */; };
 		96130E5A1AEE4867005D2A86 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A8A1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf */; };
 		96130E5B1AEE4867005D2A86 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE4900231A1A3CEB000030A4 /* InfoPlist.strings */; };
-		96130E5C1AEE4867005D2A86 /* CertivoxImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 968A180A1ACA8C58000C0DB0 /* CertivoxImages.xcassets */; };
 		96130E5D1AEE4867005D2A86 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A881A88C0E20068E0F7 /* OpenSans-Regular.ttf */; };
 		96130E5E1AEE4867005D2A86 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A831A88C0E20068E0F7 /* OpenSans-ExtraBold.ttf */; };
 		96130E6B1AEE490A005D2A86 /* ConfigurationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A211AC30FAF00B25B53 /* ConfigurationManager.m */; };
@@ -119,7 +117,6 @@
 		96130E941AEE490A005D2A86 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A901A88C0E20068E0F7 /* Settings.bundle */; };
 		96130E951AEE490A005D2A86 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A841A88C0E20068E0F7 /* OpenSans-ExtraBoldItalic.ttf */; };
 		96130E961AEE490A005D2A86 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A851A88C0E20068E0F7 /* OpenSans-Italic.ttf */; };
-		96130E971AEE490A005D2A86 /* Colors.plist in Resources */ = {isa = PBXBuildFile; fileRef = 968A18091ACA8C58000C0DB0 /* Colors.plist */; };
 		96130E981AEE490A005D2A86 /* IUser.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D451A2F1007007E83EF /* IUser.h */; };
 		96130E991AEE490A005D2A86 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 968CF31A1A77BB31002C4347 /* LaunchScreen.xib */; };
 		96130E9A1AEE490A005D2A86 /* Constants.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3C1A2F0FB7007E83EF /* Constants.h */; };
@@ -134,7 +131,6 @@
 		96130EA31AEE490A005D2A86 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE49002F1A1A3CEB000030A4 /* Main_iPad.storyboard */; };
 		96130EA41AEE490A005D2A86 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A8A1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf */; };
 		96130EA51AEE490A005D2A86 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE4900231A1A3CEB000030A4 /* InfoPlist.strings */; };
-		96130EA61AEE490A005D2A86 /* CertivoxImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 968A180A1ACA8C58000C0DB0 /* CertivoxImages.xcassets */; };
 		96130EA71AEE490A005D2A86 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A881A88C0E20068E0F7 /* OpenSans-Regular.ttf */; };
 		96130EA81AEE490A005D2A86 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A831A88C0E20068E0F7 /* OpenSans-ExtraBold.ttf */; };
 		9614F8CF1A9E1EC500337080 /* AccountSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9614F8CE1A9E1EC500337080 /* AccountSummaryViewController.m */; };
@@ -193,9 +189,12 @@
 		9649BCC51AC16D1000B9F41B /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A831A88C0E20068E0F7 /* OpenSans-ExtraBold.ttf */; };
 		964B121D1A93921C00FFB67A /* BackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 964B121C1A93921C00FFB67A /* BackButton.m */; };
 		966EB9D41A8CF069004B936A /* ConfirmEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 966EB9D31A8CF069004B936A /* ConfirmEmailViewController.m */; };
+		968591A01AEE53EB00726E63 /* DimensionDataImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 968A180F1ACA8C70000C0DB0 /* DimensionDataImages.xcassets */; };
+		968591A11AEE53EE00726E63 /* CertivoxImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 968A180A1ACA8C58000C0DB0 /* CertivoxImages.xcassets */; };
+		968591A21AEE53F200726E63 /* OlswangImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96130EB91AEE4979005D2A86 /* OlswangImages.xcassets */; };
+		968591A31AEE53F500726E63 /* NTTComSecurityImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96130EB51AEE4979005D2A86 /* NTTComSecurityImages.xcassets */; };
 		968A180C1ACA8C58000C0DB0 /* Colors.plist in Resources */ = {isa = PBXBuildFile; fileRef = 968A18091ACA8C58000C0DB0 /* Colors.plist */; };
 		968A18121ACA8E4A000C0DB0 /* Colors.plist in Resources */ = {isa = PBXBuildFile; fileRef = 968A180E1ACA8C70000C0DB0 /* Colors.plist */; };
-		968A18131ACA8E80000C0DB0 /* DimensionDataImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 968A180F1ACA8C70000C0DB0 /* DimensionDataImages.xcassets */; };
 		968CF31B1A77BB31002C4347 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 968CF31A1A77BB31002C4347 /* LaunchScreen.xib */; };
 		968D0A441A7B93C00037841D /* UIColor+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 968D0A431A7B93C00037841D /* UIColor+Helper.m */; };
 		968E7A541AA06CA700A276A7 /* IdentityCreatedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E7A531AA06CA700A276A7 /* IdentityCreatedViewController.m */; };
@@ -203,12 +202,13 @@
 		9699B2521AADF7F0008AA313 /* TextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699B2511AADF7F0008AA313 /* TextFieldTableViewCell.m */; };
 		9699B2551AADF812008AA313 /* OptionSelectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699B2541AADF812008AA313 /* OptionSelectTableViewCell.m */; };
 		96B27CAC1ACACE92007145C2 /* MPin+AsyncOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = FE8129661ABAB61B008677CE /* MPin+AsyncOperations.m */; };
-		96B27CAD1ACADE6A007145C2 /* CertivoxImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 968A180A1ACA8C58000C0DB0 /* CertivoxImages.xcassets */; };
 		96C88F461AC42B6E00A5F27A /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A261AC311D000B25B53 /* AboutViewController.m */; };
 		96C88F471AC42B7D00A5F27A /* ConfigurationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A211AC30FAF00B25B53 /* ConfigurationManager.m */; };
 		96C88F481AC42B7D00A5F27A /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A231AC30FAF00B25B53 /* SettingsManager.m */; };
 		96C9BF291AE6407D00FAC454 /* IdentityBlockedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C9BF281AE6407D00FAC454 /* IdentityBlockedViewController.m */; };
 		96C9BF2A1AE6407D00FAC454 /* IdentityBlockedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C9BF281AE6407D00FAC454 /* IdentityBlockedViewController.m */; };
+		96D3CAD41AEE5324004BAC3A /* Colors.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96130EB61AEE4979005D2A86 /* Colors.plist */; };
+		96D3CAD51AEE5328004BAC3A /* Colors.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96130EBA1AEE4979005D2A86 /* Colors.plist */; };
 		96DA33F81ACD54C300B2CAAB /* libMPinSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */; };
 		96DA33F91ACD54D700B2CAAB /* libMPinSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */; };
 		96F62A241AC30FAF00B25B53 /* ConfigurationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A211AC30FAF00B25B53 /* ConfigurationManager.m */; };
@@ -762,6 +762,7 @@
 				96130E401AEE4867005D2A86 /* Frameworks */,
 				96130E471AEE4867005D2A86 /* Copy Pods Resources */,
 				96130E481AEE4867005D2A86 /* Resources */,
+				96D3CAD31AEE5169004BAC3A /* Adding assets */,
 			);
 			buildRules = (
 			);
@@ -901,7 +902,6 @@
 				96130E4A1AEE4867005D2A86 /* Settings.bundle in Resources */,
 				96130E4B1AEE4867005D2A86 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				96130E4C1AEE4867005D2A86 /* OpenSans-Italic.ttf in Resources */,
-				96130E4D1AEE4867005D2A86 /* Colors.plist in Resources */,
 				96130E4E1AEE4867005D2A86 /* IUser.h in Resources */,
 				96130E4F1AEE4867005D2A86 /* LaunchScreen.xib in Resources */,
 				96130E501AEE4867005D2A86 /* Constants.h in Resources */,
@@ -910,13 +910,14 @@
 				96130E531AEE4867005D2A86 /* MPin.h in Resources */,
 				96130E541AEE4867005D2A86 /* Backends.plist in Resources */,
 				96130E551AEE4867005D2A86 /* OpenSans-Semibold.ttf in Resources */,
+				96D3CAD41AEE5324004BAC3A /* Colors.plist in Resources */,
 				96130E561AEE4867005D2A86 /* OpenSans-Light.ttf in Resources */,
 				96130E571AEE4867005D2A86 /* MpinStatus.h in Resources */,
 				96130E581AEE4867005D2A86 /* Main_iPhone.storyboard in Resources */,
+				968591A31AEE53F500726E63 /* NTTComSecurityImages.xcassets in Resources */,
 				96130E591AEE4867005D2A86 /* Main_iPad.storyboard in Resources */,
 				96130E5A1AEE4867005D2A86 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				96130E5B1AEE4867005D2A86 /* InfoPlist.strings in Resources */,
-				96130E5C1AEE4867005D2A86 /* CertivoxImages.xcassets in Resources */,
 				96130E5D1AEE4867005D2A86 /* OpenSans-Regular.ttf in Resources */,
 				96130E5E1AEE4867005D2A86 /* OpenSans-ExtraBold.ttf in Resources */,
 			);
@@ -930,7 +931,6 @@
 				96130E941AEE490A005D2A86 /* Settings.bundle in Resources */,
 				96130E951AEE490A005D2A86 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				96130E961AEE490A005D2A86 /* OpenSans-Italic.ttf in Resources */,
-				96130E971AEE490A005D2A86 /* Colors.plist in Resources */,
 				96130E981AEE490A005D2A86 /* IUser.h in Resources */,
 				96130E991AEE490A005D2A86 /* LaunchScreen.xib in Resources */,
 				96130E9A1AEE490A005D2A86 /* Constants.h in Resources */,
@@ -939,13 +939,14 @@
 				96130E9D1AEE490A005D2A86 /* MPin.h in Resources */,
 				96130E9E1AEE490A005D2A86 /* Backends.plist in Resources */,
 				96130E9F1AEE490A005D2A86 /* OpenSans-Semibold.ttf in Resources */,
+				96D3CAD51AEE5328004BAC3A /* Colors.plist in Resources */,
 				96130EA01AEE490A005D2A86 /* OpenSans-Light.ttf in Resources */,
 				96130EA11AEE490A005D2A86 /* MpinStatus.h in Resources */,
 				96130EA21AEE490A005D2A86 /* Main_iPhone.storyboard in Resources */,
 				96130EA31AEE490A005D2A86 /* Main_iPad.storyboard in Resources */,
+				968591A21AEE53F200726E63 /* OlswangImages.xcassets in Resources */,
 				96130EA41AEE490A005D2A86 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				96130EA51AEE490A005D2A86 /* InfoPlist.strings in Resources */,
-				96130EA61AEE490A005D2A86 /* CertivoxImages.xcassets in Resources */,
 				96130EA71AEE490A005D2A86 /* OpenSans-Regular.ttf in Resources */,
 				96130EA81AEE490A005D2A86 /* OpenSans-ExtraBold.ttf in Resources */,
 			);
@@ -971,7 +972,7 @@
 				9649BCBE1AC16D1000B9F41B /* MpinStatus.h in Resources */,
 				9649BCC01AC16D1000B9F41B /* Main_iPhone.storyboard in Resources */,
 				9649BCC11AC16D1000B9F41B /* Main_iPad.storyboard in Resources */,
-				968A18131ACA8E80000C0DB0 /* DimensionDataImages.xcassets in Resources */,
+				968591A01AEE53EB00726E63 /* DimensionDataImages.xcassets in Resources */,
 				9649BCC21AC16D1000B9F41B /* OpenSans-SemiboldItalic.ttf in Resources */,
 				9649BCC31AC16D1000B9F41B /* InfoPlist.strings in Resources */,
 				9649BCC41AC16D1000B9F41B /* OpenSans-Regular.ttf in Resources */,
@@ -1002,9 +1003,9 @@
 				FE4900311A1A3CEB000030A4 /* Main_iPad.storyboard in Resources */,
 				960D6A9D1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				FE4900251A1A3CEB000030A4 /* InfoPlist.strings in Resources */,
-				96B27CAD1ACADE6A007145C2 /* CertivoxImages.xcassets in Resources */,
 				960D6A9B1A88C0E20068E0F7 /* OpenSans-Regular.ttf in Resources */,
 				960D6A961A88C0E20068E0F7 /* OpenSans-ExtraBold.ttf in Resources */,
+				968591A11AEE53EE00726E63 /* CertivoxImages.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1164,6 +1165,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
 			shellScript = "echo \"########################################################################################################\"\necho \"###                                    ${CONFIGURATION}                                              ###\"\necho \"########################################################################################################\"\nif [ \"${CONFIGURATION}\" = \"QA\" ]; then\nbN=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbN=$((bN += 1))\nbN=$(printf \"%d\" $bN)\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $bN\" \"$INFOPLIST_FILE\"\necho \" Build number was updated\"\necho \"########################################################################################################\"\nelse\necho \"!!!Skip Build number update\"\necho \"########################################################################################################\"\nfi\n";
+		};
+		96D3CAD31AEE5169004BAC3A /* Adding assets */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Adding assets";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"Handling Assets\"\n\nxcassetsFile=\"${PROJECT_DIR}/Resources/${PRODUCT_NAME}/${PRODUCT_NAME}Images.xcassets\"\nappSpecificXcassetsFile=\"${PROJECT_DIR}/../Artwork/${PRODUCT_NAME}/Local Images.xcassets\"\n\nif [ -d \"$appSpecificXcassetsFile\" ] ; then\n\ndiff \"$xcassetsFile\" \"$appSpecificXcassetsFile\" > /dev/null\nif [[ $? != 0 ]] ; then\n\necho \"Assets file has changed\"\n\necho \"Removing existing xcassets folder: $xcassetsFile\"\nrm -rf \"$xcassetsFile\"\n\necho \"Copying local xcassets folder: $appSpecificXcassetsFile\"\ncp -r \"$appSpecificXcassetsFile\" \"$xcassetsFile\"\n\ntouch \"$xcassetsFile\"\n\nelse\n\necho \"Assets file has not changed\"\n\nfi\n\nfi";
 		};
 		A84CFE24885B00EAC61002FD /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
