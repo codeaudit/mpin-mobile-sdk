@@ -299,6 +299,10 @@
 		964B121C1A93921C00FFB67A /* BackButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BackButton.m; path = ../../../../src/ios/MPinApp/BackButton.m; sourceTree = "<group>"; };
 		966EB9D21A8CF069004B936A /* ConfirmEmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfirmEmailViewController.h; path = ../../../../src/ios/MPinApp/ConfirmEmailViewController.h; sourceTree = "<group>"; };
 		966EB9D31A8CF069004B936A /* ConfirmEmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConfirmEmailViewController.m; path = ../../../../src/ios/MPinApp/ConfirmEmailViewController.m; sourceTree = "<group>"; };
+		968591A61AEE658600726E63 /* bg-BG */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "bg-BG"; path = "bg-BG.lproj/Main_iPhone.strings"; sourceTree = "<group>"; };
+		968591A71AEE658600726E63 /* bg-BG */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "bg-BG"; path = "bg-BG.lproj/Main_iPad.strings"; sourceTree = "<group>"; };
+		968591A81AEE658600726E63 /* bg-BG */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "bg-BG"; path = "bg-BG.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		968591A91AEE658600726E63 /* bg-BG */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "bg-BG"; path = "bg-BG.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		968A18091ACA8C58000C0DB0 /* Colors.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Colors.plist; sourceTree = "<group>"; };
 		968A180A1ACA8C58000C0DB0 /* CertivoxImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CertivoxImages.xcassets; sourceTree = "<group>"; };
 		968A180E1ACA8C70000C0DB0 /* Colors.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Colors.plist; sourceTree = "<group>"; };
@@ -878,6 +882,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"bg-BG",
 			);
 			mainGroup = FE49000E1A1A3CEB000030A4;
 			productRefGroup = FE4900181A1A3CEB000030A4 /* Products */;
@@ -1387,6 +1392,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				FE4900241A1A3CEB000030A4 /* en */,
+				968591A81AEE658600726E63 /* bg-BG */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1395,6 +1401,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				FE4900301A1A3CEB000030A4 /* Base */,
+				968591A71AEE658600726E63 /* bg-BG */,
 			);
 			name = Main_iPad.storyboard;
 			sourceTree = "<group>";
@@ -1403,6 +1410,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				FE4900461A1A3CEB000030A4 /* en */,
+				968591A91AEE658600726E63 /* bg-BG */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1411,6 +1419,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				FEFFDDF11A1A4268007C7CAA /* Base */,
+				968591A61AEE658600726E63 /* bg-BG */,
 			);
 			name = Main_iPhone.storyboard;
 			sourceTree = "<group>";

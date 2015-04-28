@@ -32,10 +32,9 @@
       stringWithFormat:@"Build: %@",
                        [[NSBundle mainBundle]
                            objectForInfoDictionaryKey:@"CFBundleVersion"]];
-  _lblAppVersion.text = [NSString
-      stringWithFormat:@"Ver. %@", [[NSBundle mainBundle]
-                                       objectForInfoDictionaryKey:
-                                           @"CFBundleShortVersionString"]];
+  _lblAppVersion.text = [NSString   stringWithFormat:@"%@ %@",
+                                                    @"Ver. ",
+                                                [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

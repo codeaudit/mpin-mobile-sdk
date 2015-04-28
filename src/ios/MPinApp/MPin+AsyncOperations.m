@@ -347,7 +347,7 @@ static char const* const delegateKey = "delegateKey";
 
 
 
-- (void) AuthenticateAccessNumber:(id<IUser>) user  accessNumber:(NSString *) an
+- (void) AuthenticateAN:(id<IUser>) user  accessNumber:(NSString *) an
 {
     dispatch_async(dispatch_get_main_queue(), ^(void)
     {
