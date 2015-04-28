@@ -159,7 +159,7 @@ Status MPinCryptoNonTee::Register(const String& mpinId, std::vector<String>& cli
     }
 
     // Query the user for the pin
-    String pin = m_pinPad->Show();
+    String pin = m_pinPad->Show(IPinPad::REGISTER);
     if(pin.empty())
     {
         return Status(Status::PIN_INPUT_CANCELED, "Pin input canceled");
@@ -213,7 +213,7 @@ Status MPinCryptoNonTee::AuthenticatePass1(const String& mpinId, std::vector<Str
     }
 
     // Query the user for the pin
-    String pin = m_pinPad->Show();
+    String pin = m_pinPad->Show(IPinPad::AUTHENTICATE);
     if(pin.empty())
     {
         return Status(Status::PIN_INPUT_CANCELED, "Pin input canceled");

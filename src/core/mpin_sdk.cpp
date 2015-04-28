@@ -1198,11 +1198,6 @@ bool MPinSDK::ValidateAccessNumberChecksum(const String& accessNumber)
     return calculatedCheckSum == checkSum;
 }
 
-Status MPinSDK::ResetPin(UserPtr user)
-{
-    return Status(Status::OK);
-}
-
 void MPinSDK::DeleteUser(UserPtr user)
 {
     UsersMap::iterator i = m_users.find(user->GetId());

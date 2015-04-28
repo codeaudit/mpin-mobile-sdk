@@ -56,7 +56,7 @@ public:
         m_pin = pin;
     }
 
-    virtual String Show()
+    virtual String Show(Context context)
     {
         return m_pin;
     }
