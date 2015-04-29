@@ -79,14 +79,14 @@ public:
     class IPinPad
     {
     public:
-        enum Context
+        enum Mode
         {
             REGISTER,
             AUTHENTICATE,
         };
 
         virtual ~IPinPad() {}
-        virtual String Show(Context context) = 0;
+        virtual String Show(Mode mode) = 0;
     };
 
     class IContext
