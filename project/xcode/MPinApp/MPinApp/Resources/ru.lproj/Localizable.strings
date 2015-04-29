@@ -6,7 +6,6 @@
   Copyright (c) 2015 Certivox. All rights reserved.
 */
 
-
 /* menu */
 
 "MENUVC_OPTION_0" = "АКАУНТИ";
@@ -16,23 +15,54 @@
 /* User list */
 
 "USERLISTVC_TITLE" = "Акаунти";
-"USERLISTVC_DELETE_BUTTON" = "Изтриване";
 "USERLISTVC_ADD_NEW_ID" = "Добавяне на нов акаунт +";
+
+/* ACCESS NUMBER */
+
+"ACCESSNUMBERVC_NOTE"   = "ВЪВЕДЕТЕ %d ЦИФРЕН НОМЕР ЗА ДОСТЪП";
+
+/* Configuration list */
+
+"CONFIGLISTVC_TITLE"    = "Конфигурации";
 
 /* About */
 
-"ABOUTVC_TITLE"         = "About";
+"ABOUTVC_TITLE"         = "Относно";
 "ABOUTVC_BUILD_NUMBER"  = "Build: %@";
 "ABOUTVC_VER_NUMBER"    = "Ver. %@";
 "ABOUTVC_COPYRIGHT"     = "Copyright (c) %@ Certivox. all rights reserved.";
 
+/* PinPad VC */
+
+"PINPAD_VC_TITLE" = "Въведете ПИН";
+
 /* HUD Messages */
-"HUD_CHANGE_CONFIGURATION"  = "Changing configuration. Please wait.";
-"HUD_AUTH_SUCCESS"          = "Authentication Successful!";
-"HUD_LOGOUT"                = "Logging OUT";
-"HUD_LOGOUT_OK"             = "Logout Successful";
-"HUD_LOGOUT_NOT_OK"         = "Logout Unsuccessful";
-"HUD_REACTIVATE_ACCOUNT"    = "Invalid User \n Reactivate an Account!";
-"HUD_UNSUPPORTED_ACTION"    = "Unsupported State and Action!";
+"HUD_CHANGE_CONFIGURATION"  = "Смяна на конфигурацията. Моля изчакайте.";
+"HUD_AUTH_SUCCESS"          = "Успешно автентикация";
+"HUD_LOGOUT"                = "Излизане";
+"HUD_LOGOUT_OK"             = "Успешно излизане";
+"HUD_LOGOUT_NOT_OK"         = "Неуспешно излизане";
+"HUD_REACTIVATE_ACCOUNT"    = "Невалиден потребител \n Моля преактивирайте акаунта си!";
+"HUD_UNSUPPORTED_ACTION"    = "Неподдържано действие!";
+
 /* ERROR Messages */
 
+"ERROR_PLEASE_ENTER_VALID_EMAIL"        = "Моля въведете валиден email адрес!";
+"ERROR_PLEASE_ENTER_VALID_USER_ID"      = "Моля въведете валидно потребителско име!";
+"ERROR_UNEXPECTED_USER_STATE"           = "Неочаквана грешка %ld";
+"ERROR_WRONG_AN"                        = "Грешен номер за достъп";
+
+/* WARNINGS */
+"WARNING_USER_WILL_BE_DELETED" = "User \"%@\" will be deleted!";
+"WARNING_CANNOT_EDIT_PREDEFINED_CONFIG" = "Predefined configurations cannot be edited.";
+"WARNING_CANNOT_DELETE_PREDEFINED_CONFIG" = "Predefined configurations cannot be deleted.";
+"WARNING_THIS_WILL_DELETE_ALL_IDS" = "This action will also delete all identities, associated with this configuration.";
+
+/* BASIC THINGS */
+"CANCEL" = "ОТКАЗ";
+"OK" = "OK";
+"DELETE" = "ИЗТРИВАНЕ";
+"EDIT" = "РЕДАКЦИЯ";
+"ADD" = "Добави";
+"CLOSE" = "Затвори";
+"WARNING" = "Предупреждение";

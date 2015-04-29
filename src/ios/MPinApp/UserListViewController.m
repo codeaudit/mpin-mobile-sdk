@@ -138,9 +138,6 @@ static NSString* const kAN = @"AN";
         });
     });
 
-    _btnAdd.backgroundColor = [[SettingsManager sharedManager] color6];
-    [_btnAdd setTitle:@"ADD NEW IDENTITY +" forState:UIControlStateNormal];
-    _btnAdd.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:16.0];
 
     sdk = [[MPin alloc] init];
     sdk.delegate = self;

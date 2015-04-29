@@ -56,7 +56,7 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
     if( ( self.delegate != nil ) && ( [self.delegate respondsToSelector:@selector(onAccessNumber:)]) )
     {
         if([self.number isEqualToString:@""]) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"WORNING" message:@"Wrong Access Number" delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"ERROR_WRONG_AN", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"CLOSE", @"") otherButtonTitles:nil, nil];
             [self clear];
             [alert show];
             return;

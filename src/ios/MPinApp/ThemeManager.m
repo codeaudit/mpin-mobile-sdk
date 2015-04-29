@@ -107,7 +107,7 @@
 
     else if ([vc isMemberOfClass:[PinPadViewController class]]) {
         PinPadViewController* myVc = (PinPadViewController*)vc;
-
+        myVc.title = NSLocalizedString(@"PINPAD_VC_TITLE", @"");
         [self setupLoginButton:myVc.btnLogin];
     }
 
@@ -189,15 +189,20 @@
     
     else if ([vc isMemberOfClass:[SettingsViewController class]]) {
         SettingsViewController* myVc = (SettingsViewController*)vc;
-
+        
+        [myVc.btnAddConfiguration setTitle:NSLocalizedString(@"ADD", @"")];
+        
+        [myVc.btnDeleteConfiguration setTitle:NSLocalizedString(@"DELETE", @"") forState:UIControlStateNormal];
         myVc.btnDeleteConfiguration.backgroundColor = [[SettingsManager sharedManager] color1];
         [myVc.btnDeleteConfiguration setTitleColor:[[SettingsManager sharedManager] color8] forState:UIControlStateNormal];
 
+         [myVc.btnEditConfiguration setTitle:NSLocalizedString(@"EDIT", @"") forState:UIControlStateNormal];
         myVc.btnEditConfiguration.backgroundColor = [[SettingsManager sharedManager] color1];
         [myVc.btnEditConfiguration setTitleColor:[[SettingsManager sharedManager] color7] forState:UIControlStateNormal];
 
         myVc.viewButtons.backgroundColor = [[SettingsManager sharedManager] color3];
         [self setupLoginButton:myVc.btnSignIn];
+        myVc.title = NSLocalizedString(@"CONFIGLISTVC_TITLE", @"");
     }
 
     else if ([vc isMemberOfClass:[UserListViewController class]]) {
@@ -216,7 +221,9 @@
 
         myVc.title = NSLocalizedString(@"USERLISTVC_TITLE", @"");
         [myVc.btnAdd setTitle:NSLocalizedString(@"USERLISTVC_ADD_NEW_ID", @"") forState:UIControlStateNormal];
-        [myVc.btnDelete setTitle:NSLocalizedString(@"USERLISTVC_DELETE_BUTTON", @"") forState:UIControlStateNormal];
+        [myVc.btnDelete setTitle:NSLocalizedString(@"DELETE", @"") forState:UIControlStateNormal];
+        myVc.btnAdd.backgroundColor = [[SettingsManager sharedManager] color6];
+        myVc.btnAdd.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:16.0];
     }
 
     else {

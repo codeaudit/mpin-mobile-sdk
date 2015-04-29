@@ -18,6 +18,9 @@
 "USERLISTVC_DELETE_BUTTON" = "Изтриване";
 "USERLISTVC_ADD_NEW_ID" = "Добавяне на нов акаунт +";
 
+/* ACCESS NUMBER */
+
+"ACCESSNUMBERVC_NOTE"   = "ENTER %d DIGIT ACCESS NUMBER";
 /* About */
 
 "ABOUTVC_TITLE"         = "About";
@@ -39,11 +42,17 @@
 "ERROR_PLEASE_ENTER_VALID_EMAIL"        = "Please enter a valid email address!";
 "ERROR_PLEASE_ENTER_VALID_USER_ID"      = "Please enter a valid user id in the text field!";
 "ERROR_UNEXPECTED_USER_STATE"           = "User state is unexpected %ld";
-/* BASIC THINGS */
-
-"CANCEL" = "CANCEL";
-"OK" = "OK";
-"DELETE" = "DELETE";
+"ERROR_WRONG_AN"                        = "Wrong Access Number";
 
 /* WARNINGS */
 "WARNING_USER_WILL_BE_DELETED" = "User \"%@\" will be deleted!";
+"WARNING_CANNOT_EDIT_PREDEFINED_CONFIG" = "Predefined configurations cannot be edited.";
+"WARNING_CANNOT_DELETE_PREDEFINED_CONFIG" = "Predefined configurations cannot be deleted.";
+"WARNING_THIS_WILL_DELETE_ALL_IDS" = "This action will also delete all identities, associated with this configuration.";
+
+/* BASIC THINGS */
+"CANCEL" = "CANCEL";
+"OK" = "OK";
+"DELETE" = "DELETE";
+"CLOSE" = "CLOSE";
+"WARNING" = "Warning";

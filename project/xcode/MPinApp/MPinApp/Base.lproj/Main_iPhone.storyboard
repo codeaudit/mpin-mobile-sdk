@@ -944,6 +944,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="btnAddConfiguration" destination="8qd-4z-Diy" id="lL0-EA-unH"/>
                         <outlet property="btnDeleteConfiguration" destination="GgA-WD-ZaE" id="UaI-Md-5Qh"/>
                         <outlet property="btnEditConfiguration" destination="Dra-v2-pvB" id="kSA-jh-q1R"/>
                         <outlet property="btnSignIn" destination="d0w-pn-7iL" id="Rne-qZ-Gg9"/>
@@ -1722,10 +1723,10 @@
             </objects>
             <point key="canvasLocation" x="1131" y="-1410"/>
         </scene>
-        <!--Title-->
+        <!--PinPad-->
         <scene sceneID="wR9-Ur-68X">
             <objects>
-                <viewController storyboardIdentifier="pinpad" useStoryboardIdentifierAsRestorationIdentifier="YES" id="TMa-N8-4Sq" customClass="PinPadViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="pinpad" useStoryboardIdentifierAsRestorationIdentifier="YES" id="TMa-N8-4Sq" userLabel="PinPad" customClass="PinPadViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="mt3-jK-t71"/>
                         <viewControllerLayoutGuide type="bottom" id="njf-5C-4yA"/>

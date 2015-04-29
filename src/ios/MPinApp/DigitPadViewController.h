@@ -11,6 +11,8 @@
     int max;
 }
 
+
+@property(nonatomic, retain, readwrite) IBOutlet UILabel *label;
 @property (nonatomic, retain) IBOutletCollection(UIButton) NSArray *numButtonsCollection;
 @property(nonatomic, retain, readwrite) IBOutlet UIButton *actionButton;
 @property(nonatomic, retain, readwrite) IBOutlet UIButton *clearButton;
