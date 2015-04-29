@@ -27,14 +27,10 @@
   self.title = @"About";
   _lblBuildNumber.font = [UIFont fontWithName:@"OpenSans-Bold" size:12.f];
   _lblAppVersion.font = [UIFont fontWithName:@"OpenSans-Bold" size:12.f];
+    
 
-  _lblBuildNumber.text = [NSString
-      stringWithFormat:@"Build: %@",
-                       [[NSBundle mainBundle]
-                           objectForInfoDictionaryKey:@"CFBundleVersion"]];
-  _lblAppVersion.text = [NSString   stringWithFormat:@"%@ %@",
-                                                    @"Ver. ",
-                                                [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+  _lblBuildNumber.text = [NSString stringWithFormat:NSLocalizedString(@"ABOUT_BUILD_NUMBER", @"ABOUT VC BUILD NUMBER"), [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
+  _lblAppVersion.text = [NSString   stringWithFormat:@"%@ %@", @"Ver. ",[[NSBundle mainBundle]  objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

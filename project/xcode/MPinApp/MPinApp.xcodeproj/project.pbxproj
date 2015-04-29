@@ -193,6 +193,14 @@
 		968591A11AEE53EE00726E63 /* CertivoxImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 968A180A1ACA8C58000C0DB0 /* CertivoxImages.xcassets */; };
 		968591A21AEE53F200726E63 /* OlswangImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96130EB91AEE4979005D2A86 /* OlswangImages.xcassets */; };
 		968591A31AEE53F500726E63 /* NTTComSecurityImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96130EB51AEE4979005D2A86 /* NTTComSecurityImages.xcassets */; };
+		968591B61AF0BEFC00726E63 /* LocalizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 968591B51AF0BEFC00726E63 /* LocalizationManager.m */; };
+		968591B71AF0BEFC00726E63 /* LocalizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 968591B51AF0BEFC00726E63 /* LocalizationManager.m */; };
+		968591B81AF0BEFC00726E63 /* LocalizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 968591B51AF0BEFC00726E63 /* LocalizationManager.m */; };
+		968591B91AF0BEFC00726E63 /* LocalizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 968591B51AF0BEFC00726E63 /* LocalizationManager.m */; };
+		968591CA1AF0C7E200726E63 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 968591CF1AF0C7E200726E63 /* Localizable.strings */; };
+		968591CB1AF0C7E200726E63 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 968591CF1AF0C7E200726E63 /* Localizable.strings */; };
+		968591CC1AF0C7E200726E63 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 968591CF1AF0C7E200726E63 /* Localizable.strings */; };
+		968591CD1AF0C7E200726E63 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 968591CF1AF0C7E200726E63 /* Localizable.strings */; };
 		968A180C1ACA8C58000C0DB0 /* Colors.plist in Resources */ = {isa = PBXBuildFile; fileRef = 968A18091ACA8C58000C0DB0 /* Colors.plist */; };
 		968A18121ACA8E4A000C0DB0 /* Colors.plist in Resources */ = {isa = PBXBuildFile; fileRef = 968A180E1ACA8C70000C0DB0 /* Colors.plist */; };
 		968CF31B1A77BB31002C4347 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 968CF31A1A77BB31002C4347 /* LaunchScreen.xib */; };
@@ -299,10 +307,19 @@
 		964B121C1A93921C00FFB67A /* BackButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BackButton.m; path = ../../../../src/ios/MPinApp/BackButton.m; sourceTree = "<group>"; };
 		966EB9D21A8CF069004B936A /* ConfirmEmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfirmEmailViewController.h; path = ../../../../src/ios/MPinApp/ConfirmEmailViewController.h; sourceTree = "<group>"; };
 		966EB9D31A8CF069004B936A /* ConfirmEmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConfirmEmailViewController.m; path = ../../../../src/ios/MPinApp/ConfirmEmailViewController.m; sourceTree = "<group>"; };
-		968591A61AEE658600726E63 /* bg-BG */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "bg-BG"; path = "bg-BG.lproj/Main_iPhone.strings"; sourceTree = "<group>"; };
-		968591A71AEE658600726E63 /* bg-BG */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "bg-BG"; path = "bg-BG.lproj/Main_iPad.strings"; sourceTree = "<group>"; };
-		968591A81AEE658600726E63 /* bg-BG */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "bg-BG"; path = "bg-BG.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
-		968591A91AEE658600726E63 /* bg-BG */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "bg-BG"; path = "bg-BG.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		968591AD1AF0BAAF00726E63 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main_iPhone.strings; sourceTree = "<group>"; };
+		968591B41AF0BEFC00726E63 /* LocalizationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalizationManager.h; path = ../../../../src/ios/MPinApp/LocalizationManager.h; sourceTree = "<group>"; };
+		968591B51AF0BEFC00726E63 /* LocalizationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocalizationManager.m; path = ../../../../src/ios/MPinApp/LocalizationManager.m; sourceTree = "<group>"; };
+		968591C31AF0C6D600726E63 /* bg-BG */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "bg-BG"; path = "bg-BG.lproj/Main_iPhone.strings"; sourceTree = "<group>"; };
+		968591C41AF0C6D600726E63 /* bg-BG */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "bg-BG"; path = "bg-BG.lproj/Main_iPad.strings"; sourceTree = "<group>"; };
+		968591D11AF0C7F300726E63 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		968591D31AF0C9C500726E63 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main_iPhone.strings; sourceTree = "<group>"; };
+		968591D41AF0C9C500726E63 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main_iPad.strings; sourceTree = "<group>"; };
+		968591D51AF0C9C500726E63 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		968591D61AF0C9C500726E63 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		968591D71AF0C9C500726E63 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		968591D81AF0C9D400726E63 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		968591D91AF0C9D500726E63 /* bg-BG */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "bg-BG"; path = "bg-BG.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		968A18091ACA8C58000C0DB0 /* Colors.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Colors.plist; sourceTree = "<group>"; };
 		968A180A1ACA8C58000C0DB0 /* CertivoxImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CertivoxImages.xcassets; sourceTree = "<group>"; };
 		968A180E1ACA8C70000C0DB0 /* Colors.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Colors.plist; sourceTree = "<group>"; };
@@ -472,6 +489,7 @@
 				968A180B1ACA8C58000C0DB0 /* DimensionData */,
 				960D6A7F1A88C0E20068E0F7 /* Fonts */,
 				960D6A901A88C0E20068E0F7 /* Settings.bundle */,
+				968591CF1AF0C7E200726E63 /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -597,10 +615,10 @@
 		9699B2571AADF8C6008AA313 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				96F62A261AC311D000B25B53 /* AboutViewController.m */,
 				96F62A271AC311D000B25B53 /* AboutViewController.h */,
-				9649BC821AC045E900B9F41B /* MenuViewController.m */,
+				96F62A261AC311D000B25B53 /* AboutViewController.m */,
 				9649BC831AC045E900B9F41B /* MenuViewController.h */,
+				9649BC821AC045E900B9F41B /* MenuViewController.m */,
 				FE148D5D1A2F13D0007E83EF /* AddIdentityViewController.h */,
 				FE148D5E1A2F13D0007E83EF /* AddIdentityViewController.m */,
 				FEFA500F1A7148E5002D6E24 /* DigitPadViewController.h */,
@@ -656,6 +674,8 @@
 				96F62A231AC30FAF00B25B53 /* SettingsManager.m */,
 				961957441A960E9900C93604 /* ThemeManager.h */,
 				961957451A960E9900C93604 /* ThemeManager.m */,
+				968591B41AF0BEFC00726E63 /* LocalizationManager.h */,
+				968591B51AF0BEFC00726E63 /* LocalizationManager.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -883,6 +903,7 @@
 				en,
 				Base,
 				"bg-BG",
+				ru,
 			);
 			mainGroup = FE49000E1A1A3CEB000030A4;
 			productRefGroup = FE4900181A1A3CEB000030A4 /* Products */;
@@ -905,6 +926,7 @@
 			files = (
 				96130E491AEE4867005D2A86 /* OpenSans-Bold.ttf in Resources */,
 				96130E4A1AEE4867005D2A86 /* Settings.bundle in Resources */,
+				968591CC1AF0C7E200726E63 /* Localizable.strings in Resources */,
 				96130E4B1AEE4867005D2A86 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				96130E4C1AEE4867005D2A86 /* OpenSans-Italic.ttf in Resources */,
 				96130E4E1AEE4867005D2A86 /* IUser.h in Resources */,
@@ -934,6 +956,7 @@
 			files = (
 				96130E931AEE490A005D2A86 /* OpenSans-Bold.ttf in Resources */,
 				96130E941AEE490A005D2A86 /* Settings.bundle in Resources */,
+				968591CD1AF0C7E200726E63 /* Localizable.strings in Resources */,
 				96130E951AEE490A005D2A86 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				96130E961AEE490A005D2A86 /* OpenSans-Italic.ttf in Resources */,
 				96130E981AEE490A005D2A86 /* IUser.h in Resources */,
@@ -974,6 +997,7 @@
 				9649BCBB1AC16D1000B9F41B /* MPin.h in Resources */,
 				9649BCBC1AC16D1000B9F41B /* OpenSans-Semibold.ttf in Resources */,
 				9649BCBD1AC16D1000B9F41B /* OpenSans-Light.ttf in Resources */,
+				968591CB1AF0C7E200726E63 /* Localizable.strings in Resources */,
 				9649BCBE1AC16D1000B9F41B /* MpinStatus.h in Resources */,
 				9649BCC01AC16D1000B9F41B /* Main_iPhone.storyboard in Resources */,
 				9649BCC11AC16D1000B9F41B /* Main_iPad.storyboard in Resources */,
@@ -991,6 +1015,7 @@
 			files = (
 				960D6A941A88C0E20068E0F7 /* OpenSans-Bold.ttf in Resources */,
 				960D6AA31A88C0E20068E0F7 /* Settings.bundle in Resources */,
+				968591CA1AF0C7E200726E63 /* Localizable.strings in Resources */,
 				960D6A971A88C0E20068E0F7 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				960D6A981A88C0E20068E0F7 /* OpenSans-Italic.ttf in Resources */,
 				968A180C1ACA8C58000C0DB0 /* Colors.plist in Resources */,
@@ -1242,6 +1267,7 @@
 				96130E321AEE4867005D2A86 /* TextFieldTableViewCell.m in Sources */,
 				96130E331AEE4867005D2A86 /* AccessNumberViewController.m in Sources */,
 				96130E341AEE4867005D2A86 /* UIColor+Helper.m in Sources */,
+				968591B81AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
 				96130E351AEE4867005D2A86 /* ConfigListTableViewCell.m in Sources */,
 				96130E361AEE4867005D2A86 /* MPin+AsyncOperations.m in Sources */,
 				96130E371AEE4867005D2A86 /* SettingsManager.m in Sources */,
@@ -1280,6 +1306,7 @@
 				96130E7C1AEE490A005D2A86 /* TextFieldTableViewCell.m in Sources */,
 				96130E7D1AEE490A005D2A86 /* AccessNumberViewController.m in Sources */,
 				96130E7E1AEE490A005D2A86 /* UIColor+Helper.m in Sources */,
+				968591B91AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
 				96130E7F1AEE490A005D2A86 /* ConfigListTableViewCell.m in Sources */,
 				96130E801AEE490A005D2A86 /* MPin+AsyncOperations.m in Sources */,
 				96130E811AEE490A005D2A86 /* SettingsManager.m in Sources */,
@@ -1298,6 +1325,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				968591B71AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
 				9649BC8D1AC16D1000B9F41B /* ConfirmEmailViewController.m in Sources */,
 				9649BC8F1AC16D1000B9F41B /* CycleProgressBar.m in Sources */,
 				9649BC901AC16D1000B9F41B /* AccountSummaryViewController.m in Sources */,
@@ -1355,6 +1383,7 @@
 				9699B2521AADF7F0008AA313 /* TextFieldTableViewCell.m in Sources */,
 				FEFA500E1A7143DB002D6E24 /* AccessNumberViewController.m in Sources */,
 				968D0A441A7B93C00037841D /* UIColor+Helper.m in Sources */,
+				968591B61AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
 				961957491A97276100C93604 /* ConfigListTableViewCell.m in Sources */,
 				FE8129671ABAB61B008677CE /* MPin+AsyncOperations.m in Sources */,
 				96F62A251AC30FAF00B25B53 /* SettingsManager.m in Sources */,
@@ -1388,11 +1417,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		968591CF1AF0C7E200726E63 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				968591D11AF0C7F300726E63 /* Base */,
+				968591D51AF0C9C500726E63 /* ru */,
+				968591D81AF0C9D400726E63 /* en */,
+				968591D91AF0C9D500726E63 /* bg-BG */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		FE4900231A1A3CEB000030A4 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				FE4900241A1A3CEB000030A4 /* en */,
-				968591A81AEE658600726E63 /* bg-BG */,
+				968591D61AF0C9C500726E63 /* ru */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1401,7 +1441,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				FE4900301A1A3CEB000030A4 /* Base */,
-				968591A71AEE658600726E63 /* bg-BG */,
+				968591C41AF0C6D600726E63 /* bg-BG */,
+				968591D41AF0C9C500726E63 /* ru */,
 			);
 			name = Main_iPad.storyboard;
 			sourceTree = "<group>";
@@ -1410,7 +1451,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				FE4900461A1A3CEB000030A4 /* en */,
-				968591A91AEE658600726E63 /* bg-BG */,
+				968591D71AF0C9C500726E63 /* ru */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1419,7 +1460,9 @@
 			isa = PBXVariantGroup;
 			children = (
 				FEFFDDF11A1A4268007C7CAA /* Base */,
-				968591A61AEE658600726E63 /* bg-BG */,
+				968591AD1AF0BAAF00726E63 /* en */,
+				968591C31AF0C6D600726E63 /* bg-BG */,
+				968591D31AF0C9C500726E63 /* ru */,
 			);
 			name = Main_iPhone.storyboard;
 			sourceTree = "<group>";

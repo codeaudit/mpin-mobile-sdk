@@ -17,6 +17,7 @@
 #import "MPin.h"
 #import "ATMHud.h"
 #import "ThemeManager.h"
+#import "iToast.h"
 
 static NSString* const kEmpty = @"";
 static NSString* const kMpinStatus = @"MpinStatus";
@@ -111,9 +112,12 @@ static NSString* const kUser = @"User";
 
 - (IBAction)addAction:(id)sender {
     if ([kEmpty isEqualToString:self.txtIdentity.text]) {
+        [[[[iToast makeText:NSLocalizedString(@"Enter text in user id text field!", @"")]
+           setGravity:iToastGravityBottom] setDuration:iToastDurationLong] show];
+
         UIAlertView* alert =
-        [[UIAlertView alloc] initWithTitle:@"Empty User Identity"
-                                   message:@"Enter text in user id text field!"
+        [[UIAlertView alloc] initWithTitle:@""
+                                   message:NSLocalizedString(@"ERROR_PLEASE_ENTER_VALID_USER_ID", @"")
                                   delegate:nil
                          cancelButtonTitle:@"Close"
                          otherButtonTitles:nil, nil];
@@ -123,8 +127,8 @@ static NSString* const kUser = @"User";
     
     if (![self isValidEmail:self.txtIdentity.text]) {
         UIAlertView* alert = [[UIAlertView alloc]
-                              initWithTitle:@"Invalid email"
-                              message:@"Please enter a valid email address!"
+                              initWithTitle:@""
+                              message:NSLocalizedString(@"ERROR_PLEASE_ENTER_VALID_EMAIL", @"")
                               delegate:nil
                               cancelButtonTitle:@"Close"
                               otherButtonTitles:nil, nil];
@@ -161,7 +165,7 @@ static NSString* const kUser = @"User";
         default:
             [self
              showError:[user getIdentity]
-             desc:[NSString stringWithFormat:@"User state is unexpected %ld",
+             desc:[NSString stringWithFormat:NSLocalizedString(@"ERROR_UNEXPECTED_USER_STATE", @""),
                    [user getState]]];
             break;
     }

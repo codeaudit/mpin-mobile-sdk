@@ -1,0 +1,49 @@
+/* 
+  Localizable.strings
+  MPinApp
+
+  Created by Tihomir Ganev on 29.Apr.15.
+  Copyright (c) 2015 Certivox. All rights reserved.
+*/
+
+/* menu */
+
+"MENUVC_OPTION_0" = "АКАУНТИ";
+"MENUVC_OPTION_1" = "КОНФИГУРАЦИИ";
+"MENUVC_OPTION_2" = "ОТНОСНО";
+
+/* User list */
+
+"USERLISTVC_TITLE" = "Акаунти";
+"USERLISTVC_DELETE_BUTTON" = "Изтриване";
+"USERLISTVC_ADD_NEW_ID" = "Добавяне на нов акаунт +";
+
+/* About */
+
+"ABOUTVC_TITLE"         = "About";
+"ABOUTVC_BUILD_NUMBER"  = "Build: %@";
+"ABOUTVC_VER_NUMBER"    = "Ver. %@";
+"ABOUTVC_COPYRIGHT"     = "Copyright (c) %@ Certivox. all rights reserved.";
+
+/* HUD Messages */
+"HUD_CHANGE_CONFIGURATION"  = "Changing configuration. Please wait.";
+"HUD_AUTH_SUCCESS"          = "Authentication Successful!";
+"HUD_LOGOUT"                = "Logging OUT";
+"HUD_LOGOUT_OK"             = "Logout Successful";
+"HUD_LOGOUT_NOT_OK"         = "Logout Unsuccessful";
+"HUD_REACTIVATE_ACCOUNT"    = "Invalid User \n Reactivate an Account!";
+"HUD_UNSUPPORTED_ACTION"    = "Unsupported State and Action!";
+
+/* ERROR Messages */
+
+"ERROR_PLEASE_ENTER_VALID_EMAIL"        = "Please enter a valid email address!";
+"ERROR_PLEASE_ENTER_VALID_USER_ID"      = "Please enter a valid user id in the text field!";
+"ERROR_UNEXPECTED_USER_STATE"           = "User state is unexpected %ld";
+/* BASIC THINGS */
+
+"CANCEL" = "CANCEL";
+"OK" = "OK";
+"DELETE" = "DELETE";
+
+/* WARNINGS */
+"WARNING_USER_WILL_BE_DELETED" = "User \"%@\" will be deleted!";

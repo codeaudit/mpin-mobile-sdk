@@ -263,7 +263,6 @@ static char const* const delegateKey = "delegateKey";
 
 - (void)AuthenticateOTP:(id<IUser>)user
 {
-
     dispatch_async(dispatch_get_main_queue(), ^(void){
         LAContext *context = [[LAContext alloc] init];
         NSError *error;

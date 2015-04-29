@@ -1,0 +1,20 @@
+/*
+ Localizable.strings
+ MPinApp
+ 
+ Created by Tihomir Ganev on 29.Apr.15.
+ Copyright (c) 2015 Certivox. All rights reserved.
+ */
+
+
+/* menu */
+
+"MENUVC_OPTION_0" = "АКАУНТИ";
+"MENUVC_OPTION_1" = "КОНФИГУРАЦИИ";
+"MENUVC_OPTION_2" = "About";
+
+"ABOUTVC_TITLE"         = "About";
+"ABOUTVC_BUILD_NUMBER"  = "Build: %@";
+"ABOUTVC_VER_NUMBER"    = "Ver. %@";
+"ABOUTVC_COPYRIGHT"     = "Copyright (c) %@ Certivox. all rights reserved.";
+

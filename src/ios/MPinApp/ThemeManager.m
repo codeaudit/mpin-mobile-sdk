@@ -205,18 +205,18 @@
 
         myVc.btnDelete.backgroundColor = [[SettingsManager sharedManager] color1];
         [myVc.btnDelete setTitleColor:[[SettingsManager sharedManager] color8] forState:UIControlStateNormal];
-        [myVc.btnDelete setTitle:@"DELETE" forState:UIControlStateNormal];
-
-        //TODO: Add method to set button font
-        //        [myVc.btnDelete.titleLabel setFont:];
+        
 
         [self setupLoginButton:myVc.btnAuthenticate];
         [self setupLoginButton:myVc.btnAdd];
 
-        [myVc.btnAdd setTitle:@"ADD NEW IDENTITY +" forState:UIControlStateNormal];
+        
         myVc.viewButtonsContainer.backgroundColor = [[SettingsManager sharedManager] color3];
         myVc.view.backgroundColor = [[SettingsManager sharedManager] color3];
-        myVc.title = @"Identity List";
+
+        myVc.title = NSLocalizedString(@"USERLISTVC_TITLE", @"");
+        [myVc.btnAdd setTitle:NSLocalizedString(@"USERLISTVC_ADD_NEW_ID", @"") forState:UIControlStateNormal];
+        [myVc.btnDelete setTitle:NSLocalizedString(@"USERLISTVC_DELETE_BUTTON", @"") forState:UIControlStateNormal];
     }
 
     else {
