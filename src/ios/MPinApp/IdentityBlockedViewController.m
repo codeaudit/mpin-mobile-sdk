@@ -12,6 +12,11 @@
 #import "PinPadViewController.h"
 #import "ConfirmEmailViewController.h"
 #import "ATMHud.h"
+#import "ConfigurationManager.h"
+#import "UIViewController+Helper.h"
+
+#define RESETPIN_TAG 208
+#define RESETPIN_BUTTON_INDEX 1
 
 @interface IdentityBlockedViewController () {
      MPin* sdk;
@@ -22,6 +27,7 @@
 - (void)startLoading;
 - (void)stopLoading;
 - (void)showPinPad;
+- (void) deleteUser;
 
 - (IBAction)showLeftMenuPressed:(id)sender;
 - (IBAction)btnGoToIdListPressed:(id)sender;
@@ -30,15 +36,6 @@
 @end
 
 @implementation IdentityBlockedViewController
-
-- (void)showPinPad
-{
-    PinPadViewController* pinpadViewController = [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];
-    pinpadViewController.userId = [self.iuser getIdentity];
-    pinpadViewController.boolShouldShowBackButton = YES;
-    pinpadViewController.title = kEnterPin;
-    [self.navigationController pushViewController:pinpadViewController animated:YES];
-}
 
 - (void)startLoading
 {
@@ -50,6 +47,10 @@
     [hud hide];
 }
 
+- (void) deleteUser {
+    [MPin DeleteUser:_iuser];
+    [[ConfigurationManager sharedManager] setSelectedUserForCurrentConfiguration:NOT_SELECTED];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -60,9 +61,8 @@
     [[ThemeManager sharedManager] beautifyViewController:self];
     
     hud = [[ATMHud alloc] initWithDelegate:self];
-    [hud setCaption:@"Changing configuration. Please wait."];
+    [hud setCaption:@"Please wait ... "];
     [hud setActivity:YES];
-    [hud showInView:self.view];
     
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
@@ -114,10 +114,18 @@
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 1)
-    {
-        [MPin DeleteUser:_iuser];
-        [self.navigationController popToRootViewControllerAnimated:YES];
+    if((alertView.tag == RESETPIN_TAG) && (buttonIndex == RESETPIN_BUTTON_INDEX)) {
+        [self startLoading];
+        NSString * userID = [self.iuser getIdentity];
+        [self deleteUser];
+        ConfigurationManager *cfm = [ConfigurationManager sharedManager];
+        [sdk RegisterNewUser:userID devName:[cfm getDeviceName]];
+    } else {
+        if (buttonIndex == 1)
+        {
+            [self deleteUser];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
     }
 }
 
@@ -142,7 +150,66 @@
 }
 
 -(IBAction)onResetPinButtonClicked:(id)sender {
-    
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"RESET_PIN"
+                                                    message:[NSString stringWithFormat:@"Are you sure that you would like to reset pin of \"%@\" ?", [self.iuser getIdentity]]
+                                                   delegate:self
+                                          cancelButtonTitle:@"CANCEL"
+                                          otherButtonTitles:@"RESET",
+                          nil];
+    alert.tag = RESETPIN_TAG;
+    [alert show];
 }
+
+- (void)OnRegisterNewUserCompleted:(id)sender user:(const id<IUser>)user {
+    [self stopLoading];
+    switch ([user getState]) {
+        case STARTED_REGISTRATION: {
+            ConfirmEmailViewController* cevc = (ConfirmEmailViewController*)
+            [storyboard instantiateViewControllerWithIdentifier:
+             @"ConfirmEmailViewController"];
+            cevc.iuser = user;
+            [self.navigationController pushViewController:cevc animated:YES];
+        } break;
+        case ACTIVATED:
+            [self startLoading];
+            self.iuser = user;
+            [sdk FinishRegistration:user];
+            break;
+        default:
+            [self
+             showError:[user getIdentity]
+             desc:[NSString stringWithFormat:@"User state is unexpected %ld",
+                   [user getState]]];
+            break;
+    }
+    
+    NSArray * users = [MPin listUsers];
+    int index = 0;
+    for (;index<[users count];index++) {
+        id<IUser> cUser = [users objectAtIndex:index];
+        if ([[cUser getIdentity] isEqualToString:[user getIdentity]])   break;
+    }
+    
+    ConfigurationManager* cf = [ConfigurationManager sharedManager];
+    [cf setSelectedUserForCurrentConfiguration:(index)];
+}
+
+- (void)OnRegisterNewUserError:(id)sender error:(NSError*)error {
+    [self stopLoading];
+    MpinStatus* mpinStatus = [error.userInfo objectForKey:kMPinSatus];
+    [self showError:[mpinStatus getStatusCodeAsString]
+               desc:mpinStatus.errorMessage];
+}
+
+- (void)showPinPad
+{
+    PinPadViewController* pinpadViewController = [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];
+    pinpadViewController.userId = [self.iuser getIdentity];
+    pinpadViewController.boolShouldShowBackButton = YES;
+    pinpadViewController.title = kEnterPin;
+    [self.navigationController pushViewController:pinpadViewController animated:YES];
+}
+
+
 
 @end

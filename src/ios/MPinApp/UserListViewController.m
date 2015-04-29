@@ -34,6 +34,8 @@
 #define LOGOUT_BUTTON_INDEX 1
 #define DELETE_TAG 204
 #define DELETE_BUTTON_INDEX 1
+#define RESETPIN_TAG 208
+#define RESETPIN_BUTTON_INDEX 1
 #define NOT_SELECTED -1
 #define NOT_SELECTED_SEC 0
 
@@ -436,10 +438,15 @@ static NSString* const kAN = @"AN";
             });
         });
         return;
-    }
-
-    if ((alertView.tag == DELETE_TAG) && (buttonIndex == DELETE_BUTTON_INDEX)) {
+    } else if ((alertView.tag == DELETE_TAG) && (buttonIndex == DELETE_BUTTON_INDEX)) {
         [self deleteSelectedUser];
+    } else if((alertView.tag == RESETPIN_TAG) && (buttonIndex == RESETPIN_BUTTON_INDEX)) {
+        [self startLoading];
+        id<IUser> iuser = (self.users)[selectedIndexPath.row];
+        NSString * userID = [iuser getIdentity];
+        [self deleteSelectedUser];
+        ConfigurationManager *cfm = [ConfigurationManager sharedManager];
+        [sdk RegisterNewUser:userID devName:[cfm getDeviceName]];
     }
 }
 
@@ -479,9 +486,21 @@ static NSString* const kAN = @"AN";
     [alert show];
 }
 
+
+
+
+
 -(IBAction)onResetPinButtonClicked:(id)sender {
-    [self startLoading];
-    [sdk ResetPin:currentUser];
+    
+    id<IUser> iuser = (self.users)[selectedIndexPath.row];
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"RESET_PIN"
+                                                    message:[NSString stringWithFormat:@"Are you sure that you would like to reset pin of \"%@\" ?", [iuser getIdentity]]
+                                                   delegate:self
+                                          cancelButtonTitle:@"CANCEL"
+                                          otherButtonTitles:@"RESET",
+                          nil];
+    alert.tag = RESETPIN_TAG;
+    [alert show];
 }
 
 - (IBAction)btnAuthTap:(id)sender
@@ -572,5 +591,47 @@ static NSString* const kAN = @"AN";
 {
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
 }
+
+- (void)OnRegisterNewUserCompleted:(id)sender user:(const id<IUser>)user {
+    [self stopLoading];
+    switch ([user getState]) {
+        case STARTED_REGISTRATION: {
+            ConfirmEmailViewController* cevc = (ConfirmEmailViewController*)
+            [storyboard instantiateViewControllerWithIdentifier:
+             @"ConfirmEmailViewController"];
+            cevc.iuser = user;
+            [self.navigationController pushViewController:cevc animated:YES];
+        } break;
+        case ACTIVATED:
+            [self startLoading];
+            currentUser = user;
+            [sdk FinishRegistration:user];
+            break;
+        default:
+            [self
+             showError:[user getIdentity]
+             desc:[NSString stringWithFormat:@"User state is unexpected %ld",
+                   [user getState]]];
+            break;
+    }
+    
+    NSArray * users = [MPin listUsers];
+    int index = 0;
+    for (;index<[users count];index++) {
+        id<IUser> cUser = [users objectAtIndex:index];
+        if ([[cUser getIdentity] isEqualToString:[user getIdentity]])   break;
+    }
+    
+    ConfigurationManager* cf = [ConfigurationManager sharedManager];
+    [cf setSelectedUserForCurrentConfiguration:(index)];
+}
+
+- (void)OnRegisterNewUserError:(id)sender error:(NSError*)error {
+    [self stopLoading];
+    MpinStatus* mpinStatus = [error.userInfo objectForKey:kMPinSatus];
+    [self showError:[mpinStatus getStatusCodeAsString]
+               desc:mpinStatus.errorMessage];
+}
+
 
 @end
