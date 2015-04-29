@@ -49,5 +49,23 @@ namespace TestWinPhoneApp1.Models
             }
         }
 
+        public override bool Equals(object obj)
+        {
+            Backend? b = obj as Backend?;
+            if (b == null)
+                return false;
+
+            return !string.IsNullOrEmpty(this.BackendUrl) &&
+                this.BackendUrl.Equals(b.Value.BackendUrl) &&
+                this.RequestAccessNumber.Equals(b.Value.RequestAccessNumber) &&
+                this.RequestOtp.Equals(b.Value.RequestOtp) &&
+                this.RpsPrefix.Equals(b.Value.RpsPrefix) &&
+                this.Title.Equals(b.Value.Title);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

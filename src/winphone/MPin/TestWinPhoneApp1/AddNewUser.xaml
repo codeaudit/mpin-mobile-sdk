@@ -8,12 +8,10 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <StackPanel>
-            <TextBlock Text="Email address: " />
-            <TextBox x:Name="UserId" Text="{Binding eMail, Mode=TwoWay}"/>
- 
-        </StackPanel>
+    <StackPanel>
+        <TextBlock Text="Email address: " />
+        <TextBox x:Name="UserId" Text="{Binding eMail, Mode=TwoWay}"/>
+
         <Button Content="Create Identity" VerticalAlignment="Bottom" Click="Button_Click"/>
-    </Grid>
+    </StackPanel>
 </Page>

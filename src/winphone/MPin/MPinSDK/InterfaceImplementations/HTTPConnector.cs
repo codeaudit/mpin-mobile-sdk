@@ -32,7 +32,7 @@ namespace MPinSDK
         private String responseData;
         #endregion
 
-        #region C'tro
+        #region C'tor
         public HTTPConnector()
             : base()
         { }

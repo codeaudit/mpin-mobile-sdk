@@ -55,8 +55,11 @@ namespace TestWinPhoneApp1.Models
             }
             set
             {
-                _currentService = value;
-                this.OnPropertyChanged();
+                if (!_currentService.Equals(value))
+                {
+                    _currentService = value;
+                    this.OnPropertyChanged();
+                }
             }
         }
 

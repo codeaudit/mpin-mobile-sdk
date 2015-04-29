@@ -24,6 +24,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MPinSDK.Common; // navigation extensions
 using Windows.UI;
+using Windows.Storage;
 
 namespace TestWinPhoneApp1
 {
@@ -34,10 +35,13 @@ namespace TestWinPhoneApp1
     {
         #region members
 
-        const string DEFAULT_RPS_PREFIX = "rps";
-        const string CONFIG_BACKEND = "backend";
+        private const string DEFAULT_RPS_PREFIX = "rps";
+        private const string CONFIG_BACKEND = "backend";
+        private const string SelectedService = "ServiceSetIndex";
+        private const string SelectedUser = "SelectedUser";
 
         private bool processSelection = true;
+        private bool shouldSetService = false;
         private MainPage rootPage = null;
         private CoreDispatcher _dispatcher;
         private static MPin _sdk;
@@ -53,7 +57,7 @@ namespace TestWinPhoneApp1
         }
 
         private static AppDataModel DataModel;
-
+        private ApplicationDataContainer roamingSettings = null;
         #endregion // members
 
         #region constructors
@@ -70,6 +74,7 @@ namespace TestWinPhoneApp1
             _dispatcher = Window.Current.Dispatcher;
 
             this.DataContext = DataModel;
+            roamingSettings = ApplicationData.Current.RoamingSettings;
 
             UpdateServicesList();
             UpdateUsersList();
@@ -79,8 +84,10 @@ namespace TestWinPhoneApp1
                 this.MainPivot.SelectedItem = this.UsersPivotItem;
             }
         }
+
         #endregion // constructors
 
+        #region Overrides
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
         /// </summary>
@@ -127,6 +134,8 @@ namespace TestWinPhoneApp1
             }
         }
 
+        #endregion
+
         #region users
 
         private void UpdateUsersList()
@@ -135,21 +144,17 @@ namespace TestWinPhoneApp1
             {
                 List<User> users = new List<User>();
                 this.Sdk.ListUsers(users);
-                UpdateUsersSelection(users);
-                // Done in the UI Thread
-                //UsersList.SelectedValuePath = "IsSelected";
-                //await Window.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => { UsersList.ItemsSource = users; });
+                UpdateUsersSelection(users);                
                 UsersList.ItemsSource = users;
                 UsersList.SelectedItem = GetSelectedUser(users);
-                //UsersList.SelectedValue = DataModel.CurrentUser;
-                AuthenticateButton.IsEnabled = UsersList.SelectedItem != null;// DataModel.CurrentUser != null;
+                AuthenticateButton.IsEnabled = UsersList.SelectedItem != null;
             }
         }
 
         private User GetSelectedUser(List<User> users)
         {
             if (users == null || users.Count == 0 || DataModel.CurrentUser == null)
-                return null;
+                return GetSelectedUserFromSettings();
 
             foreach (var user in users)
                 if (user.Equals(DataModel.CurrentUser))
@@ -341,6 +346,7 @@ namespace TestWinPhoneApp1
         private void UpdateServicesList()
         {
             this.ServicesList.ItemsSource = DataModel.BackendsList;
+            SetSelectedServicesIndex();
         }
 
         private Status InitService()
@@ -367,10 +373,12 @@ namespace TestWinPhoneApp1
             if (!set)
             {
                 status = await Task.Factory.StartNew(() => InitService());
-
-                this.Sdk.SetUiDispatcher(Window.Current.Dispatcher);
-
-                set = true;
+                if (status != null)
+                {
+                    Debug.WriteLine("InitStatus: " + status.StatusCode + " " + status.ErrorMessage);
+                    this.Sdk.SetUiDispatcher(Window.Current.Dispatcher);
+                    set = true;
+                }              
             }
             else
             {
@@ -409,8 +417,52 @@ namespace TestWinPhoneApp1
         }
         #endregion // services
 
+        #region State
+
+        private void SavePropertyState(string key, object value)
+        {
+            if (!roamingSettings.Values.Keys.Contains(key))
+            {
+                roamingSettings.Values.Add(key, value);
+            }
+            else
+            {
+                roamingSettings.Values[key] = value;
+            }
+        }
+
+        private User GetSelectedUserFromSettings()
+        {
+            int? selectedIndex = roamingSettings.Values[SelectedUser] as int?;
+            if (selectedIndex != null && selectedIndex >= 0 && selectedIndex < UsersList.Items.Count)
+            {
+                return this.UsersList.Items[selectedIndex.Value] as User;
+            }
+
+            return null;
+        }
+
+        private void SetSelectedServicesIndex()
+        {
+            int? selectedIndex = roamingSettings.Values[SelectedService] as int?;
+            if (selectedIndex != null && selectedIndex >= 0 && selectedIndex < ServicesList.Items.Count)
+            {
+                // if the selected service in the list is different from the currentService -> reset it
+                Backend? selectedService = ServicesList.Items[selectedIndex.Value] as Backend?;
+                shouldSetService = false == selectedService.Equals(DataModel.CurrentService); 
+                
+                DataModel.CurrentService = (Backend)this.ServicesList.Items[selectedIndex.Value];
+                this.ServicesList.SelectedIndex = selectedIndex.Value;
+            }
+            else
+            {
+                shouldSetService = true;
+            }
+        }
+        #endregion
+
         #region handlers
-        
+
         private void AddService_Click(object sender, RoutedEventArgs e)
         {
             // TODO
@@ -500,18 +552,26 @@ namespace TestWinPhoneApp1
         {
             AuthenticateButton.IsEnabled = UsersList.SelectedItem != null;
             DataModel.CurrentUser = UsersList.SelectedItem as User;
+            SavePropertyState(SelectedUser, UsersList.SelectedIndex);
         }
 
         private async void Services_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             TestServiceButton.IsEnabled = ServicesList.SelectedItem != null;
-            if (e.AddedItems.Count == 1 && e.RemovedItems.Count == 1 && e.AddedItems[0].Equals(e.RemovedItems[0]))
+            if (e.AddedItems.Count != 1 || (e.AddedItems.Count == 1 && e.RemovedItems.Count == 1 && e.AddedItems[0].Equals(e.RemovedItems[0])))
                 return;
 
-            if (processSelection)
+            if ((processSelection && shouldSetService) || ChangedByClick(e.AddedItems, e.RemovedItems))
                 await ProcessServiceChanged();
+
+            SavePropertyState(SelectedService, ServicesList.SelectedIndex);
         }
 
+        private bool ChangedByClick(IList<object> addedItems, IList<object> removedItems)
+        {
+            return addedItems.Count == 1 && removedItems.Count == 1 && false == addedItems[0].Equals(removedItems[0]);
+        }
+       
         private async void TestBackend_click(object sender, RoutedEventArgs e)
         {
             if (DataModel.CurrentService.BackendUrl != null)
