@@ -62,7 +62,7 @@
 "ADDCONFIGVC_TITLE_ADD" = "ДОБАВЯНЕ НА КОНФИГУРАЦИЯ";
 "ADDCONFIGVC_TITLE_EDIT" = "ДОБАВЯНЕ НА КОНФИГУРАЦИЯ";
 "ADDCONFIGVC_NAME" = "ИМЕ";
-"ADDCONFIGVC_URL" = "URL";
+"ADDCONFIGVC_URL" = "Адрес";
 "ADDCONFIGVC_PREFIX" = "RPS ПРЕФИКС";
 "ADDCONFIGVC_BTN_TEST_CONFIG" = "ТЕСТВАЙ КОНФИГУРАЦИЯТА";
 "ADDCONFIGVC_ERROR_EMPTY_URL" = "МОЛЯ ВЪВЕДЕТЕ URL";
