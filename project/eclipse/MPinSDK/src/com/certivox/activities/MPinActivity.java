@@ -28,6 +28,7 @@ import com.certivox.fragments.OTPFragment;
 import com.certivox.fragments.PinPadFragment;
 import com.certivox.fragments.SuccessfulLoginFragment;
 import com.certivox.fragments.UsersListFragment;
+import com.certivox.interfaces.PinPadController;
 import com.certivox.listeners.OnAddNewUserListener;
 import com.certivox.listeners.OnUserSelectedListener;
 import com.certivox.models.OTP;
@@ -38,7 +39,7 @@ import com.certivox.mpinsdk.Config;
 import com.certivox.mpinsdk.Mpin;
 import com.example.mpinsdk.R;
 
-public class MPinActivity extends BaseMPinActivity {
+public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	static {
 		System.loadLibrary("AndroidMpinSDK");
@@ -46,6 +47,7 @@ public class MPinActivity extends BaseMPinActivity {
 
 	public static final String KEY_ACCESS_NUMBER = "AccessNumberActivity.KEY_ACCESS_NUMBER";
 	private static final String PREF_LAST_USER = "MPinActivity.PREF_LAST_USER";
+	
 	// Fragments
 	private static final String FRAG_PINPAD = "FRAG_PINPAD";
 	private static final String FRAG_ACCESSNUMBER = "FRAG_ACCESSNUMBER";
@@ -71,18 +73,18 @@ public class MPinActivity extends BaseMPinActivity {
 			if (TextUtils.equals(PinpadConfigActivity.ACTION_CHANGING_CONFIG,
 					intent.getAction())) {
 				onChangingConfiguration(PinpadConfigActivity
-						.get(MPinActivity.this, intent.getLongExtra(
+						.getConfigurationById(MPinActivity.this, intent.getLongExtra(
 								PinpadConfigActivity.EXTRA_PREVIOUS_CONFIG, -1)));
 			} else if (TextUtils.equals(
 					PinpadConfigActivity.ACTION_CONFIG_CHANGED,
 					intent.getAction())) {
 				onConfigurationChanged(
-						PinpadConfigActivity.get(
+						PinpadConfigActivity.getConfigurationById(
 								MPinActivity.this,
 								intent.getLongExtra(
 										PinpadConfigActivity.EXTRA_PREVIOUS_CONFIG,
 										-1)),
-						PinpadConfigActivity.get(
+						PinpadConfigActivity.getConfigurationById(
 								MPinActivity.this,
 								intent.getLongExtra(
 										PinpadConfigActivity.EXTRA_CURRENT_CONFIG,

@@ -222,14 +222,23 @@ extern "C" JNIEXPORT jstring JNICALL Mpin_nGetClientParam(JNIEnv* env, jobject j
 	return env->NewStringUTF(result.c_str());
 }
 
-extern "C" JNIEXPORT jobject JNICALL Mpin_nTestBackend(JNIEnv* env, jobject jobj, jlong jptr, jstring jbackend, jstring jrpsPrefix) {
+extern "C" JNIEXPORT jobject JNICALL Mpin_nTestBackend(JNIEnv* env, jobject jobj, jlong jptr, jstring jbackend) {
+	MPinSDK* sdk = (MPinSDK*) jptr;
+	const char* cbackend = env->GetStringUTFChars(jbackend, NULL);
+	MPinSDK::String backend(cbackend);
+	env->ReleaseStringUTFChars(jbackend, cbackend);
+	return MakeJavaStatus(env, sdk->TestBackend(backend));
+}
+
+
+extern "C" JNIEXPORT jobject JNICALL Mpin_nTestBackendRPS(JNIEnv* env, jobject jobj, jlong jptr, jstring jbackend, jstring jrpsPrefix) {
 	MPinSDK* sdk = (MPinSDK*) jptr;
 	const char* cbackend = env->GetStringUTFChars(jbackend, NULL);
 	MPinSDK::String backend(cbackend);
 	env->ReleaseStringUTFChars(jbackend, cbackend);
 	const char* crpsPrefix = env->GetStringUTFChars(jrpsPrefix, NULL);
 	MPinSDK::String rpsPrefix(crpsPrefix);
-	env->ReleaseStringUTFChars(jbackend, crpsPrefix);
+	env->ReleaseStringUTFChars(jrpsPrefix, crpsPrefix);
 	return MakeJavaStatus(env, sdk->TestBackend(backend, rpsPrefix));
 }
 
@@ -260,7 +269,8 @@ static JNINativeMethod g_methodsMpin[] = {
 	NATIVE_METHOD(Mpin, nListUsers, "(JLjava/util/List;)V"),
 	NATIVE_METHOD(Mpin, nCanLogout, "(JLcom/certivox/models/User;)Z"),
 	NATIVE_METHOD(Mpin, nLogout, "(JLcom/certivox/models/User;)Z"),
-	NATIVE_METHOD(Mpin, nTestBackend, "(JLjava/lang/String;Ljava/lang/String;)Lcom/certivox/models/Status;"),
+	NATIVE_METHOD(Mpin, nTestBackend, "(JLjava/lang/String;)Lcom/certivox/models/Status;"),
+	NATIVE_METHOD(Mpin, nTestBackendRPS, "(JLjava/lang/String;Ljava/lang/String;)Lcom/certivox/models/Status;"),
 	NATIVE_METHOD(Mpin, nSetBackend, "(JLjava/lang/String;Ljava/lang/String;)Lcom/certivox/models/Status;"),
 	NATIVE_METHOD(Mpin, nGetClientParam, "(JLjava/lang/String;)Ljava/lang/String;")
 };
