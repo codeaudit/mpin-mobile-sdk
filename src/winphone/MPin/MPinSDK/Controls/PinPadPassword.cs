@@ -11,11 +11,10 @@ namespace MPinSDK.Controls
     public class PinPadPassword : Control
     {
         #region fields
-        private const string EmptyTextValue = "Enter your pin";
         private PasswordBox passwordBox;
         #endregion // fields
 
-        #region constructor
+        #region constructor        
         public PinPadPassword()
         {
             this.DefaultStyleKey = typeof(PinPadPassword);
@@ -23,41 +22,7 @@ namespace MPinSDK.Controls
         #endregion // constructor
 
         #region members
-        #region EmptyText
-
-        /// <summary>
-        /// Gets or sets the empty text displayed.
-        /// </summary>
-        /// <value>The empty message text.</value>
-        public string EmptyText
-        {
-            get { return (string)GetValue(EmptyTextProperty); }
-            set { SetValue(EmptyTextProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="EmptyText"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty EmptyTextProperty =
-            DependencyProperty.Register("EmptyText", typeof(string), typeof(PinPadPassword),
-            new PropertyMetadata(EmptyTextValue, OnEmptyTextChanged));
-
-        private static void OnEmptyTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((PinPadPassword)d).OnEmptyTextChanged((string)e.OldValue, (string)e.NewValue);
-        }
-
-        /// <summary>
-        /// EmptyTextProperty property changed handler.
-        /// </summary>
-        /// <param name="oldValue">The old value.</param>
-        /// <param name="newValue">The new value.</param>
-        private void OnEmptyTextChanged(string oldValue, string newValue)
-        {
-        }
-
-        #endregion // EmptyText
-
+       
         #region Data
 
         /// <summary>

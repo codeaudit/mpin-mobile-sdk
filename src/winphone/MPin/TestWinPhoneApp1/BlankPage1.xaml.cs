@@ -9,7 +9,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using TestWinPhoneApp1.Models;
+using MPinDemo.Models;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System.Threading;
@@ -27,7 +27,7 @@ using Windows.UI;
 using Windows.Storage;
 using Windows.ApplicationModel.Resources;
 
-namespace TestWinPhoneApp1
+namespace MPinDemo
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestWinPhoneApp1.Models
+namespace MPinDemo.Models
 {
     public struct Backend
     {

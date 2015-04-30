@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestWinPhoneApp1.Models
+namespace MPinDemo.Models
 {
     public class AppDataModel : INotifyPropertyChanged // DependencyObject,
     {

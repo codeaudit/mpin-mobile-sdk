@@ -21,7 +21,7 @@ using System.Diagnostics;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
-namespace TestWinPhoneApp1
+namespace MPinDemo
 {
 
     /// <summary>

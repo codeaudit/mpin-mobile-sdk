@@ -29,18 +29,18 @@
                         </Grid.ColumnDefinitions>
 
                         <local:PinPadPassword x:Name="pass" Grid.ColumnSpan="3" Style="{StaticResource PinPadPassStyle}"/>
-                        <local:PinPadButton x:Name="one" Content="1" Grid.Row="1"/>
-                        <local:PinPadButton x:Name="two" Content="2" Grid.Row="1" Grid.Column="1"/>
-                        <local:PinPadButton x:Name="three" Content="3" Grid.Row="1" Grid.Column="2"/>
-                        <local:PinPadButton x:Name="four" Content="4" Grid.Row="2"/>
-                        <local:PinPadButton x:Name="five" Content="5" Grid.Row="2" Grid.Column="1"/>
-                        <local:PinPadButton x:Name="six" Content="6" Grid.Row="2" Grid.Column="2"/>
-                        <local:PinPadButton x:Name="seven" Content="7" Grid.Row="3" />
-                        <local:PinPadButton x:Name="eight" Content="8" Grid.Row="3" Grid.Column="1"/>
-                        <local:PinPadButton x:Name="nine" Content="9" Grid.Row="3" Grid.Column="2"/>
-                        <local:PinPadButton x:Name="clear" Content="Clear" Grid.Row="4" />
-                        <local:PinPadButton x:Name="zero" Content="0" Grid.Row="4" Grid.Column="1"/>
-                        <local:PinPadButton x:Name="sign" Content="Sign in" Grid.Row="4" Grid.Column="2" IsEnabled="False"/>
+                        <local:PinPadButton  x:Name="one" x:Uid="/MPinSDK/Resources/OneButton" Grid.Row="1"/>
+                        <local:PinPadButton  x:Name="two" x:Uid="/MPinSDK/Resources/TwoButton" Grid.Row="1" Grid.Column="1"/>
+                        <local:PinPadButton  x:Name="three" x:Uid="/MPinSDK/Resources/ThreeButton" Grid.Row="1" Grid.Column="2"/>
+                        <local:PinPadButton  x:Name="four" x:Uid="/MPinSDK/Resources/FourButton" Grid.Row="2"/>
+                        <local:PinPadButton  x:Name="five" x:Uid="/MPinSDK/Resources/FiveButton" Grid.Row="2" Grid.Column="1"/>
+                        <local:PinPadButton  x:Name="six" x:Uid="/MPinSDK/Resources/SixButton" Grid.Row="2" Grid.Column="2"/>
+                        <local:PinPadButton  x:Name="seven" x:Uid="/MPinSDK/Resources/SevenButton" Grid.Row="3" />
+                        <local:PinPadButton  x:Name="eight" x:Uid="/MPinSDK/Resources/EightButton" Grid.Row="3" Grid.Column="1"/>
+                        <local:PinPadButton  x:Name="nine" x:Uid="/MPinSDK/Resources/NineButton" Grid.Row="3" Grid.Column="2"/>
+                        <local:PinPadButton  x:Name="clear" x:Uid="/MPinSDK/Resources/ClearButton"  Grid.Row="4" />
+                        <local:PinPadButton  x:Name="zero" x:Uid="/MPinSDK/Resources/ZeroButton" Grid.Row="4" Grid.Column="1"/>
+                        <local:PinPadButton  x:Name="sign" x:Uid="/MPinSDK/Resources/SignButton" Grid.Row="4" Grid.Column="2" IsEnabled="False"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -179,8 +179,7 @@
                 <ControlTemplate>
 
                     <!--<Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">-->
-                    <PasswordBox x:Name="PasswordBox"  Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}"
-                                 PlaceholderText="{Binding EmptyText, RelativeSource={RelativeSource TemplatedParent}}"                                
+                    <PasswordBox x:Name="PasswordBox" x:Uid="/MPinSDK/Resources/PinPasswordBox" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}"
                                  HorizontalAlignment="{TemplateBinding HorizontalAlignment}" FontSize="{TemplateBinding FontSize}"
                                  VerticalAlignment="{TemplateBinding VerticalAlignment}" BorderThickness="{TemplateBinding BorderThickness}"
                                  IsEnabled="False" 

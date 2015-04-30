@@ -8,7 +8,7 @@
   <mp:PhoneIdentity PhoneProductId="eb7b958c-231e-4c18-aa35-96fbdd495f50" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>TestWinPhoneApp1</DisplayName>
+    <DisplayName>MPin Demo</DisplayName>
     <PublisherDisplayName>petya.koleva</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -25,12 +25,12 @@
   <Applications>
     <Application Id="App"
         Executable="$targetnametoken$.exe"
-        EntryPoint="TestWinPhoneApp1.App">
+        EntryPoint="MPinDemo.App">
         <m3:VisualElements
-            DisplayName="TestWinPhoneApp1"
+            DisplayName="MPin Demo"
             Square150x150Logo="Assets\Logo.png"
             Square44x44Logo="Assets\SmallLogo.png"
-            Description="TestWinPhoneApp1"
+            Description="MPinDemo"
             ForegroundText="light"
             BackgroundColor="transparent">
             <m3:DefaultTile Wide310x150Logo="Assets\WideLogo.png" Square71x71Logo="Assets\Square71x71Logo.png"/>
