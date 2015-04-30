@@ -1187,6 +1187,7 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="btnDone" destination="ipm-rq-LrV" id="zu2-II-Iqi"/>
                         <outlet property="btnTestConfig" destination="K54-IC-1av" id="M3s-Ze-IFb"/>
                         <outlet property="tblView" destination="FvQ-kZ-Hpw" id="7QC-JN-yDe"/>
                     </connections>

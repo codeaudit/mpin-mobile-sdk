@@ -225,7 +225,7 @@ static char const* const delegateKey = "delegateKey";
                                  error:&error])
         {
             [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
-                    localizedReason:@"Please verify fingerprint"
+                    localizedReason:NSLocalizedString(@"WARNING_VERIFY_FINGER", @"")
                               reply:touchIDBlock];
         }
         else
@@ -270,7 +270,7 @@ static char const* const delegateKey = "delegateKey";
                                  error:&error])
         {
             [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
-                    localizedReason:@"Please verify fingerprint"
+                    localizedReason:NSLocalizedString(@"WARNING_VERIFY_FINGER", @"")
                               reply:^(BOOL success, NSError *authenticationError)
              {
                  if (success)
@@ -355,7 +355,7 @@ static char const* const delegateKey = "delegateKey";
         if ([context canEvaluatePolicy: LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error])
         {
             [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
-                    localizedReason:@"Please verify fingerprint"
+                    localizedReason:NSLocalizedString(@"WARNING_VERIFY_FINGER", @"")
                               reply:^(BOOL success, NSError *authenticationError)
              {
                  if (success) {

@@ -49,7 +49,9 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
     
     intAccessNumberLenght = [strANLenght intValue];
     max = intAccessNumberLenght;
-    _lblNote.text = [NSString stringWithFormat:@"ENTER %d DIGIT ACCESS NUMBER", intAccessNumberLenght];
+    self.title = NSLocalizedString(@"ACCESSNUMBERVC_TITLE", @"");
+    _lblNote.text = [NSString stringWithFormat:NSLocalizedString(@"ACCESSNUMBERVC_NOTE", @""), intAccessNumberLenght];
+    
 }
 
 - (IBAction)logInAction:(id)sender {

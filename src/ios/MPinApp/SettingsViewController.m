@@ -88,24 +88,24 @@
     NSInteger service = [[ConfigurationManager sharedManager] getConfigurationTypeAtIndex:indexPath.row];
     switch (indexPath.row) {
     case NONE:
-        customCell.lblConfigurationType.text = @"Login to Mobile App";
+        customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_MOBILE_APP", @"");
         break;
     case OTP:
-        customCell.lblConfigurationType.text = @"Login with OTP";
+        customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_OTP", @"");
         break;
     case AN:
-        customCell.lblConfigurationType.text = @"Login to Online Session";
+        customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_ONLINE_SESSION", @"");
         break;
     default:
         switch (service) {
         case LOGIN_ON_MOBILE:
-            customCell.lblConfigurationType.text = @"Login to Mobile App";
+            customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_MOBILE_APP", @"");;
             break;
         case LOGIN_ONLINE:
-            customCell.lblConfigurationType.text = @"Login to Online Session";
+            customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_ONLINE_SESSION", @"");
             break;
         case LOGIN_WITH_OTP:
-            customCell.lblConfigurationType.text = @"Login with OTP";
+            customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_OTP", @"");
             break;
         }
         break;
@@ -191,7 +191,7 @@
                                                             message:NSLocalizedString(@"WARNING_THIS_WILL_DELETE_ALL_IDS", @"")
                                                            delegate:self
                                                   cancelButtonTitle:NSLocalizedString(@"CANCEL", @"")
-                                                  otherButtonTitles:NSLocalizedString(@"OK", @""), nil];
+                                                  otherButtonTitles:NSLocalizedString(@"OKBTN", @""), nil];
         [alertView show];
     }
     else {

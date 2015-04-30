@@ -63,6 +63,11 @@ static NSString* const kUser = @"User";
     } else {
         [self hideDeviceName];
     }
+    _txtIdentity.placeholder    = NSLocalizedString(@"ADDIDVC_LBL_IDENTITY", @"");
+    _txtDevName.placeholder     = NSLocalizedString(@"ADDIDVC_TXT_DEVNAME", @"");
+    _lblIdentity.text           = NSLocalizedString(@"ADDIDVC_LBL_IDENTITY", @"");
+    _lblDevName.text            = NSLocalizedString(@"ADDIDVC_LBL_DEVNAME", @"");
+    self.title                  = NSLocalizedString(@"ADDIDVC_TITLE", @"");
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -112,8 +117,6 @@ static NSString* const kUser = @"User";
 
 - (IBAction)addAction:(id)sender {
     if ([kEmpty isEqualToString:self.txtIdentity.text]) {
-        [[[[iToast makeText:NSLocalizedString(@"Enter text in user id text field!", @"")]
-           setGravity:iToastGravityBottom] setDuration:iToastDurationLong] show];
 
         UIAlertView* alert =
         [[UIAlertView alloc] initWithTitle:@""

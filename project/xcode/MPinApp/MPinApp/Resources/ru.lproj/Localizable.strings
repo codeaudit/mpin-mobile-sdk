@@ -17,16 +17,60 @@
 "USERLISTVC_TITLE" = "Акаунти";
 "USERLISTVC_ADD_NEW_ID" = "Добавяне на нов акаунт +";
 
+/* Add user */
+
+"ADDIDVC_TITLE" = "ДОБАВЯНЕ НА ID";
+
+"ADDIDVC_LBL_IDENTITY" = "ВЪВЕДЕТЕ EMAIL";
+"ADDIDVC_TXT_IDENTITY" = "email...";
+"ADDIDVC_LBL_DEVNAME" = "ИМЕ НА УСТРОЙСТВОТО";
+"ADDIDVC_TXT_DEVNAME" = "ИМЕ...";
+
+/* ID Created */
+
+"ID_CREATED_TITLE" = "ID Е СЪЗДАДЕНО";
+
+"ID_CREATED_MESSAGE" = "ПОЗДРАВЛЕНИЯ!\n Вашето ID: %@ БЕШЕ СЪЗДАДЕНО УСПЕШНО.";
+"ID_CREATED_BTN_SIGN_IN" = "ВЛИЗАНЕ С ТОВА ID";
+
+
+/*CONFIRM ID VC */
+"CONFIRM_EMAIL_VC_TITLE" = "ПОТВЪРЖДЕНИЕ НА EMAIL";
+
+"CONFIRM_EMAIL_VC_LBL_MESSAGE" = "Изпратихме email на адрес:\n %@ \n ....";
+"CONFIRM_EMAIL_VC_BTN_EMAIL_CONFIRMED" = "ПОТВЪРДИХ EMAIL";
+"CONFIRM_EMAIL_VC_BTN_RESEND_EMAIL" = "ИЗПРАТИ ОТНОВО";
+"CONFIRM_EMAIL_VC_BTN_GOTO_ID_LIST" = "НАЗАД КЪМ СПИСЪКА";
+
+/* OTP */
+
+"OTPVC_TITLE" = "ЕДНОКРАТНА ПАРОЛА";
+
+"OTPVC_LBL_MESSAGE"        = "МОЖЕ ДА ИЗПОЛЗВАТЕ СЛЕДНАТА ПАРОЛА ЗА ДОСТЪП";
+"OTPVC_LBL_YOUR_PASSWORD" = "ВАШАТА ПАРОЛА";
+
 /* ACCESS NUMBER */
+"ACCESSNUMBERVC_TITLE" = "ВЪВЕДЕТЕ НОМЕР ЗА ДОСТЪП";
 
 "ACCESSNUMBERVC_NOTE"   = "ВЪВЕДЕТЕ %d ЦИФРЕН НОМЕР ЗА ДОСТЪП";
 
-/* Configuration list */
 
+/* Configuration list */
 "CONFIGLISTVC_TITLE"    = "Конфигурации";
 
-/* About */
+/* Add Configuration*/
+"ADDCONFIGVC_TITLE_ADD" = "ДОБАВЯНЕ НА КОНФИГУРАЦИЯ";
+"ADDCONFIGVC_TITLE_EDIT" = "ДОБАВЯНЕ НА КОНФИГУРАЦИЯ";
+"ADDCONFIGVC_NAME" = "ИМЕ";
+"ADDCONFIGVC_URL" = "URL";
+"ADDCONFIGVC_PREFIX" = "RPS ПРЕФИКС";
+"ADDCONFIGVC_BTN_TEST_CONFIG" = "ТЕСТВАЙ КОНФИГУРАЦИЯТА";
+"ADDCONFIGVC_ERROR_EMPTY_URL" = "МОЛЯ ВЪВЕДЕТЕ URL";
+"ADDCONFIGVC_ERROR_INVALID_URL" = "НЕВАЛИДЕН URL";
+"ADDCONFIGVC_MESSAGE_CONFIG_OK" = "ВАЛИДНА КОНФИГУРАЦИЯ";
+"ADDCONFIGVC_INVALID_CONFIG" = "НЕВАЛИДНА КОНФИГУРАЦИЯ";
 
+/* About */
 "ABOUTVC_TITLE"         = "Относно";
 "ABOUTVC_BUILD_NUMBER"  = "Build: %@";
 "ABOUTVC_VER_NUMBER"    = "Ver. %@";
@@ -38,12 +82,14 @@
 
 /* HUD Messages */
 "HUD_CHANGE_CONFIGURATION"  = "Смяна на конфигурацията. Моля изчакайте.";
-"HUD_AUTH_SUCCESS"          = "Успешно автентикация";
+"HUD_AUTH_SUCCESS"          = "Успешна автентикация";
 "HUD_LOGOUT"                = "Излизане";
 "HUD_LOGOUT_OK"             = "Успешно излизане";
 "HUD_LOGOUT_NOT_OK"         = "Неуспешно излизане";
 "HUD_REACTIVATE_ACCOUNT"    = "Невалиден потребител \n Моля преактивирайте акаунта си!";
 "HUD_UNSUPPORTED_ACTION"    = "Неподдържано действие!";
+"HUD_SAVE_CONFIG"           = "Запазване на конфигурацията. Моля изчакайте.";
+"HUD_SAVE_CONFIG_AND_DEL"   = "Запазване на конфигурацията. Моля изчакайте. Всички асоциирани профили ще бъдат изтрити.";
 
 /* ERROR Messages */
 
@@ -53,16 +99,23 @@
 "ERROR_WRONG_AN"                        = "Грешен номер за достъп";
 
 /* WARNINGS */
-"WARNING_USER_WILL_BE_DELETED" = "User \"%@\" will be deleted!";
-"WARNING_CANNOT_EDIT_PREDEFINED_CONFIG" = "Predefined configurations cannot be edited.";
-"WARNING_CANNOT_DELETE_PREDEFINED_CONFIG" = "Predefined configurations cannot be deleted.";
-"WARNING_THIS_WILL_DELETE_ALL_IDS" = "This action will also delete all identities, associated with this configuration.";
+"WARNING_USER_WILL_BE_DELETED" = "Потребителят \"%@\" ще бъде изтрит!";
+"WARNING_CANNOT_EDIT_PREDEFINED_CONFIG" = "ПРЕДЕФИНИРАНИТЕ КОНФИГУРАЦИИ НЕ МОГАТ ДА БЪДАТ РЕДАКТИРАНИ.";
+"WARNING_CANNOT_DELETE_PREDEFINED_CONFIG" = "ПРЕДЕФИНИРАНИТЕ КОНФИГУРАЦИИ НЕ МОГАТ ДА БЪДАТ ИЗТРИВАНИ.";
+"WARNING_THIS_WILL_DELETE_ALL_IDS" = "Това действие ще изтрие всички id's асоциирани с този бекенд";
+"WARNING_VERIFY_FINGER" =  "Проверка на пръстов отпечатък";
 
 /* BASIC THINGS */
 "CANCEL" = "ОТКАЗ";
-"OK" = "OK";
+"OKBTN" = "OK";
 "DELETE" = "ИЗТРИВАНЕ";
 "EDIT" = "РЕДАКЦИЯ";
-"ADD" = "Добави";
-"CLOSE" = "Затвори";
-"WARNING" = "Предупреждение";
+"ADD" = "ДОБАВИ";
+"CLOSE" = "ЗАТВОРИ";
+"WARNING" = "ПРЕДУПРЕЖДЕНИЕ";
+"DONE" = "ГОТОВО";
+
+/* OTHER SHARED STRINGS */
+"LOGIN_MOBILE_APP" = "ЛОГИН В МОБИЛНО ПРИЛОЖЕНИЕ";
+"LOGIN_ONLINE_SESSION" = "ЛОГИН В УЕБ БРАУЗЪР";
+"LOGIN_OTP" = "ЛОГИН С ЕДНОКРАТНА ПАРОЛА";
