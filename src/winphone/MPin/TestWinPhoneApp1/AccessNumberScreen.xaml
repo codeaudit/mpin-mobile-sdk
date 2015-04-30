@@ -10,9 +10,10 @@
 
     <Grid>
         <StackPanel>
-            <TextBlock Text="Enter your access number"/>
+            <TextBlock x:Uid="AccessNumberTB"/>
             <TextBox x:Name="AccessNumberTB" />
-            <Button Content="Done" Click="Done_Click" />
+            
+            <Button x:Uid="AccessNumberButton" Click="Done_Click" />
         </StackPanel>
     </Grid>
 </Page>

@@ -15,10 +15,10 @@
         </Grid.RowDefinitions>
 
         <StackPanel HorizontalAlignment="Center">
-            <TextBlock Text="The OTP number for "/>
+            <TextBlock x:Uid="OtpTB"/>
 
             <TextBlock Text="{Binding CurrentUser.Id, Mode=TwoWay}" FontWeight="Bold" FontSize="20"/>
-            <TextBlock Text=" is: " />
+            <TextBlock x:Uid="Otp2TB" />
 
             <TextBlock Text="{Binding Otp.Otp, Mode=TwoWay}" FontWeight="Bold" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
         </StackPanel>
@@ -36,12 +36,12 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock FontSize="20" HorizontalAlignment="Right"  VerticalAlignment="Center"  Text="Time left: "/>
+                <TextBlock FontSize="20" HorizontalAlignment="Right"  VerticalAlignment="Center" x:Uid="TimeLeftTB" />
                 <TextBlock FontSize="40" HorizontalAlignment="Right"  VerticalAlignment="Center"  x:Name="TimeLeft" Grid.Column="1"  FontWeight="Bold" />
-                <TextBlock FontSize="20" HorizontalAlignment="Left"   VerticalAlignment="Center" Text=" sec" Grid.Column="2"/>
+                <TextBlock FontSize="20" HorizontalAlignment="Left"   VerticalAlignment="Center" x:Uid="SecTB" Grid.Column="2"/>
             </Grid>
 
-            <TextBlock x:Name="ExpiredTB" Text="Expired!" HorizontalAlignment="Center" FontWeight="Bold" Visibility="Collapsed"/>
+            <TextBlock x:Name="ExpiredTB" x:Uid="ExpiredTB" HorizontalAlignment="Center" FontWeight="Bold" Visibility="Collapsed"/>
 
             <ProgressBar
                      x:Name="TtlProgressBar"

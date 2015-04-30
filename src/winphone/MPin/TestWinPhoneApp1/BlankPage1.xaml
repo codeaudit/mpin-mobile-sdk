@@ -12,7 +12,7 @@
 
         <Pivot x:Name="MainPivot">
 
-            <PivotItem Header="Services" x:Name="ServicesPivotItem">
+            <PivotItem x:Uid="ServicesPivotItem" x:Name="ServicesPivotItem">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -20,11 +20,11 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Horizontal" >
-                        <Button Content="Add" Click="AddService_Click" Margin="2"/>
-                        <Button Content="Delete" Click="DeleteService_Click" Margin="2"/>
-                        <Button x:Name="TestServiceButton" Content="Test Backend" Click="TestBackend_click" Margin="2" IsEnabled="False" />
+                        <Button x:Uid="AddServiceButton"  Click="AddService_Click" Margin="2"/>
+                        <Button x:Uid="DeleteServiceButton" Click="DeleteService_Click" Margin="2"/>
+                        <Button x:Uid="TestServiceButton" x:Name="TestServiceButton" Click="TestBackend_click" Margin="2" IsEnabled="False" />
                     </StackPanel>
-                    <TextBlock Text="Please, choose а configuration" Grid.Row="1"/>
+                    <TextBlock x:Uid="ConfigurationTB" Grid.Row="1"/>
                     <ListBox x:Name="ServicesList" Grid.Row="2" SelectedItem="{Binding CurrentService, Mode=TwoWay}" SelectionChanged="Services_SelectionChanged" >
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -42,18 +42,18 @@
                 </Grid>
             </PivotItem>
 
-            <PivotItem Header="Users" x:Name="UsersPivotItem">
+            <PivotItem x:Uid="UsersPivotItem" x:Name="UsersPivotItem">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Horizontal" Grid.Row="1">
-                        <Button Margin="2" Content="Add" Click="AddUser_Click" x:Name="AddUserButton"/>
-                        <Button Margin="2" Content="Delete" Click="DeleteUser_Click" x:Name="DeleteUserButton"/>
-                        <Button Margin="2" Content="Select" Click="Authenticate_Click" x:Name="AuthenticateButton"/>
+                        <Button Margin="2" x:Uid="UsersAddButton" Click="AddUser_Click" x:Name="AddUserButton"/>
+                        <Button Margin="2" x:Uid="UsersDeleteButton" Click="DeleteUser_Click" x:Name="DeleteUserButton"/>
+                        <Button Margin="2" x:Uid="UsersSelectButton" Click="Authenticate_Click" x:Name="AuthenticateButton"/>
                     </StackPanel>
-                    <ListBox x:Name="UsersList"  SelectionChanged="UsersList_SelectionChanged">
+                    <ListBox x:Name="UsersList" SelectionChanged="UsersList_SelectionChanged">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Border BorderBrush="Red" BorderThickness="1" Margin="2">

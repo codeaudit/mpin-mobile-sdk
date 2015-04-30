@@ -9,9 +9,9 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <StackPanel>
-        <TextBlock Text="Email address: " />
+        <TextBlock x:Uid="NewUserIdTB" />
         <TextBox x:Name="UserId" Text="{Binding eMail, Mode=TwoWay}"/>
 
-        <Button Content="Create Identity" VerticalAlignment="Bottom" Click="Button_Click"/>
+        <Button x:Uid="NewUserButton" VerticalAlignment="Bottom" Click="Button_Click"/>
     </StackPanel>
 </Page>

@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MPinSDK.Common;
 using MPinSDK.Models; // navigation extensions
+using Windows.ApplicationModel.Resources; 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -69,19 +70,18 @@ namespace TestWinPhoneApp1
                     {
                         // todo.... -> NetworkError should not be returned
                         case Status.Code.OK:
-                            AuthenticatedTB.Text = "is successfully authenticated!";
+                            AuthenticatedTB.Text = ResourceLoader.GetForCurrentView().GetString("SuccessfulAuth");
                             break;
                             
                         case Status.Code.INCORRECT_ACCESS_NUMBER :
-                            AuthenticatedTB.Text = "is NOT successfully authenticated due to incorrect access number!";
+                            AuthenticatedTB.Text = ResourceLoader.GetForCurrentView().GetString("IncorrectAccessNumber");
                             break;
 
                         case Status.Code.INCORRECT_PIN:
-                            AuthenticatedTB.Text = "is NOT authenticated due to an incorrect entered pin!";
+                            AuthenticatedTB.Text = ResourceLoader.GetForCurrentView().GetString("IncorrectPin");
                             break;
-                            //case Status.Code.IncrrectAccessNumber... TODO merge with master to get latest changes
                         default:
-                            AuthenticatedTB.Text = "is NOT authenticated! Error: " + s.ErrorMessage; 
+                            AuthenticatedTB.Text = ResourceLoader.GetForCurrentView().GetString("ErrorAuth") + s.ErrorMessage; 
                             break;
                     }
 

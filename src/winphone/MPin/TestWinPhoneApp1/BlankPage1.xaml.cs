@@ -25,6 +25,7 @@ using Windows.UI.Xaml.Navigation;
 using MPinSDK.Common; // navigation extensions
 using Windows.UI;
 using Windows.Storage;
+using Windows.ApplicationModel.Resources;
 
 namespace TestWinPhoneApp1
 {
@@ -83,7 +84,7 @@ namespace TestWinPhoneApp1
             {
                 this.MainPivot.SelectedItem = this.UsersPivotItem;
             }
-        }
+     }
 
         #endregion // constructors
 
@@ -124,7 +125,7 @@ namespace TestWinPhoneApp1
                     case "Error":
                         await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                         {
-                            rootPage.NotifyUser("Error occured: " + data[2], MainPage.NotifyType.ErrorMessage);
+                            rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("Error") + data[2], MainPage.NotifyType.ErrorMessage);
                         });
                         break;
 
@@ -181,7 +182,7 @@ namespace TestWinPhoneApp1
                 User.State state = DataModel.CurrentUser.UserState;
                 await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    rootPage.NotifyUser("User not confirmed! User status " + state.ToString(), state == User.State.INVALID ? MainPage.NotifyType.ErrorMessage : MainPage.NotifyType.StatusMessage);
+                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NotConfirmedUser") + state.ToString(), state == User.State.INVALID ? MainPage.NotifyType.ErrorMessage : MainPage.NotifyType.StatusMessage);
                 });
 
             }
@@ -189,10 +190,9 @@ namespace TestWinPhoneApp1
             {
                 await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    rootPage.NotifyUser("A problem occurs during registration. Please, try again!", MainPage.NotifyType.ErrorMessage);
+                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("RegistrationProblem"), MainPage.NotifyType.ErrorMessage);
                 });
             }
-
         }
 
         private async Task AddUser(string id)
@@ -219,7 +219,7 @@ namespace TestWinPhoneApp1
             {
                 await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    rootPage.NotifyUser("Problem with the registration of " + user.Id + "! State: " + user.UserState, MainPage.NotifyType.ErrorMessage);
+                    rootPage.NotifyUser(string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblem") , user.Id, user.UserState), MainPage.NotifyType.ErrorMessage);
                 });
             }
         }
@@ -328,7 +328,7 @@ namespace TestWinPhoneApp1
             {
                 if (status == null)
                 {
-                    rootPage.NotifyUser("Error: " + status.ErrorMessage, MainPage.NotifyType.ErrorMessage);
+                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("Error") + status.ErrorMessage, MainPage.NotifyType.ErrorMessage);
                 }
                 else
                 {
@@ -389,9 +389,10 @@ namespace TestWinPhoneApp1
             if (status == null || status.StatusCode != Status.Code.OK)
             {
                 await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                                {
-                                    rootPage.NotifyUser("Failed to initialize MPinSDK: status code = " + (status == null ? "null" : status.StatusCode.ToString()) + "Try again!", MainPage.NotifyType.ErrorMessage);
-                                });
+                {
+                    rootPage.NotifyUser(string.Format(ResourceLoader.GetForCurrentView().GetString("InitializationFailed"), (status == null ? "null" : status.StatusCode.ToString())), MainPage.NotifyType.ErrorMessage);
+                });
+
                 bool current = this.processSelection;
                 this.processSelection = false;
                 this.ServicesList.SelectedItem = null;
@@ -400,9 +401,9 @@ namespace TestWinPhoneApp1
             else
             {
                 await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                                {
-                                    rootPage.NotifyUser("Service set!", MainPage.NotifyType.StatusMessage);
-                                });
+                {
+                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("ServiceSet"), MainPage.NotifyType.StatusMessage);
+                });
             }
 
             UpdateUsersList();
@@ -477,7 +478,7 @@ namespace TestWinPhoneApp1
         {
             if (DataModel.CurrentUser == null)
             {
-                rootPage.NotifyUser("No selected user!", MainPage.NotifyType.ErrorMessage);
+                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoSelectedUser"), MainPage.NotifyType.ErrorMessage);
                 return;
             }
 
@@ -490,12 +491,12 @@ namespace TestWinPhoneApp1
                     break;
 
                 case User.State.BLOCKED:
-                    rootPage.NotifyUser("User is BLOCKED! Too many unsuccessful authentications!", MainPage.NotifyType.ErrorMessage);
+                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("BlockedUser"), MainPage.NotifyType.ErrorMessage);
                     break;
 
                 case User.State.INVALID:
                     // user still not registered -> start the registration
-                    rootPage.NotifyUser("User is in an INVALID state!", MainPage.NotifyType.ErrorMessage);
+                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("InvalidUser"), MainPage.NotifyType.ErrorMessage);
                     break;
 
                 case User.State.STARTED_REGISTRATION:
@@ -524,11 +525,10 @@ namespace TestWinPhoneApp1
         {
             if (string.IsNullOrEmpty(DataModel.CurrentService.BackendUrl))
             {
-                rootPage.NotifyUser("No backend set!", MainPage.NotifyType.ErrorMessage);
+                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoServiceSet"), MainPage.NotifyType.ErrorMessage);
             }
             else
             {
-                //(Window.Current.Content as Frame).Navigate(typeof(AddNewUser));
                 Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
                 mainFrame.Navigate(typeof(AddNewUser));
             }
@@ -584,7 +584,7 @@ namespace TestWinPhoneApp1
 
                 await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    rootPage.NotifyUser("Backend status: " + status.StatusCode, status.StatusCode == Status.Code.OK ? MainPage.NotifyType.StatusMessage : MainPage.NotifyType.ErrorMessage);
+                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("ServiceStatus") + status.StatusCode, status.StatusCode == Status.Code.OK ? MainPage.NotifyType.StatusMessage : MainPage.NotifyType.ErrorMessage);
                 });
             }
         }

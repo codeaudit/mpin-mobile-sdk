@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MPinSDK.Common;
 using System.Text.RegularExpressions;
+using Windows.ApplicationModel.Resources;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -52,11 +53,11 @@ namespace TestWinPhoneApp1
         {
             if (BlankPage1.IfUserExists(this.UserId.Text))
             {
-                rootPage.NotifyUser("User already exists for the specified service!", MainPage.NotifyType.ErrorMessage);
+                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("ExistingUser"), MainPage.NotifyType.ErrorMessage);
             }
             else if (!IsMailValid(this.UserId.Text))
             {
-                rootPage.NotifyUser("The mail is not in a valid mail format!", MainPage.NotifyType.ErrorMessage);
+                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NotValidMail"), MainPage.NotifyType.ErrorMessage);
             }
             else
             {

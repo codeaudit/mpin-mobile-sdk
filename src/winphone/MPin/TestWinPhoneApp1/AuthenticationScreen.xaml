@@ -9,7 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <StackPanel VerticalAlignment="Center">
-        <TextBlock Text="User: " />
+        <TextBlock x:Uid="AuthTB" />
         <TextBlock Text="{Binding User.Id}" FontWeight="Bold" />
         <TextBlock x:Name="AuthenticatedTB" TextWrapping="Wrap"/>
     </StackPanel>

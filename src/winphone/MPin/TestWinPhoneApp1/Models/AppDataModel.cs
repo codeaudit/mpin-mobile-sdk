@@ -127,7 +127,7 @@ namespace TestWinPhoneApp1.Models
 
             BackendsList.Add(new Backend()
             {
-                BackendUrl = "ntt-vpn.certivox.org",
+                BackendUrl = "http://ntt-vpn.certivox.org",
                 RequestAccessNumber = false,
                 RequestOtp = true,
                 Title = "OTP NTT login"

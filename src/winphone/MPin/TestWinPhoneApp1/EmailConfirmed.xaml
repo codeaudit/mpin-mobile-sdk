@@ -15,14 +15,14 @@
         </Grid.RowDefinitions>
         
         <StackPanel VerticalAlignment="Center">
-            <TextBlock Text="We have sent you an emai to: "/>
+            <TextBlock x:Uid="EmailTB"/>
             <TextBlock Text="{Binding User.Id}" FontWeight="Bold" />
-            <TextBlock Text="Click the link in the email, to confirm your identity and proceed." TextWrapping="Wrap"/>
+            <TextBlock x:Uid="ConfirmTB" TextWrapping="Wrap"/>
         </StackPanel>
         <StackPanel Grid.Row="1">
-            <Button Content="I confirmed my email, continue" Click="Button_Click" />
-            <Button Content="Resend email" Click="Resend_Click"/>
-            <Button Content="Go to identities list" Click="GoIdentities_Click"/>
+            <Button x:Uid="ConfirmButton" Click="Button_Click" />
+            <Button x:Uid="ResendButton" Click="Resend_Click"/>
+            <Button x:Uid="IdsButton" Click="GoIdentities_Click"/>
         </StackPanel>
     </Grid>
 </Page>
