@@ -66,25 +66,23 @@ namespace MPinDemo
         {
             BlankPage1._sdk = new MPin();
             BlankPage1.DataModel = new AppDataModel();
-
         }
 
         public BlankPage1()
         {
             this.InitializeComponent();
             _dispatcher = Window.Current.Dispatcher;
-
             this.DataContext = DataModel;
             roamingSettings = ApplicationData.Current.RoamingSettings;
 
             UpdateServicesList();
             UpdateUsersList();
-
+       
             if (DataModel.CurrentService.BackendUrl != null)
             {
                 this.MainPivot.SelectedItem = this.UsersPivotItem;
             }
-     }
+        }
 
         #endregion // constructors
 
@@ -145,8 +143,7 @@ namespace MPinDemo
             {
                 List<User> users = new List<User>();
                 this.Sdk.ListUsers(users);
-                UpdateUsersSelection(users);                
-                UsersList.ItemsSource = users;
+                UsersList.ItemsSource = users;                
                 UsersList.SelectedItem = GetSelectedUser(users);
                 AuthenticateButton.IsEnabled = UsersList.SelectedItem != null;
             }
@@ -162,17 +159,6 @@ namespace MPinDemo
                     return user;
 
             return null;
-        }
-
-        private void UpdateUsersSelection(List<User> users)
-        {
-            if (users == null || users.Count == 0 || DataModel.CurrentUser == null)
-                return;
-
-            foreach (var user in users)
-            {
-                user.IsSelected = user.Equals(DataModel.CurrentUser);
-            }
         }
 
         private async Task NotConfirmedIdentity()
@@ -476,6 +462,16 @@ namespace MPinDemo
 
         private async void Authenticate_Click(object sender, RoutedEventArgs e)
         {
+            await ProcessUser();
+
+            //await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //{
+            //    rootPage.NotifyUser("Authenitcate: " + (status == null ? "null" : status.StatusCode.ToString()), MainPage.NotifyType.ErrorMessage);
+            //});
+        }
+
+        private async Task ProcessUser()
+        {
             if (DataModel.CurrentUser == null)
             {
                 rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoSelectedUser"), MainPage.NotifyType.ErrorMessage);
@@ -514,11 +510,6 @@ namespace MPinDemo
                     }
                     break;
             }
-
-            //await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //{
-            //    rootPage.NotifyUser("Authenitcate: " + (status == null ? "null" : status.StatusCode.ToString()), MainPage.NotifyType.ErrorMessage);
-            //});
         }
 
         private void AddUser_Click(object sender, RoutedEventArgs e)

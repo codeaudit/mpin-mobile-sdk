@@ -52,12 +52,12 @@ namespace MPinSDK.Models
             }
         }
 
-        // TODO: not used... used for? see android version IsUserSelected/SetUserSelected
-        public bool IsSelected
-        {
-            get;
-            set;
-        }
+        //// TODO: not used... used for? see android version IsUserSelected/SetUserSelected
+        //public bool IsSelected
+        //{
+        //    get;
+        //    set;
+        //}
 
         public override string ToString()
         {
