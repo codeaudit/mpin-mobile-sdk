@@ -471,11 +471,11 @@ static NSString* const kAN = @"AN";
 - (IBAction)btnDeleteTap:(id)sender
 {
     id<IUser> iuser = (self.users)[selectedIndexPath.row];
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"DELETE"
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"KEY_DELETE", @"")
                                                     message:[NSString stringWithFormat:NSLocalizedString(@"WARNING_USER_WILL_BE_DELETED", @""), [iuser getIdentity]]
                                                    delegate:self
-                                          cancelButtonTitle:NSLocalizedString(@"CANCEL", @"")
-                                          otherButtonTitles:NSLocalizedString(@"DELETE", @""),
+                                          cancelButtonTitle:NSLocalizedString(@"KEY_CANCEL", @"")
+                                          otherButtonTitles:NSLocalizedString(@"KEY_DELETE", @""),
                                           nil];
     alert.tag = DELETE_TAG;
     [alert show];

@@ -190,13 +190,13 @@
     else if ([vc isMemberOfClass:[SettingsViewController class]]) {
         SettingsViewController* myVc = (SettingsViewController*)vc;
         
-        [myVc.btnAddConfiguration setTitle:NSLocalizedString(@"ADD", @"")];
+        [myVc.btnAddConfiguration setTitle:NSLocalizedString(@"KEY_ADD", @"")];
         
-        [myVc.btnDeleteConfiguration setTitle:NSLocalizedString(@"DELETE", @"") forState:UIControlStateNormal];
+        [myVc.btnDeleteConfiguration setTitle:NSLocalizedString(@"KEY_DELETE", @"") forState:UIControlStateNormal];
         myVc.btnDeleteConfiguration.backgroundColor = [[SettingsManager sharedManager] color1];
         [myVc.btnDeleteConfiguration setTitleColor:[[SettingsManager sharedManager] color8] forState:UIControlStateNormal];
 
-         [myVc.btnEditConfiguration setTitle:NSLocalizedString(@"EDIT", @"") forState:UIControlStateNormal];
+         [myVc.btnEditConfiguration setTitle:NSLocalizedString(@"KEY_EDIT", @"") forState:UIControlStateNormal];
         myVc.btnEditConfiguration.backgroundColor = [[SettingsManager sharedManager] color1];
         [myVc.btnEditConfiguration setTitleColor:[[SettingsManager sharedManager] color7] forState:UIControlStateNormal];
 
@@ -221,7 +221,7 @@
 
         myVc.title = NSLocalizedString(@"USERLISTVC_TITLE", @"");
         [myVc.btnAdd setTitle:NSLocalizedString(@"USERLISTVC_ADD_NEW_ID", @"") forState:UIControlStateNormal];
-        [myVc.btnDelete setTitle:NSLocalizedString(@"DELETE", @"") forState:UIControlStateNormal];
+        [myVc.btnDelete setTitle:NSLocalizedString(@"KEY_DELETE", @"") forState:UIControlStateNormal];
         myVc.btnAdd.backgroundColor = [[SettingsManager sharedManager] color6];
         myVc.btnAdd.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:16.0];
     }

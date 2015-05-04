@@ -308,7 +308,7 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:kErrorTitle
                                                         message:NSLocalizedString(@"ADDCONFIGVC_ERROR_EMPTY_URL", @"")
                                                        delegate:nil
-                                              cancelButtonTitle:NSLocalizedString(@"CLOSE", @"")
+                                              cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"")
                                               otherButtonTitles:nil, nil];
         [alert show];
         return;
@@ -319,7 +319,7 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
             [[UIAlertView alloc] initWithTitle:kErrorTitle
                                        message:NSLocalizedString(@"ADDCONFIGVC_ERROR_INVALID_URL", @"")
                                       delegate:nil
-                             cancelButtonTitle:NSLocalizedString(@"CLOSE", @"")
+                             cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"")
                              otherButtonTitles:nil, nil];
 
         [alert show];
@@ -356,7 +356,7 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil
                                                         message:NSLocalizedString(@"ADDCONFIGVC_MESSAGE_CONFIG_OK", @"")
                                                        delegate:nil
-                                              cancelButtonTitle:NSLocalizedString(@"CLOSE", @"")
+                                              cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"")
                                               otherButtonTitles:nil, nil];
         [alert show];
         
@@ -403,7 +403,7 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
             initWithTitle:[mpinStatus getStatusCodeAsString]
                   message:message
                  delegate:nil
-        cancelButtonTitle:@"Close"
+        cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"")
         otherButtonTitles:nil, nil];
     [alert show];
 }
@@ -458,7 +458,7 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
         [[UIAlertView alloc] initWithTitle:kErrorTitle
                                    message:NSLocalizedString(@"ADDCONFIGVC_ERROR_INVALID_URL", @"")
                                   delegate:nil
-                         cancelButtonTitle:NSLocalizedString(@"CLOSE", @"")
+                         cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"")
                          otherButtonTitles:nil, nil];
         
         [alert show];

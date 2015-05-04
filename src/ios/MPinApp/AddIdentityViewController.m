@@ -122,7 +122,7 @@ static NSString* const kUser = @"User";
         [[UIAlertView alloc] initWithTitle:@""
                                    message:NSLocalizedString(@"ERROR_PLEASE_ENTER_VALID_USER_ID", @"")
                                   delegate:nil
-                         cancelButtonTitle:@"Close"
+                         cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"")
                          otherButtonTitles:nil, nil];
         [alert show];
         return;
@@ -133,7 +133,7 @@ static NSString* const kUser = @"User";
                               initWithTitle:@""
                               message:NSLocalizedString(@"ERROR_PLEASE_ENTER_VALID_EMAIL", @"")
                               delegate:nil
-                              cancelButtonTitle:@"Close"
+                              cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"")
                               otherButtonTitles:nil, nil];
         [alert show];
         return;

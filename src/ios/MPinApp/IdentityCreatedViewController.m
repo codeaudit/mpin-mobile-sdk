@@ -73,7 +73,7 @@
 
 - (void)showError:(NSString*)title desc:(NSString*)desc
 {
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:title message:desc delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil];
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:title message:desc delegate:self cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"") otherButtonTitles:nil];
     [alert show];
 }
 
@@ -151,7 +151,7 @@
 - (void)OnAuthenticateAccessNumberCompleted:(id)sender user:(id<IUser>)user
 {
     [self stopLoading];
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Authentication Successful!" message:nil delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil];
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Authentication Successful!" message:nil delegate:nil cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"") otherButtonTitles:nil, nil];
     [alert show];
 }
 

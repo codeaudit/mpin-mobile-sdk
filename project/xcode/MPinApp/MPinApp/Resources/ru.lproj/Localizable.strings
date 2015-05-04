@@ -103,7 +103,6 @@
 "ERROR_WRONG_AN"                        = "Грешен номер за достъп";
 
 "PIN_INPUT_CANCELED"                    = "Въвеждането на ПИН беше прекъснато";
-"OK"                                    = "OK";
 "CRYPTO_ERROR"                          = "Грешка в криптографията";
 "STORAGE_ERROR"                         = "Грешка при записване";
 "NETWORK_ERROR"                         = "Мрежова грешка";
@@ -126,14 +125,14 @@
 "WARNING_VERIFY_FINGER" =  "Проверка на пръстов отпечатък";
 
 /* BASIC THINGS */
-"CANCEL" = "ОТКАЗ";
-"OKBTN" = "OK";
-"DELETE" = "ИЗТРИВАНЕ";
-"EDIT" = "РЕДАКЦИЯ";
-"ADD" = "ДОБАВИ";
-"CLOSE" = "ЗАТВОРИ";
-"WARNING" = "ПРЕДУПРЕЖДЕНИЕ";
-"DONE" = "ГОТОВО";
+"KEY_CANCEL" = "ОТКАЗ";
+"KEY_OKBTN" = "OK";
+"KEY_DELETE" = "ИЗТРИВАНЕ";
+"KEY_EDIT" = "РЕДАКЦИЯ";
+"KEY_ADD" = "ДОБАВИ";
+"KEY_CLOSE" = "ЗАТВОРИ";
+"KEY_WARNING" = "ПРЕДУПРЕЖДЕНИЕ";
+"KEY_DONE" = "ГОТОВО";
 
 /* OTHER SHARED STRINGS */
 "LOGIN_MOBILE_APP" = "ЛОГИН В МОБИЛНО ПРИЛОЖЕНИЕ";

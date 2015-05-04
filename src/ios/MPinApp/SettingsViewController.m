@@ -187,11 +187,11 @@
 - (IBAction)deleteConfiguration:(id)sender
 {
     if ([[ConfigurationManager sharedManager] getSelectedConfigurationIndex] > 2) {
-        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"WARNING", @"")
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"KEY_WARNING", @"")
                                                             message:NSLocalizedString(@"WARNING_THIS_WILL_DELETE_ALL_IDS", @"")
                                                            delegate:self
-                                                  cancelButtonTitle:NSLocalizedString(@"CANCEL", @"")
-                                                  otherButtonTitles:NSLocalizedString(@"OKBTN", @""), nil];
+                                                  cancelButtonTitle:NSLocalizedString(@"KEY_CANCEL", @"")
+                                                  otherButtonTitles:NSLocalizedString(@"KEY_OKBTN", @""), nil];
         [alertView show];
     }
     else {
