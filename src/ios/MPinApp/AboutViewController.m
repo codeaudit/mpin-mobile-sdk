@@ -29,8 +29,9 @@
   _lblAppVersion.font = [UIFont fontWithName:@"OpenSans-Bold" size:12.f];
     
 
-  _lblBuildNumber.text = [NSString stringWithFormat:NSLocalizedString(@"ABOUT_BUILD_NUMBER", @"ABOUT VC BUILD NUMBER"), [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
+  _lblBuildNumber.text = [NSString stringWithFormat:NSLocalizedString(@"ABOUTVC_BUILD_NUMBER", @"ABOUT VC BUILD NUMBER"), [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
   _lblAppVersion.text = [NSString   stringWithFormat:@"%@ %@", @"Ver. ",[[NSBundle mainBundle]  objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+    self.title = NSLocalizedString(@"ABOUTVC_TITLE", @"");
 }
 
 - (void)viewWillAppear:(BOOL)animated {

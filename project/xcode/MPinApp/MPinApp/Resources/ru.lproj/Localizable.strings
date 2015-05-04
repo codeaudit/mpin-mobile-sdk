@@ -70,10 +70,14 @@
 "ADDCONFIGVC_MESSAGE_CONFIG_OK" = "ВАЛИДНА КОНФИГУРАЦИЯ";
 "ADDCONFIGVC_INVALID_CONFIG" = "НЕВАЛИДНА КОНФИГУРАЦИЯ";
 
+/* Account summary */
+
+"ACCOUNTSUMMARYVC_TITLE" = "Обобщена информация";
+
 /* About */
 "ABOUTVC_TITLE"         = "Относно";
 "ABOUTVC_BUILD_NUMBER"  = "Build: %@";
-"ABOUTVC_VER_NUMBER"    = "Ver. %@";
+"ABOUTVC_VER_NUMBER"    = "Версия %@";
 "ABOUTVC_COPYRIGHT"     = "Copyright (c) %@ Certivox. all rights reserved.";
 
 /* PinPad VC */
@@ -97,6 +101,22 @@
 "ERROR_PLEASE_ENTER_VALID_USER_ID"      = "Моля въведете валидно потребителско име!";
 "ERROR_UNEXPECTED_USER_STATE"           = "Неочаквана грешка %ld";
 "ERROR_WRONG_AN"                        = "Грешен номер за достъп";
+
+"PIN_INPUT_CANCELED"                    = "Въвеждането на ПИН беше прекъснато";
+"OK"                                    = "OK";
+"CRYPTO_ERROR"                          = "Грешка в криптографията";
+"STORAGE_ERROR"                         = "Грешка при записване";
+"NETWORK_ERROR"                         = "Мрежова грешка";
+"RESPONSE_PARSE_ERROR"                  = "Невалиден отговор от сървъра";
+"FLOW_ERROR"                            = "FLOW ERROR";
+"IDENTITY_NOT_AUTHORIZED"               = "ОТКАЗАНА РЕГИСТРАЦИЯ";
+"IDENTITY_NOT_VERIFIED"                 = "АКАУНТА НЕ Е ВЕРИФИЦИРАН";
+"REQUEST_EXPIRED"                       = "ОСТАРЯЛ РЕКУЕСТ";
+"REVOKED"                               = "Потребителският акаунт е забранен от сървъра";
+"INCORRECT_PIN"                         = "Невалиден ПИН";
+"INCORRECT_ACCESS_NUMBER"               = "Невалиден Номер за достъп";
+"HTTP_SERVER_ERROR"                     = "ГРЕШКА В СЪРВЪРА";
+"HTTP_REQUEST_ERROR"                    = "ИЗПРАТЕНИ СА НЕВАЛИДНИ ДАННИ КЪМ СЪРВЪРА";
 
 /* WARNINGS */
 "WARNING_USER_WILL_BE_DELETED" = "Потребителят \"%@\" ще бъде изтрит!";

@@ -19,7 +19,7 @@
 
 -(void) showError:(NSString *) title desc:(NSString *) desc
 {
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:title message:desc delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(title, desc) delegate:nil cancelButtonTitle:NSLocalizedString(@"CLOSE", @"") otherButtonTitles:nil];
     [alert show];
 }
 
