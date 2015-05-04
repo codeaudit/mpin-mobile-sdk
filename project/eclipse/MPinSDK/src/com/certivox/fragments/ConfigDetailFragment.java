@@ -30,9 +30,11 @@ public class ConfigDetailFragment extends Fragment {
 	private View mView;
 	private EditText mServiceNameEditText;
 	private EditText mServiceUrlEditText;
-	private EditText mServiceRpsEditText;
+	private EditText mServiceRTSEditText;
+	private CheckBox mServiceMobileCheckBox;
 	private CheckBox mServiceOTPCheckBox;
 	private CheckBox mServiceANCheckBox;
+	private Button mCheckServiceButton;
 	private Button mSaveServiceButton;
 
 	private long configId;
@@ -104,35 +106,69 @@ public class ConfigDetailFragment extends Fragment {
 				.findViewById(R.id.service_name_input);
 		mServiceUrlEditText = (EditText) mView
 				.findViewById(R.id.service_url_input);
-		mServiceRpsEditText = (EditText) mView
+		mServiceRTSEditText = (EditText) mView
 				.findViewById(R.id.service_rts_input);
 
+		mServiceMobileCheckBox = (CheckBox) mView
+				.findViewById(R.id.service_mobile);
 		mServiceOTPCheckBox = (CheckBox) mView.findViewById(R.id.service_otp);
 		mServiceANCheckBox = (CheckBox) mView.findViewById(R.id.service_an);
 
+		mCheckServiceButton = (Button) mView
+				.findViewById(R.id.check_service_button);
 		mSaveServiceButton = (Button) mView
 				.findViewById(R.id.save_service_button);
+
+		mCheckServiceButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				checkBackend(false);
+			}
+		});
 
 		mSaveServiceButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				checkBackend();
+				checkBackend(true);
 			}
 		});
 
 		if (mConfig != null) {
 			mServiceNameEditText.setText(mConfig.getTitle());
 			mServiceUrlEditText.setText(mConfig.getBackendUrl());
+			mServiceRTSEditText.setText(mConfig.getRTS());
+			mServiceMobileCheckBox.setChecked(!mConfig.getRequestOtp()
+					&& !mConfig.getRequestAccessNumber());
 			mServiceOTPCheckBox.setChecked(mConfig.getRequestOtp());
 			mServiceANCheckBox.setChecked(mConfig.getRequestAccessNumber());
+
+			mServiceMobileCheckBox
+					.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+						@Override
+						public void onCheckedChanged(CompoundButton buttonView,
+								boolean isChecked) {
+							if (isChecked) {
+								mServiceOTPCheckBox.setChecked(false);
+								mServiceANCheckBox.setChecked(false);
+							} else if (!mServiceOTPCheckBox.isChecked()
+									&& !mServiceANCheckBox.isChecked()) {
+								buttonView.setChecked(true);
+							}
+
+						}
+					});
 
 			mServiceOTPCheckBox
 					.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 						@Override
 						public void onCheckedChanged(CompoundButton buttonView,
 								boolean isChecked) {
-							if (isChecked && mServiceANCheckBox.isChecked()) {
+							if (isChecked) {
+								mServiceMobileCheckBox.setChecked(false);
 								mServiceANCheckBox.setChecked(false);
+							} else if (!mServiceMobileCheckBox.isChecked()
+									&& !mServiceANCheckBox.isChecked()) {
+								buttonView.setChecked(true);
 							}
 						}
 					});
@@ -142,8 +178,12 @@ public class ConfigDetailFragment extends Fragment {
 						@Override
 						public void onCheckedChanged(CompoundButton buttonView,
 								boolean isChecked) {
-							if (isChecked && mServiceOTPCheckBox.isChecked()) {
+							if (isChecked) {
 								mServiceOTPCheckBox.setChecked(false);
+								mServiceMobileCheckBox.setChecked(false);
+							} else if (!mServiceOTPCheckBox.isChecked()
+									&& !mServiceMobileCheckBox.isChecked()) {
+								buttonView.setChecked(true);
 							}
 						}
 					});
@@ -156,6 +196,9 @@ public class ConfigDetailFragment extends Fragment {
 		mConfig.setTitle(serviceName);
 		// Setting service url
 		mConfig.setBackendUrl(backendUrl);
+		String rts = mServiceRTSEditText.getText().toString();
+		// Setting rts
+		mConfig.setRTS(rts);
 		// Set OTP
 		boolean otpChecked = mServiceOTPCheckBox.isChecked();
 		mConfig.setRequestOtp(otpChecked);
@@ -167,7 +210,7 @@ public class ConfigDetailFragment extends Fragment {
 		controller.configurationSaved();
 	}
 
-	private void checkBackend() {
+	private void checkBackend(final boolean saveIfCorrect) {
 		final Activity activity = this.getActivity();
 		final String backendUrl = mServiceUrlEditText.getText().toString();
 
@@ -200,7 +243,15 @@ public class ConfigDetailFragment extends Fragment {
 						activity.runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
-								onValidBackend(backendUrl);
+								if (saveIfCorrect) {
+									onValidBackend(backendUrl);
+								} else {
+									new AlertDialog.Builder(activity)
+											.setTitle("Success")
+											.setMessage("The backend URL is correct!")
+											.setPositiveButton("OK", null)
+											.show();
+								}
 							}
 						});
 					}

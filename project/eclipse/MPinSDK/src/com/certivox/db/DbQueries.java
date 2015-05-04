@@ -11,10 +11,11 @@ public class DbQueries {
 	public static String createConfgisTableQuery() {
 		return String.format("CREATE TABLE IF NOT EXISTS "
 				+ ConfigEntry.TABLE_NAME + " (" + ConfigEntry._ID + TYPE_ID
-				+ ", " + ConfigEntry.COLUMN_NAME_TITLE + TYPE_TEXT + ", "
-				+ ConfigEntry.COLUMN_NAME_BACKEND_URL + TYPE_TEXT + ", "
-				+ ConfigEntry.COLUMN_NAME_REQUEST_OTP + TYPE_BOOLEAN + ", "
-				+ ConfigEntry.COLUMN_NAME_REQUEST_ACCESS_NUMBER + TYPE_BOOLEAN
+				+ ", " + ConfigEntry.COLUMN_TITLE + TYPE_TEXT + ", "
+				+ ConfigEntry.COLUMN_BACKEND_URL + TYPE_TEXT + ", "
+				+ ConfigEntry.COLUMN_RTS + TYPE_TEXT + ", "
+				+ ConfigEntry.COLUMN_REQUEST_OTP + TYPE_BOOLEAN + ", "
+				+ ConfigEntry.COLUMN_REQUEST_ACCESS_NUMBER + TYPE_BOOLEAN
 				+ ")");
 	}
 

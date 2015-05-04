@@ -17,27 +17,28 @@ import com.example.mpinsdk.R;
 
 public class ConfigAdapter extends CursorAdapter {
 
-	private final WeakReference<Context> m_context;
-	private long m_activeId;
+	private final WeakReference<Context> mContext;
+	private long mActiveId;
 
 	public ConfigAdapter(Context context, Cursor c) {
 		super(context, c, 0);
-		m_context = new WeakReference<Context>(context);
+		mContext = new WeakReference<Context>(context);
 		Config active = PinpadConfigActivity.getActiveConfiguration(context);
-		m_activeId = active == null ? -1 : active.getId();
+		mActiveId = active == null ? -1 : active.getId();
 	}
 
 	public ConfigAdapter(Context context, Cursor c, int flags) {
 		super(context, c, flags);
-		m_context = new WeakReference<Context>(context);
+		mContext = new WeakReference<Context>(context);
 		Config active = PinpadConfigActivity.getActiveConfiguration(context);
-		m_activeId = active == null ? -1 : active.getId();
+		mActiveId = active == null ? -1 : active.getId();
 	}
 
 	@Override
 	public void notifyDataSetChanged() {
-		Config active = PinpadConfigActivity.getActiveConfiguration(m_context.get());
-		m_activeId = active == null ? -1 : active.getId();
+		Config active = PinpadConfigActivity.getActiveConfiguration(mContext
+				.get());
+		mActiveId = active == null ? -1 : active.getId();
 		super.notifyDataSetChanged();
 	}
 
@@ -60,7 +61,7 @@ public class ConfigAdapter extends CursorAdapter {
 		config.formCursor(cursor);
 		holder.title.setText(config.getTitle());
 		holder.url.setText(config.getBackendUrl());
-		if (config.getId() == m_activeId) {
+		if (config.getId() == mActiveId) {
 			holder.button.setChecked(true);
 		} else {
 			holder.button.setChecked(false);

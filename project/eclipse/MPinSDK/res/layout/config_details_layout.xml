@@ -44,10 +44,19 @@
         android:inputType="text" />
 
     <CheckBox
-        android:id="@+id/service_otp"
+        android:id="@+id/service_mobile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/service_rts_input"
+        android:layout_marginTop="20dp"
+        android:padding="3dp"
+        android:text="@string/request_mobile_title" />
+
+    <CheckBox
+        android:id="@+id/service_otp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/service_mobile"
         android:layout_marginTop="20dp"
         android:padding="3dp"
         android:text="@string/request_otp_title" />
@@ -60,6 +69,22 @@
         android:layout_marginTop="20dp"
         android:padding="3dp"
         android:text="@string/request_an_title" />
+
+    <Button
+        android:id="@+id/check_service_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:layout_above="@+id/save_service_button"
+        android:background="@drawable/button_selector_green"
+        android:enabled="true"
+        android:paddingEnd="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingStart="20dp"
+        android:text="@string/check_service"
+        android:textColor="@color/button_selector_green_textcolor" />
 
     <Button
         android:id="@+id/save_service_button"
