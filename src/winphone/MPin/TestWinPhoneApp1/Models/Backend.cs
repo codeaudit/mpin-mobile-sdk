@@ -1,36 +1,83 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MPinDemo.Models
 {
-    public struct Backend
+    public struct Backend: INotifyPropertyChanged
     {
         public const string DEFAULT_RPS_PREFIX = "rps";
+
+        private string backendUrl;
         public string BackendUrl
         {
-            get;
-            set;
+            get
+            {
+                return this.backendUrl;
+            }
+            set
+            {
+                if (this.backendUrl != value)
+                {
+                    this.backendUrl = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
+        private bool requestAN;
         public bool RequestAccessNumber
         {
-            get;
-            set;
+            get
+            {
+                return this.requestAN;
+            }
+            set
+            {
+                if (this.requestAN != value)
+                {
+                    this.requestAN = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
+        private bool requestOTP;
         public bool RequestOtp
         {
-            get;
-            set;
+            get
+            {
+                return requestOTP;
+            }
+            set
+            {
+                if (this.requestOTP != value)
+                {
+                    this.requestOTP = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
+        private string title;
         public string Title
         {
-            get;
-            set;
+            get
+            {
+                return this.title;
+            }
+            set
+            {
+                if (this.title != value)
+                {
+                    this.title = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         private string rpsPrefix;
@@ -45,7 +92,11 @@ namespace MPinDemo.Models
             }
             set
             {
-                this.rpsPrefix = value;
+                if (this.rpsPrefix != value)
+                {
+                    this.rpsPrefix = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -67,5 +118,19 @@ namespace MPinDemo.Models
         {
             return base.GetHashCode();
         }
+
+
+        #region INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+        void OnPropertyChanged([CallerMemberName]string name = "")
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
+        #endregion // INotifyPropertyChanged
+
     }
 }

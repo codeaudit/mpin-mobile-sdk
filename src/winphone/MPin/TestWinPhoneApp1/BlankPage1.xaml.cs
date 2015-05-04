@@ -36,49 +36,35 @@ namespace MPinDemo
     {
         #region members
 
-        private const string DEFAULT_RPS_PREFIX = "rps";
-        private const string CONFIG_BACKEND = "backend";
         private const string SelectedService = "ServiceSetIndex";
         private const string SelectedUser = "SelectedUser";
-
         private bool processSelection = true;
         private bool shouldSetService = false;
         private MainPage rootPage = null;
         private CoreDispatcher _dispatcher;
-        private static MPin _sdk;
-        private MPin Sdk
-        {
-            get
-            {
-                lock (this)
-                {
-                    return BlankPage1._sdk;
-                }
-            }
-        }
 
-        private static AppDataModel DataModel;
         private ApplicationDataContainer roamingSettings = null;
+        private static Controller controller = null;
         #endregion // members
 
         #region constructors
         static BlankPage1()
         {
-            BlankPage1._sdk = new MPin();
-            BlankPage1.DataModel = new AppDataModel();
+            controller = new Controller();
         }
 
         public BlankPage1()
         {
             this.InitializeComponent();
+
             _dispatcher = Window.Current.Dispatcher;
-            this.DataContext = DataModel;
+            this.DataContext = controller.DataModel;
             roamingSettings = ApplicationData.Current.RoamingSettings;
 
             UpdateServicesList();
             UpdateUsersList();
-       
-            if (DataModel.CurrentService.BackendUrl != null)
+
+            if (controller.DataModel.CurrentService.BackendUrl != null)
             {
                 this.MainPivot.SelectedItem = this.UsersPivotItem;
             }
@@ -99,231 +85,8 @@ namespace MPinDemo
             List<string> data = (Window.Current.Content as Frame).GetNavigationData() as List<string>;
             if (data != null && data.Count == 2)
             {
-                switch (data[0])
-                {
-                    case "AddUser":
-                        await AddUser(data[1].ToString());
-                        break;
-
-                    case "EmailConfirmed":
-                        if (string.IsNullOrEmpty(data[1]))
-                        {
-                            await NotConfirmedIdentity();
-                        }
-                        else
-                        {
-                            await ShowCreatingNewIdentity(DataModel.CurrentUser, null);
-                        }
-                        break;
-
-                    case "AccessNumber":
-                        await ShowAuthenticate(data[1]);
-                        break;
-
-                    case "Error":
-                        await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                        {
-                            rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("Error") + data[2], MainPage.NotifyType.ErrorMessage);
-                        });
-                        break;
-
-                    default:
-                        break;
-                }
+                await controller.ProcessNavigation(data[0], data[1]);
             }
-        }
-
-        #endregion
-
-        #region users
-
-        private void UpdateUsersList()
-        {
-            lock (UsersList)
-            {
-                List<User> users = new List<User>();
-                this.Sdk.ListUsers(users);
-                UsersList.ItemsSource = users;                
-                UsersList.SelectedItem = GetSelectedUser(users);
-                AuthenticateButton.IsEnabled = UsersList.SelectedItem != null;
-            }
-        }
-
-        private User GetSelectedUser(List<User> users)
-        {
-            if (users == null || users.Count == 0 || DataModel.CurrentUser == null)
-                return GetSelectedUserFromSettings();
-
-            foreach (var user in users)
-                if (user.Equals(DataModel.CurrentUser))
-                    return user;
-
-            return null;
-        }
-
-        private async Task NotConfirmedIdentity()
-        {
-            if (DataModel.CurrentUser != null)
-            {
-                User.State state = DataModel.CurrentUser.UserState;
-                await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NotConfirmedUser") + state.ToString(), state == User.State.INVALID ? MainPage.NotifyType.ErrorMessage : MainPage.NotifyType.StatusMessage);
-                });
-
-            }
-            else
-            {
-                await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("RegistrationProblem"), MainPage.NotifyType.ErrorMessage);
-                });
-            }
-        }
-
-        private async Task AddUser(string id)
-        {
-            User user = await AddAndRegisterUser(id);
-
-            UpdateUsersList();
-            if (user != null)
-                DataModel.CurrentUser = user;
-
-            if (user.UserState == User.State.STARTED_REGISTRATION)
-            {
-                Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-                mainFrame.Navigate(typeof(EmailConfirmed), DataModel.CurrentUser);
-            }
-            else if (user.UserState == User.State.ACTIVATED)
-            {
-                await Task.Factory.StartNew(() =>
-                {
-                    Sdk.FinishRegistration(user);
-                });
-            }
-            else
-            {
-                await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    rootPage.NotifyUser(string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblem") , user.Id, user.UserState), MainPage.NotifyType.ErrorMessage);
-                });
-            }
-        }
-
-        private async Task<User> AddAndRegisterUser(string eMail)
-        {
-            User user = null;
-            Status status = null;
-            await Task.Factory.StartNew(() =>
-            {
-                if (!string.IsNullOrEmpty(eMail))
-                {
-                    user = this.Sdk.MakeNewUser(eMail);
-
-                    string id = user.Id;
-                    Debug.Assert(id.Equals(eMail));
-                    MPinSDK.Models.User.State state = user.UserState;
-                    Debug.Assert(state == User.State.INVALID);
-
-                    status = this.Sdk.StartRegistration(user);
-                }
-            });
-
-            return user;
-        }
-
-        private async Task ShowCreatingNewIdentity(User user, Status reason)
-        {
-            Status s = null;
-            if (user != null && user.UserState == User.State.STARTED_REGISTRATION)
-            {
-                s = await OnEmailConfirmed();
-            }
-
-            Debug.WriteLine("OnEmailConfirmed status: " + (s == null ? "null" : s.StatusCode.ToString()));
-        }
-
-        private async Task<Status> OnEmailConfirmed()
-        {
-            Debug.Assert(DataModel.CurrentUser.UserState == User.State.STARTED_REGISTRATION);
-
-            Task.WaitAll();
-
-            Status s = null;
-            User user = DataModel.CurrentUser;
-            await Task.Factory.StartNew(() =>
-            {
-                s = Sdk.FinishRegistration(user);
-            });
-
-            return s;
-        }
-
-        internal static bool IfUserExists(string id)
-        {
-            List<User> users = new List<User>();
-            _sdk.ListUsers(users);
-            if (users != null && users.Count > 0)
-            {
-                foreach (var user in users)
-                    if (user.Id.Equals(id))
-                        return true;
-            }
-
-            return false;
-        }
-        #endregion // users
-
-        #region authentication
-
-        private async Task<Status> ShowAuthenticate(string accessNumber = "")
-        {
-            Status status = null;
-            OTP otp = DataModel.CurrentService.RequestOtp ? new OTP() : null;
-            User user = DataModel.CurrentUser;
-            await Task.Factory.StartNew(() =>
-            {
-                string resultData = string.Empty;
-                if (!string.IsNullOrEmpty(accessNumber))
-                {
-                    status = this.Sdk.AuthenticateAN(user, accessNumber);
-                }
-                else if (otp != null)
-                {
-                    status = this.Sdk.AuthenticateOTP(user, otp);
-                }
-                else
-                {
-                    status = this.Sdk.Authenticate(user, resultData);
-                }
-            });
-
-            if (otp != null)
-            {
-                if (otp.Status != null && otp.Status.StatusCode == Status.Code.OK && otp.TtlSeconds > 0)
-                {
-                    Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-                    mainFrame.Navigate(typeof(OtpScreen), new List<object> { otp, DataModel.CurrentUser });
-                }
-                else
-                {
-                    return otp.Status;
-                }
-            }
-            else
-            {
-                if (status == null)
-                {
-                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("Error") + status.ErrorMessage, MainPage.NotifyType.ErrorMessage);
-                }
-                else
-                {
-                    Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-                    mainFrame.Navigate(typeof(AuthenticationScreen), new List<object> { DataModel.CurrentUser, status });
-                }
-            }
-
-            return status;
         }
 
         #endregion
@@ -331,79 +94,33 @@ namespace MPinDemo
         #region services
         private void UpdateServicesList()
         {
-            this.ServicesList.ItemsSource = DataModel.BackendsList;
             SetSelectedServicesIndex();
         }
 
-        private Status InitService()
-        {
-            if (!string.IsNullOrEmpty(DataModel.CurrentService.BackendUrl))
-            {
-                IDictionary<string, string> config = new Dictionary<string, string>();
-                config.Add(CONFIG_BACKEND, DataModel.CurrentService.BackendUrl);
-                if (!string.IsNullOrEmpty(DataModel.CurrentService.RpsPrefix))
-                {
-                    config.Add(DEFAULT_RPS_PREFIX, DataModel.CurrentService.RpsPrefix);
-                }
+        #endregion // services
 
-                return this.Sdk.Init(config, new Context());
-            }
+        #region users
+
+        private void UpdateUsersList()
+        {
+            UsersList.SelectedItem = GetSelectedUser(controller.DataModel.UsersList);
+            AuthenticateButton.IsEnabled = UsersList.SelectedItem != null;
+        }
+
+        private User GetSelectedUser(List<User> users)
+        {
+            if (users == null || users.Count == 0 || controller.DataModel.CurrentUser == null)
+                return GetSelectedUserFromSettings();
+
+            foreach (var user in users)
+                if (user.Equals(controller.DataModel.CurrentUser))
+                    return user;
 
             return null;
         }
 
-        bool set;
-        private async Task ProcessServiceChanged()
-        {
-            Status status = null;
-            if (!set)
-            {
-                status = await Task.Factory.StartNew(() => InitService());
-                if (status != null)
-                {
-                    Debug.WriteLine("InitStatus: " + status.StatusCode + " " + status.ErrorMessage);
-                    this.Sdk.SetUiDispatcher(Window.Current.Dispatcher);
-                    set = true;
-                }              
-            }
-            else
-            {
-                if (!string.IsNullOrEmpty(DataModel.CurrentService.BackendUrl))
-                    status = await Task.Factory.StartNew(() => this.Sdk.SetBackend(DataModel.CurrentService.BackendUrl, DataModel.CurrentService.RpsPrefix));
-            }
-
-            if (status == null || status.StatusCode != Status.Code.OK)
-            {
-                await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    rootPage.NotifyUser(string.Format(ResourceLoader.GetForCurrentView().GetString("InitializationFailed"), (status == null ? "null" : status.StatusCode.ToString())), MainPage.NotifyType.ErrorMessage);
-                });
-
-                bool current = this.processSelection;
-                this.processSelection = false;
-                this.ServicesList.SelectedItem = null;
-                this.processSelection = current;
-            }
-            else
-            {
-                await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("ServiceSet"), MainPage.NotifyType.StatusMessage);
-                });
-            }
-
-            UpdateUsersList();
-        }
-
-        internal static Status RestartRegistration(User user)
-        {
-            if (user != null)
-                return _sdk.RestartRegistration(user);
-
-            return new Status(-1, "No user!");
-        }
-        #endregion // services
-
+        #endregion // users
+        
         #region State
 
         private void SavePropertyState(string key, object value)
@@ -436,9 +153,9 @@ namespace MPinDemo
             {
                 // if the selected service in the list is different from the currentService -> reset it
                 Backend? selectedService = ServicesList.Items[selectedIndex.Value] as Backend?;
-                shouldSetService = false == selectedService.Equals(DataModel.CurrentService); 
-                
-                DataModel.CurrentService = (Backend)this.ServicesList.Items[selectedIndex.Value];
+                shouldSetService = false == selectedService.Equals(controller.DataModel.CurrentService);
+
+                controller.DataModel.CurrentService = (Backend)this.ServicesList.Items[selectedIndex.Value];
                 this.ServicesList.SelectedIndex = selectedIndex.Value;
             }
             else
@@ -462,59 +179,12 @@ namespace MPinDemo
 
         private async void Authenticate_Click(object sender, RoutedEventArgs e)
         {
-            await ProcessUser();
-
-            //await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //{
-            //    rootPage.NotifyUser("Authenitcate: " + (status == null ? "null" : status.StatusCode.ToString()), MainPage.NotifyType.ErrorMessage);
-            //});
-        }
-
-        private async Task ProcessUser()
-        {
-            if (DataModel.CurrentUser == null)
-            {
-                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoSelectedUser"), MainPage.NotifyType.ErrorMessage);
-                return;
-            }
-
-            Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-
-            switch (DataModel.CurrentUser.UserState)
-            {
-                case User.State.ACTIVATED:
-                    Sdk.FinishRegistration(DataModel.CurrentUser); // to set the pin
-                    break;
-
-                case User.State.BLOCKED:
-                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("BlockedUser"), MainPage.NotifyType.ErrorMessage);
-                    break;
-
-                case User.State.INVALID:
-                    // user still not registered -> start the registration
-                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("InvalidUser"), MainPage.NotifyType.ErrorMessage);
-                    break;
-
-                case User.State.STARTED_REGISTRATION:
-                    mainFrame.Navigate(typeof(EmailConfirmed), DataModel.CurrentUser);
-                    break;
-
-                case User.State.REGISTERED:
-                    if (DataModel.CurrentService.RequestAccessNumber)
-                    {
-                        mainFrame.Navigate(typeof(AccessNumberScreen), DataModel.CurrentUser);
-                    }
-                    else
-                    {
-                        await ShowAuthenticate();
-                    }
-                    break;
-            }
+            await controller.ProcessUser();
         }
 
         private void AddUser_Click(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(DataModel.CurrentService.BackendUrl))
+        {            
+            if (string.IsNullOrEmpty(controller.DataModel.CurrentService.BackendUrl))
             {
                 rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoServiceSet"), MainPage.NotifyType.ErrorMessage);
             }
@@ -530,19 +200,14 @@ namespace MPinDemo
             User user = UsersList.SelectedItem as User;
             if (user != null)
             {
-                await Task.Factory.StartNew(() =>
-                {
-                    this.Sdk.DeleteUser(user);
-                });
-
-                UpdateUsersList();
+                await controller.DeleteUser(user);
             }
         }
 
         private void UsersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             AuthenticateButton.IsEnabled = UsersList.SelectedItem != null;
-            DataModel.CurrentUser = UsersList.SelectedItem as User;
+            controller.DataModel.CurrentUser = UsersList.SelectedItem as User;
             SavePropertyState(SelectedUser, UsersList.SelectedIndex);
         }
 
@@ -553,7 +218,28 @@ namespace MPinDemo
                 return;
 
             if ((processSelection && shouldSetService) || ChangedByClick(e.AddedItems, e.RemovedItems))
-                await ProcessServiceChanged();
+            {
+                Status status = await controller.ProcessServiceChanged();
+                if (status == null || status.StatusCode != Status.Code.OK)
+                {
+                    await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        rootPage.NotifyUser(string.Format(ResourceLoader.GetForCurrentView().GetString("InitializationFailed"), (status == null ? "null" : status.StatusCode.ToString())), MainPage.NotifyType.ErrorMessage);
+                    });
+
+                    bool current = this.processSelection;
+                    this.processSelection = false;
+                    this.ServicesList.SelectedItem = null;
+                    this.processSelection = current;
+                }
+                else
+                {
+                    await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("ServiceSet"), MainPage.NotifyType.StatusMessage);
+                    });
+                }
+            }
 
             SavePropertyState(SelectedService, ServicesList.SelectedIndex);
         }
@@ -562,22 +248,10 @@ namespace MPinDemo
         {
             return addedItems.Count == 1 && removedItems.Count == 1 && false == addedItems[0].Equals(removedItems[0]);
         }
-       
+
         private async void TestBackend_click(object sender, RoutedEventArgs e)
         {
-            if (DataModel.CurrentService.BackendUrl != null)
-            {
-                Status status = null;
-                await Task.Factory.StartNew(() =>
-                {
-                    status = Sdk.TestBackend(DataModel.CurrentService.BackendUrl, DataModel.CurrentService.RpsPrefix);
-                });
-
-                await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("ServiceStatus") + status.StatusCode, status.StatusCode == Status.Code.OK ? MainPage.NotifyType.StatusMessage : MainPage.NotifyType.ErrorMessage);
-                });
-            }
+            await controller.TestBackend();            
         }
 
         private void StatusBorder_Tapped(object sender, TappedRoutedEventArgs e)

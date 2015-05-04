@@ -9,25 +9,42 @@ using System.Threading.Tasks;
 
 namespace MPinDemo.Models
 {
-    public class AppDataModel : INotifyPropertyChanged // DependencyObject,
+    public class AppDataModel : INotifyPropertyChanged
     {
         #region Members
-        public List<Backend> BackendsList;
+        private List<Backend> services;
+        public List<Backend> BackendsList
+        {
+            get
+            {
+                return services;
+            }
+            set
+            {
+                if (services != value)
+                {
+                    services = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        //public User CurrentUser
-        //{
-        //    get { return (User)GetValue(CurrentUserProperty); }
-        //    set { SetValue(CurrentUserProperty, value); }
-        //}
-
-        //// Using a DependencyProperty as the backing store for CurrentUser.  This enables animation, styling, binding, etc...
-        //public static readonly DependencyProperty CurrentUserProperty =
-        //    DependencyProperty.Register("CurrentUser", typeof(User), typeof(BlankPage1), new PropertyMetadata(null, CurrentUserChanged));
-
-        //private static void CurrentUserChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        //{
-
-        //}
+        private List<User> users;
+        public List<User> UsersList
+        {
+            get
+            {
+                return users;
+            }
+            set
+            {
+                if (users != value)
+                {
+                    users = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         #region CurrentUser
         static User _currentUser;
@@ -39,8 +56,11 @@ namespace MPinDemo.Models
             }
             set
             {
-                _currentUser = value;
-                this.OnPropertyChanged();
+                if (_currentUser != value)
+                {
+                    _currentUser = value;
+                    this.OnPropertyChanged();
+                }
             }
         }
         #endregion // CurrentUser
@@ -71,6 +91,7 @@ namespace MPinDemo.Models
         public AppDataModel()
         {
             CreateBackends();
+            UsersList = new List<User>();
         }
         #endregion
 
@@ -93,13 +114,13 @@ namespace MPinDemo.Models
                 Title = "Basic"
             });
 
-            BackendsList.Add(new Backend()
-            {
-                BackendUrl = "http://ec2-54-77-232-113.eu-west-1.compute.amazonaws.com",
-                RequestAccessNumber = false,
-                RequestOtp = false,
-                Title = "M-Pin Connect"
-            });
+            //BackendsList.Add(new Backend()
+            //{
+            //    BackendUrl = "http://ec2-54-77-232-113.eu-west-1.compute.amazonaws.com",
+            //    RequestAccessNumber = false,
+            //    RequestOtp = false,
+            //    Title = "M-Pin Connect"
+            //});
 
             BackendsList.Add(new Backend()
             {

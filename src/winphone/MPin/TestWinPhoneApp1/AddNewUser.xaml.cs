@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Navigation;
 using MPinSDK.Common;
 using System.Text.RegularExpressions;
 using Windows.ApplicationModel.Resources;
+using MPinDemo.Models;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -51,7 +52,7 @@ namespace MPinDemo
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (BlankPage1.IfUserExists(this.UserId.Text))
+            if (Controller.IfUserExists(this.UserId.Text))
             {
                 rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("ExistingUser"), MainPage.NotifyType.ErrorMessage);
             }

@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using MPinDemo.Models;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -82,7 +83,7 @@ namespace MPinDemo
             if (this.User != null)
                 lock (Window.Current.Content)   // TODO: check if its the proper lock
                 {
-                    Status st = BlankPage1.RestartRegistration(this.User);
+                    Status st = Controller.RestartRegistration(this.User);
                     if (st.StatusCode != Status.Code.OK)
                     {
                         Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
