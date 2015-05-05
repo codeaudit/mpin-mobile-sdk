@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -244,11 +245,33 @@ public class ConfigDetailFragment extends Fragment {
 							@Override
 							public void run() {
 								if (saveIfCorrect) {
-									onValidBackend(backendUrl);
+									if (configId != -1) {
+										new AlertDialog.Builder(activity)
+												.setTitle(
+														"Updating configuration")
+												.setMessage(
+														"This action may delete all identities, associated with this configuration.")
+												.setPositiveButton(
+														"OK",
+														new DialogInterface.OnClickListener() {
+															@Override
+															public void onClick(
+																	DialogInterface dialog,
+																	int which) {
+																onValidBackend(backendUrl);
+															}
+														})
+												.setNegativeButton("Cancel",
+														null).show();
+									} else {
+										onValidBackend(backendUrl);
+									}
+
 								} else {
 									new AlertDialog.Builder(activity)
 											.setTitle("Success")
-											.setMessage("The backend URL is correct!")
+											.setMessage(
+													"The backend URL is correct!")
 											.setPositiveButton("OK", null)
 											.show();
 								}

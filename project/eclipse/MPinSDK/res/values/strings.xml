@@ -77,7 +77,7 @@
     <string name="enter_service_name_title">Enter Service Name</string>
     <string name="enter_service_name_hint">Service Name</string>
     <string name="enter_server_url_hint">M-Pin Server URL</string>
-    <string name="enter_rps_prefix_hint">RPS Prefix (Advanced)</string>
+    <string name="enter_rps_prefix_hint">RPS Prefix</string>
     <string name="request_mobile_title">Login to Mobile App</string>
     <string name="request_otp_title">Login with OTP</string>
     <string name="request_an_title">Login to Online Session</string>

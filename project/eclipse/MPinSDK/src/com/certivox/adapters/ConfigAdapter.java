@@ -1,7 +1,5 @@
 package com.certivox.adapters;
 
-import java.lang.ref.WeakReference;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.view.LayoutInflater;
@@ -17,27 +15,26 @@ import com.example.mpinsdk.R;
 
 public class ConfigAdapter extends CursorAdapter {
 
-	private final WeakReference<Context> mContext;
+	private final Context mContext;
 	private long mActiveId;
 
 	public ConfigAdapter(Context context, Cursor c) {
 		super(context, c, 0);
-		mContext = new WeakReference<Context>(context);
+		mContext = context;
 		Config active = PinpadConfigActivity.getActiveConfiguration(context);
 		mActiveId = active == null ? -1 : active.getId();
 	}
 
 	public ConfigAdapter(Context context, Cursor c, int flags) {
 		super(context, c, flags);
-		mContext = new WeakReference<Context>(context);
+		mContext = context;
 		Config active = PinpadConfigActivity.getActiveConfiguration(context);
 		mActiveId = active == null ? -1 : active.getId();
 	}
 
 	@Override
 	public void notifyDataSetChanged() {
-		Config active = PinpadConfigActivity.getActiveConfiguration(mContext
-				.get());
+		Config active = PinpadConfigActivity.getActiveConfiguration(mContext);
 		mActiveId = active == null ? -1 : active.getId();
 		super.notifyDataSetChanged();
 	}
@@ -60,13 +57,24 @@ public class ConfigAdapter extends CursorAdapter {
 		Config config = new Config();
 		config.formCursor(cursor);
 		holder.title.setText(config.getTitle());
-		holder.url.setText(config.getBackendUrl());
+		holder.url.setText(getConfigurationType(config));
 		if (config.getId() == mActiveId) {
 			holder.button.setChecked(true);
 		} else {
 			holder.button.setChecked(false);
 		}
 
+	}
+
+	private String getConfigurationType(Config config) {
+		if (config.getRequestAccessNumber()) {
+			return mContext.getResources().getString(R.string.request_an_title);
+		} else if (config.getRequestOtp()) {
+			return mContext.getResources()
+					.getString(R.string.request_otp_title);
+		}
+
+		return mContext.getResources().getString(R.string.request_mobile_title);
 	}
 
 	private static class ViewHolder {

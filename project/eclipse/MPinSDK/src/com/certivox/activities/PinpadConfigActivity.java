@@ -376,8 +376,7 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 		new AlertDialog.Builder(mActivity)
 				.setTitle("Delete configuration")
 				.setMessage(
-						"Do you want to delete configuration '"
-								+ activeConfig.getTitle() + "'?")
+						"This action will also delete all identities, associated with this configuration.")
 				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
