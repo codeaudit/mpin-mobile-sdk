@@ -126,7 +126,7 @@ namespace MPinDemo
 
                     Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
                     if (mainFrame.CanGoBack)
-                        mainFrame.GoBack();
+                        mainFrame.GoBack(null);
                 }
             }
         }

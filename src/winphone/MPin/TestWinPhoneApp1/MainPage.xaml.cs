@@ -52,8 +52,12 @@ namespace MPinDemo
         {            
             if (MainFrame.Content == null)
             {
-                // When the navigation stack isn't restored navigate to the main screen
-                if (!MainFrame.Navigate(typeof(BlankPage1)))
+                string parameter = (Window.Current.Content as Frame).GetNavigationData() as string; // get the passed parameter from the extension method
+                parameter = string.IsNullOrEmpty(parameter) ? e.Parameter as string : parameter;    // get the passed parameter from the event
+
+                // When the navigation stack isn't restored navigate to the main screen; 
+                // if no param passed - we consider to be the initial load and navigate to a screen depending on the last selected user state
+                if (!MainFrame.Navigate(typeof(BlankPage1), string.IsNullOrEmpty(parameter) ? "InitialLoad" : e.Parameter))
                 {
                     throw new Exception("Failed to create main screen");
                 }

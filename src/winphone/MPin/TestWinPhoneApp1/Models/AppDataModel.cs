@@ -1,6 +1,7 @@
 ﻿using MPinSDK.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -29,8 +30,8 @@ namespace MPinDemo.Models
             }
         }
 
-        private List<User> users;
-        public List<User> UsersList
+        private ObservableCollection<User> users;
+        public ObservableCollection<User> UsersList
         {
             get
             {
@@ -91,7 +92,7 @@ namespace MPinDemo.Models
         public AppDataModel()
         {
             CreateBackends();
-            UsersList = new List<User>();
+            UsersList = new ObservableCollection<User>();
         }
         #endregion
 

@@ -22,7 +22,7 @@ namespace MPinDemo.Models
         private MainPage rootPage = null;
 
         private static MPin _sdk;
-        
+
         public AppDataModel DataModel
         {
             get;
@@ -46,40 +46,46 @@ namespace MPinDemo.Models
             DataModel.PropertyChanged += DataModel_PropertyChanged;
         }
 
-        void DataModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            // TODO: check for memory leaks - http://stackoverflow.com/questions/12133551/c-sharp-events-memory-leak
-            if (e.PropertyName == "CurrentService")
-            {
-                //DataModel.CurrentService.PropertyChanged += CurrentService_PropertyChanged;  -> listen for a property of CurrentService to be changed
-                //this.UpdateUsersList();    -> The service is still not changed so the update here will be with the previous set service                 
-            }
-
-            if (e.PropertyName == "CurrentUser")
-            {
-                //DataModel.CurrentUser.PropertyChanged += CurrentUser_PropertyChanged;
-            }
-        }
         #endregion // C'tor
 
         #region handlers
+        async void DataModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            // TODO: check for memory leaks - http://stackoverflow.com/questions/12133551/c-sharp-events-memory-leak
+            switch (e.PropertyName)
+            {
+                case "CurrentService":
+                    Status status = await ProcessServiceChanged();
+                    bool isOk = status != null && status.StatusCode == Status.Code.OK;
+                    await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        rootPage.NotifyUser(!isOk
+                            ? string.Format(ResourceLoader.GetForCurrentView().GetString("InitializationFailed"), (status == null ? "null" : status.StatusCode.ToString()))
+                            : ResourceLoader.GetForCurrentView().GetString("ServiceSet"),
+                            !isOk ? MainPage.NotifyType.ErrorMessage : MainPage.NotifyType.StatusMessage);
+                    });
+
+                    UpdateUsersList();
+                    break;
+
+                case "CurrentUser":
+                    break;
+                    
+                case "UsersList":                    
+                    break;
+            }
+        }
+
         //static void CurrentService_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         //{
-        //    Controller controller = sender as Controller;
-        //    if (controller != null)
-        //        controller.UpdateUsersList();
+        //    maybe reconnect to the service....
         //}
 
-        //static void CurrentUser_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        //{
-        //    // TODO
-        //    //throw new NotImplementedException();
-        //}
         #endregion // handlers
 
         #region Methods
         #region services
-        
+
         private Status InitService()
         {
             if (!string.IsNullOrEmpty(this.DataModel.CurrentService.BackendUrl))
@@ -98,7 +104,7 @@ namespace MPinDemo.Models
         }
 
         bool set;
-        public async Task<Status> ProcessServiceChanged()
+        private async Task<Status> ProcessServiceChanged()
         {
             Status status = null;
             if (!set)
@@ -117,9 +123,7 @@ namespace MPinDemo.Models
                     status = await Task.Factory.StartNew(() => _sdk.SetBackend(this.DataModel.CurrentService.BackendUrl, this.DataModel.CurrentService.RpsPrefix));
             }
 
-            UpdateUsersList();
             return status;
-//            UpdateUsersList();
         }
 
         public static Status RestartRegistration(User user)
@@ -129,7 +133,7 @@ namespace MPinDemo.Models
 
             return new Status(-1, "No user!");
         }
-        
+
         internal async Task TestBackend()
         {
             if (this.DataModel.CurrentService.BackendUrl != null)
@@ -155,7 +159,7 @@ namespace MPinDemo.Models
             {
                 List<User> users = new List<User>();
                 _sdk.ListUsers(users);
-                DataModel.UsersList = users;
+                DataModel.UsersList = new System.Collections.ObjectModel.ObservableCollection<User>(users);                
             }
         }
 
@@ -251,7 +255,7 @@ namespace MPinDemo.Models
 
             return user;
         }
-        
+
         private async Task NotConfirmedIdentity()
         {
             if (this.DataModel.CurrentUser != null)
@@ -271,7 +275,7 @@ namespace MPinDemo.Models
                 });
             }
         }
-        
+
         private async Task ShowCreatingNewIdentity(User user, Status reason)
         {
             Status s = null;
@@ -326,7 +330,7 @@ namespace MPinDemo.Models
 
         #region authentication
 
-        public async Task<Status> ShowAuthenticate(string accessNumber = "")
+        public async Task ShowAuthenticate(string accessNumber = "")
         {
             Status status = null;
             OTP otp = this.DataModel.CurrentService.RequestOtp ? new OTP() : null;
@@ -348,17 +352,10 @@ namespace MPinDemo.Models
                 }
             });
 
-            if (otp != null)
+            if (otp != null && otp.Status != null && otp.Status.StatusCode == Status.Code.OK && otp.TtlSeconds > 0)
             {
-                if (otp.Status != null && otp.Status.StatusCode == Status.Code.OK && otp.TtlSeconds > 0)
-                {
-                    Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-                    mainFrame.Navigate(typeof(OtpScreen), new List<object> { otp, this.DataModel.CurrentUser });
-                }
-                else
-                {
-                    return otp.Status;
-                }
+                Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
+                mainFrame.Navigate(typeof(OtpScreen), new List<object> { otp, this.DataModel.CurrentUser });
             }
             else
             {
@@ -372,8 +369,6 @@ namespace MPinDemo.Models
                     mainFrame.Navigate(typeof(AuthenticationScreen), new List<object> { this.DataModel.CurrentUser, status });
                 }
             }
-
-            return status;
         }
 
         #endregion // authentication
@@ -383,6 +378,10 @@ namespace MPinDemo.Models
         {
             switch (command)
             {
+                case "InitialLoad":
+                    await ProcessUser();
+                    break;
+
                 case "AddUser":
                     await AddUser(parameter);
                     break;

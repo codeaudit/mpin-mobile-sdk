@@ -26,6 +26,7 @@ using MPinSDK.Common; // navigation extensions
 using Windows.UI;
 using Windows.Storage;
 using Windows.ApplicationModel.Resources;
+using System.Collections.ObjectModel;
 
 namespace MPinDemo
 {
@@ -40,6 +41,7 @@ namespace MPinDemo
         private const string SelectedUser = "SelectedUser";
         private bool processSelection = true;
         private bool shouldSetService = false;
+        private bool isInitialLoad = false;
         private MainPage rootPage = null;
         private CoreDispatcher _dispatcher;
 
@@ -61,13 +63,10 @@ namespace MPinDemo
             this.DataContext = controller.DataModel;
             roamingSettings = ApplicationData.Current.RoamingSettings;
 
-            UpdateServicesList();
-            UpdateUsersList();
+            LoadSettings();
 
-            if (controller.DataModel.CurrentService.BackendUrl != null)
-            {
-                this.MainPivot.SelectedItem = this.UsersPivotItem;
-            }
+            //controller.DataModel.PropertyChanged += DataModel_PropertyChanged;
+            UsersList.Items.VectorChanged += Items_VectorChanged;
         }
 
         #endregion // constructors
@@ -87,27 +86,18 @@ namespace MPinDemo
             {
                 await controller.ProcessNavigation(data[0], data[1]);
             }
+            else
+            {
+                string param = e.Parameter.ToString();
+                isInitialLoad = !string.IsNullOrEmpty(param) && param.Equals("InitialLoad");
+            }
         }
 
         #endregion
 
-        #region services
-        private void UpdateServicesList()
-        {
-            SetSelectedServicesIndex();
-        }
+        #region methods
 
-        #endregion // services
-
-        #region users
-
-        private void UpdateUsersList()
-        {
-            UsersList.SelectedItem = GetSelectedUser(controller.DataModel.UsersList);
-            AuthenticateButton.IsEnabled = UsersList.SelectedItem != null;
-        }
-
-        private User GetSelectedUser(List<User> users)
+        private User GetSelectedUser(ICollection<User> users)
         {
             if (users == null || users.Count == 0 || controller.DataModel.CurrentUser == null)
                 return GetSelectedUserFromSettings();
@@ -119,8 +109,18 @@ namespace MPinDemo
             return null;
         }
 
-        #endregion // users
-        
+        private void LoadSettings()
+        {
+            SetSelectedServicesIndex();
+            //UsersList.SelectedItem = GetSelectedUser(controller.DataModel.UsersList);
+            AuthenticateButton.IsEnabled = UsersList.SelectedItem != null;
+
+            if (controller.DataModel.CurrentService.BackendUrl != null)
+            {
+                this.MainPivot.SelectedItem = this.UsersPivotItem;
+            }
+        }
+
         #region State
 
         private void SavePropertyState(string key, object value)
@@ -146,6 +146,17 @@ namespace MPinDemo
             return null;
         }
 
+        private User GetSavedSelectedUser()
+        {
+            int? selectedIndex = roamingSettings.Values[SelectedUser] as int?;
+            if (selectedIndex != null && selectedIndex >= 0 && controller.DataModel.UsersList != null && selectedIndex < controller.DataModel.UsersList.Count)
+            {
+                return controller.DataModel.UsersList[selectedIndex.Value] as User;
+            }
+
+            return null;
+        }
+
         private void SetSelectedServicesIndex()
         {
             int? selectedIndex = roamingSettings.Values[SelectedService] as int?;
@@ -165,6 +176,8 @@ namespace MPinDemo
         }
         #endregion
 
+        #endregion // Methods
+
         #region handlers
 
         private void AddService_Click(object sender, RoutedEventArgs e)
@@ -183,7 +196,7 @@ namespace MPinDemo
         }
 
         private void AddUser_Click(object sender, RoutedEventArgs e)
-        {            
+        {
             if (string.IsNullOrEmpty(controller.DataModel.CurrentService.BackendUrl))
             {
                 rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoServiceSet"), MainPage.NotifyType.ErrorMessage);
@@ -207,40 +220,13 @@ namespace MPinDemo
         private void UsersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             AuthenticateButton.IsEnabled = UsersList.SelectedItem != null;
-            controller.DataModel.CurrentUser = UsersList.SelectedItem as User;
+            //controller.DataModel.CurrentUser = UsersList.SelectedItem as User;
             SavePropertyState(SelectedUser, UsersList.SelectedIndex);
         }
 
-        private async void Services_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Services_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             TestServiceButton.IsEnabled = ServicesList.SelectedItem != null;
-            if (e.AddedItems.Count != 1 || (e.AddedItems.Count == 1 && e.RemovedItems.Count == 1 && e.AddedItems[0].Equals(e.RemovedItems[0])))
-                return;
-
-            if ((processSelection && shouldSetService) || ChangedByClick(e.AddedItems, e.RemovedItems))
-            {
-                Status status = await controller.ProcessServiceChanged();
-                if (status == null || status.StatusCode != Status.Code.OK)
-                {
-                    await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        rootPage.NotifyUser(string.Format(ResourceLoader.GetForCurrentView().GetString("InitializationFailed"), (status == null ? "null" : status.StatusCode.ToString())), MainPage.NotifyType.ErrorMessage);
-                    });
-
-                    bool current = this.processSelection;
-                    this.processSelection = false;
-                    this.ServicesList.SelectedItem = null;
-                    this.processSelection = current;
-                }
-                else
-                {
-                    await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("ServiceSet"), MainPage.NotifyType.StatusMessage);
-                    });
-                }
-            }
-
             SavePropertyState(SelectedService, ServicesList.SelectedIndex);
         }
 
@@ -251,7 +237,7 @@ namespace MPinDemo
 
         private async void TestBackend_click(object sender, RoutedEventArgs e)
         {
-            await controller.TestBackend();            
+            await controller.TestBackend();
         }
 
         private void StatusBorder_Tapped(object sender, TappedRoutedEventArgs e)
@@ -259,6 +245,78 @@ namespace MPinDemo
             rootPage.NotifyUser(string.Empty);
         }
 
+        private void ServicesList_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            if (isInitialLoad)
+            {
+                //LoadSettings();
+                SetSelectedServicesIndex();
+                //await controller.ProcessUser();
+
+                if (controller.DataModel.CurrentService.BackendUrl != null)
+                {
+                    this.MainPivot.SelectedItem = this.UsersPivotItem;
+                }
+            }
+        }
+
+        //private void UsersList_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        //{
+
+        //}
+
+        //private async void UsersList_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    ListBox lb = sender as ListBox;
+        //    lb.Items.VectorChanged += Items_VectorChanged;
+        //    //if (lb != null)
+        //    //{
+        //    //    Binding b = new Binding() { Path = new PropertyPath("CurrentUser"), Source = controller.DataModel};                
+        //    //    UsersList.SetBinding(Selector.SelectedItemProperty, b);
+        //    //}
+
+        //    ObservableCollection<User> source = (sender as ListBox).ItemsSource as ObservableCollection<User>;
+        //    if (source != null)
+        //    {
+        //        source.CollectionChanged += source_CollectionChanged;                
+        //    }
+        //}
+
+        void Items_VectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs @event)
+        {
+            //UsersList.SelectedItem = GetSelectedUserFromSettings();
+            controller.DataModel.CurrentUser = GetSelectedUserFromSettings();
+        }
+
+        //async void source_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        //{
+
+        //}
+
+        //async void DataModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        //{
+        //    //if (e.PropertyName == "UsersList")
+        //    //{
+        //    //    //UsersList.SelectedItem = GetSavedSelectedUser();// GetSelectedUser(controller.DataModel.UsersList);
+        //    //    //UsersList.SelectedIndex = GetSelectedUserIndex();
+        //    //    controller.DataModel.CurrentUser = GetSavedSelectedUser();
+        //    //    AuthenticateButton.IsEnabled = UsersList.SelectedItem != null;
+
+        //    //    if (isInitialLoad)
+        //    //    {
+        //    //        //LoadSettings();
+        //    //        if (UsersList.SelectedItem != null)
+        //    //            await controller.ProcessUser();
+        //    //    }
+        //    //}
+        //}
+
+        //private int GetSelectedUserIndex()
+        //{
+        //    int? index = roamingSettings.Values[SelectedUser] as int?;
+        //    return index.HasValue ? index.Value : -1;
+        //}
         #endregion // handlers
+
     }
 }
