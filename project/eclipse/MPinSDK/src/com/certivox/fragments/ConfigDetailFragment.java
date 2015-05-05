@@ -38,7 +38,8 @@ public class ConfigDetailFragment extends Fragment {
 	private Button mCheckServiceButton;
 	private Button mSaveServiceButton;
 
-	private long configId;
+	private long mConfigId;
+	private String mConfigURL;
 	private ConfigController controller;
 
 	private Config mConfig;
@@ -48,7 +49,7 @@ public class ConfigDetailFragment extends Fragment {
 	}
 
 	public void setConfigId(long configId) {
-		this.configId = configId;
+		this.mConfigId = configId;
 	}
 
 	@Override
@@ -57,23 +58,28 @@ public class ConfigDetailFragment extends Fragment {
 
 		mConfig = new Config();
 
-		if (configId != -1) {
-			SQLiteDatabase db = new ConfigsDbHelper(activity)
-					.getReadableDatabase();
-			Cursor cursor = null;
-			try {
-				cursor = db.query(ConfigEntry.TABLE_NAME,
-						ConfigEntry.getFullProjection(), ConfigEntry._ID
-								+ " LIKE ?",
-						new String[] { String.valueOf(configId) }, null, null,
-						null);
-				if (cursor.moveToFirst()) {
-					mConfig.formCursor(cursor);
-				}
-			} finally {
-				if (cursor != null)
-					cursor.close();
+		if (mConfigId != -1) {
+			initConfig();
+		}
+	}
+
+	private void initConfig() {
+		SQLiteDatabase db = new ConfigsDbHelper(getActivity())
+				.getReadableDatabase();
+		Cursor cursor = null;
+		try {
+			cursor = db.query(ConfigEntry.TABLE_NAME,
+					ConfigEntry.getFullProjection(), ConfigEntry._ID
+							+ " LIKE ?",
+					new String[] { String.valueOf(mConfigId) }, null, null,
+					null);
+			if (cursor.moveToFirst()) {
+				mConfig.formCursor(cursor);
+				mConfigURL = mConfig.getBackendUrl();
 			}
+		} finally {
+			if (cursor != null)
+				cursor.close();
 		}
 	}
 
@@ -97,7 +103,7 @@ public class ConfigDetailFragment extends Fragment {
 			mConfig.setId(db.insert(ConfigEntry.TABLE_NAME, null, values));
 		} else {
 			db.update(ConfigEntry.TABLE_NAME, values, ConfigEntry._ID
-					+ " LIKE ?", new String[] { String.valueOf(configId) });
+					+ " LIKE ?", new String[] { String.valueOf(mConfigId) });
 		}
 	}
 
@@ -245,12 +251,13 @@ public class ConfigDetailFragment extends Fragment {
 							@Override
 							public void run() {
 								if (saveIfCorrect) {
-									if (configId != -1) {
+									if (mConfigId != -1
+											&& !mConfigURL.equals(backendUrl)) {
 										new AlertDialog.Builder(activity)
 												.setTitle(
 														"Updating configuration")
 												.setMessage(
-														"This action may delete all identities, associated with this configuration.")
+														"This action will also delete all identities, associated with this configuration.")
 												.setPositiveButton(
 														"OK",
 														new DialogInterface.OnClickListener() {
