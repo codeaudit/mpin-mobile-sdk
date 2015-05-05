@@ -22,14 +22,22 @@
 
 - (NSString *)localizedString:(NSString *)key comment:(NSString *)comment
 {
-
-    NSString *localizedString = [[NSBundle mainBundle] localizedStringForKey:key value:comment table:nil];
-    if([localizedString isEqualToString:key] && comment !=nil)
+    NSString *localizedString = @"";
+    NSLocale *locale = [NSLocale currentLocale];
+    NSString *path = [[NSBundle mainBundle] pathForResource:locale.localeIdentifier ofType:@"strings"];
+    if ( ![[NSFileManager defaultManager] fileExistsAtPath:path] )
     {
-        return comment;
+        localizedString = [[NSBundle mainBundle] localizedStringForKey:key value:comment table:nil];
     }
-    
-    return localizedString;
+    else
+    {
+        
+        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
+        localizedString = [dict objectForKey:key];
+        
+    }
+
+    return (localizedString == nil ) ?  @"" : localizedString;
 }
 
 @end
