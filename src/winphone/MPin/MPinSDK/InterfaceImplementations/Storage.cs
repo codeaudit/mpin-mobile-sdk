@@ -45,10 +45,10 @@ namespace MPinSDK
         StorageFolder temporaryFolder = null;
         const string filename = "mPin.txt";
         private static readonly object LockObject = new object();
-        public const string MPIN_STORAGE = "tokens.json"; // "MpinStorage";
-        public const string USER_STORAGE = "users.json";  // "UserStorage";
+        public const string MPIN_STORAGE = "tokens.json"; 
+        public const string USER_STORAGE = "users.json";  
 
-        private static string path;
+        private string path;
         private string Data { get; set; }
 
         public string ErrorMessage

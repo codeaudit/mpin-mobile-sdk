@@ -155,7 +155,7 @@ namespace MPinDemo.Models
         #region users
         internal void UpdateUsersList()
         {
-            lock (DataModel.UsersList)
+            lock (_sdk)
             {
                 List<User> users = new List<User>();
                 _sdk.ListUsers(users);
@@ -167,7 +167,9 @@ namespace MPinDemo.Models
         {
             if (this.DataModel.CurrentUser == null)
             {
-                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoSelectedUser"), MainPage.NotifyType.ErrorMessage);
+                if (this.DataModel.UsersList.Count > 0)
+                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoSelectedUser"), MainPage.NotifyType.ErrorMessage);
+
                 return;
             }
 
@@ -180,12 +182,18 @@ namespace MPinDemo.Models
                     break;
 
                 case User.State.BLOCKED:
-                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("BlockedUser"), MainPage.NotifyType.ErrorMessage);
+                    await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("BlockedUser"), MainPage.NotifyType.ErrorMessage);
+                    });
                     break;
 
                 case User.State.INVALID:
                     // user still not registered -> start the registration
-                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("InvalidUser"), MainPage.NotifyType.ErrorMessage);
+                    await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("InvalidUser"), MainPage.NotifyType.ErrorMessage);
+                    });
                     break;
 
                 case User.State.STARTED_REGISTRATION:

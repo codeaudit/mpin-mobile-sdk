@@ -64,9 +64,6 @@ namespace MPinDemo
             roamingSettings = ApplicationData.Current.RoamingSettings;
 
             LoadSettings();
-
-            //controller.DataModel.PropertyChanged += DataModel_PropertyChanged;
-            UsersList.Items.VectorChanged += Items_VectorChanged;
         }
 
         #endregion // constructors
@@ -112,8 +109,7 @@ namespace MPinDemo
         private void LoadSettings()
         {
             SetSelectedServicesIndex();
-            //UsersList.SelectedItem = GetSelectedUser(controller.DataModel.UsersList);
-            AuthenticateButton.IsEnabled = UsersList.SelectedItem != null;
+            AuthenticateButton.IsEnabled = UsersListBox.SelectedItem != null;
 
             if (controller.DataModel.CurrentService.BackendUrl != null)
             {
@@ -138,20 +134,9 @@ namespace MPinDemo
         private User GetSelectedUserFromSettings()
         {
             int? selectedIndex = roamingSettings.Values[SelectedUser] as int?;
-            if (selectedIndex != null && selectedIndex >= 0 && selectedIndex < UsersList.Items.Count)
-            {
-                return this.UsersList.Items[selectedIndex.Value] as User;
-            }
-
-            return null;
-        }
-
-        private User GetSavedSelectedUser()
-        {
-            int? selectedIndex = roamingSettings.Values[SelectedUser] as int?;
-            if (selectedIndex != null && selectedIndex >= 0 && controller.DataModel.UsersList != null && selectedIndex < controller.DataModel.UsersList.Count)
-            {
-                return controller.DataModel.UsersList[selectedIndex.Value] as User;
+            if (selectedIndex != null && selectedIndex >= 0 && selectedIndex < UsersListBox.Items.Count)
+            {                
+                return this.UsersListBox.Items[selectedIndex.Value] as User;
             }
 
             return null;
@@ -210,7 +195,7 @@ namespace MPinDemo
 
         private async void DeleteUser_Click(object sender, RoutedEventArgs e)
         {
-            User user = UsersList.SelectedItem as User;
+            User user = UsersListBox.SelectedItem as User;
             if (user != null)
             {
                 await controller.DeleteUser(user);
@@ -219,9 +204,9 @@ namespace MPinDemo
 
         private void UsersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            AuthenticateButton.IsEnabled = UsersList.SelectedItem != null;
-            //controller.DataModel.CurrentUser = UsersList.SelectedItem as User;
-            SavePropertyState(SelectedUser, UsersList.SelectedIndex);
+            AuthenticateButton.IsEnabled = UsersListBox.SelectedItem != null;
+            controller.DataModel.CurrentUser = UsersListBox.SelectedItem as User;
+            SavePropertyState(SelectedUser, UsersListBox.SelectedIndex);
         }
 
         private void Services_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -230,28 +215,16 @@ namespace MPinDemo
             SavePropertyState(SelectedService, ServicesList.SelectedIndex);
         }
 
-        private bool ChangedByClick(IList<object> addedItems, IList<object> removedItems)
-        {
-            return addedItems.Count == 1 && removedItems.Count == 1 && false == addedItems[0].Equals(removedItems[0]);
-        }
-
         private async void TestBackend_click(object sender, RoutedEventArgs e)
         {
             await controller.TestBackend();
-        }
-
-        private void StatusBorder_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            rootPage.NotifyUser(string.Empty);
         }
 
         private void ServicesList_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
             if (isInitialLoad)
             {
-                //LoadSettings();
                 SetSelectedServicesIndex();
-                //await controller.ProcessUser();
 
                 if (controller.DataModel.CurrentService.BackendUrl != null)
                 {
@@ -260,62 +233,20 @@ namespace MPinDemo
             }
         }
 
-        //private void UsersList_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
-        //{
-
-        //}
-
-        //private async void UsersList_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    ListBox lb = sender as ListBox;
-        //    lb.Items.VectorChanged += Items_VectorChanged;
-        //    //if (lb != null)
-        //    //{
-        //    //    Binding b = new Binding() { Path = new PropertyPath("CurrentUser"), Source = controller.DataModel};                
-        //    //    UsersList.SetBinding(Selector.SelectedItemProperty, b);
-        //    //}
-
-        //    ObservableCollection<User> source = (sender as ListBox).ItemsSource as ObservableCollection<User>;
-        //    if (source != null)
-        //    {
-        //        source.CollectionChanged += source_CollectionChanged;                
-        //    }
-        //}
-
-        void Items_VectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs @event)
+        private async void UsersList_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
-            //UsersList.SelectedItem = GetSelectedUserFromSettings();
-            controller.DataModel.CurrentUser = GetSelectedUserFromSettings();
+            if (UsersListBox != null && UsersListBox.ItemsSource != null)
+            {
+                UsersListBox.SelectedItem = GetSelectedUser(controller.DataModel.UsersList);
+                
+                if (isInitialLoad)
+                {
+                    await controller.ProcessUser();
+                    isInitialLoad = false;
+                }
+            }
         }
 
-        //async void source_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        //{
-
-        //}
-
-        //async void DataModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        //{
-        //    //if (e.PropertyName == "UsersList")
-        //    //{
-        //    //    //UsersList.SelectedItem = GetSavedSelectedUser();// GetSelectedUser(controller.DataModel.UsersList);
-        //    //    //UsersList.SelectedIndex = GetSelectedUserIndex();
-        //    //    controller.DataModel.CurrentUser = GetSavedSelectedUser();
-        //    //    AuthenticateButton.IsEnabled = UsersList.SelectedItem != null;
-
-        //    //    if (isInitialLoad)
-        //    //    {
-        //    //        //LoadSettings();
-        //    //        if (UsersList.SelectedItem != null)
-        //    //            await controller.ProcessUser();
-        //    //    }
-        //    //}
-        //}
-
-        //private int GetSelectedUserIndex()
-        //{
-        //    int? index = roamingSettings.Values[SelectedUser] as int?;
-        //    return index.HasValue ? index.Value : -1;
-        //}
         #endregion // handlers
 
     }

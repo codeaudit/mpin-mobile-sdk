@@ -168,9 +168,17 @@ namespace MPinSDK
 
         public void SetUiDispatcher(Windows.UI.Core.CoreDispatcher dispatcher)
         {
-            IPinPad pinpad = context.GetPinPad();
-            if (pinpad != null)
-                pinpad.SetUiDispatcher(dispatcher);
+            IPinPad pinpad = null;
+            if (context != null)
+            {
+                pinpad = context.GetPinPad();
+                if (pinpad != null)
+                    pinpad.SetUiDispatcher(dispatcher);
+            }
+
+            if (context == null || pinpad == null)
+            {
+            }
         }
         #endregion
     }

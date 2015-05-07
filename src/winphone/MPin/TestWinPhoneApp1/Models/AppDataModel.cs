@@ -92,7 +92,7 @@ namespace MPinDemo.Models
         public AppDataModel()
         {
             CreateBackends();
-            UsersList = new ObservableCollection<User>();
+            //UsersList = new ObservableCollection<User>();
         }
         #endregion
 

@@ -11,7 +11,8 @@ namespace MPinSDK
     {
         #region Members
         IPinPad pinPad { get; set; }
-        IStorage storage { get; set; }
+        IStorage storageSecure { get; set; }
+        IStorage storageNonsecure { get; set; }
         IHttpRequest httpRequest { get; set; }
         #endregion
 
@@ -29,10 +30,22 @@ namespace MPinSDK
 
         public IStorage GetStorage(MPinRC.StorageType type)
         {
-            if(this.storage == null)
-                this.storage = new Storage(type);
+            if (type == StorageType.SECURE)
+            {
+                if (storageSecure == null)
+                {
+                    storageSecure = new Storage(StorageType.SECURE);
+                }
 
-            return this.storage;
+                return storageSecure;
+            }
+
+            if (storageNonsecure == null)
+            {
+                storageNonsecure = new Storage(StorageType.NONSECURE);
+            }
+
+            return storageNonsecure;
         }
 
         public IPinPad GetPinPad()
