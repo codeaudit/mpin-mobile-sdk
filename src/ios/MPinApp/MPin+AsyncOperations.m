@@ -177,6 +177,36 @@ static char const* const delegateKey = "delegateKey";
     });
 }
 
+- (void) ResetPin:(const id<IUser>) user {
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        MpinStatus *mpinStatus = [MPin ResetPin:user];
+        
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            
+            if(self.delegate == nil) return;
+            
+            if(mpinStatus.status == OK) {
+                if ([(NSObject *)self.delegate respondsToSelector:@selector(OnFinishRegistrationCompleted: user:)]) {
+                    [self.delegate OnFinishRegistrationCompleted:self user:user];
+                }
+            } else {
+                if ([(NSObject *)self.delegate respondsToSelector:@selector(OnFinishRegistrationError:error:)]) {
+                    [self.delegate OnFinishRegistrationError:self
+                                                       error:[NSError errorWithDomain:@"SDK"
+                                                                                 code:mpinStatus.status
+                                                                             userInfo:@{kMPinSatus: mpinStatus,kUSER: user}
+                                                              ]
+                     ];
+                }
+            }
+        });
+    });
+
+    
+}
+
 - (void)Authenticate:(const id<IUser>)user
 {
     void (^touchIDBlock)(BOOL success, NSError *error) = ^void(BOOL success, NSError *error)

@@ -17,6 +17,7 @@
 #import "MPin.h"
 #import "ThemeManager.h"
 #import "SettingsManager.h"
+#import "NSString+Helper.h"
 
 static NSString* const kErrorTitle = @"Validation ERROR!";
 
@@ -410,7 +411,7 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
 
 - (BOOL)isValidURL:(NSString*)strTestURL
 {
-    if ([strTestURL length] == 0) {
+    if ([NSString isBlank:strTestURL]) {
         return NO;
     }
 
