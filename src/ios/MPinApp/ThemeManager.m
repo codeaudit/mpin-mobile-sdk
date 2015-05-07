@@ -222,8 +222,9 @@
         myVc.title = NSLocalizedString(@"USERLISTVC_TITLE", @"");
         [myVc.btnAdd setTitle:NSLocalizedString(@"USERLISTVC_ADD_NEW_ID", @"") forState:UIControlStateNormal];
         [myVc.btnDelete setTitle:NSLocalizedString(@"KEY_DELETE", @"") forState:UIControlStateNormal];
-        myVc.btnAdd.backgroundColor = [[SettingsManager sharedManager] color6];
         myVc.btnAdd.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:16.0];
+        //myVc.btnAdd.backgroundColor = [[SettingsManager sharedManager] color6];
+        
     }
 
     else {
