@@ -60,6 +60,7 @@ static NSString *const kUSER = @"currentUser";
 - (void) RestartRegistration:(const id<IUser>) user;
 - (void) RestartRegistration:(const id<IUser>)user userData:(NSString *) userData;
 - (void) FinishRegistration:(const id<IUser>) user;
+- (void) ResetPin:(const id<IUser>) user;
 - (void) Authenticate:(const id<IUser>) user;
 - (void) AuthenticateAuthResultData:(const id<IUser>)user;
 - (void) AuthenticateOTP:(id<IUser>) user;

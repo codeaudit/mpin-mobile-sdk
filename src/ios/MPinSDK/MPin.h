@@ -30,8 +30,8 @@
 + (MpinStatus*)RestartRegistration:(const id<IUser>)user;
 + (MpinStatus*)StartRegistration:(const id<IUser>)user userData:(NSString *) userData;
 + (MpinStatus*)RestartRegistration:(const id<IUser>)user userData:(NSString *) userData;
-
 + (MpinStatus*)FinishRegistration:(const id<IUser>)user;
++ (MpinStatus*)ResetPin:(const id<IUser>)user;
 
 + (MpinStatus*)Authenticate:(const id<IUser>)user;
 + (MpinStatus*)Authenticate:(const id<IUser>)user authResultData:(NSString **)authResultData;

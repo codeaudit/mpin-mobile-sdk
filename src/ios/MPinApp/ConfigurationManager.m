@@ -10,7 +10,6 @@
 #import "Constants.h"
 #import "NSString+Helper.h"
 
-#define NOT_SELECTED -1
 
 static NSString* const kCurrentSelectionIndex = @"currentSelectionIndex";
 static NSString* const kSettings = @"settings";
