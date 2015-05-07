@@ -81,7 +81,7 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
         self.title = NSLocalizedString(@"ADDCONFIGVC_TITLE_ADD", @"");
     }
     bTestingConfig = NO;
-    _btnDone.title = NSLocalizedString(@"DONE", @"");
+    _btnDone.title = NSLocalizedString(@"KEY_DONE", @"");
 }
 
 #pragma mark - text field delegates -
