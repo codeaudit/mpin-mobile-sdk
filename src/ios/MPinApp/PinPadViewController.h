@@ -18,6 +18,6 @@ static NSString * const kOnFinishShowingPinPadNotification = @"onFinishShowingPi
 @property(nonatomic, weak) UILabel *strEmail;
 
 @property(nonatomic) BOOL boolShouldShowBackButton;
-@property(nonatomic, retain, readwrite) NSString * userId;
+@property(nonatomic, strong) NSString * userId;
 
 @end

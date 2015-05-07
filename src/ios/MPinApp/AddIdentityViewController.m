@@ -17,6 +17,7 @@
 #import "MPin.h"
 #import "ATMHud.h"
 #import "ThemeManager.h"
+#import "iToast.h"
 
 static NSString* const kEmpty = @"";
 static NSString* const kMpinStatus = @"MpinStatus";
@@ -62,6 +63,11 @@ static NSString* const kUser = @"User";
     } else {
         [self hideDeviceName];
     }
+    _txtIdentity.placeholder    = NSLocalizedString(@"ADDIDVC_LBL_IDENTITY", @"");
+    _txtDevName.placeholder     = NSLocalizedString(@"ADDIDVC_TXT_DEVNAME", @"");
+    _lblIdentity.text           = NSLocalizedString(@"ADDIDVC_LBL_IDENTITY", @"");
+    _lblDevName.text            = NSLocalizedString(@"ADDIDVC_LBL_DEVNAME", @"");
+    self.title                  = NSLocalizedString(@"ADDIDVC_TITLE", @"");
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -111,11 +117,12 @@ static NSString* const kUser = @"User";
 
 - (IBAction)addAction:(id)sender {
     if ([kEmpty isEqualToString:self.txtIdentity.text]) {
+
         UIAlertView* alert =
-        [[UIAlertView alloc] initWithTitle:@"Empty User Identity"
-                                   message:@"Enter text in user id text field!"
+        [[UIAlertView alloc] initWithTitle:@""
+                                   message:NSLocalizedString(@"ERROR_PLEASE_ENTER_VALID_USER_ID", @"")
                                   delegate:nil
-                         cancelButtonTitle:@"Close"
+                         cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"")
                          otherButtonTitles:nil, nil];
         [alert show];
         return;
@@ -123,10 +130,10 @@ static NSString* const kUser = @"User";
     
     if (![self isValidEmail:self.txtIdentity.text]) {
         UIAlertView* alert = [[UIAlertView alloc]
-                              initWithTitle:@"Invalid email"
-                              message:@"Please enter a valid email address!"
+                              initWithTitle:@""
+                              message:NSLocalizedString(@"ERROR_PLEASE_ENTER_VALID_EMAIL", @"")
                               delegate:nil
-                              cancelButtonTitle:@"Close"
+                              cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"")
                               otherButtonTitles:nil, nil];
         [alert show];
         return;
@@ -161,7 +168,7 @@ static NSString* const kUser = @"User";
         default:
             [self
              showError:[user getIdentity]
-             desc:[NSString stringWithFormat:@"User state is unexpected %ld",
+             desc:[NSString stringWithFormat:NSLocalizedString(@"ERROR_UNEXPECTED_USER_STATE", @""),
                    [user getState]]];
             break;
     }

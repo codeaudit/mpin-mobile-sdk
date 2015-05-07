@@ -41,13 +41,16 @@
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
     [[ThemeManager sharedManager] beautifyViewController:self];
+    
+    self.title = NSLocalizedString(@"ID_CREATED_TITLE", @"");
+    [self.btnSignIn setTitle:NSLocalizedString(@"ID_CREATED_BTN_SIGN_IN", @"") forState:UIControlStateNormal];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     _lblEmail.text = _strEmail;
-    _lblMessage.text = [NSString stringWithFormat:@"Congratulations!\r\n Your M-Pin identity: %@ had been set up successfully.", _strEmail];
+    _lblMessage.text = [NSString stringWithFormat:NSLocalizedString(@"ID_CREATED_MESSAGE", @""), _strEmail];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -70,7 +73,7 @@
 
 - (void)showError:(NSString*)title desc:(NSString*)desc
 {
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:title message:desc delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil];
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:title message:desc delegate:self cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"") otherButtonTitles:nil];
     [alert show];
 }
 
@@ -148,7 +151,7 @@
 - (void)OnAuthenticateAccessNumberCompleted:(id)sender user:(id<IUser>)user
 {
     [self stopLoading];
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Authentication Successful!" message:nil delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil];
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Authentication Successful!" message:nil delegate:nil cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"") otherButtonTitles:nil, nil];
     [alert show];
 }
 

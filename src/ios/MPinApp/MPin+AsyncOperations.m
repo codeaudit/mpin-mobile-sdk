@@ -255,7 +255,7 @@ static char const* const delegateKey = "delegateKey";
                                  error:&error])
         {
             [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
-                    localizedReason:@"Please verify fingerprint"
+                    localizedReason:NSLocalizedString(@"WARNING_VERIFY_FINGER", @"")
                               reply:touchIDBlock];
         }
         else
@@ -293,7 +293,6 @@ static char const* const delegateKey = "delegateKey";
 
 - (void)AuthenticateOTP:(id<IUser>)user
 {
-
     dispatch_async(dispatch_get_main_queue(), ^(void){
         LAContext *context = [[LAContext alloc] init];
         NSError *error;
@@ -301,7 +300,7 @@ static char const* const delegateKey = "delegateKey";
                                  error:&error])
         {
             [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
-                    localizedReason:@"Please verify fingerprint"
+                    localizedReason:NSLocalizedString(@"WARNING_VERIFY_FINGER", @"")
                               reply:^(BOOL success, NSError *authenticationError)
              {
                  if (success)
@@ -377,7 +376,7 @@ static char const* const delegateKey = "delegateKey";
 
 
 
-- (void) AuthenticateAccessNumber:(id<IUser>) user  accessNumber:(NSString *) an
+- (void) AuthenticateAN:(id<IUser>) user  accessNumber:(NSString *) an
 {
     dispatch_async(dispatch_get_main_queue(), ^(void)
     {
@@ -386,7 +385,7 @@ static char const* const delegateKey = "delegateKey";
         if ([context canEvaluatePolicy: LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error])
         {
             [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
-                    localizedReason:@"Please verify fingerprint"
+                    localizedReason:NSLocalizedString(@"WARNING_VERIFY_FINGER", @"")
                               reply:^(BOOL success, NSError *authenticationError)
              {
                  if (success) {

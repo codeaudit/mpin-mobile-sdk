@@ -24,7 +24,7 @@
     NSString * result = @"";
     switch (self.status) {
         case OK:
-            result = @"OK";
+            result = @"KEY_BTNOK";
             break;
         case PIN_INPUT_CANCELED:
             result = @"PIN_INPUT_CANCELED";

@@ -88,24 +88,24 @@
     NSInteger service = [[ConfigurationManager sharedManager] getConfigurationTypeAtIndex:indexPath.row];
     switch (indexPath.row) {
     case NONE:
-        customCell.lblConfigurationType.text = @"Login to Mobile App";
+        customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_MOBILE_APP", @"");
         break;
     case OTP:
-        customCell.lblConfigurationType.text = @"Login with OTP";
+        customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_OTP", @"");
         break;
     case AN:
-        customCell.lblConfigurationType.text = @"Login to Online Session";
+        customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_ONLINE_SESSION", @"");
         break;
     default:
         switch (service) {
         case LOGIN_ON_MOBILE:
-            customCell.lblConfigurationType.text = @"Login to Mobile App";
+            customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_MOBILE_APP", @"");;
             break;
         case LOGIN_ONLINE:
-            customCell.lblConfigurationType.text = @"Login to Online Session";
+            customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_ONLINE_SESSION", @"");
             break;
         case LOGIN_WITH_OTP:
-            customCell.lblConfigurationType.text = @"Login with OTP";
+            customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_OTP", @"");
             break;
         }
         break;
@@ -122,7 +122,7 @@
     }
     NSInteger intSelectedConfiguration = indexPath.row;
     hud.minShowTime = 1.0;
-    [hud setCaption:@"Changing configuration. Please wait."];
+    [hud setCaption:NSLocalizedString(@"HUD_CHANGE_CONFIGURATION", @"")];
     [hud setActivity:YES];
     [hud showInView:self.view];
 
@@ -177,7 +177,7 @@
     }
     else {
         hud.minShowTime = 2.0;
-        [hud setCaption:@"Predefined configurations cannot be edited."];
+        [hud setCaption:NSLocalizedString(@"WARNING_CANNOT_EDIT_PREDEFINED_CONFIG", @"")];
         [hud setActivity:NO];
         [hud showInView:self.view];
         [hud hide];
@@ -187,16 +187,16 @@
 - (IBAction)deleteConfiguration:(id)sender
 {
     if ([[ConfigurationManager sharedManager] getSelectedConfigurationIndex] > 2) {
-        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Warning"
-                                                            message:@"This action will also delete all identities, associated with this configuration."
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"KEY_WARNING", @"")
+                                                            message:NSLocalizedString(@"WARNING_THIS_WILL_DELETE_ALL_IDS", @"")
                                                            delegate:self
-                                                  cancelButtonTitle:@"Cancel"
-                                                  otherButtonTitles:@"Ok", nil];
+                                                  cancelButtonTitle:NSLocalizedString(@"KEY_CANCEL", @"")
+                                                  otherButtonTitles:NSLocalizedString(@"KEY_OKBTN", @""), nil];
         [alertView show];
     }
     else {
         hud.minShowTime = 2.0;
-        [hud setCaption:@"Predefined configurations cannot be deleted."];
+        [hud setCaption:NSLocalizedString(@"WARNING_CANNOT_DELETE_PREDEFINED_CONFIG", @"")];
         [hud setActivity:NO];
         [hud showInView:self.view];
         [hud hide];
