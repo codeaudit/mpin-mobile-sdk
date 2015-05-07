@@ -11,6 +11,7 @@
 #include "CvTime.h"
 #include "CvHttpRequest.h"
 #include <cstdlib>
+#include <getopt.h>
 
 using namespace std;
 using namespace CvShared;
@@ -27,11 +28,12 @@ void PrintUsage( const char* aExeName, const char* aMessage = NULL )
 	{
 		printf( "%s\n", aMessage );
 	}
-	printf( "Usage: %s -n <num-of-clients> -r <requests-per-second> [-u <user-prefix>] -b <backend-url>\n", aExeName );
+	printf( "Usage: %s --reg --auth -n <num-of-clients> -r <requests-per-second> [-u <user-prefix>] -b <backend-url>\n", aExeName );
 	printf( "\n" );
 }
 
-bool doargs( int argc,char **argv, uint32_t& aNumOfClients, uint32_t& aRequestsPerSecond, ::String& aBackendUrl, ::String& aUserPrefix )
+bool doargs( int argc,char **argv, OUT bool& abRegister, OUT bool& abAuthenticate, uint32_t& aNumOfClients,
+			uint32_t& aRequestsPerSecond, ::String& aBackendUrl, ::String& aUserPrefix )
 {
     char ch;
 
@@ -41,7 +43,17 @@ bool doargs( int argc,char **argv, uint32_t& aNumOfClients, uint32_t& aRequestsP
 		return false;
     }
 
-    while ( (ch = getopt(argc,argv,"n:r:b:u:") ) > 0 )
+	abRegister = false;
+	abAuthenticate = false;
+	
+	static struct option long_options[] = {
+		{ "reg",		no_argument, 	NULL, 	1 },
+		{ "auth",		no_argument,	NULL,	2 },
+		{ 0,			0,				0,		0 }
+	};
+	int option_index = 0;
+		
+    while ( (ch = getopt_long(argc,argv,"n:r:b:u:",long_options,&option_index) ) > 0 )
 	{
 		switch (ch)
 		{
@@ -49,6 +61,8 @@ bool doargs( int argc,char **argv, uint32_t& aNumOfClients, uint32_t& aRequestsP
 			case 'r': aRequestsPerSecond = atoi(optarg); break;
 			case 'b': aBackendUrl = optarg; break;
 			case 'u': aUserPrefix = optarg; break;
+			case 1: abRegister = true; break;
+			case 2: abAuthenticate = true; break;
 		}
     }
 
@@ -108,12 +122,14 @@ int main(int argc, char** argv)
 	InitLogger( argv[0], enLogLevel_Info );
 	LogMessage( enLogLevel_Info, "========== Starting M-Pin Client Test ==========" );	
 	
+	bool bRegister = false;
+	bool bAuthenticate = false;
 	uint32_t numOfClients = 0;
 	uint32_t requestsPerSecond = 0;
 	::String backendUrl;
 	::String userPrefix;	
 	
-    if ( !doargs( argc, argv, numOfClients, requestsPerSecond, backendUrl, userPrefix ) )
+    if ( !doargs( argc, argv, bRegister, bAuthenticate, numOfClients, requestsPerSecond, backendUrl, userPrefix ) )
 	{
 		return 102;
 	}
@@ -149,68 +165,87 @@ int main(int argc, char** argv)
 	
 	for ( int i = 0; i < numOfClients; ++i )
 	{
-		::String pinGood; pinGood.Format("%04d", rand()%10000 );
-		::String pinBad; pinBad.Format("%04d", rand()%10000 );
-		
-		while( pinBad == pinGood )
-		{
-			pinBad.Format("%04d", rand()%10000 );
-		}
-		
 		::String userId;
 		userId.Format("%s%d@dispostable.com", userPrefix.c_str(), i+1);
 
-		CMpinClient* pClient = new CMpinClient( i+1, backendUrl, userId, pinGood, pinBad );
+		CMpinClient* pClient = NULL;
+		
+		if (bRegister)
+		{
+			::String pinGood; pinGood.Format("%04d", rand()%10000 );
+			::String pinBad; pinBad.Format("%04d", rand()%10000 );
+		
+			while( pinBad == pinGood )
+			{
+				pinBad.Format("%04d", rand()%10000 );
+			}
+
+			pClient = new CMpinClient( i+1, backendUrl, userId, pinGood, pinBad );
+		}
+		else
+		{
+			pClient = new CMpinClient( i+1, backendUrl, userId );			
+		}
+		
 		listClients.push_back( pClient );
 	}
 	
-	std::list<CMpinClient*>::iterator itr = listClients.begin();
-	for(; itr != listClients.end(); ++itr )
+	std::list<CMpinClient*>::iterator itr;
+	
+	if (bRegister)
 	{
-		CMpinClient* pClient = *itr;
-		
-		if ( itr != listClients.begin() )
+		for( itr = listClients.begin(); itr != listClients.end(); ++itr )
 		{
-			SleepRandTime( requestsPerSecond );
-		}
+			CMpinClient* pClient = *itr;
 		
-		pClient->Register();
+			if ( itr != listClients.begin() )
+			{
+				SleepRandTime( requestsPerSecond );
+			}
+		
+			pClient->Register();
+		}
 	}
 	
 //	SleepFor( Seconds(5) );
 //	printf( "Hit any key to continue with authentication..." );
 //	getchar();
 	
-	//First Authentication will retreive Time Permits, while the second will work with cached ones.
-//	for (int i = 0; i < 2; ++i)
-//	{
-		for( itr = listClients.begin(); itr != listClients.end(); ++itr )
-		{
-			CMpinClient* pClient = *itr;
-			
-//			pClient->EnableStats(i>0);
-			
-			if ( itr != listClients.begin() )
-			{
-				SleepRandTime( requestsPerSecond );			
-			}
-			
-			bool bAuthBad = ( (rand()%5) == 0 );
-			
-			if ( bAuthBad )
-				pClient->AuthenticateBad();
-			else
-				pClient->AuthenticateGood();
-		}
-		
-//		if ( i == 0 )
+	if (bAuthenticate)
+	{
+		//First Authentication will retrieve Time Permits, while the second will work with cached ones.
+//		for (int i = 0; i < 2; ++i)
 //		{
-//			WaitAllDone( listClients );
-//			printf( "Hit any key to continue with authentication..." );
-//			getchar();
+			for( itr = listClients.begin(); itr != listClients.end(); ++itr )
+			{
+				CMpinClient* pClient = *itr;
+			
+//				pClient->EnableStats(i>0);
+			
+				if ( itr != listClients.begin() )
+				{
+					SleepRandTime( requestsPerSecond );			
+				}
+			
+				bool bAuthBad = ( (rand()%5) == 0 );
+			
+				if ( bAuthBad )
+					pClient->AuthenticateBad();
+				else
+					pClient->AuthenticateGood();
+			}
+		
+//			if ( i == 0 )
+//			{
+//				WaitAllDone( listClients );
+//				printf( "Hit any key to continue with authentication..." );
+//
+//				getchar();
+//			}
 //		}
-//	}
-
+	}
+	
+	SleepFor( Seconds(5) );
 	WaitAllDone( listClients );
 		
 	printf( "==============================================================================================\n" );	
@@ -232,10 +267,17 @@ int main(int argc, char** argv)
 		
 		if ( stats.m_numOfErrors == 0 )
 		{
-			total.m_avgRegMsec = ( total.m_avgRegMsec*total.m_numOfReg + stats.m_avgRegMsec*stats.m_numOfReg ) / ( total.m_numOfReg + stats.m_numOfReg );
-			total.m_numOfReg += stats.m_numOfReg;
-			total.m_avgAuthMsec = ( total.m_avgAuthMsec*total.m_numOfAuth + stats.m_avgAuthMsec*stats.m_numOfAuth ) / ( total.m_numOfAuth + stats.m_numOfAuth );
-			total.m_numOfAuth += stats.m_numOfAuth;
+			if ( stats.m_numOfReg > 0 )
+			{
+				total.m_avgRegMsec = ( total.m_avgRegMsec*total.m_numOfReg + stats.m_avgRegMsec*stats.m_numOfReg ) / ( total.m_numOfReg + stats.m_numOfReg );
+				total.m_numOfReg += stats.m_numOfReg;
+			}
+			
+			if ( stats.m_numOfAuth > 0 )
+			{
+				total.m_avgAuthMsec = ( total.m_avgAuthMsec*total.m_numOfAuth + stats.m_avgAuthMsec*stats.m_numOfAuth ) / ( total.m_numOfAuth + stats.m_numOfAuth );
+				total.m_numOfAuth += stats.m_numOfAuth;
+			}
 		}
 		
 		if ( stats.m_minRegMsec < total.m_minRegMsec || total.m_minRegMsec == 0 )

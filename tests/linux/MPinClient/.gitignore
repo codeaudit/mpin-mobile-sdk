@@ -1,2 +1,4 @@
 /dist/
 *.dep.inc
+client-storage-*
+pin-*

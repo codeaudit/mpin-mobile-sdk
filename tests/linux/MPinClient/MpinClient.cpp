@@ -12,6 +12,8 @@
 #include "CvLogger.h"
 #include "CvTime.h"
 
+#include <fstream>
+
 using namespace std;
 using CvShared::SleepFor;
 using CvShared::Millisecs;
@@ -25,19 +27,60 @@ MPinSDK::IHttpRequest* CMpinClient::CContext::CreateHttpRequest() const
 	return new CHttpRequest();
 }
 		
-CMpinClient::CMpinClient( int aClientId, const String& aBackendUrl, const String& aUserId, const String& aPinGood, const String& aPinBad ) :
-	m_id(aClientId), m_userId(aUserId), m_pinGood(aPinGood), m_pinBad(aPinBad),
+CMpinClient::CStorage::CStorage(const String& aFileNameSuffix)
+{
+	m_fileName = "client-storage-";
+	m_fileName += aFileNameSuffix;
+}
+
+bool CMpinClient::CStorage::SetData(const String& data)
+{
+	std::ofstream file( m_fileName.c_str() );
+	file << data;
+	file.close();
+	
+//	printf( "Writing data to [%s]:\n%s\n", m_fileName.c_str(), data.c_str() );
+	
+	return true;
+}
+
+bool CMpinClient::CStorage::GetData(OUT String &data)
+{
+	std::ifstream file( m_fileName.c_str() );
+	std::stringstream buffer;
+	buffer << file.rdbuf();	
+	file.close();
+	
+	data = buffer.str();
+	
+//	printf( "Reading data from [%s]:\n%s\n", m_fileName.c_str(), data.c_str() );
+	
+	return true;
+}
+		
+CMpinClient::CMpinClient( int aClientId, const String& aBackendUrl, const String& aUserId ) :
+	m_id(aClientId), m_userId(aUserId),
+	m_storageSecure( String().Format("sec-%d", aClientId) ), m_storageNonSecure( String().Format("%d", aClientId) ),
 	m_context(&m_storageSecure, &m_storageNonSecure, &m_pinPad),
 	m_thread(aUserId), m_queue(aUserId.c_str()), m_bIdle(false), m_bStatsEnabled(true)
 {
-	printf( "Initializing client #%d for [%s] with PIN [%s] and BAD PIN [%s]\n", m_id, m_userId.c_str(), m_pinGood.c_str(), m_pinBad.c_str() );
+	std::ifstream filePin( String().Format("pin-%d", m_id).c_str() );
+	filePin >> m_pinGood;
+	filePin >> m_pinBad;
 	
-	StringMap config;
-	config["backend"] = aBackendUrl;
+	_Init(aBackendUrl);	
+}
+
+CMpinClient::CMpinClient( int aClientId, const String& aBackendUrl, const String& aUserId, const String& aPinGood, const String& aPinBad ) :
+	m_id(aClientId), m_userId(aUserId), m_pinGood(aPinGood), m_pinBad(aPinBad),
+	m_storageSecure( String().Format("sec-%d", aClientId) ), m_storageNonSecure( String().Format("%d", aClientId) ),
+	m_context(&m_storageSecure, &m_storageNonSecure, &m_pinPad),
+	m_thread(aUserId), m_queue(aUserId.c_str()), m_bIdle(false), m_bStatsEnabled(true)
+{
+	std::ofstream filePin( String().Format("pin-%d", m_id).c_str() );
+	filePin << m_pinGood << " " << m_pinBad;
 	
-	m_sdk.Init( config, &m_context );
-	
-	m_thread.Create(this);
+	_Init(aBackendUrl);
 }
 
 CMpinClient::~CMpinClient()
@@ -47,6 +90,26 @@ CMpinClient::~CMpinClient()
 	SleepFor( Millisecs(100) );
 }
 
+bool CMpinClient::_Init(const String& aBackendUrl)
+{
+	printf( "Initializing client #%d for [%s] with PIN [%s] and BAD PIN [%s]\n", m_id, m_userId.c_str(), m_pinGood.c_str(), m_pinBad.c_str() );
+	
+	StringMap config;
+	config["backend"] = aBackendUrl;
+	
+	MPinSDK::Status status = m_sdk.Init( config, &m_context );
+	
+	if ( status != MPinSDK::Status::OK )
+	{
+		printf( "Client #%d for user [%s] couldn't be initialized: %s", m_id, m_userId.c_str(), status.GetErrorMessage().c_str() );
+		return false;
+	}
+	
+	m_thread.Create(this);
+	
+	return true;
+}
+	
 bool CMpinClient::_AuthenticateGood()
 {
 	return _Authenticate( m_pinGood );
@@ -61,6 +124,19 @@ bool CMpinClient::_Register()
 {
 	printf( "Registering user [%s]...\n", m_userId.c_str() );
 			
+	std::vector<MPinSDK::UserPtr> listUsers;
+	m_sdk.ListUsers( listUsers );
+	
+	std::vector<MPinSDK::UserPtr>::iterator itr = listUsers.begin();
+	for ( ;itr != listUsers.end(); ++itr )
+	{
+		if ( (*itr)->GetId() == m_userId )
+		{
+			m_sdk.DeleteUser( *itr );
+			break;
+		}
+	}
+
 	MPinSDK::UserPtr user = m_sdk.MakeNewUser( m_userId, String().Format( "M-Pin Test Client #%d", m_id ) );
 	
 	m_pinPad.SetPin( m_pinGood );
@@ -73,7 +149,7 @@ bool CMpinClient::_Register()
 	
 	if ( status != MPinSDK::Status::OK )
 	{
-		CvShared::LogMessage( CvShared::enLogLevel_Error, "Failed in StartRegistration(): %s [%d]", status.GetErrorMessage().c_str(), status.GetStatusCode() );
+		printf( "Failed in StartRegistration(): %s [%d]\n", status.GetErrorMessage().c_str(), status.GetStatusCode() );
 		if ( m_bStatsEnabled )
 		{
 			++m_stats.m_numOfErrors;
@@ -99,7 +175,7 @@ bool CMpinClient::_Register()
 				
 			if ( status != MPinSDK::Status::IDENTITY_NOT_VERIFIED )
 			{
-				CvShared::LogMessage( CvShared::enLogLevel_Error, "Failed in FinishRegistration(): %s [%d]", status.GetErrorMessage().c_str(), status.GetStatusCode() );
+				printf( "Failed in FinishRegistration(): %s [%d]\n", status.GetErrorMessage().c_str(), status.GetStatusCode() );
 				if ( m_bStatsEnabled )
 				{
 					++m_stats.m_numOfErrors;
@@ -116,7 +192,7 @@ bool CMpinClient::_Register()
 
 		if ( status != MPinSDK::Status::OK )
 		{
-			CvShared::LogMessage( CvShared::enLogLevel_Error, "Failed in FinishRegistration(): %s [%d]", status.GetErrorMessage().c_str(), status.GetStatusCode() );
+			printf( "Failed in FinishRegistration(): %s [%d]\n", status.GetErrorMessage().c_str(), status.GetStatusCode() );
 			if ( m_bStatsEnabled )
 			{
 				++m_stats.m_numOfErrors;
@@ -160,7 +236,7 @@ bool CMpinClient::_Authenticate( const String& aPin )
 	
 	if ( itr == listUsers.end() )
 	{
-		CvShared::LogMessage( CvShared::enLogLevel_Error, "User [%s] not found in the list", m_userId.c_str() );
+		printf( "User [%s] not found in the list\n", m_userId.c_str() );
 		if ( m_bStatsEnabled )
 		{
 			++m_stats.m_numOfErrors;

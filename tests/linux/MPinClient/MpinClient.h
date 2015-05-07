@@ -25,6 +25,7 @@ class CMpinClient
 public:
 
 	CMpinClient( int aClientId, const String& aBackendUrl, const String& aUserId, const String& aPinGood, const String& aPinBad );
+	CMpinClient( int aClientId, const String& aBackendUrl, const String& aUserId );
 
 	virtual ~CMpinClient();
 	
@@ -63,15 +64,15 @@ private:
 	class CStorage : public MPinSDK::IStorage
 	{
 	public:
-		CStorage() {}
-
+		CStorage(const String& aFileNameSuffix);
 		virtual ~CStorage() {}
-		virtual bool SetData(const String& data)	{ m_data = data; return true; }
-		virtual bool GetData(OUT String &data)		{ data = m_data; return true; }
+		
+		virtual bool SetData(const String& data);
+		virtual bool GetData(OUT String &data);
 		virtual const String& GetErrorMessage() const { return m_errorMsg; }
 	private:
+		String	m_fileName;
 		String	m_errorMsg;
-		String	m_data;
 	};
 
 	class CPinPad : public MPinSDK::IPinPad
@@ -109,6 +110,7 @@ private:
 	};
 
 	CMpinClient(const CMpinClient& orig);
+	bool _Init(const String& aBackendUrl);
 	bool _Authenticate( const String& aPin );
 	bool _Register();
 	bool _AuthenticateGood();
