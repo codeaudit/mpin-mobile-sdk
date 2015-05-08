@@ -16,7 +16,7 @@ namespace MPinSDK.Models
         /// Gets or sets the issued One-Time Password.
         /// </summary>
         /// <value>
-        /// The otp.
+        /// The One-Time Password (OTP).
         /// </value>
         public string Otp
         {
@@ -30,6 +30,12 @@ namespace MPinSDK.Models
             }
         }
 
+        /// <summary>
+        /// Gets or sets the system time on the M-Pin System when the OTP is due to expire.
+        /// </summary>
+        /// <value>
+        /// The system time on the M-Pin System when the OTP is due to expire.
+        /// </value>
         public long ExpireTime
         {
             get
@@ -42,6 +48,12 @@ namespace MPinSDK.Models
             }
         }
 
+        /// <summary>
+        /// Gets or sets the expiration period in seconds.
+        /// </summary>
+        /// <value>
+        /// The expiration period in seconds.
+        /// </value>
         public int TtlSeconds
         {
             get
@@ -54,6 +66,12 @@ namespace MPinSDK.Models
             }
         }
 
+        /// <summary>
+        /// Gets or sets the current system time of the M-Pin system.
+        /// </summary>
+        /// <value>
+        /// The current system time of the M-Pin system.
+        /// </value>
         public long NowTime
         {
             get
@@ -67,6 +85,12 @@ namespace MPinSDK.Models
         }
 
         private Status _status;
+        /// <summary>
+        /// Gets or sets the current One-Time Password (OTP) object status.
+        /// </summary>
+        /// <value>
+        /// The status of the current One-Time Password (OTP) object.
+        /// </value>
         public Status Status
         {
             get
@@ -91,6 +115,9 @@ namespace MPinSDK.Models
             set;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OTP"/> class.
+        /// </summary>
         public OTP()
         {
             this.Wrapper = new OTPWrapper();

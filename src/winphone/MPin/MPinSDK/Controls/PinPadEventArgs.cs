@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MPinSDK.Controls
 {
-    public class PinPadEventArgs : EventArgs
+    class PinPadEventArgs : EventArgs
     {
         public PinPadEventArgs(string pin)
         {

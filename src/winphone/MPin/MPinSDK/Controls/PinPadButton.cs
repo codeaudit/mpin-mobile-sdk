@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace MPinSDK.Controls
 {
-    public class PinPadButton : Button
+    class PinPadButton : Button
     {
         public PinPadButton()
         {

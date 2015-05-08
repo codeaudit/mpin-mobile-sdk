@@ -9,7 +9,7 @@ using Windows.Storage.Streams;
 
 namespace MPinSDK
 {
-    public class Storage : IStorage
+    class Storage : IStorage
     {
         // Guidance for Local, LocalCache, Roaming, and Temporary files.
         //

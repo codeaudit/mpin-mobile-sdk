@@ -17,6 +17,9 @@ using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace MPinSDK
 {
+    /// <summary>
+    /// A class implementing the <see cref="T:MPinRC.IHttpRequest"/> interface that the Core uses to make HTTP requests.
+    /// </summary>
     class HTTPConnector : IHttpRequest
     {
         #region Members
@@ -33,12 +36,19 @@ namespace MPinSDK
         #endregion
 
         #region C'tor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HTTPConnector"/> class.
+        /// </summary>
         public HTTPConnector()
             : base()
         { }
         #endregion 
         
         #region IHTTPRequest
+        /// <summary>
+        /// Sets the headers for the HTTP Request.
+        /// </summary>
+        /// <param name="headers">The headers key/value map to be set.</param>
         public void SetHeaders(IDictionary<string, string> headers)
         {
             this.requestHeaders = headers;

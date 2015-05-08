@@ -73,11 +73,11 @@ namespace MPinDemo
                             AuthenticatedTB.Text = ResourceLoader.GetForCurrentView().GetString("SuccessfulAuth");
                             break;
                             
-                        case Status.Code.INCORRECT_ACCESS_NUMBER :
+                        case Status.Code.IncorrectAccessNumber :
                             AuthenticatedTB.Text = ResourceLoader.GetForCurrentView().GetString("IncorrectAccessNumber");
                             break;
 
-                        case Status.Code.INCORRECT_PIN:
+                        case Status.Code.IncorrectPIN:
                             AuthenticatedTB.Text = ResourceLoader.GetForCurrentView().GetString("IncorrectPin");
                             break;
                         default:

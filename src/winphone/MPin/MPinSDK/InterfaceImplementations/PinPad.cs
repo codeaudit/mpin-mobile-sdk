@@ -19,7 +19,10 @@ using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace MPinSDK
 {
-    public class PinPad : IPinPad
+    /// <summary>
+    /// A class implementing the programming interface for the PIN Pad UI. The PIN Pad UI is invoked by the Core when the platform doesn't support TEE. When TEE is present, it might/will drive the UI itself in its secure environment and outside Android.
+    /// </summary>
+    class PinPad : IPinPad
     {
         #region Members
         private PinPadControl ctrl = null;

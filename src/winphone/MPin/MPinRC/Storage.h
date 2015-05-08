@@ -7,6 +7,9 @@ using namespace Platform;
 
 namespace MPinRC
 {
+	/// <summary>
+	/// Defines a type of a Storage.
+	/// </summary>
 	public enum class StorageType
 	{
 		SECURE,

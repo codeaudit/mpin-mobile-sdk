@@ -7,10 +7,18 @@ using System.Threading.Tasks;
 
 namespace MPinSDK.Models
 {
+    /// <summary>
+    /// Status class used to indicate whether an operation is successful or not.
+    /// </summary>
     public class Status
     {
         internal StatusWrapper Wrapper { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Status"/> class.
+        /// </summary>
+        /// <param name="statusCode">The status code.</param>
+        /// <param name="error">The error message.</param>
         public Status(int statusCode, String error)
         {
             this.Wrapper = new StatusWrapper();
@@ -18,11 +26,16 @@ namespace MPinSDK.Models
             this.ErrorMessage = error;            
         }
 
+        /// <summary>
+        /// Gets the status code returned from the server.
+        /// </summary>
+        /// <value>
+        /// The status code returned from the server.
+        /// </value>
         public Code StatusCode
         {
             get
             {
-                // TODO:::: see if the conversion is proper or create a convertor for it
                 return (Code)this.Wrapper.Code;
             }
             private set
@@ -31,6 +44,12 @@ namespace MPinSDK.Models
             }
         }
 
+        /// <summary>
+        /// Gets or sets the message of the error if there is such one.
+        /// </summary>
+        /// <value>
+        /// The error message.
+        /// </value>
         public String ErrorMessage
         {
             get
@@ -43,11 +62,24 @@ namespace MPinSDK.Models
             }
         }
 
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
             return "Status [StatusCode=" + this.StatusCode + ", ErrorMessage='" + this.ErrorMessage + "']";
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object" />, is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
         public override bool Equals(object obj)
         {
             Status objToCompare = (Status)obj;
@@ -63,6 +95,12 @@ namespace MPinSDK.Models
             return true;
         }
 
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
         public override int GetHashCode()
         {
             return base.GetHashCode();
@@ -70,22 +108,67 @@ namespace MPinSDK.Models
 
         [Flags]
         public enum Code
-        {            
+        {
+            /// <summary>
+            /// Successful authentication.
+            /// </summary>
             OK,
-            PIN_INPUT_CANCELED, // Local error, returned when user cancels pin entering
-            CRYPTO_ERROR, // Local error in crypto functions
-            STORAGE_ERROR, // Local storage related error
-            NETWORK_ERROR, // Local error - cannot connect to remote server (no internet, or invalid server/port)
-            RESPONSE_PARSE_ERROR, // Local error - cannot parse json response from remote server (invalid json or unexpected json structure)
-            FlowError, // Local error - unproper MPinSDK class usage
-            IDENTITY_NOT_AUTHORIZED, // Remote error - the remote server refuses user registration
-            IDENTITY_NOT_VERIFIED, // Remote error - the remote server refuses user registration because identity is not verified
-            REQUEST_EXPIRED, // Remote error - the register/authentication request expired
-            REVOKED, // Remote error - cannot get time permit (propably the user is temporary suspended)
-            INCORRECT_PIN, // Remote error - user entered wrong pin
-            INCORRECT_ACCESS_NUMBER, // Remote/local error - wrong access number (checksum failed or RPS returned 412)
-            HTTP_SERVER_ERROR, // Remote error, that was not reduced to one of the above - the remote server returned internal server error status (5xx)
-            HTTP_REQUEST_ERROR // Remote error, that was not reduced to one of the above - invalid data sent to server, the remote server returned 4xx error status
+            /// <summary>
+            /// Local error, returned when user cancels pin entering
+            /// </summary>
+            PinInputCanceled,
+            /// <summary>
+            /// Local error in crypto functions
+            /// </summary>
+            CryptoError,
+            /// <summary>
+            /// Local storage related error
+            /// </summary>
+            StorageError,
+            /// <summary>
+            /// Local error - cannot connect to remote server (no internet, or invalid server/port)
+            /// </summary>
+            NetworkError,
+            /// <summary>
+            /// Local error - cannot parse json response from remote server (invalid json or unexpected json structure)
+            /// </summary>
+            ResponseParseError,
+            /// <summary>
+            /// Local error - unproper MPinSDK class usage
+            /// </summary>
+            FlowError,
+            /// <summary>
+            /// Remote error - the remote server refuses user registration
+            /// </summary>
+            IdentityNotAuthorized,
+            /// <summary>
+            /// Remote error - the remote server refuses user registration because identity is not verified
+            /// </summary>
+            IdentityNotVerified,
+            /// <summary>
+            /// Remote error - the register/authentication request expired
+            /// </summary>
+            RequestExpired,
+            /// <summary>
+            /// Remote error - cannot get time permit (propably the user is temporary suspended)
+            /// </summary>
+            Revoked,
+            /// <summary>
+            /// Remote error - user entered wrong pin
+            /// </summary>
+            IncorrectPIN,
+            /// <summary>
+            /// Remote/local error - wrong access number (checksum failed or RPS returned 412)
+            /// </summary>
+            IncorrectAccessNumber,
+            /// <summary>
+            /// Remote error, that was not reduced to one of the above - the remote server returned internal server error status (5xx)
+            /// </summary>
+            HttpServerError,
+            /// <summary>
+            /// Remote error, that was not reduced to one of the above - invalid data sent to server, the remote server returned 4xx error status
+            /// </summary>
+            HttpRequestError
         }
     }
 }

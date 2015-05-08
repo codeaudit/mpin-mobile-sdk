@@ -14,7 +14,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 
 namespace MPinSDK.Controls
 {
-    public class PinPadControl : Control, INotifyPropertyChanged
+    class PinPadControl : Control, INotifyPropertyChanged
     {
         #region Members
         private PinPadPassword Pass;

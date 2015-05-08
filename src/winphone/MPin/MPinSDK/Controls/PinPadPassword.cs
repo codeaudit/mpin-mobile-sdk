@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace MPinSDK.Controls
 {
-    public class PinPadPassword : Control
+    class PinPadPassword : Control
     {
         #region fields
         private PasswordBox passwordBox;
