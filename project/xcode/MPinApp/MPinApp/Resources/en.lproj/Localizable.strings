@@ -8,14 +8,14 @@
 
 /* menu */
 
-"MENUVC_OPTION_0" = "IDENTITIES";
-"MENUVC_OPTION_1" = "CONFIGURATIONS";
+"MENUVC_OPTION_0" = "IDENTITY LIST";
+"MENUVC_OPTION_1" = "CONFIGURATION LIST";
 "MENUVC_OPTION_2" = "ABOUT";
 
 /* User list */
 
-"USERLISTVC_TITLE" = "IDENTITIES";
-"USERLISTVC_ADD_NEW_ID" = "Add account +";
+"USERLISTVC_TITLE" = "Identity List";
+"USERLISTVC_ADD_NEW_ID" = "ADD NEW IDENTITY +";
 
 /* Add user */
 
@@ -24,18 +24,18 @@
 "ADDIDVC_LBL_IDENTITY" = "ENTER YOUR EMAIL";
 "ADDIDVC_TXT_IDENTITY" = "email...";
 "ADDIDVC_LBL_DEVNAME" = "DEVICE NAME";
-"ADDIDVC_TXT_DEVNAME" = "Name...";
+"ADDIDVC_TXT_DEVNAME" = "Device name...";
 
 /* ID Created */
 
 "ID_CREATED_TITLE" = "IDENTITY CREATED";
 
-"ID_CREATED_MESSAGE" = "CONGRATULATIONS!\n Your identity: %@ was succesfilly created.";
+"ID_CREATED_MESSAGE" = "CONGRATULATIONS!\n Your identity: %@ \nhad been set up successfully.";
 "ID_CREATED_BTN_SIGN_IN" = "SIGN IN WITH THIS IDENTITY";
 
 
 /*CONFIRM ID VC */
-"CONFIRM_EMAIL_VC_TITLE" = "CONFIRM EMAIL";
+"CONFIRM_EMAIL_VC_TITLE" = "Confirm Email";
 
 "CONFIRM_EMAIL_VC_LBL_MESSAGE" = "We have sent you an email to: \r\n %@ \r\n Click the link in the email to confirm your identity and proceed.";
 "CONFIRM_EMAIL_VC_BTN_EMAIL_CONFIRMED" = "I CONFIRMED MY EMAIL";
@@ -44,25 +44,25 @@
 
 /* OTP */
 
-"OTPVC_TITLE" = "ONE TIME PASSWORD";
+"OTPVC_TITLE" = "One Time Password";
 
 "OTPVC_LBL_MESSAGE"        = "You can now use this password to log in to your VPN service.";
 "OTPVC_LBL_YOUR_PASSWORD" = "YOUR PASSWORD";
 
 /* ACCESS NUMBER */
-"ACCESSNUMBERVC_TITLE" = "ACCESS NUMBER";
+"ACCESSNUMBERVC_TITLE" = "Enter Access Number";
 
-"ACCESSNUMBERVC_NOTE"   = "Please enter %d digits access number";
+"ACCESSNUMBERVC_NOTE"   = "ENTER %d DIGITS ACCESS NUMBER";
 
 
 /* Configuration list */
-"CONFIGLISTVC_TITLE"    = "CONFIGURATIONS";
+"CONFIGLISTVC_TITLE"    = "Configuration List";
 
 /* Add Configuration*/
-"ADDCONFIGVC_TITLE_ADD" = "Add configuration";
-"ADDCONFIGVC_TITLE_EDIT" = "Edit configuration";
+"ADDCONFIGVC_TITLE_ADD" = "Add Configuration";
+"ADDCONFIGVC_TITLE_EDIT" = "Edit Configuration";
 "ADDCONFIGVC_NAME" = "NAME";
-"ADDCONFIGVC_URL" = "URL";
+"ADDCONFIGVC_URL" = "M-PIN SERVER URL";
 "ADDCONFIGVC_PREFIX" = "RPS PREFIX";
 "ADDCONFIGVC_BTN_TEST_CONFIG" = "TEST CONFIGURATION";
 "ADDCONFIGVC_ERROR_EMPTY_URL" = "URL field is empty";
@@ -72,7 +72,7 @@
 
 /* Account summary */
 
-"ACCOUNTSUMMARYVC_TITLE" = "Account summary";
+"ACCOUNTSUMMARYVC_TITLE" = "Account Summary";
 
 /* About */
 "ABOUTVC_TITLE"         = "About";
