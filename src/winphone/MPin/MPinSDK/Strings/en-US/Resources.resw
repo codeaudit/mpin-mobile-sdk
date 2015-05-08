@@ -132,6 +132,9 @@
   <data name="NineButton.Content" xml:space="preserve">
     <value>9</value>
   </data>
+  <data name="NullUser" xml:space="preserve">
+    <value>No specified user!</value>
+  </data>
   <data name="OneButton.Content" xml:space="preserve">
     <value>1</value>
   </data>

@@ -46,6 +46,9 @@ namespace MPinRC
 #pragma endregion IPinPd
 
 #pragma region IContext
+	/// <summary>
+	/// The Context Interface is the one that "bundles" all the rest of the interfaces. Only this interface is provided to the Core and the others are used/accessed through it.
+	/// </summary>
 	[Windows::Foundation::Metadata::WebHostHidden]
 	public interface class IContext
 	{

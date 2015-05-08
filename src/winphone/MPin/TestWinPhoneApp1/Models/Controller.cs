@@ -197,18 +197,18 @@ namespace MPinDemo.Models
 
             switch (this.DataModel.CurrentUser.UserState)
             {
-                case User.State.ACTIVATED:
+                case User.State.Activated:
                     _sdk.FinishRegistration(this.DataModel.CurrentUser); // to set the pin
                     break;
 
-                case User.State.BLOCKED:
+                case User.State.Blocked:
                     await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("BlockedUser"), MainPage.NotifyType.ErrorMessage);
                     });
                     break;
 
-                case User.State.INVALID:
+                case User.State.Invalid:
                     // user still not registered -> start the registration
                     await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
@@ -216,11 +216,11 @@ namespace MPinDemo.Models
                     });
                     break;
 
-                case User.State.STARTED_REGISTRATION:
+                case User.State.StartedRegistration:
                     mainFrame.Navigate(typeof(EmailConfirmed), this.DataModel.CurrentUser);
                     break;
 
-                case User.State.REGISTERED:
+                case User.State.Registered:
                     if (this.DataModel.CurrentService.RequestAccessNumber)
                     {
                         mainFrame.Navigate(typeof(AccessNumberScreen), _sdk.GetClientParam("accessNumberDigits"));
@@ -241,12 +241,12 @@ namespace MPinDemo.Models
             if (user != null)
                 this.DataModel.CurrentUser = user;
 
-            if (user.UserState == User.State.STARTED_REGISTRATION)
+            if (user.UserState == User.State.StartedRegistration)
             {
                 Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
                 mainFrame.Navigate(typeof(EmailConfirmed), this.DataModel.CurrentUser);
             }
-            else if (user.UserState == User.State.ACTIVATED)
+            else if (user.UserState == User.State.Activated)
             {
                 await Task.Factory.StartNew(() =>
                 {
@@ -275,7 +275,7 @@ namespace MPinDemo.Models
                     string id = user.Id;
                     Debug.Assert(id.Equals(eMail));
                     MPinSDK.Models.User.State state = user.UserState;
-                    Debug.Assert(state == User.State.INVALID);
+                    Debug.Assert(state == User.State.Invalid);
 
                     status = _sdk.StartRegistration(user);
                 }
@@ -291,7 +291,7 @@ namespace MPinDemo.Models
                 User.State state = this.DataModel.CurrentUser.UserState;
                 await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NotConfirmedUser") + state.ToString(), state == User.State.INVALID ? MainPage.NotifyType.ErrorMessage : MainPage.NotifyType.StatusMessage);
+                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NotConfirmedUser") + state.ToString(), state == User.State.Invalid ? MainPage.NotifyType.ErrorMessage : MainPage.NotifyType.StatusMessage);
                 });
 
             }
@@ -307,7 +307,7 @@ namespace MPinDemo.Models
         private async Task ShowCreatingNewIdentity(User user, Status reason)
         {
             Status s = null;
-            if (user != null && user.UserState == User.State.STARTED_REGISTRATION)
+            if (user != null && user.UserState == User.State.StartedRegistration)
             {
                 s = await OnEmailConfirmed();
             }
@@ -317,7 +317,7 @@ namespace MPinDemo.Models
 
         private async Task<Status> OnEmailConfirmed()
         {
-            Debug.Assert(this.DataModel.CurrentUser.UserState == User.State.STARTED_REGISTRATION);
+            Debug.Assert(this.DataModel.CurrentUser.UserState == User.State.StartedRegistration);
 
             Task.WaitAll();
 

@@ -7,8 +7,17 @@ using MPinRC;
 
 namespace MPinSDK.Models
 {
+    /// <summary>
+    /// Defines an One-Time Password (OTP) object used for authenticating with a RADIUS serve.
+    /// </summary>
     public class OTP
     {
+        /// <summary>
+        /// Gets or sets the issued One-Time Password.
+        /// </summary>
+        /// <value>
+        /// The otp.
+        /// </value>
         public string Otp
         {
             get
