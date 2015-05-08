@@ -48,7 +48,7 @@ namespace MPinDemo.Models
         }
 
         #region CurrentUser
-        static User _currentUser;
+        private User _currentUser;
         public User CurrentUser
         {
             get
@@ -67,7 +67,7 @@ namespace MPinDemo.Models
         #endregion // CurrentUser
 
         #region CurrentService
-        static Backend _currentService;
+        private Backend _currentService;
         public Backend CurrentService
         {
             get
@@ -122,6 +122,14 @@ namespace MPinDemo.Models
             //    RequestOtp = false,
             //    Title = "M-Pin Connect"
             //});
+
+            BackendsList.Add(new Backend()
+            {
+                BackendUrl = "http://ec2-52-28-83-2.eu-central-1.compute.amazonaws.com/",
+                RequestAccessNumber = false,
+                RequestOtp = false,
+                Title = "Force Activation"
+            });
 
             BackendsList.Add(new Backend()
             {

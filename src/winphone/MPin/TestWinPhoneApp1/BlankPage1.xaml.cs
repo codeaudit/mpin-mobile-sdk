@@ -62,6 +62,7 @@ namespace MPinDemo
             _dispatcher = Window.Current.Dispatcher;
             this.DataContext = controller.DataModel;
             roamingSettings = ApplicationData.Current.RoamingSettings;
+            controller.PropertyChanged += controller_PropertyChanged;
 
             LoadSettings();
         }
@@ -152,7 +153,7 @@ namespace MPinDemo
                 shouldSetService = false == selectedService.Equals(controller.DataModel.CurrentService);
 
                 controller.DataModel.CurrentService = (Backend)this.ServicesList.Items[selectedIndex.Value];
-                this.ServicesList.SelectedIndex = selectedIndex.Value;
+                this.ServicesList.SelectedIndex = selectedIndex.Value;                
             }
             else
             {
@@ -245,6 +246,12 @@ namespace MPinDemo
                     isInitialLoad = false;
                 }
             }
+        }
+
+        private void controller_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsValidService" && !controller.IsValidService)
+                ServicesList.SelectedIndex = -1;
         }
 
         #endregion // handlers

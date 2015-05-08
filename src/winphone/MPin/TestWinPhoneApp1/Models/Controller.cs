@@ -2,8 +2,10 @@
 using MPinSDK.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
@@ -13,7 +15,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace MPinDemo.Models
 {
-    public class Controller
+    public class Controller : INotifyPropertyChanged
     {
         #region Fields
         private const string DEFAULT_RPS_PREFIX = "rps";
@@ -27,6 +29,23 @@ namespace MPinDemo.Models
         {
             get;
             set;
+        }
+
+        private bool isValidService;
+        public bool IsValidService
+        {
+            get
+            {
+                return this.isValidService;
+            }
+            set
+            {
+                if (this.isValidService != value)
+                {
+                    this.isValidService = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         #endregion // Fields
@@ -65,6 +84,7 @@ namespace MPinDemo.Models
                             !isOk ? MainPage.NotifyType.ErrorMessage : MainPage.NotifyType.StatusMessage);
                     });
 
+                    this.IsValidService = isOk;                    
                     UpdateUsersList();
                     break;
 
@@ -420,6 +440,19 @@ namespace MPinDemo.Models
                     break;
             }
         }
+
+
+        #region INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+        void OnPropertyChanged([CallerMemberName]string name = "")
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
+        #endregion // INotifyPropertyChanged
 
     }
 }
