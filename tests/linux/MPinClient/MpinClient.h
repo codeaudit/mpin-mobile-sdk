@@ -91,8 +91,8 @@ private:
 	class CContext : public MPinSDK::IContext
 	{
 	public:
-		CContext( CStorage* apStorageSecure, CStorage* apStorageNonSecure, CPinPad* apPinPad ) :
-			m_pStorageSecure(apStorageSecure), m_pStorageNonSecure(apStorageNonSecure), m_pPinPad(apPinPad)
+		CContext( const String& aId, CStorage* apStorageSecure, CStorage* apStorageNonSecure, CPinPad* apPinPad ) :
+			m_id(aId), m_pStorageSecure(apStorageSecure), m_pStorageNonSecure(apStorageNonSecure), m_pPinPad(apPinPad)
 		{}		
 
 		virtual ~CContext() {}
@@ -104,6 +104,7 @@ private:
 		virtual MPinSDK::CryptoType GetMPinCryptoType() const						{ return MPinSDK::CRYPTO_NON_TEE; }
 
 	private:
+		String		m_id;
 		CStorage*	m_pStorageSecure;
 		CStorage*	m_pStorageNonSecure;
 		CPinPad*	m_pPinPad;
@@ -123,6 +124,8 @@ private:
 	CStorage	m_storageNonSecure;
 	CPinPad		m_pinPad;
 	CContext	m_context;
+	
+	bool		m_bInitialized;
 	
 	String		m_userId;
 	String		m_pinGood;
