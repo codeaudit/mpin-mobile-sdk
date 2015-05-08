@@ -230,6 +230,11 @@ bool MPinWrapper::Logout(UserWrapper^ user)
 	return this->sdk->Logout(user->user);
 }
 
+Platform::String^ MPinWrapper::GetClientParam(Platform::String^ key)
+{
+	MPinSDK::String nKey = MPinWrapper::ToNativeString(key);
+	return MPinWrapper::ToStringHat(this->sdk->GetClientParam(nKey));
+}
 #pragma endregion MPinWrapper
 
 #pragma region UserWrapper

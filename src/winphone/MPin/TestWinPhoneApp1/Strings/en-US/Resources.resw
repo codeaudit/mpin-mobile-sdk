@@ -240,4 +240,7 @@
   <data name="UsersSelectButton.Content" xml:space="preserve">
     <value>Select</value>
   </data>
+  <data name="AccessNumberLength" xml:space="preserve">
+    <value>Please, enter {0} digits long access number.</value>
+  </data>
 </root>

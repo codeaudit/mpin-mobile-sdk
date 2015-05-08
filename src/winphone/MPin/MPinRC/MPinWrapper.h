@@ -205,6 +205,7 @@ namespace MPinRC
 
 		bool CanLogout(UserWrapper^ user);
 		bool Logout(UserWrapper^ user);
+		Platform::String^ GetClientParam(Platform::String^ key);
 	};
 #pragma endregion MPinWrapper
 }

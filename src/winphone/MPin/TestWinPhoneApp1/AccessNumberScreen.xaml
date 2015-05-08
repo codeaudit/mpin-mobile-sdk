@@ -10,10 +10,11 @@
 
     <Grid>
         <StackPanel>
-            <TextBlock x:Uid="AccessNumberTB"/>
-            <TextBox x:Name="AccessNumberTB" />
+            <TextBlock x:Uid="AccessNumberTB" Style="{StaticResource SubheaderTextBlockStyle}"/>
+            <TextBox x:Name="AccessNumberTB" TextChanged="AccessNumberTB_TextChanged"/>
+            <TextBlock x:Name="AccessNumberLength" Style="{StaticResource BodyTextBlockStyle}"/>
             
-            <Button x:Uid="AccessNumberButton" Click="Done_Click" />
+            <Button x:Uid="AccessNumberButton" x:Name="DoneButton" Click="Done_Click" IsEnabled="False" />
         </StackPanel>
     </Grid>
 </Page>

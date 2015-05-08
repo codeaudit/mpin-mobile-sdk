@@ -155,6 +155,14 @@ namespace MPinSDK
             return mPtr.Logout(user.Wrapper);
         }
 
+        public string GetClientParam(string key)
+        {
+            if (string.IsNullOrEmpty(key))
+                return string.Empty;
+
+            return mPtr.GetClientParam(key);
+        }
+
         #region IDisposable
         public void Dispose()
         {

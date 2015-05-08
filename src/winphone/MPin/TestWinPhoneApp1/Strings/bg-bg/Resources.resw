@@ -121,7 +121,7 @@
     <value>Готово</value>
   </data>
   <data name="AccessNumberTB.Text" xml:space="preserve">
-    <value>Въведи своя номер за достъп</value>
+    <value>Въведете номер за достъп</value>
   </data>
   <data name="AddServiceButton.Content" xml:space="preserve">
     <value>Добави</value>
@@ -239,5 +239,8 @@
   </data>
   <data name="UsersSelectButton.Content" xml:space="preserve">
     <value>Избери</value>
+  </data>
+  <data name="AccessNumberLength" xml:space="preserve">
+    <value>Въведете {0} цифрен номер за достъп</value>
   </data>
 </root>
