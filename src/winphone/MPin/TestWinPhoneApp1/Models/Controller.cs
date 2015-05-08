@@ -4,9 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Core;
@@ -18,12 +16,12 @@ namespace MPinDemo.Models
     public class Controller : INotifyPropertyChanged
     {
         #region Fields
-        private const string DEFAULT_RPS_PREFIX = "rps";
-        private const string CONFIG_BACKEND = "backend";
-        private CoreDispatcher _dispatcher;
+        private const string DefautRpsPrefix = "rps";
+        private const string ConfigBackend = "backend";
+        private CoreDispatcher dispatcher;
         private MainPage rootPage = null;
 
-        private static MPin _sdk;
+        private static MPin sdk;
 
         public AppDataModel DataModel
         {
@@ -53,13 +51,13 @@ namespace MPinDemo.Models
         #region C'tors
         static Controller()
         {
-            Controller._sdk = new MPin();
+            Controller.sdk = new MPin();
         }
 
         public Controller()
         {
             rootPage = MainPage.Current;
-            _dispatcher = Window.Current.Dispatcher;
+            dispatcher = Window.Current.Dispatcher;
 
             DataModel = new AppDataModel();
             DataModel.PropertyChanged += DataModel_PropertyChanged;
@@ -76,7 +74,7 @@ namespace MPinDemo.Models
                 case "CurrentService":
                     Status status = await ProcessServiceChanged();
                     bool isOk = status != null && status.StatusCode == Status.Code.OK;
-                    await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         rootPage.NotifyUser(!isOk
                             ? string.Format(ResourceLoader.GetForCurrentView().GetString("InitializationFailed"), (status == null ? "null" : status.StatusCode.ToString()))
@@ -98,7 +96,7 @@ namespace MPinDemo.Models
 
         //static void CurrentService_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         //{
-        //    maybe reconnect to the service....
+        //    TODO:  maybe reconnect to the service.... on service editing
         //}
 
         #endregion // handlers
@@ -111,13 +109,13 @@ namespace MPinDemo.Models
             if (!string.IsNullOrEmpty(this.DataModel.CurrentService.BackendUrl))
             {
                 IDictionary<string, string> config = new Dictionary<string, string>();
-                config.Add(CONFIG_BACKEND, this.DataModel.CurrentService.BackendUrl);
+                config.Add(ConfigBackend, this.DataModel.CurrentService.BackendUrl);
                 if (!string.IsNullOrEmpty(this.DataModel.CurrentService.RpsPrefix))
                 {
-                    config.Add(DEFAULT_RPS_PREFIX, this.DataModel.CurrentService.RpsPrefix);
+                    config.Add(DefautRpsPrefix, this.DataModel.CurrentService.RpsPrefix);
                 }
 
-                return _sdk.Init(config, new Context());
+                return sdk.Init(config, new Context());
             }
 
             return null;
@@ -133,14 +131,14 @@ namespace MPinDemo.Models
                 if (status != null)
                 {
                     Debug.WriteLine("InitStatus: " + status.StatusCode + " " + status.ErrorMessage);
-                    _sdk.SetUiDispatcher(Window.Current.Dispatcher);
+                    sdk.SetUiDispatcher(Window.Current.Dispatcher);
                     set = true;
                 }
             }
             else
             {
                 if (!string.IsNullOrEmpty(this.DataModel.CurrentService.BackendUrl))
-                    status = await Task.Factory.StartNew(() => _sdk.SetBackend(this.DataModel.CurrentService.BackendUrl, this.DataModel.CurrentService.RpsPrefix));
+                    status = await Task.Factory.StartNew(() => sdk.SetBackend(this.DataModel.CurrentService.BackendUrl, this.DataModel.CurrentService.RpsPrefix));
             }
 
             return status;
@@ -149,7 +147,7 @@ namespace MPinDemo.Models
         public static Status RestartRegistration(User user)
         {
             if (user != null)
-                return _sdk.RestartRegistration(user);
+                return sdk.RestartRegistration(user);
 
             return new Status(-1, "No user!");
         }
@@ -161,10 +159,10 @@ namespace MPinDemo.Models
                 Status status = null;
                 await Task.Factory.StartNew(() =>
                 {
-                    status = _sdk.TestBackend(this.DataModel.CurrentService.BackendUrl, this.DataModel.CurrentService.RpsPrefix);
+                    status = sdk.TestBackend(this.DataModel.CurrentService.BackendUrl, this.DataModel.CurrentService.RpsPrefix);
                 });
 
-                await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("ServiceStatus") + status.StatusCode, status.StatusCode == Status.Code.OK ? MainPage.NotifyType.StatusMessage : MainPage.NotifyType.ErrorMessage);
                 });
@@ -175,10 +173,10 @@ namespace MPinDemo.Models
         #region users
         internal void UpdateUsersList()
         {
-            lock (_sdk)
+            lock (sdk)
             {
                 List<User> users = new List<User>();
-                _sdk.ListUsers(users);
+                sdk.ListUsers(users);
                 DataModel.UsersList = new System.Collections.ObjectModel.ObservableCollection<User>(users);                
             }
         }
@@ -198,11 +196,11 @@ namespace MPinDemo.Models
             switch (this.DataModel.CurrentUser.UserState)
             {
                 case User.State.Activated:
-                    _sdk.FinishRegistration(this.DataModel.CurrentUser); // to set the pin
+                    sdk.FinishRegistration(this.DataModel.CurrentUser); // to set the pin
                     break;
 
                 case User.State.Blocked:
-                    await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("BlockedUser"), MainPage.NotifyType.ErrorMessage);
                     });
@@ -210,7 +208,7 @@ namespace MPinDemo.Models
 
                 case User.State.Invalid:
                     // user still not registered -> start the registration
-                    await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("InvalidUser"), MainPage.NotifyType.ErrorMessage);
                     });
@@ -223,7 +221,7 @@ namespace MPinDemo.Models
                 case User.State.Registered:
                     if (this.DataModel.CurrentService.RequestAccessNumber)
                     {
-                        mainFrame.Navigate(typeof(AccessNumberScreen), _sdk.GetClientParam("accessNumberDigits"));
+                        mainFrame.Navigate(typeof(AccessNumberScreen), sdk.GetClientParam("accessNumberDigits"));
                     }
                     else
                     {
@@ -250,12 +248,12 @@ namespace MPinDemo.Models
             {
                 await Task.Factory.StartNew(() =>
                 {
-                    _sdk.FinishRegistration(user);
+                    sdk.FinishRegistration(user);
                 });
             }
             else
             {
-                await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     rootPage.NotifyUser(string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblem"), user.Id, user.UserState), MainPage.NotifyType.ErrorMessage);
                 });
@@ -270,14 +268,14 @@ namespace MPinDemo.Models
             {
                 if (!string.IsNullOrEmpty(eMail))
                 {
-                    user = _sdk.MakeNewUser(eMail);
+                    user = sdk.MakeNewUser(eMail);
 
                     string id = user.Id;
                     Debug.Assert(id.Equals(eMail));
                     MPinSDK.Models.User.State state = user.UserState;
                     Debug.Assert(state == User.State.Invalid);
 
-                    status = _sdk.StartRegistration(user);
+                    status = sdk.StartRegistration(user);
                 }
             });
 
@@ -289,7 +287,7 @@ namespace MPinDemo.Models
             if (this.DataModel.CurrentUser != null)
             {
                 User.State state = this.DataModel.CurrentUser.UserState;
-                await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NotConfirmedUser") + state.ToString(), state == User.State.Invalid ? MainPage.NotifyType.ErrorMessage : MainPage.NotifyType.StatusMessage);
                 });
@@ -297,7 +295,7 @@ namespace MPinDemo.Models
             }
             else
             {
-                await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("RegistrationProblem"), MainPage.NotifyType.ErrorMessage);
                 });
@@ -325,7 +323,7 @@ namespace MPinDemo.Models
             User user = this.DataModel.CurrentUser;
             await Task.Factory.StartNew(() =>
             {
-                s = _sdk.FinishRegistration(user);
+                s = sdk.FinishRegistration(user);
             });
 
             return s;
@@ -334,7 +332,7 @@ namespace MPinDemo.Models
         internal static bool IfUserExists(string id)
         {
             List<User> users = new List<User>();
-            _sdk.ListUsers(users);
+            sdk.ListUsers(users);
             if (users != null && users.Count > 0)
             {
                 foreach (var user in users)
@@ -349,7 +347,7 @@ namespace MPinDemo.Models
         {
             await Task.Factory.StartNew(() =>
             {
-                _sdk.DeleteUser(user);
+                sdk.DeleteUser(user);
             });
 
             UpdateUsersList();
@@ -368,15 +366,15 @@ namespace MPinDemo.Models
                 string resultData = string.Empty;
                 if (!string.IsNullOrEmpty(accessNumber))
                 {
-                    status = _sdk.AuthenticateAN(user, accessNumber);
+                    status = sdk.AuthenticateAN(user, accessNumber);
                 }
                 else if (otp != null)
                 {
-                    status = _sdk.AuthenticateOTP(user, otp);
+                    status = sdk.AuthenticateOTP(user, otp);
                 }
                 else
                 {
-                    status = _sdk.Authenticate(user, resultData);
+                    status = sdk.Authenticate(user, resultData);
                 }
             });
 
@@ -400,8 +398,7 @@ namespace MPinDemo.Models
         }
 
         #endregion // authentication
-        #endregion // Methods
-
+      
         internal async Task ProcessNavigation(string command, string parameter)
         {
             switch (command)
@@ -430,7 +427,7 @@ namespace MPinDemo.Models
                     break;
 
                 case "Error":
-                    await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("Error") + parameter, MainPage.NotifyType.ErrorMessage);
                     });
@@ -440,7 +437,7 @@ namespace MPinDemo.Models
                     break;
             }
         }
-
+        #endregion // Methods
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
@@ -453,6 +450,5 @@ namespace MPinDemo.Models
             }
         }
         #endregion // INotifyPropertyChanged
-
     }
 }

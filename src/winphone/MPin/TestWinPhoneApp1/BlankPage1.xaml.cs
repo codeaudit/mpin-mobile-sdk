@@ -1,32 +1,14 @@
-﻿using MPinSDK;
+﻿using MPinDemo.Models;
+using MPinSDK.Common; // navigation extensions
 using MPinSDK.Models;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using MPinDemo.Models;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.System.Threading;
+using Windows.ApplicationModel.Resources;
+using Windows.Storage;
 using Windows.UI.Core;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using MPinSDK.Common; // navigation extensions
-using Windows.UI;
-using Windows.Storage;
-using Windows.ApplicationModel.Resources;
-using System.Collections.ObjectModel;
 
 namespace MPinDemo
 {
@@ -39,7 +21,6 @@ namespace MPinDemo
 
         private const string SelectedService = "ServiceSetIndex";
         private const string SelectedUser = "SelectedUser";
-        private bool processSelection = true;
         private bool shouldSetService = false;
         private bool isInitialLoad = false;
         private MainPage rootPage = null;
