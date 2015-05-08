@@ -71,7 +71,7 @@ namespace MPinDemo
                 // Clear the status block when navigating
                 //NotifyUser(String.Empty, NotifyType.StatusMessage);
 
-                MainFrame.GoBack(null);
+                MainFrame.GoBack("GoBack");
 
                 //Indicate the back button press is handled so the app does not exit
                 e.Handled = true;
