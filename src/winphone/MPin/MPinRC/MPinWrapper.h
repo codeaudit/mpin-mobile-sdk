@@ -8,11 +8,16 @@
 #include "Storage.h"
 
 using namespace Platform::Collections;
-//using namespace System::Runtime::CompilerServices;
-//[assembly:InternalsVisibleTo("")]
 
+/// <summary>
+/// The MPinRC assembly ports all unmanaged files to managed code so the MPinSDK could be used by Windows Phone c# compiler.
+/// </summary>
 namespace MPinRC
 {
+	/// <summary>
+	/// The CryptoType enumeration used for generating the supported Crypto Type on the specific platform.
+	/// <remarks>Currently, only on the Android platform this method might return something different than Non-TEE Crypto. Other platforms will always return Non-TEE Crypto</remarks>
+	/// </summary>
 	public enum class CryptoType
 	{
 		CRYPTO_TEE,
@@ -20,11 +25,13 @@ namespace MPinRC
 	};
 
 #pragma region IPinPd
+	/// <summary>
+	/// Provides an interface to trigger the display of the PIN Pad.
+	/// </summary>
 	[Windows::Foundation::Metadata::WebHostHidden]
 	public interface class IPinPad
 	{
 	public:
-		//virtual IAsyncOperation<Platform::String^> ShowAsync() = 0;
 		virtual Platform::String^ Show() = 0;
 		virtual void SetUiDispatcher(Windows::UI::Core::CoreDispatcher^ dispatcher) = 0;
 	};
@@ -84,6 +91,9 @@ namespace MPinRC
 #pragma endregion IContext
 
 #pragma region UserWrapper
+	/// <summary>
+	/// A wrapper class used to pass User data from managed to unmanaged User objects and vice versa.
+	/// </summary>
 	public ref class UserWrapper sealed
 	{
 	internal:
@@ -98,6 +108,9 @@ namespace MPinRC
 #pragma endregion UserWrapper
 
 #pragma region StatusWrapper
+	/// <summary>
+	/// A wrapper class used to pass Status data from managed to unmanaged Status objects and vice versa.
+	/// </summary>
 	public ref class StatusWrapper sealed
 	{
 	private:
@@ -130,6 +143,9 @@ namespace MPinRC
 #pragma endregion StatusWrapper
 
 #pragma region OTPWrapper
+	/// <summary>
+	/// A wrapper class used to pass OTP data from managed to unmanaged OTP objects and vice versa.
+	/// </summary>
 	public ref class OTPWrapper sealed
 	{
 	internal:
@@ -169,6 +185,9 @@ namespace MPinRC
 #pragma endregion OTPWrapper
 
 #pragma region MPinWrapper
+	/// <summary>
+	/// A wrapper class used to pass the MPin SDK fields and methods from managed to unmanaged objects and vice versa.
+	/// </summary>
 	[Windows::Foundation::Metadata::WebHostHidden]
 	public ref class MPinWrapper sealed
 	{

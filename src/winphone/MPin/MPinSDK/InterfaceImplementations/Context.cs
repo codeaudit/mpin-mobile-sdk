@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace MPinSDK
 {
     /// <summary>
-    /// A Context class implementing the IContext interface which "bundles" all the rest of the interfaces. An instance of this class is provided to the Core and the others are used/accessed through it. 
+    /// A Context class implementing the <see cref="T:MPinRC.IContext">IContext</see> interface which "bundles" all the rest of the interfaces. An instance of this class is provided to the Core and the others are used/accessed through it. 
     /// </summary>
     public class Context : IContext
     {
