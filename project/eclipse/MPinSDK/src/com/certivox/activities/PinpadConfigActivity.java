@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -27,7 +26,7 @@ import android.widget.CursorAdapter;
 import android.widget.Toast;
 
 import com.certivox.db.ConfigsContract.ConfigEntry;
-import com.certivox.db.ConfigsDbHelper;
+import com.certivox.db.ConfigsDao;
 import com.certivox.fragments.ConfigDetailFragment;
 import com.certivox.fragments.ConfigListFragment;
 import com.certivox.interfaces.ConfigController;
@@ -68,6 +67,7 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 		initViews();
 		initActionBar();
 		initNavigationDrawer();
+
 		addConfigListFragment();
 	}
 
@@ -186,7 +186,6 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 			@Override
 			public void onClick(View v) {
 				if (mLastConfig != null) {
-					Log.i("DEBUG", "ON BACK PRESSED!");
 					onBackPressed();
 				} else {
 					new AlertDialog.Builder(mActivity)
@@ -218,52 +217,24 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 	@Override
 	protected void onStop() {
 		Config activeConfiguration = getActiveConfiguration(this);
-		if (activeConfiguration != null && mLastConfig != null
-				&& activeConfiguration.getId() != mLastConfig.getId()) {
+		if (activeConfiguration != null) {
 			PreferenceManager
 					.getDefaultSharedPreferences(this.getApplicationContext())
-					.edit().putLong(KEY_ACTIVE_CONFIG, mLastConfig.getId())
+					.edit()
+					.putLong(KEY_ACTIVE_CONFIG, activeConfiguration.getId())
 					.commit();
 		}
 
 		super.onStop();
 	}
 
-	public static Config getConfigurationById(Context context, long id) {
-		if (id == -1 || context == null)
-			return null;
-		SQLiteDatabase db = new ConfigsDbHelper(context).getReadableDatabase();
-		Cursor cursor = null;
-		try {
-			cursor = db.query(ConfigEntry.TABLE_NAME,
-					ConfigEntry.getFullProjection(), ConfigEntry._ID
-							+ " LIKE ?", new String[] { String.valueOf(id) },
-					null, null, null);
-			if (cursor.moveToFirst()) {
-				Config config = new Config();
-				config.formCursor(cursor);
-				return config;
-			}
-		} finally {
-			if (cursor != null)
-				cursor.close();
-		}
-		return null;
-	}
+	public static Cursor deleteConfiguration(Context context, long configId) {
 
-	public static Cursor deleteConfigurationById(Context context, long configId) {
-		SQLiteDatabase db = new ConfigsDbHelper(context).getWritableDatabase();
-
-		db.delete(ConfigEntry.TABLE_NAME, ConfigEntry._ID + " LIKE ?",
-				new String[] { String.valueOf(configId) });
-
-		Cursor cursor = db.query(ConfigEntry.TABLE_NAME,
-				ConfigEntry.getFullProjection(), null, null, null, null, null);
+		Cursor cursor = ConfigsDao.deleteConfigurationById(context, configId);
 
 		if (cursor.moveToFirst()) {
-			setActiveConfig(
-					context,
-					getConfigurationById(context, cursor.getLong(cursor
+			setActiveConfig(context, ConfigsDao.getConfigurationById(context,
+					cursor.getLong(cursor
 							.getColumnIndexOrThrow(ConfigEntry._ID))));
 		}
 
@@ -273,18 +244,23 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 	public static Config getActiveConfiguration(Context context) {
 		if (context == null)
 			return null;
+
 		long id = PreferenceManager.getDefaultSharedPreferences(
 				context.getApplicationContext()).getLong(KEY_ACTIVE_CONFIG, -1);
-		return getConfigurationById(context, id);
+
+		return ConfigsDao.getConfigurationById(context, id);
 	}
 
 	public static void setActiveConfig(final Context context,
 			final Config config) {
+
 		final long id = config != null ? config.getId() : -1;
 		mLastConfig = getActiveConfiguration(context);
+
 		if ((mLastConfig != null ? mLastConfig.getId() : -1) == id) {
 			return;
 		}
+
 		PreferenceManager
 				.getDefaultSharedPreferences(context.getApplicationContext())
 				.edit().putLong(KEY_ACTIVE_CONFIG, id).commit();
@@ -356,7 +332,8 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 
 	@Override
 	public void configurationSelected(long mSelectedId) {
-		activateConfiguration(getConfigurationById(mActivity, mSelectedId));
+		activateConfiguration(ConfigsDao.getConfigurationById(mActivity,
+				mSelectedId));
 	}
 
 	@Override
@@ -365,13 +342,12 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 	}
 
 	@Override
-	public void editConfiguration(Config config) {
-		addConfigDetailsFragment(config.getId());
+	public void editConfiguration(long configId) {
+		addConfigDetailsFragment(configId);
 	}
 
 	@Override
-	public void onDeleteConfiguration(Config activeConfig) {
-		final long configId = activeConfig.getId();
+	public void onDeleteConfiguration(final long configId) {
 
 		new AlertDialog.Builder(mActivity)
 				.setTitle("Delete configuration")
@@ -380,8 +356,7 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						Cursor cursor = deleteConfigurationById(mActivity,
-								configId);
+						Cursor cursor = deleteConfiguration(mActivity, configId);
 						((CursorAdapter) getConfigListFragment()
 								.getListAdapter()).changeCursor(cursor);
 					}

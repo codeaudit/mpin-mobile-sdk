@@ -2,6 +2,7 @@ package com.certivox.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.certivox.activities.PinpadConfigActivity;
+import com.certivox.fragments.ConfigListFragment;
 import com.certivox.mpinsdk.Config;
 import com.example.mpinsdk.R;
 
@@ -34,8 +36,8 @@ public class ConfigAdapter extends CursorAdapter {
 
 	@Override
 	public void notifyDataSetChanged() {
-		Config active = PinpadConfigActivity.getActiveConfiguration(mContext);
-		mActiveId = active == null ? -1 : active.getId();
+		mActiveId = ConfigListFragment.sSelectedId;
+		Log.i("DEBUG", "mActiveId = " + mActiveId);
 		super.notifyDataSetChanged();
 	}
 

@@ -7,7 +7,6 @@ import java.util.Map;
 
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -47,7 +46,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	public static final String KEY_ACCESS_NUMBER = "AccessNumberActivity.KEY_ACCESS_NUMBER";
 	private static final String PREF_LAST_USER = "MPinActivity.PREF_LAST_USER";
-	
+
 	// Fragments
 	private static final String FRAG_PINPAD = "FRAG_PINPAD";
 	private static final String FRAG_ACCESSNUMBER = "FRAG_ACCESSNUMBER";
@@ -67,33 +66,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	private Config mConfiguration;
 
-	private final BroadcastReceiver mConfigChangeReceiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if (TextUtils.equals(PinpadConfigActivity.ACTION_CHANGING_CONFIG,
-					intent.getAction())) {
-				onChangingConfiguration(PinpadConfigActivity
-						.getConfigurationById(MPinActivity.this, intent.getLongExtra(
-								PinpadConfigActivity.EXTRA_PREVIOUS_CONFIG, -1)));
-			} else if (TextUtils.equals(
-					PinpadConfigActivity.ACTION_CONFIG_CHANGED,
-					intent.getAction())) {
-				onConfigurationChanged(
-						PinpadConfigActivity.getConfigurationById(
-								MPinActivity.this,
-								intent.getLongExtra(
-										PinpadConfigActivity.EXTRA_PREVIOUS_CONFIG,
-										-1)),
-						PinpadConfigActivity.getConfigurationById(
-								MPinActivity.this,
-								intent.getLongExtra(
-										PinpadConfigActivity.EXTRA_CURRENT_CONFIG,
-										-1)));
-
-			}
-		}
-	};
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -106,7 +78,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 		if (mConfiguration == null && !initConfiguration()) {
 			startActivity(new Intent(this, PinpadConfigActivity.class));
 		} else {
-			onConfigurationChanged(null, mConfiguration);
+			initSDK(mConfiguration);
 			setInitialScreen();
 		}
 	}
@@ -129,16 +101,13 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 		return true;
 	}
 
-	private void onChangingConfiguration(Config prev) {
-	}
-
-	private void onConfigurationChanged(Config prev, Config curr) {
+	private void initSDK(Config config) {
 		initConfiguration();
 		Mpin sdk = MPinActivity.peekSdk();
 		if (sdk == null) {
-			HashMap<String, String> cfg = new HashMap<String, String>();
-			cfg.put("RPA_server", curr.getBackendUrl());
-			MPinActivity.init(this, cfg);
+			HashMap<String, String> serverConfig = new HashMap<String, String>();
+			serverConfig.put("RPA_server", config.getBackendUrl());
+			MPinActivity.init(this, serverConfig);
 		}
 	}
 

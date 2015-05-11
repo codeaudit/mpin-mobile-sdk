@@ -1,16 +1,15 @@
 package com.certivox.interfaces;
 
-import com.certivox.mpinsdk.Config;
 
 public interface ConfigController {
 
-	void configurationSelected(long mSelectedId);
+	void configurationSelected(long selectedId);
 
 	void createNewConfiguration();
 
-	void editConfiguration(Config activeConfig);
+	void editConfiguration(long selectedId);
 
-	void onDeleteConfiguration(Config activeConfig);
+	void onDeleteConfiguration(long selectedId);
 
 	void configurationSaved();
 

@@ -3,7 +3,6 @@ package com.certivox.fragments;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,20 +14,35 @@ import android.widget.ListView;
 
 import com.certivox.activities.PinpadConfigActivity;
 import com.certivox.adapters.ConfigAdapter;
-import com.certivox.db.ConfigsContract.ConfigEntry;
-import com.certivox.db.ConfigsDbHelper;
+import com.certivox.db.ConfigsDao;
 import com.certivox.interfaces.ConfigController;
 import com.certivox.mpinsdk.Config;
 import com.example.mpinsdk.R;
 
 public class ConfigListFragment extends ListFragment {
 
-	private long mSelectedId;
+	public static long sSelectedId;
 
 	private ConfigController controller;
 
 	public void setController(ConfigController controller) {
 		this.controller = controller;
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		sSelectedId = -1;
+
+		Config activeConfig = PinpadConfigActivity
+				.getActiveConfiguration(getActivity());
+
+		if (activeConfig != null) {
+			sSelectedId = activeConfig.getId();
+		}
+
+		Cursor configsCursor = ConfigsDao.getConfigs(getActivity());
+		((ConfigAdapter) getListAdapter()).changeCursor(configsCursor);
 	}
 
 	@Override
@@ -41,11 +55,8 @@ public class ConfigListFragment extends ListFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		SQLiteDatabase db = new ConfigsDbHelper(activity).getReadableDatabase();
-		Cursor c = db.query(ConfigEntry.TABLE_NAME,
-				ConfigEntry.getFullProjection(), null, null, null, null, null);
-		setListAdapter(new ConfigAdapter(getActivity(), c));
-
+		Cursor cursor = ConfigsDao.getConfigs(getActivity());
+		setListAdapter(new ConfigAdapter(getActivity(), cursor));
 	}
 
 	@Override
@@ -56,9 +67,7 @@ public class ConfigListFragment extends ListFragment {
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		mSelectedId = id;
-		PinpadConfigActivity.setActiveConfig(getActivity(), PinpadConfigActivity
-				.getConfigurationById(getActivity(), mSelectedId));
+		sSelectedId = id;
 		((ConfigAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 
@@ -77,11 +86,9 @@ public class ConfigListFragment extends ListFragment {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		final Config activeConfig = PinpadConfigActivity
-				.getActiveConfiguration(getActivity());
 		switch (item.getItemId()) {
 		case R.id.select_config: {
-			controller.configurationSelected(mSelectedId);
+			controller.configurationSelected(sSelectedId);
 			return true;
 		}
 		case R.id.configs_list_new: {
@@ -89,33 +96,20 @@ public class ConfigListFragment extends ListFragment {
 			return true;
 		}
 		case R.id.configs_list_edit: {
-			if (activeConfig == null) {
-				return true;
+			if (sSelectedId != -1) {
+				controller.editConfiguration(sSelectedId);
 			}
-			controller.editConfiguration(activeConfig);
 			return true;
 		}
 		case R.id.configs_list_delete: {
-			if (activeConfig == null) {
-				return true;
+			if (sSelectedId != -1) {
+				controller.onDeleteConfiguration(sSelectedId);
 			}
 
-			controller.onDeleteConfiguration(activeConfig);
 			return true;
 		}
 		default:
 			return false;
 		}
 	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-		SQLiteDatabase db = new ConfigsDbHelper(getActivity())
-				.getWritableDatabase();
-		Cursor c = db.query(ConfigEntry.TABLE_NAME,
-				ConfigEntry.getFullProjection(), null, null, null, null, null);
-		((ConfigAdapter) getListAdapter()).changeCursor(c);
-	}
-
 }
