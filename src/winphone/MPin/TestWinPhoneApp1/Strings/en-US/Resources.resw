@@ -141,7 +141,7 @@
   <data name="ConfirmTB.Text" xml:space="preserve">
     <value>Click the link in the email, to confirm your identity and proceed.</value>
   </data>
-  <data name="DeleteServiceButton.Content" xml:space="preserve">
+  <data name="DeleteServiceButton.Label" xml:space="preserve">
     <value>Delete</value>
   </data>
   <data name="EmailTB.Text" xml:space="preserve">
@@ -219,7 +219,7 @@
   <data name="SuccessfulAuth" xml:space="preserve">
     <value>is successfully authenticated!</value>
   </data>
-  <data name="TestServiceButton.Content" xml:space="preserve">
+  <data name="TestService" xml:space="preserve">
     <value>Test Backend</value>
   </data>
   <data name="TimeLeftTB.Text" xml:space="preserve">
@@ -237,10 +237,13 @@
   <data name="UsersPivotItem.Header" xml:space="preserve">
     <value>Users</value>
   </data>
-  <data name="UsersSelectButton.Content" xml:space="preserve">
+  <data name="UsersSelect" xml:space="preserve">
     <value>Select</value>
   </data>
   <data name="AccessNumberLength" xml:space="preserve">
     <value>Please, enter {0} digits long access number.</value>
+  </data>
+  <data name="NavigationFailedExceptionMessage" xml:space="preserve">
+    <value>Navigation failed.</value>
   </data>
 </root>

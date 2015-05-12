@@ -141,7 +141,7 @@
   <data name="ConfirmTB.Text" xml:space="preserve">
     <value>Изберете връзката от пощата си за да потвърдите самоличността си и да продължите напред. </value>
   </data>
-  <data name="DeleteServiceButton.Content" xml:space="preserve">
+  <data name="DeleteServiceButton.Label" xml:space="preserve">
     <value>Изтрий</value>
   </data>
   <data name="EmailTB.Text" xml:space="preserve">
@@ -219,7 +219,7 @@
   <data name="SuccessfulAuth" xml:space="preserve">
     <value>е успешно аутентикиран!</value>
   </data>
-  <data name="TestServiceButton.Content" xml:space="preserve">
+  <data name="TestServiceButton.Label" xml:space="preserve">
     <value>Тествай Бекенда</value>
   </data>
   <data name="TimeLeftTB.Text" xml:space="preserve">
@@ -242,5 +242,8 @@
   </data>
   <data name="AccessNumberLength" xml:space="preserve">
     <value>Въведете {0} цифрен номер за достъп</value>
+  </data>
+  <data name="NavigationFailedExceptionMessage" xml:space="preserve">
+    <value>Възникна проблем при навигацията!</value>
   </data>
 </root>

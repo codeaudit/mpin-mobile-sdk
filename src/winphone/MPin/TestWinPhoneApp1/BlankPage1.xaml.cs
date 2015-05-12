@@ -1,6 +1,7 @@
 ﻿using MPinDemo.Models;
 using MPinSDK.Common; // navigation extensions
 using MPinSDK.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Windows.ApplicationModel.Resources;
@@ -28,6 +29,7 @@ namespace MPinDemo
 
         private ApplicationDataContainer roamingSettings = null;
         private static Controller controller = null;
+        private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
         #endregion // members
 
         #region constructors
@@ -97,7 +99,7 @@ namespace MPinDemo
         private void LoadSettings()
         {
             SetSelectedServicesIndex();
-            AuthenticateButton.IsEnabled = UsersListBox.SelectedItem != null;
+            //AuthenticateButton.IsEnabled = UsersListBox.SelectedItem != null;
 
             if (controller.DataModel.CurrentService.BackendUrl != null)
             {
@@ -140,7 +142,8 @@ namespace MPinDemo
                 shouldSetService = false == selectedService.Equals(controller.DataModel.CurrentService);
 
                 controller.DataModel.CurrentService = (Backend)this.ServicesList.Items[selectedIndex.Value];
-                this.ServicesList.SelectedIndex = selectedIndex.Value;                
+                this.ServicesList.SelectedIndex = selectedIndex.Value;
+                this.ServicesList.ScrollIntoView(this.ServicesList.SelectedItem);
             }
             else
             {
@@ -153,33 +156,33 @@ namespace MPinDemo
 
         #region handlers
 
-        private void AddService_Click(object sender, RoutedEventArgs e)
-        {
-            // TODO
-        }
+        //private void AddService_Click(object sender, RoutedEventArgs e)
+        //{
+        //    // TODO
+        //}
 
-        private void DeleteService_Click(object sender, RoutedEventArgs e)
-        {
-            // TODO
-        }
+        //private void DeleteService_Click(object sender, RoutedEventArgs e)
+        //{
+        //    // TODO
+        //}
 
         private async void Authenticate_Click(object sender, RoutedEventArgs e)
         {
             await controller.ProcessUser();
         }
 
-        private void AddUser_Click(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(controller.DataModel.CurrentService.BackendUrl))
-            {
-                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoServiceSet"), MainPage.NotifyType.ErrorMessage);
-            }
-            else
-            {
-                Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-                mainFrame.Navigate(typeof(AddNewUser));
-            }
-        }
+        //private void AddUser_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (string.IsNullOrEmpty(controller.DataModel.CurrentService.BackendUrl))
+        //    {
+        //        rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoServiceSet"), MainPage.NotifyType.ErrorMessage);
+        //    }
+        //    else
+        //    {
+        //        Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
+        //        mainFrame.Navigate(typeof(AddNewUser));
+        //    }
+        //}
 
         private async void DeleteUser_Click(object sender, RoutedEventArgs e)
         {
@@ -192,21 +195,21 @@ namespace MPinDemo
 
         private void UsersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            AuthenticateButton.IsEnabled = UsersListBox.SelectedItem != null;
+            //AuthenticateButton.IsEnabled = UsersListBox.SelectedItem != null;
             controller.DataModel.CurrentUser = UsersListBox.SelectedItem as User;
             SavePropertyState(SelectedUser, UsersListBox.SelectedIndex);
         }
 
         private void Services_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            TestServiceButton.IsEnabled = ServicesList.SelectedItem != null;
+            //TestServiceButton.IsEnabled = ServicesList.SelectedItem != null;
             SavePropertyState(SelectedService, ServicesList.SelectedIndex);
         }
 
-        private async void TestBackend_click(object sender, RoutedEventArgs e)
-        {
-            await controller.TestBackend();
-        }
+        //private async void TestBackend_click(object sender, RoutedEventArgs e)
+        //{
+        //    await controller.TestBackend();
+        //}
 
         private void ServicesList_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
@@ -240,8 +243,72 @@ namespace MPinDemo
             if (e.PropertyName == "IsValidService" && !controller.IsValidService)
                 ServicesList.SelectedIndex = -1;
         }
+        
+        private void AddAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            var container = this.MainPivot.ContainerFromIndex(this.MainPivot.SelectedIndex) as ContentControl;
+            var listView = container.ContentTemplateRoot as ListView;
+
+            switch (this.MainPivot.SelectedIndex)
+            {
+                case 0:
+                    // Add a service
+
+                    //listView.ScrollIntoView(newItem, ScrollIntoViewAlignment.Leading);
+                    break;
+                case 1:
+                    // Add a user
+                    if (string.IsNullOrEmpty(controller.DataModel.CurrentService.BackendUrl))
+                    {
+                        rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoServiceSet"), MainPage.NotifyType.ErrorMessage);
+                    }
+                    else
+                    {
+                        if (!Frame.Navigate(typeof(AddNewUser)))
+                        {
+                            throw new Exception(this.resourceLoader.GetString("NavigationFailedExceptionMessage"));
+                        }
+
+                    }
+                    break;
+            }
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.MainPivot.SelectedIndex == 0)
+            {
+                await controller.TestBackend();
+            }
+            else
+            {
+                // todo...
+            }
+        }
 
         #endregion // handlers
 
+        private void MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (this.MainPivot.SelectedIndex == 0)
+            {
+                // Services
+                AdditionalButton.Icon = new SymbolIcon(Symbol.Pause);
+                AdditionalButton.Label = this.resourceLoader.GetString("TestService");
+                AdditionalButton.Tag = this.resourceLoader.GetString("TestService");
+            }
+            else
+            {
+                // Users
+                AdditionalButton.Icon = new SymbolIcon(Symbol.Next);
+                AdditionalButton.Label = this.resourceLoader.GetString("UsersSelect");
+                AdditionalButton.Tag = this.resourceLoader.GetString("UsersSelect");
+            }
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

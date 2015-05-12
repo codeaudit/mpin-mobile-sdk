@@ -176,6 +176,9 @@
   <ItemGroup>
     <PRIResource Include="Strings\bg-bg\Resources.resw" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\SampleData.json" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>
