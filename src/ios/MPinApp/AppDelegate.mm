@@ -85,4 +85,10 @@
 	// appropriate. See also applicationDidEnterBackground:.
 }
 
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    NSLog(@"%@", [url absoluteString]);
+    [[[UIAlertView alloc] initWithTitle:nil message:[url absoluteString] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+    return NO;
+}
 @end

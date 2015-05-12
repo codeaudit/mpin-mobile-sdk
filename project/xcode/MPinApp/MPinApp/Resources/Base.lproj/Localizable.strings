@@ -126,6 +126,7 @@
 "WARNING_VERIFY_FINGER" =  "Verify fingerprint";
 
 /* BASIC THINGS */
+"KEY_RESET" = "RESET PIN";
 "KEY_CANCEL" = "CANCEL";
 "KEY_OKBTN" = "OK";
 "KEY_DELETE" = "DELETE";

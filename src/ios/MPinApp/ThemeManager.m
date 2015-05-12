@@ -171,9 +171,9 @@
 
         [myVc.imgViewBlockedId setImage:[UIImage imageNamed:@"identity-blocked"]];
         
-//        [myVc.btnResetPIN setTitleColor:[[SettingsManager sharedManager] color1] forState:UIControlStateNormal];
-//        myVc.btnResetPIN.backgroundColor = [[SettingsManager sharedManager] color10];
-//        [myVc.btnResetPIN setTitle:@"RESET PIN" forState:UIControlStateNormal];
+        [myVc.btnResetPIN setTitleColor:[[SettingsManager sharedManager] color10] forState:UIControlStateNormal];
+        myVc.btnResetPIN.backgroundColor = [[SettingsManager sharedManager] color1];
+        [myVc.btnResetPIN setTitle:@"RESET PIN" forState:UIControlStateNormal];
         
         [myVc.btnBackToIdList setTitleColor:[[SettingsManager sharedManager] color10] forState:UIControlStateNormal];
         myVc.btnBackToIdList.backgroundColor = [[SettingsManager sharedManager] color1];
@@ -196,6 +196,7 @@
         myVc.btnDeleteConfiguration.backgroundColor = [[SettingsManager sharedManager] color1];
         [myVc.btnDeleteConfiguration setTitleColor:[[SettingsManager sharedManager] color8] forState:UIControlStateNormal];
 
+        
          [myVc.btnEditConfiguration setTitle:NSLocalizedString(@"KEY_EDIT", @"") forState:UIControlStateNormal];
         myVc.btnEditConfiguration.backgroundColor = [[SettingsManager sharedManager] color1];
         [myVc.btnEditConfiguration setTitleColor:[[SettingsManager sharedManager] color7] forState:UIControlStateNormal];
@@ -210,7 +211,11 @@
 
         myVc.btnDelete.backgroundColor = [[SettingsManager sharedManager] color1];
         [myVc.btnDelete setTitleColor:[[SettingsManager sharedManager] color8] forState:UIControlStateNormal];
-        
+
+        [myVc.btnReset setTitle:NSLocalizedString(@"KEY_RESET", @"") forState:UIControlStateNormal];
+        myVc.btnReset.backgroundColor = [[SettingsManager sharedManager] color1];
+        [myVc.btnReset setTitleColor:[[SettingsManager sharedManager] color7] forState:UIControlStateNormal];
+
 
         [self setupLoginButton:myVc.btnAuthenticate];
         [self setupLoginButton:myVc.btnAdd];
@@ -221,8 +226,9 @@
 
         myVc.title = NSLocalizedString(@"USERLISTVC_TITLE", @"");
         [myVc.btnAdd setTitle:NSLocalizedString(@"USERLISTVC_ADD_NEW_ID", @"") forState:UIControlStateNormal];
-        [myVc.btnDelete setTitle:NSLocalizedString(@"KEY_DELETE", @"") forState:UIControlStateNormal];
         myVc.btnAdd.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:16.0];
+        [myVc.btnDelete setTitle:NSLocalizedString(@"KEY_DELETE", @"") forState:UIControlStateNormal];
+        
         //myVc.btnAdd.backgroundColor = [[SettingsManager sharedManager] color6];
         
     }
