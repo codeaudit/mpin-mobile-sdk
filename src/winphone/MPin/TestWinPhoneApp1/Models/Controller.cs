@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -168,6 +169,12 @@ namespace MPinDemo.Models
                 });
             }
         }
+        
+        internal async Task DeleteService(Backend backend)
+        {
+            this.DataModel.BackendsList.Remove(backend);
+            await this.DataModel.SaveServices();
+        }
         #endregion // services
 
         #region users
@@ -200,10 +207,7 @@ namespace MPinDemo.Models
                     break;
 
                 case User.State.Blocked:
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("BlockedUser"), MainPage.NotifyType.ErrorMessage);
-                    });
+                    mainFrame.Navigate(typeof(BlockedScreen), this.DataModel.CurrentUser);                    
                     break;
 
                 case User.State.Invalid:
@@ -345,13 +349,22 @@ namespace MPinDemo.Models
 
         internal async Task DeleteUser(User user)
         {
-            await Task.Factory.StartNew(() =>
+            var confirmation = new MessageDialog(string.Format(ResourceLoader.GetForCurrentView().GetString("DeleteUserConfirmation"), this.DataModel.CurrentUser.Id));
+            confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("YesCommand")));
+            confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("NoCommand")));
+            confirmation.DefaultCommandIndex = 1;
+            var result = await confirmation.ShowAsync();
+            if (result.Equals(confirmation.Commands[0]))
             {
-                sdk.DeleteUser(user);
-            });
+                await Task.Factory.StartNew(() =>
+                {
+                    sdk.DeleteUser(user);
+                });
 
-            UpdateUsersList();
+                UpdateUsersList();
+            }
         }
+        
         #endregion // users
 
         #region authentication
@@ -433,10 +446,18 @@ namespace MPinDemo.Models
                     });
                     break;
 
+                case "BlockedUser":
+                    if (parameter.Equals("Remove") && this.DataModel.CurrentUser != null)
+                    {                        
+                        await DeleteUser(this.DataModel.CurrentUser);
+                    }
+                    break;
+
                 default:
                     break;
             }
         }
+
         #endregion // Methods
 
         #region INotifyPropertyChanged
@@ -450,5 +471,6 @@ namespace MPinDemo.Models
             }
         }
         #endregion // INotifyPropertyChanged
+
     }
 }

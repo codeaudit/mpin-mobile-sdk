@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"    
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    
+
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -16,37 +16,36 @@
             </NavigationThemeTransition>
         </TransitionCollection>
     </Page.Transitions>
-    
+
     <Grid>
 
-        <Pivot x:Name="MainPivot" CommonNavigationTransitionInfo.IsStaggerElement="True" SelectionChanged="MainPivot_SelectionChanged">
+        <Pivot x:Name="MainPivot" CommonNavigationTransitionInfo.IsStaggerElement="True" 
+               SelectionChanged="MainPivot_SelectionChanged">
 
             <PivotItem x:Uid="ServicesPivotItem" 
                        x:Name="ServicesPivotItem"
                        CommonNavigationTransitionInfo.IsStaggerElement="True">
-                <StackPanel>
-                <!-- <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                   <StackPanel Orientation="Horizontal" >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <!--    <StackPanel Orientation="Horizontal" >
                         <Button x:Uid="AddServiceButton"  Click="AddService_Click" Margin="2"/>
                         <Button x:Uid="DeleteServiceButton" Click="DeleteService_Click" Margin="2"/>
                         <Button x:Uid="TestServiceButton" x:Name="TestServiceButton" Click="TestBackend_click" Margin="2" IsEnabled="False" />
                     </StackPanel>-->
-                    <TextBlock x:Uid="ConfigurationTB" Grid.Row="1"/>
-                    <ListBox x:Name="ServicesList" 
+                        <TextBlock x:Uid="ConfigurationTB"/>
+                        <ListBox x:Name="ServicesList"  Grid.Row="1"
                              ItemsSource="{Binding BackendsList, Mode=TwoWay}" 
                              SelectedItem="{Binding CurrentService, Mode=TwoWay}" 
                              SelectionChanged="Services_SelectionChanged" 
                              DataContextChanged="ServicesList_DataContextChanged" 
                              ContinuumNavigationTransitionInfo.IsExitElement="True" 
                              ContinuumNavigationTransitionInfo.IsEntranceElement="True">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <!--<Grid>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <!--<Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
@@ -54,25 +53,25 @@
                                     <TextBlock Text="{Binding Title}" />
                                     <TextBlock Text="{Binding BackendUrl}" FontWeight="Light" Grid.Row="1"/>
                                 </Grid>-->
-                                <StackPanel Margin="0,0,0,9.5">
-                                    <TextBlock Text="{Binding Title}"  
+                                    <StackPanel Margin="0,0,0,9.5">
+                                        <TextBlock Text="{Binding Title}"  
                                            TextWrapping="Wrap"
                                             Pivot.SlideInAnimationGroup="1"
                                             CommonNavigationTransitionInfo.IsStaggerElement="True"
                                             Style="{ThemeResource ListViewItemTextBlockStyle}"
                                             Margin="0,0,19,0"/>
-                                    <TextBlock Text="{Binding BackendUrl}"
+                                        <TextBlock Text="{Binding BackendUrl}"
                                            TextWrapping="WrapWholeWords"
                                             Pivot.SlideInAnimationGroup="2" 
                                             CommonNavigationTransitionInfo.IsStaggerElement="True" 
                                             Style="{ThemeResource ListViewItemContentTextBlockStyle}"
                                             Margin="0,0,19,0"
                                             Grid.Row="1"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </StackPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
             </PivotItem>
 
             <PivotItem x:Uid="UsersPivotItem" 
@@ -94,7 +93,7 @@
                              ItemsSource="{Binding}"
                              SelectionChanged="UsersList_SelectionChanged"
                              ContinuumNavigationTransitionInfo.IsExitElement="True" 
-                             ContinuumNavigationTransitionInfo.IsEntranceElement="True">                        
+                             ContinuumNavigationTransitionInfo.IsEntranceElement="True">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <!--<Border BorderBrush="Red" BorderThickness="1" Margin="2">
@@ -119,11 +118,23 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton x:Uid="AddAppBarButton" x:Name="AddAppBarButton" Label="add" Icon="Add" Click="AddAppBarButton_Click" />
-            <CommandBar.SecondaryCommands>                                
-                <AppBarButton x:Uid="DeleteServiceButton" x:Name="DeleteServiceButton" Icon="Delete" Click="Delete_Click" />
-                <AppBarButton x:Uid="AdditionalButton" x:Name="AdditionalButton" Click="Button_Click" />
+            <AppBarButton x:Uid="AddAppBarButton" 
+                          x:Name="AddAppBarButton" 
+                          Icon="Add" 
+                          Click="AddAppBarButton_Click" />
+            
+            <AppBarButton x:Uid="SelectAppBarButton" 
+                          x:Name="SelectAppBarButton" 
+                          Icon="Go" 
+                          Click="Authenticate_Click" 
+                          IsEnabled="False" 
+                          Visibility="Collapsed"/>
+               
+            <CommandBar.SecondaryCommands>
+                <AppBarButton x:Uid="DeleteButton" x:Name="DeleteButton" Icon="Delete" Click="Delete_Click" />
+                <AppBarButton x:Uid="TestBackendButton" x:Name="TestBackendButton" Click="TestBackendButton_Click" IsEnabled="False" />
             </CommandBar.SecondaryCommands>
+            
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

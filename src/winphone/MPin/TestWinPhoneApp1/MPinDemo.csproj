@@ -94,6 +94,9 @@
     <Compile Include="AddNewUser.xaml.cs">
       <DependentUpon>AddNewUser.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BlockedScreen.xaml.cs">
+      <DependentUpon>BlockedScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EmailConfirmed.xaml.cs">
       <DependentUpon>EmailConfirmed.xaml</DependentUpon>
     </Compile>
@@ -107,6 +110,9 @@
       <DependentUpon>OtpScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResetPinScreen.xaml.cs">
+      <DependentUpon>ResetPinScreen.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -142,6 +148,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="BlockedScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="EmailConfirmed.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -151,6 +161,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="OtpScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResetPinScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -130,7 +130,7 @@
     <value>Потребител:</value>
   </data>
   <data name="BlockedUser" xml:space="preserve">
-    <value>Потребителят е в статус БЛОКИРАН! Твърде много неуспешни опити за аутентикация!</value>
+    <value>Потребителят {0} е в статус БЛОКИРАН! Твърде много неуспешни опити за аутентикация!</value>
   </data>
   <data name="ConfigurationTB.Text" xml:space="preserve">
     <value>Моля, изберете конфигурация:</value>
@@ -228,16 +228,16 @@
   <data name="UserRegistrationProblem" xml:space="preserve">
     <value>Проблем с регистрацията на {0}! Статус: {1}</value>
   </data>
-  <data name="UsersAddButton.Content" xml:space="preserve">
-    <value>Добави</value>
+  <data name="AddAppBarButton.Label" xml:space="preserve">
+    <value>добави</value>
   </data>
-  <data name="UsersDeleteButton.Content" xml:space="preserve">
-    <value>Изтрий</value>
+  <data name="DeleteButton.Label" xml:space="preserve">
+    <value>изтрий</value>
   </data>
   <data name="UsersPivotItem.Header" xml:space="preserve">
     <value>Потребители</value>
   </data>
-  <data name="UsersSelectButton.Content" xml:space="preserve">
+  <data name="SelectAppBarButton.Label" xml:space="preserve">
     <value>Избери</value>
   </data>
   <data name="AccessNumberLength" xml:space="preserve">
@@ -245,5 +245,20 @@
   </data>
   <data name="NavigationFailedExceptionMessage" xml:space="preserve">
     <value>Възникна проблем при навигацията!</value>
+  </data>
+  <data name="NoCommand" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RemoveUserButton.Content" xml:space="preserve">
+    <value>Изтрий потребителя</value>
+  </data>
+  <data name="ResetPINButton.Content" xml:space="preserve">
+    <value>Задай нов ПИН</value>
+  </data>
+  <data name="TestBackendButton.Label" xml:space="preserve">
+    <value>Пробвай избраната конфигурация</value>
+  </data>
+  <data name="YesCommand" xml:space="preserve">
+    <value>Да</value>
   </data>
 </root>
