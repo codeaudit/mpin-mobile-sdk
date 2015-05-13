@@ -9,15 +9,12 @@
         mpin:showAsAction="always"/>
     <item
         android:id="@+id/configs_list_new"
-        android:enabled="false"
         android:title="New"/>
     <item
         android:id="@+id/configs_list_edit"
-        android:enabled="false"
         android:title="Edit"/>
     <item
         android:id="@+id/configs_list_delete"
-        android:enabled="false"
         android:title="Delete"/>
 
 </menu>
