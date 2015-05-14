@@ -106,6 +106,7 @@ namespace MPinDemo
         {
             SetSelectedServicesIndex();
             SelectAppBarButton.IsEnabled = UsersListBox.SelectedItem != null;
+            ResetPinButton.IsEnabled = UsersListBox.SelectedItem != null;
 
             if (controller.DataModel.CurrentService.BackendUrl != null)
             {
@@ -169,6 +170,8 @@ namespace MPinDemo
         private void UsersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectAppBarButton.IsEnabled = UsersListBox.SelectedItem != null;
+            ResetPinButton.IsEnabled = UsersListBox.SelectedItem != null;
+
             UsersListBox.ScrollIntoView(UsersListBox.SelectedItem);
             controller.DataModel.CurrentUser = UsersListBox.SelectedItem as User;
             SavePropertyState(SelectedUser, UsersListBox.SelectedIndex);
@@ -252,6 +255,8 @@ namespace MPinDemo
         private void MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectAppBarButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Collapsed : Visibility.Visible;
+            ResetPinButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Collapsed : Visibility.Visible;
+
             TestBackendButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
@@ -277,6 +282,11 @@ namespace MPinDemo
             }
         }
     
+        private async void ResetPinButton_Click(object sender, RoutedEventArgs e)
+        {
+            await controller.ResetPIN(controller.DataModel.CurrentUser);
+        }
         #endregion // handlers
+
     }
 }

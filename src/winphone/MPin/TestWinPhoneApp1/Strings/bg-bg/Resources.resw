@@ -247,12 +247,15 @@
     <value>Възникна проблем при навигацията!</value>
   </data>
   <data name="NoCommand" xml:space="preserve">
-    <value />
+    <value>Не</value>
   </data>
   <data name="RemoveUserButton.Content" xml:space="preserve">
     <value>Изтрий потребителя</value>
   </data>
-  <data name="ResetPINButton.Content" xml:space="preserve">
+  <data name="ResetPinBtn.Content" xml:space="preserve">
+    <value>Задай нов ПИН</value>
+  </data>
+  <data name="ResetPinButton.Label" xml:space="preserve">
     <value>Задай нов ПИН</value>
   </data>
   <data name="TestBackendButton.Label" xml:space="preserve">
@@ -260,5 +263,8 @@
   </data>
   <data name="YesCommand" xml:space="preserve">
     <value>Да</value>
+  </data>
+  <data name="UserRegistrationProblemReason" xml:space="preserve">
+    <value>Възникна проблем при регистрацията на потребител {0} поради следния проблем: {1}!</value>
   </data>
 </root>

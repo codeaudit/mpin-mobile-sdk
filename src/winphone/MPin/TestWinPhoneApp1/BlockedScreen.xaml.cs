@@ -66,11 +66,9 @@ namespace MPinDemo
 
         private void ResetPinButton_Click(object sender, RoutedEventArgs e)
         {
-            //System.Diagnostics.Debug.WriteLine(" BlockedUser -> Reset PIN");
-            //Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-            //mainFrame.GoBack(new List<string>() { "BlockedUser", "ResetPIN" });
+            System.Diagnostics.Debug.WriteLine(" BlockedUser -> Reset PIN");
             Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-            mainFrame.Navigate(typeof(ResetPinScreen), this.User);     
+            mainFrame.GoBack(new List<string>() { "BlockedUser", "ResetPIN" });                 
         }
     }
 }

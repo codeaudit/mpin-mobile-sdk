@@ -18,7 +18,7 @@
         <StackPanel Grid.Row="1" HorizontalAlignment="Center">
             <Button x:Uid="IdsButton"  Click="GoIdentities_Click"/>
             <Button x:Uid="RemoveUserButton" Click="RemoveUserButton_Click" />
-            <Button x:Uid="ResetPINButton" Click="ResetPinButton_Click" />
+            <Button x:Uid="ResetPinBtn" Click="ResetPinButton_Click" />
         </StackPanel>
     </Grid>
 </Page>

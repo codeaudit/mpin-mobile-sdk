@@ -226,7 +226,7 @@
     <value>Time left:</value>
   </data>
   <data name="UserRegistrationProblem" xml:space="preserve">
-    <value>Problem with the registration of {0}! State: {1}</value>
+    <value>Problem with the registration of {0}! User state is {1}!</value>
   </data>
   <data name="AddAppBarButton.Label" xml:space="preserve">
     <value>add</value>
@@ -252,7 +252,10 @@
   <data name="RemoveUserButton.Content" xml:space="preserve">
     <value>Remove the identity</value>
   </data>
-  <data name="ResetPINButton.Content" xml:space="preserve">
+  <data name="ResetPinBtn.Content" xml:space="preserve">
+    <value>Reset PIN</value>
+  </data>
+  <data name="ResetPinButton.Label" xml:space="preserve">
     <value>Reset PIN</value>
   </data>
   <data name="TestBackendButton.Label" xml:space="preserve">
@@ -260,5 +263,8 @@
   </data>
   <data name="YesCommand" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="UserRegistrationProblemReason" xml:space="preserve">
+    <value>Problem with the registration of {0} due to {1}!</value>
   </data>
 </root>

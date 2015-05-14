@@ -243,6 +243,12 @@ namespace MPinDemo.Models
             if (user != null)
                 this.DataModel.CurrentUser = user;
 
+            await FinishRegistration(user);
+        }
+
+        private async Task FinishRegistration(User user)
+        {
+            Status st = null;
             if (user.UserState == User.State.StartedRegistration)
             {
                 Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
@@ -252,8 +258,16 @@ namespace MPinDemo.Models
             {
                 await Task.Factory.StartNew(() =>
                 {
-                    sdk.FinishRegistration(user);
+                    st = sdk.FinishRegistration(user);
                 });
+
+                if (st != null && st.StatusCode != Status.Code.OK)
+                {
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        rootPage.NotifyUser(string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblemReason"), user.Id, st.ErrorMessage), MainPage.NotifyType.ErrorMessage);
+                    });
+                }
             }
             else
             {
@@ -315,6 +329,17 @@ namespace MPinDemo.Models
             }
 
             Debug.WriteLine("OnEmailConfirmed status: " + (s == null ? "null" : s.StatusCode.ToString()));
+            string errorMsg = s == null 
+                ? string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblem"), user.Id, user.UserState)
+                : s.StatusCode != Status.Code.OK ? string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblemReason"), user.Id, s.ErrorMessage) : string.Empty;
+
+            if (!string.IsNullOrEmpty(errorMsg))
+            {
+                await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    rootPage.NotifyUser(errorMsg, MainPage.NotifyType.ErrorMessage);
+                });
+            }
         }
 
         private async Task<Status> OnEmailConfirmed()
@@ -365,6 +390,15 @@ namespace MPinDemo.Models
             }
         }
         
+        internal async Task ResetPIN(User user)
+        {
+            await Task.Factory.StartNew(() =>
+            {
+                sdk.DeleteUser(user);
+            });
+
+            await AddUser(user.Id);
+        }
         #endregion // users
 
         #region authentication
@@ -447,10 +481,24 @@ namespace MPinDemo.Models
                     break;
 
                 case "BlockedUser":
-                    if (parameter.Equals("Remove") && this.DataModel.CurrentUser != null)
+                    if (this.DataModel.CurrentUser == null)
+                    {
+                        await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                        {
+                            rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoSelectedUser"), MainPage.NotifyType.ErrorMessage);
+                        });
+                        return;
+                    }
+
+                    if (parameter.Equals("Remove"))
                     {                        
                         await DeleteUser(this.DataModel.CurrentUser);
                     }
+                    else if (parameter.Equals("ResetPIN"))
+                    {
+                        await ResetPIN(this.DataModel.CurrentUser);
+                    }
+
                     break;
 
                 default:
