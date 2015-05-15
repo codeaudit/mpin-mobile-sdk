@@ -21,6 +21,7 @@
 @interface UserListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, AccessNumberDelegate, MPinSDKDelegate>
 
 
+- (void) invalidate;
 - (IBAction)showLeftMenuPressed:(id)sender;
 
 @property(nonatomic, weak) IBOutlet UIView             *viewButtonsContainer;
