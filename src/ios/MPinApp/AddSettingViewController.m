@@ -306,12 +306,11 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
 {
     bTestingConfig = NO;
     if ([_txtMPINServiceURL.text isEqualToString:@""]) {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:kErrorTitle
-                                                        message:NSLocalizedString(@"ADDCONFIGVC_ERROR_EMPTY_URL", @"")
-                                                       delegate:nil
-                                              cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"")
-                                              otherButtonTitles:nil, nil];
-        [alert show];
+        [hud setImage:[UIImage imageNamed:@"checked"]];
+        [hud setCaption:NSLocalizedString(@"ADDCONFIGVC_ERROR_EMPTY_URL", @"")];
+        hud.minShowTime = 3.0;
+        [hud showInView:self.view];
+        [hud hide];
         return;
     }
 

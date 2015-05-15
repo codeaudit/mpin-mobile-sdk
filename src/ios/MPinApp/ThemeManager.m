@@ -197,7 +197,7 @@
         [myVc.btnDeleteConfiguration setTitleColor:[[SettingsManager sharedManager] color8] forState:UIControlStateNormal];
 
         
-         [myVc.btnEditConfiguration setTitle:NSLocalizedString(@"KEY_EDIT", @"") forState:UIControlStateNormal];
+        [myVc.btnEditConfiguration setTitle:NSLocalizedString(@"KEY_EDIT", @"") forState:UIControlStateNormal];
         myVc.btnEditConfiguration.backgroundColor = [[SettingsManager sharedManager] color1];
         [myVc.btnEditConfiguration setTitleColor:[[SettingsManager sharedManager] color7] forState:UIControlStateNormal];
 
