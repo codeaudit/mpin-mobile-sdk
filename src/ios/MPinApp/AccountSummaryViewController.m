@@ -23,6 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title  = NSLocalizedString(@"ACCOUNTSUMMARYVC_TITLE", @"");
 }
 
 -(void) viewWillAppear:(BOOL)animated

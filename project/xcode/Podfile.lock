@@ -2,16 +2,19 @@ PODS:
   - ATMHud@dhoerl (3.0.0):
     - ATMHud@dhoerl/Core (= 3.0.0)
   - ATMHud@dhoerl/Core (3.0.0)
+  - iToast (0.0.1)
   - MFSideMenu (0.5.5)
   - SplunkMint-iOS (4.2)
 
 DEPENDENCIES:
   - ATMHud@dhoerl (~> 3.0.0)
+  - iToast
   - MFSideMenu (~> 0.5.5)
-  - SplunkMint-iOS
+  - SplunkMint-iOS (~> 4.2)
 
 SPEC CHECKSUMS:
   ATMHud@dhoerl: 3ec62b6a26511d2f099c0886533c9fc78769277c
+  iToast: df147188215cc3293bd4366822833f2862fec451
   MFSideMenu: 268122e6894f2747fc3a2b48578100b232506c60
   SplunkMint-iOS: 058e5297f7cc8d335aea3dcaa8111eeb0f657371
 

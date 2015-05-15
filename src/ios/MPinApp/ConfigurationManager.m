@@ -10,7 +10,6 @@
 #import "Constants.h"
 #import "NSString+Helper.h"
 
-#define NOT_SELECTED -1
 
 static NSString* const kCurrentSelectionIndex = @"currentSelectionIndex";
 static NSString* const kSettings = @"settings";
@@ -45,7 +44,7 @@ static NSString* const kSettings = @"settings";
             NSDictionary* data = @{ kRPSURL : @"http://tcb.certivox.org",
                 kSERVICE_TYPE : @(LOGIN_ON_MOBILE),
                 kCONFIG_NAME : @"Mobile banking login" };
-            NSDictionary* dataOTP = @{ kRPSURL : @"http://otp.m-pin.id",
+            NSDictionary* dataOTP = @{ kRPSURL : @"http://ntt-vpn.certivox.org",
                 kSERVICE_TYPE : @(LOGIN_WITH_OTP),
                 kCONFIG_NAME : @"VPN login" };
             NSDictionary* dataAN = @{ kRPSURL : @"http://tcb.certivox.org",

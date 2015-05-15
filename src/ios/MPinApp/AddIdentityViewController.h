@@ -12,10 +12,10 @@
 
 @interface AddIdentityViewController : UIViewController <UITextFieldDelegate, MPinSDKDelegate>
 
-@property (nonatomic, retain, readwrite) IBOutlet BackButton* btnBack;
-@property (nonatomic, retain, readwrite) IBOutlet UITextField* txtIdentity;
-@property (nonatomic, retain, readwrite) IBOutlet UITextField* txtDevName;
-@property (nonatomic, retain, readwrite) IBOutlet UILabel* lblIdentity;
-@property (nonatomic, retain, readwrite) IBOutlet UILabel* lblDevName;
+@property (nonatomic, weak) IBOutlet BackButton* btnBack;
+@property (nonatomic, weak) IBOutlet UITextField* txtIdentity;
+@property (nonatomic, weak) IBOutlet UITextField* txtDevName;
+@property (nonatomic, weak) IBOutlet UILabel* lblIdentity;
+@property (nonatomic, weak) IBOutlet UILabel* lblDevName;
 
 @end
