@@ -42,7 +42,7 @@
 
 	self.window.rootViewController = container;
     
-    [[ApplicationManager sharedManager] runNetowrkMonitoring];
+    [ApplicationManager sharedManager];
     
 	return YES;
 }

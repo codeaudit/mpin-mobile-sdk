@@ -19,6 +19,7 @@
     MPin* sdk;
     AppDelegate *appdelegate;
 }
+- (void) runNetowrkMonitoring;
 @end
 
 
@@ -39,6 +40,7 @@
         sdk = [[MPin alloc] init];
         sdk.delegate = self;
         appdelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        [self runNetowrkMonitoring];
     }
     return self;
 }
