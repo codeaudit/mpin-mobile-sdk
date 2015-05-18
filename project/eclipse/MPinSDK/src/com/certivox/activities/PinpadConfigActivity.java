@@ -4,10 +4,11 @@ import java.util.HashMap;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -18,25 +19,32 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CursorAdapter;
 import android.widget.Toast;
 
 import com.certivox.db.ConfigsContract.ConfigEntry;
-import com.certivox.db.ConfigsDbHelper;
+import com.certivox.db.ConfigsDao;
+import com.certivox.fragments.ConfigDetailFragment;
 import com.certivox.fragments.ConfigListFragment;
+import com.certivox.interfaces.ConfigController;
 import com.certivox.models.Status;
 import com.certivox.mpinsdk.Config;
 import com.example.mpinsdk.R;
 
-public class PinpadConfigActivity extends ActionBarActivity {
+public class PinpadConfigActivity extends ActionBarActivity implements
+		ConfigController {
 
 	private Activity mActivity;
 	private Toolbar mToolbar;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private DrawerLayout mDrawerLayout;
 
-	private ConfigListFragment mConfigListFragment;
+	// Fragments
+	private static final String FRAG_CONFIG_LIST = "FRAG_CONFIG_LIST";
+	private static final String FRAG_CONFIG_DETAILS = "FRAG_CONFIG_EDIT";
 
 	public static final String ACTION_CHANGING_CONFIG = "ACTION_CHANGING_CONFIG";
 	public static final String ACTION_CONFIG_CHANGED = "ACTION_CONFIG_CHANGED";
@@ -52,14 +60,89 @@ public class PinpadConfigActivity extends ActionBarActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.base_drawer_layout);
+
 		mActivity = this;
-		mConfigListFragment = new ConfigListFragment();
-		getFragmentManager().beginTransaction()
-				.replace(R.id.content, mConfigListFragment).commit();
 		mLastConfig = getActiveConfiguration(this);
+
 		initViews();
 		initActionBar();
 		initNavigationDrawer();
+
+		addConfigListFragment();
+	}
+
+	public void addConfigListFragment() {
+		Log.d("CV", " + config list");
+		if (getConfigListFragment() == null) {
+			ConfigListFragment configListFragment = new ConfigListFragment();
+			configListFragment.setController(this);
+
+			FragmentTransaction transaction = getFragmentManager()
+					.beginTransaction();
+			transaction.replace(R.id.content, configListFragment,
+					FRAG_CONFIG_LIST);
+			transaction.commit();
+			getFragmentManager().executePendingTransactions();
+
+			setConfigListBackClickListener();
+			mToolbar.setTitle(R.string.select_service_toolbar_title);
+		}
+	}
+
+	public void removeConfigListFragment() {
+		Log.d("CV", " - config list");
+		if (getConfigListFragment() != null) {
+			FragmentTransaction transaction = getFragmentManager()
+					.beginTransaction();
+			transaction.remove(getConfigListFragment());
+			transaction.commit();
+			getFragmentManager().executePendingTransactions();
+		}
+	}
+
+	public void addConfigDetailsFragment(long configId) {
+		Log.d("CV", " + config details");
+		if (getConfigDetailsFragment() == null) {
+			ConfigDetailFragment configDetailsFragment = new ConfigDetailFragment();
+			configDetailsFragment.setController(this);
+			configDetailsFragment.setConfigId(configId);
+
+			FragmentTransaction transaction = getFragmentManager()
+					.beginTransaction();
+			transaction.replace(R.id.content, configDetailsFragment,
+					FRAG_CONFIG_DETAILS);
+			transaction.commit();
+			getFragmentManager().executePendingTransactions();
+
+			setConfigEditBackClickListener();
+			if (configId != -1) {
+				mToolbar.setTitle(R.string.edit_service_toolbar_title);
+			} else {
+				mToolbar.setTitle(R.string.add_service_toolbar_title);
+			}
+		}
+	}
+
+	public void removeConfigDetailsFragment() {
+		Log.d("CV", " - config details");
+		if (getConfigDetailsFragment() != null) {
+			FragmentTransaction transaction = getFragmentManager()
+					.beginTransaction();
+			transaction.remove(getConfigDetailsFragment());
+			transaction.commit();
+			getFragmentManager().executePendingTransactions();
+		}
+	}
+
+	// Fragments
+	private ConfigListFragment getConfigListFragment() {
+		return (ConfigListFragment) getFragmentManager().findFragmentByTag(
+				FRAG_CONFIG_LIST);
+	}
+
+	private ConfigDetailFragment getConfigDetailsFragment() {
+		return (ConfigDetailFragment) getFragmentManager().findFragmentByTag(
+				FRAG_CONFIG_DETAILS);
 	}
 
 	private void initViews() {
@@ -96,6 +179,9 @@ public class PinpadConfigActivity extends ActionBarActivity {
 		mDrawerToggle.setDrawerIndicatorEnabled(false);
 		mDrawerToggle
 				.setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+	}
+
+	private void setConfigListBackClickListener() {
 		mDrawerToggle.setToolbarNavigationClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -112,6 +198,16 @@ public class PinpadConfigActivity extends ActionBarActivity {
 		});
 	}
 
+	private void setConfigEditBackClickListener() {
+		mDrawerToggle.setToolbarNavigationClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				removeConfigDetailsFragment();
+				addConfigListFragment();
+			}
+		});
+	}
+
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
@@ -121,59 +217,56 @@ public class PinpadConfigActivity extends ActionBarActivity {
 	@Override
 	protected void onStop() {
 		Config activeConfiguration = getActiveConfiguration(this);
-		if (activeConfiguration != null && mLastConfig != null
-				&& activeConfiguration.getId() != mLastConfig.getId()) {
+		if (activeConfiguration != null) {
 			PreferenceManager
 					.getDefaultSharedPreferences(this.getApplicationContext())
-					.edit().putLong(KEY_ACTIVE_CONFIG, mLastConfig.getId())
+					.edit()
+					.putLong(KEY_ACTIVE_CONFIG, activeConfiguration.getId())
 					.commit();
 		}
 
 		super.onStop();
 	}
 
-	public static Config get(Context context, long id) {
-		if (id == -1 || context == null)
-			return null;
-		SQLiteDatabase db = new ConfigsDbHelper(context).getReadableDatabase();
-		Cursor c = null;
-		try {
-			c = db.query(ConfigEntry.TABLE_NAME,
-					ConfigEntry.getFullProjection(), ConfigEntry._ID
-							+ " LIKE ?", new String[] { String.valueOf(id) },
-					null, null, null);
-			if (c.moveToFirst()) {
-				Config config = new Config();
-				config.formCursor(c);
-				return config;
-			}
-		} finally {
-			if (c != null)
-				c.close();
+	public static Cursor deleteConfiguration(Context context, long configId) {
+
+		Cursor cursor = ConfigsDao.deleteConfigurationById(context, configId);
+
+		if (cursor.moveToFirst()) {
+			setActiveConfig(context, ConfigsDao.getConfigurationById(context,
+					cursor.getLong(cursor
+							.getColumnIndexOrThrow(ConfigEntry._ID))));
 		}
-		return null;
+
+		return cursor;
 	}
 
 	public static Config getActiveConfiguration(Context context) {
 		if (context == null)
 			return null;
+
 		long id = PreferenceManager.getDefaultSharedPreferences(
 				context.getApplicationContext()).getLong(KEY_ACTIVE_CONFIG, -1);
-		return get(context, id);
+
+		return ConfigsDao.getConfigurationById(context, id);
 	}
 
-	public static void setActive(final Context context, final Config config) {
+	public static void setActiveConfig(final Context context,
+			final Config config) {
+
 		final long id = config != null ? config.getId() : -1;
 		mLastConfig = getActiveConfiguration(context);
+
 		if ((mLastConfig != null ? mLastConfig.getId() : -1) == id) {
 			return;
 		}
+
 		PreferenceManager
 				.getDefaultSharedPreferences(context.getApplicationContext())
 				.edit().putLong(KEY_ACTIVE_CONFIG, id).commit();
 	}
 
-	public void activateConfiguration(final Context context, final Config config) {
+	public void activateConfiguration(final Config config) {
 		final long id = config != null ? config.getId() : -1;
 		if (config != null) {
 			new Thread(new Runnable() {
@@ -182,7 +275,7 @@ public class PinpadConfigActivity extends ActionBarActivity {
 					Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
 
 					LocalBroadcastManager lbm = LocalBroadcastManager
-							.getInstance(context);
+							.getInstance(mActivity);
 					Intent intent = new Intent(ACTION_CHANGING_CONFIG);
 					intent.putExtra(EXTRA_PREVIOUS_CONFIG,
 							mLastConfig != null ? mLastConfig.getId() : -1);
@@ -190,7 +283,7 @@ public class PinpadConfigActivity extends ActionBarActivity {
 
 					HashMap<String, String> cfg = new HashMap<String, String>();
 					cfg.put("RPA_server", config.getBackendUrl());
-					MPinActivity.init(context, cfg);
+					MPinActivity.init(mActivity, cfg);
 
 					final Status status = MPinActivity.sdk().SetBackend(
 							config.getBackendUrl());
@@ -198,8 +291,8 @@ public class PinpadConfigActivity extends ActionBarActivity {
 
 						PreferenceManager
 								.getDefaultSharedPreferences(
-										context.getApplicationContext()).edit()
-								.putLong(KEY_ACTIVE_CONFIG, id).commit();
+										mActivity.getApplicationContext())
+								.edit().putLong(KEY_ACTIVE_CONFIG, id).commit();
 
 						intent = new Intent(ACTION_CONFIG_CHANGED);
 						intent.putExtra(EXTRA_PREVIOUS_CONFIG,
@@ -212,7 +305,7 @@ public class PinpadConfigActivity extends ActionBarActivity {
 								mLastConfig != null ? mLastConfig.getId() : -1);
 						intent.putExtra(EXTRA_CURRENT_CONFIG,
 								mLastConfig != null ? mLastConfig.getId() : -1);
-						LocalBroadcastManager.getInstance(context)
+						LocalBroadcastManager.getInstance(mActivity)
 								.sendBroadcast(intent);
 					}
 
@@ -221,12 +314,12 @@ public class PinpadConfigActivity extends ActionBarActivity {
 						public void run() {
 							if (status.getStatusCode() == Status.Code.OK) {
 								mLastConfig = getActiveConfiguration(PinpadConfigActivity.this);
-								Toast.makeText(context,
+								Toast.makeText(mActivity,
 										"Configuration changed successfully",
 										Toast.LENGTH_SHORT).show();
 								finish();
 							} else {
-								Toast.makeText(context,
+								Toast.makeText(mActivity,
 										"Failed to activate configuration",
 										Toast.LENGTH_SHORT).show();
 							}
@@ -237,4 +330,42 @@ public class PinpadConfigActivity extends ActionBarActivity {
 		}
 	}
 
+	@Override
+	public void configurationSelected(long mSelectedId) {
+		activateConfiguration(ConfigsDao.getConfigurationById(mActivity,
+				mSelectedId));
+	}
+
+	@Override
+	public void createNewConfiguration() {
+		addConfigDetailsFragment(-1);
+	}
+
+	@Override
+	public void editConfiguration(long configId) {
+		addConfigDetailsFragment(configId);
+	}
+
+	@Override
+	public void onDeleteConfiguration(final long configId) {
+
+		new AlertDialog.Builder(mActivity)
+				.setTitle("Delete configuration")
+				.setMessage(
+						"This action will also delete all identities, associated with this configuration.")
+				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Cursor cursor = deleteConfiguration(mActivity, configId);
+						((CursorAdapter) getConfigListFragment()
+								.getListAdapter()).changeCursor(cursor);
+					}
+				}).setNegativeButton("Cancel", null).show();
+	}
+
+	@Override
+	public void configurationSaved() {
+		removeConfigDetailsFragment();
+		addConfigListFragment();
+	}
 }

@@ -95,16 +95,17 @@ static NSString* const kAN = @"AN";
 {
     [super viewDidLoad];
     boolFirstTime = YES;
-    self.title = @"Identity List";
+
     self.automaticallyAdjustsScrollViewInsets = NO;
     storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     boolIsInitialised = NO;
 
     hud = [[ATMHud alloc] initWithDelegate:self];
-    [hud setCaption:@"Changing configuration. Please wait."];
+    [hud setCaption:NSLocalizedString(@"HUD_CHANGE_CONFIGURATION", @"")];
     [hud setActivity:YES];
     [hud showInView:self.view];
     [[ThemeManager sharedManager] beautifyViewController:self];
+    
     _btnAdd.backgroundColor = [[SettingsManager sharedManager] color6];
     [_btnAdd setTitle:@"ADD NEW IDENTITY +" forState:UIControlStateNormal];
     _btnAdd.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:16.0];
@@ -348,7 +349,7 @@ static NSString* const kAN = @"AN";
 
 - (void)OnAuthenticateAccessNumberCompleted:(id)sender user:(id<IUser>)user
 {
-    [hud setCaption:@"Authentication Successful!"];
+    [hud setCaption:NSLocalizedString(@"HUD_AUTH_SUCCESS", @"")];
     [hud setMinShowTime:2.0];
     [hud showInView:self.view];
     [hud hide];
@@ -416,7 +417,7 @@ static NSString* const kAN = @"AN";
 {
     if ((alertView.tag == ON_LOGOUT) && (buttonIndex == LOGOUT_BUTTON_INDEX)) {
 
-        [hud setCaption:@"Logging OUT ..."];
+        [hud setCaption:NSLocalizedString(@"HUD_LOGOUT", @"")];
         [hud setActivity:YES];
         [hud showInView:self.view];
 
@@ -424,9 +425,12 @@ static NSString* const kAN = @"AN";
             BOOL isSuccessful = [MPin Logout:(self.users)[selectedIndexPath.row]];
             dispatch_async(dispatch_get_main_queue(), ^(void) {
                 [hud hide];
-                NSString * descritpion = (isSuccessful)?(@"Successful"):(@"Unsuccessful");
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Logout" message:descritpion delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil];
-                [alert show];
+                NSString * descritpion = (isSuccessful)?NSLocalizedString(@"HUD_LOGOUT_OK", @""):NSLocalizedString(@"HUD_LOGOUT_NOT_OK", @"");
+                [hud setCaption:descritpion];
+                [hud setActivity:YES];
+                [hud showInView:self.view];
+                
+                
             });
         });
         return;
@@ -468,11 +472,11 @@ static NSString* const kAN = @"AN";
 - (IBAction)btnDeleteTap:(id)sender
 {
     id<IUser> iuser = (self.users)[selectedIndexPath.row];
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"DELETE"
-                                                    message:[NSString stringWithFormat:@"User \"%@\" will be deleted!", [iuser getIdentity]]
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"KEY_DELETE", @"")
+                                                    message:[NSString stringWithFormat:NSLocalizedString(@"WARNING_USER_WILL_BE_DELETED", @""), [iuser getIdentity]]
                                                    delegate:self
-                                          cancelButtonTitle:@"CANCEL"
-                                          otherButtonTitles:@"DELETE",
+                                          cancelButtonTitle:NSLocalizedString(@"KEY_CANCEL", @"")
+                                          otherButtonTitles:NSLocalizedString(@"KEY_DELETE", @""),
                                           nil];
     alert.tag = DELETE_TAG;
     [alert show];
@@ -513,7 +517,7 @@ static NSString* const kAN = @"AN";
     switch ([iuser getState])
     {
         case INVALID:
-            [hud setCaption:@"Invalid User \n Reactivate an Account!"];
+            [hud setCaption:NSLocalizedString(@"HUD_REACTIVATE_USER", @"")];
             [hud setMinShowTime:2.0];
             [hud showInView:self.view];
             [hud hide];
@@ -555,7 +559,10 @@ static NSString* const kAN = @"AN";
             [self.navigationController pushViewController:identityBlockedViewController animated:YES];
             break;
         default:
-            [[[UIAlertView alloc] initWithTitle:@"INFO" message:@"Unsupported State and Action!" delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil] show];
+            [hud setCaption:NSLocalizedString(@"HUD_UNSUPPORTED_ACTION", @"")];
+            [hud setMinShowTime:2.0];
+            [hud showInView:self.view];
+            [hud hide];
         break;
     }
 }

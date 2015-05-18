@@ -29,7 +29,7 @@ typedef NS_ENUM(NSInteger, MPinStatus) {
 @interface MpinStatus : NSObject
 
 @property (nonatomic, readwrite) MPinStatus status;
-@property (nonatomic, retain, readwrite) NSString* errorMessage;
+@property (nonatomic, strong) NSString* errorMessage;
 
 - (instancetype)initWith:(MPinStatus)status errorMessage:(NSString*)error;
 @property (NS_NONATOMIC_IOSONLY, getter=getStatusCodeAsString, readonly, copy) NSString* statusCodeAsString;

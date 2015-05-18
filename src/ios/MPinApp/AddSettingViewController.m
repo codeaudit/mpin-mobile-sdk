@@ -28,7 +28,7 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
     NSString *strURL;
 }
 
-@property (nonatomic, strong) IBOutlet UITableView* tblView;
+
 @property (nonatomic, strong) UITextField* txtMPINServiceNAME;
 @property (nonatomic, strong) UITextField* txtMPINServiceURL;
 @property (nonatomic, strong) UITextField* txtMPINServiceRPSPrefix;
@@ -64,6 +64,9 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
 
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
+
+    self.title = NSLocalizedString(@"ADDCONFIGVC_TITLE",@"");
+    [_btnTestConfig setTitle:NSLocalizedString(@"ADDCONFIGVC_BTN_TEST_CONFIG", @"") forState:UIControlStateNormal];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -71,15 +74,15 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
     [super viewWillAppear:animated];
     if (_isEdit)
     {
-        self.title = @"Edit configuration";
+        self.title = NSLocalizedString(@"ADDCONFIGVC_TITLE_EDIT", @"");
         _service = (int)[[ConfigurationManager sharedManager] getConfigurationTypeAtIndex:_selectedIndex];
         strURL = [[ConfigurationManager sharedManager] getURLAtIndex:_selectedIndex];
     }
     else {
-        self.title = @"Add configuration";
+        self.title = NSLocalizedString(@"ADDCONFIGVC_TITLE_ADD", @"");
     }
     bTestingConfig = NO;
-    
+    _btnDone.title = NSLocalizedString(@"KEY_DONE", @"");
 }
 
 #pragma mark - text field delegates -
@@ -175,36 +178,35 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
     return nil;
 }
 
-- (void)tableView:(UITableView*)tableView
-      willDisplayCell:(UITableViewCell*)cell
-    forRowAtIndexPath:(NSIndexPath*)indexPath
+- (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath
 {
+
     switch (indexPath.row) {
     case 0:
-        ((TextFieldTableViewCell*)cell).lblName.text = @"Name";
-        ((TextFieldTableViewCell*)cell).txtText.placeholder = @"Name";
+        ((TextFieldTableViewCell*)cell).lblName.text = NSLocalizedString(@"ADDCONFIGVC_NAME",@"");
+        ((TextFieldTableViewCell*)cell).txtText.placeholder = NSLocalizedString(@"ADDCONFIGVC_NAME",@"");
         if (_isEdit) {
             ((TextFieldTableViewCell*)cell).txtText.text = [[ConfigurationManager sharedManager]
                 getNameAtIndex:_selectedIndex];
         }
         break;
     case 1:
-        ((TextFieldTableViewCell*)cell).lblName.text = @"Service URL";
-        ((TextFieldTableViewCell*)cell).txtText.placeholder = @"Service URL";
+        ((TextFieldTableViewCell*)cell).lblName.text = NSLocalizedString(@"ADDCONFIGVC_URL",@"");
+        ((TextFieldTableViewCell*)cell).txtText.placeholder = NSLocalizedString(@"ADDCONFIGVC_URL",@"");
         if (_isEdit) {
             ((TextFieldTableViewCell*)cell).txtText.text = strURL;
         }
         break;
     case 2:
-        ((TextFieldTableViewCell*)cell).lblName.text = @"RPS Prefix";
-        ((TextFieldTableViewCell*)cell).txtText.placeholder = @"RPS Prefix";
+        ((TextFieldTableViewCell*)cell).lblName.text = NSLocalizedString(@"ADDCONFIGVC_PREFIX",@"");
+        ((TextFieldTableViewCell*)cell).txtText.placeholder = NSLocalizedString(@"ADDCONFIGVC_PREFIX",@"");
         if (_isEdit) {
             ((TextFieldTableViewCell*)cell).txtText.text = [[ConfigurationManager sharedManager]
                 getPrefixAtIndex:_selectedIndex];
         }
         break;
     case 3:
-        ((OptionSelectTableViewCell*)cell).lblName.text = @"Login to Mobile App";
+        ((OptionSelectTableViewCell*)cell).lblName.text = NSLocalizedString(@"LOGIN_MOBILE_APP", @"");
         switch (_service) {
 
         case LOGIN_ON_MOBILE:
@@ -222,7 +224,7 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
 
         break;
     case 4:
-        ((OptionSelectTableViewCell*)cell).lblName.text = @"Login to Online Session";
+        ((OptionSelectTableViewCell*)cell).lblName.text = NSLocalizedString(@"LOGIN_ONLINE_SESSION", @"");
         switch (_service) {
         case LOGIN_ON_MOBILE:
             [((OptionSelectTableViewCell*)cell)setServiceSelected:NO];
@@ -239,7 +241,7 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
 
         break;
     case 5:
-        ((OptionSelectTableViewCell*)cell).lblName.text = @"Login with OTP";
+        ((OptionSelectTableViewCell*)cell).lblName.text = NSLocalizedString(@"LOGIN_OTP", @"");
         switch (_service) {
         case LOGIN_ON_MOBILE:
             [((OptionSelectTableViewCell*)cell)setServiceSelected:NO];
@@ -305,9 +307,9 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
     bTestingConfig = NO;
     if ([_txtMPINServiceURL.text isEqualToString:@""]) {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:kErrorTitle
-                                                        message:@"Empty service url!"
+                                                        message:NSLocalizedString(@"ADDCONFIGVC_ERROR_EMPTY_URL", @"")
                                                        delegate:nil
-                                              cancelButtonTitle:@"Close"
+                                              cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"")
                                               otherButtonTitles:nil, nil];
         [alert show];
         return;
@@ -316,9 +318,9 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
     if (![self isValidURL:_txtMPINServiceURL.text]) {
         UIAlertView* alert =
             [[UIAlertView alloc] initWithTitle:kErrorTitle
-                                       message:@"Service URL is not valid!"
+                                       message:NSLocalizedString(@"ADDCONFIGVC_ERROR_INVALID_URL", @"")
                                       delegate:nil
-                             cancelButtonTitle:@"Close"
+                             cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"")
                              otherButtonTitles:nil, nil];
 
         [alert show];
@@ -328,16 +330,15 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
     NSString* caption = @"";
     if (_isEdit) {
         if ([_txtMPINServiceURL.text isEqualToString:[[ConfigurationManager sharedManager] getURLAtIndex:_selectedIndex]]) {
-            caption = @"Saving configuration. Please wait.";
+            caption = NSLocalizedString(@"HUD_SAVE_CONFIG", @"");
         }
         else {
-            caption = @"Saving configuration. Please wait. All existing Identities "
-                @"will be deleted.";
+            caption = NSLocalizedString(@"HUD_SAVE_CONFIG_AND_DEL", @"");
             minShowTime = 3;
         }
     }
     else {
-        caption = @"Saving configuration. Please wait.";
+        caption = NSLocalizedString(@"HUD_SAVE_CONFIG", @"");
     }
     hud.minShowTime = minShowTime;
     [hud setCaption:caption];
@@ -354,9 +355,9 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
     if (bTestingConfig)
     {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil
-                                                        message:@"Configuration is OK!"
+                                                        message:NSLocalizedString(@"ADDCONFIGVC_MESSAGE_CONFIG_OK", @"")
                                                        delegate:nil
-                                              cancelButtonTitle:@"Close"
+                                              cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"")
                                               otherButtonTitles:nil, nil];
         [alert show];
         
@@ -397,13 +398,13 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
 {
     [self stopLoading];
     MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
-    NSString *message = @"Configuration is not valid!";
+    NSString *message = NSLocalizedString(@"ADDCONFIGVC_INVALID_CONFIG", @"");
 
     UIAlertView* alert = [[UIAlertView alloc]
             initWithTitle:[mpinStatus getStatusCodeAsString]
                   message:message
                  delegate:nil
-        cancelButtonTitle:@"Close"
+        cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"")
         otherButtonTitles:nil, nil];
     [alert show];
 }
@@ -456,9 +457,9 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
         [self stopLoading];
         UIAlertView* alert =
         [[UIAlertView alloc] initWithTitle:kErrorTitle
-                                   message:@"Service URL is not valid!"
+                                   message:NSLocalizedString(@"ADDCONFIGVC_ERROR_INVALID_URL", @"")
                                   delegate:nil
-                         cancelButtonTitle:@"Close"
+                         cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"")
                          otherButtonTitles:nil, nil];
         
         [alert show];

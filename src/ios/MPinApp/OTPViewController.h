@@ -15,7 +15,7 @@
 @property (nonatomic, weak) IBOutlet UILabel* lblYourPassword;
 
 @property (nonatomic, strong) NSString* strEmail;
-@property (nonatomic, retain, readwrite) OTP* otpData;
+@property (nonatomic, strong) OTP* otpData;
 
 - (IBAction)OnClickNavButton:(id)sender;
 @end

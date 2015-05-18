@@ -18,6 +18,121 @@
 		960D6A9C1A88C0E20068E0F7 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A891A88C0E20068E0F7 /* OpenSans-Semibold.ttf */; };
 		960D6A9D1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A8A1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf */; };
 		960D6AA31A88C0E20068E0F7 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A901A88C0E20068E0F7 /* Settings.bundle */; };
+		96130E191AEE35DA005D2A86 /* Backends.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96130E181AEE35DA005D2A86 /* Backends.plist */; };
+		96130E211AEE4867005D2A86 /* ConfigurationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A211AC30FAF00B25B53 /* ConfigurationManager.m */; };
+		96130E221AEE4867005D2A86 /* ConfirmEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 966EB9D31A8CF069004B936A /* ConfirmEmailViewController.m */; };
+		96130E231AEE4867005D2A86 /* CycleProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4AEB071A443E4C000B3181 /* CycleProgressBar.m */; };
+		96130E241AEE4867005D2A86 /* AccountSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9614F8CE1A9E1EC500337080 /* AccountSummaryViewController.m */; };
+		96130E251AEE4867005D2A86 /* UIViewController+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FED7691C1A8B4A30005A3ECA /* UIViewController+Helper.m */; };
+		96130E261AEE4867005D2A86 /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FEAA2CCD1ACEBCB700EED79F /* NSString+Helper.m */; };
+		96130E271AEE4867005D2A86 /* AddIdentityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE148D5E1A2F13D0007E83EF /* AddIdentityViewController.m */; };
+		96130E281AEE4867005D2A86 /* BackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 964B121C1A93921C00FFB67A /* BackButton.m */; };
+		96130E291AEE4867005D2A86 /* PinPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE148D661A2F13D0007E83EF /* PinPadViewController.m */; };
+		96130E2A1AEE4867005D2A86 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9649BC821AC045E900B9F41B /* MenuViewController.m */; };
+		96130E2B1AEE4867005D2A86 /* SettingsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE72C3441A6E519D0082F14D /* SettingsViewCell.m */; };
+		96130E2C1AEE4867005D2A86 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A261AC311D000B25B53 /* AboutViewController.m */; };
+		96130E2D1AEE4867005D2A86 /* ThemeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 961957451A960E9900C93604 /* ThemeManager.m */; };
+		96130E2E1AEE4867005D2A86 /* AddSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE72C3471A6EA6960082F14D /* AddSettingViewController.m */; };
+		96130E2F1AEE4867005D2A86 /* DigitPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFA50101A7148E5002D6E24 /* DigitPadViewController.m */; };
+		96130E301AEE4867005D2A86 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4900261A1A3CEB000030A4 /* main.m */; };
+		96130E311AEE4867005D2A86 /* OTPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4AEB041A443137000B3181 /* OTPViewController.m */; };
+		96130E321AEE4867005D2A86 /* TextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699B2511AADF7F0008AA313 /* TextFieldTableViewCell.m */; };
+		96130E331AEE4867005D2A86 /* AccessNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFA500D1A7143DB002D6E24 /* AccessNumberViewController.m */; };
+		96130E341AEE4867005D2A86 /* UIColor+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 968D0A431A7B93C00037841D /* UIColor+Helper.m */; };
+		96130E351AEE4867005D2A86 /* ConfigListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 961957481A97276100C93604 /* ConfigListTableViewCell.m */; };
+		96130E361AEE4867005D2A86 /* MPin+AsyncOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = FE8129661ABAB61B008677CE /* MPin+AsyncOperations.m */; };
+		96130E371AEE4867005D2A86 /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A231AC30FAF00B25B53 /* SettingsManager.m */; };
+		96130E381AEE4867005D2A86 /* UIView+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDDDE301A89F93E00E2068C /* UIView+Helper.m */; };
+		96130E391AEE4867005D2A86 /* IdentityCreatedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E7A531AA06CA700A276A7 /* IdentityCreatedViewController.m */; };
+		96130E3A1AEE4867005D2A86 /* IdentityBlockedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C9BF281AE6407D00FAC454 /* IdentityBlockedViewController.m */; };
+		96130E3B1AEE4867005D2A86 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB901671A6D28550053DE92 /* SettingsViewController.m */; };
+		96130E3C1AEE4867005D2A86 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE148D601A2F13D0007E83EF /* AppDelegate.mm */; };
+		96130E3D1AEE4867005D2A86 /* MenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E7A561AA0818F00A276A7 /* MenuTableViewCell.m */; };
+		96130E3E1AEE4867005D2A86 /* OptionSelectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699B2541AADF812008AA313 /* OptionSelectTableViewCell.m */; };
+		96130E3F1AEE4867005D2A86 /* UserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE148D681A2F13D0007E83EF /* UserListViewController.m */; };
+		96130E411AEE4867005D2A86 /* libPods-SplunkMint-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9644B2201AD3AF400047E9CA /* libPods-SplunkMint-iOS.a */; };
+		96130E421AEE4867005D2A86 /* libMPinSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */; };
+		96130E431AEE4867005D2A86 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001C1A1A3CEB000030A4 /* CoreGraphics.framework */; };
+		96130E441AEE4867005D2A86 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001E1A1A3CEB000030A4 /* UIKit.framework */; };
+		96130E451AEE4867005D2A86 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001A1A1A3CEB000030A4 /* Foundation.framework */; };
+		96130E461AEE4867005D2A86 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8967D6B49D70B9963207D4 /* libPods.a */; };
+		96130E491AEE4867005D2A86 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A811A88C0E20068E0F7 /* OpenSans-Bold.ttf */; };
+		96130E4A1AEE4867005D2A86 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A901A88C0E20068E0F7 /* Settings.bundle */; };
+		96130E4B1AEE4867005D2A86 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A841A88C0E20068E0F7 /* OpenSans-ExtraBoldItalic.ttf */; };
+		96130E4C1AEE4867005D2A86 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A851A88C0E20068E0F7 /* OpenSans-Italic.ttf */; };
+		96130E4E1AEE4867005D2A86 /* IUser.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D451A2F1007007E83EF /* IUser.h */; };
+		96130E4F1AEE4867005D2A86 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 968CF31A1A77BB31002C4347 /* LaunchScreen.xib */; };
+		96130E501AEE4867005D2A86 /* Constants.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3C1A2F0FB7007E83EF /* Constants.h */; };
+		96130E511AEE4867005D2A86 /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A871A88C0E20068E0F7 /* OpenSans-LightItalic.ttf */; };
+		96130E521AEE4867005D2A86 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A821A88C0E20068E0F7 /* OpenSans-BoldItalic.ttf */; };
+		96130E531AEE4867005D2A86 /* MPin.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3D1A2F0FB7007E83EF /* MPin.h */; };
+		96130E541AEE4867005D2A86 /* Backends.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96130E181AEE35DA005D2A86 /* Backends.plist */; };
+		96130E551AEE4867005D2A86 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A891A88C0E20068E0F7 /* OpenSans-Semibold.ttf */; };
+		96130E561AEE4867005D2A86 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A861A88C0E20068E0F7 /* OpenSans-Light.ttf */; };
+		96130E571AEE4867005D2A86 /* MpinStatus.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3E1A2F0FB7007E83EF /* MpinStatus.h */; };
+		96130E581AEE4867005D2A86 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEFFDDF01A1A4268007C7CAA /* Main_iPhone.storyboard */; };
+		96130E591AEE4867005D2A86 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE49002F1A1A3CEB000030A4 /* Main_iPad.storyboard */; };
+		96130E5A1AEE4867005D2A86 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A8A1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf */; };
+		96130E5B1AEE4867005D2A86 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE4900231A1A3CEB000030A4 /* InfoPlist.strings */; };
+		96130E5D1AEE4867005D2A86 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A881A88C0E20068E0F7 /* OpenSans-Regular.ttf */; };
+		96130E5E1AEE4867005D2A86 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A831A88C0E20068E0F7 /* OpenSans-ExtraBold.ttf */; };
+		96130E6B1AEE490A005D2A86 /* ConfigurationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A211AC30FAF00B25B53 /* ConfigurationManager.m */; };
+		96130E6C1AEE490A005D2A86 /* ConfirmEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 966EB9D31A8CF069004B936A /* ConfirmEmailViewController.m */; };
+		96130E6D1AEE490A005D2A86 /* CycleProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4AEB071A443E4C000B3181 /* CycleProgressBar.m */; };
+		96130E6E1AEE490A005D2A86 /* AccountSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9614F8CE1A9E1EC500337080 /* AccountSummaryViewController.m */; };
+		96130E6F1AEE490A005D2A86 /* UIViewController+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FED7691C1A8B4A30005A3ECA /* UIViewController+Helper.m */; };
+		96130E701AEE490A005D2A86 /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FEAA2CCD1ACEBCB700EED79F /* NSString+Helper.m */; };
+		96130E711AEE490A005D2A86 /* AddIdentityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE148D5E1A2F13D0007E83EF /* AddIdentityViewController.m */; };
+		96130E721AEE490A005D2A86 /* BackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 964B121C1A93921C00FFB67A /* BackButton.m */; };
+		96130E731AEE490A005D2A86 /* PinPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE148D661A2F13D0007E83EF /* PinPadViewController.m */; };
+		96130E741AEE490A005D2A86 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9649BC821AC045E900B9F41B /* MenuViewController.m */; };
+		96130E751AEE490A005D2A86 /* SettingsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE72C3441A6E519D0082F14D /* SettingsViewCell.m */; };
+		96130E761AEE490A005D2A86 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A261AC311D000B25B53 /* AboutViewController.m */; };
+		96130E771AEE490A005D2A86 /* ThemeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 961957451A960E9900C93604 /* ThemeManager.m */; };
+		96130E781AEE490A005D2A86 /* AddSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE72C3471A6EA6960082F14D /* AddSettingViewController.m */; };
+		96130E791AEE490A005D2A86 /* DigitPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFA50101A7148E5002D6E24 /* DigitPadViewController.m */; };
+		96130E7A1AEE490A005D2A86 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4900261A1A3CEB000030A4 /* main.m */; };
+		96130E7B1AEE490A005D2A86 /* OTPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4AEB041A443137000B3181 /* OTPViewController.m */; };
+		96130E7C1AEE490A005D2A86 /* TextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699B2511AADF7F0008AA313 /* TextFieldTableViewCell.m */; };
+		96130E7D1AEE490A005D2A86 /* AccessNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFA500D1A7143DB002D6E24 /* AccessNumberViewController.m */; };
+		96130E7E1AEE490A005D2A86 /* UIColor+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 968D0A431A7B93C00037841D /* UIColor+Helper.m */; };
+		96130E7F1AEE490A005D2A86 /* ConfigListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 961957481A97276100C93604 /* ConfigListTableViewCell.m */; };
+		96130E801AEE490A005D2A86 /* MPin+AsyncOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = FE8129661ABAB61B008677CE /* MPin+AsyncOperations.m */; };
+		96130E811AEE490A005D2A86 /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A231AC30FAF00B25B53 /* SettingsManager.m */; };
+		96130E821AEE490A005D2A86 /* UIView+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDDDE301A89F93E00E2068C /* UIView+Helper.m */; };
+		96130E831AEE490A005D2A86 /* IdentityCreatedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E7A531AA06CA700A276A7 /* IdentityCreatedViewController.m */; };
+		96130E841AEE490A005D2A86 /* IdentityBlockedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C9BF281AE6407D00FAC454 /* IdentityBlockedViewController.m */; };
+		96130E851AEE490A005D2A86 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB901671A6D28550053DE92 /* SettingsViewController.m */; };
+		96130E861AEE490A005D2A86 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE148D601A2F13D0007E83EF /* AppDelegate.mm */; };
+		96130E871AEE490A005D2A86 /* MenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E7A561AA0818F00A276A7 /* MenuTableViewCell.m */; };
+		96130E881AEE490A005D2A86 /* OptionSelectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699B2541AADF812008AA313 /* OptionSelectTableViewCell.m */; };
+		96130E891AEE490A005D2A86 /* UserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE148D681A2F13D0007E83EF /* UserListViewController.m */; };
+		96130E8B1AEE490A005D2A86 /* libPods-SplunkMint-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9644B2201AD3AF400047E9CA /* libPods-SplunkMint-iOS.a */; };
+		96130E8C1AEE490A005D2A86 /* libMPinSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */; };
+		96130E8D1AEE490A005D2A86 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001C1A1A3CEB000030A4 /* CoreGraphics.framework */; };
+		96130E8E1AEE490A005D2A86 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001E1A1A3CEB000030A4 /* UIKit.framework */; };
+		96130E8F1AEE490A005D2A86 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001A1A1A3CEB000030A4 /* Foundation.framework */; };
+		96130E901AEE490A005D2A86 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8967D6B49D70B9963207D4 /* libPods.a */; };
+		96130E931AEE490A005D2A86 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A811A88C0E20068E0F7 /* OpenSans-Bold.ttf */; };
+		96130E941AEE490A005D2A86 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A901A88C0E20068E0F7 /* Settings.bundle */; };
+		96130E951AEE490A005D2A86 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A841A88C0E20068E0F7 /* OpenSans-ExtraBoldItalic.ttf */; };
+		96130E961AEE490A005D2A86 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A851A88C0E20068E0F7 /* OpenSans-Italic.ttf */; };
+		96130E981AEE490A005D2A86 /* IUser.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D451A2F1007007E83EF /* IUser.h */; };
+		96130E991AEE490A005D2A86 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 968CF31A1A77BB31002C4347 /* LaunchScreen.xib */; };
+		96130E9A1AEE490A005D2A86 /* Constants.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3C1A2F0FB7007E83EF /* Constants.h */; };
+		96130E9B1AEE490A005D2A86 /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A871A88C0E20068E0F7 /* OpenSans-LightItalic.ttf */; };
+		96130E9C1AEE490A005D2A86 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A821A88C0E20068E0F7 /* OpenSans-BoldItalic.ttf */; };
+		96130E9D1AEE490A005D2A86 /* MPin.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3D1A2F0FB7007E83EF /* MPin.h */; };
+		96130E9E1AEE490A005D2A86 /* Backends.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96130E181AEE35DA005D2A86 /* Backends.plist */; };
+		96130E9F1AEE490A005D2A86 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A891A88C0E20068E0F7 /* OpenSans-Semibold.ttf */; };
+		96130EA01AEE490A005D2A86 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A861A88C0E20068E0F7 /* OpenSans-Light.ttf */; };
+		96130EA11AEE490A005D2A86 /* MpinStatus.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3E1A2F0FB7007E83EF /* MpinStatus.h */; };
+		96130EA21AEE490A005D2A86 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEFFDDF01A1A4268007C7CAA /* Main_iPhone.storyboard */; };
+		96130EA31AEE490A005D2A86 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE49002F1A1A3CEB000030A4 /* Main_iPad.storyboard */; };
+		96130EA41AEE490A005D2A86 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A8A1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf */; };
+		96130EA51AEE490A005D2A86 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE4900231A1A3CEB000030A4 /* InfoPlist.strings */; };
+		96130EA71AEE490A005D2A86 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A881A88C0E20068E0F7 /* OpenSans-Regular.ttf */; };
+		96130EA81AEE490A005D2A86 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A831A88C0E20068E0F7 /* OpenSans-ExtraBold.ttf */; };
 		9614F8CF1A9E1EC500337080 /* AccountSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9614F8CE1A9E1EC500337080 /* AccountSummaryViewController.m */; };
 		961957461A960E9900C93604 /* ThemeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 961957451A960E9900C93604 /* ThemeManager.m */; };
 		961957491A97276100C93604 /* ConfigListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 961957481A97276100C93604 /* ConfigListTableViewCell.m */; };
@@ -74,9 +189,20 @@
 		9649BCC51AC16D1000B9F41B /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A831A88C0E20068E0F7 /* OpenSans-ExtraBold.ttf */; };
 		964B121D1A93921C00FFB67A /* BackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 964B121C1A93921C00FFB67A /* BackButton.m */; };
 		966EB9D41A8CF069004B936A /* ConfirmEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 966EB9D31A8CF069004B936A /* ConfirmEmailViewController.m */; };
+		968591A01AEE53EB00726E63 /* DimensionDataImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 968A180F1ACA8C70000C0DB0 /* DimensionDataImages.xcassets */; };
+		968591A11AEE53EE00726E63 /* CertivoxImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 968A180A1ACA8C58000C0DB0 /* CertivoxImages.xcassets */; };
+		968591A21AEE53F200726E63 /* OlswangImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96130EB91AEE4979005D2A86 /* OlswangImages.xcassets */; };
+		968591A31AEE53F500726E63 /* NTTComSecurityImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96130EB51AEE4979005D2A86 /* NTTComSecurityImages.xcassets */; };
+		968591B61AF0BEFC00726E63 /* LocalizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 968591B51AF0BEFC00726E63 /* LocalizationManager.m */; };
+		968591B71AF0BEFC00726E63 /* LocalizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 968591B51AF0BEFC00726E63 /* LocalizationManager.m */; };
+		968591B81AF0BEFC00726E63 /* LocalizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 968591B51AF0BEFC00726E63 /* LocalizationManager.m */; };
+		968591B91AF0BEFC00726E63 /* LocalizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 968591B51AF0BEFC00726E63 /* LocalizationManager.m */; };
+		968591CA1AF0C7E200726E63 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 968591CF1AF0C7E200726E63 /* Localizable.strings */; };
+		968591CB1AF0C7E200726E63 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 968591CF1AF0C7E200726E63 /* Localizable.strings */; };
+		968591CC1AF0C7E200726E63 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 968591CF1AF0C7E200726E63 /* Localizable.strings */; };
+		968591CD1AF0C7E200726E63 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 968591CF1AF0C7E200726E63 /* Localizable.strings */; };
 		968A180C1ACA8C58000C0DB0 /* Colors.plist in Resources */ = {isa = PBXBuildFile; fileRef = 968A18091ACA8C58000C0DB0 /* Colors.plist */; };
 		968A18121ACA8E4A000C0DB0 /* Colors.plist in Resources */ = {isa = PBXBuildFile; fileRef = 968A180E1ACA8C70000C0DB0 /* Colors.plist */; };
-		968A18131ACA8E80000C0DB0 /* DimensionDataImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 968A180F1ACA8C70000C0DB0 /* DimensionDataImages.xcassets */; };
 		968CF31B1A77BB31002C4347 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 968CF31A1A77BB31002C4347 /* LaunchScreen.xib */; };
 		968D0A441A7B93C00037841D /* UIColor+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 968D0A431A7B93C00037841D /* UIColor+Helper.m */; };
 		968E7A541AA06CA700A276A7 /* IdentityCreatedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E7A531AA06CA700A276A7 /* IdentityCreatedViewController.m */; };
@@ -84,14 +210,19 @@
 		9699B2521AADF7F0008AA313 /* TextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699B2511AADF7F0008AA313 /* TextFieldTableViewCell.m */; };
 		9699B2551AADF812008AA313 /* OptionSelectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699B2541AADF812008AA313 /* OptionSelectTableViewCell.m */; };
 		96B27CAC1ACACE92007145C2 /* MPin+AsyncOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = FE8129661ABAB61B008677CE /* MPin+AsyncOperations.m */; };
-		96B27CAD1ACADE6A007145C2 /* CertivoxImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 968A180A1ACA8C58000C0DB0 /* CertivoxImages.xcassets */; };
 		96C88F461AC42B6E00A5F27A /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A261AC311D000B25B53 /* AboutViewController.m */; };
 		96C88F471AC42B7D00A5F27A /* ConfigurationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A211AC30FAF00B25B53 /* ConfigurationManager.m */; };
 		96C88F481AC42B7D00A5F27A /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A231AC30FAF00B25B53 /* SettingsManager.m */; };
 		96C9BF291AE6407D00FAC454 /* IdentityBlockedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C9BF281AE6407D00FAC454 /* IdentityBlockedViewController.m */; };
 		96C9BF2A1AE6407D00FAC454 /* IdentityBlockedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C9BF281AE6407D00FAC454 /* IdentityBlockedViewController.m */; };
+		96D3CAD41AEE5324004BAC3A /* Colors.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96130EB61AEE4979005D2A86 /* Colors.plist */; };
+		96D3CAD51AEE5328004BAC3A /* Colors.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96130EBA1AEE4979005D2A86 /* Colors.plist */; };
 		96DA33F81ACD54C300B2CAAB /* libMPinSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */; };
 		96DA33F91ACD54D700B2CAAB /* libMPinSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */; };
+		96E21A541AF8AE6C00490625 /* en_BG.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG.strings */; };
+		96E21A551AF8AE6C00490625 /* en_BG.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG.strings */; };
+		96E21A561AF8AE6C00490625 /* en_BG.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG.strings */; };
+		96E21A571AF8AE6C00490625 /* en_BG.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG.strings */; };
 		96F62A241AC30FAF00B25B53 /* ConfigurationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A211AC30FAF00B25B53 /* ConfigurationManager.m */; };
 		96F62A251AC30FAF00B25B53 /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A231AC30FAF00B25B53 /* SettingsManager.m */; };
 		96F62A281AC311D000B25B53 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A261AC311D000B25B53 /* AboutViewController.m */; };
@@ -157,6 +288,15 @@
 		960D6A891A88C0E20068E0F7 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		960D6A8A1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; };
 		960D6A901A88C0E20068E0F7 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		96130E181AEE35DA005D2A86 /* Backends.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Backends.plist; sourceTree = "<group>"; };
+		96130E651AEE4867005D2A86 /* NTTComSecurity MPin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NTTComSecurity MPin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		96130EAF1AEE490A005D2A86 /* Olswang MPin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Olswang MPin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		96130EB41AEE4979005D2A86 /* Backends.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Backends.plist; sourceTree = "<group>"; };
+		96130EB51AEE4979005D2A86 /* NTTComSecurityImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = NTTComSecurityImages.xcassets; sourceTree = "<group>"; };
+		96130EB61AEE4979005D2A86 /* Colors.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Colors.plist; sourceTree = "<group>"; };
+		96130EB81AEE4979005D2A86 /* Backends.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Backends.plist; sourceTree = "<group>"; };
+		96130EB91AEE4979005D2A86 /* OlswangImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = OlswangImages.xcassets; sourceTree = "<group>"; };
+		96130EBA1AEE4979005D2A86 /* Colors.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Colors.plist; sourceTree = "<group>"; };
 		9614F8CD1A9E1EC500337080 /* AccountSummaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccountSummaryViewController.h; path = ../../../../src/ios/MPinApp/AccountSummaryViewController.h; sourceTree = "<group>"; };
 		9614F8CE1A9E1EC500337080 /* AccountSummaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AccountSummaryViewController.m; path = ../../../../src/ios/MPinApp/AccountSummaryViewController.m; sourceTree = "<group>"; };
 		961957441A960E9900C93604 /* ThemeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThemeManager.h; path = ../../../../src/ios/MPinApp/ThemeManager.h; sourceTree = "<group>"; };
@@ -172,8 +312,11 @@
 		964B121C1A93921C00FFB67A /* BackButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BackButton.m; path = ../../../../src/ios/MPinApp/BackButton.m; sourceTree = "<group>"; };
 		966EB9D21A8CF069004B936A /* ConfirmEmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfirmEmailViewController.h; path = ../../../../src/ios/MPinApp/ConfirmEmailViewController.h; sourceTree = "<group>"; };
 		966EB9D31A8CF069004B936A /* ConfirmEmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConfirmEmailViewController.m; path = ../../../../src/ios/MPinApp/ConfirmEmailViewController.m; sourceTree = "<group>"; };
-		968A18051ACA82BA000C0DB0 /* CertivoxMPin.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CertivoxMPin.plist; sourceTree = "<group>"; };
-		968A18061ACA82BA000C0DB0 /* DDMPin.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = DDMPin.plist; sourceTree = "<group>"; };
+		968591AD1AF0BAAF00726E63 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main_iPhone.strings; sourceTree = "<group>"; };
+		968591B41AF0BEFC00726E63 /* LocalizationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalizationManager.h; path = ../../../../src/ios/MPinApp/LocalizationManager.h; sourceTree = "<group>"; };
+		968591B51AF0BEFC00726E63 /* LocalizationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocalizationManager.m; path = ../../../../src/ios/MPinApp/LocalizationManager.m; sourceTree = "<group>"; };
+		968591D11AF0C7F300726E63 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		968591D81AF0C9D400726E63 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		968A18091ACA8C58000C0DB0 /* Colors.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Colors.plist; sourceTree = "<group>"; };
 		968A180A1ACA8C58000C0DB0 /* CertivoxImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CertivoxImages.xcassets; sourceTree = "<group>"; };
 		968A180E1ACA8C70000C0DB0 /* Colors.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Colors.plist; sourceTree = "<group>"; };
@@ -191,7 +334,12 @@
 		9699B2541AADF812008AA313 /* OptionSelectTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OptionSelectTableViewCell.m; path = ../../../../src/ios/MPinApp/OptionSelectTableViewCell.m; sourceTree = "<group>"; };
 		96C9BF271AE6407D00FAC454 /* IdentityBlockedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IdentityBlockedViewController.h; path = ../../../../src/ios/MPinApp/IdentityBlockedViewController.h; sourceTree = "<group>"; };
 		96C9BF281AE6407D00FAC454 /* IdentityBlockedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IdentityBlockedViewController.m; path = ../../../../src/ios/MPinApp/IdentityBlockedViewController.m; sourceTree = "<group>"; };
+		96D3CACF1AEE4D34004BAC3A /* NTTComSecurityMPin.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = NTTComSecurityMPin.plist; sourceTree = "<group>"; };
+		96D3CAD01AEE4D6D004BAC3A /* OlswangMPin.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = OlswangMPin.plist; sourceTree = "<group>"; };
+		96D3CAD11AEE4D7B004BAC3A /* CertivoxMPin.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CertivoxMPin.plist; sourceTree = "<group>"; };
+		96D3CAD21AEE4D8E004BAC3A /* DDMPin.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = DDMPin.plist; sourceTree = "<group>"; };
 		96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMPinSDK.a; path = "../../../../Library/Developer/Xcode/DerivedData/MPin-fkvltgzbxheajafuhhxznfslxxnp/Build/Products/Release-iphoneos/libMPinSDK.a"; sourceTree = "<group>"; };
+		96E21A531AF8AE6C00490625 /* en_BG.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = en_BG.strings; sourceTree = "<group>"; };
 		96F62A201AC30FAF00B25B53 /* ConfigurationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfigurationManager.h; path = ../../../../src/ios/MPinApp/ConfigurationManager.h; sourceTree = "<group>"; };
 		96F62A211AC30FAF00B25B53 /* ConfigurationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConfigurationManager.m; path = ../../../../src/ios/MPinApp/ConfigurationManager.m; sourceTree = "<group>"; };
 		96F62A221AC30FAF00B25B53 /* SettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsManager.h; path = ../../../../src/ios/MPinApp/SettingsManager.h; sourceTree = "<group>"; };
@@ -255,6 +403,32 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		96130E401AEE4867005D2A86 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96130E411AEE4867005D2A86 /* libPods-SplunkMint-iOS.a in Frameworks */,
+				96130E421AEE4867005D2A86 /* libMPinSDK.a in Frameworks */,
+				96130E431AEE4867005D2A86 /* CoreGraphics.framework in Frameworks */,
+				96130E441AEE4867005D2A86 /* UIKit.framework in Frameworks */,
+				96130E451AEE4867005D2A86 /* Foundation.framework in Frameworks */,
+				96130E461AEE4867005D2A86 /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		96130E8A1AEE490A005D2A86 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96130E8B1AEE490A005D2A86 /* libPods-SplunkMint-iOS.a in Frameworks */,
+				96130E8C1AEE490A005D2A86 /* libMPinSDK.a in Frameworks */,
+				96130E8D1AEE490A005D2A86 /* CoreGraphics.framework in Frameworks */,
+				96130E8E1AEE490A005D2A86 /* UIKit.framework in Frameworks */,
+				96130E8F1AEE490A005D2A86 /* Foundation.framework in Frameworks */,
+				96130E901AEE490A005D2A86 /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9649BCAA1AC16D1000B9F41B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -309,10 +483,14 @@
 		960D6A7C1A88C0E20068E0F7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				96130EB31AEE4979005D2A86 /* NTTComSecurity */,
+				96130EB71AEE4979005D2A86 /* Olswang */,
 				968A18081ACA8C58000C0DB0 /* Certivox */,
 				968A180B1ACA8C58000C0DB0 /* DimensionData */,
 				960D6A7F1A88C0E20068E0F7 /* Fonts */,
 				960D6A901A88C0E20068E0F7 /* Settings.bundle */,
+				968591CF1AF0C7E200726E63 /* Localizable.strings */,
+				96E21A531AF8AE6C00490625 /* en_BG.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -342,6 +520,28 @@
 			path = Open_Sans;
 			sourceTree = "<group>";
 		};
+		96130EB31AEE4979005D2A86 /* NTTComSecurity */ = {
+			isa = PBXGroup;
+			children = (
+				96D3CACF1AEE4D34004BAC3A /* NTTComSecurityMPin.plist */,
+				96130EB41AEE4979005D2A86 /* Backends.plist */,
+				96130EB51AEE4979005D2A86 /* NTTComSecurityImages.xcassets */,
+				96130EB61AEE4979005D2A86 /* Colors.plist */,
+			);
+			path = NTTComSecurity;
+			sourceTree = "<group>";
+		};
+		96130EB71AEE4979005D2A86 /* Olswang */ = {
+			isa = PBXGroup;
+			children = (
+				96D3CAD01AEE4D6D004BAC3A /* OlswangMPin.plist */,
+				96130EB81AEE4979005D2A86 /* Backends.plist */,
+				96130EB91AEE4979005D2A86 /* OlswangImages.xcassets */,
+				96130EBA1AEE4979005D2A86 /* Colors.plist */,
+			);
+			path = Olswang;
+			sourceTree = "<group>";
+		};
 		9649BC881AC0472D00B9F41B /* CustomComponents */ = {
 			isa = PBXGroup;
 			children = (
@@ -360,20 +560,13 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		968A18041ACA82BA000C0DB0 /* AppPlist */ = {
-			isa = PBXGroup;
-			children = (
-				968A18051ACA82BA000C0DB0 /* CertivoxMPin.plist */,
-				968A18061ACA82BA000C0DB0 /* DDMPin.plist */,
-			);
-			path = AppPlist;
-			sourceTree = "<group>";
-		};
 		968A18081ACA8C58000C0DB0 /* Certivox */ = {
 			isa = PBXGroup;
 			children = (
+				96D3CAD11AEE4D7B004BAC3A /* CertivoxMPin.plist */,
 				968A18091ACA8C58000C0DB0 /* Colors.plist */,
 				968A180A1ACA8C58000C0DB0 /* CertivoxImages.xcassets */,
+				96130E181AEE35DA005D2A86 /* Backends.plist */,
 			);
 			path = Certivox;
 			sourceTree = "<group>";
@@ -381,6 +574,7 @@
 		968A180B1ACA8C58000C0DB0 /* DimensionData */ = {
 			isa = PBXGroup;
 			children = (
+				96D3CAD21AEE4D8E004BAC3A /* DDMPin.plist */,
 				968A180E1ACA8C70000C0DB0 /* Colors.plist */,
 				968A180F1ACA8C70000C0DB0 /* DimensionDataImages.xcassets */,
 			);
@@ -422,10 +616,10 @@
 		9699B2571AADF8C6008AA313 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				96F62A261AC311D000B25B53 /* AboutViewController.m */,
 				96F62A271AC311D000B25B53 /* AboutViewController.h */,
-				9649BC821AC045E900B9F41B /* MenuViewController.m */,
+				96F62A261AC311D000B25B53 /* AboutViewController.m */,
 				9649BC831AC045E900B9F41B /* MenuViewController.h */,
+				9649BC821AC045E900B9F41B /* MenuViewController.m */,
 				FE148D5D1A2F13D0007E83EF /* AddIdentityViewController.h */,
 				FE148D5E1A2F13D0007E83EF /* AddIdentityViewController.m */,
 				FEFA500F1A7148E5002D6E24 /* DigitPadViewController.h */,
@@ -483,6 +677,8 @@
 				961957451A960E9900C93604 /* ThemeManager.m */,
 				FE36B3B31B04E195000ACD70 /* ApplicationManager.h */,
 				FE36B3B41B04E195000ACD70 /* ApplicationManager.m */,
+				968591B41AF0BEFC00726E63 /* LocalizationManager.h */,
+				968591B51AF0BEFC00726E63 /* LocalizationManager.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -510,6 +706,8 @@
 				FE4900171A1A3CEB000030A4 /* CertiVox M-Pin.app */,
 				FE49003B1A1A3CEB000030A4 /* MPinAppTests.xctest */,
 				9649BCCA1AC16D1000B9F41B /* DD MPin.app */,
+				96130E651AEE4867005D2A86 /* NTTComSecurity MPin.app */,
+				96130EAF1AEE490A005D2A86 /* Olswang MPin.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -553,7 +751,6 @@
 		FE4900211A1A3CEB000030A4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				968A18041ACA82BA000C0DB0 /* AppPlist */,
 				FE4900231A1A3CEB000030A4 /* InfoPlist.strings */,
 				FE4900261A1A3CEB000030A4 /* main.m */,
 				FE4900281A1A3CEB000030A4 /* MPinApp-Prefix.pch */,
@@ -582,6 +779,47 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		96130E1D1AEE4867005D2A86 /* NTTComSecurity */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 96130E5F1AEE4867005D2A86 /* Build configuration list for PBXNativeTarget "NTTComSecurity" */;
+			buildPhases = (
+				96130E1E1AEE4867005D2A86 /* Build number generator */,
+				96130E1F1AEE4867005D2A86 /* Check Pods Manifest.lock */,
+				96130E201AEE4867005D2A86 /* Sources */,
+				96130E401AEE4867005D2A86 /* Frameworks */,
+				96130E471AEE4867005D2A86 /* Copy Pods Resources */,
+				96130E481AEE4867005D2A86 /* Resources */,
+				96D3CAD31AEE5169004BAC3A /* Adding assets */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NTTComSecurity;
+			productName = MPinApp;
+			productReference = 96130E651AEE4867005D2A86 /* NTTComSecurity MPin.app */;
+			productType = "com.apple.product-type.application";
+		};
+		96130E671AEE490A005D2A86 /* Olswang */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 96130EA91AEE490A005D2A86 /* Build configuration list for PBXNativeTarget "Olswang" */;
+			buildPhases = (
+				96130E681AEE490A005D2A86 /* Build number generator */,
+				96130E691AEE490A005D2A86 /* Check Pods Manifest.lock */,
+				96130E6A1AEE490A005D2A86 /* Sources */,
+				96130E8A1AEE490A005D2A86 /* Frameworks */,
+				96130E911AEE490A005D2A86 /* Copy Pods Resources */,
+				96130E921AEE490A005D2A86 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Olswang;
+			productName = MPinApp;
+			productReference = 96130EAF1AEE490A005D2A86 /* Olswang MPin.app */;
+			productType = "com.apple.product-type.application";
+		};
 		9649BC891AC16D1000B9F41B /* DD MPin */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9649BCC71AC16D1000B9F41B /* Build configuration list for PBXNativeTarget "DD MPin" */;
@@ -674,13 +912,77 @@
 			projectRoot = "";
 			targets = (
 				FE4900161A1A3CEB000030A4 /* Certivox MPin */,
-				FE49003A1A1A3CEB000030A4 /* MPinAppTests */,
 				9649BC891AC16D1000B9F41B /* DD MPin */,
+				96130E1D1AEE4867005D2A86 /* NTTComSecurity */,
+				96130E671AEE490A005D2A86 /* Olswang */,
+				FE49003A1A1A3CEB000030A4 /* MPinAppTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		96130E481AEE4867005D2A86 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96130E491AEE4867005D2A86 /* OpenSans-Bold.ttf in Resources */,
+				96130E4A1AEE4867005D2A86 /* Settings.bundle in Resources */,
+				968591CC1AF0C7E200726E63 /* Localizable.strings in Resources */,
+				96130E4B1AEE4867005D2A86 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
+				96130E4C1AEE4867005D2A86 /* OpenSans-Italic.ttf in Resources */,
+				96130E4E1AEE4867005D2A86 /* IUser.h in Resources */,
+				96130E4F1AEE4867005D2A86 /* LaunchScreen.xib in Resources */,
+				96130E501AEE4867005D2A86 /* Constants.h in Resources */,
+				96130E511AEE4867005D2A86 /* OpenSans-LightItalic.ttf in Resources */,
+				96130E521AEE4867005D2A86 /* OpenSans-BoldItalic.ttf in Resources */,
+				96130E531AEE4867005D2A86 /* MPin.h in Resources */,
+				96130E541AEE4867005D2A86 /* Backends.plist in Resources */,
+				96130E551AEE4867005D2A86 /* OpenSans-Semibold.ttf in Resources */,
+				96D3CAD41AEE5324004BAC3A /* Colors.plist in Resources */,
+				96130E561AEE4867005D2A86 /* OpenSans-Light.ttf in Resources */,
+				96130E571AEE4867005D2A86 /* MpinStatus.h in Resources */,
+				96E21A561AF8AE6C00490625 /* en_BG.strings in Resources */,
+				96130E581AEE4867005D2A86 /* Main_iPhone.storyboard in Resources */,
+				968591A31AEE53F500726E63 /* NTTComSecurityImages.xcassets in Resources */,
+				96130E591AEE4867005D2A86 /* Main_iPad.storyboard in Resources */,
+				96130E5A1AEE4867005D2A86 /* OpenSans-SemiboldItalic.ttf in Resources */,
+				96130E5B1AEE4867005D2A86 /* InfoPlist.strings in Resources */,
+				96130E5D1AEE4867005D2A86 /* OpenSans-Regular.ttf in Resources */,
+				96130E5E1AEE4867005D2A86 /* OpenSans-ExtraBold.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		96130E921AEE490A005D2A86 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96130E931AEE490A005D2A86 /* OpenSans-Bold.ttf in Resources */,
+				96130E941AEE490A005D2A86 /* Settings.bundle in Resources */,
+				968591CD1AF0C7E200726E63 /* Localizable.strings in Resources */,
+				96130E951AEE490A005D2A86 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
+				96130E961AEE490A005D2A86 /* OpenSans-Italic.ttf in Resources */,
+				96130E981AEE490A005D2A86 /* IUser.h in Resources */,
+				96130E991AEE490A005D2A86 /* LaunchScreen.xib in Resources */,
+				96130E9A1AEE490A005D2A86 /* Constants.h in Resources */,
+				96130E9B1AEE490A005D2A86 /* OpenSans-LightItalic.ttf in Resources */,
+				96130E9C1AEE490A005D2A86 /* OpenSans-BoldItalic.ttf in Resources */,
+				96130E9D1AEE490A005D2A86 /* MPin.h in Resources */,
+				96130E9E1AEE490A005D2A86 /* Backends.plist in Resources */,
+				96130E9F1AEE490A005D2A86 /* OpenSans-Semibold.ttf in Resources */,
+				96D3CAD51AEE5328004BAC3A /* Colors.plist in Resources */,
+				96130EA01AEE490A005D2A86 /* OpenSans-Light.ttf in Resources */,
+				96130EA11AEE490A005D2A86 /* MpinStatus.h in Resources */,
+				96E21A571AF8AE6C00490625 /* en_BG.strings in Resources */,
+				96130EA21AEE490A005D2A86 /* Main_iPhone.storyboard in Resources */,
+				96130EA31AEE490A005D2A86 /* Main_iPad.storyboard in Resources */,
+				968591A21AEE53F200726E63 /* OlswangImages.xcassets in Resources */,
+				96130EA41AEE490A005D2A86 /* OpenSans-SemiboldItalic.ttf in Resources */,
+				96130EA51AEE490A005D2A86 /* InfoPlist.strings in Resources */,
+				96130EA71AEE490A005D2A86 /* OpenSans-Regular.ttf in Resources */,
+				96130EA81AEE490A005D2A86 /* OpenSans-ExtraBold.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9649BCB01AC16D1000B9F41B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -694,14 +996,16 @@
 				9649BCB61AC16D1000B9F41B /* LaunchScreen.xib in Resources */,
 				9649BCB71AC16D1000B9F41B /* Constants.h in Resources */,
 				9649BCB81AC16D1000B9F41B /* OpenSans-LightItalic.ttf in Resources */,
+				96E21A551AF8AE6C00490625 /* en_BG.strings in Resources */,
 				9649BCB91AC16D1000B9F41B /* OpenSans-BoldItalic.ttf in Resources */,
 				9649BCBB1AC16D1000B9F41B /* MPin.h in Resources */,
 				9649BCBC1AC16D1000B9F41B /* OpenSans-Semibold.ttf in Resources */,
 				9649BCBD1AC16D1000B9F41B /* OpenSans-Light.ttf in Resources */,
+				968591CB1AF0C7E200726E63 /* Localizable.strings in Resources */,
 				9649BCBE1AC16D1000B9F41B /* MpinStatus.h in Resources */,
 				9649BCC01AC16D1000B9F41B /* Main_iPhone.storyboard in Resources */,
 				9649BCC11AC16D1000B9F41B /* Main_iPad.storyboard in Resources */,
-				968A18131ACA8E80000C0DB0 /* DimensionDataImages.xcassets in Resources */,
+				968591A01AEE53EB00726E63 /* DimensionDataImages.xcassets in Resources */,
 				9649BCC21AC16D1000B9F41B /* OpenSans-SemiboldItalic.ttf in Resources */,
 				9649BCC31AC16D1000B9F41B /* InfoPlist.strings in Resources */,
 				9649BCC41AC16D1000B9F41B /* OpenSans-Regular.ttf in Resources */,
@@ -715,6 +1019,7 @@
 			files = (
 				960D6A941A88C0E20068E0F7 /* OpenSans-Bold.ttf in Resources */,
 				960D6AA31A88C0E20068E0F7 /* Settings.bundle in Resources */,
+				968591CA1AF0C7E200726E63 /* Localizable.strings in Resources */,
 				960D6A971A88C0E20068E0F7 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				960D6A981A88C0E20068E0F7 /* OpenSans-Italic.ttf in Resources */,
 				968A180C1ACA8C58000C0DB0 /* Colors.plist in Resources */,
@@ -724,16 +1029,18 @@
 				960D6A9A1A88C0E20068E0F7 /* OpenSans-LightItalic.ttf in Resources */,
 				960D6A951A88C0E20068E0F7 /* OpenSans-BoldItalic.ttf in Resources */,
 				FE148D401A2F0FB7007E83EF /* MPin.h in Resources */,
+				96130E191AEE35DA005D2A86 /* Backends.plist in Resources */,
 				960D6A9C1A88C0E20068E0F7 /* OpenSans-Semibold.ttf in Resources */,
 				960D6A991A88C0E20068E0F7 /* OpenSans-Light.ttf in Resources */,
 				FE148D411A2F0FB7007E83EF /* MpinStatus.h in Resources */,
+				96E21A541AF8AE6C00490625 /* en_BG.strings in Resources */,
 				FEFFDDF21A1A4268007C7CAA /* Main_iPhone.storyboard in Resources */,
 				FE4900311A1A3CEB000030A4 /* Main_iPad.storyboard in Resources */,
 				960D6A9D1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				FE4900251A1A3CEB000030A4 /* InfoPlist.strings in Resources */,
-				96B27CAD1ACADE6A007145C2 /* CertivoxImages.xcassets in Resources */,
 				960D6A9B1A88C0E20068E0F7 /* OpenSans-Regular.ttf in Resources */,
 				960D6A961A88C0E20068E0F7 /* OpenSans-ExtraBold.ttf in Resources */,
+				968591A11AEE53EE00726E63 /* CertivoxImages.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -748,6 +1055,94 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		96130E1E1AEE4867005D2A86 /* Build number generator */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build number generator";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "echo \"########################################################################################################\"\necho \"###                                    ${CONFIGURATION}                                              ###\"\necho \"########################################################################################################\"\nif [ \"${CONFIGURATION}\" = \"QA\" ]; then\nbN=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbN=$((bN += 1))\nbN=$(printf \"%d\" $bN)\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $bN\" \"$INFOPLIST_FILE\"\necho \" Build number was updated\"\necho \"########################################################################################################\"\nelse\necho \"!!!Skip Build number update\"\necho \"########################################################################################################\"\nfi\n";
+		};
+		96130E1F1AEE4867005D2A86 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		96130E471AEE4867005D2A86 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		96130E681AEE490A005D2A86 /* Build number generator */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build number generator";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "echo \"########################################################################################################\"\necho \"###                                    ${CONFIGURATION}                                              ###\"\necho \"########################################################################################################\"\nif [ \"${CONFIGURATION}\" = \"QA\" ]; then\nbN=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbN=$((bN += 1))\nbN=$(printf \"%d\" $bN)\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $bN\" \"$INFOPLIST_FILE\"\necho \" Build number was updated\"\necho \"########################################################################################################\"\nelse\necho \"!!!Skip Build number update\"\necho \"########################################################################################################\"\nfi\n";
+		};
+		96130E691AEE490A005D2A86 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		96130E911AEE490A005D2A86 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		9649BC8A1AC16D1000B9F41B /* Build number generator */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
@@ -806,6 +1201,20 @@
 			shellPath = /bin/bash;
 			shellScript = "echo \"########################################################################################################\"\necho \"###                                    ${CONFIGURATION}                                              ###\"\necho \"########################################################################################################\"\nif [ \"${CONFIGURATION}\" = \"QA\" ]; then\nbN=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbN=$((bN += 1))\nbN=$(printf \"%d\" $bN)\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $bN\" \"$INFOPLIST_FILE\"\necho \" Build number was updated\"\necho \"########################################################################################################\"\nelse\necho \"!!!Skip Build number update\"\necho \"########################################################################################################\"\nfi\n";
 		};
+		96D3CAD31AEE5169004BAC3A /* Adding assets */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Adding assets";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"Handling Assets\"\n\nxcassetsFile=\"${PROJECT_DIR}/Resources/${PRODUCT_NAME}/${PRODUCT_NAME}Images.xcassets\"\nappSpecificXcassetsFile=\"${PROJECT_DIR}/../Artwork/${PRODUCT_NAME}/Local Images.xcassets\"\n\nif [ -d \"$appSpecificXcassetsFile\" ] ; then\n\ndiff \"$xcassetsFile\" \"$appSpecificXcassetsFile\" > /dev/null\nif [[ $? != 0 ]] ; then\n\necho \"Assets file has changed\"\n\necho \"Removing existing xcassets folder: $xcassetsFile\"\nrm -rf \"$xcassetsFile\"\n\necho \"Copying local xcassets folder: $appSpecificXcassetsFile\"\ncp -r \"$appSpecificXcassetsFile\" \"$xcassetsFile\"\n\ntouch \"$xcassetsFile\"\n\nelse\n\necho \"Assets file has not changed\"\n\nfi\n\nfi";
+		};
 		A84CFE24885B00EAC61002FD /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -839,10 +1248,89 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		96130E201AEE4867005D2A86 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96130E211AEE4867005D2A86 /* ConfigurationManager.m in Sources */,
+				96130E221AEE4867005D2A86 /* ConfirmEmailViewController.m in Sources */,
+				96130E231AEE4867005D2A86 /* CycleProgressBar.m in Sources */,
+				96130E241AEE4867005D2A86 /* AccountSummaryViewController.m in Sources */,
+				96130E251AEE4867005D2A86 /* UIViewController+Helper.m in Sources */,
+				96130E261AEE4867005D2A86 /* NSString+Helper.m in Sources */,
+				96130E271AEE4867005D2A86 /* AddIdentityViewController.m in Sources */,
+				96130E281AEE4867005D2A86 /* BackButton.m in Sources */,
+				96130E291AEE4867005D2A86 /* PinPadViewController.m in Sources */,
+				96130E2A1AEE4867005D2A86 /* MenuViewController.m in Sources */,
+				96130E2B1AEE4867005D2A86 /* SettingsViewCell.m in Sources */,
+				96130E2C1AEE4867005D2A86 /* AboutViewController.m in Sources */,
+				96130E2D1AEE4867005D2A86 /* ThemeManager.m in Sources */,
+				96130E2E1AEE4867005D2A86 /* AddSettingViewController.m in Sources */,
+				96130E2F1AEE4867005D2A86 /* DigitPadViewController.m in Sources */,
+				96130E301AEE4867005D2A86 /* main.m in Sources */,
+				96130E311AEE4867005D2A86 /* OTPViewController.m in Sources */,
+				96130E321AEE4867005D2A86 /* TextFieldTableViewCell.m in Sources */,
+				96130E331AEE4867005D2A86 /* AccessNumberViewController.m in Sources */,
+				96130E341AEE4867005D2A86 /* UIColor+Helper.m in Sources */,
+				968591B81AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
+				96130E351AEE4867005D2A86 /* ConfigListTableViewCell.m in Sources */,
+				96130E361AEE4867005D2A86 /* MPin+AsyncOperations.m in Sources */,
+				96130E371AEE4867005D2A86 /* SettingsManager.m in Sources */,
+				96130E381AEE4867005D2A86 /* UIView+Helper.m in Sources */,
+				96130E391AEE4867005D2A86 /* IdentityCreatedViewController.m in Sources */,
+				96130E3A1AEE4867005D2A86 /* IdentityBlockedViewController.m in Sources */,
+				96130E3B1AEE4867005D2A86 /* SettingsViewController.m in Sources */,
+				96130E3C1AEE4867005D2A86 /* AppDelegate.mm in Sources */,
+				96130E3D1AEE4867005D2A86 /* MenuTableViewCell.m in Sources */,
+				96130E3E1AEE4867005D2A86 /* OptionSelectTableViewCell.m in Sources */,
+				96130E3F1AEE4867005D2A86 /* UserListViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		96130E6A1AEE490A005D2A86 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96130E6B1AEE490A005D2A86 /* ConfigurationManager.m in Sources */,
+				96130E6C1AEE490A005D2A86 /* ConfirmEmailViewController.m in Sources */,
+				96130E6D1AEE490A005D2A86 /* CycleProgressBar.m in Sources */,
+				96130E6E1AEE490A005D2A86 /* AccountSummaryViewController.m in Sources */,
+				96130E6F1AEE490A005D2A86 /* UIViewController+Helper.m in Sources */,
+				96130E701AEE490A005D2A86 /* NSString+Helper.m in Sources */,
+				96130E711AEE490A005D2A86 /* AddIdentityViewController.m in Sources */,
+				96130E721AEE490A005D2A86 /* BackButton.m in Sources */,
+				96130E731AEE490A005D2A86 /* PinPadViewController.m in Sources */,
+				96130E741AEE490A005D2A86 /* MenuViewController.m in Sources */,
+				96130E751AEE490A005D2A86 /* SettingsViewCell.m in Sources */,
+				96130E761AEE490A005D2A86 /* AboutViewController.m in Sources */,
+				96130E771AEE490A005D2A86 /* ThemeManager.m in Sources */,
+				96130E781AEE490A005D2A86 /* AddSettingViewController.m in Sources */,
+				96130E791AEE490A005D2A86 /* DigitPadViewController.m in Sources */,
+				96130E7A1AEE490A005D2A86 /* main.m in Sources */,
+				96130E7B1AEE490A005D2A86 /* OTPViewController.m in Sources */,
+				96130E7C1AEE490A005D2A86 /* TextFieldTableViewCell.m in Sources */,
+				96130E7D1AEE490A005D2A86 /* AccessNumberViewController.m in Sources */,
+				96130E7E1AEE490A005D2A86 /* UIColor+Helper.m in Sources */,
+				968591B91AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
+				96130E7F1AEE490A005D2A86 /* ConfigListTableViewCell.m in Sources */,
+				96130E801AEE490A005D2A86 /* MPin+AsyncOperations.m in Sources */,
+				96130E811AEE490A005D2A86 /* SettingsManager.m in Sources */,
+				96130E821AEE490A005D2A86 /* UIView+Helper.m in Sources */,
+				96130E831AEE490A005D2A86 /* IdentityCreatedViewController.m in Sources */,
+				96130E841AEE490A005D2A86 /* IdentityBlockedViewController.m in Sources */,
+				96130E851AEE490A005D2A86 /* SettingsViewController.m in Sources */,
+				96130E861AEE490A005D2A86 /* AppDelegate.mm in Sources */,
+				96130E871AEE490A005D2A86 /* MenuTableViewCell.m in Sources */,
+				96130E881AEE490A005D2A86 /* OptionSelectTableViewCell.m in Sources */,
+				96130E891AEE490A005D2A86 /* UserListViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9649BC8C1AC16D1000B9F41B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				968591B71AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
 				9649BC8D1AC16D1000B9F41B /* ConfirmEmailViewController.m in Sources */,
 				9649BC8F1AC16D1000B9F41B /* CycleProgressBar.m in Sources */,
 				9649BC901AC16D1000B9F41B /* AccountSummaryViewController.m in Sources */,
@@ -900,6 +1388,7 @@
 				9699B2521AADF7F0008AA313 /* TextFieldTableViewCell.m in Sources */,
 				FEFA500E1A7143DB002D6E24 /* AccessNumberViewController.m in Sources */,
 				968D0A441A7B93C00037841D /* UIColor+Helper.m in Sources */,
+				968591B61AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
 				961957491A97276100C93604 /* ConfigListTableViewCell.m in Sources */,
 				FE8129671ABAB61B008677CE /* MPin+AsyncOperations.m in Sources */,
 				96F62A251AC30FAF00B25B53 /* SettingsManager.m in Sources */,
@@ -934,6 +1423,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		968591CF1AF0C7E200726E63 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				968591D11AF0C7F300726E63 /* Base */,
+				968591D81AF0C9D400726E63 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		FE4900231A1A3CEB000030A4 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -962,6 +1460,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				FEFFDDF11A1A4268007C7CAA /* Base */,
+				968591AD1AF0BAAF00726E63 /* en */,
 			);
 			name = Main_iPhone.storyboard;
 			sourceTree = "<group>";
@@ -969,6 +1468,212 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		96130E601AEE4867005D2A86 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 424F5ACA40BA9B3F96DAFF57 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/NTTComSecurity/NTTComSecurityMPin.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = "NTTComSecurity MPin";
+				USER_HEADER_SEARCH_PATHS = "../**";
+				VERSIONING_SYSTEM = "apple-generic";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		96130E611AEE4867005D2A86 /* QA */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 05E7AD758BE70B1A9530DEA4 /* Pods.qa.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/NTTComSecurity/NTTComSecurityMPin.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = "NTTComSecurity MPin";
+				USER_HEADER_SEARCH_PATHS = "../**";
+				VERSIONING_SYSTEM = "apple-generic";
+				WRAPPER_EXTENSION = app;
+			};
+			name = QA;
+		};
+		96130E621AEE4867005D2A86 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4A273B391E35D7265DFB7EB0 /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CURRENT_PROJECT_VERSION = 1;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/NTTComSecurity/NTTComSecurityMPin.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = "NTTComSecurity MPin";
+				PROVISIONING_PROFILE = "";
+				USER_HEADER_SEARCH_PATHS = "../**";
+				VERSIONING_SYSTEM = "apple-generic";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		96130E631AEE4867005D2A86 /* AppStore */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D2C36EBE5499747947972F44 /* Pods.appstore.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CURRENT_PROJECT_VERSION = 1;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/NTTComSecurity/NTTComSecurityMPin.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = "NTTComSecurity MPin";
+				PROVISIONING_PROFILE = "";
+				USER_HEADER_SEARCH_PATHS = "../**";
+				VERSIONING_SYSTEM = "apple-generic";
+				WRAPPER_EXTENSION = app;
+			};
+			name = AppStore;
+		};
+		96130E641AEE4867005D2A86 /* AdHoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6E028F143C41C1BDD98336EC /* Pods.adhoc.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CURRENT_PROJECT_VERSION = 1;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/NTTComSecurity/NTTComSecurityMPin.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = "NTTComSecurity MPin";
+				PROVISIONING_PROFILE = "";
+				USER_HEADER_SEARCH_PATHS = "../**";
+				VERSIONING_SYSTEM = "apple-generic";
+				WRAPPER_EXTENSION = app;
+			};
+			name = AdHoc;
+		};
+		96130EAA1AEE490A005D2A86 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 424F5ACA40BA9B3F96DAFF57 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Olswang/OlswangMPin.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = "Olswang MPin";
+				USER_HEADER_SEARCH_PATHS = "../**";
+				VERSIONING_SYSTEM = "apple-generic";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		96130EAB1AEE490A005D2A86 /* QA */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 05E7AD758BE70B1A9530DEA4 /* Pods.qa.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Olswang/OlswangMPin.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = "Olswang MPin";
+				USER_HEADER_SEARCH_PATHS = "../**";
+				VERSIONING_SYSTEM = "apple-generic";
+				WRAPPER_EXTENSION = app;
+			};
+			name = QA;
+		};
+		96130EAC1AEE490A005D2A86 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4A273B391E35D7265DFB7EB0 /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CURRENT_PROJECT_VERSION = 1;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Olswang/OlswangMPin.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = "Olswang MPin";
+				PROVISIONING_PROFILE = "";
+				USER_HEADER_SEARCH_PATHS = "../**";
+				VERSIONING_SYSTEM = "apple-generic";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		96130EAD1AEE490A005D2A86 /* AppStore */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D2C36EBE5499747947972F44 /* Pods.appstore.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CURRENT_PROJECT_VERSION = 1;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Olswang/OlswangMPin.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = "Olswang MPin";
+				PROVISIONING_PROFILE = "";
+				USER_HEADER_SEARCH_PATHS = "../**";
+				VERSIONING_SYSTEM = "apple-generic";
+				WRAPPER_EXTENSION = app;
+			};
+			name = AppStore;
+		};
+		96130EAE1AEE490A005D2A86 /* AdHoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6E028F143C41C1BDD98336EC /* Pods.adhoc.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CURRENT_PROJECT_VERSION = 1;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Olswang/OlswangMPin.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = "Olswang MPin";
+				PROVISIONING_PROFILE = "";
+				USER_HEADER_SEARCH_PATHS = "../**";
+				VERSIONING_SYSTEM = "apple-generic";
+				WRAPPER_EXTENSION = app;
+			};
+			name = AdHoc;
+		};
 		9649BCC81AC16D1000B9F41B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 424F5ACA40BA9B3F96DAFF57 /* Pods.debug.xcconfig */;
@@ -979,7 +1684,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
-				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/AppPlist/DDMPin.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/DimensionData/DDMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1037,13 +1742,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
-				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/AppPlist/CertivoxMPin.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Certivox/CertivoxMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/MPin-fkvltgzbxheajafuhhxznfslxxnp/Build/Products/Release-iphoneos",
-					"/Users/tihomirganev/Projects/project/xcode/Pods/build/Debug-iphoneos",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "../**";
@@ -1081,7 +1782,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
-				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/AppPlist/DDMPin.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/DimensionData/DDMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1140,13 +1841,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
-				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/AppPlist/CertivoxMPin.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Certivox/CertivoxMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/MPin-fkvltgzbxheajafuhhxznfslxxnp/Build/Products/Release-iphoneos",
-					"/Users/tihomirganev/Projects/project/xcode/Pods/build/Debug-iphoneos",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "../**";
@@ -1184,7 +1881,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
-				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/AppPlist/DDMPin.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/DimensionData/DDMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1249,13 +1946,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
-				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/AppPlist/CertivoxMPin.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Certivox/CertivoxMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/MPin-fkvltgzbxheajafuhhxznfslxxnp/Build/Products/Release-iphoneos",
-					"/Users/tihomirganev/Projects/project/xcode/Pods/build/Debug-iphoneos",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1296,7 +1989,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
-				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/AppPlist/DDMPin.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/DimensionData/DDMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1355,13 +2048,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
-				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/AppPlist/CertivoxMPin.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Certivox/CertivoxMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/MPin-fkvltgzbxheajafuhhxznfslxxnp/Build/Products/Release-iphoneos",
-					"/Users/tihomirganev/Projects/project/xcode/Pods/build/Debug-iphoneos",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "../**";
@@ -1399,7 +2088,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
-				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/AppPlist/DDMPin.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/DimensionData/DDMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1464,13 +2153,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
-				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/AppPlist/CertivoxMPin.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Certivox/CertivoxMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/MPin-fkvltgzbxheajafuhhxznfslxxnp/Build/Products/Release-iphoneos",
-					"/Users/tihomirganev/Projects/project/xcode/Pods/build/Debug-iphoneos",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1504,6 +2189,30 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		96130E5F1AEE4867005D2A86 /* Build configuration list for PBXNativeTarget "NTTComSecurity" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				96130E601AEE4867005D2A86 /* Debug */,
+				96130E611AEE4867005D2A86 /* QA */,
+				96130E621AEE4867005D2A86 /* Release */,
+				96130E631AEE4867005D2A86 /* AppStore */,
+				96130E641AEE4867005D2A86 /* AdHoc */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = QA;
+		};
+		96130EA91AEE490A005D2A86 /* Build configuration list for PBXNativeTarget "Olswang" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				96130EAA1AEE490A005D2A86 /* Debug */,
+				96130EAB1AEE490A005D2A86 /* QA */,
+				96130EAC1AEE490A005D2A86 /* Release */,
+				96130EAD1AEE490A005D2A86 /* AppStore */,
+				96130EAE1AEE490A005D2A86 /* AdHoc */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = QA;
+		};
 		9649BCC71AC16D1000B9F41B /* Build configuration list for PBXNativeTarget "DD MPin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -45,7 +45,12 @@
 {
     [super viewWillAppear:animated];
     self.lblUserID.text = [self.iuser getIdentity];
-    self.lblMessage.text = [NSString stringWithFormat:@"We have sent you an email to: \r\n %@ \r\n Click the link in the email to confirm your identity and proceed.", [self.iuser getIdentity]];
+    self.title = NSLocalizedString(@"CONFIRM_EMAIL_VC_TITLE", @"");
+
+    self.lblMessage.text = [NSString stringWithFormat:NSLocalizedString(@"CONFIRM_EMAIL_VC_LBL_MESSAGE", @""), [self.iuser getIdentity]];
+    [self.btnEmailConfirmed setTitle:NSLocalizedString(@"CONFIRM_EMAIL_VC_BTN_EMAIL_CONFIRMED", @"") forState:UIControlStateNormal];
+    [self.btnGoToIdList setTitle:NSLocalizedString(@"CONFIRM_EMAIL_VC_BTN_GOTO_ID_LIST", @"") forState:UIControlStateNormal];
+    [self.btnResendEmail setTitle:NSLocalizedString(@"CONFIRM_EMAIL_VC_BTN_RESEND_EMAIL", @"") forState:UIControlStateNormal];
 }
 
 - (void)viewDidAppear:(BOOL)animated

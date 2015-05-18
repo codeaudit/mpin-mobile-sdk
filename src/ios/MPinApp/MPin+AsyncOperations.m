@@ -282,7 +282,7 @@ static BOOL isInitialized = false;
                                  error:&error])
         {
             [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
-                    localizedReason:@"Please verify fingerprint"
+                    localizedReason:NSLocalizedString(@"WARNING_VERIFY_FINGER", @"")
                               reply:touchIDBlock];
         }
         else
@@ -320,7 +320,6 @@ static BOOL isInitialized = false;
 
 - (void)AuthenticateOTP:(id<IUser>)user
 {
-
     dispatch_async(dispatch_get_main_queue(), ^(void){
         LAContext *context = [[LAContext alloc] init];
         NSError *error;
@@ -328,7 +327,7 @@ static BOOL isInitialized = false;
                                  error:&error])
         {
             [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
-                    localizedReason:@"Please verify fingerprint"
+                    localizedReason:NSLocalizedString(@"WARNING_VERIFY_FINGER", @"")
                               reply:^(BOOL success, NSError *authenticationError)
              {
                  if (success)
@@ -404,7 +403,7 @@ static BOOL isInitialized = false;
 
 
 
-- (void) AuthenticateAccessNumber:(id<IUser>) user  accessNumber:(NSString *) an
+- (void) AuthenticateAN:(id<IUser>) user  accessNumber:(NSString *) an
 {
     dispatch_async(dispatch_get_main_queue(), ^(void)
     {
@@ -413,7 +412,7 @@ static BOOL isInitialized = false;
         if ([context canEvaluatePolicy: LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error])
         {
             [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
-                    localizedReason:@"Please verify fingerprint"
+                    localizedReason:NSLocalizedString(@"WARNING_VERIFY_FINGER", @"")
                               reply:^(BOOL success, NSError *authenticationError)
              {
                  if (success) {
