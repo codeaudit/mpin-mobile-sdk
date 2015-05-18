@@ -74,10 +74,6 @@ public class Mpin implements Closeable {
 		return nAuthenticateAccessNumber(mPtr, user, accessNumber);
 	}
 
-	public Status ResetPin(User user) {
-		return nResetPin(mPtr, user);
-	}
-
 	public void DeleteUser(User user) {
 		nDeleteUser(mPtr, user);
 	}
@@ -139,8 +135,6 @@ public class Mpin implements Closeable {
 
 	private native Status nAuthenticateAccessNumber(long ptr, User user,
 			String accessNumber);
-
-	private native Status nResetPin(long ptr, User user);
 
 	private native void nDeleteUser(long ptr, User user);
 
