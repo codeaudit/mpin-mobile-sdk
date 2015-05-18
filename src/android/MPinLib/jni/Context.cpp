@@ -60,7 +60,7 @@ Context::~Context() {
 	RELEASE(m_pInstance)
 }
 
-MPinSDK::String Context::Show() {
+MPinSDK::String Context::Show(MPinSDK::IPinPad::Mode mode) {
 	JNIEnv* env = JNI_getJENV();
 	jclass clsPinPad = env->FindClass("com/certivox/activities/MPinActivity");
 	jmethodID midShow = env->GetStaticMethodID(clsPinPad, "show",
