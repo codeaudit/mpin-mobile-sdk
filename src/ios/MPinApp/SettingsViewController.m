@@ -11,19 +11,19 @@
 #import "AddSettingViewController.h"
 #import "AppDelegate.h"
 #import "Constants.h"
-#import "ATMHud.h"
 #import "UIViewController+Helper.h"
 #import "MenuViewController.h"
 #import "ConfigurationManager.h"
 #import "MFSideMenu.h"
 #import "ThemeManager.h"
+#import "ErrorHandler.h"
+
 
 #define NONE 0
 #define OTP 1
 #define AN 2
 
 @interface SettingsViewController () {
-    ATMHud* hud;
     MPin* sdk;
 }
 - (IBAction)gotoIdentityList:(id)sender;
@@ -38,7 +38,6 @@
 {
     [super viewDidLoad];
 
-    hud = [[ATMHud alloc] initWithDelegate:self];
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
     [[ThemeManager sharedManager] beautifyViewController:self];
@@ -121,10 +120,8 @@
         return;
     }
     NSInteger intSelectedConfiguration = indexPath.row;
-    hud.minShowTime = 1.0;
-    [hud setCaption:NSLocalizedString(@"HUD_CHANGE_CONFIGURATION", @"")];
-    [hud setActivity:YES];
-    [hud showInView:self.view];
+    [[ErrorHandler sharedManager] startLoadingInController:self
+                                                   message:NSLocalizedString(@"HUD_CHANGE_CONFIGURATION", @"")];
 
     NSString* rpsPrefix = [[ConfigurationManager sharedManager] getPrefixAtIndex:intSelectedConfiguration];
     NSString* url = [[ConfigurationManager sharedManager] getURLAtIndex:intSelectedConfiguration];
@@ -139,22 +136,27 @@
     [(MenuViewController*)self.menuContainerViewController.leftMenuViewController setConfiguration];
 }
 
-- (void)OnSetBackendCompleted:(id)sender
-{
-    [hud hide];
-}
-
-- (void)OnSetBackendError:(id)sender error:(NSError*)error
-{
-    [hud hide];
-    MpinStatus* status = (error.userInfo)[kMPinSatus];
-    [self showError:[status getStatusCodeAsString] desc:status.errorMessage];
-}
 
 - (BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath
 {
     return NO;
 }
+
+- (void)OnSetBackendCompleted:(id)sender
+{
+    [[ErrorHandler sharedManager] stopLoading];
+}
+
+- (void)OnSetBackendError:(id)sender error:(NSError*)error
+{
+    [[ErrorHandler sharedManager] stopLoading];
+    MpinStatus* status = (error.userInfo)[kMPinSatus];
+    [[ErrorHandler sharedManager] presentErrorInViewController:self
+                                                   errorString:status.errorMessage
+                                          addActivityIndicator:NO
+                                             autoHideInSeconds:0];
+}
+
 
 #pragma mark - Custom actions -
 - (IBAction)add:(id)sender
@@ -176,11 +178,10 @@
         [self.navigationController pushViewController:addViewController animated:YES];
     }
     else {
-        hud.minShowTime = 2.0;
-        [hud setCaption:NSLocalizedString(@"WARNING_CANNOT_EDIT_PREDEFINED_CONFIG", @"")];
-        [hud setActivity:NO];
-        [hud showInView:self.view];
-        [hud hide];
+        [[ErrorHandler sharedManager] presentErrorInViewController:self
+                                                       errorString:NSLocalizedString(@"WARNING_CANNOT_EDIT_PREDEFINED_CONFIG", @"")
+                                              addActivityIndicator:NO
+                                                 autoHideInSeconds:0];
     }
 }
 
@@ -195,11 +196,10 @@
         [alertView show];
     }
     else {
-        hud.minShowTime = 2.0;
-        [hud setCaption:NSLocalizedString(@"WARNING_CANNOT_DELETE_PREDEFINED_CONFIG", @"")];
-        [hud setActivity:NO];
-        [hud showInView:self.view];
-        [hud hide];
+        [[ErrorHandler sharedManager] presentErrorInViewController:self
+                                                       errorString:NSLocalizedString(@"WARNING_CANNOT_DELETE_PREDEFINED_CONFIG", @"")
+                                              addActivityIndicator:NO
+                                                 autoHideInSeconds:0];
     }
 }
 

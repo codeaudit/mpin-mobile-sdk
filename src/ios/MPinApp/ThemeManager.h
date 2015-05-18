@@ -19,6 +19,4 @@
 - (void)customiseMenuCell:(MenuTableViewCell*)cell;
 - (void)customiseConfigurationListCell:(ConfigListTableViewCell*)cell;
 
-@property (nonatomic, strong) ATMHud* hud;
-
 @end

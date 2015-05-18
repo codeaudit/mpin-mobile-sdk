@@ -226,6 +226,10 @@
 		96F62A241AC30FAF00B25B53 /* ConfigurationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A211AC30FAF00B25B53 /* ConfigurationManager.m */; };
 		96F62A251AC30FAF00B25B53 /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A231AC30FAF00B25B53 /* SettingsManager.m */; };
 		96F62A281AC311D000B25B53 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A261AC311D000B25B53 /* AboutViewController.m */; };
+		96F78E1C1B05E5B8005C2C7D /* ErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F78E1B1B05E5B8005C2C7D /* ErrorHandler.m */; };
+		96F78E1D1B05E5B8005C2C7D /* ErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F78E1B1B05E5B8005C2C7D /* ErrorHandler.m */; };
+		96F78E1E1B05E5B8005C2C7D /* ErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F78E1B1B05E5B8005C2C7D /* ErrorHandler.m */; };
+		96F78E1F1B05E5B8005C2C7D /* ErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F78E1B1B05E5B8005C2C7D /* ErrorHandler.m */; };
 		C1A44EE9BAB1DEBF8C368A7C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8967D6B49D70B9963207D4 /* libPods.a */; };
 		FE148D3F1A2F0FB7007E83EF /* Constants.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3C1A2F0FB7007E83EF /* Constants.h */; };
 		FE148D401A2F0FB7007E83EF /* MPin.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3D1A2F0FB7007E83EF /* MPin.h */; };
@@ -241,11 +245,6 @@
 		FE4900251A1A3CEB000030A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE4900231A1A3CEB000030A4 /* InfoPlist.strings */; };
 		FE4900271A1A3CEB000030A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4900261A1A3CEB000030A4 /* main.m */; };
 		FE4900311A1A3CEB000030A4 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE49002F1A1A3CEB000030A4 /* Main_iPad.storyboard */; };
-		FE49003D1A1A3CEB000030A4 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49003C1A1A3CEB000030A4 /* XCTest.framework */; };
-		FE49003E1A1A3CEB000030A4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001A1A1A3CEB000030A4 /* Foundation.framework */; };
-		FE49003F1A1A3CEB000030A4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001E1A1A3CEB000030A4 /* UIKit.framework */; };
-		FE4900471A1A3CEB000030A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE4900451A1A3CEB000030A4 /* InfoPlist.strings */; };
-		FE4900491A1A3CEB000030A4 /* MPinAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4900481A1A3CEB000030A4 /* MPinAppTests.m */; };
 		FE4AEB051A443137000B3181 /* OTPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4AEB041A443137000B3181 /* OTPViewController.m */; };
 		FE4AEB081A443E4C000B3181 /* CycleProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4AEB071A443E4C000B3181 /* CycleProgressBar.m */; };
 		FE72C3451A6E519D0082F14D /* SettingsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE72C3441A6E519D0082F14D /* SettingsViewCell.m */; };
@@ -259,16 +258,6 @@
 		FEFA50111A7148E5002D6E24 /* DigitPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFA50101A7148E5002D6E24 /* DigitPadViewController.m */; };
 		FEFFDDF21A1A4268007C7CAA /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEFFDDF01A1A4268007C7CAA /* Main_iPhone.storyboard */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		FE4900401A1A3CEB000030A4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FE49000F1A1A3CEB000030A4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FE4900161A1A3CEB000030A4;
-			remoteInfo = MPinApp;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		05E7AD758BE70B1A9530DEA4 /* Pods.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.qa.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.qa.xcconfig"; sourceTree = "<group>"; };
@@ -345,6 +334,8 @@
 		96F62A231AC30FAF00B25B53 /* SettingsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsManager.m; path = ../../../../src/ios/MPinApp/SettingsManager.m; sourceTree = "<group>"; };
 		96F62A261AC311D000B25B53 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutViewController.m; path = ../../../../src/ios/MPinApp/AboutViewController.m; sourceTree = "<group>"; };
 		96F62A271AC311D000B25B53 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutViewController.h; path = ../../../../src/ios/MPinApp/AboutViewController.h; sourceTree = "<group>"; };
+		96F78E1A1B05E5B8005C2C7D /* ErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ErrorHandler.h; path = ../../../../src/ios/MPinApp/ErrorHandler.h; sourceTree = "<group>"; };
+		96F78E1B1B05E5B8005C2C7D /* ErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ErrorHandler.m; path = ../../../../src/ios/MPinApp/ErrorHandler.m; sourceTree = "<group>"; };
 		D2C36EBE5499747947972F44 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
 		FE148D3C1A2F0FB7007E83EF /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../../../src/ios/MPinSDK/Constants.h; sourceTree = "<group>"; };
 		FE148D3D1A2F0FB7007E83EF /* MPin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MPin.h; path = ../../../src/ios/MPinSDK/MPin.h; sourceTree = "<group>"; };
@@ -366,7 +357,6 @@
 		FE4900261A1A3CEB000030A4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		FE4900281A1A3CEB000030A4 /* MPinApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MPinApp-Prefix.pch"; sourceTree = "<group>"; };
 		FE4900301A1A3CEB000030A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
-		FE49003B1A1A3CEB000030A4 /* MPinAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MPinAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE49003C1A1A3CEB000030A4 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		FE4900441A1A3CEB000030A4 /* MPinAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MPinAppTests-Info.plist"; sourceTree = "<group>"; };
 		FE4900461A1A3CEB000030A4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -449,16 +439,6 @@
 				FE49001F1A1A3CEB000030A4 /* UIKit.framework in Frameworks */,
 				FE49001B1A1A3CEB000030A4 /* Foundation.framework in Frameworks */,
 				C1A44EE9BAB1DEBF8C368A7C /* libPods.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FE4900381A1A3CEB000030A4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FE49003D1A1A3CEB000030A4 /* XCTest.framework in Frameworks */,
-				FE49003F1A1A3CEB000030A4 /* UIKit.framework in Frameworks */,
-				FE49003E1A1A3CEB000030A4 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -674,6 +654,8 @@
 				961957451A960E9900C93604 /* ThemeManager.m */,
 				968591B41AF0BEFC00726E63 /* LocalizationManager.h */,
 				968591B51AF0BEFC00726E63 /* LocalizationManager.m */,
+				96F78E1A1B05E5B8005C2C7D /* ErrorHandler.h */,
+				96F78E1B1B05E5B8005C2C7D /* ErrorHandler.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -699,7 +681,6 @@
 			isa = PBXGroup;
 			children = (
 				FE4900171A1A3CEB000030A4 /* CertiVox M-Pin.app */,
-				FE49003B1A1A3CEB000030A4 /* MPinAppTests.xctest */,
 				9649BCCA1AC16D1000B9F41B /* DD MPin.app */,
 				96130E651AEE4867005D2A86 /* NTTComSecurity MPin.app */,
 				96130EAF1AEE490A005D2A86 /* Olswang MPin.app */,
@@ -855,24 +836,6 @@
 			productReference = FE4900171A1A3CEB000030A4 /* CertiVox M-Pin.app */;
 			productType = "com.apple.product-type.application";
 		};
-		FE49003A1A1A3CEB000030A4 /* MPinAppTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = FE49004F1A1A3CEB000030A4 /* Build configuration list for PBXNativeTarget "MPinAppTests" */;
-			buildPhases = (
-				FE4900371A1A3CEB000030A4 /* Sources */,
-				FE4900381A1A3CEB000030A4 /* Frameworks */,
-				FE4900391A1A3CEB000030A4 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				FE4900411A1A3CEB000030A4 /* PBXTargetDependency */,
-			);
-			name = MPinAppTests;
-			productName = MPinAppTests;
-			productReference = FE49003B1A1A3CEB000030A4 /* MPinAppTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -887,9 +850,6 @@
 					};
 					FE4900161A1A3CEB000030A4 = {
 						DevelopmentTeam = WF6XYF7P2L;
-					};
-					FE49003A1A1A3CEB000030A4 = {
-						TestTargetID = FE4900161A1A3CEB000030A4;
 					};
 				};
 			};
@@ -910,7 +870,6 @@
 				9649BC891AC16D1000B9F41B /* DD MPin */,
 				96130E1D1AEE4867005D2A86 /* NTTComSecurity */,
 				96130E671AEE490A005D2A86 /* Olswang */,
-				FE49003A1A1A3CEB000030A4 /* MPinAppTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1036,14 +995,6 @@
 				960D6A9B1A88C0E20068E0F7 /* OpenSans-Regular.ttf in Resources */,
 				960D6A961A88C0E20068E0F7 /* OpenSans-ExtraBold.ttf in Resources */,
 				968591A11AEE53EE00726E63 /* CertivoxImages.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FE4900391A1A3CEB000030A4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FE4900471A1A3CEB000030A4 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1271,6 +1222,7 @@
 				96130E351AEE4867005D2A86 /* ConfigListTableViewCell.m in Sources */,
 				96130E361AEE4867005D2A86 /* MPin+AsyncOperations.m in Sources */,
 				96130E371AEE4867005D2A86 /* SettingsManager.m in Sources */,
+				96F78E1E1B05E5B8005C2C7D /* ErrorHandler.m in Sources */,
 				96130E381AEE4867005D2A86 /* UIView+Helper.m in Sources */,
 				96130E391AEE4867005D2A86 /* IdentityCreatedViewController.m in Sources */,
 				96130E3A1AEE4867005D2A86 /* IdentityBlockedViewController.m in Sources */,
@@ -1310,6 +1262,7 @@
 				96130E7F1AEE490A005D2A86 /* ConfigListTableViewCell.m in Sources */,
 				96130E801AEE490A005D2A86 /* MPin+AsyncOperations.m in Sources */,
 				96130E811AEE490A005D2A86 /* SettingsManager.m in Sources */,
+				96F78E1F1B05E5B8005C2C7D /* ErrorHandler.m in Sources */,
 				96130E821AEE490A005D2A86 /* UIView+Helper.m in Sources */,
 				96130E831AEE490A005D2A86 /* IdentityCreatedViewController.m in Sources */,
 				96130E841AEE490A005D2A86 /* IdentityBlockedViewController.m in Sources */,
@@ -1342,6 +1295,7 @@
 				9649BC9B1AC16D1000B9F41B /* DigitPadViewController.m in Sources */,
 				9649BC9C1AC16D1000B9F41B /* main.m in Sources */,
 				9649BC9E1AC16D1000B9F41B /* OTPViewController.m in Sources */,
+				96F78E1D1B05E5B8005C2C7D /* ErrorHandler.m in Sources */,
 				9649BC9F1AC16D1000B9F41B /* TextFieldTableViewCell.m in Sources */,
 				9649BCA01AC16D1000B9F41B /* AccessNumberViewController.m in Sources */,
 				9649BCA11AC16D1000B9F41B /* UIColor+Helper.m in Sources */,
@@ -1387,6 +1341,7 @@
 				961957491A97276100C93604 /* ConfigListTableViewCell.m in Sources */,
 				FE8129671ABAB61B008677CE /* MPin+AsyncOperations.m in Sources */,
 				96F62A251AC30FAF00B25B53 /* SettingsManager.m in Sources */,
+				96F78E1C1B05E5B8005C2C7D /* ErrorHandler.m in Sources */,
 				FEDDDE311A89F93E00E2068C /* UIView+Helper.m in Sources */,
 				968E7A541AA06CA700A276A7 /* IdentityCreatedViewController.m in Sources */,
 				96C9BF291AE6407D00FAC454 /* IdentityBlockedViewController.m in Sources */,
@@ -1398,23 +1353,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FE4900371A1A3CEB000030A4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FE4900491A1A3CEB000030A4 /* MPinAppTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		FE4900411A1A3CEB000030A4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FE4900161A1A3CEB000030A4 /* Certivox MPin */;
-			targetProxy = FE4900401A1A3CEB000030A4 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		968591CF1AF0C7E200726E63 /* Localizable.strings */ = {
@@ -1747,25 +1686,6 @@
 			};
 			name = AppStore;
 		};
-		9660534F1ACD38B60003DE7D /* AppStore */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
-				INFOPLIST_FILE = "MPinAppTests/MPinAppTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CertiVox M-Pin.app/CertiVox M-Pin";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = AppStore;
-		};
 		966053501ACD38B60003DE7D /* AppStore */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D2C36EBE5499747947972F44 /* Pods.appstore.xcconfig */;
@@ -1843,25 +1763,6 @@
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
-			};
-			name = AdHoc;
-		};
-		966053531ACD38C00003DE7D /* AdHoc */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
-				INFOPLIST_FILE = "MPinAppTests/MPinAppTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CertiVox M-Pin.app/CertiVox M-Pin";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = AdHoc;
 		};
@@ -1950,29 +1851,6 @@
 			};
 			name = QA;
 		};
-		969D25AE1ACD2F9B0035294E /* QA */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "MPinAppTests/MPinAppTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CertiVox M-Pin.app/CertiVox M-Pin";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = QA;
-		};
 		969D25AF1ACD2F9B0035294E /* QA */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 05E7AD758BE70B1A9530DEA4 /* Pods.qa.xcconfig */;
@@ -2050,25 +1928,6 @@
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
-		};
-		969D25B21ACD331C0035294E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
-				INFOPLIST_FILE = "MPinAppTests/MPinAppTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CertiVox M-Pin.app/CertiVox M-Pin";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
@@ -2157,29 +2016,6 @@
 			};
 			name = Debug;
 		};
-		FE4900501A1A3CEB000030A4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "MPinAppTests/MPinAppTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CertiVox M-Pin.app/CertiVox M-Pin";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2239,18 +2075,6 @@
 				969D25B11ACD331C0035294E /* Release */,
 				9660534E1ACD38B60003DE7D /* AppStore */,
 				966053521ACD38C00003DE7D /* AdHoc */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = QA;
-		};
-		FE49004F1A1A3CEB000030A4 /* Build configuration list for PBXNativeTarget "MPinAppTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FE4900501A1A3CEB000030A4 /* Debug */,
-				969D25AE1ACD2F9B0035294E /* QA */,
-				969D25B21ACD331C0035294E /* Release */,
-				9660534F1ACD38B60003DE7D /* AppStore */,
-				966053531ACD38C00003DE7D /* AdHoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = QA;

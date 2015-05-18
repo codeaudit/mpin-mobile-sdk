@@ -21,7 +21,6 @@
 #import "BackButton.h"
 #import "ConfigListTableViewCell.h"
 #import "MenuTableViewCell.h"
-#import "ATMHud.h"
 #import "IdentityBlockedViewController.h"
 
 @interface ThemeManager ()
@@ -44,7 +43,7 @@
 {
     self = [super init];
     if (self) {
-        self.hud = [[ATMHud alloc] initWithDelegate:self];
+        
     }
     return self;
 }

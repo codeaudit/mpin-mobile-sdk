@@ -23,13 +23,6 @@
     [alert show];
 }
 
-- (void)startLoading {
-    
-    
-}
-- (void)stopLoading {
-    
-}
 
 
 @end

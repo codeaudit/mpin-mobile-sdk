@@ -8,7 +8,6 @@
 
 #import "AddSettingViewController.h"
 #import "AppDelegate.h"
-#import "ATMHud.h"
 #import "TextFieldTableViewCell.h"
 #import "OptionSelectTableViewCell.h"
 #import "ConfigurationManager.h"
@@ -22,7 +21,6 @@
 static NSString* const kErrorTitle = @"Validation ERROR!";
 
 @interface AddSettingViewController () {
-    ATMHud* hud;
     MPin* sdk;
     BOOL bTestingConfig;
     NSString *strURL;
@@ -39,8 +37,6 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
 
 @property (nonatomic, assign) id currentResponder;
 
-- (void)startLoading;
-- (void)stopLoading;
 - (IBAction)goBack:(id)sender;
 - (IBAction)textFieldReturn:(id)sender;
 
@@ -51,8 +47,7 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    hud = [[ATMHud alloc] initWithDelegate:self];
-    _service = LOGIN_ON_MOBILE;
+     _service = LOGIN_ON_MOBILE;
     [[ThemeManager sharedManager] beautifyViewController:self];
     UITapGestureRecognizer* singleTap =
         [[UITapGestureRecognizer alloc] initWithTarget:self
@@ -285,17 +280,7 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
     [self.currentResponder resignFirstResponder];
 }
 
-- (void)startLoading
-{
 
-    [hud setCaption:@"Loading please wait!"];
-    [hud setActivity:YES];
-    [hud showInView:self.view];
-}
-- (void)stopLoading
-{
-    [hud hide];
-}
 
 - (IBAction)textFieldReturn:(id)sender
 {
@@ -306,23 +291,19 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
 {
     bTestingConfig = NO;
     if ([_txtMPINServiceURL.text isEqualToString:@""]) {
-        [hud setImage:[UIImage imageNamed:@"checked"]];
-        [hud setCaption:NSLocalizedString(@"ADDCONFIGVC_ERROR_EMPTY_URL", @"")];
-        hud.minShowTime = 3.0;
-        [hud showInView:self.view];
-        [hud hide];
+        [[ErrorHandler sharedManager] presentErrorInViewController:self
+                                                       errorString:NSLocalizedString(@"ADDCONFIGVC_ERROR_EMPTY_URL", @"")
+                                              addActivityIndicator:NO
+                                                 autoHideInSeconds:3];
         return;
     }
 
-    if (![self isValidURL:_txtMPINServiceURL.text]) {
-        UIAlertView* alert =
-            [[UIAlertView alloc] initWithTitle:kErrorTitle
-                                       message:NSLocalizedString(@"ADDCONFIGVC_ERROR_INVALID_URL", @"")
-                                      delegate:nil
-                             cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"")
-                             otherButtonTitles:nil, nil];
-
-        [alert show];
+    if (![self isValidURL:_txtMPINServiceURL.text])
+    {
+        [[ErrorHandler sharedManager] presentErrorInViewController:self
+                                                       errorString:NSLocalizedString(@"ADDCONFIGVC_ERROR_INVALID_URL", @"")
+                                              addActivityIndicator:NO
+                                                 autoHideInSeconds:3];
         return;
     }
     int minShowTime = 1;
@@ -339,10 +320,8 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
     else {
         caption = NSLocalizedString(@"HUD_SAVE_CONFIG", @"");
     }
-    hud.minShowTime = minShowTime;
-    [hud setCaption:caption];
-    [hud setActivity:YES];
-    [hud showInView:self.view];
+    
+    [[ErrorHandler sharedManager] startLoadingInController:self message:caption];
 
     ///TODO :: add rpsPrefix test field to this VIEW it is needed for some configurations
     [sdk TestBackend:_txtMPINServiceURL.text rpsPrefix:nil];
@@ -350,7 +329,7 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
 
 - (void)OnTestBackendCompleted:(id)sender
 {
-    [self stopLoading];
+    [[ErrorHandler sharedManager] stopLoading];
     if (bTestingConfig)
     {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil
@@ -383,11 +362,10 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
             }
         }
         else
-            NSLog(@"WARNING: confSettings Array is not set. The application  will not funciton properly");
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(minShowTime * NSEC_PER_SEC)),
                        dispatch_get_main_queue(), ^{
                            [self.navigationController popViewControllerAnimated:YES];
-                           [self stopLoading];
+                           [[ErrorHandler sharedManager] stopLoading];
                        });
     }
     
@@ -395,7 +373,7 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
 
 - (void)OnTestBackendError:(id)sender error:(NSError*)error
 {
-    [self stopLoading];
+    [[ErrorHandler sharedManager] stopLoading];
     MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
     NSString *message = NSLocalizedString(@"ADDCONFIGVC_INVALID_CONFIG", @"");
 
@@ -441,7 +419,7 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
     bTestingConfig = YES;
     if ([self isValidURL:_txtMPINServiceURL.text])
     {
-        [self startLoading];
+        [[ErrorHandler sharedManager] startLoadingInController:self  message:@""];
         if ([_txtMPINServiceRPSPrefix.text isEqualToString:@""])
         {
             [sdk TestBackend:_txtMPINServiceURL.text rpsPrefix:nil];
@@ -453,7 +431,7 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
     }
     else
     {
-        [self stopLoading];
+        [[ErrorHandler sharedManager] stopLoading];
         UIAlertView* alert =
         [[UIAlertView alloc] initWithTitle:kErrorTitle
                                    message:NSLocalizedString(@"ADDCONFIGVC_ERROR_INVALID_URL", @"")
