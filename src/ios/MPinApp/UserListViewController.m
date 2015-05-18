@@ -90,16 +90,18 @@ static NSString* const kAN = @"AN";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    sdk = [[MPin alloc] init];
+    sdk.delegate = self;
     boolFirstTime = YES;
 
     self.automaticallyAdjustsScrollViewInsets = NO;
     storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     boolIsInitialised = NO;
 
-    [[ErrorHandler sharedManager] presentErrorInViewController:self
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                    errorString:NSLocalizedString(@"HUD_CHANGE_CONFIGURATION", @"")
-                                          addActivityIndicator:NO
-                                             autoHideInSeconds:0];
+                                          addActivityIndicator:YES
+                                             minShowTime:0];
     
     [[ThemeManager sharedManager] beautifyViewController:self];
 
@@ -107,10 +109,10 @@ static NSString* const kAN = @"AN";
         MpinStatus* status = [MPin initWithConfig:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
         dispatch_async(dispatch_get_main_queue(), ^(void) {
             if (status.status != OK) {
-                [[ErrorHandler sharedManager] presentErrorInViewController:self
+                [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                                errorString:status.errorMessage
                                                       addActivityIndicator:NO
-                                                         autoHideInSeconds:0];
+                                                         minShowTime:0];
             }
             self.users = [MPin listUsers];
             
@@ -134,15 +136,19 @@ static NSString* const kAN = @"AN";
                 
                 [self showBottomBar:NO];
                 [self starAuthenticationFlow];
-            } else  [self hideBottomBar:NO];
+            }
+            else
+            {
+                [[ErrorHandler sharedManager] updateMessage:@"Configuration changed" addActivityIndicator:NO hideAfter:3];
+                [self hideBottomBar:NO];
+            }
             
             [self.table reloadData];
         });
     });
 
 
-    sdk = [[MPin alloc] init];
-    sdk.delegate = self;
+    
 }
 
 - (void)showBottomBar:(BOOL)animated
@@ -181,7 +187,6 @@ static NSString* const kAN = @"AN";
 
     [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
     [[ThemeManager sharedManager] beautifyViewController:self];
-    [[ErrorHandler sharedManager] stopLoading];
     self.users = [MPin listUsers];
 }
 
@@ -303,7 +308,6 @@ static NSString* const kAN = @"AN";
 #pragma mark - SDK Handlers -
 - (void)OnFinishRegistrationCompleted:(id)sender user:(const id<IUser>)user
 {
-    [[ErrorHandler sharedManager] stopLoading];
     IdentityCreatedViewController* vcIDCreated = (IdentityCreatedViewController*)[storyboard instantiateViewControllerWithIdentifier:@"IdentityCreatedViewController"];
     vcIDCreated.user = user;
     vcIDCreated.strEmail = [user getIdentity];
@@ -312,7 +316,6 @@ static NSString* const kAN = @"AN";
 
 - (void)OnFinishRegistrationError:(id)sender error:(NSError*)error
 {
-    [[ErrorHandler sharedManager] stopLoading];
     if (error.code == IDENTITY_NOT_VERIFIED) {
         ConfirmEmailViewController* cevc = (ConfirmEmailViewController*)[storyboard instantiateViewControllerWithIdentifier:@"ConfirmEmailViewController"];
         cevc.iuser = (error.userInfo)[kUSER];
@@ -325,31 +328,28 @@ static NSString* const kAN = @"AN";
 
 - (void)OnAuthenticateOTPCompleted:(id)sender user:(id<IUser>)user otp:(OTP*)otp
 {
-    [[ErrorHandler sharedManager] stopLoading];
 
     if (otp.status.status != OK)
     {
-        [[ErrorHandler sharedManager] presentErrorInViewController:self
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                        errorString:@"OTP is not supported!"
                                               addActivityIndicator:NO
-                                                 autoHideInSeconds:0] ;
+                                                 minShowTime:0] ;
         return;
     }
     OTPViewController* otpViewController = [storyboard instantiateViewControllerWithIdentifier:@"OTP"];
     otpViewController.otpData = otp;
     otpViewController.strEmail = [user getIdentity];
-    [[ErrorHandler sharedManager] stopLoading];
     [self.navigationController pushViewController:otpViewController animated:YES];
 }
 
 - (void)OnAuthenticateOTPError:(id)sender error:(NSError*)error
 {
-    [[ErrorHandler sharedManager] stopLoading];
     MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
-    [[ErrorHandler sharedManager] presentErrorInViewController:self
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                    errorString:mpinStatus.errorMessage
                                           addActivityIndicator:NO
-                                             autoHideInSeconds:0];
+                                             minShowTime:0];
 }
 
 -(void) onAccessNumber:(NSString *) an {
@@ -358,40 +358,37 @@ static NSString* const kAN = @"AN";
 
 - (void)OnAuthenticateAccessNumberCompleted:(id)sender user:(id<IUser>)user
 {
-    [[ErrorHandler sharedManager] presentErrorInViewController:self
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                    errorString:NSLocalizedString(@"HUD_AUTH_SUCCESS", @"")
                                           addActivityIndicator:NO
-                                             autoHideInSeconds:0];
+                                             minShowTime:0];
 }
 
 - (void)OnAuthenticateAccessNumberError:(id)sender error:(NSError*)error
 {
-    [[ErrorHandler sharedManager] stopLoading];
     switch (error.code) {
     case INCORRECT_PIN:
-        [[ErrorHandler sharedManager] presentErrorInViewController:self
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                        errorString:@"Wrong MPIN or Access Number!"
                                               addActivityIndicator:NO
-                                                 autoHideInSeconds:0];
+                                                 minShowTime:0];
         break;
     case HTTP_REQUEST_ERROR:
-        [[ErrorHandler sharedManager] presentErrorInViewController:self errorString:@"Wrong MPIN or Access Number!"
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Wrong MPIN or Access Number!"
                                               addActivityIndicator:NO
-                                                 autoHideInSeconds:0];
+                                                 minShowTime:0];
         break;
     default: {
         MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
-        [[ErrorHandler sharedManager] presentErrorInViewController:self errorString:mpinStatus.errorMessage
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:mpinStatus.errorMessage
                                               addActivityIndicator:NO
-                                                 autoHideInSeconds:0];
+                                                 minShowTime:0];
     } break;
     }
 }
 
 - (void)OnAuthenticateCompleted:(id)sender user:(const id<IUser>)user
 {
-    [[ErrorHandler sharedManager] stopLoading];
-
     AccountSummaryViewController* vcAccountSummary = [storyboard instantiateViewControllerWithIdentifier:@"AccountSummary"];
     vcAccountSummary.strEmail = [currentUser getIdentity];
     [self.navigationController pushViewController:vcAccountSummary animated:YES];
@@ -399,16 +396,14 @@ static NSString* const kAN = @"AN";
 
 - (void) OnAuthenticateCanceled
 {
-    [[ErrorHandler sharedManager] stopLoading];
-    [[ErrorHandler sharedManager] presentErrorInViewController:self
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                    errorString:@"TouchID failed"
                                           addActivityIndicator:NO
-                                             autoHideInSeconds:0];
+                                             minShowTime:0];
 }
 
 - (void)OnAuthenticateError:(id)sender error:(NSError*)error
 {
-    [[ErrorHandler sharedManager] stopLoading];
     MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
     id<IUser> iuser = (self.users)[selectedIndexPath.row];
     if ([iuser getState] == BLOCKED)
@@ -423,53 +418,18 @@ static NSString* const kAN = @"AN";
         switch (error.code)
         {
             case INCORRECT_PIN:
-                [[ErrorHandler sharedManager] presentErrorInViewController:self
+                [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                                errorString:@"Wrong MPIN"
                                                       addActivityIndicator:NO
-                                                         autoHideInSeconds:0];
+                                                         minShowTime:0];
                 break;
             default:
-                [[ErrorHandler sharedManager] presentErrorInViewController:self
+                [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                                errorString:mpinStatus.errorMessage
                                                       addActivityIndicator:NO
-                                                         autoHideInSeconds:0];
+                                                         minShowTime:0];
                 break;
         }
-    }
-}
-
-- (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if ((alertView.tag == ON_LOGOUT) && (buttonIndex == LOGOUT_BUTTON_INDEX)) {
-
-        [[ErrorHandler sharedManager] presentErrorInViewController:self
-                                                       errorString:NSLocalizedString(@"HUD_LOGOUT", @"")
-                                              addActivityIndicator:NO
-                                                 autoHideInSeconds:0];
-        
-
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            BOOL isSuccessful = [MPin Logout:(self.users)[selectedIndexPath.row]];
-            dispatch_async(dispatch_get_main_queue(), ^(void) {
-                [[ErrorHandler sharedManager] hideError];
-                NSString * descritpion = (isSuccessful)?NSLocalizedString(@"HUD_LOGOUT_OK", @""):NSLocalizedString(@"HUD_LOGOUT_NOT_OK", @"");
-                [[ErrorHandler sharedManager] presentErrorInViewController:self
-                                                               errorString:descritpion
-                                                      addActivityIndicator:NO
-                                                         autoHideInSeconds:0];
-                
-            });
-        });
-        return;
-    } else if ((alertView.tag == DELETE_TAG) && (buttonIndex == DELETE_BUTTON_INDEX)) {
-        [self deleteSelectedUser];
-    } else if((alertView.tag == RESETPIN_TAG) && (buttonIndex == RESETPIN_BUTTON_INDEX)) {
-        [[ErrorHandler sharedManager] startLoadingInController:self  message:@""];
-        id<IUser> iuser = (self.users)[selectedIndexPath.row];
-        NSString * userID = [iuser getIdentity];
-        [self deleteSelectedUser];
-        ConfigurationManager *cfm = [ConfigurationManager sharedManager];
-        [sdk RegisterNewUser:userID devName:[cfm getDeviceName]];
     }
 }
 
@@ -544,24 +504,19 @@ static NSString* const kAN = @"AN";
     switch ([iuser getState])
     {
         case INVALID:
-            [[ErrorHandler sharedManager] presentErrorInViewController:self
+            [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                            errorString:NSLocalizedString(@"HUD_REACTIVATE_USER", @"")
                                                   addActivityIndicator:NO
-                                                     autoHideInSeconds:0];
+                                                     minShowTime:0];
             break;
         case STARTED_REGISTRATION:
-            [[ErrorHandler sharedManager] startLoadingInController:self  message:@""];
             [sdk FinishRegistration:iuser];
             break;
         case ACTIVATED:
-            [[ErrorHandler sharedManager] startLoadingInController:self  message:@""];
             [sdk FinishRegistration:iuser];
             break;
         case REGISTERED:
-            [[ErrorHandler sharedManager] presentErrorInViewController:self
-                                                           errorString:NSLocalizedString(@"HUD_REACTIVATE_USER", @"")
-                                                  addActivityIndicator:NO
-                                                     autoHideInSeconds:0];
+            
             
             config = [[ConfigurationManager sharedManager] getSelectedConfiguration];
             s = [config[kSERVICE_TYPE] intValue];
@@ -589,10 +544,10 @@ static NSString* const kAN = @"AN";
             [self.navigationController pushViewController:identityBlockedViewController animated:YES];
             break;
         default:
-            [[ErrorHandler sharedManager] presentErrorInViewController:self
+            [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                            errorString:NSLocalizedString(@"HUD_UNSUPPORTED_ACTION", @"")
                                                   addActivityIndicator:NO
-                                                     autoHideInSeconds:0];
+                                                     minShowTime:0];
         break;
     }
 }
@@ -611,8 +566,8 @@ static NSString* const kAN = @"AN";
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
 }
 
-- (void)OnRegisterNewUserCompleted:(id)sender user:(const id<IUser>)user {
-    [[ErrorHandler sharedManager] stopLoading];
+- (void)OnRegisterNewUserCompleted:(id)sender user:(const id<IUser>)user
+{
     switch ([user getState]) {
         case STARTED_REGISTRATION: {
             ConfirmEmailViewController* cevc = (ConfirmEmailViewController*)
@@ -622,15 +577,14 @@ static NSString* const kAN = @"AN";
             [self.navigationController pushViewController:cevc animated:YES];
         } break;
         case ACTIVATED:
-            [[ErrorHandler sharedManager] startLoadingInController:self  message:@""];
             currentUser = user;
             [sdk FinishRegistration:user];
             break;
         default:
-            [[ErrorHandler sharedManager] presentErrorInViewController:self
+            [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                            errorString:[NSString stringWithFormat:@"User state is unexpected %ld",                                                                                       [user getState]]
                                                   addActivityIndicator:NO
-                                                     autoHideInSeconds:0];
+                                                     minShowTime:0];
             break;
     }
     
@@ -646,13 +600,52 @@ static NSString* const kAN = @"AN";
 }
 
 - (void)OnRegisterNewUserError:(id)sender error:(NSError*)error {
-    [[ErrorHandler sharedManager] stopLoading];
     MpinStatus* mpinStatus = [error.userInfo objectForKey:kMPinSatus];
-    [[ErrorHandler sharedManager] presentErrorInViewController:self
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                    errorString:mpinStatus.errorMessage
                                           addActivityIndicator:NO
-                                             autoHideInSeconds:0];
+                                             minShowTime:0];
 }
 
+#pragma mark - Alert view delegate -
+
+
+- (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if ((alertView.tag == ON_LOGOUT) && (buttonIndex == LOGOUT_BUTTON_INDEX)) {
+        
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                         errorString:NSLocalizedString(@"HUD_LOGOUT", @"")
+                                                addActivityIndicator:NO
+                                                         minShowTime:0];
+        
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            BOOL isSuccessful = [MPin Logout:(self.users)[selectedIndexPath.row]];
+            dispatch_async(dispatch_get_main_queue(), ^(void) {
+                [[ErrorHandler sharedManager] hideMessage];
+                NSString * descritpion = (isSuccessful)?NSLocalizedString(@"HUD_LOGOUT_OK", @""):NSLocalizedString(@"HUD_LOGOUT_NOT_OK", @"");
+                [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                                 errorString:descritpion
+                                                        addActivityIndicator:NO
+                                                                 minShowTime:0];
+                
+            });
+        });
+        return;
+    }
+    else if ((alertView.tag == DELETE_TAG) && (buttonIndex == DELETE_BUTTON_INDEX))
+    {
+        [self deleteSelectedUser];
+    }
+    else if((alertView.tag == RESETPIN_TAG) && (buttonIndex == RESETPIN_BUTTON_INDEX))
+    {
+        id<IUser> iuser = (self.users)[selectedIndexPath.row];
+        NSString * userID = [iuser getIdentity];
+        [self deleteSelectedUser];
+        ConfigurationManager *cfm = [ConfigurationManager sharedManager];
+        [sdk RegisterNewUser:userID devName:[cfm getDeviceName]];
+    }
+}
 
 @end

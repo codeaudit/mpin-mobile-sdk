@@ -291,19 +291,19 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
 {
     bTestingConfig = NO;
     if ([_txtMPINServiceURL.text isEqualToString:@""]) {
-        [[ErrorHandler sharedManager] presentErrorInViewController:self
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                        errorString:NSLocalizedString(@"ADDCONFIGVC_ERROR_EMPTY_URL", @"")
                                               addActivityIndicator:NO
-                                                 autoHideInSeconds:3];
+                                                 minShowTime:3];
         return;
     }
 
     if (![self isValidURL:_txtMPINServiceURL.text])
     {
-        [[ErrorHandler sharedManager] presentErrorInViewController:self
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                        errorString:NSLocalizedString(@"ADDCONFIGVC_ERROR_INVALID_URL", @"")
                                               addActivityIndicator:NO
-                                                 autoHideInSeconds:3];
+                                                 minShowTime:3];
         return;
     }
     int minShowTime = 1;
@@ -321,7 +321,6 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
         caption = NSLocalizedString(@"HUD_SAVE_CONFIG", @"");
     }
     
-    [[ErrorHandler sharedManager] startLoadingInController:self message:caption];
 
     ///TODO :: add rpsPrefix test field to this VIEW it is needed for some configurations
     [sdk TestBackend:_txtMPINServiceURL.text rpsPrefix:nil];
@@ -329,16 +328,13 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
 
 - (void)OnTestBackendCompleted:(id)sender
 {
-    [[ErrorHandler sharedManager] stopLoading];
+    [[ErrorHandler sharedManager] hideMessage];
     if (bTestingConfig)
     {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil
-                                                        message:NSLocalizedString(@"ADDCONFIGVC_MESSAGE_CONFIG_OK", @"")
-                                                       delegate:nil
-                                              cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"")
-                                              otherButtonTitles:nil, nil];
-        [alert show];
-        
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                       errorString:NSLocalizedString(@"ADDCONFIGVC_MESSAGE_CONFIG_OK", @"")
+                                              addActivityIndicator:NO
+                                                 minShowTime:3];
         bTestingConfig = NO;
 
     }
@@ -360,30 +356,26 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
                                                                   serviceType:(int)_service
                                                                          name:_txtMPINServiceNAME.text];
             }
+            
         }
-        else
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(minShowTime * NSEC_PER_SEC)),
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(minShowTime * NSEC_PER_SEC)),
                        dispatch_get_main_queue(), ^{
                            [self.navigationController popViewControllerAnimated:YES];
-                           [[ErrorHandler sharedManager] stopLoading];
+                           
                        });
     }
-    
 }
 
 - (void)OnTestBackendError:(id)sender error:(NSError*)error
 {
-    [[ErrorHandler sharedManager] stopLoading];
-    MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
-    NSString *message = NSLocalizedString(@"ADDCONFIGVC_INVALID_CONFIG", @"");
-
-    UIAlertView* alert = [[UIAlertView alloc]
-            initWithTitle:[mpinStatus getStatusCodeAsString]
-                  message:message
-                 delegate:nil
-        cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"")
-        otherButtonTitles:nil, nil];
-    [alert show];
+    [[ErrorHandler sharedManager] hideMessage];
+//    MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
+//    NSString *message = NSLocalizedString(@"ADDCONFIGVC_INVALID_CONFIG", @"");
+//
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                   errorString:NSLocalizedString(@"KEY_CLOSE", @"")
+                                          addActivityIndicator:NO
+                                             minShowTime:3];
 }
 
 - (BOOL)isValidURL:(NSString*)strTestURL
@@ -419,7 +411,7 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
     bTestingConfig = YES;
     if ([self isValidURL:_txtMPINServiceURL.text])
     {
-        [[ErrorHandler sharedManager] startLoadingInController:self  message:@""];
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Testing configuration" addActivityIndicator:YES minShowTime:0];
         if ([_txtMPINServiceRPSPrefix.text isEqualToString:@""])
         {
             [sdk TestBackend:_txtMPINServiceURL.text rpsPrefix:nil];
@@ -431,15 +423,10 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
     }
     else
     {
-        [[ErrorHandler sharedManager] stopLoading];
-        UIAlertView* alert =
-        [[UIAlertView alloc] initWithTitle:kErrorTitle
-                                   message:NSLocalizedString(@"ADDCONFIGVC_ERROR_INVALID_URL", @"")
-                                  delegate:nil
-                         cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"")
-                         otherButtonTitles:nil, nil];
-        
-        [alert show];
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                       errorString:NSLocalizedString(@"ADDCONFIGVC_ERROR_INVALID_URL", @"")
+                                              addActivityIndicator:NO
+                                                 minShowTime:3];
     }
 }
 

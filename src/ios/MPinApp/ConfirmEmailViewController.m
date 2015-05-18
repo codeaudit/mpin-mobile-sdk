@@ -92,17 +92,17 @@
 - (void)OnFinishRegistrationError:(id)sender error:(NSError*)error
 {
     MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
-    [[ErrorHandler sharedManager] presentErrorInViewController:self
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                    errorString:[NSString stringWithFormat:@"%@ Please check your e-mail and follow the activation link!", mpinStatus.errorMessage]
                                           addActivityIndicator:NO
-                                             autoHideInSeconds:3];
+                                             minShowTime:3];
     
 }
 
 - (IBAction)OnResendEmail:(id)sender
 {
     //TODO: localize this
-    [[ErrorHandler sharedManager] startLoadingInController:self message:@"Resending email"];
+    [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Resending email" addActivityIndicator:YES minShowTime:0];
     [sdk RestartRegistration:self.iuser];
 }
 
@@ -114,10 +114,10 @@
 - (void)OnRestartRegistrationError:(id)sender error:(NSError*)error
 {
     MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
-    [[ErrorHandler sharedManager] presentErrorInViewController:self
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                    errorString:mpinStatus.errorMessage
                                           addActivityIndicator:NO
-                                             autoHideInSeconds:0];
+                                             minShowTime:0];
 }
 
 @end

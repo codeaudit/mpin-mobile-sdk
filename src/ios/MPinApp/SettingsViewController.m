@@ -120,8 +120,12 @@
         return;
     }
     NSInteger intSelectedConfiguration = indexPath.row;
-    [[ErrorHandler sharedManager] startLoadingInController:self
-                                                   message:NSLocalizedString(@"HUD_CHANGE_CONFIGURATION", @"")];
+    
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                   errorString:NSLocalizedString(@"HUD_CHANGE_CONFIGURATION", @"")
+                                          addActivityIndicator:YES
+                                                   minShowTime:0];
+
 
     NSString* rpsPrefix = [[ConfigurationManager sharedManager] getPrefixAtIndex:intSelectedConfiguration];
     NSString* url = [[ConfigurationManager sharedManager] getURLAtIndex:intSelectedConfiguration];
@@ -144,17 +148,15 @@
 
 - (void)OnSetBackendCompleted:(id)sender
 {
-    [[ErrorHandler sharedManager] stopLoading];
 }
 
 - (void)OnSetBackendError:(id)sender error:(NSError*)error
 {
-    [[ErrorHandler sharedManager] stopLoading];
     MpinStatus* status = (error.userInfo)[kMPinSatus];
-    [[ErrorHandler sharedManager] presentErrorInViewController:self
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                    errorString:status.errorMessage
                                           addActivityIndicator:NO
-                                             autoHideInSeconds:0];
+                                             minShowTime:0];
 }
 
 
@@ -178,10 +180,10 @@
         [self.navigationController pushViewController:addViewController animated:YES];
     }
     else {
-        [[ErrorHandler sharedManager] presentErrorInViewController:self
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                        errorString:NSLocalizedString(@"WARNING_CANNOT_EDIT_PREDEFINED_CONFIG", @"")
                                               addActivityIndicator:NO
-                                                 autoHideInSeconds:0];
+                                                 minShowTime:0];
     }
 }
 
@@ -196,10 +198,10 @@
         [alertView show];
     }
     else {
-        [[ErrorHandler sharedManager] presentErrorInViewController:self
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                        errorString:NSLocalizedString(@"WARNING_CANNOT_DELETE_PREDEFINED_CONFIG", @"")
                                               addActivityIndicator:NO
-                                                 autoHideInSeconds:0];
+                                                 minShowTime:0];
     }
 }
 

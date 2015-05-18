@@ -63,21 +63,54 @@
 
 -(void) stopLoading
 {
-    [self hideError];
+    [self hideMessage];
 }
 
--(void) presentErrorInViewController:(UIViewController *)viewController
+- (void) updateMessage:(NSString *) strMessage
+  addActivityIndicator:(BOOL)addActivityIndicator
+             hideAfter:(NSInteger) hideAfter
+{
+    _hud.minShowTime = hideAfter;
+    if (addActivityIndicator)
+    {
+        [_hud setActivity:YES];
+    }
+    else
+    {
+        [_hud setActivity:NO];
+    }
+    [_hud setCaption:strMessage];
+    [_hud update];
+    if (hideAfter > 0)
+    {
+        [self performSelector:@selector(hideMessage) withObject:nil afterDelay:hideAfter];
+    }
+}
+-(void) presentMessageInViewController:(UIViewController *)viewController
                          errorString:(NSString *)strError
                 addActivityIndicator:(BOOL)addActivityIndicator
-                   autoHideInSeconds:(NSInteger) seconds
+                         minShowTime:(NSInteger) seconds
 {
     _hud.minShowTime = seconds;
     [_hud setCaption:strError];
+    
+    if (addActivityIndicator)
+    {
+        [_hud setActivity:YES];
+    }
+    else
+    {
+        [_hud setActivity:YES];
+    }
+    
     [_hud showInView:viewController.view];
-    [_hud hide];
+    if (seconds > 0)
+    {
+        [_hud hide];
+    }
 }
 
--(void) hideError
+-(void) hideMessage
 {
     [_hud hide];
     NSLog(@"Hiding hud");

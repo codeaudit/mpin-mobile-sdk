@@ -18,15 +18,15 @@
 
 + (ErrorHandler*)sharedManager;
 
--(void) presentErrorInViewController:(UIViewController *)viewController
-                         errorString:(NSString *)strError
+-(void) presentMessageInViewController:(UIViewController *)viewController
+                         errorString:(NSString *)strMessage
                 addActivityIndicator:(BOOL)addActivityIndicator
-                   autoHideInSeconds:(NSInteger) seconds;
+                   minShowTime:(NSInteger) seconds;
 
--(void) startLoadingInController:(UIViewController *)viewController message:(NSString *)message;
--(void) stopLoading;
 
--(void) hideError;
+- (void) updateMessage:(NSString *) strMessage   addActivityIndicator:(BOOL)addActivityIndicator hideAfter:(NSInteger) hideAfter;
+
+-(void) hideMessage;
 
 
 

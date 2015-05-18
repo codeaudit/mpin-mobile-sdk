@@ -98,7 +98,6 @@
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     if((alertView.tag == RESETPIN_TAG) && (buttonIndex == RESETPIN_BUTTON_INDEX)) {
-        [[ErrorHandler sharedManager] startLoadingInController:self  message:@""];
         NSString * userID = [self.iuser getIdentity];
         [self deleteUser];
         ConfigurationManager *cfm = [ConfigurationManager sharedManager];
@@ -113,7 +112,6 @@
 }
 
 - (void) OnFinishRegistrationCompleted:(id) sender user:(const id<IUser>) user {
-    [[ErrorHandler sharedManager] stopLoading];
     IdentityCreatedViewController* vcIDCreated = (IdentityCreatedViewController*)[storyboard instantiateViewControllerWithIdentifier:@"IdentityCreatedViewController"];
     vcIDCreated.user = self.iuser;
     vcIDCreated.strEmail = [user getIdentity];
@@ -121,7 +119,6 @@
 }
 
 - (void) OnFinishRegistrationError:(id) sender  error:(NSError *) error {
-    [[ErrorHandler sharedManager] stopLoading];
     if (error.code == IDENTITY_NOT_VERIFIED) {
         ConfirmEmailViewController* cevc = (ConfirmEmailViewController*)[storyboard instantiateViewControllerWithIdentifier:@"ConfirmEmailViewController"];
         cevc.iuser = (error.userInfo)[kUSER];
@@ -144,7 +141,6 @@
 }
 
 - (void)OnRegisterNewUserCompleted:(id)sender user:(const id<IUser>)user {
-    [[ErrorHandler sharedManager] stopLoading];
     switch ([user getState]) {
         case STARTED_REGISTRATION: {
             ConfirmEmailViewController* cevc = (ConfirmEmailViewController*)
@@ -154,15 +150,14 @@
             [self.navigationController pushViewController:cevc animated:YES];
         } break;
         case ACTIVATED:
-            [[ErrorHandler sharedManager] startLoadingInController:self  message:@""];
             self.iuser = user;
             [sdk FinishRegistration:user];
             break;
         default:
-            [[ErrorHandler sharedManager] presentErrorInViewController:self
+            [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                            errorString:[NSString stringWithFormat:@"User state is unexpected %ld",[user getState]]
                                                   addActivityIndicator:NO
-                                                     autoHideInSeconds:0
+                                                     minShowTime:0
              ];
             break;
     }
@@ -179,12 +174,11 @@
 }
 
 - (void)OnRegisterNewUserError:(id)sender error:(NSError*)error {
-    [[ErrorHandler sharedManager] stopLoading];
     MpinStatus* mpinStatus = [error.userInfo objectForKey:kMPinSatus];
-    [[ErrorHandler sharedManager] presentErrorInViewController:self
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                    errorString:mpinStatus.errorMessage
                                           addActivityIndicator:NO
-                                             autoHideInSeconds:0];
+                                             minShowTime:0];
 }
 
 - (void)showPinPad

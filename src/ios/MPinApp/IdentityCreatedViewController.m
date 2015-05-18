@@ -58,8 +58,10 @@
 
 - (void)showError:(NSString*)title desc:(NSString*)desc
 {
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:title message:desc delegate:self cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"") otherButtonTitles:nil];
-    [alert show];
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                   errorString:desc
+                                          addActivityIndicator:NO
+                                             minShowTime:3];
 }
 
 - (void)showPinPad
@@ -77,7 +79,6 @@
     self.user = forUser;
     switch (service) {
     case LOGIN_ON_MOBILE:
-        [[ErrorHandler sharedManager] startLoadingInController:self  message:@""];
         [sdk Authenticate:self.user];
         break;
     case LOGIN_ONLINE: {
@@ -88,7 +89,6 @@
         [self.navigationController pushViewController:accessViewController animated:YES];
     } break;
     case LOGIN_WITH_OTP:
-        [[ErrorHandler sharedManager] startLoadingInController:self  message:@""];
         [sdk AuthenticateOTP:self.user];
         break;
     }
@@ -102,13 +102,11 @@
 
 - (void)OnAuthenticateCanceled
 {
-    [[ErrorHandler sharedManager] stopLoading];
     [self showError:@"Authentication Failed!" desc:@"TouchID failed"];
 }
 
 - (void)OnAuthenticateOTPCompleted:(id)sender user:(id<IUser>)user otp:(OTP*)otp
 {
-    [[ErrorHandler sharedManager] stopLoading];
     if (otp.status.status != OK) {
         [self showError:[otp.status getStatusCodeAsString] desc:@"OTP is not supported!"];
         return;
@@ -122,28 +120,22 @@
 
 - (void)OnAuthenticateOTPError:(id)sender error:(NSError*)error
 {
-    [[ErrorHandler sharedManager] stopLoading];
-
     MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
     [self showError:[mpinStatus getStatusCodeAsString] desc:mpinStatus.errorMessage];
 }
 
 -(void) onAccessNumber:(NSString *) an {
-    [[ErrorHandler sharedManager] startLoadingInController:self  message:@""];
     [sdk AuthenticateAN:self.user accessNumber:an];
 }
 
 - (void)OnAuthenticateAccessNumberCompleted:(id)sender user:(id<IUser>)user
-{
-    [[ErrorHandler sharedManager] stopLoading];
+{    
     UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Authentication Successful!" message:nil delegate:nil cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"") otherButtonTitles:nil, nil];
     [alert show];
 }
 
 - (void)OnAuthenticateAccessNumberError:(id)sender error:(NSError*)error
 {
-    [[ErrorHandler sharedManager] stopLoading];
-
     switch (error.code) {
     case INCORRECT_PIN:
         [self showError:@"Authentication Failed!" desc:@"Wrong MPIN or Access Number!"];
@@ -160,8 +152,6 @@
 
 - (void)OnAuthenticateCompleted:(id)sender user:(const id<IUser>)user
 {
-    [[ErrorHandler sharedManager] stopLoading];
-
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     AccountSummaryViewController* vcAccountSummary = [storyboard instantiateViewControllerWithIdentifier:@"AccountSummary"];
     vcAccountSummary.strEmail = [self.user getIdentity];
@@ -170,9 +160,6 @@
 
 - (void)OnAuthenticateError:(id)sender error:(NSError*)error
 {
-
-    [[ErrorHandler sharedManager] stopLoading];
-
     switch (error.code) {
     case INCORRECT_PIN:
         [self showError:@"Authentication Failed!" desc:@"Wrong MPIN"];
