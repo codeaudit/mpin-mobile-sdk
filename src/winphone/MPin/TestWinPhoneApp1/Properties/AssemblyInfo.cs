@@ -29,3 +29,4 @@ using System.Resources;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: ComVisible(false)]
 
+[assembly: NeutralResourcesLanguageAttribute("bg-BG")]

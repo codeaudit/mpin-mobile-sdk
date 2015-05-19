@@ -27,11 +27,12 @@ namespace MPinSDK
         #region Members
         private PinPadControl ctrl = null;
         private int getAttemptCount = 0;
-        private ManualResetEvent mre;
+        private static readonly object LockObject = new object();
+        static CountdownEvent countDownEvent = new CountdownEvent(1);
         private CoreDispatcher Dispatcher { get; set; }
 
         internal string Pin = string.Empty;
-        #endregion // Members 
+        #endregion // Members
 
         #region IPinPad
 
@@ -44,20 +45,22 @@ namespace MPinSDK
         public string Show()
         {
             this.Pin = string.Empty;
-            mre = new ManualResetEvent(false);
+            lock (LockObject)
+            {
+                countDownEvent = new CountdownEvent(1);
+                Task.Run(async () => { await DoAll(); }).Wait();
+            }
 
-            Task.Run(async () => { await DoAll(); }).Wait();
-            
             return this.Pin;
         }
-   
+
         private async Task DoAll()
         {
             await DisplayPinPadAsync();
             Task.WaitAll();
             await Task.Delay(2000);
             await TakePinPad();
-            mre.WaitOne();
+            countDownEvent.Wait();
         }
 
         public async Task DisplayPinPadAsync()
@@ -70,7 +73,7 @@ namespace MPinSDK
                 Window.Current.Activate();
             }));
         }
-          
+
         private async Task TakePinPad()
         {
             await ThreadPool.RunAsync(operation => UIDispatcher.Execute(() =>
@@ -88,7 +91,7 @@ namespace MPinSDK
         void ctrl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "IsEntered")
-                mre.Set();
+                countDownEvent.Signal();
         }
 
         private PinPadControl LookForPinPad(Frame frame)
@@ -102,7 +105,7 @@ namespace MPinSDK
 
             return ctrl;
         }
-              
+
         private PinPadControl FindPinPad(DependencyObject startNode)
         {
             int count = VisualTreeHelper.GetChildrenCount(startNode);
@@ -121,7 +124,7 @@ namespace MPinSDK
 
             return result;
         }
-       
+
         #endregion // IPinPad
-    }    
+    }
 }

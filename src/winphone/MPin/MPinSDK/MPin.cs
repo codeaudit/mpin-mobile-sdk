@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using MPinRC;
 using Windows.UI.Core;
 using Windows.ApplicationModel.Resources;
+using System.Diagnostics;
 
 namespace MPinSDK
 {
@@ -18,6 +19,7 @@ namespace MPinSDK
     {
         #region Members
         static MPinWrapper mPtr;
+        private static readonly object lockObject = new object();
         private IContext context { get; set; }
         #endregion
 
@@ -27,7 +29,7 @@ namespace MPinSDK
         /// </summary>
         public MPin()
         {
-            mPtr = new MPinWrapper();
+            mPtr = new MPinWrapper();            
         }
         #endregion
         
@@ -40,8 +42,13 @@ namespace MPinSDK
         /// <returns> A <see cref="Status"/> which indicates whether the operation was successful or not.</returns>
         public Status Init(IDictionary<string, string> config, IContext context)
         {
-            StatusWrapper sw = mPtr.Construct(config, context);
-            this.context = context;
+            StatusWrapper sw;
+            lock (lockObject)
+            {
+                sw = mPtr.Construct(config, context);
+                this.context = context;                
+            }
+            
             return new Status(sw.Code, sw.Error);
         }
 
@@ -53,7 +60,12 @@ namespace MPinSDK
         /// <returns> A <see cref="Status"/> which indicates whether the operation was successful or not.</returns>
         public User MakeNewUser(string id, string deviceName = "")
         {
-            UserWrapper wrapper = mPtr.MakeNewUser(id, deviceName);
+            UserWrapper wrapper;
+            lock (lockObject)
+            {
+                wrapper = mPtr.MakeNewUser(id, deviceName);
+            }
+
             return new User(wrapper);
         }
 
@@ -62,9 +74,12 @@ namespace MPinSDK
         /// </summary>
         /// <param name="user">The user instance.</param>
         public void DeleteUser(User user)
-        {
-            if (mPtr != null && user != null)
-                mPtr.DeleteUser(user.Wrapper);
+        {            
+            lock (lockObject)
+            {
+                if (mPtr != null && user != null)
+                    mPtr.DeleteUser(user.Wrapper);
+            }         
         }
 
         /// <summary>
@@ -91,7 +106,12 @@ namespace MPinSDK
         /// <returns> A <see cref="Status"/> which indicates whether the operation was successful or not.</returns>
         public Status ResetPin(User user)
         {
-            StatusWrapper status = user != null ? mPtr.ResetPin(user.Wrapper) : new StatusWrapper() { Code = -1, Error=ResourceLoader.GetForCurrentView().GetString("NullUser")};
+            StatusWrapper status;          
+            lock (lockObject)
+            {
+                status = user != null ? mPtr.ResetPin(user.Wrapper) : new StatusWrapper() { Code = -1, Error = ResourceLoader.GetForCurrentView().GetString("NullUser") };
+            }
+          
             return new Status(status.Code, status.Error);
         }
 
@@ -104,7 +124,12 @@ namespace MPinSDK
         /// <remarks> Under certain scenarios, like a demo application, the RPA might be configured to verify identities without starting a verification process. In this case, the status of the call will still be OK, but the User state will be set to Activated. </remarks>
         public Status StartRegistration(User user, string userData = "")
         {
-            StatusWrapper sw = user != null ? mPtr.StartRegistration(user.Wrapper, userData) : new StatusWrapper() { Code = -1, Error = ResourceLoader.GetForCurrentView().GetString("NullUser") };
+            StatusWrapper sw;
+            lock (lockObject)
+            {
+                sw = user != null ? mPtr.StartRegistration(user.Wrapper, userData) : new StatusWrapper() { Code = -1, Error = ResourceLoader.GetForCurrentView().GetString("NullUser") };
+            }
+
             return new Status(sw.Code, sw.Error);
         }
 
@@ -120,7 +145,12 @@ namespace MPinSDK
             if (user == null)
                 return new Status(-1, ResourceLoader.GetForCurrentView().GetString("NullUser"));
 
-            StatusWrapper sw = mPtr.RestartRegistration(user.Wrapper, userData);
+            StatusWrapper sw;            
+            lock (lockObject)
+            {
+                sw = mPtr.RestartRegistration(user.Wrapper, userData);
+            }
+
             return new Status(sw.Code, sw.Error);
         }
 
@@ -134,7 +164,12 @@ namespace MPinSDK
             if (user == null)
                 return new Status(-1, ResourceLoader.GetForCurrentView().GetString("NullUser"));
 
-            StatusWrapper sw = mPtr.FinishRegistration(user.Wrapper);
+            StatusWrapper sw;
+            lock (lockObject)
+            {
+                sw = mPtr.FinishRegistration(user.Wrapper);
+            }
+
             return new Status(sw.Code, sw.Error);
         }
 
@@ -150,8 +185,8 @@ namespace MPinSDK
                 return new Status(-1, ResourceLoader.GetForCurrentView().GetString("NullUser"));
 
             StatusWrapper sw = authResultData == null
-                ? mPtr.Authenticate(user.Wrapper)
-                : mPtr.AuthenticateResultData(user.Wrapper, authResultData);
+                    ? mPtr.Authenticate(user.Wrapper)
+                    : mPtr.AuthenticateResultData(user.Wrapper, authResultData);
             return new Status(sw.Code, sw.Error);
         }
 
@@ -183,7 +218,7 @@ namespace MPinSDK
         {
             if (user == null)
                 return new Status(-1, ResourceLoader.GetForCurrentView().GetString("NullUser"));
-            
+
             StatusWrapper sw = mPtr.AuthenticateAN(user.Wrapper, accessNumber);
             return new Status(sw.Code, sw.Error);
         }
@@ -196,7 +231,12 @@ namespace MPinSDK
         /// <returns> A <see cref="Status"/> which indicates whether the operation was successful or not.</returns>
         public Status TestBackend(string backend, string rpsPrefix = "")
         {
-            StatusWrapper status = mPtr.TestBackend(backend, rpsPrefix);
+            StatusWrapper status;
+            lock (lockObject)
+            {
+                status = mPtr.TestBackend(backend, rpsPrefix);
+            }
+
             return new Status(status.Code, status.Error);
         }
 
@@ -208,7 +248,12 @@ namespace MPinSDK
         /// <returns> A <see cref="Status"/> which indicates whether the operation was successful or not.</returns>
         public Status SetBackend(string backend, string rpsPrefix = "")
         {
-            StatusWrapper status = mPtr.SetBackend(backend, rpsPrefix);
+            StatusWrapper status;
+            lock (lockObject)
+            {
+                status = mPtr.SetBackend(backend, rpsPrefix);
+            }
+            
             return new Status(status.Code, status.Error);
         }
 
@@ -222,7 +267,13 @@ namespace MPinSDK
             if (user == null)
                 return false;
 
-            return mPtr.CanLogout(user.Wrapper);
+            bool canLogout;            
+            lock (lockObject)
+            {
+                canLogout = mPtr.CanLogout(user.Wrapper);
+            }
+
+            return canLogout;
         }
 
         /// <summary>
@@ -235,8 +286,14 @@ namespace MPinSDK
         {
             if (user == null)
                 return false;
+
+            bool logout;
+            lock (lockObject)
+            {
+                logout = mPtr.Logout(user.Wrapper);
+            }
             
-            return mPtr.Logout(user.Wrapper);
+            return logout;
         }
 
         /// <summary>
@@ -253,7 +310,13 @@ namespace MPinSDK
             if (string.IsNullOrEmpty(key))
                 return string.Empty;
 
-            return mPtr.GetClientParam(key);
+            string param = string.Empty;
+            lock (lockObject)
+            {
+                param = mPtr.GetClientParam(key);
+            }
+            
+            return param;
         }
 
         #region IDisposable
@@ -262,11 +325,11 @@ namespace MPinSDK
         /// </summary>
         public void Dispose()
         {
-            lock (this)
+            lock (lockObject)
             {
                 mPtr.Destroy();
                 mPtr = null;
-            }
+            }            
         }
         #endregion // IDisposable
 

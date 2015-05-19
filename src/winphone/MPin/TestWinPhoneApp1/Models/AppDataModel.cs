@@ -18,6 +18,12 @@ namespace MPinDemo.Models
         private const string FilePath = "ms-appx:///Resources/SampleData.json";
         private static AppDataModel _appDataModel = new AppDataModel();
 
+        public AppDataModel()
+        {
+            CreateBackends();
+        }
+        
+
         private ObservableCollection<Backend> services;
         public ObservableCollection<Backend> BackendsList
         {
@@ -94,6 +100,99 @@ namespace MPinDemo.Models
         #endregion
 
         #region Methods
+
+        private void CreateBackends()
+        {
+            //Backend backends[] = 
+            //{
+            //    {"https://m-pindemo.certivox.org"},
+            //    {"http://ec2-54-77-232-113.eu-west-1.compute.amazonaws.com", "/rps/"},
+            //    {"https://mpindemo-qa-v3.certivox.org", "rps"},
+            //};
+            //TODO:: leave only the last three services
+            BackendsList = new ObservableCollection<Backend>();
+            BackendsList.Add(new Backend()
+            {
+                BackendUrl = "https://m-pindemo.certivox.org",
+                RequestAccessNumber = false,
+                RequestOtp = false,
+                Title = "Basic"
+            });
+
+            //BackendsList.Add(new Backend()
+            //{
+            //    BackendUrl = "http://ec2-54-77-232-113.eu-west-1.compute.amazonaws.com",
+            //    RequestAccessNumber = false,
+            //    RequestOtp = false,
+            //    Title = "M-Pin Connect"
+            //});
+
+            BackendsList.Add(new Backend()
+            {
+                BackendUrl = "http://ec2-52-28-83-2.eu-central-1.compute.amazonaws.com/",
+                RequestAccessNumber = false,
+                RequestOtp = false,
+                Title = "Force Activation"
+            });
+
+            BackendsList.Add(new Backend()
+            {
+                BackendUrl = "https://mpindemo-qa-v3.certivox.org",
+                RequestAccessNumber = true,
+                RequestOtp = false,
+                Title = "Bank service"
+            });
+
+            BackendsList.Add(new Backend()
+            {
+                BackendUrl = "http://otp.m-pin.id/rps",
+                RequestAccessNumber = false,
+                RequestOtp = true,
+                Title = "Longest Journey Service"
+            });
+
+            BackendsList.Add(new Backend()
+            {
+                BackendUrl = "http://risso.certivox.org/",
+                RequestAccessNumber = false,
+                RequestOtp = true,
+                Title = "OTP login"
+            });
+
+            BackendsList.Add(new Backend()
+            {
+                BackendUrl = "http://ntt-vpn.certivox.org",
+                RequestAccessNumber = false,
+                RequestOtp = true,
+                Title = "OTP NTT login"
+            });
+
+            BackendsList.Add(new Backend()
+            {
+                BackendUrl = "http://tcb.certivox.org",
+                RequestAccessNumber = false,
+                RequestOtp = false,
+                Title = "Mobile banking login"
+            });
+
+            BackendsList.Add(new Backend()
+            {
+                BackendUrl = "http://tcb.certivox.org",
+                RequestAccessNumber = true,
+                RequestOtp = false,
+                Title = "Online banking login"
+            });
+
+            BackendsList.Add(new Backend()
+            {
+                BackendUrl = "http://otp.m-pin.id",
+                RequestAccessNumber = false,
+                RequestOtp = true,
+                Title = "VPN login"
+            });
+
+        }
+
         public static async Task<ObservableCollection<Backend>> GetBackendsAsync()
         {
             await _appDataModel.GetSampleDataAsync();

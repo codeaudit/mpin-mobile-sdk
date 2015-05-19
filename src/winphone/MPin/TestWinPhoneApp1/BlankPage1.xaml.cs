@@ -29,6 +29,7 @@ namespace MPinDemo
 
         private ApplicationDataContainer roamingSettings = null;
         private static Controller controller = null;
+        private static bool IsSelectedBtnEnabled = true;
         private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
         #endregion // members
 
@@ -75,8 +76,8 @@ namespace MPinDemo
 
             if (isInitialLoad)
             {
-                var sampleDataGroup = await AppDataModel.GetBackendsAsync();                
-                controller.DataModel.BackendsList = sampleDataGroup;
+                //var sampleDataGroup = await AppDataModel.GetBackendsAsync();                
+                //controller.DataModel.BackendsList = sampleDataGroup;
             }
         }
 
@@ -132,7 +133,7 @@ namespace MPinDemo
         {
             int? selectedIndex = roamingSettings.Values[SelectedUser] as int?;
             if (selectedIndex != null && selectedIndex >= 0 && selectedIndex < UsersListBox.Items.Count)
-            {                
+            {
                 return this.UsersListBox.Items[selectedIndex.Value] as User;
             }
 
@@ -164,12 +165,14 @@ namespace MPinDemo
         #region handlers
         private async void Authenticate_Click(object sender, RoutedEventArgs e)
         {
+            IsSelectedBtnEnabled = false;
             await controller.ProcessUser();
+            IsSelectedBtnEnabled = true;
         }
 
         private void UsersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectAppBarButton.IsEnabled = UsersListBox.SelectedItem != null;
+            SelectAppBarButton.IsEnabled = IsSelectedBtnEnabled && UsersListBox.SelectedItem != null;
             ResetPinButton.IsEnabled = UsersListBox.SelectedItem != null;
 
             UsersListBox.ScrollIntoView(UsersListBox.SelectedItem);
@@ -202,7 +205,7 @@ namespace MPinDemo
             if (UsersListBox != null && UsersListBox.ItemsSource != null)
             {
                 UsersListBox.SelectedItem = GetSelectedUser(controller.DataModel.UsersList);
-                
+
                 if (isInitialLoad)
                 {
                     await controller.ProcessUser();
@@ -216,7 +219,7 @@ namespace MPinDemo
             if (e.PropertyName == "IsValidService" && !controller.IsValidService)
                 ServicesList.SelectedIndex = -1;
         }
-        
+
         private void AddAppBarButton_Click(object sender, RoutedEventArgs e)
         {
             var container = this.MainPivot.ContainerFromIndex(this.MainPivot.SelectedIndex) as ContentControl;
@@ -249,7 +252,7 @@ namespace MPinDemo
 
         private async void TestBackendButton_Click(object sender, RoutedEventArgs e)
         {
-            await controller.TestBackend();           
+            await controller.TestBackend();
         }
 
         private void MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -262,7 +265,7 @@ namespace MPinDemo
 
         private async void Delete_Click(object sender, RoutedEventArgs e)
         {
-            switch(this.MainPivot.SelectedIndex)
+            switch (this.MainPivot.SelectedIndex)
             {
                 case 0:
                     Backend? backend = ServicesList.SelectedItem as Backend?;
@@ -281,7 +284,7 @@ namespace MPinDemo
                     break;
             }
         }
-    
+
         private async void ResetPinButton_Click(object sender, RoutedEventArgs e)
         {
             await controller.ResetPIN(controller.DataModel.CurrentUser);

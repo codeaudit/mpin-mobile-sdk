@@ -75,22 +75,19 @@ namespace MPinDemo.Models
                 case "CurrentService":
                     Status status = await ProcessServiceChanged();
                     bool isOk = status != null && status.StatusCode == Status.Code.OK;
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        rootPage.NotifyUser(!isOk
-                            ? string.Format(ResourceLoader.GetForCurrentView().GetString("InitializationFailed"), (status == null ? "null" : status.StatusCode.ToString()))
-                            : ResourceLoader.GetForCurrentView().GetString("ServiceSet"),
-                            !isOk ? MainPage.NotifyType.ErrorMessage : MainPage.NotifyType.StatusMessage);
-                    });
+                    rootPage.NotifyUser(!isOk
+                        ? string.Format(ResourceLoader.GetForCurrentView().GetString("InitializationFailed"), (status == null ? "null" : status.StatusCode.ToString()))
+                        : ResourceLoader.GetForCurrentView().GetString("ServiceSet"),
+                        !isOk ? MainPage.NotifyType.ErrorMessage : MainPage.NotifyType.StatusMessage);
 
-                    this.IsValidService = isOk;                    
+                    this.IsValidService = isOk;
                     UpdateUsersList();
                     break;
 
                 case "CurrentUser":
                     break;
-                    
-                case "UsersList":                    
+
+                case "UsersList":
                     break;
             }
         }
@@ -131,7 +128,6 @@ namespace MPinDemo.Models
                 status = await Task.Factory.StartNew(() => InitService());
                 if (status != null)
                 {
-                    Debug.WriteLine("InitStatus: " + status.StatusCode + " " + status.ErrorMessage);
                     sdk.SetUiDispatcher(Window.Current.Dispatcher);
                     set = true;
                 }
@@ -169,7 +165,7 @@ namespace MPinDemo.Models
                 });
             }
         }
-        
+
         internal async Task DeleteService(Backend backend)
         {
             this.DataModel.BackendsList.Remove(backend);
@@ -180,12 +176,9 @@ namespace MPinDemo.Models
         #region users
         internal void UpdateUsersList()
         {
-            lock (sdk)
-            {
-                List<User> users = new List<User>();
-                sdk.ListUsers(users);
-                DataModel.UsersList = new System.Collections.ObjectModel.ObservableCollection<User>(users);                
-            }
+            List<User> users = new List<User>();
+            sdk.ListUsers(users);
+            DataModel.UsersList = new System.Collections.ObjectModel.ObservableCollection<User>(users);
         }
 
         public async Task ProcessUser()
@@ -207,7 +200,7 @@ namespace MPinDemo.Models
                     break;
 
                 case User.State.Blocked:
-                    mainFrame.Navigate(typeof(BlockedScreen), this.DataModel.CurrentUser);                    
+                    mainFrame.Navigate(typeof(BlockedScreen), this.DataModel.CurrentUser);
                     break;
 
                 case User.State.Invalid:
@@ -297,6 +290,14 @@ namespace MPinDemo.Models
                 }
             });
 
+            if (status != null && status.StatusCode != Status.Code.OK)
+            {
+                await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    rootPage.NotifyUser(string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblemReason"), user.Id, status.ErrorMessage), MainPage.NotifyType.ErrorMessage);
+                });
+            }
+
             return user;
         }
 
@@ -328,8 +329,7 @@ namespace MPinDemo.Models
                 s = await OnEmailConfirmed();
             }
 
-            Debug.WriteLine("OnEmailConfirmed status: " + (s == null ? "null" : s.StatusCode.ToString()));
-            string errorMsg = s == null 
+            string errorMsg = s == null
                 ? string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblem"), user.Id, user.UserState)
                 : s.StatusCode != Status.Code.OK ? string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblemReason"), user.Id, s.ErrorMessage) : string.Empty;
 
@@ -389,7 +389,7 @@ namespace MPinDemo.Models
                 UpdateUsersList();
             }
         }
-        
+
         internal async Task ResetPIN(User user)
         {
             await Task.Factory.StartNew(() =>
@@ -445,7 +445,7 @@ namespace MPinDemo.Models
         }
 
         #endregion // authentication
-      
+
         internal async Task ProcessNavigation(string command, string parameter)
         {
             switch (command)
@@ -491,7 +491,7 @@ namespace MPinDemo.Models
                     }
 
                     if (parameter.Equals("Remove"))
-                    {                        
+                    {
                         await DeleteUser(this.DataModel.CurrentUser);
                     }
                     else if (parameter.Equals("ResetPIN"))

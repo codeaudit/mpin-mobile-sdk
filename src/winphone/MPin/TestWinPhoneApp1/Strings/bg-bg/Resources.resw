@@ -169,7 +169,7 @@
     <value>НЕ е аутентикиран поради неправилно въведен ПИН!</value>
   </data>
   <data name="InitializationFailed" xml:space="preserve">
-    <value>Грешка при стартирането на MPinSDK: статус = {0}. Моле, опитайте отново!</value>
+    <value>Грешка при стартирането на MPinSDK: статус = {0}. Моля, опитайте отново!</value>
   </data>
   <data name="InvalidUser" xml:space="preserve">
     <value>Потребителят е в статус НЕВАЛИДЕН!</value>
@@ -266,5 +266,8 @@
   </data>
   <data name="UserRegistrationProblemReason" xml:space="preserve">
     <value>Възникна проблем при регистрацията на потребител {0} поради следния проблем: {1}!</value>
+  </data>
+  <data name="DeleteUserConfirmation" xml:space="preserve">
+    <value>Сигурни ли сте, че искате да изтриете потребител {0}?</value>
   </data>
 </root>

@@ -43,8 +43,6 @@ namespace MPinSDK
         StorageFolder localCacheFolder = null;
         StorageFolder roamingFolder = null;
         StorageFolder temporaryFolder = null;
-        const string filename = "mPin.txt";
-        private static readonly object LockObject = new object();
         public const string MPIN_STORAGE = "tokens.json"; 
         public const string USER_STORAGE = "users.json";  
 
