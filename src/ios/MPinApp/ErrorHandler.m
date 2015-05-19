@@ -100,7 +100,7 @@
     }
     else
     {
-        [_hud setActivity:YES];
+        [_hud setActivity:NO];
     }
     
     [_hud showInView:viewController.view];
