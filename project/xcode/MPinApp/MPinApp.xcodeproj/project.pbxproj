@@ -235,6 +235,7 @@
 		FE148D6C1A2F13D0007E83EF /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE148D601A2F13D0007E83EF /* AppDelegate.mm */; };
 		FE148D6F1A2F13D0007E83EF /* PinPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE148D661A2F13D0007E83EF /* PinPadViewController.m */; };
 		FE148D701A2F13D0007E83EF /* UserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE148D681A2F13D0007E83EF /* UserListViewController.m */; };
+		FE36B3B51B04E195000ACD70 /* ApplicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE36B3B41B04E195000ACD70 /* ApplicationManager.m */; };
 		FE49001B1A1A3CEB000030A4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001A1A1A3CEB000030A4 /* Foundation.framework */; };
 		FE49001D1A1A3CEB000030A4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001C1A1A3CEB000030A4 /* CoreGraphics.framework */; };
 		FE49001F1A1A3CEB000030A4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001E1A1A3CEB000030A4 /* UIKit.framework */; };
@@ -358,6 +359,8 @@
 		FE148D661A2F13D0007E83EF /* PinPadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PinPadViewController.m; path = ../../../../src/ios/MPinApp/PinPadViewController.m; sourceTree = "<group>"; };
 		FE148D671A2F13D0007E83EF /* UserListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserListViewController.h; path = ../../../../src/ios/MPinApp/UserListViewController.h; sourceTree = "<group>"; };
 		FE148D681A2F13D0007E83EF /* UserListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserListViewController.m; path = ../../../../src/ios/MPinApp/UserListViewController.m; sourceTree = "<group>"; };
+		FE36B3B31B04E195000ACD70 /* ApplicationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApplicationManager.h; path = ../../../../src/ios/MPinApp/ApplicationManager.h; sourceTree = "<group>"; };
+		FE36B3B41B04E195000ACD70 /* ApplicationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApplicationManager.m; path = ../../../../src/ios/MPinApp/ApplicationManager.m; sourceTree = "<group>"; };
 		FE4900171A1A3CEB000030A4 /* CertiVox M-Pin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CertiVox M-Pin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE49001A1A1A3CEB000030A4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FE49001C1A1A3CEB000030A4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -672,6 +675,8 @@
 				96F62A231AC30FAF00B25B53 /* SettingsManager.m */,
 				961957441A960E9900C93604 /* ThemeManager.h */,
 				961957451A960E9900C93604 /* ThemeManager.m */,
+				FE36B3B31B04E195000ACD70 /* ApplicationManager.h */,
+				FE36B3B41B04E195000ACD70 /* ApplicationManager.m */,
 				968591B41AF0BEFC00726E63 /* LocalizationManager.h */,
 				968591B51AF0BEFC00726E63 /* LocalizationManager.m */,
 			);
@@ -1389,6 +1394,7 @@
 				96F62A251AC30FAF00B25B53 /* SettingsManager.m in Sources */,
 				FEDDDE311A89F93E00E2068C /* UIView+Helper.m in Sources */,
 				968E7A541AA06CA700A276A7 /* IdentityCreatedViewController.m in Sources */,
+				FE36B3B51B04E195000ACD70 /* ApplicationManager.m in Sources */,
 				96C9BF291AE6407D00FAC454 /* IdentityBlockedViewController.m in Sources */,
 				FEB901681A6D28550053DE92 /* SettingsViewController.m in Sources */,
 				FE148D6C1A2F13D0007E83EF /* AppDelegate.mm in Sources */,

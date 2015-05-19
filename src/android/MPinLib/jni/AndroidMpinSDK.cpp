@@ -163,14 +163,6 @@ extern "C" JNIEXPORT jobject JNICALL Mpin_nAuthenticateAccessNumber(JNIEnv* env,
 	return MakeJavaStatus(env, sdk->AuthenticateAN(user, accessNumber));
 }
 
-extern "C" JNIEXPORT jobject JNICALL Mpin_nResetPin(JNIEnv* env, jobject jobj, jlong jptr, jobject juser) {
-	MPinSDK* sdk = (MPinSDK*) jptr;
-	jclass clsUser = env->FindClass("com/certivox/models/User");
-	jfieldID fidPtr = env->GetFieldID(clsUser, "mPtr", "J");
-	MPinSDK::UserPtr user = *(MPinSDK::UserPtr*)env->GetLongField(juser, fidPtr);
-	return MakeJavaStatus(env, sdk->ResetPin(user));
-}
-
 extern "C" JNIEXPORT void JNICALL Mpin_nDeleteUser(JNIEnv* env, jobject jobj, jlong jptr, jobject juser) {
 	MPinSDK* sdk = (MPinSDK*) jptr;
 	jclass clsUser = env->FindClass("com/certivox/models/User");
@@ -264,7 +256,6 @@ static JNINativeMethod g_methodsMpin[] = {
 	NATIVE_METHOD(Mpin, nAuthenticateOtp, "(JLcom/certivox/models/User;Lcom/certivox/models/OTP;)Lcom/certivox/models/Status;"),
 	NATIVE_METHOD(Mpin, nAuthenticateResultData, "(JLcom/certivox/models/User;Ljava/lang/StringBuilder;)Lcom/certivox/models/Status;"),
 	NATIVE_METHOD(Mpin, nAuthenticateAccessNumber, "(JLcom/certivox/models/User;Ljava/lang/String;)Lcom/certivox/models/Status;"),
-	NATIVE_METHOD(Mpin, nResetPin, "(JLcom/certivox/models/User;)Lcom/certivox/models/Status;"),
 	NATIVE_METHOD(Mpin, nDeleteUser, "(JLcom/certivox/models/User;)V"),
 	NATIVE_METHOD(Mpin, nListUsers, "(JLjava/util/List;)V"),
 	NATIVE_METHOD(Mpin, nCanLogout, "(JLcom/certivox/models/User;)Z"),
