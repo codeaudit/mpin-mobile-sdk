@@ -26,36 +26,20 @@ namespace MPinSDK.Controls
     [Windows.Foundation.Metadata.WebHostHidden]
     sealed partial class PinPadPage : Page
     {
+        PinPad pinPadClassControl;
+
         public PinPadPage()
         {
             this.InitializeComponent();
             this.PinPad.PinEntered += PinPad_PinEntered;            
         }
         
-        void PinPad_PinEntered(object sender, PinPadEventArgs e)
-        {
-            pinPadClassControl.Pin = e.Pin;                       
-          
-            Frame rootFrame = Window.Current.Content as Frame;
-            rootFrame.GoBack("PinEntered");
-        }
-
         public User CurrentUser
         {
             get;
             set;
         }
-
-        internal String Mail
-        {
-            get
-            {
-                return this.CurrentUser.Id;
-            }
-        }
-
-        PinPad pinPadClassControl;
-
+        
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
         /// </summary>
@@ -63,7 +47,24 @@ namespace MPinSDK.Controls
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            pinPadClassControl = e.Parameter as PinPad;
+            List<object> data = e.Parameter as List<object>;
+            if (data != null && data.Count == 3)
+            {
+                pinPadClassControl = data[0] as PinPad;
+                bool? doAuthenticate = data[1] as bool?;
+                if (pinPadClassControl != null && doAuthenticate != null)
+                {
+                    PinMailTB.Text = (doAuthenticate.Value ? "Authenticate user " : "Register user ") + data[2].ToString();
+                }
+            }         
         }
+
+        void PinPad_PinEntered(object sender, PinPadEventArgs e)
+        {
+            pinPadClassControl.Pin = e.Pin;
+            Frame rootFrame = Window.Current.Content as Frame;
+            rootFrame.GoBack("PinEntered");
+        }
+
     }
 }

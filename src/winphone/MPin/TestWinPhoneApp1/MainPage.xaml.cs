@@ -76,6 +76,14 @@ namespace MPinDemo
                 //Indicate the back button press is handled so the app does not exit
                 e.Handled = true;
             }
+            else // back from PinPadPages
+            {
+                // TODO
+                //if (!MainFrame.Navigate(typeof(BlankPage1), string.Empty))
+                //{
+                //    throw new Exception("Failed to create main screen");
+                //}
+            }
         }
 
         #region notification

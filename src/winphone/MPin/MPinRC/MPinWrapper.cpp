@@ -130,14 +130,6 @@ void MPinWrapper::DeleteUser(MPinRC::UserWrapper^ user)
 	sdk->DeleteUser(up);
 }
 
-MPinRC::StatusWrapper^ MPinWrapper::ResetPin(UserWrapper^ user)
-{
-	MPinSDK::UserPtr userPtr = (MPinSDK::UserPtr)user->user;
-	MPinSDK::Status status = sdk->ResetPin(userPtr);
-	return ref new MPinRC::StatusWrapper(status.GetStatusCode(), status.GetErrorMessage());
-	//return sw;
-}
-
 MPinRC::StatusWrapper^ MPinWrapper::StartRegistration(MPinRC::UserWrapper^ user, Platform::String^ userData)
 {
 	MPinSDK::String userStringData = ToNativeString(userData);
@@ -348,9 +340,13 @@ void PinPadProxy::SetPinPad(MPinRC::IPinPad^ pinPad)
 		this->managedPinPad = pinPad;
 }
 
-MPinSDK::String PinPadProxy::Show()
+MPinSDK::String PinPadProxy::Show(MPinSDK::IPinPad::Mode mode)
 {
-	Platform::String^ pin = this->managedPinPad->Show();
+	MPinRC::Mode managedMode = mode == MPinSDK::IPinPad::Mode::AUTHENTICATE
+		? MPinRC::Mode::AUTHENTICATE
+		: MPinRC::Mode::REGISTER;
+
+	Platform::String^ pin = this->managedPinPad->Show(managedMode);
 	return MPinWrapper::ToNativeString(pin);
 }
 

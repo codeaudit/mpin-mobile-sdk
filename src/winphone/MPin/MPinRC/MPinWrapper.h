@@ -24,6 +24,12 @@ namespace MPinRC
 		CRYPTO_NON_TEE
 	};
 
+	public enum class Mode
+	{
+		REGISTER,
+		AUTHENTICATE
+	};
+
 #pragma region IPinPd
 	/// <summary>
 	/// Provides an interface to trigger the display of the PIN Pad.
@@ -32,7 +38,7 @@ namespace MPinRC
 	public interface class IPinPad
 	{
 	public:
-		virtual Platform::String^ Show() = 0;
+		virtual Platform::String^ Show(MPinRC::Mode mode) = 0;
 		virtual void SetUiDispatcher(Windows::UI::Core::CoreDispatcher^ dispatcher) = 0;
 	};
 
@@ -47,7 +53,7 @@ namespace MPinRC
 
 		void SetPinPad(MPinRC::IPinPad^ pinPad);
 
-		virtual MPinSDK::String Show();
+		virtual MPinSDK::String Show(MPinSDK::IPinPad::Mode mode);
 	};
 
 #pragma endregion IPinPd
@@ -212,7 +218,6 @@ namespace MPinRC
 
 		UserWrapper^ MakeNewUser(Platform::String^ id, Platform::String^ deviceName);
 		void DeleteUser(UserWrapper^ user);
-		MPinRC::StatusWrapper^ ResetPin(UserWrapper^ user);
 		MPinRC::StatusWrapper^ StartRegistration(MPinRC::UserWrapper^ user, Platform::String^ userData);
 		MPinRC::StatusWrapper^ RestartRegistration(MPinRC::UserWrapper^ user, Platform::String^ userData);
 		MPinRC::StatusWrapper^ FinishRegistration(MPinRC::UserWrapper^ user);

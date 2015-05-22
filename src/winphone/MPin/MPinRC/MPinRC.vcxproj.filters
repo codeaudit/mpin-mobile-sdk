@@ -134,12 +134,6 @@
     <ClCompile Include="MPinWrapper.cpp" />
     <ClCompile Include="Storage.cpp" />
     <ClCompile Include="HttpRequest.cpp" />
-    <ClCompile Include="..\..\..\core\crypto\mrmuldvARM32.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\core\crypto\mrcombaARM32.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

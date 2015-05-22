@@ -70,7 +70,7 @@ namespace MPinDemo
             }
             else
             {
-                string param = GetAllPossiblePassedParams(e.Parameter.ToString());
+                string param = GetAllPossiblePassedParams(e.Parameter);
                 isInitialLoad = !string.IsNullOrEmpty(param) && param.Equals("InitialLoad");
             }
 
@@ -81,10 +81,12 @@ namespace MPinDemo
             }
         }
 
-        private string GetAllPossiblePassedParams(string param)
-        {
+        private string GetAllPossiblePassedParams(object param)
+        {            
             string navigationData = (Window.Current.Content as Frame).GetNavigationData() as string;
-            return string.IsNullOrEmpty(navigationData) ? param : navigationData;
+            return string.IsNullOrEmpty(navigationData) 
+                ? param == null ? "" : param.ToString() 
+                : navigationData;
         }
 
         #endregion

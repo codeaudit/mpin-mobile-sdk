@@ -100,22 +100,6 @@ namespace MPinSDK
         }
 
         /// <summary>
-        /// Resets the PIN of the specified <see cref="User"/> instance.
-        /// </summary>
-        /// <param name="user">The user.</param>
-        /// <returns> A <see cref="Status"/> which indicates whether the operation was successful or not.</returns>
-        public Status ResetPin(User user)
-        {
-            StatusWrapper status;          
-            lock (lockObject)
-            {
-                status = user != null ? mPtr.ResetPin(user.Wrapper) : new StatusWrapper() { Code = -1, Error = ResourceLoader.GetForCurrentView().GetString("NullUser") };
-            }
-          
-            return new Status(status.Code, status.Error);
-        }
-
-        /// <summary>
         /// Initializes the registration process for a <see cref="User"/> which has been alredy created with the MakeNewUser method. This causes the RPA to begin an identity verification procedure for the User (like sending a verification email, for instance). At that, the User’s status changes to StartedRegistration and remains like this until the FinishRegistration method has been executed successfully.
         /// </summary>
         /// <param name="user">The <see cref="User"/> object instance.</param>

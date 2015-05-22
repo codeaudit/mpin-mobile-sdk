@@ -42,34 +42,35 @@ namespace MPinSDK
             UIDispatcher.Initialize(dispatcher);
         }
 
-        public string Show()
+        public string Show(Mode mode)
         {
             this.Pin = string.Empty;
             lock (LockObject)
             {
                 countDownEvent = new CountdownEvent(1);
-                Task.Run(async () => { await DoAll(); }).Wait();
+                Task.Run(async () => { await DoAll(mode); }).Wait();
             }
 
             return this.Pin;
         }
 
-        private async Task DoAll()
+        private async Task DoAll(Mode mode)
         {
-            await DisplayPinPadAsync();
+            await DisplayPinPadAsync(mode);
             Task.WaitAll();
             await Task.Delay(2000);
             await TakePinPad();
             countDownEvent.Wait();
         }
 
-        public async Task DisplayPinPadAsync()
+        public async Task DisplayPinPadAsync(Mode mode)
         {
             UIDispatcher.Initialize(this.Dispatcher);
             await ThreadPool.RunAsync(operation => UIDispatcher.Execute(() =>
             {
                 Frame rootFrame = Window.Current.Content as Frame;
-                rootFrame.Navigate(typeof(PinPadPage), this);
+                // TODO: UserID should be the current user mail
+                rootFrame.Navigate(typeof(PinPadPage), new List<object> { this, mode == Mode.AUTHENTICATE, " UserID " });
                 Window.Current.Activate();
             }));
         }
