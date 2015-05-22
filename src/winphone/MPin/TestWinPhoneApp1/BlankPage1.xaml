@@ -87,7 +87,7 @@
                         <Button Margin="2" x:Uid="UsersDeleteButton" Click="DeleteUser_Click" x:Name="DeleteUserButton"/>
                         <Button Margin="2" x:Uid="UsersSelectButton" Click="Authenticate_Click" x:Name="AuthenticateButton"/>
                     </StackPanel>-->
-                    <ListBox x:Name="UsersListBox" 
+                    <ListBox x:Name="UsersListBox" Loaded="UsersListBox_Loaded"
                              DataContextChanged="UsersList_DataContextChanged"
                              DataContext="{Binding UsersList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                              ItemsSource="{Binding}"

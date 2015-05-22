@@ -151,7 +151,7 @@ namespace MPinDemo
 
                 controller.DataModel.CurrentService = (Backend)this.ServicesList.Items[selectedIndex.Value];
                 this.ServicesList.SelectedIndex = selectedIndex.Value;
-                this.ServicesList.ScrollIntoView(this.ServicesList.SelectedItem);
+                this.ServicesList.ScrollIntoView(this.ServicesList.SelectedItem);                
             }
             else
             {
@@ -192,11 +192,6 @@ namespace MPinDemo
             if (isInitialLoad)
             {
                 SetSelectedServicesIndex();
-
-                if (controller.DataModel.CurrentService.BackendUrl != null)
-                {
-                    this.MainPivot.SelectedItem = this.UsersPivotItem;
-                }
             }
         }
 
@@ -216,8 +211,17 @@ namespace MPinDemo
 
         private void controller_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "IsValidService" && !controller.IsValidService)
-                ServicesList.SelectedIndex = -1;
+            if (e.PropertyName == "IsValidService")
+            {
+                if (controller.IsValidService)
+                {
+                    this.MainPivot.SelectedItem = this.UsersPivotItem;               
+                }
+                else
+                {
+                    ServicesList.SelectedIndex = -1;                    
+                }                
+            }
         }
 
         private void AddAppBarButton_Click(object sender, RoutedEventArgs e)
@@ -288,6 +292,12 @@ namespace MPinDemo
         private async void ResetPinButton_Click(object sender, RoutedEventArgs e)
         {
             await controller.ResetPIN(controller.DataModel.CurrentUser);
+        }
+
+        private void UsersListBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            // reset the pivot item header to properly display it on initial load 
+            UsersPivotItem.Header = " " + UsersPivotItem.Header;
         }
         #endregion // handlers
 

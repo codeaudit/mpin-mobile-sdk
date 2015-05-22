@@ -39,11 +39,8 @@ namespace MPinDemo.Models
             }
             set
             {
-                if (this.isValidService != value)
-                {
-                    this.isValidService = value;
-                    OnPropertyChanged();
-                }
+                this.isValidService = value;
+                OnPropertyChanged();
             }
         }
 
@@ -185,8 +182,8 @@ namespace MPinDemo.Models
         {
             if (this.DataModel.CurrentUser == null)
             {
-                if (this.DataModel.UsersList.Count > 0)
-                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoSelectedUser"), MainPage.NotifyType.ErrorMessage);
+                //if (this.DataModel.UsersList.Count > 0)
+                //    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoSelectedUser"), MainPage.NotifyType.ErrorMessage);
 
                 return;
             }
