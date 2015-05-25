@@ -31,9 +31,7 @@ namespace MPinDemo
         private static Controller controller = null;
         private static bool IsSelectedBtnEnabled = true;
         private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
-        #endregion // members 
-
-
+        #endregion // members
 
         #region constructors
         static BlankPage1()
@@ -303,7 +301,15 @@ namespace MPinDemo
             // reset the pivot item header to properly display it on initial load 
             UsersPivotItem.Header = " " + UsersPivotItem.Header;
         }
+    
+        private void AboutButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!Frame.Navigate(typeof(About)))
+            {
+                throw new Exception(this.resourceLoader.GetString("NavigationFailedExceptionMessage"));
+            }
+        }
+        
         #endregion // handlers
-
     }
 }

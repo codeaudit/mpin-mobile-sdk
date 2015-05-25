@@ -270,4 +270,19 @@
   <data name="DeleteUserConfirmation" xml:space="preserve">
     <value>Сигурни ли сте, че искате да изтриете потребител {0}?</value>
   </data>
+  <data name="AboutButton.Label" xml:space="preserve">
+    <value>Информация</value>
+  </data>
+  <data name="About.Text" xml:space="preserve">
+    <value>MPin SDK примерно приложение</value>
+  </data>
+  <data name="AboutVersion" xml:space="preserve">
+    <value>Версия на приложението:</value>
+  </data>
+  <data name="AllRightsReserved" xml:space="preserve">
+    <value>CertiVox UK Ltd., Всички права запазени.</value>
+  </data>
+  <data name="ANUser" xml:space="preserve">
+    <value>Здравей, {0}!</value>
+  </data>
 </root>

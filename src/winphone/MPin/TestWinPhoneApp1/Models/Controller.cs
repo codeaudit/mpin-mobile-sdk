@@ -215,7 +215,7 @@ namespace MPinDemo.Models
                 case User.State.Registered:
                     if (this.DataModel.CurrentService.RequestAccessNumber)
                     {
-                        mainFrame.Navigate(typeof(AccessNumberScreen), sdk.GetClientParam("accessNumberDigits"));
+                        mainFrame.Navigate(typeof(AccessNumberScreen), new List<string> {this.DataModel.CurrentUser.Id, sdk.GetClientParam("accessNumberDigits")});
                     }
                     else
                     {

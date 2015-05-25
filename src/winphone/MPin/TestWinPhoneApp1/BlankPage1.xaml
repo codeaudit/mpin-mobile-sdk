@@ -134,6 +134,7 @@
                 <AppBarButton x:Uid="DeleteButton" x:Name="DeleteButton" Icon="Delete" Click="Delete_Click" />
                 <AppBarButton x:Uid="TestBackendButton" x:Name="TestBackendButton" Click="TestBackendButton_Click" IsEnabled="False" />
                 <AppBarButton x:Uid="ResetPinButton" x:Name="ResetPinButton" Click="ResetPinButton_Click" Visibility="Collapsed" />
+                <AppBarButton x:Uid="AboutButton" Click="AboutButton_Click" />
             </CommandBar.SecondaryCommands>
             
         </CommandBar>
