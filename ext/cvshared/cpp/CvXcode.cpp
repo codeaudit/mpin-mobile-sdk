@@ -33,9 +33,6 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  Base64 and Hex Encoding/Decoding facilities.
 
 */
-#if WP
-#include "pch.h"
-#endif
 #include "CvXcode.h"
 
 using namespace std;

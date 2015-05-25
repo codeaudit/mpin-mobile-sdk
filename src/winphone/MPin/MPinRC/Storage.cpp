@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "Storage.h"
 #include "MPinWrapper.h"
 

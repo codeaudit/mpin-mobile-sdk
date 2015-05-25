@@ -79,8 +79,6 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PreprocessorDefinitions>WP;_WINRT_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>../../../../src/core;../../../../ext/cvshared/cpp/include;$(ProjectDir);$(GeneratedFilesDir);$(IntDir);$(WindowsSDK_LibraryPath_x86);$(WindowsSDK_LibraryPath_x64);$(WindowsSDK_LibraryPath_arm);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -88,6 +86,8 @@
       <ExceptionHandling>Sync</ExceptionHandling>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <BrowseInformation>true</BrowseInformation>
+      <PrecompiledHeaderFile />
+      <PrecompiledHeaderOutputFile />
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -104,11 +104,11 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PreprocessorDefinitions>WP;_WINRT_DLL;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>../../../../src/core;../../../../ext/cvshared/cpp/include;$(ProjectDir);$(GeneratedFilesDir);$(IntDir);$(WindowsSDK_LibraryPath_x86);$(WindowsSDK_LibraryPath_x64);$(WindowsSDK_LibraryPath_arm);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile />
+      <PrecompiledHeaderOutputFile />
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -119,11 +119,11 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PreprocessorDefinitions>WP;_WINRT_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>../../../../src/core;../../../../ext/cvshared/cpp/include;$(ProjectDir);$(GeneratedFilesDir);$(IntDir);$(WindowsSDK_LibraryPath_x86);$(WindowsSDK_LibraryPath_x64);$(WindowsSDK_LibraryPath_arm);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile />
+      <PrecompiledHeaderOutputFile />
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,11 +134,11 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PreprocessorDefinitions>WP;_WINRT_DLL;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>../../../../src/core;../../../../ext/cvshared/cpp/include;$(ProjectDir);$(GeneratedFilesDir);$(IntDir);$(WindowsSDK_LibraryPath_x86);$(WindowsSDK_LibraryPath_x64);$(WindowsSDK_LibraryPath_arm);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile />
+      <PrecompiledHeaderOutputFile />
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -171,7 +171,6 @@
     <ClInclude Include="..\..\..\core\utils.h" />
     <ClInclude Include="..\..\..\core\version.h" />
     <ClInclude Include="HttpRequest.h" />
-    <ClInclude Include="pch.h" />
     <ClInclude Include="MPinWrapper.h" />
     <ClInclude Include="Storage.h" />
   </ItemGroup>
@@ -363,12 +362,6 @@
     <ClCompile Include="..\..\..\core\mpin_sdk.cpp" />
     <ClCompile Include="..\..\..\core\utils.cpp" />
     <ClCompile Include="HttpRequest.cpp" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Create</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="MPinWrapper.cpp" />
     <ClCompile Include="Storage.cpp" />
   </ItemGroup>

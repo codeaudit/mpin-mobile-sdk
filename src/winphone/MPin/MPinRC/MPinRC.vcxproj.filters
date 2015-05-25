@@ -31,7 +31,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pch.cpp" />
     <ClCompile Include="..\..\..\..\ext\cvshared\cpp\CvString.cpp">
       <Filter>ext\cvshared</Filter>
     </ClCompile>
@@ -136,7 +135,6 @@
     <ClCompile Include="HttpRequest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h" />
     <ClInclude Include="..\..\..\..\ext\cvshared\cpp\include\CvCommon.h">
       <Filter>ext\cvshared</Filter>
     </ClInclude>

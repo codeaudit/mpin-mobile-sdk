@@ -1,5 +1,4 @@
-﻿#include "pch.h"
-#include "MPinWrapper.h"
+﻿#include "MPinWrapper.h"
 #include <string>
 #include <ctime>
 // for debugging only
