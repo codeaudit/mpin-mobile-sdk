@@ -207,6 +207,15 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 				getPinPadFragment().showWrongPin();
 			}
 			showAuthenticate();
+			break;
+		case RESPONSE_PARSE_ERROR:
+			new AlertDialog.Builder(MPinActivity.this)
+					.setTitle("OTP not supported")
+					.setMessage(
+							"The configuration does not support OTP")
+					.setPositiveButton("OK", null).show();
+			setChooseUserScreen();
+			break;
 		default:
 
 			break;
@@ -569,7 +578,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 				break;
 			case INVALID:
 				enableSelectUser();
-				Log.i("DEBUG", "user INVALID");
 				break;
 			case BLOCKED:
 				userBlocked();
@@ -825,8 +833,14 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 		@Override
 		protected void onPostExecute(Void result) {
 			if (status.getStatusCode() != com.certivox.models.Status.Code.PIN_INPUT_CANCELED) {
-				if (status.getStatusCode() != com.certivox.models.Status.Code.OK) {
+
+				if ((status.getStatusCode() != com.certivox.models.Status.Code.OK)) {
 					onFailedToAuthenticate(status, !accessNumber.equals(""));
+
+				} else if (otp != null
+						&& otp.status != null
+						&& otp.status.getStatusCode() != com.certivox.models.Status.Code.OK) {
+					onFailedToAuthenticate(otp.status, false);
 				} else {
 					if (otp != null
 							&& otp.status != null
