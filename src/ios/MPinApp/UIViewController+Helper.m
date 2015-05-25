@@ -17,8 +17,9 @@
     self.navigationItem.leftBarButtonItem = newBackButton;
 }
 
--(void) showError:(NSString *) title desc:(NSString *) desc {
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:title message:desc delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
+-(void) showError:(NSString *) title desc:(NSString *) desc
+{
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(title, desc) delegate:nil cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"") otherButtonTitles:nil];
     [alert show];
 }
 

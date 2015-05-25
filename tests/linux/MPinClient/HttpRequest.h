@@ -12,13 +12,15 @@
 
 #include "CvHttpRequest.h"
 
+using CvShared::Seconds;
+
 class CHttpRequest : public MPinSDK::IHttpRequest
 {
 public:
 	typedef MPinSDK::String String;
 	typedef MPinSDK::StringMap StringMap;
 	
-	CHttpRequest();
+	CHttpRequest(const Seconds& aTimeout = CvHttpRequest::TIMEOUT_INFINITE);
 	virtual ~CHttpRequest();
 	
 	virtual void SetHeaders(const StringMap& headers);
@@ -33,10 +35,12 @@ public:
 private:
 	CHttpRequest(const CHttpRequest& orig);
 	
+	String			m_id;
+	
 	CvHttpRequest	m_request;
-	String			m_requestData;	//Used for debugging purposes only
+	String			m_requestData;	//Used for debugging purposes only	
 	StringMap		m_queryParams;
-	CvShared::Seconds m_timeout;
+	Seconds			m_timeout;
 	
 	StringMap		m_responseHeaders;
 	String			m_responseData;

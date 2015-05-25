@@ -34,6 +34,8 @@
 #define LOGOUT_BUTTON_INDEX 1
 #define DELETE_TAG 204
 #define DELETE_BUTTON_INDEX 1
+#define RESETPIN_TAG 208
+#define RESETPIN_BUTTON_INDEX 1
 #define NOT_SELECTED -1
 #define NOT_SELECTED_SEC 0
 
@@ -72,6 +74,7 @@ static NSString* const kAN = @"AN";
 - (IBAction)btnEditTap:(id)sender;
 - (IBAction)btnDeleteTap:(id)sender;
 - (IBAction)btnAuthTap:(id)sender;
+- (IBAction)onResetPinButtonClicked:(id)sender;
 
 - (void)deleteSelectedUser;
 
@@ -92,58 +95,51 @@ static NSString* const kAN = @"AN";
 {
     [super viewDidLoad];
     boolFirstTime = YES;
-    self.title = @"Identity List";
+
     self.automaticallyAdjustsScrollViewInsets = NO;
     storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     boolIsInitialised = NO;
 
     hud = [[ATMHud alloc] initWithDelegate:self];
-    [hud setCaption:@"Changing configuration. Please wait."];
+    [hud setCaption:NSLocalizedString(@"HUD_CHANGE_CONFIGURATION", @"")];
     [hud setActivity:YES];
     [hud showInView:self.view];
     [[ThemeManager sharedManager] beautifyViewController:self];
-
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        MpinStatus* status = [MPin initWithConfig:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            if (status.status != OK) {
-                [self showError:[status getStatusCodeAsString] desc:status.errorMessage];
-            }
-            [hud hide];
-            self.users = [MPin listUsers];
-            
-            if ([self.users count] == 0)
-            {
-                [self hideBottomBar:NO];
-            }
-
-            ConfigurationManager *cf = [ConfigurationManager sharedManager];
-            NSInteger nSelectedUserIndex = [cf getSelectedUserIndexforSelectedConfiguration];
-            if (nSelectedUserIndex >=0) {
-                selectedIndexPath = [NSIndexPath indexPathForRow:nSelectedUserIndex inSection:NOT_SELECTED_SEC];
-                if (self.users.count > selectedIndexPath.row)
-                {
-                    currentUser = (self.users)[selectedIndexPath.row];
-                }
-                else
-                {
-                    currentUser = (self.users)[0];
-                }
-                
-                [self showBottomBar:NO];
-                [self starAuthenticationFlow];
-            } else  [self hideBottomBar:NO];
-            
-            [self.table reloadData];
-        });
-    });
-
+    
     _btnAdd.backgroundColor = [[SettingsManager sharedManager] color6];
     [_btnAdd setTitle:@"ADD NEW IDENTITY +" forState:UIControlStateNormal];
     _btnAdd.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:16.0];
 
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
+}
+
+- (void) invalidate {
+    self.users = [MPin listUsers];
+    
+    if ([self.users count] == 0)
+    {
+        [self hideBottomBar:NO];
+    }
+    
+    ConfigurationManager *cf = [ConfigurationManager sharedManager];
+    NSInteger nSelectedUserIndex = [cf getSelectedUserIndexforSelectedConfiguration];
+    if (nSelectedUserIndex >=0) {
+        selectedIndexPath = [NSIndexPath indexPathForRow:nSelectedUserIndex inSection:NOT_SELECTED_SEC];
+        if (self.users.count > selectedIndexPath.row)
+        {
+            currentUser = (self.users)[selectedIndexPath.row];
+        }
+        else
+        {
+            currentUser = (self.users)[0];
+        }
+        
+        [self showBottomBar:NO];
+        [self starAuthenticationFlow];
+    } else  [self hideBottomBar:NO];
+    
+    [self.table reloadData];
 }
 
 - (void)showBottomBar:(BOOL)animated
@@ -184,9 +180,6 @@ static NSString* const kAN = @"AN";
     [[ThemeManager sharedManager] beautifyViewController:self];
     [self stopLoading];
     self.users = [MPin listUsers];
-    
-
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -356,7 +349,7 @@ static NSString* const kAN = @"AN";
 
 - (void)OnAuthenticateAccessNumberCompleted:(id)sender user:(id<IUser>)user
 {
-    [hud setCaption:@"Authentication Successful!"];
+    [hud setCaption:NSLocalizedString(@"HUD_AUTH_SUCCESS", @"")];
     [hud setMinShowTime:2.0];
     [hud showInView:self.view];
     [hud hide];
@@ -424,7 +417,7 @@ static NSString* const kAN = @"AN";
 {
     if ((alertView.tag == ON_LOGOUT) && (buttonIndex == LOGOUT_BUTTON_INDEX)) {
 
-        [hud setCaption:@"Logging OUT ..."];
+        [hud setCaption:NSLocalizedString(@"HUD_LOGOUT", @"")];
         [hud setActivity:YES];
         [hud showInView:self.view];
 
@@ -432,16 +425,24 @@ static NSString* const kAN = @"AN";
             BOOL isSuccessful = [MPin Logout:(self.users)[selectedIndexPath.row]];
             dispatch_async(dispatch_get_main_queue(), ^(void) {
                 [hud hide];
-                NSString * descritpion = (isSuccessful)?(@"Successful"):(@"Unsuccessful");
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Logout" message:descritpion delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil];
-                [alert show];
+                NSString * descritpion = (isSuccessful)?NSLocalizedString(@"HUD_LOGOUT_OK", @""):NSLocalizedString(@"HUD_LOGOUT_NOT_OK", @"");
+                [hud setCaption:descritpion];
+                [hud setActivity:YES];
+                [hud showInView:self.view];
+                
+                
             });
         });
         return;
-    }
-
-    if ((alertView.tag == DELETE_TAG) && (buttonIndex == DELETE_BUTTON_INDEX)) {
+    } else if ((alertView.tag == DELETE_TAG) && (buttonIndex == DELETE_BUTTON_INDEX)) {
         [self deleteSelectedUser];
+    } else if((alertView.tag == RESETPIN_TAG) && (buttonIndex == RESETPIN_BUTTON_INDEX)) {
+        [self startLoading];
+        id<IUser> iuser = (self.users)[selectedIndexPath.row];
+        NSString * userID = [iuser getIdentity];
+        [self deleteSelectedUser];
+        ConfigurationManager *cfm = [ConfigurationManager sharedManager];
+        [sdk RegisterNewUser:userID devName:[cfm getDeviceName]];
     }
 }
 
@@ -471,14 +472,38 @@ static NSString* const kAN = @"AN";
 - (IBAction)btnDeleteTap:(id)sender
 {
     id<IUser> iuser = (self.users)[selectedIndexPath.row];
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"DELETE"
-                                                    message:[NSString stringWithFormat:@"User \"%@\" will be deleted!", [iuser getIdentity]]
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"KEY_DELETE", @"")
+                                                    message:[NSString stringWithFormat:NSLocalizedString(@"WARNING_USER_WILL_BE_DELETED", @""), [iuser getIdentity]]
                                                    delegate:self
-                                          cancelButtonTitle:@"CANCEL"
-                                          otherButtonTitles:@"DELETE",
+                                          cancelButtonTitle:NSLocalizedString(@"KEY_CANCEL", @"")
+                                          otherButtonTitles:NSLocalizedString(@"KEY_DELETE", @""),
                                           nil];
     alert.tag = DELETE_TAG;
     [alert show];
+}
+
+
+
+
+
+-(IBAction)onResetPinButtonClicked:(id)sender {
+    
+    id<IUser> iuser = (self.users)[selectedIndexPath.row];
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"RESET_PIN"
+                                                    message:[NSString stringWithFormat:@"Are you sure that you would like to reset pin of \"%@\" ?", [iuser getIdentity]]
+                                                   delegate:self
+                                          cancelButtonTitle:@"CANCEL"
+                                          otherButtonTitles:@"RESET",
+                          nil];
+    alert.tag = RESETPIN_TAG;
+    [alert show];
+}
+
+- (IBAction)btnAuthTap:(id)sender
+{
+    ConfigurationManager* cf = [ConfigurationManager sharedManager];
+    [cf setSelectedUserForCurrentConfiguration:selectedIndexPath.row];
+    [self starAuthenticationFlow];
 }
 
 - (void)starAuthenticationFlow
@@ -492,7 +517,7 @@ static NSString* const kAN = @"AN";
     switch ([iuser getState])
     {
         case INVALID:
-            [hud setCaption:@"Invalid User \n Reactivate an Account!"];
+            [hud setCaption:NSLocalizedString(@"HUD_REACTIVATE_USER", @"")];
             [hud setMinShowTime:2.0];
             [hud showInView:self.view];
             [hud hide];
@@ -534,17 +559,12 @@ static NSString* const kAN = @"AN";
             [self.navigationController pushViewController:identityBlockedViewController animated:YES];
             break;
         default:
-            [[[UIAlertView alloc] initWithTitle:@"INFO" message:@"Unsupported State and Action!" delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil] show];
+            [hud setCaption:NSLocalizedString(@"HUD_UNSUPPORTED_ACTION", @"")];
+            [hud setMinShowTime:2.0];
+            [hud showInView:self.view];
+            [hud hide];
         break;
     }
-}
-
-- (IBAction)btnAuthTap:(id)sender
-{
-    ConfigurationManager* cf = [ConfigurationManager sharedManager];
-    [cf setSelectedUserForCurrentConfiguration:selectedIndexPath.row];
-
-    [self starAuthenticationFlow];
 }
 
 - (void)showPinPad
@@ -570,5 +590,47 @@ static NSString* const kAN = @"AN";
 {
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
 }
+
+- (void)OnRegisterNewUserCompleted:(id)sender user:(const id<IUser>)user {
+    [self stopLoading];
+    switch ([user getState]) {
+        case STARTED_REGISTRATION: {
+            ConfirmEmailViewController* cevc = (ConfirmEmailViewController*)
+            [storyboard instantiateViewControllerWithIdentifier:
+             @"ConfirmEmailViewController"];
+            cevc.iuser = user;
+            [self.navigationController pushViewController:cevc animated:YES];
+        } break;
+        case ACTIVATED:
+            [self startLoading];
+            currentUser = user;
+            [sdk FinishRegistration:user];
+            break;
+        default:
+            [self
+             showError:[user getIdentity]
+             desc:[NSString stringWithFormat:@"User state is unexpected %ld",
+                   [user getState]]];
+            break;
+    }
+    
+    NSArray * users = [MPin listUsers];
+    int index = 0;
+    for (;index<[users count];index++) {
+        id<IUser> cUser = [users objectAtIndex:index];
+        if ([[cUser getIdentity] isEqualToString:[user getIdentity]])   break;
+    }
+    
+    ConfigurationManager* cf = [ConfigurationManager sharedManager];
+    [cf setSelectedUserForCurrentConfiguration:(index)];
+}
+
+- (void)OnRegisterNewUserError:(id)sender error:(NSError*)error {
+    [self stopLoading];
+    MpinStatus* mpinStatus = [error.userInfo objectForKey:kMPinSatus];
+    [self showError:[mpinStatus getStatusCodeAsString]
+               desc:mpinStatus.errorMessage];
+}
+
 
 @end

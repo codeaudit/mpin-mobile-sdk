@@ -10,8 +10,8 @@
 
 @interface MenuTableViewCell : UITableViewCell
 
-@property(nonatomic, retain, readwrite) IBOutlet UILabel            *lblMenuID;
-@property(nonatomic, retain, readwrite) IBOutlet UIView             *viewSeparator;
+@property(nonatomic, weak) IBOutlet UILabel            *lblMenuID;
+@property(nonatomic, weak) IBOutlet UIView             *viewSeparator;
 
 @end
 

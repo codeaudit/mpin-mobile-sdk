@@ -7,7 +7,7 @@
 
 #include "HttpRequest.h"
 
-CHttpRequest::CHttpRequest() : m_timeout(CvHttpRequest::TIMEOUT_INFINITE)
+CHttpRequest::CHttpRequest(const Seconds& aTimeout) : m_timeout(aTimeout)
 {
 }
 

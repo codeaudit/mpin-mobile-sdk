@@ -1,0 +1,141 @@
+/*
+ Localizable.strings
+ MPinApp
+ 
+ Created by Tihomir Ganev on 29.Apr.15.
+ Copyright (c) 2015 Certivox. All rights reserved.
+ */
+
+/* menu */
+
+"MENUVC_OPTION_0" = "IDENTITIES";
+"MENUVC_OPTION_1" = "CONFIGURATIONS";
+"MENUVC_OPTION_2" = "ABOUT";
+
+/* User list */
+
+"USERLISTVC_TITLE" = "IDENTITIES";
+"USERLISTVC_ADD_NEW_ID" = "Add account +";
+
+/* Add user */
+
+"ADDIDVC_TITLE" = "ADD IDENTITY";
+
+"ADDIDVC_LBL_IDENTITY" = "ENTER YOUR EMAIL";
+"ADDIDVC_TXT_IDENTITY" = "email...";
+"ADDIDVC_LBL_DEVNAME" = "DEVICE NAME";
+"ADDIDVC_TXT_DEVNAME" = "Name...";
+
+/* ID Created */
+
+"ID_CREATED_TITLE" = "IDENTITY CREATED";
+
+"ID_CREATED_MESSAGE" = "CONGRATULATIONS!\n Your identity: %@ was succesfilly created.";
+"ID_CREATED_BTN_SIGN_IN" = "SIGN IN WITH THIS IDENTITY";
+
+
+/*CONFIRM ID VC */
+"CONFIRM_EMAIL_VC_TITLE" = "CONFIRM EMAIL";
+
+"CONFIRM_EMAIL_VC_LBL_MESSAGE" = "We have sent you an email to: \r\n %@ \r\n Click the link in the email to confirm your identity and proceed.";
+"CONFIRM_EMAIL_VC_BTN_EMAIL_CONFIRMED" = "I CONFIRMED MY EMAIL";
+"CONFIRM_EMAIL_VC_BTN_RESEND_EMAIL" = "RESEND EMAIL";
+"CONFIRM_EMAIL_VC_BTN_GOTO_ID_LIST" = "GO TO THE IDENTITY LIST";
+
+/* OTP */
+
+"OTPVC_TITLE" = "ONE TIME PASSWORD";
+
+"OTPVC_LBL_MESSAGE"        = "You can now use this password to log in to your VPN service.";
+"OTPVC_LBL_YOUR_PASSWORD" = "YOUR PASSWORD";
+
+/* ACCESS NUMBER */
+"ACCESSNUMBERVC_TITLE" = "ACCESS NUMBER";
+
+"ACCESSNUMBERVC_NOTE"   = "Please enter %d digits access number";
+
+
+/* Configuration list */
+"CONFIGLISTVC_TITLE"    = "CONFIGURATIONS";
+
+/* Add Configuration*/
+"ADDCONFIGVC_TITLE_ADD" = "Add configuration";
+"ADDCONFIGVC_TITLE_EDIT" = "Edit configuration";
+"ADDCONFIGVC_NAME" = "NAME";
+"ADDCONFIGVC_URL" = "URL";
+"ADDCONFIGVC_PREFIX" = "RPS PREFIX";
+"ADDCONFIGVC_BTN_TEST_CONFIG" = "TEST CONFIGURATION";
+"ADDCONFIGVC_ERROR_EMPTY_URL" = "URL field is empty";
+"ADDCONFIGVC_ERROR_INVALID_URL" = "Invalid URL";
+"ADDCONFIGVC_MESSAGE_CONFIG_OK" = "Configuration is valid";
+"ADDCONFIGVC_INVALID_CONFIG" = "Invalid configuration";
+
+/* Account summary */
+
+"ACCOUNTSUMMARYVC_TITLE" = "Account summary";
+
+/* About */
+"ABOUTVC_TITLE"         = "About";
+"ABOUTVC_BUILD_NUMBER"  = "Build: %@";
+"ABOUTVC_VER_NUMBER"    = "Ver. %@";
+"ABOUTVC_COPYRIGHT"     = "Copyright (c) %@ Certivox. all rights reserved.";
+
+/* PinPad VC */
+
+"PINPAD_VC_TITLE" = "Enter Your PIN";
+
+/* HUD Messages */
+"HUD_CHANGE_CONFIGURATION"  = "Changing configuration. Please wait.";
+"HUD_AUTH_SUCCESS"          = "Authentication Successful!";
+"HUD_LOGOUT"                = "Logging OUT";
+"HUD_LOGOUT_OK"             = "Logout Successful";
+"HUD_LOGOUT_NOT_OK"         = "Logout Unsuccessful";
+"HUD_REACTIVATE_ACCOUNT"    = "Invalid User \n Reactivate an Account!";
+"HUD_UNSUPPORTED_ACTION"    = "Unsupported State and Action!";
+"HUD_SAVE_CONFIG"           = "Saving configuration. Please wait.";
+"HUD_SAVE_CONFIG_AND_DEL"   = "Saving configuration. Please wait. All associated identities will be deleted.";
+
+/* ERROR Messages */
+
+"ERROR_PLEASE_ENTER_VALID_EMAIL"        = "Please enter a valid email address!";
+"ERROR_PLEASE_ENTER_VALID_USER_ID"      = "Please enter a valid user id in the text field!";
+"ERROR_UNEXPECTED_USER_STATE"           = "User state is unexpected %ld";
+"ERROR_WRONG_AN"                        = "Wrong Access Number";
+
+"PIN_INPUT_CANCELED"                    = "PIN Input canceled";
+"CRYPTO_ERROR"                          = "Crypto error";
+"STORAGE_ERROR"                         = "Error in local storage";
+"NETWORK_ERROR"                         = "Network error";
+"RESPONSE_PARSE_ERROR"                  = "Invalid response from server";
+"FLOW_ERROR"                            = "FLOW ERROR";
+"IDENTITY_NOT_AUTHORIZED"               = "Registratin denied";
+"IDENTITY_NOT_VERIFIED"                 = "Acount needs verification";
+"REQUEST_EXPIRED"                       = "Expired request";
+"REVOKED"                               = "User account disabled from the server";
+"INCORRECT_PIN"                         = "Invalid PIN";
+"INCORRECT_ACCESS_NUMBER"               = "Invalid Access Number";
+"HTTP_SERVER_ERROR"                     = "Server error";
+"HTTP_REQUEST_ERROR"                    = "Invalid request";
+
+/* WARNINGS */
+"WARNING_USER_WILL_BE_DELETED"          = "User \"%@\" will be deleted!";
+"WARNING_CANNOT_EDIT_PREDEFINED_CONFIG" = "Predefined configurations cannot be edited.";
+"WARNING_CANNOT_DELETE_PREDEFINED_CONFIG" = "Predefined configurations cannot be deleted.";
+"WARNING_THIS_WILL_DELETE_ALL_IDS"      = "This action will also delete all identities, associated with this configuration.";
+
+"WARNING_VERIFY_FINGER" =  "Verify fingerprint";
+
+/* BASIC THINGS */
+"KEY_CANCEL" = "CANCEL";
+"KEY_OKBTN" = "OK";
+"KEY_DELETE" = "DELETE";
+"KEY_EDIT" = "EDIT";
+"KEY_ADD" = "ADD";
+"KEY_CLOSE" = "CLOSE";
+"KEY_WARNING" = "WARNING";
+"KEY_DONE" = "DONE";
+
+/* OTHER SHARED STRINGS */
+"LOGIN_MOBILE_APP" = "Mobile application login";
+"LOGIN_ONLINE_SESSION" = "Web login";
+"LOGIN_OTP" = "OTP Login";
