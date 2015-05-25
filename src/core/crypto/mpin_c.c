@@ -273,7 +273,7 @@ int MPIN_DOMAIN_INIT_NEW(mpin_domain *DOM)
 #else
     miracl *mr_mip=mirsys(2*PFS,16);
 #endif
-    big x,q,r,a,b,beta,xx,yy;
+	big x = NULL, q = NULL, r = NULL, a = NULL, b = NULL, beta = NULL, xx = NULL, yy = NULL;
 	ecn2 Q;
 	zzn2 f,qx,qy;
     int words,promptr,err,res=0;
@@ -387,7 +387,7 @@ int MPIN_DOMAIN_INIT(mpin_domain *DOM,const void *rom)
 #else
     miracl *mr_mip=mirsys(2*PFS,16);
 #endif
-    big x,q,r,a,b,beta,xx,yy;
+	big x = NULL, q = NULL, r = NULL, a = NULL, b = NULL, beta = NULL, xx = NULL, yy = NULL;
 	ecn2 Q;
 	zzn2 f,qx,qy;
     int words,promptr,err,res=0;
@@ -520,8 +520,8 @@ int MPIN_RECOMBINE_G1(mpin_domain *DOM,octet *R1,octet *R2,octet *R)
 #else
 	miracl *mr_mip=mirsys(DOM->nibbles,16);
 #endif
-    big q,a,b,rx,ry;
-    epoint *P,*T;
+	big q = NULL, a = NULL, b = NULL, rx = NULL, ry = NULL;
+	epoint *P = NULL, *T = NULL;
     int err,res=0;
 #ifndef MR_STATIC
     char *mem=(char *)memalloc(_MIPP_ MR_MPIN_RECOMBINE_G1_RESERVE);
@@ -736,8 +736,8 @@ int MPIN_EXTRACT_PIN(mpin_domain *DOM,octet *CID,int pin,octet *TOKEN)
 #else
 	miracl *mr_mip=mirsys(DOM->nibbles,16);
 #endif
-    big q,a,b,px,py;
-    epoint *P,*R;
+	big q = NULL, a = NULL, b = NULL, px = NULL, py = NULL;
+	epoint *P = NULL, *R = NULL;
     int err,res=0;
 #ifndef MR_STATIC
     char *mem=(char *)memalloc(_MIPP_ MR_MPIN_EXTRACT_PIN_RESERVE);
@@ -827,7 +827,7 @@ int	MPIN_CLIENT_3(mpin_domain *DOM,octet *X,octet *Y,octet *M,octet *mPAIR,octet
 #else
 	miracl *mr_mip=mirsys(DOM->nibbles,16);
 #endif
-    big x,a,b,q,px,py,r,m,beta,y;
+	big x = NULL, a = NULL, b = NULL, q = NULL, px = NULL, py = NULL, r = NULL, m = NULL, beta = NULL, y = NULL;
 	zzn12 g,gp;
 	zzn4 c,cp,cpm1,cpm2;
 	zzn2 f,f2;
@@ -966,8 +966,8 @@ int MPIN_CLIENT_2(mpin_domain *DOM,octet *X,octet *Y,octet *SEC)
 #else
 	miracl *mr_mip=mirsys(DOM->nibbles,16);
 #endif
-    big x,q,a,b,px,py,r,beta;
-    epoint *P;
+	big x = NULL, q = NULL, a = NULL, b = NULL, px = NULL, py = NULL, r = NULL, beta = NULL;
+	epoint *P = NULL;
     int err,res=0;
 #ifndef MR_STATIC
     char *mem=(char *)memalloc(_MIPP_  MR_MPIN_CLIENT_2_RESERVE);
@@ -1079,8 +1079,8 @@ int MPIN_CLIENT_1(mpin_domain *DOM,int date,octet *CLIENT_ID,csprng *RNG,octet *
 #else
 	miracl *mr_mip=mirsys(DOM->nibbles,16);
 #endif
-    big x,q,a,b,px,py,r,s,beta,m;
-    epoint *P,*T,*W;
+	big x = NULL, q = NULL, a = NULL, b = NULL, px = NULL, py = NULL, r = NULL, s = NULL, beta = NULL, m = NULL;
+	epoint *P = NULL, *T = NULL, *W = NULL;
     int err,res=0;
 #ifndef MR_STATIC
     char *mem=(char *)memalloc(_MIPP_  MR_MPIN_CLIENT_1_RESERVE);
@@ -1281,11 +1281,11 @@ int MPIN_MINI_SERVER(mpin_domain *DOM,int date,octet *CID,octet *Y,octet *SST,oc
 #else
 	miracl *mr_mip=mirsys(DOM->nibbles,16);
 #endif
-    big x,q,a,b,r,beta,px,py,y;
+	big x = NULL, q = NULL, a = NULL, b = NULL, r = NULL, beta = NULL, px = NULL, py = NULL, y = NULL;
 	zzn2 f,qx,qy; 
 	zzn12 g; 
     ecn2 Q,sQ;
-	epoint *P,*R;
+	epoint *P = NULL, *R = NULL;
     int err,res=0;
 #ifndef MR_STATIC
     char *mem=(char *)memalloc(_MIPP_ MR_MPIN_MINI_SERVER_RESERVE);
@@ -1678,11 +1678,11 @@ int MPIN_FULL_SERVER_1(mpin_domain *DOM,csprng *RNG,octet *Y,octet *N,octet *mSE
 #else
 	miracl *mr_mip=mirsys(DOM->nibbles,16);
 #endif
-    big x,q,a,b,r,beta,px,py,y,n;
+	big x = NULL, q = NULL, a = NULL, b = NULL, r = NULL, beta = NULL, px = NULL, py = NULL, y = NULL, n = NULL;
 	zzn2 f,qx,qy; 
 	zzn12 g; 
     ecn2 Q;
-	epoint *P;
+	epoint *P = NULL;
     int err,res=0;
 #ifndef MR_STATIC
     char *mem=(char *)memalloc(_MIPP_ MR_MPIN_FULL_SERVER_1_RESERVE);
@@ -1823,12 +1823,12 @@ int MPIN_FULL_SERVER_2(mpin_domain *DOM,int date,octet *CLIENT_ID,octet *Y,octet
 #else
 	miracl *mr_mip=mirsys(DOM->nibbles,16);
 #endif
-    big x,q,a,b,r,beta,px,py,y,n;
+	big x = NULL, q = NULL, a = NULL, b = NULL, r = NULL, beta = NULL, px = NULL, py = NULL, y = NULL, n = NULL;
 	zzn2 f,qx,qy; 
 	zzn4 c;
 	zzn12 g,rg; 
     ecn2 Q;
-	epoint *P,*R;
+	epoint *P = NULL, *R = NULL;
     int err,res=0;
 #ifndef MR_STATIC
     char *mem=(char *)memalloc(_MIPP_ MR_MPIN_FULL_SERVER_2_RESERVE);
@@ -2115,7 +2115,7 @@ int MPIN_GET_SERVER_SECRET(mpin_domain *DOM,octet *S,octet *SST)
 #else
 	miracl *mr_mip=mirsys(DOM->nibbles,16);
 #endif
-    big x,q,a,b,r,s;
+	big x = NULL, q = NULL, a = NULL, b = NULL, r = NULL, s = NULL;
 	zzn2 f,qx,qy; 
     ecn2 Q;
     int err,res=0;
@@ -2415,11 +2415,11 @@ int MPIN_TEST_PAIRING(mpin_domain *DOM,octet *CID,octet *R)
 #else
 	miracl *mr_mip=mirsys(DOM->nibbles,16);
 #endif
-    big x,q,a,b,r,s,ra,rs,beta,px,py,w;
+	big x = NULL, q = NULL, a = NULL, b = NULL, r = NULL, s = NULL, ra = NULL, rs = NULL, beta = NULL, px = NULL, py = NULL, w = NULL;
 	zzn2 f,qx,qy; 
 	zzn12 g;
     ecn2 Q;
-	epoint *P;
+	epoint *P = NULL;
     int err,res=0;
 #ifndef MR_STATIC
     char *mem=(char *)memalloc(_MIPP_ MR_MPIN_TEST_PAIRING_RESERVE);
