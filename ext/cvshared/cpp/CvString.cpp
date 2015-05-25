@@ -35,9 +35,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  is binary compatible with it.
 
 */
-#if WP
-#include "pch.h"
-#endif
+
 #include "CvString.h"
 
 #include <stdarg.h>

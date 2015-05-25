@@ -11,13 +11,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.certivox.interfaces.MPinController;
+import com.certivox.interfaces.PinPadController;
 import com.certivox.models.User;
 import com.certivox.mpin.R;
 
 public class PinPadFragment extends Fragment {
 
-	private MPinController mMpinController;
+	private PinPadController mMpinController;
 
 	private View mView;
 	private TextView mUserEmail;
@@ -41,7 +41,7 @@ public class PinPadFragment extends Fragment {
 	private final StringBuilder mInput = new StringBuilder();
 	private volatile boolean mIsPinSet;
 
-	public void setController(MPinController controller) {
+	public void setController(PinPadController controller) {
 		mMpinController = controller;
 	}
 

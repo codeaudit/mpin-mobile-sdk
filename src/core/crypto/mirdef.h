@@ -1,9 +1,7 @@
 #ifndef MIRDEF_H
 #define MIRDEF_H
 
-#ifdef _M_ARM /* ARM build */
-	#include "mirdef.arm"	
-#elif _WIN64 /* Windows 64-bit build */
+#if _WIN64 /* Windows 64-bit build */
     #include "mirdef.wc64"
 #elif _WIN32 /* Windows 32-bit build */
     #include "mirdef.wc32"

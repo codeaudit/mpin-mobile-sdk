@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define NOT_SELECTED -1
+
 @interface ConfigurationManager : NSObject
 
 + (ConfigurationManager*)sharedManager;

@@ -14,7 +14,7 @@
 /project/eclipse/AndroidMpinSDK/libs/mips64/libAndroidMpinSDK.so
 /project/eclipse/AndroidMpinSDK/libs/x86/libAndroidMpinSDK.so
 /project/eclipse/AndroidMpinSDK/libs/x86_64/libAndroidMpinSDK.so
-/src/android/MPinLib/project.properties
+src/android/MPinLib/project.properties
 src/android/v7/
 .indexes
 .history
@@ -35,24 +35,3 @@ xcuserdata
 *.moved-aside
 DerivedData
 *.xcuserstate
-
-#Windows phone
-
-#src/winphone/MPin/Debug/*
-#src/winphone/MPin/MPin.opensdf
-#src/winphone/MPin/MPinRC/Debug/*
-#src/winphone/MPin/MPinRuntimeComponent/MPinRuntimeComponent.Windows/Debug/*
-#src/winphone/MPin/MPinSDK/bin/*
-#src/winphone/MPin/MPinSDK/obj/*
-#src/winphone/MPin/TestWinPhoneApp1/bin/*
-#src/winphone/MPin/TestWinPhoneApp1/obj/*
-#src/winphone/MPin/TestWinPhoneApp1/obj/x86/*
-#src/winphone/MPin/TestWinPhoneApp1/obj/x86/Debug/*
-bin
-obj
-Debug
-Release
-*.sdf
-*.opensdf
-*.exe
-
