@@ -271,15 +271,18 @@
     <value>About</value>
   </data>
   <data name="About.Text" xml:space="preserve">
-    <value>MPin SDK sample application</value>
+    <value>M-Pin Windows Phone Sample Application</value>
   </data>
   <data name="AboutVersion" xml:space="preserve">
-    <value>App version:</value>
+    <value>Version </value>
   </data>
-  <data name="AllRightsReserved" xml:space="preserve">
-    <value>CertiVox UK Ltd., All rights reserved.</value>
+  <data name="AllRightsReserved.Text" xml:space="preserve">
+    <value>All rights reserved.</value>
   </data>
   <data name="ANUser" xml:space="preserve">
     <value>Hi, {0}!</value>
+  </data>
+  <data name="CertivoxLtd" xml:space="preserve">
+    <value>Copyright {0} 2015, CertiVox UK Ltd</value>
   </data>
 </root>

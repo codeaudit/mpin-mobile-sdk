@@ -32,6 +32,13 @@ namespace MPinDemo
         public AddNewUser()
         {
             this.InitializeComponent();
+            InputScope scope = new InputScope();
+            InputScopeName name = new InputScopeName();
+
+            name.NameValue = InputScopeNameValue.EmailSmtpAddress;
+            scope.Names.Add(name);
+
+            this.UserId.InputScope = scope;
         }
 
         /// <summary>

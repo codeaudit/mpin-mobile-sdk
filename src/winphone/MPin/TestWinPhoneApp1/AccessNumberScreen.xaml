@@ -16,6 +16,7 @@
             <TextBlock x:Name="AccessNumberLength" Style="{StaticResource BodyTextBlockStyle}"/>
             
             <Button x:Uid="AccessNumberButton" x:Name="DoneButton" Click="Done_Click" IsEnabled="False" />
+            
         </StackPanel>
     </Grid>
 </Page>

@@ -34,7 +34,7 @@ namespace MPinDemo
                 Package.Current.Id.Version.Build);
 
             VersionTB.Text = ResourceLoader.GetForCurrentView().GetString("AboutVersion") + version.ToString();
-            AllRightsReserved.Text += ResourceLoader.GetForCurrentView().GetString("AllRightsReserved");
+            Certivox.Text = string.Format(ResourceLoader.GetForCurrentView().GetString("CertivoxLtd"), Certivox.Text);
         }
 
         /// <summary>
