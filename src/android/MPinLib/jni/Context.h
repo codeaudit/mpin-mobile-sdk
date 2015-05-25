@@ -22,7 +22,7 @@ public:
 	virtual MPinSDK::CryptoType GetMPinCryptoType() const;
 	virtual ~Context();
 
-	virtual MPinSDK::String Show(MPinSDK::IPinPad::Mode mode);
+	virtual MPinSDK::String Show();
 
 private:
 	Context(jobject jcontext);

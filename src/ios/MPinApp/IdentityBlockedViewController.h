@@ -8,9 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "IUser.h"
-#import "MPin+AsyncOperations.h"
 
-@interface IdentityBlockedViewController : UIViewController <MPinSDKDelegate>
+@interface IdentityBlockedViewController : UIViewController
 
 
 @property (nonatomic, strong) NSString *strUserEmail;
@@ -24,6 +23,6 @@
 @property (nonatomic, weak) IBOutlet UIBarButtonItem    *barBtnMenu;
 @property (nonatomic, weak) IBOutlet UIView             *viewButtonsBG;
 
--(IBAction)onResetPinButtonClicked:(id)sender;
+
 
 @end

@@ -12,12 +12,12 @@
 }
 
 
-@property(nonatomic, weak) IBOutlet UILabel *label;
+@property(nonatomic, retain, readwrite) IBOutlet UILabel *label;
 @property (nonatomic, retain) IBOutletCollection(UIButton) NSArray *numButtonsCollection;
-@property(nonatomic, weak) IBOutlet UIButton *actionButton;
-@property(nonatomic, weak) IBOutlet UIButton *clearButton;
+@property(nonatomic, retain, readwrite) IBOutlet UIButton *actionButton;
+@property(nonatomic, retain, readwrite) IBOutlet UIButton *clearButton;
 
-@property (nonatomic, strong) NSString * number;
+@property (nonatomic, retain , readwrite) NSString * number;
 
 - (void) enableNumButtons;
 - (void) disableNumButtons;

@@ -1,8 +1,9 @@
 package com.certivox.adapters;
 
+import java.lang.ref.WeakReference;
+
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,33 +12,32 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.certivox.activities.PinpadConfigActivity;
-import com.certivox.fragments.ConfigListFragment;
 import com.certivox.mpinsdk.Config;
 import com.example.mpinsdk.R;
 
 public class ConfigAdapter extends CursorAdapter {
 
-	private final Context mContext;
-	private long mActiveId;
+	private final WeakReference<Context> m_context;
+	private long m_activeId;
 
 	public ConfigAdapter(Context context, Cursor c) {
 		super(context, c, 0);
-		mContext = context;
+		m_context = new WeakReference<Context>(context);
 		Config active = PinpadConfigActivity.getActiveConfiguration(context);
-		mActiveId = active == null ? -1 : active.getId();
+		m_activeId = active == null ? -1 : active.getId();
 	}
 
 	public ConfigAdapter(Context context, Cursor c, int flags) {
 		super(context, c, flags);
-		mContext = context;
+		m_context = new WeakReference<Context>(context);
 		Config active = PinpadConfigActivity.getActiveConfiguration(context);
-		mActiveId = active == null ? -1 : active.getId();
+		m_activeId = active == null ? -1 : active.getId();
 	}
 
 	@Override
 	public void notifyDataSetChanged() {
-		mActiveId = ConfigListFragment.sSelectedId;
-		Log.i("DEBUG", "mActiveId = " + mActiveId);
+		Config active = PinpadConfigActivity.getActiveConfiguration(m_context.get());
+		m_activeId = active == null ? -1 : active.getId();
 		super.notifyDataSetChanged();
 	}
 
@@ -59,24 +59,13 @@ public class ConfigAdapter extends CursorAdapter {
 		Config config = new Config();
 		config.formCursor(cursor);
 		holder.title.setText(config.getTitle());
-		holder.url.setText(getConfigurationType(config));
-		if (config.getId() == mActiveId) {
+		holder.url.setText(config.getBackendUrl());
+		if (config.getId() == m_activeId) {
 			holder.button.setChecked(true);
 		} else {
 			holder.button.setChecked(false);
 		}
 
-	}
-
-	private String getConfigurationType(Config config) {
-		if (config.getRequestAccessNumber()) {
-			return mContext.getResources().getString(R.string.request_an_title);
-		} else if (config.getRequestOtp()) {
-			return mContext.getResources()
-					.getString(R.string.request_otp_title);
-		}
-
-		return mContext.getResources().getString(R.string.request_mobile_title);
 	}
 
 	private static class ViewHolder {

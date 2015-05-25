@@ -12,9 +12,8 @@
                                                         UITableViewDataSource,
                                                         UITableViewDelegate,
                                                         MPinSDKDelegate>
-@property (nonatomic, weak) IBOutlet UIBarButtonItem *btnDone;
-@property (nonatomic, weak) IBOutlet UITableView* tblView;
-@property (nonatomic, weak) IBOutlet UIButton *btnTestConfig;
+
+@property(nonatomic, weak) IBOutlet UIButton *btnTestConfig;
 @property (nonatomic) bool isEdit;
 @property (nonatomic) NSInteger selectedIndex;
 

@@ -14,11 +14,7 @@
     #import <Foundation/Foundation.h>
 #endif
 
-#import "LocalizationManager.h"
 #import "UIColor+Helper.h"
 #import "UIView+Helper.h"
 #import "Constants.h"
 #import "SettingsManager.h"
-
-#undef NSLocalizedString
-#define NSLocalizedString(key,_comment) [[LocalizationManager sharedManager] localizedString:key  comment:_comment]

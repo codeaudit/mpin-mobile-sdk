@@ -21,7 +21,7 @@
 - (void) onProgressBarFinish:(id)sender;
 
 @property (nonatomic, weak) UIView *viewPreloaderContainer;
-@property (nonatomic, strong)	CycleProgressBar * cpb;
+@property (nonatomic, retain, readwrite)	CycleProgressBar * cpb;
 
 @end
 
@@ -56,10 +56,7 @@
     [btnBack setup];
     
     self.navigationItem.leftBarButtonItem = btnBack;
-    self.title = NSLocalizedString(@"OTPVC_TITLE", @"");
-    self.lblMessage.text = NSLocalizedString(@"OTPVC_LBL_MESSAGE", @"");
-    self.lblYourPassword.text = NSLocalizedString(@"OTPVC_LBL_YOUR_PASSWORD", @"");
-        
+    
 }
 
 - (void) viewDidDisappear:(BOOL)animated

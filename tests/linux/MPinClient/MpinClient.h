@@ -25,7 +25,6 @@ class CMpinClient
 public:
 
 	CMpinClient( int aClientId, const String& aBackendUrl, const String& aUserId, const String& aPinGood, const String& aPinBad );
-	CMpinClient( int aClientId, const String& aBackendUrl, const String& aUserId );
 
 	virtual ~CMpinClient();
 	
@@ -64,15 +63,15 @@ private:
 	class CStorage : public MPinSDK::IStorage
 	{
 	public:
-		CStorage(const String& aFileNameSuffix);
+		CStorage() {}
+
 		virtual ~CStorage() {}
-		
-		virtual bool SetData(const String& data);
-		virtual bool GetData(OUT String &data);
+		virtual bool SetData(const String& data)	{ m_data = data; return true; }
+		virtual bool GetData(OUT String &data)		{ data = m_data; return true; }
 		virtual const String& GetErrorMessage() const { return m_errorMsg; }
 	private:
-		String	m_fileName;
 		String	m_errorMsg;
+		String	m_data;
 	};
 
 	class CPinPad : public MPinSDK::IPinPad
@@ -91,8 +90,8 @@ private:
 	class CContext : public MPinSDK::IContext
 	{
 	public:
-		CContext( const String& aId, CStorage* apStorageSecure, CStorage* apStorageNonSecure, CPinPad* apPinPad ) :
-			m_id(aId), m_pStorageSecure(apStorageSecure), m_pStorageNonSecure(apStorageNonSecure), m_pPinPad(apPinPad)
+		CContext( CStorage* apStorageSecure, CStorage* apStorageNonSecure, CPinPad* apPinPad ) :
+			m_pStorageSecure(apStorageSecure), m_pStorageNonSecure(apStorageNonSecure), m_pPinPad(apPinPad)
 		{}		
 
 		virtual ~CContext() {}
@@ -104,14 +103,12 @@ private:
 		virtual MPinSDK::CryptoType GetMPinCryptoType() const						{ return MPinSDK::CRYPTO_NON_TEE; }
 
 	private:
-		String		m_id;
 		CStorage*	m_pStorageSecure;
 		CStorage*	m_pStorageNonSecure;
 		CPinPad*	m_pPinPad;
 	};
 
 	CMpinClient(const CMpinClient& orig);
-	bool _Init(const String& aBackendUrl);
 	bool _Authenticate( const String& aPin );
 	bool _Register();
 	bool _AuthenticateGood();
@@ -124,8 +121,6 @@ private:
 	CStorage	m_storageNonSecure;
 	CPinPad		m_pinPad;
 	CContext	m_context;
-	
-	bool		m_bInitialized;
 	
 	String		m_userId;
 	String		m_pinGood;

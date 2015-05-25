@@ -62,7 +62,7 @@ private:
 class CmdLinePinpad : public MPinSDK::IPinPad
 {
 public:
-    virtual String Show(Mode mode)
+    virtual String Show()
     {
         String pin;
         cout << "Enter pin: ";

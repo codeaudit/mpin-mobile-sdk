@@ -14,10 +14,10 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.certivox.interfaces.MPinController;
-import com.certivox.interfaces.PinPadController;
 import com.example.mpinsdk.R;
 
-public abstract class BaseMPinActivity extends ActionBarActivity implements MPinController, PinPadController {
+public abstract class BaseMPinActivity extends ActionBarActivity implements
+		MPinController {
 
 	private Activity mActivity;
 

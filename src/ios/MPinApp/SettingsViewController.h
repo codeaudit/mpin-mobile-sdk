@@ -14,7 +14,6 @@
 @property (nonatomic, weak) IBOutlet UIButton* btnSignIn;
 @property (nonatomic, weak) IBOutlet UIButton* btnEditConfiguration;
 @property (nonatomic, weak) IBOutlet UIButton* btnDeleteConfiguration;
-@property (nonatomic, weak) IBOutlet UIBarButtonItem* btnAddConfiguration;
 @property (nonatomic, weak) IBOutlet UIView* viewButtons;
 
 - (IBAction)add:(id)sender;

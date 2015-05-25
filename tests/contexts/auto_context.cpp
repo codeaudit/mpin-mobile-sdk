@@ -56,7 +56,7 @@ public:
         m_pin = pin;
     }
 
-    virtual String Show(Mode mode)
+    virtual String Show()
     {
         return m_pin;
     }

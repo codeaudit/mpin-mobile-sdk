@@ -76,7 +76,7 @@ void Context::setPin(const String & mpin) {
     [cLock unlock];
 }
 
-String Context::Show(Mode mode) {
+String Context::Show() {
     dispatch_async(dispatch_get_main_queue(),^{
         [[NSNotificationCenter defaultCenter] postNotificationName:kShowPinPadNotification object:nil];
     });

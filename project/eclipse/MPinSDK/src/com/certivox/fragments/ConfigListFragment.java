@@ -1,8 +1,12 @@
 package com.certivox.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListFragment;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,38 +16,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.certivox.activities.ConfigDetailActivity;
 import com.certivox.activities.PinpadConfigActivity;
 import com.certivox.adapters.ConfigAdapter;
-import com.certivox.db.ConfigsDao;
-import com.certivox.interfaces.ConfigController;
+import com.certivox.db.ConfigsContract.ConfigEntry;
+import com.certivox.db.ConfigsDbHelper;
 import com.certivox.mpinsdk.Config;
 import com.example.mpinsdk.R;
 
 public class ConfigListFragment extends ListFragment {
 
-	public static long sSelectedId;
-
-	private ConfigController controller;
-
-	public void setController(ConfigController controller) {
-		this.controller = controller;
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-		sSelectedId = -1;
-
-		Config activeConfig = PinpadConfigActivity
-				.getActiveConfiguration(getActivity());
-
-		if (activeConfig != null) {
-			sSelectedId = activeConfig.getId();
-		}
-
-		Cursor configsCursor = ConfigsDao.getConfigs(getActivity());
-		((ConfigAdapter) getListAdapter()).changeCursor(configsCursor);
-	}
+	private long mSelectedId;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -55,8 +38,11 @@ public class ConfigListFragment extends ListFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		Cursor cursor = ConfigsDao.getConfigs(getActivity());
-		setListAdapter(new ConfigAdapter(getActivity(), cursor));
+		SQLiteDatabase db = new ConfigsDbHelper(activity).getReadableDatabase();
+		Cursor c = db.query(ConfigEntry.TABLE_NAME,
+				ConfigEntry.getFullProjection(), null, null, null, null, null);
+		setListAdapter(new ConfigAdapter(getActivity(), c));
+
 	}
 
 	@Override
@@ -67,7 +53,9 @@ public class ConfigListFragment extends ListFragment {
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		sSelectedId = id;
+		mSelectedId = id;
+		PinpadConfigActivity.setActive(getActivity(),
+				PinpadConfigActivity.get(getActivity(), mSelectedId));
 		((ConfigAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 
@@ -86,30 +74,83 @@ public class ConfigListFragment extends ListFragment {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		final Config active = PinpadConfigActivity.getActiveConfiguration(getActivity());
 		switch (item.getItemId()) {
 		case R.id.select_config: {
-			controller.configurationSelected(sSelectedId);
+			((PinpadConfigActivity) getActivity()).activateConfiguration(
+					getActivity(),
+					PinpadConfigActivity.get(getActivity(), mSelectedId));
 			return true;
 		}
 		case R.id.configs_list_new: {
-			controller.createNewConfiguration();
+			Intent intent = new Intent(getActivity(),
+					ConfigDetailActivity.class);
+			intent.putExtra(ConfigDetailActivity.EXTRA_ID, -1);
+			getActivity().startActivity(intent);
 			return true;
 		}
 		case R.id.configs_list_edit: {
-			if (sSelectedId != -1) {
-				controller.editConfiguration(sSelectedId);
-			}
+			if (active == null)
+				return true;
+			Intent intent = new Intent(getActivity(),
+					ConfigDetailActivity.class);
+			intent.putExtra(ConfigDetailActivity.EXTRA_ID, active.getId());
+			getActivity().startActivity(intent);
 			return true;
 		}
 		case R.id.configs_list_delete: {
-			if (sSelectedId != -1) {
-				controller.onDeleteConfiguration(sSelectedId);
-			}
+			if (active == null)
+				return true;
+			new AlertDialog.Builder(getActivity())
+					.setTitle("Delete configuration")
+					.setMessage(
+							"Do you want to delete configuration '"
+									+ active.getTitle() + "'?")
+					.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									SQLiteDatabase db = new ConfigsDbHelper(
+											getActivity())
+											.getWritableDatabase();
+									db.delete(ConfigEntry.TABLE_NAME,
+											ConfigEntry._ID + " LIKE ?",
+											new String[] { String
+													.valueOf(active.getId()) });
 
+									Cursor c = db.query(ConfigEntry.TABLE_NAME,
+											ConfigEntry.getFullProjection(),
+											null, null, null, null, null);
+									if (c.moveToFirst()) {
+										PinpadConfigActivity
+												.setActive(
+														getActivity(),
+														PinpadConfigActivity
+																.get(getActivity(),
+																		c.getLong(c
+																				.getColumnIndexOrThrow(ConfigEntry._ID))));
+									}
+
+									((ConfigAdapter) getListAdapter())
+											.changeCursor(c);
+
+								}
+							}).setNegativeButton("Cancel", null).show();
 			return true;
 		}
-		default:
-			return false;
 		}
+		return super.onOptionsItemSelected(item);
 	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		SQLiteDatabase db = new ConfigsDbHelper(getActivity())
+				.getWritableDatabase();
+		Cursor c = db.query(ConfigEntry.TABLE_NAME,
+				ConfigEntry.getFullProjection(), null, null, null, null, null);
+		((ConfigAdapter) getListAdapter()).changeCursor(c);
+	}
+
 }

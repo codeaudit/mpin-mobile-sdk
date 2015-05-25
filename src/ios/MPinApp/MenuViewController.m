@@ -40,7 +40,6 @@
     vcAbout = [self.storyboard instantiateViewControllerWithIdentifier:@"AboutViewController"];
     vcUserList = appDelegate.vcUserList;
     vcSettings = [self.storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -87,15 +86,15 @@
 {
     switch (indexPath.row) {
     case USER_LIST:
-        ((MenuTableViewCell*)cell).lblMenuID.text = NSLocalizedString(@"MENUVC_OPTION_0",@"");
+        ((MenuTableViewCell*)cell).lblMenuID.text = @"IDENTITY LIST";
         break;
 
     case SETTINGS:
-        ((MenuTableViewCell*)cell).lblMenuID.text = NSLocalizedString(@"MENUVC_OPTION_1",@"");
+        ((MenuTableViewCell*)cell).lblMenuID.text = @"CONFIGURATION LIST";
         break;
 
     case ABOUT:
-        ((MenuTableViewCell*)cell).lblMenuID.text = NSLocalizedString(@"MENUVC_OPTION_2",@"");
+        ((MenuTableViewCell*)cell).lblMenuID.text = @"ABOUT";
         break;
     }
 }

@@ -49,16 +49,14 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
     
     intAccessNumberLenght = [strANLenght intValue];
     max = intAccessNumberLenght;
-    self.title = NSLocalizedString(@"ACCESSNUMBERVC_TITLE", @"");
-    _lblNote.text = [NSString stringWithFormat:NSLocalizedString(@"ACCESSNUMBERVC_NOTE", @""), intAccessNumberLenght];
-    
+    _lblNote.text = [NSString stringWithFormat:@"ENTER %d DIGIT ACCESS NUMBER", intAccessNumberLenght];
 }
 
 - (IBAction)logInAction:(id)sender {
     if( ( self.delegate != nil ) && ( [self.delegate respondsToSelector:@selector(onAccessNumber:)]) )
     {
         if([self.number isEqualToString:@""]) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"ERROR_WRONG_AN", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"") otherButtonTitles:nil, nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"WORNING" message:@"Wrong Access Number" delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil];
             [self clear];
             [alert show];
             return;
