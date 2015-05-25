@@ -66,13 +66,26 @@ namespace MPinDemo
 
         private void Done_Click(object sender, RoutedEventArgs e)
         {
+            ProcessAN();
+        }
+
+        private void ProcessAN()
+        {
             Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-            mainFrame.GoBack(new List<string>() { "AccessNumber", this.AccessNumberTB.Text});
+            mainFrame.GoBack(new List<string>() { "AccessNumber", this.AccessNumberTB.Text });
         }
 
         void AccessNumberTB_TextChanged(object sender, TextChangedEventArgs e)
         {
             this.DoneButton.IsEnabled = this.AccessNumberTB.Text.Length == this.ANLength;
+        }
+
+        private void AccessNumberTB_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (this.DoneButton.IsEnabled)
+            {
+                ProcessAN();
+            }
         }
 
     }

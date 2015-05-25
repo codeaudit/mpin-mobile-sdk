@@ -10,7 +10,7 @@
 
     <StackPanel>
         <TextBlock x:Uid="NewUserIdTB" />
-        <TextBox x:Name="UserId" Text="{Binding eMail, Mode=TwoWay}"/>
+        <TextBox x:Name="UserId" Text="{Binding eMail, Mode=TwoWay}" KeyUp="UserId_KeyUp"/>
 
         <Button x:Uid="NewUserButton" VerticalAlignment="Bottom" Click="Button_Click"/>
     </StackPanel>

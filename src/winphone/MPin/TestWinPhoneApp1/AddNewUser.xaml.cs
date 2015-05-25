@@ -59,6 +59,11 @@ namespace MPinDemo
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            ProcessNewUser();
+        }
+
+        private void ProcessNewUser()
+        {
             if (Controller.IfUserExists(this.UserId.Text))
             {
                 rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("ExistingUser"), MainPage.NotifyType.ErrorMessage);
@@ -91,6 +96,12 @@ namespace MPinDemo
             {
                 return false;
             }
+        }
+
+        private void UserId_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+                ProcessNewUser();
         }
     }
 }
