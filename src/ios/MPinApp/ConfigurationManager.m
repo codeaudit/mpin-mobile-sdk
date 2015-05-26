@@ -41,21 +41,15 @@ static NSString* const kSettings = @"settings";
         _intSelectedConfiguration = [[NSUserDefaults standardUserDefaults] integerForKey:kCurrentSelectionIndex];
         _arrConfigrations = [[[NSUserDefaults standardUserDefaults] objectForKey:kSettings] mutableCopy];
         if (_arrConfigrations == nil) {
-            NSDictionary* data = @{ kRPSURL : @"http://tcb.certivox.org",
-                kSERVICE_TYPE : @(LOGIN_ON_MOBILE),
-                kCONFIG_NAME : @"Mobile banking login" };
-            NSDictionary* dataOTP = @{ kRPSURL : @"http://ntt-vpn.certivox.org",
-                kSERVICE_TYPE : @(LOGIN_WITH_OTP),
-                kCONFIG_NAME : @"VPN login" };
-            NSDictionary* dataAN = @{ kRPSURL : @"http://tcb.certivox.org",
-                kSERVICE_TYPE : @(LOGIN_ONLINE),
-                kCONFIG_NAME : @"Online banking login" };
-
+            
+            NSString* filePath = [[NSBundle mainBundle] pathForResource:@"Backends" ofType:@"plist"];
+            NSArray* configs = [[NSArray alloc] initWithContentsOfFile:filePath];
             _arrConfigrations = [NSMutableArray array];
-            [_arrConfigrations addObject:data];
-            [_arrConfigrations addObject:dataOTP];
-            [_arrConfigrations addObject:dataAN];
-
+            
+            for (int i=0; i<[configs count]; i++) {
+                [_arrConfigrations addObject:configs[i]];
+            }
+            
             [self saveConfigurations];
         }
     }

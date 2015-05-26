@@ -256,6 +256,12 @@
 		FEB901681A6D28550053DE92 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB901671A6D28550053DE92 /* SettingsViewController.m */; };
 		FED7691D1A8B4A30005A3ECA /* UIViewController+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FED7691C1A8B4A30005A3ECA /* UIViewController+Helper.m */; };
 		FEDDDE311A89F93E00E2068C /* UIView+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDDDE301A89F93E00E2068C /* UIView+Helper.m */; };
+		FEF5794C1B1493AE00B31A3E /* Backends.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEF5794B1B1493AE00B31A3E /* Backends.plist */; };
+		FEF5794D1B1493AE00B31A3E /* Backends.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEF5794B1B1493AE00B31A3E /* Backends.plist */; };
+		FEF5794E1B1493AE00B31A3E /* Backends.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEF5794B1B1493AE00B31A3E /* Backends.plist */; };
+		FEF5794F1B1493AE00B31A3E /* Backends.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEF5794B1B1493AE00B31A3E /* Backends.plist */; };
+		FEF579501B1493F700B31A3E /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FEAA2CCD1ACEBCB700EED79F /* NSString+Helper.m */; };
+		FEF579511B1494AD00B31A3E /* ApplicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE36B3B41B04E195000ACD70 /* ApplicationManager.m */; };
 		FEFA500E1A7143DB002D6E24 /* AccessNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFA500D1A7143DB002D6E24 /* AccessNumberViewController.m */; };
 		FEFA50111A7148E5002D6E24 /* DigitPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFA50101A7148E5002D6E24 /* DigitPadViewController.m */; };
 		FEFFDDF21A1A4268007C7CAA /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEFFDDF01A1A4268007C7CAA /* Main_iPhone.storyboard */; };
@@ -394,6 +400,7 @@
 		FED7691C1A8B4A30005A3ECA /* UIViewController+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Helper.m"; path = "../../../../../src/ios/MPinApp/UIViewController+Helper.m"; sourceTree = "<group>"; };
 		FEDDDE2F1A89F93E00E2068C /* UIView+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Helper.h"; path = "../../../../../src/ios/MPinApp/UIView+Helper.h"; sourceTree = "<group>"; };
 		FEDDDE301A89F93E00E2068C /* UIView+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Helper.m"; path = "../../../../../src/ios/MPinApp/UIView+Helper.m"; sourceTree = "<group>"; };
+		FEF5794B1B1493AE00B31A3E /* Backends.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Backends.plist; sourceTree = "<group>"; };
 		FEFA500C1A7143DB002D6E24 /* AccessNumberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccessNumberViewController.h; path = ../../../../src/ios/MPinApp/AccessNumberViewController.h; sourceTree = "<group>"; };
 		FEFA500D1A7143DB002D6E24 /* AccessNumberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AccessNumberViewController.m; path = ../../../../src/ios/MPinApp/AccessNumberViewController.m; sourceTree = "<group>"; };
 		FEFA500F1A7148E5002D6E24 /* DigitPadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DigitPadViewController.h; path = ../../../../src/ios/MPinApp/DigitPadViewController.h; sourceTree = "<group>"; };
@@ -574,6 +581,7 @@
 		968A180B1ACA8C58000C0DB0 /* DimensionData */ = {
 			isa = PBXGroup;
 			children = (
+				FEF5794B1B1493AE00B31A3E /* Backends.plist */,
 				96D3CAD21AEE4D8E004BAC3A /* DDMPin.plist */,
 				968A180E1ACA8C70000C0DB0 /* Colors.plist */,
 				968A180F1ACA8C70000C0DB0 /* DimensionDataImages.xcassets */,
@@ -929,6 +937,7 @@
 				96130E4A1AEE4867005D2A86 /* Settings.bundle in Resources */,
 				968591CC1AF0C7E200726E63 /* Localizable.strings in Resources */,
 				96130E4B1AEE4867005D2A86 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
+				FEF5794E1B1493AE00B31A3E /* Backends.plist in Resources */,
 				96130E4C1AEE4867005D2A86 /* OpenSans-Italic.ttf in Resources */,
 				96130E4E1AEE4867005D2A86 /* IUser.h in Resources */,
 				96130E4F1AEE4867005D2A86 /* LaunchScreen.xib in Resources */,
@@ -960,6 +969,7 @@
 				96130E941AEE490A005D2A86 /* Settings.bundle in Resources */,
 				968591CD1AF0C7E200726E63 /* Localizable.strings in Resources */,
 				96130E951AEE490A005D2A86 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
+				FEF5794F1B1493AE00B31A3E /* Backends.plist in Resources */,
 				96130E961AEE490A005D2A86 /* OpenSans-Italic.ttf in Resources */,
 				96130E981AEE490A005D2A86 /* IUser.h in Resources */,
 				96130E991AEE490A005D2A86 /* LaunchScreen.xib in Resources */,
@@ -1006,6 +1016,7 @@
 				9649BCC01AC16D1000B9F41B /* Main_iPhone.storyboard in Resources */,
 				9649BCC11AC16D1000B9F41B /* Main_iPad.storyboard in Resources */,
 				968591A01AEE53EB00726E63 /* DimensionDataImages.xcassets in Resources */,
+				FEF5794D1B1493AE00B31A3E /* Backends.plist in Resources */,
 				9649BCC21AC16D1000B9F41B /* OpenSans-SemiboldItalic.ttf in Resources */,
 				9649BCC31AC16D1000B9F41B /* InfoPlist.strings in Resources */,
 				9649BCC41AC16D1000B9F41B /* OpenSans-Regular.ttf in Resources */,
@@ -1021,6 +1032,7 @@
 				960D6AA31A88C0E20068E0F7 /* Settings.bundle in Resources */,
 				968591CA1AF0C7E200726E63 /* Localizable.strings in Resources */,
 				960D6A971A88C0E20068E0F7 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
+				FEF5794C1B1493AE00B31A3E /* Backends.plist in Resources */,
 				960D6A981A88C0E20068E0F7 /* OpenSans-Italic.ttf in Resources */,
 				968A180C1ACA8C58000C0DB0 /* Colors.plist in Resources */,
 				FE148D461A2F1007007E83EF /* IUser.h in Resources */,
@@ -1330,6 +1342,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FEF579511B1494AD00B31A3E /* ApplicationManager.m in Sources */,
+				FEF579501B1493F700B31A3E /* NSString+Helper.m in Sources */,
 				968591B71AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
 				9649BC8D1AC16D1000B9F41B /* ConfirmEmailViewController.m in Sources */,
 				9649BC8F1AC16D1000B9F41B /* CycleProgressBar.m in Sources */,
