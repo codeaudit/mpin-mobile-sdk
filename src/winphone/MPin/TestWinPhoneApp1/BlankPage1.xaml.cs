@@ -82,10 +82,10 @@ namespace MPinDemo
         }
 
         private string GetAllPossiblePassedParams(object param)
-        {            
+        {
             string navigationData = (Window.Current.Content as Frame).GetNavigationData() as string;
-            return string.IsNullOrEmpty(navigationData) 
-                ? param == null ? "" : param.ToString() 
+            return string.IsNullOrEmpty(navigationData)
+                ? param == null ? "" : param.ToString()
                 : navigationData;
         }
 
@@ -108,7 +108,6 @@ namespace MPinDemo
         private void LoadSettings()
         {
             SetSelectedServicesIndex();
-            SelectAppBarButton.IsEnabled = UsersListBox.SelectedItem != null;
             ResetPinButton.IsEnabled = UsersListBox.SelectedItem != null;
 
             if (controller.DataModel.CurrentService.BackendUrl != null)
@@ -153,7 +152,7 @@ namespace MPinDemo
 
                 controller.DataModel.CurrentService = (Backend)this.ServicesList.Items[selectedIndex.Value];
                 this.ServicesList.SelectedIndex = selectedIndex.Value;
-                this.ServicesList.ScrollIntoView(this.ServicesList.SelectedItem);                
+                this.ServicesList.ScrollIntoView(this.ServicesList.SelectedItem);
             }
             else
             {
@@ -165,11 +164,20 @@ namespace MPinDemo
         #endregion // Methods
 
         #region handlers
-        private async void Authenticate_Click(object sender, RoutedEventArgs e)
+        private async void Select_Click(object sender, RoutedEventArgs e)
         {
-            IsSelectedBtnEnabled = false;
-            await controller.ProcessUser();
-            IsSelectedBtnEnabled = true;
+            switch (this.MainPivot.SelectedIndex)
+            {
+                case 0:
+                    this.MainPivot.SelectedItem = this.UsersPivotItem;
+                    break;
+
+                case 1:
+                    IsSelectedBtnEnabled = false;
+                    await controller.ProcessUser();
+                    IsSelectedBtnEnabled = true;
+                    break;
+            }
         }
 
         private void UsersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -184,6 +192,7 @@ namespace MPinDemo
 
         private void Services_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            SelectAppBarButton.IsEnabled = ServicesList.SelectedItem != null;
             TestBackendButton.IsEnabled = ServicesList.SelectedItem != null;
             ServicesList.ScrollIntoView(ServicesList.SelectedItem);
             SavePropertyState(SelectedService, ServicesList.SelectedIndex);
@@ -213,16 +222,9 @@ namespace MPinDemo
 
         private void controller_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "IsValidService")
+            if (e.PropertyName == "IsValidService" && !controller.IsValidService)
             {
-                if (controller.IsValidService)
-                {
-                    this.MainPivot.SelectedItem = this.UsersPivotItem;               
-                }
-                else
-                {
-                    ServicesList.SelectedIndex = -1;                    
-                }                
+                ServicesList.SelectedIndex = -1;
             }
         }
 
@@ -263,8 +265,9 @@ namespace MPinDemo
 
         private void MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectAppBarButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Collapsed : Visibility.Visible;
+            SelectAppBarButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? ServicesList.SelectedItem != null : UsersListBox.SelectedItem != null;
             ResetPinButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Collapsed : Visibility.Visible;
+            AddAppBarButton.Icon = new SymbolIcon(this.MainPivot.SelectedIndex == 0 ? Symbol.Add : Symbol.AddFriend);
 
             TestBackendButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
         }
@@ -301,7 +304,7 @@ namespace MPinDemo
             // reset the pivot item header to properly display it on initial load 
             UsersPivotItem.Header = " " + UsersPivotItem.Header;
         }
-    
+
         private void AboutButton_Click(object sender, RoutedEventArgs e)
         {
             if (!Frame.Navigate(typeof(About)))

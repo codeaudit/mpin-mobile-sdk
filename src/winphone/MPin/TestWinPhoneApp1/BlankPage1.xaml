@@ -25,27 +25,27 @@
             <PivotItem x:Uid="ServicesPivotItem" 
                        x:Name="ServicesPivotItem"
                        CommonNavigationTransitionInfo.IsStaggerElement="True">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <!--    <StackPanel Orientation="Horizontal" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!--    <StackPanel Orientation="Horizontal" >
                         <Button x:Uid="AddServiceButton"  Click="AddService_Click" Margin="2"/>
                         <Button x:Uid="DeleteServiceButton" Click="DeleteService_Click" Margin="2"/>
                         <Button x:Uid="TestServiceButton" x:Name="TestServiceButton" Click="TestBackend_click" Margin="2" IsEnabled="False" />
                     </StackPanel>-->
-                        <TextBlock x:Uid="ConfigurationTB"/>
-                        <ListBox x:Name="ServicesList"  Grid.Row="1"
+                    <TextBlock x:Uid="ConfigurationTB"/>
+                    <ListBox x:Name="ServicesList"  Grid.Row="1"
                              ItemsSource="{Binding BackendsList, Mode=TwoWay}" 
                              SelectedItem="{Binding CurrentService, Mode=TwoWay}" 
                              SelectionChanged="Services_SelectionChanged" 
                              DataContextChanged="ServicesList_DataContextChanged" 
                              ContinuumNavigationTransitionInfo.IsExitElement="True" 
                              ContinuumNavigationTransitionInfo.IsEntranceElement="True">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <!--<Grid>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <!--<Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
@@ -53,25 +53,25 @@
                                     <TextBlock Text="{Binding Title}" />
                                     <TextBlock Text="{Binding BackendUrl}" FontWeight="Light" Grid.Row="1"/>
                                 </Grid>-->
-                                    <StackPanel Margin="0,0,0,9.5">
-                                        <TextBlock Text="{Binding Title}"  
+                                <StackPanel Margin="0,0,0,9.5">
+                                    <TextBlock Text="{Binding Title}"  
                                            TextWrapping="Wrap"
                                             Pivot.SlideInAnimationGroup="1"
                                             CommonNavigationTransitionInfo.IsStaggerElement="True"
                                             Style="{ThemeResource ListViewItemTextBlockStyle}"
                                             Margin="0,0,19,0"/>
-                                        <TextBlock Text="{Binding BackendUrl}"
+                                    <TextBlock Text="{Binding BackendUrl}"
                                            TextWrapping="WrapWholeWords"
                                             Pivot.SlideInAnimationGroup="2" 
                                             CommonNavigationTransitionInfo.IsStaggerElement="True" 
                                             Style="{ThemeResource ListViewItemContentTextBlockStyle}"
                                             Margin="0,0,19,0"
                                             Grid.Row="1"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </Grid>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
             </PivotItem>
 
             <PivotItem x:Uid="UsersPivotItem" 
@@ -122,21 +122,20 @@
                           x:Name="AddAppBarButton" 
                           Icon="Add" 
                           Click="AddAppBarButton_Click" />
-            
+
             <AppBarButton x:Uid="SelectAppBarButton" 
                           x:Name="SelectAppBarButton" 
                           Icon="Go" 
-                          Click="Authenticate_Click" 
-                          IsEnabled="False" 
-                          Visibility="Collapsed"/>
-               
+                          Click="Select_Click" 
+                          />
+
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Uid="DeleteButton" x:Name="DeleteButton" Icon="Delete" Click="Delete_Click" />
                 <AppBarButton x:Uid="TestBackendButton" x:Name="TestBackendButton" Click="TestBackendButton_Click" IsEnabled="False" />
                 <AppBarButton x:Uid="ResetPinButton" x:Name="ResetPinButton" Click="ResetPinButton_Click" Visibility="Collapsed" />
                 <AppBarButton x:Uid="AboutButton" Click="AboutButton_Click" />
             </CommandBar.SecondaryCommands>
-            
+
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

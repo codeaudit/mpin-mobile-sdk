@@ -70,12 +70,16 @@ namespace MPinDemo.Models
             switch (e.PropertyName)
             {
                 case "CurrentService":
-                    Status status = await ProcessServiceChanged();
-                    bool isOk = status != null && status.StatusCode == Status.Code.OK;
-                    rootPage.NotifyUser(!isOk
-                        ? string.Format(ResourceLoader.GetForCurrentView().GetString("InitializationFailed"), (status == null ? "null" : status.StatusCode.ToString()))
-                        : ResourceLoader.GetForCurrentView().GetString("ServiceSet"),
-                        !isOk ? MainPage.NotifyType.ErrorMessage : MainPage.NotifyType.StatusMessage);
+                    bool isOk = false;
+                    if (!string.IsNullOrEmpty(this.DataModel.CurrentService.BackendUrl))
+                    {
+                        Status status = await ProcessServiceChanged();
+                        isOk = status != null && status.StatusCode == Status.Code.OK;
+                        rootPage.NotifyUser(!isOk
+                            ? string.Format(ResourceLoader.GetForCurrentView().GetString("InitializationFailed"), (status == null ? "null" : status.StatusCode.ToString()))
+                            : ResourceLoader.GetForCurrentView().GetString("ServiceSet"),
+                            !isOk ? MainPage.NotifyType.ErrorMessage : MainPage.NotifyType.StatusMessage);
+                    }
 
                     this.IsValidService = isOk;
                     UpdateUsersList();
@@ -215,7 +219,7 @@ namespace MPinDemo.Models
                 case User.State.Registered:
                     if (this.DataModel.CurrentService.RequestAccessNumber)
                     {
-                        mainFrame.Navigate(typeof(AccessNumberScreen), new List<string> {this.DataModel.CurrentUser.Id, sdk.GetClientParam("accessNumberDigits")});
+                        mainFrame.Navigate(typeof(AccessNumberScreen), sdk.GetClientParam("accessNumberDigits"));
                     }
                     else
                     {
