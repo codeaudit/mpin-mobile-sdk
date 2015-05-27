@@ -10,6 +10,8 @@
     <string name="change_service">Change Service</string>
     <string name="about">About</string>
     <!-- Navigation drawer strings end -->
+
+
     <!-- Toobar titles -->
     <string name="select_identity_title">Select Identity</string>
     <string name="change_identity_title">Change Identity</string>
@@ -66,6 +68,22 @@
     <string name="otp_title_label">One-Time Password</string>
     <string name="otp_info_label">You can now use this password to log in to your VPN service.</string>
     <!-- OTP end -->
+
+
+    <!-- Configuration Edit -->
+    <string name="select_service_toolbar_title">Select Service</string>
+    <string name="add_service_toolbar_title">Add Service</string>
+    <string name="edit_service_toolbar_title">Edit Service</string>
+    <string name="enter_service_name_title">Enter Service Name</string>
+    <string name="enter_service_name_hint">Service Name</string>
+    <string name="enter_server_url_hint">M-Pin Server URL</string>
+    <string name="enter_rps_prefix_hint">RPS Prefix</string>
+    <string name="request_mobile_title">Login to Mobile App</string>
+    <string name="request_otp_title">Login with OTP</string>
+    <string name="request_an_title">Login to Online Session</string>
+    <string name="check_service">Check Service URL</string>
+    <string name="save_configuration">Save Configuration</string>
+    <!-- Configuration Edit end -->
 
     <string name="logout">Logout</string>
 

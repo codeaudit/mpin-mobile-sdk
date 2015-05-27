@@ -13,6 +13,8 @@
 #import "Mint.h"
 #import <SplunkMint-iOS/SplunkMint-iOS.h>
 #import "OTPViewController.h"
+#import "AFNetworkReachabilityManager.h"
+#import "ApplicationManager.h"
 
 
 @interface AppDelegate ()
@@ -39,7 +41,9 @@
 	[container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
 
 	self.window.rootViewController = container;
-
+    
+    [ApplicationManager sharedManager];
+    
 	return YES;
 }
 
@@ -68,8 +72,6 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-	// Called as part of the transition from the background to the inactive state;
-	// here you can undo many of the changes made on entering the background.
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application

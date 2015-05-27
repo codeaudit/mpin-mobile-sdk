@@ -15,7 +15,7 @@
 /* User list */
 
 "USERLISTVC_TITLE" = "IDENTITIES";
-"USERLISTVC_ADD_NEW_ID" = "Add account +";
+"USERLISTVC_ADD_NEW_ID" = "ADD NEW IDENTITY +";
 
 /* Add user */
 

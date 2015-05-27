@@ -79,8 +79,14 @@ public:
     class IPinPad
     {
     public:
+        enum Mode
+        {
+            REGISTER,
+            AUTHENTICATE,
+        };
+
         virtual ~IPinPad() {}
-        virtual String Show() = 0;
+        virtual String Show(Mode mode) = 0;
     };
 
     class IContext
@@ -222,7 +228,6 @@ public:
     Status Authenticate(INOUT UserPtr user, OUT String& authResultData);
     Status AuthenticateOTP(INOUT UserPtr user, OUT OTP& otp);
     Status AuthenticateAN(INOUT UserPtr user, const String& accessNumber);
-    Status ResetPin(INOUT UserPtr user);
     void DeleteUser(INOUT UserPtr user);
     void ListUsers(OUT std::vector<UserPtr>& users);
     const char * GetVersion();

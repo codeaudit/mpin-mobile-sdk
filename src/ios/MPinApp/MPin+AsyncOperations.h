@@ -16,6 +16,9 @@ static NSString *const kUSER = @"currentUser";
 @protocol MPinSDKDelegate
 @optional
 
+- (void) OnInitCompleted:(id) sender;
+- (void) OnInitError:(id) sender  error:(NSError *) error;
+
 - (void) OnTestBackendCompleted:(id) sender;
 - (void) OnTestBackendError:(id) sender  error:(NSError *) error;
 
@@ -53,6 +56,8 @@ static NSString *const kUSER = @"currentUser";
 
 @property(weak) id<MPinSDKDelegate> delegate;
 
++ (BOOL) isInitialized;
+- (void) initSDK:(NSDictionary *)config;
 - (void) TestBackend:(const NSString * ) url rpsPrefix:(NSString *) rpsPrefix;
 - (void) SetBackend:(const NSString * ) url rpsPrefix:(NSString *) rpsPrefix;
 - (void) RegisterNewUser:(NSString * ) userName devName:(NSString * ) devName;
@@ -60,7 +65,6 @@ static NSString *const kUSER = @"currentUser";
 - (void) RestartRegistration:(const id<IUser>) user;
 - (void) RestartRegistration:(const id<IUser>)user userData:(NSString *) userData;
 - (void) FinishRegistration:(const id<IUser>) user;
-- (void) ResetPin:(const id<IUser>) user;
 - (void) Authenticate:(const id<IUser>) user;
 - (void) AuthenticateOTP:(id<IUser>) user;
 - (void) AuthenticateAN:(id<IUser>) user  accessNumber:(NSString *) an;

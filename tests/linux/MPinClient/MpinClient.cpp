@@ -21,10 +21,16 @@ using CvShared::Seconds;
 using CvShared::TimeSpec;
 using CvShared::GetCurrentTime;
 using CvShared::LogMessage;
+using CvShared::enLogLevel_Info;
+using CvShared::enLogLevel_Error;
+using CvShared::enLogLevel_Warning;
+using CvShared::enLogLevel_Debug1;
+using CvShared::enLogLevel_Debug2;
+using CvShared::enLogLevel_Debug3;
 
 MPinSDK::IHttpRequest* CMpinClient::CContext::CreateHttpRequest() const
 {
-	return new CHttpRequest();
+	return new CHttpRequest(30);
 }
 		
 CMpinClient::CStorage::CStorage(const String& aFileNameSuffix)
@@ -39,7 +45,7 @@ bool CMpinClient::CStorage::SetData(const String& data)
 	file << data;
 	file.close();
 	
-//	printf( "Writing data to [%s]:\n%s\n", m_fileName.c_str(), data.c_str() );
+	LogMessage( enLogLevel_Debug1, "Writing data to [%s]:\n%s", m_fileName.c_str(), data.c_str() );
 	
 	return true;
 }
@@ -53,15 +59,15 @@ bool CMpinClient::CStorage::GetData(OUT String &data)
 	
 	data = buffer.str();
 	
-//	printf( "Reading data from [%s]:\n%s\n", m_fileName.c_str(), data.c_str() );
+	LogMessage( enLogLevel_Debug1, "Reading data from [%s]:\n%s", m_fileName.c_str(), data.c_str() );
 	
 	return true;
 }
 		
 CMpinClient::CMpinClient( int aClientId, const String& aBackendUrl, const String& aUserId ) :
-	m_id(aClientId), m_userId(aUserId),
+	m_bInitialized(false), m_id(aClientId), m_userId(aUserId),
 	m_storageSecure( String().Format("sec-%d", aClientId) ), m_storageNonSecure( String().Format("%d", aClientId) ),
-	m_context(&m_storageSecure, &m_storageNonSecure, &m_pinPad),
+	m_context( String().Format("%d",aClientId), &m_storageSecure, &m_storageNonSecure, &m_pinPad ),
 	m_thread(aUserId), m_queue(aUserId.c_str()), m_bIdle(false), m_bStatsEnabled(true)
 {
 	std::ifstream filePin( String().Format("pin-%d", m_id).c_str() );
@@ -72,9 +78,9 @@ CMpinClient::CMpinClient( int aClientId, const String& aBackendUrl, const String
 }
 
 CMpinClient::CMpinClient( int aClientId, const String& aBackendUrl, const String& aUserId, const String& aPinGood, const String& aPinBad ) :
-	m_id(aClientId), m_userId(aUserId), m_pinGood(aPinGood), m_pinBad(aPinBad),
+	m_bInitialized(false), m_id(aClientId), m_userId(aUserId), m_pinGood(aPinGood), m_pinBad(aPinBad),
 	m_storageSecure( String().Format("sec-%d", aClientId) ), m_storageNonSecure( String().Format("%d", aClientId) ),
-	m_context(&m_storageSecure, &m_storageNonSecure, &m_pinPad),
+	m_context( String().Format("%d",aClientId), &m_storageSecure, &m_storageNonSecure, &m_pinPad ),
 	m_thread(aUserId), m_queue(aUserId.c_str()), m_bIdle(false), m_bStatsEnabled(true)
 {
 	std::ofstream filePin( String().Format("pin-%d", m_id).c_str() );
@@ -92,7 +98,7 @@ CMpinClient::~CMpinClient()
 
 bool CMpinClient::_Init(const String& aBackendUrl)
 {
-	printf( "Initializing client #%d for [%s] with PIN [%s] and BAD PIN [%s]\n", m_id, m_userId.c_str(), m_pinGood.c_str(), m_pinBad.c_str() );
+	LogMessage( enLogLevel_Info, "Initializing client #%d for [%s] with PIN [%s] and BAD PIN [%s]", m_id, m_userId.c_str(), m_pinGood.c_str(), m_pinBad.c_str() );
 	
 	StringMap config;
 	config["backend"] = aBackendUrl;
@@ -101,11 +107,19 @@ bool CMpinClient::_Init(const String& aBackendUrl)
 	
 	if ( status != MPinSDK::Status::OK )
 	{
-		printf( "Client #%d for user [%s] couldn't be initialized: %s", m_id, m_userId.c_str(), status.GetErrorMessage().c_str() );
+		LogMessage( enLogLevel_Error, "Client #%d for user [%s] couldn't be initialized: %s", m_id, m_userId.c_str(), status.GetErrorMessage().c_str() );
+		if ( m_bStatsEnabled )
+		{
+			++m_stats.m_numOfErrors;
+		}
+		m_bIdle = true;
+		
 		return false;
 	}
 	
 	m_thread.Create(this);
+	
+	m_bInitialized = true;
 	
 	return true;
 }
@@ -122,7 +136,13 @@ bool CMpinClient::_AuthenticateBad()
 
 bool CMpinClient::_Register()
 {
-	printf( "Registering user [%s]...\n", m_userId.c_str() );
+	if (!m_bInitialized)
+	{
+		LogMessage( enLogLevel_Error, "Client #%d for user [%s] was not initialized", m_id, m_userId.c_str() );
+		return false;
+	}
+	
+	LogMessage( enLogLevel_Info, "Registering user [%s]...", m_userId.c_str() );
 			
 	std::vector<MPinSDK::UserPtr> listUsers;
 	m_sdk.ListUsers( listUsers );
@@ -149,7 +169,7 @@ bool CMpinClient::_Register()
 	
 	if ( status != MPinSDK::Status::OK )
 	{
-		printf( "Failed in StartRegistration(): %s [%d]\n", status.GetErrorMessage().c_str(), status.GetStatusCode() );
+		LogMessage( enLogLevel_Error, "Failed in StartRegistration(): %s [%d]", status.GetErrorMessage().c_str(), status.GetStatusCode() );
 		if ( m_bStatsEnabled )
 		{
 			++m_stats.m_numOfErrors;
@@ -161,7 +181,7 @@ bool CMpinClient::_Register()
 	{
 		while ( user->GetState() != MPinSDK::User::REGISTERED )
 		{
-			printf( "User [%s] has NOT been activated yet\n", user->GetId().c_str() );
+			LogMessage( enLogLevel_Info, "User [%s] has NOT been activated yet", user->GetId().c_str() );
 
 			CvShared::SleepFor( CvShared::Seconds(10) );
 
@@ -169,13 +189,13 @@ bool CMpinClient::_Register()
 			
 			if ( status == MPinSDK::Status::OK )
 			{
-				printf( "User [%s] has been activated\n", user->GetId().c_str() );
+				LogMessage( enLogLevel_Info, "User [%s] has been activated", user->GetId().c_str() );
 				continue;
 			}
 				
 			if ( status != MPinSDK::Status::IDENTITY_NOT_VERIFIED )
 			{
-				printf( "Failed in FinishRegistration(): %s [%d]\n", status.GetErrorMessage().c_str(), status.GetStatusCode() );
+				LogMessage( enLogLevel_Error, "Failed in FinishRegistration(): %s [%d]", status.GetErrorMessage().c_str(), status.GetStatusCode() );
 				if ( m_bStatsEnabled )
 				{
 					++m_stats.m_numOfErrors;
@@ -186,13 +206,13 @@ bool CMpinClient::_Register()
 	}
 	else
 	{
-		printf( "User [%s] has been force-activated\n", user->GetId().c_str() );
+		LogMessage( enLogLevel_Info, "User [%s] has been force-activated", user->GetId().c_str() );
 		
 		status = m_sdk.FinishRegistration( user );
 
 		if ( status != MPinSDK::Status::OK )
 		{
-			printf( "Failed in FinishRegistration(): %s [%d]\n", status.GetErrorMessage().c_str(), status.GetStatusCode() );
+			LogMessage( enLogLevel_Error, "Failed in FinishRegistration(): %s [%d]", status.GetErrorMessage().c_str(), status.GetStatusCode() );
 			if ( m_bStatsEnabled )
 			{
 				++m_stats.m_numOfErrors;
@@ -224,6 +244,12 @@ bool CMpinClient::_Register()
 
 bool CMpinClient::_Authenticate( const String& aPin )
 {
+	if (!m_bInitialized)
+	{
+		LogMessage( enLogLevel_Error, "Client #%d for user [%s] was not initialized", m_id, m_userId.c_str() );
+		return false;
+	}
+	
 	std::vector<MPinSDK::UserPtr> listUsers;
 	m_sdk.ListUsers( listUsers );
 	
@@ -236,7 +262,7 @@ bool CMpinClient::_Authenticate( const String& aPin )
 	
 	if ( itr == listUsers.end() )
 	{
-		printf( "User [%s] not found in the list\n", m_userId.c_str() );
+		LogMessage( enLogLevel_Warning, "User [%s] not found in the list", m_userId.c_str() );
 		if ( m_bStatsEnabled )
 		{
 			++m_stats.m_numOfErrors;
@@ -250,11 +276,11 @@ bool CMpinClient::_Authenticate( const String& aPin )
 	
 	if ( aPin == m_pinGood )
 	{
-		printf( "Authenticating user [%s] with correct PIN...\n", user->GetId().c_str() );
+		LogMessage( enLogLevel_Info, "Authenticating user [%s] with correct PIN...", user->GetId().c_str() );
 	}
 	else
 	{
-		printf( "Authenticating user [%s] with incorrect PIN...\n", user->GetId().c_str() );		
+		LogMessage( enLogLevel_Info, "Authenticating user [%s] with incorrect PIN...", user->GetId().c_str() );		
 	}
 	
 	TimeSpec now;
@@ -265,9 +291,9 @@ bool CMpinClient::_Authenticate( const String& aPin )
 	
 	if ( aPin == m_pinGood )
 	{
-		if ( status != MPinSDK::Status::OK )
+		if ( status != MPinSDK::Status::OK && user->GetState() != MPinSDK::User::BLOCKED )
 		{
-			printf( "ERROR: Authentication for user [%s] failed: %s [%d]\n", user->GetId().c_str(), status.GetErrorMessage().c_str(), status.GetStatusCode() );
+			LogMessage( enLogLevel_Error, "ERROR: Authentication for user [%s] failed: %s [%d]", user->GetId().c_str(), status.GetErrorMessage().c_str(), status.GetStatusCode() );
 			if ( m_bStatsEnabled )
 			{
 				++m_stats.m_numOfErrors;
@@ -275,13 +301,29 @@ bool CMpinClient::_Authenticate( const String& aPin )
 			return false;
 		}
 
-		printf( "Authentication for user [%s] succeeded\n", user->GetId().c_str() );
+		if ( user->GetState() == MPinSDK::User::BLOCKED )
+		{
+			LogMessage( enLogLevel_Error, "Authentication for user [%s] has failed because the user has been BLOCKED previously.", user->GetId().c_str() );
+		}
+		else
+		{
+			LogMessage( enLogLevel_Info, "Authentication for user [%s] succeeded", user->GetId().c_str() );
+		}
 	}
 	else
 	{
 		if ( status == MPinSDK::Status::OK )
 		{
-			printf( "ERROR: Authentication for user [%s] succeeded ?!\n", user->GetId().c_str() );
+			LogMessage( enLogLevel_Error, "ERROR: Authentication for user [%s] succeeded ?!", user->GetId().c_str() );
+			if ( m_bStatsEnabled )
+			{
+				++m_stats.m_numOfErrors;
+			}
+			return false;
+		}
+		else if ( status != MPinSDK::Status::INCORRECT_PIN )
+		{
+			LogMessage( enLogLevel_Error, "ERROR: Authentication for user [%s] failed: %s [%d]", user->GetId().c_str(), status.GetErrorMessage().c_str(), status.GetStatusCode() );
 			if ( m_bStatsEnabled )
 			{
 				++m_stats.m_numOfErrors;
@@ -289,7 +331,7 @@ bool CMpinClient::_Authenticate( const String& aPin )
 			return false;
 		}
 		
-		printf( "Authentication for user [%s] failed (as it should): %s [%d]\n", user->GetId().c_str(), status.GetErrorMessage().c_str(), status.GetStatusCode() );		
+		LogMessage( enLogLevel_Info, "Authentication for user [%s] not successful (OK): %s [%d]", user->GetId().c_str(), status.GetErrorMessage().c_str(), status.GetStatusCode() );		
 	}
 
 	GetCurrentTime(now);
@@ -330,7 +372,7 @@ long CMpinClient::CThread::Body( void* apArgs )
 			
 			if ( !pClient->m_queue.Pop( event ) )
 			{
-				LogMessage( CvShared::enLogLevel_Error, "Client #%d: Error popping from the event queue. Thread [%s]", pClient->m_id, m_name.c_str() );
+				LogMessage( enLogLevel_Error, "Client #%d: Error popping from the event queue. Thread [%s]", pClient->m_id, m_name.c_str() );
 				SleepFor( Millisecs(500) );
 				continue;
 			}
@@ -356,7 +398,7 @@ long CMpinClient::CThread::Body( void* apArgs )
 		}
 	}
 	
-//	printf( "Client thread #%d is exiting...\n", id );
+	LogMessage( enLogLevel_Debug1, "Client thread #%d is exiting...", id );
 	
 	return 0;
 }

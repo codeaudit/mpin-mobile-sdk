@@ -74,10 +74,6 @@ public class Mpin implements Closeable {
 		return nAuthenticateAccessNumber(mPtr, user, accessNumber);
 	}
 
-	public Status ResetPin(User user) {
-		return nResetPin(mPtr, user);
-	}
-
 	public void DeleteUser(User user) {
 		nDeleteUser(mPtr, user);
 	}
@@ -95,11 +91,11 @@ public class Mpin implements Closeable {
 	}
 
 	public Status TestBackend(String backend) {
-		return nTestBackend(mPtr, backend, "");
+		return nTestBackend(mPtr, backend);
 	}
 
 	public Status TestBackend(String backend, String rpsPrefix) {
-		return nTestBackend(mPtr, backend, rpsPrefix);
+		return nTestBackendRPS(mPtr, backend, rpsPrefix);
 	}
 
 	public Status SetBackend(String backend) {
@@ -140,8 +136,6 @@ public class Mpin implements Closeable {
 	private native Status nAuthenticateAccessNumber(long ptr, User user,
 			String accessNumber);
 
-	private native Status nResetPin(long ptr, User user);
-
 	private native void nDeleteUser(long ptr, User user);
 
 	private native void nListUsers(long ptr, List<User> users);
@@ -150,7 +144,9 @@ public class Mpin implements Closeable {
 
 	private native boolean nLogout(long ptr, User user);
 
-	private native Status nTestBackend(long ptr, String backend,
+	private native Status nTestBackend(long ptr, String backend);
+
+	private native Status nTestBackendRPS(long ptr, String backend,
 			String rpsPrefix);
 
 	private native Status nSetBackend(long ptr, String backend, String rpsPrefix);

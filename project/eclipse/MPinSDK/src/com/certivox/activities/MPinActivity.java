@@ -7,7 +7,6 @@ import java.util.Map;
 
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +27,7 @@ import com.certivox.fragments.OTPFragment;
 import com.certivox.fragments.PinPadFragment;
 import com.certivox.fragments.SuccessfulLoginFragment;
 import com.certivox.fragments.UsersListFragment;
+import com.certivox.interfaces.PinPadController;
 import com.certivox.listeners.OnAddNewUserListener;
 import com.certivox.listeners.OnUserSelectedListener;
 import com.certivox.models.OTP;
@@ -38,7 +38,7 @@ import com.certivox.mpinsdk.Config;
 import com.certivox.mpinsdk.Mpin;
 import com.example.mpinsdk.R;
 
-public class MPinActivity extends BaseMPinActivity {
+public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	static {
 		System.loadLibrary("AndroidMpinSDK");
@@ -46,6 +46,7 @@ public class MPinActivity extends BaseMPinActivity {
 
 	public static final String KEY_ACCESS_NUMBER = "AccessNumberActivity.KEY_ACCESS_NUMBER";
 	private static final String PREF_LAST_USER = "MPinActivity.PREF_LAST_USER";
+
 	// Fragments
 	private static final String FRAG_PINPAD = "FRAG_PINPAD";
 	private static final String FRAG_ACCESSNUMBER = "FRAG_ACCESSNUMBER";
@@ -65,33 +66,6 @@ public class MPinActivity extends BaseMPinActivity {
 
 	private Config mConfiguration;
 
-	private final BroadcastReceiver mConfigChangeReceiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if (TextUtils.equals(PinpadConfigActivity.ACTION_CHANGING_CONFIG,
-					intent.getAction())) {
-				onChangingConfiguration(PinpadConfigActivity
-						.get(MPinActivity.this, intent.getLongExtra(
-								PinpadConfigActivity.EXTRA_PREVIOUS_CONFIG, -1)));
-			} else if (TextUtils.equals(
-					PinpadConfigActivity.ACTION_CONFIG_CHANGED,
-					intent.getAction())) {
-				onConfigurationChanged(
-						PinpadConfigActivity.get(
-								MPinActivity.this,
-								intent.getLongExtra(
-										PinpadConfigActivity.EXTRA_PREVIOUS_CONFIG,
-										-1)),
-						PinpadConfigActivity.get(
-								MPinActivity.this,
-								intent.getLongExtra(
-										PinpadConfigActivity.EXTRA_CURRENT_CONFIG,
-										-1)));
-
-			}
-		}
-	};
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -104,7 +78,7 @@ public class MPinActivity extends BaseMPinActivity {
 		if (mConfiguration == null && !initConfiguration()) {
 			startActivity(new Intent(this, PinpadConfigActivity.class));
 		} else {
-			onConfigurationChanged(null, mConfiguration);
+			initSDK(mConfiguration);
 			setInitialScreen();
 		}
 	}
@@ -127,16 +101,13 @@ public class MPinActivity extends BaseMPinActivity {
 		return true;
 	}
 
-	private void onChangingConfiguration(Config prev) {
-	}
-
-	private void onConfigurationChanged(Config prev, Config curr) {
+	private void initSDK(Config config) {
 		initConfiguration();
 		Mpin sdk = MPinActivity.peekSdk();
 		if (sdk == null) {
-			HashMap<String, String> cfg = new HashMap<String, String>();
-			cfg.put("RPA_server", curr.getBackendUrl());
-			MPinActivity.init(this, cfg);
+			HashMap<String, String> serverConfig = new HashMap<String, String>();
+			serverConfig.put("RPA_server", config.getBackendUrl());
+			MPinActivity.init(this, serverConfig);
 		}
 	}
 
@@ -236,6 +207,15 @@ public class MPinActivity extends BaseMPinActivity {
 				getPinPadFragment().showWrongPin();
 			}
 			showAuthenticate();
+			break;
+		case RESPONSE_PARSE_ERROR:
+			new AlertDialog.Builder(MPinActivity.this)
+					.setTitle("OTP not supported")
+					.setMessage(
+							"The configuration does not support OTP")
+					.setPositiveButton("OK", null).show();
+			setChooseUserScreen();
+			break;
 		default:
 
 			break;
@@ -598,7 +578,6 @@ public class MPinActivity extends BaseMPinActivity {
 				break;
 			case INVALID:
 				enableSelectUser();
-				Log.i("DEBUG", "user INVALID");
 				break;
 			case BLOCKED:
 				userBlocked();
@@ -854,8 +833,14 @@ public class MPinActivity extends BaseMPinActivity {
 		@Override
 		protected void onPostExecute(Void result) {
 			if (status.getStatusCode() != com.certivox.models.Status.Code.PIN_INPUT_CANCELED) {
-				if (status.getStatusCode() != com.certivox.models.Status.Code.OK) {
+
+				if ((status.getStatusCode() != com.certivox.models.Status.Code.OK)) {
 					onFailedToAuthenticate(status, !accessNumber.equals(""));
+
+				} else if (otp != null
+						&& otp.status != null
+						&& otp.status.getStatusCode() != com.certivox.models.Status.Code.OK) {
+					onFailedToAuthenticate(otp.status, false);
 				} else {
 					if (otp != null
 							&& otp.status != null

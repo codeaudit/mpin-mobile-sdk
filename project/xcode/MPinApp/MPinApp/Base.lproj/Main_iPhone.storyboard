@@ -192,6 +192,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uMv-6u-aPI">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="54"/>
+                                        <color key="backgroundColor" red="0.98812824487686157" green="0.98829692602157593" blue="0.988117516040802" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="54" id="aew-oj-AzO"/>
                                         </constraints>
@@ -207,10 +208,12 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iaj-nK-HOy" userLabel="ResetPIN">
                                         <rect key="frame" x="200" y="0.0" width="200" height="54"/>
+                                        <color key="backgroundColor" red="0.98431372549999996" green="0.98431372549999996" blue="0.98431372549999996" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="54" id="WCP-y4-mKa"/>
                                         </constraints>
-                                        <state key="normal" title="Reset Pin">
+                                        <state key="normal" title="RESET PIN">
+                                            <color key="titleColor" red="0.25882352939999997" green="0.33725490200000002" blue="0.4039215686" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
