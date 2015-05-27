@@ -35,6 +35,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  is binary compatible with it.
 
 */
+
 #include "CvString.h"
 
 #include <stdarg.h>

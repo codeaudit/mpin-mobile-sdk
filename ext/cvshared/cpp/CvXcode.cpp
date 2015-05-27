@@ -33,6 +33,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  Base64 and Hex Encoding/Decoding facilities.
 
 */
+
 #include "CvXcode.h"
 
 using namespace std;
