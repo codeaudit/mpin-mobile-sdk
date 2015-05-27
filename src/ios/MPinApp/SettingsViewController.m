@@ -162,7 +162,7 @@
 - ( void )OnSetBackendError:( id )sender error:( NSError * )error
 {
     MpinStatus *status = ( error.userInfo ) [kMPinSatus];
-    [[ErrorHandler sharedManager] updateMessage:status.errorMessage addActivityIndicator:NO hideAfter:2];
+    [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(status.statusCodeAsString, @"UNKNOWN ERROR") addActivityIndicator:NO hideAfter:2];
 }
 
 #pragma mark - Custom actions -

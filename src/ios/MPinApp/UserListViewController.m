@@ -121,7 +121,7 @@ static NSString *const kAN = @"AN";
         {
             if ( status.status != OK )
             {
-                [[ErrorHandler sharedManager] updateMessage:status.errorMessage addActivityIndicator:NO hideAfter:3];
+                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(status.statusCodeAsString, @"UNKNOWN ERROR") addActivityIndicator:NO hideAfter:3];
             }
             else
             {
@@ -380,7 +380,7 @@ static NSString *const kAN = @"AN";
 {
     MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
     [[ErrorHandler sharedManager] presentMessageInViewController:self
-     errorString:mpinStatus.errorMessage
+     errorString:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR")
      addActivityIndicator:NO
      minShowTime:0];
 }
@@ -418,7 +418,7 @@ static NSString *const kAN = @"AN";
     default:
     {
         MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
-        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:mpinStatus.errorMessage
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR")
          addActivityIndicator:NO
          minShowTime:0];
     } break;

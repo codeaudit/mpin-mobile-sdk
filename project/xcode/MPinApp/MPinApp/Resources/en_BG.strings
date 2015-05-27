@@ -139,3 +139,22 @@
 "LOGIN_MOBILE_APP" = "ЛОГИН В МОБИЛНО ПРИЛОЖЕНИЕ";
 "LOGIN_ONLINE_SESSION" = "ЛОГИН В УЕБ БРАУЗЪР";
 "LOGIN_OTP" = "ЛОГИН С ЕДНОКРАТНА ПАРОЛА";
+
+/* MPIN STATUS ERROR MESSAGES */
+
+"KEY_BTNOK" = " ГРЕШКА В КЛЮЧА";
+"PIN_INPUT_CANCELED" = "ВЕВЕЖДАНЕТО НА ПИН Е ОТКАЗАНО";
+"CRYPTO_ERROR" = "ГРЕШКА В КРИПТОГРАФИЯТА";
+"STORAGE_ERROR" = "ГРЕШКА ПРИ СЪХРАНЕНИЕ";
+"NETWORK_ERROR" = "МРЕЖОВА ГРЕШКА";
+"RESPONSE_PARSE_ERROR" = "ГРЕШКА ПРИ ОБРАБОТКА НА ОТГОВОРА ОТ СЪРВЪРА";
+"FLOW_ERROR" = "FLOW ERROR";
+"IDENTITY_NOT_AUTHORIZED" = "АКАУНТА НЕ Е АУТОРИЗИРАН";
+"IDENTITY_NOT_VERIFIED" = "АКАУНТА НЕ Е ВЕРИФИЦИРАН";
+"REQUEST_EXPIRED" = "ОСТАРЯЛА ЗАЯВКА";
+"REVOKED" = "ЗАБРАНЕН АКАУНТ";
+"INCORRECT_PIN" = "НЕВАЛИДЕН ПИН";
+"INCORRECT_ACCESS_NUMBER" = "НЕВАЛИДЕН НОМЕР ЗА ДОСТЪП";
+"HTTP_SERVER_ERROR" = "HTTP ГРЕШКА";
+"HTTP_REQUEST_ERROR" = "HTTP REQUEST ГРЕШКА";
+

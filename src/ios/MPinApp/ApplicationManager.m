@@ -15,71 +15,83 @@
 
 
 
-@interface ApplicationManager() {
-    MPin* sdk;
+@interface ApplicationManager ( ) {
+    MPin *sdk;
     AppDelegate *appdelegate;
 }
-- (void) runNetowrkMonitoring;
+- ( void ) runNetowrkMonitoring;
 @end
 
 
 @implementation ApplicationManager
 
-+ (ApplicationManager*)sharedManager {
-    static ApplicationManager* sharedManager = nil;
++ ( ApplicationManager * )sharedManager
+{
+    static ApplicationManager *sharedManager = nil;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         sharedManager = [[self alloc] init];
     });
+
     return sharedManager;
 }
 
-- (instancetype) init {
+- ( instancetype ) init
+{
     self = [super init];
-    if (self) {
+    if ( self )
+    {
         sdk = [[MPin alloc] init];
         sdk.delegate = self;
-        appdelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        appdelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         [self runNetowrkMonitoring];
     }
+
     return self;
 }
 
-- (void) runNetowrkMonitoring {
+- ( void ) runNetowrkMonitoring
+{
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock: ^ (AFNetworkReachabilityStatus status) {
+        switch ( status )
+        {
+        ///case AFNetworkReachabilityStatusNotReachable:
+        case AFNetworkReachabilityStatusReachableViaWiFi:
+        case AFNetworkReachabilityStatusReachableViaWWAN:
+            if ( ![MPin isInitialized] )
+            {
+                [sdk initSDK:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
+            }
 
-    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-        switch (status) {
-            ///case AFNetworkReachabilityStatusNotReachable:
-            case AFNetworkReachabilityStatusReachableViaWiFi:
-            case AFNetworkReachabilityStatusReachableViaWWAN:
-                if ( ! [MPin isInitialized] ) {
-                    [sdk initSDK:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
-                }
-                
-                // hide netowrk indicator
-                break;
-            default: {
+            // hide netowrk indicator
+            break;
+
+        default:
+            {
                 // show netowrk indicator
-                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"ERROR" message:@"No Internet Connection!" delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"ERROR" message:@"No Internet Connection!" delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
                 [alert show];
-                }
-                break;
+            }
+            break;
         }
     }];
     // and now activate monitoring
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
-
 }
 
-- (void) OnInitCompleted:(id) sender {
+- ( void ) OnInitCompleted:( id ) sender
+{
     MFSideMenuContainerViewController *container = (MFSideMenuContainerViewController *)appdelegate.window.rootViewController;
-    if ([((UINavigationController *)container.centerViewController).topViewController  isMemberOfClass:[UserListViewController class]]){
-        [(UserListViewController *)(((UINavigationController *)container.centerViewController).topViewController)  invalidate];
+    if ( [( (UINavigationController *)container.centerViewController ).topViewController isMemberOfClass:[UserListViewController class]] )
+    {
+        [(UserListViewController *)( ( (UINavigationController *)container.centerViewController ).topViewController )invalidate];
     }
 }
-- (void) OnInitError:(id) sender  error:(NSError *) error {
-    MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:[mpinStatus getStatusCodeAsString] message:mpinStatus.errorMessage delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
+
+- ( void ) OnInitError:( id ) sender error:( NSError * ) error
+{
+    MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[mpinStatus getStatusCodeAsString] message:mpinStatus.errorMessage delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
     [alert show];
 }
 

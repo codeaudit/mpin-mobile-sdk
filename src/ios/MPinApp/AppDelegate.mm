@@ -25,9 +25,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-
-    [[Mint sharedInstance] initAndStartSession:@"a61632de"];
-    
+    [[Mint sharedInstance] initAndStartSession:@"a61632de"];    
 	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone"
 	                            bundle:[NSBundle mainBundle]];
 
