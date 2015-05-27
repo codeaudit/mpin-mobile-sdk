@@ -136,6 +136,10 @@
 		9614F8CF1A9E1EC500337080 /* AccountSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9614F8CE1A9E1EC500337080 /* AccountSummaryViewController.m */; };
 		961957461A960E9900C93604 /* ThemeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 961957451A960E9900C93604 /* ThemeManager.m */; };
 		961957491A97276100C93604 /* ConfigListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 961957481A97276100C93604 /* ConfigListTableViewCell.m */; };
+		963D8BC51B15997F0055C343 /* ApplicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE36B3B41B04E195000ACD70 /* ApplicationManager.m */; };
+		963D8BC61B1599800055C343 /* ApplicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE36B3B41B04E195000ACD70 /* ApplicationManager.m */; };
+		963D8BC71B1599800055C343 /* ApplicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE36B3B41B04E195000ACD70 /* ApplicationManager.m */; };
+		963D8BC81B1599980055C343 /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FEAA2CCD1ACEBCB700EED79F /* NSString+Helper.m */; };
 		9644B2211AD3AF400047E9CA /* libPods-SplunkMint-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9644B2201AD3AF400047E9CA /* libPods-SplunkMint-iOS.a */; };
 		9644B2231AD3AF5C0047E9CA /* libPods-SplunkMint-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9644B2221AD3AF5C0047E9CA /* libPods-SplunkMint-iOS.a */; };
 		9649BC841AC045E900B9F41B /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9649BC821AC045E900B9F41B /* MenuViewController.m */; };
@@ -1215,6 +1219,7 @@
 				96130E2A1AEE4867005D2A86 /* MenuViewController.m in Sources */,
 				96130E2B1AEE4867005D2A86 /* SettingsViewCell.m in Sources */,
 				96130E2C1AEE4867005D2A86 /* AboutViewController.m in Sources */,
+				963D8BC61B1599800055C343 /* ApplicationManager.m in Sources */,
 				96130E2D1AEE4867005D2A86 /* ThemeManager.m in Sources */,
 				96130E2E1AEE4867005D2A86 /* AddSettingViewController.m in Sources */,
 				96130E2F1AEE4867005D2A86 /* DigitPadViewController.m in Sources */,
@@ -1255,6 +1260,7 @@
 				96130E741AEE490A005D2A86 /* MenuViewController.m in Sources */,
 				96130E751AEE490A005D2A86 /* SettingsViewCell.m in Sources */,
 				96130E761AEE490A005D2A86 /* AboutViewController.m in Sources */,
+				963D8BC71B1599800055C343 /* ApplicationManager.m in Sources */,
 				96130E771AEE490A005D2A86 /* ThemeManager.m in Sources */,
 				96130E781AEE490A005D2A86 /* AddSettingViewController.m in Sources */,
 				96130E791AEE490A005D2A86 /* DigitPadViewController.m in Sources */,
@@ -1309,12 +1315,14 @@
 				96C88F481AC42B7D00A5F27A /* SettingsManager.m in Sources */,
 				9649BCA41AC16D1000B9F41B /* IdentityCreatedViewController.m in Sources */,
 				96C9BF2A1AE6407D00FAC454 /* IdentityBlockedViewController.m in Sources */,
+				963D8BC51B15997F0055C343 /* ApplicationManager.m in Sources */,
 				9649BCA51AC16D1000B9F41B /* SettingsViewController.m in Sources */,
 				9649BCA61AC16D1000B9F41B /* AppDelegate.mm in Sources */,
 				9649BCA71AC16D1000B9F41B /* MenuTableViewCell.m in Sources */,
 				9649BCA81AC16D1000B9F41B /* OptionSelectTableViewCell.m in Sources */,
 				96C88F471AC42B7D00A5F27A /* ConfigurationManager.m in Sources */,
 				9649BCA91AC16D1000B9F41B /* UserListViewController.m in Sources */,
+				963D8BC81B1599980055C343 /* NSString+Helper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
