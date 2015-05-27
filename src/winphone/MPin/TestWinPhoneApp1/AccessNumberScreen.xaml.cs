@@ -72,7 +72,7 @@ namespace MPinDemo
         private void ProcessAN()
         {
             Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-            mainFrame.GoBack(new List<string>() { "AccessNumber", this.AccessNumberTB.Text });
+            mainFrame.GoBack(new List<object>() { "AccessNumber", this.AccessNumberTB.Text });
         }
 
         void AccessNumberTB_TextChanged(object sender, TextChangedEventArgs e)

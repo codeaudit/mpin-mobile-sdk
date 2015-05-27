@@ -17,6 +17,7 @@ using MPinSDK.Common;
 using System.Text.RegularExpressions;
 using Windows.ApplicationModel.Resources;
 using MPinDemo.Models;
+using Windows.Storage;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -28,6 +29,8 @@ namespace MPinDemo
     public sealed partial class AddNewUser : Page
     {
         MainPage rootPage = null;
+        bool displayDeviceName = false;
+        public const string DefaultDeviceName = "Sample App (WinPhone)";
 
         public AddNewUser()
         {
@@ -41,6 +44,14 @@ namespace MPinDemo
             this.UserId.InputScope = scope;
         }
 
+        private string CachedDeviceName
+        {
+            get
+            {
+                return BlankPage1.RoamingSettings.Values["DeviceName"].ToString();
+            }
+        }
+
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
         /// </summary>
@@ -49,10 +60,18 @@ namespace MPinDemo
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             rootPage = MainPage.Current;
+            if (bool.TryParse(e.Parameter.ToString(), out displayDeviceName))
+            {
+                DeviceNameContainer.Visibility = displayDeviceName ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
+                if (!string.IsNullOrEmpty(this.CachedDeviceName))
+                {
+                    DeviceName.Text = this.CachedDeviceName;
+                }
+            }            
         }
 
         public string eMail
-        { 
+        {
             get;
             set;
         }
@@ -74,11 +93,19 @@ namespace MPinDemo
             }
             else
             {
+                //CacheDeviceName();
                 Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
-                mainFrame.GoBack(new List<string>() { "AddUser", this.UserId.Text });
+                mainFrame.GoBack(new List<object>() { "AddUser", new List<string> { this.UserId.Text, DeviceName.Text } });
             }
         }
 
+        private void CacheDeviceName()
+        {
+            if (string.IsNullOrEmpty(this.CachedDeviceName) && !this.CachedDeviceName.Equals(DeviceName.Text))
+            {
+                // save it
+            }
+        }
 
         private bool IsMailValid(string mailString)
         {
@@ -101,7 +128,33 @@ namespace MPinDemo
         private void UserId_KeyUp(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                if (DeviceName.Visibility == Windows.UI.Xaml.Visibility.Collapsed)
+                {
+                    ProcessNewUser();
+                }
+                else
+                {
+                    DeviceName.Focus(FocusState.Keyboard);
+                }
+            }
+        }
+
+        private void DeviceName_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
                 ProcessNewUser();
+            }
+        }
+
+        private void DeviceName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (DeviceName.Text != DefaultDeviceName || (!string.IsNullOrEmpty(this.CachedDeviceName) && !this.CachedDeviceName.Equals(DeviceName.Text)))
+            {
+                BlankPage1.SavePropertyState("DeviceName", DeviceName.Text);
+                //ApplicationData.Current.RoamingSettings.Values["DeviceName"].ToString();
+            }            
         }
     }
 }

@@ -24,6 +24,28 @@ namespace MPinDemo.Models
 
         private static MPin sdk;
 
+        #endregion // Fields
+
+        #region C'tors
+        static Controller()
+        {
+            Controller.sdk = new MPin();
+        }
+
+        public Controller()
+        {
+            rootPage = MainPage.Current;
+            dispatcher = Window.Current.Dispatcher;
+
+            DataModel = new AppDataModel();
+            DataModel.PropertyChanged += DataModel_PropertyChanged;
+        }
+
+        #endregion // C'tor
+
+        #region Members
+        string DeviceName { get; set; }
+
         public AppDataModel DataModel
         {
             get;
@@ -44,24 +66,7 @@ namespace MPinDemo.Models
             }
         }
 
-        #endregion // Fields
-
-        #region C'tors
-        static Controller()
-        {
-            Controller.sdk = new MPin();
-        }
-
-        public Controller()
-        {
-            rootPage = MainPage.Current;
-            dispatcher = Window.Current.Dispatcher;
-
-            DataModel = new AppDataModel();
-            DataModel.PropertyChanged += DataModel_PropertyChanged;
-        }
-
-        #endregion // C'tor
+        #endregion
 
         #region handlers
         async void DataModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -79,6 +84,8 @@ namespace MPinDemo.Models
                             ? string.Format(ResourceLoader.GetForCurrentView().GetString("InitializationFailed"), (status == null ? "null" : status.StatusCode.ToString()))
                             : ResourceLoader.GetForCurrentView().GetString("ServiceSet"),
                             !isOk ? MainPage.NotifyType.ErrorMessage : MainPage.NotifyType.StatusMessage);
+
+                        UpdateServices(isOk);                        
                     }
 
                     this.IsValidService = isOk;
@@ -86,10 +93,19 @@ namespace MPinDemo.Models
                     break;
 
                 case "CurrentUser":
+                    await ProcessUser();
                     break;
 
                 case "UsersList":
                     break;
+            }
+        }
+
+        private void UpdateServices(bool isSet)
+        {
+            foreach(var service in DataModel.BackendsList)
+            {
+                service.IsSet = service.Equals(DataModel.CurrentService) && isSet ? true : false;
             }
         }
 
@@ -184,54 +200,72 @@ namespace MPinDemo.Models
 
         public async Task ProcessUser()
         {
-            if (this.DataModel.CurrentUser == null)
-            {
-                //if (this.DataModel.UsersList.Count > 0)
-                //    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoSelectedUser"), MainPage.NotifyType.ErrorMessage);
+            //if (this.DataModel.CurrentUser == null)
+            //{
+            //    //if (this.DataModel.UsersList.Count > 0)
+            //    //    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoSelectedUser"), MainPage.NotifyType.ErrorMessage);
 
-                return;
+            //    return;
+            //}
+
+            //Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
+
+            //switch (this.DataModel.CurrentUser.UserState)
+            //{
+            //    case User.State.Activated:
+            //        sdk.FinishRegistration(this.DataModel.CurrentUser); // to set the pin
+            //        break;
+
+            //    case User.State.Blocked:
+            //        mainFrame.Navigate(typeof(BlockedScreen), this.DataModel.CurrentUser);
+            //        break;
+
+            //    case User.State.Invalid:
+            //        // user still not registered -> start the registration
+            //        await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //        {
+            //            rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("InvalidUser"), MainPage.NotifyType.ErrorMessage);
+            //        });
+            //        break;
+
+            //    case User.State.StartedRegistration:
+            //        mainFrame.Navigate(typeof(EmailConfirmed), this.DataModel.CurrentUser);
+            //        break;
+
+            //    case User.State.Registered:
+            //        if (this.DataModel.CurrentService.RequestAccessNumber)
+            //        {
+            //            mainFrame.Navigate(typeof(AccessNumberScreen), sdk.GetClientParam("accessNumberDigits"));
+            //        }
+            //        else
+            //        {
+            //            await ShowAuthenticate();
+            //        }
+            //        break;
+            //}
+        }
+
+
+        internal void AddNewUser()
+        {
+            // Add a user
+            if (string.IsNullOrEmpty(this.DataModel.CurrentService.BackendUrl))
+            {
+                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoServiceSet"), MainPage.NotifyType.ErrorMessage);
             }
-
-            Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-
-            switch (this.DataModel.CurrentUser.UserState)
+            else
             {
-                case User.State.Activated:
-                    sdk.FinishRegistration(this.DataModel.CurrentUser); // to set the pin
-                    break;
-
-                case User.State.Blocked:
-                    mainFrame.Navigate(typeof(BlockedScreen), this.DataModel.CurrentUser);
-                    break;
-
-                case User.State.Invalid:
-                    // user still not registered -> start the registration
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("InvalidUser"), MainPage.NotifyType.ErrorMessage);
-                    });
-                    break;
-
-                case User.State.StartedRegistration:
-                    mainFrame.Navigate(typeof(EmailConfirmed), this.DataModel.CurrentUser);
-                    break;
-
-                case User.State.Registered:
-                    if (this.DataModel.CurrentService.RequestAccessNumber)
-                    {
-                        mainFrame.Navigate(typeof(AccessNumberScreen), sdk.GetClientParam("accessNumberDigits"));
-                    }
-                    else
-                    {
-                        await ShowAuthenticate();
-                    }
-                    break;
+                Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
+                if (!mainFrame.Navigate(typeof(AddNewUser), sdk.GetClientParam("setDeviceName")))
+                {
+                    throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
+                }
             }
         }
 
-        private async Task AddUser(string id)
+        private async Task AddUser(List<string> data)
         {
-            User user = await AddAndRegisterUser(id);
+            User user = await AddAndRegisterUser(data);
 
             UpdateUsersList();
             if (user != null)
@@ -272,15 +306,17 @@ namespace MPinDemo.Models
             }
         }
 
-        private async Task<User> AddAndRegisterUser(string eMail)
+        private async Task<User> AddAndRegisterUser(List<string> data)
         {
+            string eMail = data[0];
+            string deviceName = data[1];
             User user = null;
             Status status = null;
             await Task.Factory.StartNew(() =>
             {
                 if (!string.IsNullOrEmpty(eMail))
                 {
-                    user = sdk.MakeNewUser(eMail);
+                    user = sdk.MakeNewUser(eMail, deviceName);
 
                     string id = user.Id;
                     Debug.Assert(id.Equals(eMail));
@@ -398,7 +434,7 @@ namespace MPinDemo.Models
                 sdk.DeleteUser(user);
             });
 
-            await AddUser(user.Id);
+            await AddUser(new List<string> {user.Id, this.DeviceName});
         }
         #endregion // users
 
@@ -447,7 +483,7 @@ namespace MPinDemo.Models
 
         #endregion // authentication
 
-        internal async Task ProcessNavigation(string command, string parameter)
+        internal async Task ProcessNavigation(string command, object parameter)
         {
             switch (command)
             {
@@ -456,11 +492,14 @@ namespace MPinDemo.Models
                     break;
 
                 case "AddUser":
-                    await AddUser(parameter);
+                    List<string> data = parameter as List<string>;
+                    if (data != null && data.Count == 2)
+                        await AddUser(data);
+
                     break;
 
-                case "EmailConfirmed":
-                    if (string.IsNullOrEmpty(parameter))
+                case "EmailConfirmed":                    
+                    if (parameter == null || string.IsNullOrEmpty(parameter.ToString()))
                     {
                         await NotConfirmedIdentity();
                     }
@@ -471,7 +510,7 @@ namespace MPinDemo.Models
                     break;
 
                 case "AccessNumber":
-                    await ShowAuthenticate(parameter);
+                    await ShowAuthenticate(parameter.ToString());
                     break;
 
                 case "Error":

@@ -75,7 +75,7 @@ namespace MPinDemo
         {
             System.Diagnostics.Debug.WriteLine("EmailConfirmed Finish..");
             Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-            mainFrame.GoBack(new List<string>() { "EmailConfirmed", "Finish" });
+            mainFrame.GoBack(new List<object>() { "EmailConfirmed", "Finish" });
         }
 
         private void Resend_Click(object sender, RoutedEventArgs e)
@@ -87,7 +87,7 @@ namespace MPinDemo
                     if (st.StatusCode != Status.Code.OK)
                     {
                         Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-                        mainFrame.GoBack(new List<string>() { "Error", st.ErrorMessage });
+                        mainFrame.GoBack(new List<object>() { "Error", st.ErrorMessage });
                     }
                 }
         }
@@ -96,7 +96,7 @@ namespace MPinDemo
         {
             System.Diagnostics.Debug.WriteLine("EmailConfirmed -> Identities");
             Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-            mainFrame.GoBack(new List<string>() { "EmailConfirmed", string.Empty});
+            mainFrame.GoBack(new List<object>() { "EmailConfirmed", string.Empty});
         }
         #endregion
 

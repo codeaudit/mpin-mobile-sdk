@@ -138,6 +138,12 @@
   <data name="OneButton.Content" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="PinPadAuthentication" xml:space="preserve">
+    <value>Проверка</value>
+  </data>
+  <data name="PinPadRegistration" xml:space="preserve">
+    <value>Регистрация</value>
+  </data>
   <data name="PinPasswordBox.PlaceholderText" xml:space="preserve">
     <value>Въведи своя ПИН</value>
   </data>

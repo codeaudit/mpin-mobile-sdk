@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.ApplicationModel.Resources;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -31,15 +32,15 @@ namespace MPinSDK.Controls
         public PinPadPage()
         {
             this.InitializeComponent();
-            this.PinPad.PinEntered += PinPad_PinEntered;            
+            this.PinPad.PinEntered += PinPad_PinEntered;
         }
-        
+
         public User CurrentUser
         {
             get;
             set;
         }
-        
+
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
         /// </summary>
@@ -52,9 +53,10 @@ namespace MPinSDK.Controls
             {
                 pinPadClassControl = data[0] as PinPad;
                 bool? doAuthenticate = data[1] as bool?;
+
                 if (pinPadClassControl != null && doAuthenticate != null)
                 {
-                    PinMailTB.Text = (doAuthenticate.Value ? "Authenticate user " : "Register user ") + data[2].ToString();
+                    PinMailTB.Text = ResourceLoader.GetForCurrentView("MPinSDK/Resources").GetString(doAuthenticate.Value ? "PinPadAuthentication" : "PinPadRegistration"); // data[2].ToString();
                 }
             }         
         }

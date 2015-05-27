@@ -285,4 +285,7 @@
   <data name="CertivoxLtd" xml:space="preserve">
     <value>Copyright {0} 2015, CertiVox UK Ltd</value>
   </data>
+  <data name="DeviceNameTB.Text" xml:space="preserve">
+    <value>Device name:</value>
+  </data>
 </root>

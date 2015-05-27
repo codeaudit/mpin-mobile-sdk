@@ -87,7 +87,7 @@ namespace MPinDemo.Models
             }
             set
             {
-                if (!_currentService.Equals(value))
+                if (_currentService != value)
                 {
                     _currentService = value;
                     this.OnPropertyChanged();
@@ -129,7 +129,7 @@ namespace MPinDemo.Models
 
             BackendsList.Add(new Backend()
             {
-                BackendUrl = "http://ec2-52-28-83-2.eu-central-1.compute.amazonaws.com/",
+                BackendUrl = "http://ec2-52-28-120-46.eu-central-1.compute.amazonaws.com",
                 RequestAccessNumber = false,
                 RequestOtp = false,
                 Title = "Force Activation"

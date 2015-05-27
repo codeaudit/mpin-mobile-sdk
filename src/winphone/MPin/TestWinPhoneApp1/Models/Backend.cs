@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MPinDemo.Models
 {
-    public struct Backend: INotifyPropertyChanged
+    public class Backend: INotifyPropertyChanged
     {
         public const string DEFAULT_RPS_PREFIX = "rps";
 
@@ -100,18 +100,35 @@ namespace MPinDemo.Models
             }
         }
 
+        private bool? isSet;
+        public bool? IsSet
+        {
+            get
+            {
+                return this.isSet;
+            }
+            set
+            {
+                if (value != this.isSet)
+                {
+                    this.isSet = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public override bool Equals(object obj)
         {
-            Backend? b = obj as Backend?;
+            Backend b = obj as Backend;
             if (b == null)
                 return false;
 
             return !string.IsNullOrEmpty(this.BackendUrl) &&
-                this.BackendUrl.Equals(b.Value.BackendUrl) &&
-                this.RequestAccessNumber.Equals(b.Value.RequestAccessNumber) &&
-                this.RequestOtp.Equals(b.Value.RequestOtp) &&
-                this.RpsPrefix.Equals(b.Value.RpsPrefix) &&
-                this.Title.Equals(b.Value.Title);
+                this.BackendUrl.Equals(b.BackendUrl) &&
+                this.RequestAccessNumber.Equals(b.RequestAccessNumber) &&
+                this.RequestOtp.Equals(b.RequestOtp) &&
+                this.RpsPrefix.Equals(b.RpsPrefix) &&
+                this.Title.Equals(b.Title);
         }
 
         public override int GetHashCode()

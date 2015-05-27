@@ -22,15 +22,13 @@ namespace MPinDemo
 
         private const string SelectedService = "ServiceSetIndex";
         private const string SelectedUser = "SelectedUser";
-        private bool shouldSetService = false;
         private bool isInitialLoad = false;
         private MainPage rootPage = null;
         private CoreDispatcher _dispatcher;
 
-        private ApplicationDataContainer roamingSettings = null;
+        internal static ApplicationDataContainer RoamingSettings = null;
         private static Controller controller = null;
         private static bool IsSelectedBtnEnabled = true;
-        private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
         #endregion // members
 
         #region constructors
@@ -45,7 +43,7 @@ namespace MPinDemo
 
             _dispatcher = Window.Current.Dispatcher;
             this.DataContext = controller.DataModel;
-            roamingSettings = ApplicationData.Current.RoamingSettings;
+            RoamingSettings = ApplicationData.Current.RoamingSettings;
             controller.PropertyChanged += controller_PropertyChanged;
 
             LoadSettings();
@@ -63,10 +61,10 @@ namespace MPinDemo
         {
             rootPage = MainPage.Current;
 
-            List<string> data = (Window.Current.Content as Frame).GetNavigationData() as List<string>;
+            List<object> data = (Window.Current.Content as Frame).GetNavigationData() as List<object>;
             if (data != null && data.Count == 2)
             {
-                await controller.ProcessNavigation(data[0], data[1]);
+                await controller.ProcessNavigation(data[0].ToString(), data[1]);
             }
             else
             {
@@ -110,7 +108,7 @@ namespace MPinDemo
             SetSelectedServicesIndex();
             ResetPinButton.IsEnabled = UsersListBox.SelectedItem != null;
 
-            if (controller.DataModel.CurrentService.BackendUrl != null)
+            if (controller.DataModel.CurrentService != null && controller.DataModel.CurrentService.BackendUrl != null)
             {
                 this.MainPivot.SelectedItem = this.UsersPivotItem;
             }
@@ -118,21 +116,21 @@ namespace MPinDemo
 
         #region State
 
-        private void SavePropertyState(string key, object value)
+        internal static void SavePropertyState(string key, object value)
         {
-            if (!roamingSettings.Values.Keys.Contains(key))
+            if (!RoamingSettings.Values.Keys.Contains(key))
             {
-                roamingSettings.Values.Add(key, value);
+                RoamingSettings.Values.Add(key, value);
             }
             else
             {
-                roamingSettings.Values[key] = value;
+                RoamingSettings.Values[key] = value;
             }
         }
 
         private User GetSelectedUserFromSettings()
         {
-            int? selectedIndex = roamingSettings.Values[SelectedUser] as int?;
+            int? selectedIndex = RoamingSettings.Values[SelectedUser] as int?;
             if (selectedIndex != null && selectedIndex >= 0 && selectedIndex < UsersListBox.Items.Count)
             {
                 return this.UsersListBox.Items[selectedIndex.Value] as User;
@@ -143,20 +141,19 @@ namespace MPinDemo
 
         private void SetSelectedServicesIndex()
         {
-            int? selectedIndex = roamingSettings.Values[SelectedService] as int?;
-            if (selectedIndex != null && selectedIndex >= 0 && selectedIndex < ServicesList.Items.Count)
+            int? selectedIndex = RoamingSettings.Values[SelectedService] as int?;
+
+            if (isInitialLoad && (selectedIndex == null || selectedIndex < 0 || selectedIndex >= ServicesList.Items.Count))
             {
                 // if the selected service in the list is different from the currentService -> reset it
-                Backend? selectedService = ServicesList.Items[selectedIndex.Value] as Backend?;
-                shouldSetService = false == selectedService.Equals(controller.DataModel.CurrentService);
-
+                selectedIndex = 0;
+            }
+            
+            if (selectedIndex != null && selectedIndex >= 0 && selectedIndex < ServicesList.Items.Count)
+            {
                 controller.DataModel.CurrentService = (Backend)this.ServicesList.Items[selectedIndex.Value];
                 this.ServicesList.SelectedIndex = selectedIndex.Value;
                 this.ServicesList.ScrollIntoView(this.ServicesList.SelectedItem);
-            }
-            else
-            {
-                shouldSetService = true;
             }
         }
         #endregion
@@ -169,7 +166,7 @@ namespace MPinDemo
             switch (this.MainPivot.SelectedIndex)
             {
                 case 0:
-                    this.MainPivot.SelectedItem = this.UsersPivotItem;
+                    controller.DataModel.CurrentService = (Backend)this.ServicesList.SelectedItem;
                     break;
 
                 case 1:
@@ -208,23 +205,39 @@ namespace MPinDemo
 
         private async void UsersList_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
-            if (UsersListBox != null && UsersListBox.ItemsSource != null)
-            {
-                UsersListBox.SelectedItem = GetSelectedUser(controller.DataModel.UsersList);
+            //if (UsersListBox != null && UsersListBox.ItemsSource != null)
+            //{
+            //    UsersListBox.SelectedItem = GetSelectedUser(controller.DataModel.UsersList);
 
-                if (isInitialLoad)
-                {
-                    await controller.ProcessUser();
-                    isInitialLoad = false;
-                }
-            }
+            //    //lock (controller)
+            //    {
+            //        if (isInitialLoad)
+            //        {
+            //            await controller.ProcessUser();
+            //            isInitialLoad = false;
+            //        }
+            //    }
+            //}
         }
 
         private void controller_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "IsValidService" && !controller.IsValidService)
+            //if (e.PropertyName == "IsValidService" && !controller.IsValidService)
+            //{
+            //    ServicesList.SelectedIndex = -1;
+            //}
+
+            if (e.PropertyName == "IsValidService")
             {
-                ServicesList.SelectedIndex = -1;
+                if (controller.IsValidService)
+                {
+                    //if (isInitialLoad)
+                        this.MainPivot.SelectedItem = this.UsersPivotItem;
+                }
+                else
+                {
+                    //ServicesList.SelectedIndex = -1;
+                }
             }
         }
 
@@ -241,19 +254,7 @@ namespace MPinDemo
                     //listView.ScrollIntoView(newItem, ScrollIntoViewAlignment.Leading);
                     break;
                 case 1:
-                    // Add a user
-                    if (string.IsNullOrEmpty(controller.DataModel.CurrentService.BackendUrl))
-                    {
-                        rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoServiceSet"), MainPage.NotifyType.ErrorMessage);
-                    }
-                    else
-                    {
-                        if (!Frame.Navigate(typeof(AddNewUser)))
-                        {
-                            throw new Exception(this.resourceLoader.GetString("NavigationFailedExceptionMessage"));
-                        }
-
-                    }
+                    controller.AddNewUser();
                     break;
             }
         }
@@ -277,10 +278,10 @@ namespace MPinDemo
             switch (this.MainPivot.SelectedIndex)
             {
                 case 0:
-                    Backend? backend = ServicesList.SelectedItem as Backend?;
-                    if (backend != null && string.IsNullOrEmpty(backend.Value.BackendUrl))
+                    Backend backend = ServicesList.SelectedItem as Backend;
+                    if (backend != null && string.IsNullOrEmpty(backend.BackendUrl))
                     {
-                        await controller.DeleteService(backend.Value);
+                        await controller.DeleteService(backend);
                     }
                     break;
 
@@ -303,16 +304,27 @@ namespace MPinDemo
         {
             // reset the pivot item header to properly display it on initial load 
             UsersPivotItem.Header = " " + UsersPivotItem.Header;
+
+            if (UsersListBox != null && UsersListBox.ItemsSource != null)
+            {
+                UsersListBox.SelectedItem = GetSelectedUser(controller.DataModel.UsersList);
+
+                if (isInitialLoad)
+                {
+                    //await controller.ProcessUser();
+                    isInitialLoad = false;
+                }
+            }
         }
 
         private void AboutButton_Click(object sender, RoutedEventArgs e)
         {
             if (!Frame.Navigate(typeof(About)))
             {
-                throw new Exception(this.resourceLoader.GetString("NavigationFailedExceptionMessage"));
+                throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
             }
         }
-        
+
         #endregion // handlers
     }
 }

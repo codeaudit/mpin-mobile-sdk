@@ -8,10 +8,23 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
         <TextBlock x:Uid="NewUserIdTB" />
-        <TextBox x:Name="UserId" Text="{Binding eMail, Mode=TwoWay}" KeyUp="UserId_KeyUp"/>
-
-        <Button x:Uid="NewUserButton" VerticalAlignment="Bottom" Click="Button_Click"/>
-    </StackPanel>
+        <TextBox x:Name="UserId" Text="{Binding eMail, Mode=TwoWay}" KeyUp="UserId_KeyUp" Grid.Row="1"/>
+        
+        <StackPanel x:Name="DeviceNameContainer" Grid.Row="2" Visibility="Collapsed">
+            <TextBlock x:Uid="DeviceNameTB" />
+            <TextBox x:Name="DeviceName" Text="{Binding DefaultDeviceName, RelativeSource={RelativeSource Self}}" KeyUp="DeviceName_KeyUp" TextChanged="DeviceName_TextChanged" />
+        </StackPanel>
+        
+        <Button x:Uid="NewUserButton" VerticalAlignment="Bottom" Click="Button_Click" Grid.Row="3"/>
+        
+    </Grid>
 </Page>

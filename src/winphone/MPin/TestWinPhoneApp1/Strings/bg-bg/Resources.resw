@@ -178,7 +178,7 @@
     <value>Съзадай акаунт</value>
   </data>
   <data name="NewUserIdTB.Text" xml:space="preserve">
-    <value>Адрес на пощата:</value>
+    <value>Адрес на поща:</value>
   </data>
   <data name="NoSelectedUser" xml:space="preserve">
     <value>Няма избран потребител!</value>
@@ -287,5 +287,8 @@
   </data>
   <data name="CertivoxLtd" xml:space="preserve">
     <value>Copyright {0} 2015, CertiVox UK Ltd</value>
+  </data>
+  <data name="DeviceNameTB.Text" xml:space="preserve">
+    <value>Име на устройство:</value>
   </data>
 </root>

@@ -7,7 +7,7 @@
             "Title": "Basic"
         },
         {
-            "BackendUrl": "http://ec2-52-28-83-2.eu-central-1.compute.amazonaws.com/",
+            "BackendUrl": "http://ec2-52-28-120-46.eu-central-1.compute.amazonaws.com",
             "RequestAccessNumber": false,
             "RequestOtp": false,
             "Title": "Force Activation"
