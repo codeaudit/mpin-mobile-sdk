@@ -108,6 +108,10 @@ static NSString *const kAN = @"AN";
     ];
 
     [[ThemeManager sharedManager] beautifyViewController:self];
+    
+    _btnAdd.backgroundColor = [[SettingsManager sharedManager] color6];
+    [_btnAdd setTitle:@"ADD NEW IDENTITY +" forState:UIControlStateNormal];
+    _btnAdd.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:16.0];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
     {
