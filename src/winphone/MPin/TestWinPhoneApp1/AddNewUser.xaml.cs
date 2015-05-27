@@ -48,7 +48,7 @@ namespace MPinDemo
         {
             get
             {
-                return BlankPage1.RoamingSettings.Values["DeviceName"].ToString();
+                return BlankPage1.RoamingSettings.Values["DeviceName"] == null ? string.Empty : BlankPage1.RoamingSettings.Values["DeviceName"].ToString();
             }
         }
 

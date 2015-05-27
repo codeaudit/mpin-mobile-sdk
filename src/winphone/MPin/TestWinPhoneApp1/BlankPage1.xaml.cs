@@ -161,7 +161,7 @@ namespace MPinDemo
         #endregion // Methods
 
         #region handlers
-        private async void Select_Click(object sender, RoutedEventArgs e)
+        private void Select_Click(object sender, RoutedEventArgs e)
         {
             switch (this.MainPivot.SelectedIndex)
             {
@@ -171,7 +171,7 @@ namespace MPinDemo
 
                 case 1:
                     IsSelectedBtnEnabled = false;
-                    await controller.ProcessUser();
+                    controller.DataModel.CurrentUser = UsersListBox.SelectedItem as User;
                     IsSelectedBtnEnabled = true;
                     break;
             }
@@ -183,7 +183,12 @@ namespace MPinDemo
             ResetPinButton.IsEnabled = UsersListBox.SelectedItem != null;
 
             UsersListBox.ScrollIntoView(UsersListBox.SelectedItem);
-            controller.DataModel.CurrentUser = UsersListBox.SelectedItem as User;
+            if (isInitialLoad)
+            {
+                controller.DataModel.CurrentUser = UsersListBox.SelectedItem as User;                
+                isInitialLoad = false;
+            }
+
             SavePropertyState(SelectedUser, UsersListBox.SelectedIndex);
         }
 
@@ -203,42 +208,12 @@ namespace MPinDemo
             }
         }
 
-        private async void UsersList_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
-        {
-            //if (UsersListBox != null && UsersListBox.ItemsSource != null)
-            //{
-            //    UsersListBox.SelectedItem = GetSelectedUser(controller.DataModel.UsersList);
-
-            //    //lock (controller)
-            //    {
-            //        if (isInitialLoad)
-            //        {
-            //            await controller.ProcessUser();
-            //            isInitialLoad = false;
-            //        }
-            //    }
-            //}
-        }
-
         private void controller_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            //if (e.PropertyName == "IsValidService" && !controller.IsValidService)
-            //{
-            //    ServicesList.SelectedIndex = -1;
-            //}
-
-            if (e.PropertyName == "IsValidService")
+            if (e.PropertyName == "IsValidService" && controller.IsValidService)
             {
-                if (controller.IsValidService)
-                {
-                    //if (isInitialLoad)
-                        this.MainPivot.SelectedItem = this.UsersPivotItem;
-                }
-                else
-                {
-                    //ServicesList.SelectedIndex = -1;
-                }
-            }
+                    this.MainPivot.SelectedItem = this.UsersPivotItem;
+            }            
         }
 
         private void AddAppBarButton_Click(object sender, RoutedEventArgs e)
@@ -308,12 +283,7 @@ namespace MPinDemo
             if (UsersListBox != null && UsersListBox.ItemsSource != null)
             {
                 UsersListBox.SelectedItem = GetSelectedUser(controller.DataModel.UsersList);
-
-                if (isInitialLoad)
-                {
-                    //await controller.ProcessUser();
-                    isInitialLoad = false;
-                }
+                isInitialLoad = false;                
             }
         }
 

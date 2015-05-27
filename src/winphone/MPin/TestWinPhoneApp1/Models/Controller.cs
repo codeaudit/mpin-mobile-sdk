@@ -19,6 +19,7 @@ namespace MPinDemo.Models
         #region Fields
         private const string DefautRpsPrefix = "rps";
         private const string ConfigBackend = "backend";
+        private bool skipProcessing;
         private CoreDispatcher dispatcher;
         private MainPage rootPage = null;
 
@@ -93,7 +94,9 @@ namespace MPinDemo.Models
                     break;
 
                 case "CurrentUser":
-                    await ProcessUser();
+                    if (!this.skipProcessing)
+                        await ProcessUser();
+
                     break;
 
                 case "UsersList":
@@ -198,51 +201,51 @@ namespace MPinDemo.Models
             DataModel.UsersList = new System.Collections.ObjectModel.ObservableCollection<User>(users);
         }
 
-        public async Task ProcessUser()
+        private async Task ProcessUser()
         {
-            //if (this.DataModel.CurrentUser == null)
-            //{
-            //    //if (this.DataModel.UsersList.Count > 0)
-            //    //    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoSelectedUser"), MainPage.NotifyType.ErrorMessage);
+            if (this.DataModel.CurrentUser == null)
+            {
+                //if (this.DataModel.UsersList.Count > 0)
+                //    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoSelectedUser"), MainPage.NotifyType.ErrorMessage);
 
-            //    return;
-            //}
+                return;
+            }
 
-            //Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
+            Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
 
-            //switch (this.DataModel.CurrentUser.UserState)
-            //{
-            //    case User.State.Activated:
-            //        sdk.FinishRegistration(this.DataModel.CurrentUser); // to set the pin
-            //        break;
+            switch (this.DataModel.CurrentUser.UserState)
+            {
+                case User.State.Activated:
+                    sdk.FinishRegistration(this.DataModel.CurrentUser); // to set the pin
+                    break;
 
-            //    case User.State.Blocked:
-            //        mainFrame.Navigate(typeof(BlockedScreen), this.DataModel.CurrentUser);
-            //        break;
+                case User.State.Blocked:
+                    mainFrame.Navigate(typeof(BlockedScreen), this.DataModel.CurrentUser);
+                    break;
 
-            //    case User.State.Invalid:
-            //        // user still not registered -> start the registration
-            //        await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //        {
-            //            rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("InvalidUser"), MainPage.NotifyType.ErrorMessage);
-            //        });
-            //        break;
+                case User.State.Invalid:
+                    // user still not registered -> start the registration
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("InvalidUser"), MainPage.NotifyType.ErrorMessage);
+                    });
+                    break;
 
-            //    case User.State.StartedRegistration:
-            //        mainFrame.Navigate(typeof(EmailConfirmed), this.DataModel.CurrentUser);
-            //        break;
+                case User.State.StartedRegistration:
+                    mainFrame.Navigate(typeof(EmailConfirmed), this.DataModel.CurrentUser);
+                    break;
 
-            //    case User.State.Registered:
-            //        if (this.DataModel.CurrentService.RequestAccessNumber)
-            //        {
-            //            mainFrame.Navigate(typeof(AccessNumberScreen), sdk.GetClientParam("accessNumberDigits"));
-            //        }
-            //        else
-            //        {
-            //            await ShowAuthenticate();
-            //        }
-            //        break;
-            //}
+                case User.State.Registered:
+                    if (this.DataModel.CurrentService.RequestAccessNumber)
+                    {
+                        mainFrame.Navigate(typeof(AccessNumberScreen),  new List<string> {this.DataModel.CurrentUser.Id, sdk.GetClientParam("accessNumberDigits")});
+                    }
+                    else
+                    {
+                        await ShowAuthenticate();
+                    }
+                    break;
+            }
         }
 
 
@@ -269,7 +272,12 @@ namespace MPinDemo.Models
 
             UpdateUsersList();
             if (user != null)
+            {
+                bool currentValue = this.skipProcessing;
+                this.skipProcessing = false;
                 this.DataModel.CurrentUser = user;
+                this.skipProcessing = currentValue;
+            }
 
             await FinishRegistration(user);
         }

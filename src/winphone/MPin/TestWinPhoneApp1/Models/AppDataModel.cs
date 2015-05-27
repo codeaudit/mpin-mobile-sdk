@@ -68,11 +68,8 @@ namespace MPinDemo.Models
             }
             set
             {
-                if (_currentUser != value)
-                {
-                    _currentUser = value;
-                    this.OnPropertyChanged();
-                }
+                _currentUser = value;
+                this.OnPropertyChanged();
             }
         }
         #endregion // CurrentUser
