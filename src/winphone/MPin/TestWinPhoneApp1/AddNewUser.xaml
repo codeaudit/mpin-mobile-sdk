@@ -1,0 +1,30 @@
+﻿<Page
+    x:Class="MPinDemo.AddNewUser"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MPinDemo"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock x:Uid="NewUserIdTB" />
+        <TextBox x:Name="UserId" Text="{Binding eMail, Mode=TwoWay}" KeyUp="UserId_KeyUp" Grid.Row="1"/>
+        
+        <StackPanel x:Name="DeviceNameContainer" Grid.Row="2" Visibility="Collapsed">
+            <TextBlock x:Uid="DeviceNameTB" />
+            <TextBox x:Name="DeviceName" Text="{Binding DefaultDeviceName, RelativeSource={RelativeSource Self}}" KeyUp="DeviceName_KeyUp" TextChanged="DeviceName_TextChanged" />
+        </StackPanel>
+        
+        <Button x:Uid="NewUserButton" VerticalAlignment="Bottom" Click="Button_Click" Grid.Row="3"/>
+        
+    </Grid>
+</Page>
