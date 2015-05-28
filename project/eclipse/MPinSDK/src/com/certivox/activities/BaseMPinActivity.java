@@ -17,7 +17,8 @@ import com.certivox.interfaces.MPinController;
 import com.certivox.interfaces.PinPadController;
 import com.example.mpinsdk.R;
 
-public abstract class BaseMPinActivity extends ActionBarActivity implements MPinController, PinPadController {
+public abstract class BaseMPinActivity extends ActionBarActivity implements
+		MPinController, PinPadController {
 
 	private Activity mActivity;
 
@@ -49,7 +50,7 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements MPin
 
 	@Override
 	protected void onStop() {
-		mDrawerLayout.closeDrawers();
+		closeDrawer();
 		super.onStop();
 	}
 
@@ -100,6 +101,9 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements MPin
 	protected void onChangeIdentityClicked() {
 	}
 
+	protected void onAboutClicked() {
+	}
+
 	private void initDrawerMenu() {
 		mChangeIdentityButton.setOnClickListener(new OnClickListener() {
 
@@ -114,6 +118,14 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements MPin
 			@Override
 			public void onClick(View v) {
 				startActivity(new Intent(mActivity, PinpadConfigActivity.class));
+			}
+		});
+
+		mAboutButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				onAboutClicked();
 			}
 		});
 	}
@@ -175,7 +187,7 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements MPin
 			}
 			return true;
 		case R.id.delete_user:
-			deleteUser();
+			deleteCurrentUser();
 			return true;
 		case R.id.reset_pin:
 			resetPin();
@@ -208,10 +220,16 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements MPin
 
 	@Override
 	public void onBackPressed() {
-		mDrawerLayout.closeDrawers();
+		closeDrawer();
 		if (getFragmentManager().getBackStackEntryCount() > 0) {
 			getFragmentManager().popBackStack();
 		}
 		super.onBackPressed();
+	}
+
+	protected void closeDrawer() {
+		if (mDrawerLayout != null) {
+			mDrawerLayout.closeDrawers();
+		}
 	}
 }
