@@ -68,6 +68,20 @@ namespace MPinDemo.Models
             }
         }
 
+        private bool isUserInProcessing;
+        public bool IsUserInProcessing
+        {
+            get
+            {
+                return this.isUserInProcessing;
+            }
+            set
+            {
+                this.isUserInProcessing = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region handlers
@@ -96,8 +110,11 @@ namespace MPinDemo.Models
 
                 case "CurrentUser":
                     if (!this.skipProcessing)
+                    {
+                        this.IsUserInProcessing = true;
                         await ProcessUser();
-
+                        this.IsUserInProcessing = false;
+                    }
                     break;
 
                 case "UsersList":
@@ -217,11 +234,11 @@ namespace MPinDemo.Models
             switch (this.DataModel.CurrentUser.UserState)
             {
                 case User.State.Activated:
-                    sdk.FinishRegistration(this.DataModel.CurrentUser); // to set the pin
+                    await FinishRegistration(this.DataModel.CurrentUser);
                     break;
 
                 case User.State.Blocked:
-                    mainFrame.Navigate(typeof(BlockedScreen), this.DataModel.CurrentUser);
+                    mainFrame.Navigate(typeof(BlockedScreen), new List<object> { this.DataModel.CurrentUser});
                     break;
 
                 case User.State.Invalid:
@@ -298,12 +315,18 @@ namespace MPinDemo.Models
                 {
                     st = sdk.FinishRegistration(user);
                 });
-
-                if (st != null && st.StatusCode != Status.Code.OK)
+                                
+                if (st != null)
                 {
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
-                        rootPage.NotifyUser(string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblemReason"), user.Id, st.ErrorMessage), MainPage.NotifyType.ErrorMessage);
+                        rootPage.NotifyUser(
+                            st.StatusCode == Status.Code.OK 
+                                ? string.Format(ResourceLoader.GetForCurrentView().GetString("SuccessfulRegistration"), user.Id)
+                                : string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblemReason"), user.Id, st.ErrorMessage),
+                            st.StatusCode == Status.Code.OK 
+                                ? MainPage.NotifyType.StatusMessage
+                                : MainPage.NotifyType.ErrorMessage);
                     });
                 }
             }
@@ -487,7 +510,9 @@ namespace MPinDemo.Models
                 else
                 {
                     Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-                    mainFrame.Navigate(typeof(AuthenticationScreen), new List<object> { this.DataModel.CurrentUser, status });
+                    mainFrame.Navigate(
+                        user.UserState == User.State.Blocked ? typeof(BlockedScreen) : typeof(AuthenticationScreen), 
+                        new List<object> { this.DataModel.CurrentUser, status });
                 }
             }
         }

@@ -291,4 +291,7 @@
   <data name="DeviceNameTB.Text" xml:space="preserve">
     <value>Име на устройство:</value>
   </data>
+  <data name="SuccessfulRegistration" xml:space="preserve">
+    <value>Успешно регистриран потребител {0}!</value>
+  </data>
 </root>

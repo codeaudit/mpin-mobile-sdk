@@ -27,8 +27,7 @@ namespace MPinDemo
         private CoreDispatcher _dispatcher;
 
         internal static ApplicationDataContainer RoamingSettings = null;
-        private static Controller controller = null;
-        private static bool IsSelectedBtnEnabled = true;
+        private static Controller controller = null;        
         #endregion // members
 
         #region constructors
@@ -170,16 +169,14 @@ namespace MPinDemo
                     break;
 
                 case 1:
-                    IsSelectedBtnEnabled = false;
                     controller.DataModel.CurrentUser = UsersListBox.SelectedItem as User;
-                    IsSelectedBtnEnabled = true;
                     break;
             }
         }
 
         private void UsersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectAppBarButton.IsEnabled = IsSelectedBtnEnabled && UsersListBox.SelectedItem != null;
+            SelectAppBarButton.IsEnabled = !controller.IsUserInProcessing && UsersListBox.SelectedItem != null;
             ResetPinButton.IsEnabled = UsersListBox.SelectedItem != null;
 
             UsersListBox.ScrollIntoView(UsersListBox.SelectedItem);
@@ -210,10 +207,20 @@ namespace MPinDemo
 
         private void controller_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "IsValidService" && controller.IsValidService)
+            switch (e.PropertyName)
             {
-                    this.MainPivot.SelectedItem = this.UsersPivotItem;
-            }            
+                case "IsValidService":
+                    if (controller.IsValidService)
+                    {
+                        this.MainPivot.SelectedItem = this.UsersPivotItem;
+                    }
+                    break;
+                case "IsUserInProcessing":
+                    {
+
+                    }
+                    break;
+            }
         }
 
         private void AddAppBarButton_Click(object sender, RoutedEventArgs e)

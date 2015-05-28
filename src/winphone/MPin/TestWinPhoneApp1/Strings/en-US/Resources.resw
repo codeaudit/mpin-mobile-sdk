@@ -288,4 +288,7 @@
   <data name="DeviceNameTB.Text" xml:space="preserve">
     <value>Device name:</value>
   </data>
+  <data name="SuccessfulRegistration" xml:space="preserve">
+    <value>Successfully registered user {0}!</value>
+  </data>
 </root>
