@@ -63,7 +63,7 @@ namespace MPinDemo
             if (bool.TryParse(e.Parameter.ToString(), out displayDeviceName))
             {
                 DeviceNameContainer.Visibility = displayDeviceName ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
-                if (!string.IsNullOrEmpty(this.CachedDeviceName))
+                if (displayDeviceName && !string.IsNullOrEmpty(this.CachedDeviceName))
                 {
                     DeviceName.Text = this.CachedDeviceName;
                 }
@@ -129,13 +129,13 @@ namespace MPinDemo
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                if (DeviceName.Visibility == Windows.UI.Xaml.Visibility.Collapsed)
+                if (this.displayDeviceName)
                 {
-                    ProcessNewUser();
+                    DeviceName.Focus(FocusState.Keyboard);
                 }
                 else
                 {
-                    DeviceName.Focus(FocusState.Keyboard);
+                    ProcessNewUser();
                 }
             }
         }

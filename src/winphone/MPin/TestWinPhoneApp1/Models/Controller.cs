@@ -11,6 +11,7 @@ using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using System.Linq;
 
 namespace MPinDemo.Models
 {
@@ -86,7 +87,7 @@ namespace MPinDemo.Models
                             : ResourceLoader.GetForCurrentView().GetString("ServiceSet"),
                             !isOk ? MainPage.NotifyType.ErrorMessage : MainPage.NotifyType.StatusMessage);
 
-                        UpdateServices(isOk);                        
+                        UpdateServices(isOk);
                     }
 
                     this.IsValidService = isOk;
@@ -106,7 +107,7 @@ namespace MPinDemo.Models
 
         private void UpdateServices(bool isSet)
         {
-            foreach(var service in DataModel.BackendsList)
+            foreach (var service in DataModel.BackendsList)
             {
                 service.IsSet = service.Equals(DataModel.CurrentService) && isSet ? true : false;
             }
@@ -238,7 +239,7 @@ namespace MPinDemo.Models
                 case User.State.Registered:
                     if (this.DataModel.CurrentService.RequestAccessNumber)
                     {
-                        mainFrame.Navigate(typeof(AccessNumberScreen),  new List<string> {this.DataModel.CurrentUser.Id, sdk.GetClientParam("accessNumberDigits")});
+                        mainFrame.Navigate(typeof(AccessNumberScreen), new List<string> { this.DataModel.CurrentUser.Id, sdk.GetClientParam("accessNumberDigits") });
                     }
                     else
                     {
@@ -274,8 +275,9 @@ namespace MPinDemo.Models
             if (user != null)
             {
                 bool currentValue = this.skipProcessing;
-                this.skipProcessing = false;
-                this.DataModel.CurrentUser = user;
+                this.skipProcessing = true;
+                this.DataModel.CurrentUser = this.DataModel.UsersList.SingleOrDefault(u => u.Equals(user));
+
                 this.skipProcessing = currentValue;
             }
 
@@ -317,14 +319,14 @@ namespace MPinDemo.Models
         private async Task<User> AddAndRegisterUser(List<string> data)
         {
             string eMail = data[0];
-            string deviceName = data[1];
+            this.DeviceName = data[1];
             User user = null;
             Status status = null;
             await Task.Factory.StartNew(() =>
             {
                 if (!string.IsNullOrEmpty(eMail))
                 {
-                    user = sdk.MakeNewUser(eMail, deviceName);
+                    user = sdk.MakeNewUser(eMail, this.DeviceName);
 
                     string id = user.Id;
                     Debug.Assert(id.Equals(eMail));
@@ -442,7 +444,7 @@ namespace MPinDemo.Models
                 sdk.DeleteUser(user);
             });
 
-            await AddUser(new List<string> {user.Id, this.DeviceName});
+            await AddUser(new List<string> { user.Id, this.DeviceName });
         }
         #endregion // users
 
@@ -450,6 +452,7 @@ namespace MPinDemo.Models
 
         public async Task ShowAuthenticate(string accessNumber = "")
         {
+            Debug.WriteLine(" ShowAuthenticate ");
             Status status = null;
             OTP otp = this.DataModel.CurrentService.RequestOtp ? new OTP() : null;
             User user = this.DataModel.CurrentUser;
@@ -506,7 +509,7 @@ namespace MPinDemo.Models
 
                     break;
 
-                case "EmailConfirmed":                    
+                case "EmailConfirmed":
                     if (parameter == null || string.IsNullOrEmpty(parameter.ToString()))
                     {
                         await NotConfirmedIdentity();

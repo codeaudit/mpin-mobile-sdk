@@ -22,7 +22,7 @@ namespace MPinDemo.Models
         {
             CreateBackends();
         }
-        
+
 
         private ObservableCollection<Backend> services;
         public ObservableCollection<Backend> BackendsList
@@ -84,11 +84,8 @@ namespace MPinDemo.Models
             }
             set
             {
-                if (_currentService != value)
-                {
-                    _currentService = value;
-                    this.OnPropertyChanged();
-                }
+                _currentService = value;
+                this.OnPropertyChanged();
             }
         }
 
@@ -233,12 +230,12 @@ namespace MPinDemo.Models
                 this.BackendsList.Add(backend);
             }
         }
-       
+
         internal async Task SaveServices()
         {
             // TODO
             //System.Runtime.Serialization.Json.DataContractJsonSerializer ser = new System.Runtime.Serialization.Json.DataContractJsonSerializer(typeof())
- 
+
             //JsonObject jsonObject = JsonObject.Parse(jsonText);
             //JsonArray jsonArray = jsonObject["Backends"].GetArray();
             //JsonSerializer
