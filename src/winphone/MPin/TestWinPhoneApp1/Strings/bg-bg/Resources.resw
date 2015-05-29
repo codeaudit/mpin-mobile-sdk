@@ -219,9 +219,6 @@
   <data name="SuccessfulAuth" xml:space="preserve">
     <value>е успешно аутентикиран!</value>
   </data>
-  <data name="TestServiceButton.Label" xml:space="preserve">
-    <value>Тествай Бекенда</value>
-  </data>
   <data name="TimeLeftTB.Text" xml:space="preserve">
     <value>Оставащо време:</value>
   </data>
@@ -258,7 +255,7 @@
   <data name="ResetPinButton.Label" xml:space="preserve">
     <value>Задай нов ПИН</value>
   </data>
-  <data name="TestBackendButton.Label" xml:space="preserve">
+  <data name="TestBackendButton.Content" xml:space="preserve">
     <value>Пробвай избраната конфигурация</value>
   </data>
   <data name="YesCommand" xml:space="preserve">
@@ -293,5 +290,41 @@
   </data>
   <data name="SuccessfulRegistration" xml:space="preserve">
     <value>Успешно регистриран потребител {0}!</value>
+  </data>
+  <data name="AddService" xml:space="preserve">
+    <value>Добави Конфигурация</value>
+  </data>
+  <data name="EditButton.Label" xml:space="preserve">
+    <value>Редактирай Кофигурацията</value>
+  </data>
+  <data name="EditService" xml:space="preserve">
+    <value>Редактирай</value>
+  </data>
+  <data name="MobileLoginRadioButton.Content" xml:space="preserve">
+    <value>Вход с мобилно устройство</value>
+  </data>
+  <data name="NoSelectedService" xml:space="preserve">
+    <value>Няма избрана конфигурация!</value>
+  </data>
+  <data name="NotSpecifiedBackend" xml:space="preserve">
+    <value>Невалидна Конфигурация!</value>
+  </data>
+  <data name="OnlineLoginRadioButton.Content" xml:space="preserve">
+    <value>Вход в Уеб Браузър</value>
+  </data>
+  <data name="OTPLoginRadioButton.Content" xml:space="preserve">
+    <value>Вход с еднократна парола</value>
+  </data>
+  <data name="PredifinedServices" xml:space="preserve">
+    <value>Предефинираните конфигурации не могат да бъдат редактиране/изтривани!</value>
+  </data>
+  <data name="RPSPrefix.Text" xml:space="preserve">
+    <value>RPS Префикс</value>
+  </data>
+  <data name="ServiceName.Text" xml:space="preserve">
+    <value>Име на конфигурацията</value>
+  </data>
+  <data name="SeviceURLText.Text" xml:space="preserve">
+    <value>Адрес на Кофигурацията</value>
   </data>
 </root>

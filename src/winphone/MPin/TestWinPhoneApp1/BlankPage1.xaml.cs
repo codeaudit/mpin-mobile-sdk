@@ -27,7 +27,7 @@ namespace MPinDemo
         private CoreDispatcher _dispatcher;
 
         internal static ApplicationDataContainer RoamingSettings = null;
-        private static Controller controller = null;        
+        private static Controller controller = null;
         #endregion // members
 
         #region constructors
@@ -201,7 +201,7 @@ namespace MPinDemo
         private void Services_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectAppBarButton.IsEnabled = ServicesList.SelectedItem != null;
-            TestBackendButton.IsEnabled = ServicesList.SelectedItem != null;
+            EditButton.IsEnabled = ServicesList.SelectedItem != null;
             ServicesList.ScrollIntoView(ServicesList.SelectedItem);
             SavePropertyState(SelectedService, ServicesList.SelectedIndex);
         }
@@ -229,15 +229,13 @@ namespace MPinDemo
 
         private void AddAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            var container = this.MainPivot.ContainerFromIndex(this.MainPivot.SelectedIndex) as ContentControl;
-            var listView = container.ContentTemplateRoot as ListView;
+            //var container = this.MainPivot.ContainerFromIndex(this.MainPivot.SelectedIndex) as ContentControl;
+            //var listView = container.ContentTemplateRoot as ListView;
 
             switch (this.MainPivot.SelectedIndex)
             {
                 case 0:
-                    // Add a service
-
-                    //listView.ScrollIntoView(newItem, ScrollIntoViewAlignment.Leading);
+                    controller.AddService();
                     break;
                 case 1:
                     controller.AddNewUser();
@@ -245,18 +243,18 @@ namespace MPinDemo
             }
         }
 
-        private async void TestBackendButton_Click(object sender, RoutedEventArgs e)
+        private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            await controller.TestBackend();
+            controller.EditService(this.ServicesList.SelectedIndex, this.ServicesList.SelectedIndex > 2);
         }
-
+        
         private void MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectAppBarButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? ServicesList.SelectedItem != null : UsersListBox.SelectedItem != null;
             ResetPinButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Collapsed : Visibility.Visible;
             AddAppBarButton.Icon = new SymbolIcon(this.MainPivot.SelectedIndex == 0 ? Symbol.Add : Symbol.AddFriend);
 
-            TestBackendButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
+            EditButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private async void Delete_Click(object sender, RoutedEventArgs e)

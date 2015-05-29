@@ -23,6 +23,7 @@ namespace MPinDemo.Models
         private bool skipProcessing;
         private CoreDispatcher dispatcher;
         private MainPage rootPage = null;
+        private int selectedServicesIndex = -1;
 
         private static MPin sdk;
 
@@ -187,27 +188,82 @@ namespace MPinDemo.Models
             return new Status(-1, "No user!");
         }
 
-        internal async Task TestBackend()
+        internal static async Task<Status> TestBackend(Backend backend)
         {
-            if (this.DataModel.CurrentService.BackendUrl != null)
+            if (backend != null && backend.BackendUrl != null)
             {
                 Status status = null;
                 await Task.Factory.StartNew(() =>
                 {
-                    status = sdk.TestBackend(this.DataModel.CurrentService.BackendUrl, this.DataModel.CurrentService.RpsPrefix);
+                    status = sdk.TestBackend(backend.BackendUrl, backend.RpsPrefix);
                 });
 
-                await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("ServiceStatus") + status.StatusCode, status.StatusCode == Status.Code.OK ? MainPage.NotifyType.StatusMessage : MainPage.NotifyType.ErrorMessage);
-                });
+                return status;
             }
+
+            return new Status(-1, ResourceLoader.GetForCurrentView().GetString("NotSpecifiedBackend"));
         }
 
         internal async Task DeleteService(Backend backend)
         {
             this.DataModel.BackendsList.Remove(backend);
             await this.DataModel.SaveServices();
+        }
+        
+        internal void AddService()
+        {
+            Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
+            if (!mainFrame.Navigate(typeof(Configuration)))
+            {
+                throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
+            }
+        }
+
+        internal void EditService(int index, bool canBeEdited)
+        {
+            if (index < 0 || index > this.DataModel.BackendsList.Count)
+            {
+                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoSelectedService"), MainPage.NotifyType.ErrorMessage);
+                return;
+            }
+
+            this.selectedServicesIndex = index;
+            Backend service = this.DataModel.BackendsList[this.selectedServicesIndex];
+            if (service == null)
+            {
+                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoSelectedService"), MainPage.NotifyType.ErrorMessage);
+                return;
+            }
+
+            if (!canBeEdited)
+            {
+                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("PredifinedServices"), MainPage.NotifyType.ErrorMessage);
+                return;
+            }
+
+            Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
+            if (!mainFrame.Navigate(typeof(Configuration), service))
+            {
+                throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
+            }
+        }
+        
+        private void EditServiceInfo(Backend editBackend)
+        {
+            if (editBackend == null)
+            {
+                // notify...
+                return;
+            }
+
+            if (editBackend != null && selectedServicesIndex > 0 && selectedServicesIndex < this.DataModel.BackendsList.Count)
+            {
+                this.DataModel.BackendsList[selectedServicesIndex].BackendUrl = editBackend.BackendUrl;
+                this.DataModel.BackendsList[selectedServicesIndex].Title = editBackend.Title;
+                this.DataModel.BackendsList[selectedServicesIndex].RequestAccessNumber = editBackend.RequestAccessNumber;
+                this.DataModel.BackendsList[selectedServicesIndex].RequestOtp = editBackend.RequestOtp;
+                this.DataModel.BackendsList[selectedServicesIndex].RpsPrefix = editBackend.RpsPrefix;
+            }
         }
         #endregion // services
 
@@ -265,7 +321,6 @@ namespace MPinDemo.Models
                     break;
             }
         }
-
 
         internal void AddNewUser()
         {
@@ -523,6 +578,17 @@ namespace MPinDemo.Models
         {
             switch (command)
             {
+                case "AddService" :
+                    Backend backend = parameter as Backend;
+                    if (backend != null)
+                        this.DataModel.BackendsList.Add(backend);
+                    break;
+
+                case "EditService":
+                    Backend editBackend = parameter as Backend;                    
+                    EditServiceInfo(editBackend);
+                    break;
+
                 case "InitialLoad":
                     await ProcessUser();
                     break;
@@ -581,7 +647,7 @@ namespace MPinDemo.Models
                     break;
             }
         }
-
+        
         #endregion // Methods
 
         #region INotifyPropertyChanged

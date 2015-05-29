@@ -1,0 +1,46 @@
+﻿<Page
+    x:Class="MPinDemo.Configuration"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MPinDemo"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{Binding Backend, Mode=TwoWay, RelativeSource={RelativeSource Self}}"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Uid="ServiceName" Grid.ColumnSpan="2" />
+        <TextBox Text="{Binding BackendUrl, Mode=TwoWay}" Grid.Row="1" Grid.ColumnSpan="2"/>
+
+        <TextBlock x:Uid="SeviceURLText" Grid.Row="2" Grid.ColumnSpan="2" />
+        <TextBox Text="{Binding Title, Mode=TwoWay}" Grid.Row="3" Grid.ColumnSpan="2"/>
+
+        <TextBlock x:Uid="RPSPrefix" Grid.Row="4" Grid.ColumnSpan="2"/>
+        <TextBox Text="{Binding RpsPrefix, Mode=TwoWay}" Grid.Row="5" Grid.ColumnSpan="2"/>
+
+        <StackPanel Grid.Row="6" Grid.ColumnSpan="2">
+            <RadioButton x:Uid="MobileLoginRadioButton" x:Name="MobileLoginRadioButton" GroupName="Login"/>
+            <RadioButton x:Uid="OnlineLoginRadioButton" IsChecked="{Binding RequestAccessNumber, Mode=TwoWay}" GroupName="Login"/>
+            <RadioButton x:Uid="OTPLoginRadioButton" IsChecked="{Binding RequestOtp, Mode=TwoWay}" GroupName="Login"/>
+        </StackPanel>
+
+        <Button x:Uid="TestBackendButton" Grid.Row="7" Click="Test_Click" />
+        <Button x:Name="RegisterService" Grid.Row="7" Grid.Column="1" Click="Button_Click" />
+    </Grid>
+</Page>

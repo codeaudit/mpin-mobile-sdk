@@ -142,7 +142,7 @@
     <value>Click the link in the email, to confirm your identity and proceed.</value>
   </data>
   <data name="DeleteButton.Label" xml:space="preserve">
-    <value>delete</value>
+    <value>Delete Service</value>
   </data>
   <data name="EmailTB.Text" xml:space="preserve">
     <value>We have sent you an email to:</value>
@@ -219,9 +219,6 @@
   <data name="SuccessfulAuth" xml:space="preserve">
     <value>is successfully authenticated!</value>
   </data>
-  <data name="TestService" xml:space="preserve">
-    <value>Test Backend</value>
-  </data>
   <data name="TimeLeftTB.Text" xml:space="preserve">
     <value>Time left:</value>
   </data>
@@ -258,8 +255,8 @@
   <data name="ResetPinButton.Label" xml:space="preserve">
     <value>Reset PIN</value>
   </data>
-  <data name="TestBackendButton.Label" xml:space="preserve">
-    <value>Test the selected service</value>
+  <data name="TestBackendButton.Content" xml:space="preserve">
+    <value>Test Service</value>
   </data>
   <data name="YesCommand" xml:space="preserve">
     <value>Yes</value>
@@ -290,5 +287,41 @@
   </data>
   <data name="SuccessfulRegistration" xml:space="preserve">
     <value>Successfully registered user {0}!</value>
+  </data>
+  <data name="AddService" xml:space="preserve">
+    <value>Add Service</value>
+  </data>
+  <data name="EditButton.Label" xml:space="preserve">
+    <value>Edit Configuration</value>
+  </data>
+  <data name="EditService" xml:space="preserve">
+    <value>Edit Service</value>
+  </data>
+  <data name="MobileLoginRadioButton.Content" xml:space="preserve">
+    <value>Login to Mobile App</value>
+  </data>
+  <data name="NoSelectedService" xml:space="preserve">
+    <value>Select a service!</value>
+  </data>
+  <data name="NotSpecifiedBackend" xml:space="preserve">
+    <value>The Service is not properly specified!</value>
+  </data>
+  <data name="OnlineLoginRadioButton.Content" xml:space="preserve">
+    <value>Login to Online Session</value>
+  </data>
+  <data name="OTPLoginRadioButton.Content" xml:space="preserve">
+    <value>Login to OTP</value>
+  </data>
+  <data name="PredifinedServices" xml:space="preserve">
+    <value>Predefined services cannot be edited/deleted!</value>
+  </data>
+  <data name="RPSPrefix.Text" xml:space="preserve">
+    <value>RPS Prefix</value>
+  </data>
+  <data name="ServiceName.Text" xml:space="preserve">
+    <value>Service Name</value>
+  </data>
+  <data name="SeviceURLText.Text" xml:space="preserve">
+    <value>Service URL</value>
   </data>
 </root>
