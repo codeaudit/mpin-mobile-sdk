@@ -18,42 +18,46 @@
 #import "ThemeManager.h"
 #import "iToast.h"
 
-static NSString* const kEmpty = @"";
-static NSString* const kMpinStatus = @"MpinStatus";
-static NSString* const kUser = @"User";
+static NSString *const kEmpty = @"";
+static NSString *const kMpinStatus = @"MpinStatus";
+static NSString *const kUser = @"User";
 
-@interface AddIdentityViewController () {
-    MPin* sdk;
+@interface AddIdentityViewController ( ) {
+    MPin *sdk;
     id<IUser> currentUser;
-    ThemeManager* themeManager;
+    ThemeManager *themeManager;
 }
 
-- (void)showPinPad;
-- (void)showDeviceName;
-- (void)hideDeviceName;
+- ( void )showPinPad;
+- ( void )showDeviceName;
+- ( void )hideDeviceName;
 
-- (IBAction)textFieldReturn:(id)sender;
-- (IBAction)addAction:(id)sender;
-- (IBAction)back:(id)sender;
+- ( IBAction )textFieldReturn:( id )sender;
+- ( IBAction )addAction:( id )sender;
+- ( IBAction )back:( id )sender;
 @end
 
 @implementation AddIdentityViewController
 
-- (void)viewDidLoad {
+- ( void )viewDidLoad
+{
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
+
     [[ThemeManager sharedManager] beautifyViewController:self];
-    
+
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
-    
+
     ConfigurationManager *cfm = [ConfigurationManager sharedManager];
     self.txtDevName.text = [cfm getDeviceName];
-    
-    if([MPin isDeviceName]) {
+
+    if ( [MPin isDeviceName] )
+    {
         [self showDeviceName];
-    } else {
+    }
+    else
+    {
         [self hideDeviceName];
     }
     _txtIdentity.placeholder    = NSLocalizedString(@"ADDIDVC_LBL_IDENTITY", @"");
@@ -63,170 +67,204 @@ static NSString* const kUser = @"User";
     self.title                  = NSLocalizedString(@"ADDIDVC_TITLE", @"");
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- ( void )viewDidAppear:( BOOL )animated
+{
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(showPinPad)
-                                                 name:kShowPinPadNotification
-                                               object:nil];
+     selector:@selector( showPinPad )
+     name:kShowPinPadNotification
+     object:nil];
 }
-- (void)viewDidDisappear:(BOOL)animated {
+
+- ( void )viewDidDisappear:( BOOL )animated
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:kShowPinPadNotification
-                                                  object:nil];
+     name:kShowPinPadNotification
+     object:nil];
 }
 
-
-- (void)showPinPad {
-    UIStoryboard* storyboard =
-    [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-    PinPadViewController* pinpadViewController =
-    [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];
-    pinpadViewController.userId = [currentUser getIdentity];
+- ( void )showPinPad
+{
+    UIStoryboard *storyboard =
+        [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    PinPadViewController *pinpadViewController =
+        [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];
+    pinpadViewController.currentUser = currentUser;
     pinpadViewController.boolShouldShowBackButton = NO;
     pinpadViewController.title = kSetupPin;
     [self.navigationController pushViewController:pinpadViewController
-                                         animated:NO];
+     animated:NO];
 }
 
-- (void)showDeviceName {
+- ( void )showDeviceName
+{
     self.txtDevName.hidden = NO;
     self.lblDevName.hidden = NO;
 }
 
-- (void)hideDeviceName {
+- ( void )hideDeviceName
+{
     self.txtDevName.hidden = YES;
     self.lblDevName.hidden = YES;
 }
 
-- (IBAction)textFieldReturn:(id)sender {
+- ( IBAction )textFieldReturn:( id )sender
+{
     [sender resignFirstResponder];
 }
 
-- (IBAction)addAction:(id)sender {
-    if ([kEmpty isEqualToString:self.txtIdentity.text]) {
-        [[ErrorHandler sharedManager] presentMessageInViewController:self
-                                                       errorString:NSLocalizedString(@"ERROR_PLEASE_ENTER_VALID_USER_ID", @"")
-                                              addActivityIndicator:NO
-                                                 minShowTime:3];
-        return;
-    }
-    
-    if (![self isValidEmail:self.txtIdentity.text])
+- ( IBAction )addAction:( id )sender
+{
+    if ( [kEmpty isEqualToString:self.txtIdentity.text] )
     {
         [[ErrorHandler sharedManager] presentMessageInViewController:self
-                                                       errorString:NSLocalizedString(@"ERROR_PLEASE_ENTER_VALID_EMAIL", @"")
-                                              addActivityIndicator:NO
-                                                 minShowTime:3];
+         errorString:NSLocalizedString(@"ERROR_PLEASE_ENTER_VALID_USER_ID", @"")
+         addActivityIndicator:NO
+         minShowTime:3];
+
         return;
     }
-    
-    if([MPin isDeviceName]) {
+
+    if ( ![self isValidEmail:self.txtIdentity.text] )
+    {
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
+         errorString:NSLocalizedString(@"ERROR_PLEASE_ENTER_VALID_EMAIL", @"")
+         addActivityIndicator:NO
+         minShowTime:3];
+
+        return;
+    }
+
+    if ( [MPin isDeviceName] )
+    {
         ConfigurationManager *cfm = [ConfigurationManager sharedManager];
         [cfm setDeviceName:self.txtDevName.text];
     }
-    
+
     [sdk RegisterNewUser:self.txtIdentity.text devName:self.txtDevName.text];
 }
 
-- (void)OnRegisterNewUserCompleted:(id)sender user:(const id<IUser>)user {
-    switch ([user getState]) {
-        case STARTED_REGISTRATION: {
-            UIStoryboard* storyboard =
-            [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-            ConfirmEmailViewController* cevc = (ConfirmEmailViewController*)
-            [storyboard instantiateViewControllerWithIdentifier:
-             @"ConfirmEmailViewController"];
-            cevc.iuser = user;
-            [self.navigationController pushViewController:cevc animated:YES];
-        } break;
-        case ACTIVATED:
-            currentUser = user;
-            [sdk FinishRegistration:user];
-            break;
-        default:
-            [[ErrorHandler sharedManager] presentMessageInViewController:self
-                                                           errorString:NSLocalizedString(@"ERROR_UNEXPECTED_USER_STATE", @"")
-                                                  addActivityIndicator:NO
-                                                     minShowTime:0];
-            break;
-    }
-    
-    NSArray * users = [MPin listUsers];
-    int index = 0;
-    for (;index<[users count];index++) {
-        id<IUser> cUser = [users objectAtIndex:index];
-        if ([[cUser getIdentity] isEqualToString:[user getIdentity]])   break;
-    }
-    
-    ConfigurationManager* cf = [ConfigurationManager sharedManager];
-    [cf setSelectedUserForCurrentConfiguration:(index)];
-}
-
-- (void)OnRegisterNewUserError:(id)sender error:(NSError*)error
+- ( void )OnRegisterNewUserCompleted:( id )sender user:( const id<IUser>)user
 {
-    MpinStatus* mpinStatus = [error.userInfo objectForKey:kMPinSatus];
-    [[ErrorHandler sharedManager] presentMessageInViewController:self
-                                                   errorString:mpinStatus.errorMessage
-                                          addActivityIndicator:NO
-                                             minShowTime:3
-     ];
+    switch ( [user getState] )
+    {
+    case STARTED_REGISTRATION:
+    {
+        UIStoryboard *storyboard =
+            [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+        ConfirmEmailViewController *cevc = (ConfirmEmailViewController *)
+                                           [storyboard instantiateViewControllerWithIdentifier:
+                                            @"ConfirmEmailViewController"];
+        cevc.iuser = user;
+        [self.navigationController pushViewController:cevc animated:YES];
+    } break;
+
+    case ACTIVATED:
+        currentUser = user;
+        [sdk FinishRegistration:user];
+        break;
+
+    default:
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
+         errorString:NSLocalizedString(@"ERROR_UNEXPECTED_USER_STATE", @"")
+         addActivityIndicator:NO
+         minShowTime:0];
+        break;
+    }
+
+    NSArray *users = [MPin listUsers];
+    int index = 0;
+    for (; index < [users count]; index++ )
+    {
+        id<IUser> cUser = [users objectAtIndex:index];
+        if ( [[cUser getIdentity] isEqualToString:[user getIdentity]] )
+            break;
+    }
+
+    ConfigurationManager *cf = [ConfigurationManager sharedManager];
+    [cf setSelectedUserForCurrentConfiguration:( index )];
 }
 
-- (void)OnFinishRegistrationCompleted:(id)sender user:(const id<IUser>)user {
-    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-    IdentityCreatedViewController* vcIDCreated = (IdentityCreatedViewController*)
-    [storyboard instantiateViewControllerWithIdentifier:
-     @"IdentityCreatedViewController"];
+- ( void )OnRegisterNewUserError:( id )sender error:( NSError * )error
+{
+    MpinStatus *mpinStatus = [error.userInfo objectForKey:kMPinSatus];
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+     errorString:mpinStatus.errorMessage
+     addActivityIndicator:NO
+     minShowTime:3
+    ];
+}
+
+- ( void )OnFinishRegistrationCompleted:( id )sender user:( const id<IUser>)user
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    IdentityCreatedViewController *vcIDCreated = (IdentityCreatedViewController *)
+                                                 [storyboard instantiateViewControllerWithIdentifier:
+                                                  @"IdentityCreatedViewController"];
     vcIDCreated.strEmail = [user getIdentity];
     vcIDCreated.user = user;
     [self.navigationController pushViewController:vcIDCreated animated:YES];
 }
-- (void)OnFinishRegistrationError:(id)sender error:(NSError*)error {
-    if (error.code == IDENTITY_NOT_VERIFIED) {
-        UIStoryboard* storyboard =
-        [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-        ConfirmEmailViewController* cevc = (ConfirmEmailViewController*)[storyboard
-                                                                         instantiateViewControllerWithIdentifier:@"ConfirmEmailViewController"];
+
+- ( void )OnFinishRegistrationError:( id )sender error:( NSError * )error
+{
+    if ( error.code == IDENTITY_NOT_VERIFIED )
+    {
+        UIStoryboard *storyboard =
+            [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+        ConfirmEmailViewController *cevc = (ConfirmEmailViewController *)[storyboard
+                                                                          instantiateViewControllerWithIdentifier:@"ConfirmEmailViewController"];
         cevc.iuser = [error.userInfo objectForKey:kUSER];
         [self.navigationController pushViewController:cevc animated:YES];
-    } else {
+    }
+    else
+    {
         [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:error.description addActivityIndicator:NO minShowTime:3];
     }
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField*)textField {
+- ( BOOL )textFieldShouldReturn:( UITextField * )textField
+{
     [textField resignFirstResponder];
-    return YES;
-}
-- (BOOL)textFieldShouldBeginEditing:(UITextField*)textField {
+
     return YES;
 }
 
-- (BOOL)isValidEmail:(NSString*)emailString {
-    if ([emailString length] == 0 ||
-        [emailString rangeOfString:@" "].location != NSNotFound) {
+- ( BOOL )textFieldShouldBeginEditing:( UITextField * )textField
+{
+    return YES;
+}
+
+- ( BOOL )isValidEmail:( NSString * )emailString
+{
+    if ( [emailString length] == 0 ||
+         [emailString rangeOfString:@" "].location != NSNotFound )
+    {
         return NO;
     }
-    
-    NSString* regExPattern = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
-    
-    NSRegularExpression* regEx = [[NSRegularExpression alloc]
+
+    NSString *regExPattern = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+
+    NSRegularExpression *regEx = [[NSRegularExpression alloc]
                                   initWithPattern:regExPattern
                                   options:NSRegularExpressionCaseInsensitive
                                   error:nil];
     NSUInteger regExMatches =
-    [regEx numberOfMatchesInString:emailString
-                           options:0
-                             range:NSMakeRange(0, [emailString length])];
-    
-    if (regExMatches == 0) {
+        [regEx numberOfMatchesInString:emailString
+         options:0
+         range:NSMakeRange(0, [emailString length])];
+
+    if ( regExMatches == 0 )
+    {
         return NO;
-    } else {
+    }
+    else
+    {
         return YES;
     }
 }
 
-- (IBAction)back:(id)sender {
+- ( IBAction )back:( id )sender
+{
     [self.navigationController popViewControllerAnimated:YES];
 }
 

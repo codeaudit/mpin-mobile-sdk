@@ -153,7 +153,7 @@
 "IDENTITY_NOT_VERIFIED" = "АКАУНТА НЕ Е ВЕРИФИЦИРАН";
 "REQUEST_EXPIRED" = "ОСТАРЯЛА ЗАЯВКА";
 "REVOKED" = "ЗАБРАНЕН АКАУНТ";
-"INCORRECT_PIN" = "НЕВАЛИДЕН ПИН";
+"INCORRECT_PIN" = "Грешен ПИН, моля опитайте отново!";
 "INCORRECT_ACCESS_NUMBER" = "НЕВАЛИДЕН НОМЕР ЗА ДОСТЪП";
 "HTTP_SERVER_ERROR" = "HTTP ГРЕШКА";
 "HTTP_REQUEST_ERROR" = "HTTP REQUEST ГРЕШКА";

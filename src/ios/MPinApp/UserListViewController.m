@@ -55,6 +55,7 @@ static NSString *const kAN = @"AN";
     ThemeManager *themeManager;
     MPin *sdk;
     BOOL boolFirstTime;
+    BOOL boolShouldAskForFingerprint;
     UIStoryboard *storyboard;
 }
 @property ( nonatomic, weak ) IBOutlet NSLayoutConstraint *constraintLeadingSpace;
@@ -63,7 +64,7 @@ static NSString *const kAN = @"AN";
 
 - ( void )showBottomBar:( BOOL )animated;
 - ( void )hideBottomBar:( BOOL )animated;
-- ( void )starAuthenticationFlow;
+- ( void )startAuthenticationFlow;
 
 - ( void )showPinPad;
 
@@ -94,9 +95,8 @@ static NSString *const kAN = @"AN";
 {
     [super viewDidLoad];
     sdk = [[MPin alloc] init];
-    sdk.delegate = self;
     boolFirstTime = YES;
-
+    boolShouldAskForFingerprint = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
     storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     boolIsInitialised = NO;
@@ -108,7 +108,7 @@ static NSString *const kAN = @"AN";
     ];
 
     [[ThemeManager sharedManager] beautifyViewController:self];
-    
+
     _btnAdd.backgroundColor = [[SettingsManager sharedManager] color6];
     [_btnAdd setTitle:@"ADD NEW IDENTITY +" forState:UIControlStateNormal];
     _btnAdd.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:16.0];
@@ -146,7 +146,7 @@ static NSString *const kAN = @"AN";
                     }
 
                     [self showBottomBar:NO];
-                    [self starAuthenticationFlow];
+                    [self startAuthenticationFlow];
                 }
                 else
                 {
@@ -200,6 +200,7 @@ static NSString *const kAN = @"AN";
     [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
     [[ThemeManager sharedManager] beautifyViewController:self];
     self.users = [MPin listUsers];
+    sdk.delegate = self;
 }
 
 - ( void )viewDidAppear:( BOOL )animated
@@ -387,7 +388,7 @@ static NSString *const kAN = @"AN";
 
 -( void ) onAccessNumber:( NSString * ) an
 {
-    [sdk AuthenticateAN:[self.users objectAtIndex:selectedIndexPath.row] accessNumber:an];
+    [sdk AuthenticateAN:[self.users objectAtIndex:selectedIndexPath.row] accessNumber:an askForFingerprint:boolShouldAskForFingerprint];
 }
 
 - ( void )OnAuthenticateAccessNumberCompleted:( id )sender user:( id<IUser>)user
@@ -427,6 +428,7 @@ static NSString *const kAN = @"AN";
 
 - ( void )OnAuthenticateCompleted:( id )sender user:( const id<IUser>)user
 {
+    [[ErrorHandler sharedManager] hideMessage];
     AccountSummaryViewController *vcAccountSummary = [storyboard instantiateViewControllerWithIdentifier:@"AccountSummary"];
     vcAccountSummary.strEmail = [currentUser getIdentity];
     [self.navigationController pushViewController:vcAccountSummary animated:YES];
@@ -522,12 +524,11 @@ static NSString *const kAN = @"AN";
 
 - ( IBAction )btnAuthTap:( id )sender
 {
-    ConfigurationManager *cf = [ConfigurationManager sharedManager];
-    [cf setSelectedUserForCurrentConfiguration:selectedIndexPath.row];
-    [self starAuthenticationFlow];
+    [[ConfigurationManager sharedManager] setSelectedUserForCurrentConfiguration:selectedIndexPath.row];
+    [self startAuthenticationFlow];
 }
 
-- ( void )starAuthenticationFlow
+- ( void )startAuthenticationFlow
 {
     id<IUser> iuser = ( self.users ) [selectedIndexPath.row];
     NSDictionary *config;
@@ -553,25 +554,26 @@ static NSString *const kAN = @"AN";
         break;
 
     case REGISTERED:
-
-
         config = [[ConfigurationManager sharedManager] getSelectedConfiguration];
         s = [config [kSERVICE_TYPE] intValue];
         switch ( s )
         {
         case LOGIN_ON_MOBILE:
-            [sdk Authenticate:iuser];
+            [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
+            [sdk Authenticate:iuser  askForFingerprint:boolShouldAskForFingerprint];
             break;
 
         case LOGIN_ONLINE:
             accessViewController = [storyboard instantiateViewControllerWithIdentifier:@"accessnumber"];
             accessViewController.delegate = self;
             accessViewController.strEmail = [currentUser getIdentity];
+            accessViewController.currentUser = currentUser;
             [self.navigationController pushViewController:accessViewController animated:YES];
             break;
 
         case LOGIN_WITH_OTP:
-            [sdk AuthenticateOTP:iuser];
+            [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
+            [sdk AuthenticateOTP:iuser askForFingerprint:boolShouldAskForFingerprint];
             break;
         }
         break;
@@ -595,7 +597,9 @@ static NSString *const kAN = @"AN";
 - ( void )showPinPad
 {
     PinPadViewController *pinpadViewController = [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];
-    pinpadViewController.userId = [currentUser getIdentity];
+    pinpadViewController.sdk = sdk;
+    pinpadViewController.sdk.delegate = pinpadViewController;
+    pinpadViewController.currentUser = currentUser;
     pinpadViewController.boolShouldShowBackButton = YES;
     pinpadViewController.title = kEnterPin;
     [self.navigationController pushViewController:pinpadViewController animated:YES];

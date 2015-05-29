@@ -184,7 +184,7 @@
 - (void)showPinPad
 {
     PinPadViewController* pinpadViewController = [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];
-    pinpadViewController.userId = [self.iuser getIdentity];
+    pinpadViewController.currentUser = self.iuser;
     pinpadViewController.boolShouldShowBackButton = YES;
     pinpadViewController.title = kEnterPin;
     [self.navigationController pushViewController:pinpadViewController animated:YES];

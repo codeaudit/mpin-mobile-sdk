@@ -68,10 +68,12 @@
 {
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     PinPadViewController* pinpadViewController = [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];
-    pinpadViewController.userId = [self.user getIdentity];
+    pinpadViewController.sdk = sdk;
+    pinpadViewController.sdk.delegate = pinpadViewController;
+    pinpadViewController.currentUser = self.user;
     pinpadViewController.boolShouldShowBackButton = YES;
     pinpadViewController.title = kEnterPin;
-    [self.navigationController pushViewController:pinpadViewController animated:NO];
+    [self.navigationController pushViewController:pinpadViewController animated:YES];
 }
 
 - (void)startAuthenticationFlow:(id<IUser>)forUser forService:(enum SERVICES)service;
@@ -79,17 +81,18 @@
     self.user = forUser;
     switch (service) {
     case LOGIN_ON_MOBILE:
-        [sdk Authenticate:self.user];
+        [sdk Authenticate:self.user  askForFingerprint:YES];
         break;
     case LOGIN_ONLINE: {
         UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
         AccessNumberViewController* accessViewController = [storyboard instantiateViewControllerWithIdentifier:@"accessnumber"];
+        accessViewController.currentUser = self.user;
         accessViewController.delegate = self;
         accessViewController.strEmail = [self.user getIdentity];
         [self.navigationController pushViewController:accessViewController animated:YES];
     } break;
     case LOGIN_WITH_OTP:
-        [sdk AuthenticateOTP:self.user];
+        [sdk AuthenticateOTP:self.user askForFingerprint:YES];
         break;
     }
 }
@@ -125,7 +128,7 @@
 }
 
 -(void) onAccessNumber:(NSString *) an {
-    [sdk AuthenticateAN:self.user accessNumber:an];
+    [sdk AuthenticateAN:self.user accessNumber:an  askForFingerprint:YES];
 }
 
 - (void)OnAuthenticateAccessNumberCompleted:(id)sender user:(id<IUser>)user
