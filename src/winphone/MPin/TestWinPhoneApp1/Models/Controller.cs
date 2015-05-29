@@ -342,7 +342,7 @@ namespace MPinDemo.Models
         private async Task<User> AddAndRegisterUser(List<string> data)
         {
             string eMail = data[0];
-            this.DeviceName = data[1];
+            this.DeviceName = data[1] ?? string.Empty;
             User user = null;
             Status status = null;
             await Task.Factory.StartNew(() =>

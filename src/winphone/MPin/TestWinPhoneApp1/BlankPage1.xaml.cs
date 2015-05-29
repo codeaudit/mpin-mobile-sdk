@@ -60,6 +60,8 @@ namespace MPinDemo
         {
             rootPage = MainPage.Current;
 
+            SetControlsIsEnabled();
+            
             List<object> data = (Window.Current.Content as Frame).GetNavigationData() as List<object>;
             if (data != null && data.Count == 2)
             {
@@ -76,6 +78,13 @@ namespace MPinDemo
                 //var sampleDataGroup = await AppDataModel.GetBackendsAsync();                
                 //controller.DataModel.BackendsList = sampleDataGroup;
             }
+        }
+
+        private void SetControlsIsEnabled()
+        {
+            this.IsEnabled = !controller.IsUserInProcessing;
+            this.BottomAppBar.IsEnabled = !controller.IsUserInProcessing;
+            Progress.Visibility = controller.IsUserInProcessing ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;            
         }
 
         private string GetAllPossiblePassedParams(object param)
@@ -213,11 +222,6 @@ namespace MPinDemo
                     if (controller.IsValidService)
                     {
                         this.MainPivot.SelectedItem = this.UsersPivotItem;
-                    }
-                    break;
-                case "IsUserInProcessing":
-                    {
-
                     }
                     break;
             }

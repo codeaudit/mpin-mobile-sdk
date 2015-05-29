@@ -31,6 +31,7 @@ namespace MPinDemo
         MainPage rootPage = null;
         bool displayDeviceName = false;
         public const string DefaultDeviceName = "Sample App (WinPhone)";
+        private const string DeviceNameString = "DeviceName";
 
         public AddNewUser()
         {
@@ -48,7 +49,7 @@ namespace MPinDemo
         {
             get
             {
-                return BlankPage1.RoamingSettings.Values["DeviceName"] == null ? string.Empty : BlankPage1.RoamingSettings.Values["DeviceName"].ToString();
+                return BlankPage1.RoamingSettings.Values[DeviceNameString] == null ? string.Empty : BlankPage1.RoamingSettings.Values[DeviceNameString].ToString();
             }
         }
 
@@ -63,9 +64,9 @@ namespace MPinDemo
             if (bool.TryParse(e.Parameter.ToString(), out displayDeviceName))
             {
                 DeviceNameContainer.Visibility = displayDeviceName ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
-                if (displayDeviceName && !string.IsNullOrEmpty(this.CachedDeviceName))
+                if (displayDeviceName)
                 {
-                    DeviceName.Text = this.CachedDeviceName;
+                    DeviceName.Text = !string.IsNullOrEmpty(this.CachedDeviceName) ? this.CachedDeviceName : DefaultDeviceName;
                 }
             }            
         }
@@ -93,7 +94,7 @@ namespace MPinDemo
             }
             else
             {
-                //CacheDeviceName();
+                CacheDeviceName();
                 Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
                 mainFrame.GoBack(new List<object>() { "AddUser", new List<string> { this.UserId.Text, DeviceName.Text } });
             }
@@ -103,7 +104,7 @@ namespace MPinDemo
         {
             if (string.IsNullOrEmpty(this.CachedDeviceName) && !this.CachedDeviceName.Equals(DeviceName.Text))
             {
-                // save it
+                BlankPage1.SavePropertyState(DeviceNameString, DeviceName.Text);
             }
         }
 
