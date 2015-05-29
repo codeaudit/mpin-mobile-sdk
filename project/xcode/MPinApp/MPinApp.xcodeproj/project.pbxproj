@@ -71,7 +71,6 @@
 		96130E561AEE4867005D2A86 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A861A88C0E20068E0F7 /* OpenSans-Light.ttf */; };
 		96130E571AEE4867005D2A86 /* MpinStatus.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3E1A2F0FB7007E83EF /* MpinStatus.h */; };
 		96130E581AEE4867005D2A86 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEFFDDF01A1A4268007C7CAA /* Main_iPhone.storyboard */; };
-		96130E591AEE4867005D2A86 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE49002F1A1A3CEB000030A4 /* Main_iPad.storyboard */; };
 		96130E5A1AEE4867005D2A86 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A8A1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf */; };
 		96130E5B1AEE4867005D2A86 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE4900231A1A3CEB000030A4 /* InfoPlist.strings */; };
 		96130E5D1AEE4867005D2A86 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A881A88C0E20068E0F7 /* OpenSans-Regular.ttf */; };
@@ -128,7 +127,6 @@
 		96130EA01AEE490A005D2A86 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A861A88C0E20068E0F7 /* OpenSans-Light.ttf */; };
 		96130EA11AEE490A005D2A86 /* MpinStatus.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3E1A2F0FB7007E83EF /* MpinStatus.h */; };
 		96130EA21AEE490A005D2A86 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEFFDDF01A1A4268007C7CAA /* Main_iPhone.storyboard */; };
-		96130EA31AEE490A005D2A86 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE49002F1A1A3CEB000030A4 /* Main_iPad.storyboard */; };
 		96130EA41AEE490A005D2A86 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A8A1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf */; };
 		96130EA51AEE490A005D2A86 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE4900231A1A3CEB000030A4 /* InfoPlist.strings */; };
 		96130EA71AEE490A005D2A86 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A881A88C0E20068E0F7 /* OpenSans-Regular.ttf */; };
@@ -186,7 +184,6 @@
 		9649BCBD1AC16D1000B9F41B /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A861A88C0E20068E0F7 /* OpenSans-Light.ttf */; };
 		9649BCBE1AC16D1000B9F41B /* MpinStatus.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3E1A2F0FB7007E83EF /* MpinStatus.h */; };
 		9649BCC01AC16D1000B9F41B /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEFFDDF01A1A4268007C7CAA /* Main_iPhone.storyboard */; };
-		9649BCC11AC16D1000B9F41B /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE49002F1A1A3CEB000030A4 /* Main_iPad.storyboard */; };
 		9649BCC21AC16D1000B9F41B /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A8A1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf */; };
 		9649BCC31AC16D1000B9F41B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE4900231A1A3CEB000030A4 /* InfoPlist.strings */; };
 		9649BCC41AC16D1000B9F41B /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A881A88C0E20068E0F7 /* OpenSans-Regular.ttf */; };
@@ -253,7 +250,6 @@
 		FE49001F1A1A3CEB000030A4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001E1A1A3CEB000030A4 /* UIKit.framework */; };
 		FE4900251A1A3CEB000030A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE4900231A1A3CEB000030A4 /* InfoPlist.strings */; };
 		FE4900271A1A3CEB000030A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4900261A1A3CEB000030A4 /* main.m */; };
-		FE4900311A1A3CEB000030A4 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE49002F1A1A3CEB000030A4 /* Main_iPad.storyboard */; };
 		FE4AEB051A443137000B3181 /* OTPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4AEB041A443137000B3181 /* OTPViewController.m */; };
 		FE4AEB081A443E4C000B3181 /* CycleProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4AEB071A443E4C000B3181 /* CycleProgressBar.m */; };
 		FE72C3451A6E519D0082F14D /* SettingsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE72C3441A6E519D0082F14D /* SettingsViewCell.m */; };
@@ -369,7 +365,6 @@
 		FE4900241A1A3CEB000030A4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FE4900261A1A3CEB000030A4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		FE4900281A1A3CEB000030A4 /* MPinApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MPinApp-Prefix.pch"; sourceTree = "<group>"; };
-		FE4900301A1A3CEB000030A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		FE49003C1A1A3CEB000030A4 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		FE4900441A1A3CEB000030A4 /* MPinAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MPinAppTests-Info.plist"; sourceTree = "<group>"; };
 		FE4900461A1A3CEB000030A4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -644,7 +639,6 @@
 			isa = PBXGroup;
 			children = (
 				FEFFDDF01A1A4268007C7CAA /* Main_iPhone.storyboard */,
-				FE49002F1A1A3CEB000030A4 /* Main_iPad.storyboard */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -915,7 +909,6 @@
 				96E21A561AF8AE6C00490625 /* en_BG.strings in Resources */,
 				96130E581AEE4867005D2A86 /* Main_iPhone.storyboard in Resources */,
 				968591A31AEE53F500726E63 /* NTTComSecurityImages.xcassets in Resources */,
-				96130E591AEE4867005D2A86 /* Main_iPad.storyboard in Resources */,
 				96130E5A1AEE4867005D2A86 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				96130E5B1AEE4867005D2A86 /* InfoPlist.strings in Resources */,
 				96130E5D1AEE4867005D2A86 /* OpenSans-Regular.ttf in Resources */,
@@ -945,7 +938,6 @@
 				96130EA11AEE490A005D2A86 /* MpinStatus.h in Resources */,
 				96E21A571AF8AE6C00490625 /* en_BG.strings in Resources */,
 				96130EA21AEE490A005D2A86 /* Main_iPhone.storyboard in Resources */,
-				96130EA31AEE490A005D2A86 /* Main_iPad.storyboard in Resources */,
 				968591A21AEE53F200726E63 /* OlswangImages.xcassets in Resources */,
 				96130EA41AEE490A005D2A86 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				96130EA51AEE490A005D2A86 /* InfoPlist.strings in Resources */,
@@ -975,7 +967,6 @@
 				968591CB1AF0C7E200726E63 /* Localizable.strings in Resources */,
 				9649BCBE1AC16D1000B9F41B /* MpinStatus.h in Resources */,
 				9649BCC01AC16D1000B9F41B /* Main_iPhone.storyboard in Resources */,
-				9649BCC11AC16D1000B9F41B /* Main_iPad.storyboard in Resources */,
 				968591A01AEE53EB00726E63 /* DimensionDataImages.xcassets in Resources */,
 				9649BCC21AC16D1000B9F41B /* OpenSans-SemiboldItalic.ttf in Resources */,
 				9649BCC31AC16D1000B9F41B /* InfoPlist.strings in Resources */,
@@ -1006,7 +997,6 @@
 				FE148D411A2F0FB7007E83EF /* MpinStatus.h in Resources */,
 				96E21A541AF8AE6C00490625 /* en_BG.strings in Resources */,
 				FEFFDDF21A1A4268007C7CAA /* Main_iPhone.storyboard in Resources */,
-				FE4900311A1A3CEB000030A4 /* Main_iPad.storyboard in Resources */,
 				960D6A9D1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				FE4900251A1A3CEB000030A4 /* InfoPlist.strings in Resources */,
 				960D6A9B1A88C0E20068E0F7 /* OpenSans-Regular.ttf in Resources */,
@@ -1399,14 +1389,6 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		FE49002F1A1A3CEB000030A4 /* Main_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FE4900301A1A3CEB000030A4 /* Base */,
-			);
-			name = Main_iPad.storyboard;
-			sourceTree = "<group>";
-		};
 		FE4900451A1A3CEB000030A4 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1441,6 +1423,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "NTTComSecurity MPin";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1461,6 +1444,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "NTTComSecurity MPin";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1482,6 +1466,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "NTTComSecurity MPin";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1503,6 +1488,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "NTTComSecurity MPin";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1524,6 +1510,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "NTTComSecurity MPin";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1544,6 +1531,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "Olswang MPin";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1564,6 +1552,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "Olswang MPin";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1585,6 +1574,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "Olswang MPin";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1606,6 +1596,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "Olswang MPin";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1627,6 +1618,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "Olswang MPin";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1706,6 +1698,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1786,6 +1779,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1871,6 +1865,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1951,6 +1946,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -2036,6 +2032,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
