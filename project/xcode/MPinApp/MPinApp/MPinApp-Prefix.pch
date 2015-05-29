@@ -19,6 +19,7 @@
 #import "UIView+Helper.h"
 #import "Constants.h"
 #import "SettingsManager.h"
+#import "ErrorHandler.h"
 
 #undef NSLocalizedString
 #define NSLocalizedString(key,_comment) [[LocalizationManager sharedManager] localizedString:key  comment:_comment]

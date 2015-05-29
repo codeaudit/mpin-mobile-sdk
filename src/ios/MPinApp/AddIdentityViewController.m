@@ -15,7 +15,6 @@
 #import "PinPadViewController.h"
 #import "ConfigurationManager.h"
 #import "MPin.h"
-#import "ATMHud.h"
 #import "ThemeManager.h"
 #import "iToast.h"
 
@@ -26,12 +25,8 @@ static NSString* const kUser = @"User";
 @interface AddIdentityViewController () {
     MPin* sdk;
     id<IUser> currentUser;
-    ATMHud* hud;
     ThemeManager* themeManager;
 }
-
-- (void)startLoading;
-- (void)stopLoading;
 
 - (void)showPinPad;
 - (void)showDeviceName;
@@ -48,8 +43,6 @@ static NSString* const kUser = @"User";
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    hud = [[ATMHud alloc] initWithDelegate:self];
-    [hud setActivity:YES];
     [[ThemeManager sharedManager] beautifyViewController:self];
     
     sdk = [[MPin alloc] init];
@@ -82,12 +75,6 @@ static NSString* const kUser = @"User";
                                                   object:nil];
 }
 
-- (void)startLoading {
-    [hud showInView:self.view];
-}
-- (void)stopLoading {
-    [hud hide];
-}
 
 - (void)showPinPad {
     UIStoryboard* storyboard =
@@ -117,25 +104,19 @@ static NSString* const kUser = @"User";
 
 - (IBAction)addAction:(id)sender {
     if ([kEmpty isEqualToString:self.txtIdentity.text]) {
-
-        UIAlertView* alert =
-        [[UIAlertView alloc] initWithTitle:@""
-                                   message:NSLocalizedString(@"ERROR_PLEASE_ENTER_VALID_USER_ID", @"")
-                                  delegate:nil
-                         cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"")
-                         otherButtonTitles:nil, nil];
-        [alert show];
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                       errorString:NSLocalizedString(@"ERROR_PLEASE_ENTER_VALID_USER_ID", @"")
+                                              addActivityIndicator:NO
+                                                 minShowTime:3];
         return;
     }
     
-    if (![self isValidEmail:self.txtIdentity.text]) {
-        UIAlertView* alert = [[UIAlertView alloc]
-                              initWithTitle:@""
-                              message:NSLocalizedString(@"ERROR_PLEASE_ENTER_VALID_EMAIL", @"")
-                              delegate:nil
-                              cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"")
-                              otherButtonTitles:nil, nil];
-        [alert show];
+    if (![self isValidEmail:self.txtIdentity.text])
+    {
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                       errorString:NSLocalizedString(@"ERROR_PLEASE_ENTER_VALID_EMAIL", @"")
+                                              addActivityIndicator:NO
+                                                 minShowTime:3];
         return;
     }
     
@@ -144,12 +125,10 @@ static NSString* const kUser = @"User";
         [cfm setDeviceName:self.txtDevName.text];
     }
     
-    [self startLoading];
     [sdk RegisterNewUser:self.txtIdentity.text devName:self.txtDevName.text];
 }
 
 - (void)OnRegisterNewUserCompleted:(id)sender user:(const id<IUser>)user {
-    [self stopLoading];
     switch ([user getState]) {
         case STARTED_REGISTRATION: {
             UIStoryboard* storyboard =
@@ -161,15 +140,14 @@ static NSString* const kUser = @"User";
             [self.navigationController pushViewController:cevc animated:YES];
         } break;
         case ACTIVATED:
-            [self startLoading];
             currentUser = user;
             [sdk FinishRegistration:user];
             break;
         default:
-            [self
-             showError:[user getIdentity]
-             desc:[NSString stringWithFormat:NSLocalizedString(@"ERROR_UNEXPECTED_USER_STATE", @""),
-                   [user getState]]];
+            [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                           errorString:NSLocalizedString(@"ERROR_UNEXPECTED_USER_STATE", @"")
+                                                  addActivityIndicator:NO
+                                                     minShowTime:0];
             break;
     }
     
@@ -184,17 +162,18 @@ static NSString* const kUser = @"User";
     [cf setSelectedUserForCurrentConfiguration:(index)];
 }
 
-- (void)OnRegisterNewUserError:(id)sender error:(NSError*)error {
-    [self stopLoading];
+- (void)OnRegisterNewUserError:(id)sender error:(NSError*)error
+{
     MpinStatus* mpinStatus = [error.userInfo objectForKey:kMPinSatus];
-    [self showError:[mpinStatus getStatusCodeAsString]
-               desc:mpinStatus.errorMessage];
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                   errorString:mpinStatus.errorMessage
+                                          addActivityIndicator:NO
+                                             minShowTime:3
+     ];
 }
 
 - (void)OnFinishRegistrationCompleted:(id)sender user:(const id<IUser>)user {
-    [self stopLoading];
-    UIStoryboard* storyboard =
-    [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     IdentityCreatedViewController* vcIDCreated = (IdentityCreatedViewController*)
     [storyboard instantiateViewControllerWithIdentifier:
      @"IdentityCreatedViewController"];
@@ -203,7 +182,6 @@ static NSString* const kUser = @"User";
     [self.navigationController pushViewController:vcIDCreated animated:YES];
 }
 - (void)OnFinishRegistrationError:(id)sender error:(NSError*)error {
-    [self stopLoading];
     if (error.code == IDENTITY_NOT_VERIFIED) {
         UIStoryboard* storyboard =
         [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
@@ -212,7 +190,7 @@ static NSString* const kUser = @"User";
         cevc.iuser = [error.userInfo objectForKey:kUSER];
         [self.navigationController pushViewController:cevc animated:YES];
     } else {
-        // TODO:
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:error.description addActivityIndicator:NO minShowTime:3];
     }
 }
 
@@ -250,12 +228,6 @@ static NSString* const kUser = @"User";
 
 - (IBAction)back:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
-}
-
-/// TODO :: to be removed when new design is ready
-- (void)alertView:(UIAlertView*)alertView
-clickedButtonAtIndex:(NSInteger)buttonIndex {
-    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 @end

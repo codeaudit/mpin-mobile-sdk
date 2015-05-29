@@ -16,85 +16,93 @@
 const NSString *constStrAccessNumberLenghtKey = @"accessNumberDigits";
 const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
 
-@interface AccessNumberViewController ()
+@interface AccessNumberViewController ( )
 {
-    int intAccessNumberLenght;
+	int intAccessNumberLenght;
 }
 
-- (void) clear;
--(IBAction)btnBackTap:(id)sender;
+- ( void ) clear;
+-( IBAction )btnBackTap:( id )sender;
 
 
 @end
 
 @implementation AccessNumberViewController
 
-- (void) viewDidLoad
+- ( void ) viewDidLoad
 {
-    [super viewDidLoad];
-    
-    BackButton *btnBack = [[BackButton alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:@selector(btnBackTap:)];
-    [btnBack setup];
-    self.navigationItem.leftBarButtonItem = btnBack;
+	[super viewDidLoad];
+
+	BackButton *btnBack = [[BackButton alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:@selector( btnBackTap: )];
+	[btnBack setup];
+	self.navigationItem.leftBarButtonItem = btnBack;
 }
 
--(void) viewWillAppear:(BOOL)animated
+-( void ) viewWillAppear:( BOOL )animated
 {
-    [super viewWillAppear:animated];
-    [[ThemeManager sharedManager] beautifyViewController:self];
-    _lblEmail.text = _strEmail;
-    _txtAN.text = @"";
-    [_txtAN setBottomBorder:[[SettingsManager sharedManager] color7] width:2.f alpha:.5f];
-    NSString *strANLenght       = [MPin GetClientParam:constStrAccessNumberLenghtKey];
-    
-    intAccessNumberLenght = [strANLenght intValue];
-    max = intAccessNumberLenght;
-    self.title = NSLocalizedString(@"ACCESSNUMBERVC_TITLE", @"");
-    _lblNote.text = [NSString stringWithFormat:NSLocalizedString(@"ACCESSNUMBERVC_NOTE", @""), intAccessNumberLenght];
-    
+	[super viewWillAppear:animated];
+	[[ThemeManager sharedManager] beautifyViewController:self];
+	_lblEmail.text = _strEmail;
+	_txtAN.text = @"";
+	[_txtAN setBottomBorder:[[SettingsManager sharedManager] color7] width:2.f alpha:.5f];
+	NSString *strANLenght       = [MPin GetClientParam:constStrAccessNumberLenghtKey];
+
+	intAccessNumberLenght = [strANLenght intValue];
+	max = intAccessNumberLenght;
+	self.title = NSLocalizedString(@"ACCESSNUMBERVC_TITLE", @"");
+	_lblNote.text = [NSString stringWithFormat:NSLocalizedString(@"ACCESSNUMBERVC_NOTE", @""), intAccessNumberLenght];
+
 }
 
-- (IBAction)logInAction:(id)sender {
-    if( ( self.delegate != nil ) && ( [self.delegate respondsToSelector:@selector(onAccessNumber:)]) )
-    {
-        if([self.number isEqualToString:@""]) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"ERROR_WRONG_AN", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"") otherButtonTitles:nil, nil];
-            [self clear];
-            [alert show];
-            return;
-        }
-        [self.delegate onAccessNumber:self.number];
-    }
-    [self.navigationController popViewControllerAnimated:NO];
-}
-
--(IBAction)btnBackTap:(id)sender
+- ( IBAction )logInAction:( id )sender
 {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+	if ( ( self.delegate != nil ) && ( [self.delegate respondsToSelector:@selector( onAccessNumber: )] ) )
+	{
+		if ( [self.number isEqualToString:@""] )
+		{
+			[[ErrorHandler sharedManager] presentMessageInViewController:self
+			 errorString:NSLocalizedString(@"ERROR_WRONG_AN", @"")
+			 addActivityIndicator:NO
+			 minShowTime:3];
+
+			[self clear];
+			return;
+		}
+		[self.delegate onAccessNumber:self.number];
+	}
+	[self.navigationController popViewControllerAnimated:NO];
 }
 
-- (IBAction)numberSelectedAction:(id)sender
+-( IBAction )btnBackTap:( id )sender
 {
-    if ([self.number length] >= intAccessNumberLenght)
-    {
-        return;
-    }
-    UIButton * button = (UIButton *) sender;
-    if (++numberIndex >= max) {
-        [self disableNumButtons];
-    }
-    self.number = [self.number stringByAppendingString:button.titleLabel.text];
-    self.txtAN.text =  [NSString stringWithFormat:@"%@ %@",self.txtAN.text, button.titleLabel.text];
+	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-- (void) clear {
-    numberIndex = 0;
-    self.number = @"";
-    [self enableNumButtons];
-    _txtAN.text = @"";
+- ( IBAction )numberSelectedAction:( id )sender
+{
+	if ( [self.number length] >= intAccessNumberLenght )
+	{
+		return;
+	}
+	UIButton *button = (UIButton *) sender;
+	if ( ++numberIndex >= max )
+	{
+		[self disableNumButtons];
+	}
+	self.number = [self.number stringByAppendingString:button.titleLabel.text];
+	self.txtAN.text =  [NSString stringWithFormat:@"%@ %@",self.txtAN.text, button.titleLabel.text];
 }
 
-- (IBAction)clearAction:(id)sender {
-    [self clear];
+- ( void ) clear
+{
+	numberIndex = 0;
+	self.number = @"";
+	[self enableNumButtons];
+	_txtAN.text = @"";
+}
+
+- ( IBAction )clearAction:( id )sender
+{
+	[self clear];
 }
 @end

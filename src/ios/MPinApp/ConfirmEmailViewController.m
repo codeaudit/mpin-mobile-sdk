@@ -10,17 +10,13 @@
 #import "PinPadViewController.h"
 #import "UIViewController+Helper.h"
 #import "IdentityCreatedViewController.h"
-#import "ATMHud.h"
 #import "MFSideMenu.h"
 #import "ThemeManager.h"
 
 @interface ConfirmEmailViewController () {
-    ATMHud* hud;
     MPin* sdk;
 }
 
-- (void)startLoading;
-- (void)stopLoading;
 - (void)showPinPad;
 
 @end
@@ -33,9 +29,6 @@
     [[ThemeManager sharedManager] beautifyViewController:self];
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
-
-    hud = [[ATMHud alloc] initWithDelegate:self];
-    [hud setActivity:YES];
 
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
@@ -62,15 +55,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
 }
 
-- (void)startLoading
-{
-    [hud showInView:self.view];
-}
-- (void)stopLoading
-{
-    [hud hide];
-}
-
 - (void)showPinPad
 {
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
@@ -93,50 +77,48 @@
 
 - (IBAction)OnConfirmEmail:(id)sender
 {
-    [self startLoading];
     [sdk FinishRegistration:self.iuser];
 }
 
 - (void)OnFinishRegistrationCompleted:(id)sender user:(const id<IUser>)user
 {
-    [self stopLoading];
-
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     IdentityCreatedViewController* vcIDCreated = (IdentityCreatedViewController*)[storyboard instantiateViewControllerWithIdentifier:@"IdentityCreatedViewController"];
     vcIDCreated.strEmail = [user getIdentity];
     vcIDCreated.user = user;
-    [self stopLoading];
     [self.navigationController pushViewController:vcIDCreated animated:YES];
 }
 
 - (void)OnFinishRegistrationError:(id)sender error:(NSError*)error
 {
-    [self stopLoading];
-
     MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
-    [self showError:[mpinStatus getStatusCodeAsString] desc:[NSString stringWithFormat:@"%@ Please check your e-mail and follow the activation link!", mpinStatus.errorMessage]];
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                   errorString:[NSString stringWithFormat:@"%@ Please check your e-mail and follow the activation link!", mpinStatus.errorMessage]
+                                          addActivityIndicator:NO
+                                             minShowTime:3];
+    
 }
 
 - (IBAction)OnResendEmail:(id)sender
 {
-    [hud setTitle:@"Sending Email ..."];
-    [self startLoading];
-
+    //TODO: localize this
+    [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Resending email" addActivityIndicator:YES minShowTime:0];
     [sdk RestartRegistration:self.iuser];
 }
 
 - (void)OnRestartRegistrationCompleted:(id)sender user:(const id<IUser>)user
 {
-    [self stopLoading];
-    [hud setTitle:@""];
+    [[ErrorHandler sharedManager] updateMessage:[NSString stringWithFormat:@"%@ Please check your e-mail and follow the activation link!", [user getIdentity]]
+                           addActivityIndicator:NO hideAfter:3];
 }
 
 - (void)OnRestartRegistrationError:(id)sender error:(NSError*)error
 {
-    [self stopLoading];
-
     MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
-    [self showError:[mpinStatus getStatusCodeAsString] desc:mpinStatus.errorMessage];
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                   errorString:mpinStatus.errorMessage
+                                          addActivityIndicator:NO
+                                             minShowTime:0];
 }
 
 @end

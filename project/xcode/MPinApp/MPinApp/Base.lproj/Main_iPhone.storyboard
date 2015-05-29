@@ -277,6 +277,7 @@
                         <outlet property="btnAdd" destination="U5z-P9-gDi" id="xys-jF-PWP"/>
                         <outlet property="btnAuthenticate" destination="dgW-st-Qp0" id="3Hc-We-4Rt"/>
                         <outlet property="btnDelete" destination="uMv-6u-aPI" id="upD-TA-XRC"/>
+                        <outlet property="btnReset" destination="Iaj-nK-HOy" id="ARY-oL-cP1"/>
                         <outlet property="constraintBottomSpace" destination="7FQ-RH-F1j" id="mda-7x-hkA"/>
                         <outlet property="constraintLeadingSpace" destination="Mud-op-iqP" id="brp-Fu-CAq"/>
                         <outlet property="constraintTrailingSpace" destination="Tmc-Ic-TgG" id="HVt-Yd-86o"/>
@@ -1357,6 +1358,7 @@
                         <outlet property="barBtnMenu" destination="Jjl-sy-qhK" id="aEh-gs-ozN"/>
                         <outlet property="btnBackToIdList" destination="b2u-zE-sYo" id="Xtc-r1-HTS"/>
                         <outlet property="btnDeleteId" destination="dLy-He-orV" id="B3u-9p-nLu"/>
+                        <outlet property="btnResetPIN" destination="5Qr-2j-I1a" id="WRP-8R-f8d"/>
                         <outlet property="imgViewBlockedId" destination="ZaY-zx-p0u" id="tkX-9U-B2h"/>
                         <outlet property="lblMessage" destination="sLI-Mw-6Cr" id="5j8-Y7-4sO"/>
                         <outlet property="lblUserEmail" destination="1Yy-pu-DFE" id="I83-qv-3ny"/>

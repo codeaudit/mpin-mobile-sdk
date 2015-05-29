@@ -94,8 +94,17 @@
 		_activitySize = CGSizeMake(20, 20);
 		
 		didHide = YES;
+        UITapGestureRecognizer *gestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+        gestureRecogniser.numberOfTapsRequired = 1;
+        [self addGestureRecognizer:gestureRecogniser];
+
     }
     return self;
+}
+
+- (void)handleTap:(UIGestureRecognizer*)tap
+{
+    [self hide];
 }
 
 - (void)dealloc

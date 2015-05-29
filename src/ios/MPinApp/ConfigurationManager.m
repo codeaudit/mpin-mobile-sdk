@@ -44,7 +44,7 @@ static NSString* const kSettings = @"settings";
             NSDictionary* data = @{ kRPSURL : @"http://tcb.certivox.org",
                 kSERVICE_TYPE : @(LOGIN_ON_MOBILE),
                 kCONFIG_NAME : @"Mobile banking login" };
-            NSDictionary* dataOTP = @{ kRPSURL : @"http://ntt-vpn.certivox.org",
+            NSDictionary* dataOTP = @{ kRPSURL : @"http://ddvpn.certivox.org",
                 kSERVICE_TYPE : @(LOGIN_WITH_OTP),
                 kCONFIG_NAME : @"VPN login" };
             NSDictionary* dataAN = @{ kRPSURL : @"http://tcb.certivox.org",

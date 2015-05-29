@@ -11,7 +11,6 @@
 #import "ThemeManager.h"
 #import "PinPadViewController.h"
 #import "ConfirmEmailViewController.h"
-#import "ATMHud.h"
 #import "ConfigurationManager.h"
 #import "UIViewController+Helper.h"
 
@@ -20,12 +19,9 @@
 
 @interface IdentityBlockedViewController () {
      MPin* sdk;
-    ATMHud* hud;
     UIStoryboard * storyboard;
 }
 
-- (void)startLoading;
-- (void)stopLoading;
 - (void)showPinPad;
 - (void) deleteUser;
 
@@ -37,15 +33,6 @@
 
 @implementation IdentityBlockedViewController
 
-- (void)startLoading
-{
-    [hud showInView:self.view];
-}
-
-- (void)stopLoading
-{
-    [hud hide];
-}
 
 - (void) deleteUser {
     [MPin DeleteUser:_iuser];
@@ -59,10 +46,6 @@
 
     
     [[ThemeManager sharedManager] beautifyViewController:self];
-    
-    hud = [[ATMHud alloc] initWithDelegate:self];
-    [hud setCaption:@"Please wait ... "];
-    [hud setActivity:YES];
     
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
@@ -115,7 +98,6 @@
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     if((alertView.tag == RESETPIN_TAG) && (buttonIndex == RESETPIN_BUTTON_INDEX)) {
-        [self startLoading];
         NSString * userID = [self.iuser getIdentity];
         [self deleteUser];
         ConfigurationManager *cfm = [ConfigurationManager sharedManager];
@@ -130,7 +112,6 @@
 }
 
 - (void) OnFinishRegistrationCompleted:(id) sender user:(const id<IUser>) user {
-    [self stopLoading];
     IdentityCreatedViewController* vcIDCreated = (IdentityCreatedViewController*)[storyboard instantiateViewControllerWithIdentifier:@"IdentityCreatedViewController"];
     vcIDCreated.user = self.iuser;
     vcIDCreated.strEmail = [user getIdentity];
@@ -138,7 +119,6 @@
 }
 
 - (void) OnFinishRegistrationError:(id) sender  error:(NSError *) error {
-    [self stopLoading];
     if (error.code == IDENTITY_NOT_VERIFIED) {
         ConfirmEmailViewController* cevc = (ConfirmEmailViewController*)[storyboard instantiateViewControllerWithIdentifier:@"ConfirmEmailViewController"];
         cevc.iuser = (error.userInfo)[kUSER];
@@ -161,7 +141,6 @@
 }
 
 - (void)OnRegisterNewUserCompleted:(id)sender user:(const id<IUser>)user {
-    [self stopLoading];
     switch ([user getState]) {
         case STARTED_REGISTRATION: {
             ConfirmEmailViewController* cevc = (ConfirmEmailViewController*)
@@ -171,15 +150,15 @@
             [self.navigationController pushViewController:cevc animated:YES];
         } break;
         case ACTIVATED:
-            [self startLoading];
             self.iuser = user;
             [sdk FinishRegistration:user];
             break;
         default:
-            [self
-             showError:[user getIdentity]
-             desc:[NSString stringWithFormat:@"User state is unexpected %ld",
-                   [user getState]]];
+            [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                           errorString:[NSString stringWithFormat:@"User state is unexpected %ld",[user getState]]
+                                                  addActivityIndicator:NO
+                                                     minShowTime:0
+             ];
             break;
     }
     
@@ -195,10 +174,11 @@
 }
 
 - (void)OnRegisterNewUserError:(id)sender error:(NSError*)error {
-    [self stopLoading];
     MpinStatus* mpinStatus = [error.userInfo objectForKey:kMPinSatus];
-    [self showError:[mpinStatus getStatusCodeAsString]
-               desc:mpinStatus.errorMessage];
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                   errorString:mpinStatus.errorMessage
+                                          addActivityIndicator:NO
+                                             minShowTime:0];
 }
 
 - (void)showPinPad

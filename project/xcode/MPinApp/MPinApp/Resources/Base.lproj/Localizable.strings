@@ -94,6 +94,7 @@
 "HUD_UNSUPPORTED_ACTION"    = "Unsupported State and Action!";
 "HUD_SAVE_CONFIG"           = "Saving configuration. Please wait.";
 "HUD_SAVE_CONFIG_AND_DEL"   = "Saving configuration. Please wait. All associated identities will be deleted.";
+"HUD_REACTIVATE_USER"       = "Please wait";
 
 /* ERROR Messages */
 
@@ -126,6 +127,7 @@
 "WARNING_VERIFY_FINGER" =  "Verify fingerprint";
 
 /* BASIC THINGS */
+"KEY_RESET" = "RESET PIN";
 "KEY_CANCEL" = "CANCEL";
 "KEY_OKBTN" = "OK";
 "KEY_DELETE" = "DELETE";

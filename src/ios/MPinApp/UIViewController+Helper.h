@@ -7,10 +7,7 @@
 //
 
 @interface UIViewController (Helper)
-- (void) invalidateNavBar;
-- (void) showError:(NSString *) title desc:(NSString *) desc;
-- (void)startLoading;
-- (void)stopLoading;
 
+- (void) invalidateNavBar;
 
 @end
