@@ -95,6 +95,7 @@ static NSMutableArray *kCircles;
     }
 
     self.lblEmail.text = [_currentUser getIdentity];
+
 }
 
 - ( IBAction )back:( UIBarButtonItem * )sender

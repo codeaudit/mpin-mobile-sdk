@@ -24,4 +24,5 @@ static NSString *const kOnFinishShowingPinPadNotification = @"onFinishShowingPin
 @property ( nonatomic, strong ) MPin         *sdk;
 @property( nonatomic,strong ) id<IUser> currentUser;
 @property ( nonatomic, strong ) NSString         *strAccessNumber;
+
 @end

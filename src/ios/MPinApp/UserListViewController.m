@@ -214,11 +214,13 @@ static NSString *const kAN = @"AN";
         return;
     }
     [self.table reloadData];
+    
     selectedIndexPath = [NSIndexPath indexPathForRow:NOT_SELECTED inSection:NOT_SELECTED_SEC];
     ConfigurationManager *cf = [ConfigurationManager sharedManager];
     NSInteger nSelectedUserIndex = [cf getSelectedUserIndexforSelectedConfiguration];
     if ( nSelectedUserIndex >= 0 )
     {
+        currentUser = self.users[nSelectedUserIndex];
         selectedIndexPath = [NSIndexPath indexPathForRow:nSelectedUserIndex inSection:NOT_SELECTED_SEC];
         [self showBottomBar:NO];
     }
@@ -226,6 +228,7 @@ static NSString *const kAN = @"AN";
     {
         [self hideBottomBar:NO];
     }
+    
 }
 
 - ( void )viewDidDisappear:( BOOL )animated
@@ -560,7 +563,7 @@ static NSString *const kAN = @"AN";
         {
         case LOGIN_ON_MOBILE:
             [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
-            [sdk Authenticate:iuser  askForFingerprint:boolShouldAskForFingerprint];
+            [sdk Authenticate:iuser askForFingerprint:boolShouldAskForFingerprint];
             break;
 
         case LOGIN_ONLINE:
