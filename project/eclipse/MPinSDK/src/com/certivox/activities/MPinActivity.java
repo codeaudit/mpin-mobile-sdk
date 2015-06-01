@@ -80,6 +80,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	protected void onStart() {
 		super.onStart();
 		if (mConfiguration == null && !initConfiguration()) {
+			initEmptySDK();
 			startActivity(new Intent(this, PinpadConfigActivity.class));
 		} else {
 			initSDK(mConfiguration);
@@ -113,6 +114,10 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			serverConfig.put("RPA_server", config.getBackendUrl());
 			MPinActivity.init(this, serverConfig);
 		}
+	}
+
+	private void initEmptySDK() {
+		MPinActivity.init(this, null);
 	}
 
 	@Override

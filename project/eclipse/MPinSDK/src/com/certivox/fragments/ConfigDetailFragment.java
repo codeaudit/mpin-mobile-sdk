@@ -57,7 +57,6 @@ public class ConfigDetailFragment extends Fragment {
 		super.onAttach(activity);
 
 		mConfig = new Config();
-
 		if (mConfigId != -1) {
 			initConfig();
 		}
@@ -225,9 +224,6 @@ public class ConfigDetailFragment extends Fragment {
 			new AlertDialog.Builder(activity).setTitle("Invalid URL address")
 					.setMessage("Try Again").setPositiveButton("OK", null)
 					.show();
-
-			mSaveServiceButton.setClickable(true);
-			mSaveServiceButton.setEnabled(true);
 		} else {
 			new Thread(new Runnable() {
 				@Override
@@ -241,8 +237,6 @@ public class ConfigDetailFragment extends Fragment {
 										.setTitle("Error")
 										.setMessage("Invalid backend URL")
 										.setPositiveButton("OK", null).show();
-
-								mSaveServiceButton.setEnabled(true);
 							}
 						});
 						return;
