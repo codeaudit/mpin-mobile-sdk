@@ -1,0 +1,28 @@
+﻿<Page
+    x:Class="MPinDemo.EmailConfirmed"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MPinDemo"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>                           
+        </Grid.RowDefinitions>
+        
+        <StackPanel VerticalAlignment="Center">
+            <TextBlock x:Uid="EmailTB"/>
+            <TextBlock Text="{Binding User.Id}" FontWeight="Bold" />
+            <TextBlock x:Uid="ConfirmTB" TextWrapping="Wrap"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1">
+            <Button x:Uid="ConfirmButton" Click="Button_Click" />
+            <Button x:Uid="ResendButton" Click="Resend_Click"/>
+            <Button x:Uid="IdsButton" Click="GoIdentities_Click"/>
+        </StackPanel>
+    </Grid>
+</Page>

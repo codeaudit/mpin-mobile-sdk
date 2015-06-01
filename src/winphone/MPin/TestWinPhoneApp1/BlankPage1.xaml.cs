@@ -1,0 +1,300 @@
+﻿using MPinDemo.Models;
+using MPinSDK.Common; // navigation extensions
+using MPinSDK.Models;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using Windows.ApplicationModel.Resources;
+using Windows.Storage;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
+
+namespace MPinDemo
+{
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class BlankPage1 : Page
+    {
+        #region members
+
+        private const string SelectedService = "ServiceSetIndex";
+        private const string SelectedUser = "SelectedUser";
+        private bool isInitialLoad = false;
+        private MainPage rootPage = null;
+        private CoreDispatcher _dispatcher;
+
+        internal static ApplicationDataContainer RoamingSettings = null;
+        private static Controller controller = null;
+        private static bool IsSelectedBtnEnabled = true;
+        #endregion // members
+
+        #region constructors
+        static BlankPage1()
+        {
+            controller = new Controller();
+        }
+
+        public BlankPage1()
+        {
+            this.InitializeComponent();
+
+            _dispatcher = Window.Current.Dispatcher;
+            this.DataContext = controller.DataModel;
+            RoamingSettings = ApplicationData.Current.RoamingSettings;
+            controller.PropertyChanged += controller_PropertyChanged;
+
+            LoadSettings();
+        }
+
+        #endregion // constructors
+
+        #region Overrides
+        /// <summary>
+        /// Invoked when this page is about to be displayed in a Frame.
+        /// </summary>
+        /// <param name="e">Event data that describes how this page was reached.
+        /// This parameter is typically used to configure the page.</param>
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            rootPage = MainPage.Current;
+
+            List<object> data = (Window.Current.Content as Frame).GetNavigationData() as List<object>;
+            if (data != null && data.Count == 2)
+            {
+                await controller.ProcessNavigation(data[0].ToString(), data[1]);
+            }
+            else
+            {
+                string param = GetAllPossiblePassedParams(e.Parameter);
+                isInitialLoad = !string.IsNullOrEmpty(param) && param.Equals("InitialLoad");
+            }
+
+            if (isInitialLoad)
+            {
+                //var sampleDataGroup = await AppDataModel.GetBackendsAsync();                
+                //controller.DataModel.BackendsList = sampleDataGroup;
+            }
+        }
+
+        private string GetAllPossiblePassedParams(object param)
+        {
+            string navigationData = (Window.Current.Content as Frame).GetNavigationData() as string;
+            return string.IsNullOrEmpty(navigationData)
+                ? param == null ? "" : param.ToString()
+                : navigationData;
+        }
+
+        #endregion
+
+        #region methods
+
+        private User GetSelectedUser(ICollection<User> users)
+        {
+            if (users == null || users.Count == 0 || controller.DataModel.CurrentUser == null)
+                return GetSelectedUserFromSettings();
+
+            foreach (var user in users)
+                if (user.Equals(controller.DataModel.CurrentUser))
+                    return user;
+
+            return null;
+        }
+
+        private void LoadSettings()
+        {
+            SetSelectedServicesIndex();
+            ResetPinButton.IsEnabled = UsersListBox.SelectedItem != null;
+
+            if (controller.DataModel.CurrentService != null && controller.DataModel.CurrentService.BackendUrl != null)
+            {
+                this.MainPivot.SelectedItem = this.UsersPivotItem;
+            }
+        }
+
+        #region State
+
+        internal static void SavePropertyState(string key, object value)
+        {
+            if (!RoamingSettings.Values.Keys.Contains(key))
+            {
+                RoamingSettings.Values.Add(key, value);
+            }
+            else
+            {
+                RoamingSettings.Values[key] = value;
+            }
+        }
+
+        private User GetSelectedUserFromSettings()
+        {
+            int? selectedIndex = RoamingSettings.Values[SelectedUser] as int?;
+            if (selectedIndex != null && selectedIndex >= 0 && selectedIndex < UsersListBox.Items.Count)
+            {
+                return this.UsersListBox.Items[selectedIndex.Value] as User;
+            }
+
+            return null;
+        }
+
+        private void SetSelectedServicesIndex()
+        {
+            int? selectedIndex = RoamingSettings.Values[SelectedService] as int?;
+
+            if (isInitialLoad && (selectedIndex == null || selectedIndex < 0 || selectedIndex >= ServicesList.Items.Count))
+            {
+                // if the selected service in the list is different from the currentService -> reset it
+                selectedIndex = 0;
+            }
+            
+            if (selectedIndex != null && selectedIndex >= 0 && selectedIndex < ServicesList.Items.Count)
+            {
+                controller.DataModel.CurrentService = (Backend)this.ServicesList.Items[selectedIndex.Value];
+                this.ServicesList.SelectedIndex = selectedIndex.Value;
+                this.ServicesList.ScrollIntoView(this.ServicesList.SelectedItem);
+            }
+        }
+        #endregion
+
+        #endregion // Methods
+
+        #region handlers
+        private void Select_Click(object sender, RoutedEventArgs e)
+        {
+            switch (this.MainPivot.SelectedIndex)
+            {
+                case 0:
+                    controller.DataModel.CurrentService = (Backend)this.ServicesList.SelectedItem;
+                    break;
+
+                case 1:
+                    IsSelectedBtnEnabled = false;
+                    controller.DataModel.CurrentUser = UsersListBox.SelectedItem as User;
+                    IsSelectedBtnEnabled = true;
+                    break;
+            }
+        }
+
+        private void UsersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectAppBarButton.IsEnabled = IsSelectedBtnEnabled && UsersListBox.SelectedItem != null;
+            ResetPinButton.IsEnabled = UsersListBox.SelectedItem != null;
+
+            UsersListBox.ScrollIntoView(UsersListBox.SelectedItem);
+            if (isInitialLoad)
+            {
+                controller.DataModel.CurrentUser = UsersListBox.SelectedItem as User;                
+                isInitialLoad = false;
+            }
+
+            SavePropertyState(SelectedUser, UsersListBox.SelectedIndex);
+        }
+
+        private void Services_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectAppBarButton.IsEnabled = ServicesList.SelectedItem != null;
+            TestBackendButton.IsEnabled = ServicesList.SelectedItem != null;
+            ServicesList.ScrollIntoView(ServicesList.SelectedItem);
+            SavePropertyState(SelectedService, ServicesList.SelectedIndex);
+        }
+
+        private void ServicesList_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            if (isInitialLoad)
+            {
+                SetSelectedServicesIndex();
+            }
+        }
+
+        private void controller_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsValidService" && controller.IsValidService)
+            {
+                    this.MainPivot.SelectedItem = this.UsersPivotItem;
+            }            
+        }
+
+        private void AddAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            var container = this.MainPivot.ContainerFromIndex(this.MainPivot.SelectedIndex) as ContentControl;
+            var listView = container.ContentTemplateRoot as ListView;
+
+            switch (this.MainPivot.SelectedIndex)
+            {
+                case 0:
+                    // Add a service
+
+                    //listView.ScrollIntoView(newItem, ScrollIntoViewAlignment.Leading);
+                    break;
+                case 1:
+                    controller.AddNewUser();
+                    break;
+            }
+        }
+
+        private async void TestBackendButton_Click(object sender, RoutedEventArgs e)
+        {
+            await controller.TestBackend();
+        }
+
+        private void MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectAppBarButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? ServicesList.SelectedItem != null : UsersListBox.SelectedItem != null;
+            ResetPinButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Collapsed : Visibility.Visible;
+            AddAppBarButton.Icon = new SymbolIcon(this.MainPivot.SelectedIndex == 0 ? Symbol.Add : Symbol.AddFriend);
+
+            TestBackendButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private async void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            switch (this.MainPivot.SelectedIndex)
+            {
+                case 0:
+                    Backend backend = ServicesList.SelectedItem as Backend;
+                    if (backend != null && string.IsNullOrEmpty(backend.BackendUrl))
+                    {
+                        await controller.DeleteService(backend);
+                    }
+                    break;
+
+                case 1:
+                    User user = UsersListBox.SelectedItem as User;
+                    if (user != null)
+                    {
+                        await controller.DeleteUser(user);
+                    }
+                    break;
+            }
+        }
+
+        private async void ResetPinButton_Click(object sender, RoutedEventArgs e)
+        {
+            await controller.ResetPIN(controller.DataModel.CurrentUser);
+        }
+
+        private void UsersListBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            // reset the pivot item header to properly display it on initial load 
+            UsersPivotItem.Header = " " + UsersPivotItem.Header;
+
+            if (UsersListBox != null && UsersListBox.ItemsSource != null)
+            {
+                UsersListBox.SelectedItem = GetSelectedUser(controller.DataModel.UsersList);
+                isInitialLoad = false;                
+            }
+        }
+
+        private void AboutButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!Frame.Navigate(typeof(About)))
+            {
+                throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
+            }
+        }
+
+        #endregion // handlers
+    }
+}
