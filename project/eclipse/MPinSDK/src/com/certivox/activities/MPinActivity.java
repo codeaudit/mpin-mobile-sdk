@@ -682,6 +682,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void resetPin() {
+		reRegisterUser(getCurrentUser());
 	}
 
 	@Override
