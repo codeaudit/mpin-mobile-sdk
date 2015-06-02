@@ -26,13 +26,13 @@
         </Grid.RowDefinitions>
 
         <TextBlock x:Uid="ServiceName" Grid.ColumnSpan="2" />
-        <TextBox Text="{Binding BackendUrl, Mode=TwoWay}" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="NameTB" Text="{Binding Title, Mode=TwoWay}" Grid.Row="1" Grid.ColumnSpan="2" KeyUp="TextBox_KeyUp"/>
 
         <TextBlock x:Uid="SeviceURLText" Grid.Row="2" Grid.ColumnSpan="2" />
-        <TextBox Text="{Binding Title, Mode=TwoWay}" Grid.Row="3" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="UrlTB" Text="{Binding BackendUrl, Mode=TwoWay}" Grid.Row="3" Grid.ColumnSpan="2" KeyUp="TextBox_KeyUp"/>
 
         <TextBlock x:Uid="RPSPrefix" Grid.Row="4" Grid.ColumnSpan="2"/>
-        <TextBox Text="{Binding RpsPrefix, Mode=TwoWay}" Grid.Row="5" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="RpsTB" Text="{Binding RpsPrefix, Mode=TwoWay}" Grid.Row="5" Grid.ColumnSpan="2" KeyUp="TextBox_KeyUp"/>
 
         <StackPanel Grid.Row="6" Grid.ColumnSpan="2">
             <RadioButton x:Uid="MobileLoginRadioButton" x:Name="MobileLoginRadioButton" GroupName="Login"/>
@@ -40,7 +40,7 @@
             <RadioButton x:Uid="OTPLoginRadioButton" IsChecked="{Binding RequestOtp, Mode=TwoWay}" GroupName="Login"/>
         </StackPanel>
 
-        <Button x:Uid="TestBackendButton" Grid.Row="7" Click="Test_Click" />
+        <Button x:Name="TestBackendButton" x:Uid="TestBackendButton" Grid.Row="7" Click="Test_Click" />
         <Button x:Name="RegisterService" Grid.Row="7" Grid.Column="1" Click="Button_Click" />
     </Grid>
 </Page>

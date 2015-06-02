@@ -49,6 +49,9 @@ namespace MPinDemo.Models
         #region Members
         string DeviceName { get; set; }
 
+        internal int NewAddedServiceIndex
+        { get; set; }
+
         public AppDataModel DataModel
         {
             get;
@@ -82,10 +85,10 @@ namespace MPinDemo.Models
                 OnPropertyChanged();
             }
         }
-
+        
         #endregion
 
-        #region handlers
+        #region handlers        
         async void DataModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             // TODO: check for memory leaks - http://stackoverflow.com/questions/12133551/c-sharp-events-memory-leak
@@ -119,6 +122,11 @@ namespace MPinDemo.Models
                     break;
 
                 case "UsersList":
+                    break;
+
+                case "BackendsList":
+                    if (this.DataModel.BackendsList != null)
+                        this.DataModel.BackendsList.CollectionChanged += BackendsList_CollectionChanged;
                     break;
             }
         }
@@ -179,6 +187,11 @@ namespace MPinDemo.Models
 
             return status;
         }
+        
+        async void BackendsList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            await this.DataModel.SaveServices();
+        }
 
         public static Status RestartRegistration(User user)
         {
@@ -204,12 +217,45 @@ namespace MPinDemo.Models
             return new Status(-1, ResourceLoader.GetForCurrentView().GetString("NotSpecifiedBackend"));
         }
 
-        internal async Task DeleteService(Backend backend)
+        internal async Task DeleteService(Backend backend, bool canBeDeleted)
         {
-            this.DataModel.BackendsList.Remove(backend);
-            await this.DataModel.SaveServices();
+            if (this.DataModel.BackendsList.Contains(backend))
+            {
+                if (!canBeDeleted)
+                {
+                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("PredifinedServices"), MainPage.NotifyType.ErrorMessage);
+                    return;
+                }
+
+                var confirmation = new MessageDialog(string.Format(ResourceLoader.GetForCurrentView().GetString("DeleteServiceConfirmation"), backend.Title));
+                confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("YesCommand")));
+                confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("NoCommand")));
+                confirmation.DefaultCommandIndex = 1;
+                var result = await confirmation.ShowAsync();
+                if (result.Equals(confirmation.Commands[0]))
+                {
+                    this.DataModel.BackendsList.Remove(backend);
+                    await this.DataModel.SaveServices();
+                }
+            }
         }
-        
+
+        private async Task AddService(Backend backend)
+        {
+            if (backend == null)
+            {
+                rootPage.NotifyUser("NoServiceSet", MainPage.NotifyType.ErrorMessage);
+                return;
+            }
+
+            this.DataModel.BackendsList.Add(backend);
+            this.NewAddedServiceIndex = this.DataModel.BackendsList.IndexOf(backend);
+            Status status = await Controller.TestBackend(backend);
+            if (status.StatusCode != Status.Code.OK)
+                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("ServiceStatus") + status.StatusCode, MainPage.NotifyType.ErrorMessage);
+        }
+
+
         internal void AddService()
         {
             Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
@@ -247,12 +293,15 @@ namespace MPinDemo.Models
                 throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
             }
         }
-        
-        private void EditServiceInfo(Backend editBackend)
+
+        private async Task EditServiceInfo(Backend editBackend)
         {
             if (editBackend == null)
             {
-                // notify...
+                await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoServiceSet"), MainPage.NotifyType.ErrorMessage);
+                });
                 return;
             }
 
@@ -264,6 +313,10 @@ namespace MPinDemo.Models
                 this.DataModel.BackendsList[selectedServicesIndex].RequestOtp = editBackend.RequestOtp;
                 this.DataModel.BackendsList[selectedServicesIndex].RpsPrefix = editBackend.RpsPrefix;
             }
+
+            Status status = await Controller.TestBackend(editBackend);
+            if (status.StatusCode != Status.Code.OK)
+                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("ServiceStatus") + status.StatusCode, MainPage.NotifyType.ErrorMessage);
         }
         #endregion // services
 
@@ -294,7 +347,7 @@ namespace MPinDemo.Models
                     break;
 
                 case User.State.Blocked:
-                    mainFrame.Navigate(typeof(BlockedScreen), new List<object> { this.DataModel.CurrentUser});
+                    mainFrame.Navigate(typeof(BlockedScreen), new List<object> { this.DataModel.CurrentUser });
                     break;
 
                 case User.State.Invalid:
@@ -370,16 +423,16 @@ namespace MPinDemo.Models
                 {
                     st = sdk.FinishRegistration(user);
                 });
-                                
+
                 if (st != null)
                 {
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         rootPage.NotifyUser(
-                            st.StatusCode == Status.Code.OK 
+                            st.StatusCode == Status.Code.OK
                                 ? string.Format(ResourceLoader.GetForCurrentView().GetString("SuccessfulRegistration"), user.Id)
                                 : string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblemReason"), user.Id, st.ErrorMessage),
-                            st.StatusCode == Status.Code.OK 
+                            st.StatusCode == Status.Code.OK
                                 ? MainPage.NotifyType.StatusMessage
                                 : MainPage.NotifyType.ErrorMessage);
                     });
@@ -566,7 +619,7 @@ namespace MPinDemo.Models
                 {
                     Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
                     mainFrame.Navigate(
-                        user.UserState == User.State.Blocked ? typeof(BlockedScreen) : typeof(AuthenticationScreen), 
+                        user.UserState == User.State.Blocked ? typeof(BlockedScreen) : typeof(AuthenticationScreen),
                         new List<object> { this.DataModel.CurrentUser, status });
                 }
             }
@@ -578,15 +631,12 @@ namespace MPinDemo.Models
         {
             switch (command)
             {
-                case "AddService" :
-                    Backend backend = parameter as Backend;
-                    if (backend != null)
-                        this.DataModel.BackendsList.Add(backend);
+                case "AddService":
+                    await AddService(parameter as Backend);
                     break;
 
                 case "EditService":
-                    Backend editBackend = parameter as Backend;                    
-                    EditServiceInfo(editBackend);
+                    await EditServiceInfo(parameter as Backend);
                     break;
 
                 case "InitialLoad":
@@ -647,7 +697,7 @@ namespace MPinDemo.Models
                     break;
             }
         }
-        
+
         #endregion // Methods
 
         #region INotifyPropertyChanged

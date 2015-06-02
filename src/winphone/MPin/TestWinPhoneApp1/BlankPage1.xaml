@@ -40,6 +40,7 @@
                     
                     <TextBlock x:Uid="ConfigurationTB"/>
                     <ListBox x:Name="ServicesList"  Grid.Row="1"
+                             Loaded="ServicesList_Loaded"
                              ItemsSource="{Binding BackendsList, Mode=TwoWay}"                              
                              SelectionChanged="Services_SelectionChanged" 
                              DataContextChanged="ServicesList_DataContextChanged" 

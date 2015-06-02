@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
 using MPinSDK.Models;
 using Windows.ApplicationModel.Resources;
+using Windows.UI.Popups;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -28,7 +29,7 @@ namespace MPinDemo
     /// </summary>
     public sealed partial class Configuration : Page, INotifyPropertyChanged
     {
-        bool isAdding;
+        bool isAdding, isUrlChanged;
         MainPage rootPage = null;
 
         public Configuration()
@@ -62,10 +63,8 @@ namespace MPinDemo
         {
             rootPage = MainPage.Current;
             this.isAdding = e.Parameter == null;
-            if (!isAdding)
-            {
-                this.Backend = e.Parameter as Backend;                
-            }
+            this.Backend = isAdding ? new Backend() : e.Parameter as Backend;
+            this.backend.PropertyChanged += backend_PropertyChanged;
 
             if (this.Backend == null || (!this.Backend.RequestAccessNumber && !this.Backend.RequestOtp))
             {
@@ -75,9 +74,39 @@ namespace MPinDemo
             RegisterService.Content = ResourceLoader.GetForCurrentView().GetString(isAdding ? "AddService" : "EditService");
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        void backend_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            Frame.GoBack(new List<object>() { isAdding ? "AddService" : "EditService", this.Backend});
+            if (e.PropertyName == "BackendUrl")
+            {
+                this.isUrlChanged = true;
+            }
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(this.Backend.Title) && Uri.IsWellFormedUriString(this.Backend.BackendUrl, UriKind.Absolute))
+            {
+                if (!isAdding && isUrlChanged)
+                {
+                    var confirmation = new MessageDialog(ResourceLoader.GetForCurrentView().GetString("LostUsers"));
+                    confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("YesCommand")));
+                    confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("NoCommand")));
+                    confirmation.DefaultCommandIndex = 1;
+                    var result = await confirmation.ShowAsync();
+                    if (result.Equals(confirmation.Commands[0]))
+                    {
+                        Frame.GoBack(new List<object>() { "EditService", this.Backend });
+                    }
+                }
+                else
+                {
+                    Frame.GoBack(new List<object>() { isAdding ? "AddService" : "EditService", this.Backend });
+                }
+            }
+            else
+            {
+                rootPage.NotifyUser(string.IsNullOrEmpty(this.Backend.Title) ? ResourceLoader.GetForCurrentView().GetString("EmptyTitle") : ResourceLoader.GetForCurrentView().GetString("WrongURL"), MainPage.NotifyType.ErrorMessage);
+            }
         }
 
         #region INotifyPropertyChanged
@@ -94,8 +123,30 @@ namespace MPinDemo
 
         private async void Test_Click(object sender, RoutedEventArgs e)
         {
+            TestBackendButton.IsEnabled = false;
             Status status = await Controller.TestBackend(this.Backend);
             rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("ServiceStatus") + status.StatusCode, status.StatusCode != 0 ? MainPage.NotifyType.ErrorMessage : MainPage.NotifyType.StatusMessage);
+            TestBackendButton.IsEnabled = true;
+        }
+
+        private void TextBox_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            if (tb != null && (e.Key == Windows.System.VirtualKey.Enter || e.Key == Windows.System.VirtualKey.Tab))
+            {
+                if (tb.Equals(NameTB))
+                {
+                    UrlTB.Focus(FocusState.Keyboard);
+                }
+                else if (tb.Equals(UrlTB))
+                {
+                    RpsTB.Focus(FocusState.Keyboard);
+                }
+                else
+                {
+                    MobileLoginRadioButton.Focus(FocusState.Keyboard);
+                }
+            }
         }
     }
 }

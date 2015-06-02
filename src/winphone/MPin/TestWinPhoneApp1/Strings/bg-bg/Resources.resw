@@ -327,4 +327,16 @@
   <data name="SeviceURLText.Text" xml:space="preserve">
     <value>Адрес на Кофигурацията</value>
   </data>
+  <data name="DeleteServiceConfirmation" xml:space="preserve">
+    <value>Сигурни ли сте, че искате да изтриете конфигурация "{0}"?</value>
+  </data>
+  <data name="EmptyTitle" xml:space="preserve">
+    <value>Моля, задайте заглавие на конфигурацията!</value>
+  </data>
+  <data name="LostUsers" xml:space="preserve">
+    <value>Всички предефинирани потребители ще бъдат изтрити поради смяна на адреса на конфигурацията! Сигурни ли сте, че искате да продължите?</value>
+  </data>
+  <data name="WrongURL" xml:space="preserve">
+    <value>Некоректен формат на адреса на конфигурацията!</value>
+  </data>
 </root>
