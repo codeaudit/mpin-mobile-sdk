@@ -50,7 +50,6 @@
 		96130E3D1AEE4867005D2A86 /* MenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E7A561AA0818F00A276A7 /* MenuTableViewCell.m */; };
 		96130E3E1AEE4867005D2A86 /* OptionSelectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699B2541AADF812008AA313 /* OptionSelectTableViewCell.m */; };
 		96130E3F1AEE4867005D2A86 /* UserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE148D681A2F13D0007E83EF /* UserListViewController.m */; };
-		96130E411AEE4867005D2A86 /* libPods-SplunkMint-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9644B2201AD3AF400047E9CA /* libPods-SplunkMint-iOS.a */; };
 		96130E421AEE4867005D2A86 /* libMPinSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */; };
 		96130E431AEE4867005D2A86 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001C1A1A3CEB000030A4 /* CoreGraphics.framework */; };
 		96130E441AEE4867005D2A86 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001E1A1A3CEB000030A4 /* UIKit.framework */; };
@@ -106,7 +105,6 @@
 		96130E871AEE490A005D2A86 /* MenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E7A561AA0818F00A276A7 /* MenuTableViewCell.m */; };
 		96130E881AEE490A005D2A86 /* OptionSelectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699B2541AADF812008AA313 /* OptionSelectTableViewCell.m */; };
 		96130E891AEE490A005D2A86 /* UserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE148D681A2F13D0007E83EF /* UserListViewController.m */; };
-		96130E8B1AEE490A005D2A86 /* libPods-SplunkMint-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9644B2201AD3AF400047E9CA /* libPods-SplunkMint-iOS.a */; };
 		96130E8C1AEE490A005D2A86 /* libMPinSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */; };
 		96130E8D1AEE490A005D2A86 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001C1A1A3CEB000030A4 /* CoreGraphics.framework */; };
 		96130E8E1AEE490A005D2A86 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001E1A1A3CEB000030A4 /* UIKit.framework */; };
@@ -138,8 +136,6 @@
 		963D8BC61B1599800055C343 /* ApplicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE36B3B41B04E195000ACD70 /* ApplicationManager.m */; };
 		963D8BC71B1599800055C343 /* ApplicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE36B3B41B04E195000ACD70 /* ApplicationManager.m */; };
 		963D8BC81B1599980055C343 /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FEAA2CCD1ACEBCB700EED79F /* NSString+Helper.m */; };
-		9644B2211AD3AF400047E9CA /* libPods-SplunkMint-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9644B2201AD3AF400047E9CA /* libPods-SplunkMint-iOS.a */; };
-		9644B2231AD3AF5C0047E9CA /* libPods-SplunkMint-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9644B2221AD3AF5C0047E9CA /* libPods-SplunkMint-iOS.a */; };
 		9649BC841AC045E900B9F41B /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9649BC821AC045E900B9F41B /* MenuViewController.m */; };
 		9649BC8D1AC16D1000B9F41B /* ConfirmEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 966EB9D31A8CF069004B936A /* ConfirmEmailViewController.m */; };
 		9649BC8F1AC16D1000B9F41B /* CycleProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4AEB071A443E4C000B3181 /* CycleProgressBar.m */; };
@@ -436,7 +432,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96130E411AEE4867005D2A86 /* libPods-SplunkMint-iOS.a in Frameworks */,
 				96130E421AEE4867005D2A86 /* libMPinSDK.a in Frameworks */,
 				96130E431AEE4867005D2A86 /* CoreGraphics.framework in Frameworks */,
 				96130E441AEE4867005D2A86 /* UIKit.framework in Frameworks */,
@@ -451,7 +446,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96130E8B1AEE490A005D2A86 /* libPods-SplunkMint-iOS.a in Frameworks */,
 				96130E8C1AEE490A005D2A86 /* libMPinSDK.a in Frameworks */,
 				96130E8D1AEE490A005D2A86 /* CoreGraphics.framework in Frameworks */,
 				96130E8E1AEE490A005D2A86 /* UIKit.framework in Frameworks */,
@@ -466,7 +460,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9644B2231AD3AF5C0047E9CA /* libPods-SplunkMint-iOS.a in Frameworks */,
 				96DA33F81ACD54C300B2CAAB /* libMPinSDK.a in Frameworks */,
 				9649BCAC1AC16D1000B9F41B /* CoreGraphics.framework in Frameworks */,
 				9649BCAD1AC16D1000B9F41B /* UIKit.framework in Frameworks */,
@@ -490,7 +483,6 @@
 				96F7EA801B1C493300A68A03 /* CoreText.framework in Frameworks */,
 				96F7EA7E1B1C492B00A68A03 /* AssetsLibrary.framework in Frameworks */,
 				96F7EA8C1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */,
-				9644B2211AD3AF400047E9CA /* libPods-SplunkMint-iOS.a in Frameworks */,
 				96DA33F91ACD54D700B2CAAB /* libMPinSDK.a in Frameworks */,
 				FE49001F1A1A3CEB000030A4 /* UIKit.framework in Frameworks */,
 				FE49001B1A1A3CEB000030A4 /* Foundation.framework in Frameworks */,

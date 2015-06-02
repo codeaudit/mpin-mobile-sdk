@@ -16,7 +16,6 @@
 #import "ConfigurationManager.h"
 #import "MPin.h"
 #import "ThemeManager.h"
-#import "iToast.h"
 
 static NSString *const kEmpty = @"";
 static NSString *const kMpinStatus = @"MpinStatus";
