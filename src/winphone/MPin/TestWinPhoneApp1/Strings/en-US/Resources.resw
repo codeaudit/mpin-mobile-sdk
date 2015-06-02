@@ -142,7 +142,7 @@
     <value>Click the link in the email, to confirm your identity and proceed.</value>
   </data>
   <data name="DeleteButton.Label" xml:space="preserve">
-    <value>Delete Service</value>
+    <value>Delete</value>
   </data>
   <data name="EmailTB.Text" xml:space="preserve">
     <value>We have sent you an email to:</value>
@@ -232,7 +232,7 @@
     <value>Users</value>
   </data>
   <data name="SelectAppBarButton.Label" xml:space="preserve">
-    <value>Select</value>
+    <value>select</value>
   </data>
   <data name="AccessNumberLength" xml:space="preserve">
     <value>Please, enter {0} digits long access number.</value>

@@ -141,9 +141,6 @@
   <data name="ConfirmTB.Text" xml:space="preserve">
     <value>Изберете връзката от пощата си за да потвърдите самоличността си и да продължите напред. </value>
   </data>
-  <data name="DeleteServiceButton.Label" xml:space="preserve">
-    <value>Изтрий</value>
-  </data>
   <data name="EmailTB.Text" xml:space="preserve">
     <value>Изпратихме ви поща на:</value>
   </data>
@@ -235,7 +232,7 @@
     <value>Потребители</value>
   </data>
   <data name="SelectAppBarButton.Label" xml:space="preserve">
-    <value>Избери</value>
+    <value>избери</value>
   </data>
   <data name="AccessNumberLength" xml:space="preserve">
     <value>Въведете {0} цифрен номер за достъп</value>
