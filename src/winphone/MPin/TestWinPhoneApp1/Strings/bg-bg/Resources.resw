@@ -336,6 +336,15 @@
   <data name="LostUsers" xml:space="preserve">
     <value>Всички предефинирани потребители ще бъдат изтрити поради смяна на адреса на конфигурацията! Сигурни ли сте, че искате да продължите?</value>
   </data>
+  <data name="MobileLogin" xml:space="preserve">
+    <value>Вход с мобилно устройство</value>
+  </data>
+  <data name="OnlineLogin" xml:space="preserve">
+    <value>Вход в Уеб Браузър</value>
+  </data>
+  <data name="OTPLogin" xml:space="preserve">
+    <value>Вход с еднократна парола</value>
+  </data>
   <data name="WrongURL" xml:space="preserve">
     <value>Некоректен формат на адреса на конфигурацията!</value>
   </data>

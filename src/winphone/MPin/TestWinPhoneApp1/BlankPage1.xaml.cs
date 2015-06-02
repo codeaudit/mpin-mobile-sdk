@@ -11,6 +11,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using System.Linq;
+using Windows.UI.Xaml.Data;
 
 namespace MPinDemo
 {
@@ -330,5 +331,28 @@ namespace MPinDemo
             }
         }
         #endregion // handlers
+    }
+
+    public class ConfigurationConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            Backend backend = value as Backend;
+            if (backend == null)
+                return string.Empty;
+
+            if (backend.RequestAccessNumber)
+                return ResourceLoader.GetForCurrentView().GetString("OnlineLogin");
+
+            if (backend.RequestOtp)
+                return ResourceLoader.GetForCurrentView().GetString("OTPLogin");
+
+            return ResourceLoader.GetForCurrentView().GetString("MobileLogin");
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return value;
+        }
     }
 }
