@@ -15,7 +15,7 @@
 #import "OTPViewController.h"
 #import "AFNetworkReachabilityManager.h"
 #import "ApplicationManager.h"
-
+#import <HockeySDK/HockeySDK.h>
 
 @interface AppDelegate ()
 @end
@@ -25,6 +25,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    
+    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"e6619598d07be548f8c260efd8feb9df"];
+    // Configure the SDK in here only!
+    [[BITHockeyManager sharedHockeyManager] startManager];
+    [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
+    
     [[Mint sharedInstance] initAndStartSession:@"a61632de"];    
 	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone"
 	                            bundle:[NSBundle mainBundle]];
