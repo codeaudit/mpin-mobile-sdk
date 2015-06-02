@@ -11,7 +11,6 @@
 #import "MFSideMenuContainerViewController.h"
 #import "SettingsManager.h"
 #import "Mint.h"
-#import <SplunkMint-iOS/SplunkMint-iOS.h>
 #import "OTPViewController.h"
 #import "AFNetworkReachabilityManager.h"
 #import "ApplicationManager.h"
@@ -31,7 +30,6 @@
     [[BITHockeyManager sharedHockeyManager] startManager];
     [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
     
-    [[Mint sharedInstance] initAndStartSession:@"a61632de"];    
 	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone"
 	                            bundle:[NSBundle mainBundle]];
 
