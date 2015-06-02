@@ -242,9 +242,6 @@ namespace MPinDemo
 
         private void AddAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            //var container = this.MainPivot.ContainerFromIndex(this.MainPivot.SelectedIndex) as ContentControl;
-            //var listView = container.ContentTemplateRoot as ListView;
-
             switch (this.MainPivot.SelectedIndex)
             {
                 case 0:

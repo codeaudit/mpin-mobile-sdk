@@ -89,6 +89,11 @@ namespace MPinDemo.Models
         #endregion
 
         #region handlers        
+        /// <summary>
+        /// Handles the PropertyChanged event of the DataModel control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.ComponentModel.PropertyChangedEventArgs"/> instance containing the event data.</param>
         async void DataModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             // TODO: check for memory leaks - http://stackoverflow.com/questions/12133551/c-sharp-events-memory-leak
@@ -394,6 +399,7 @@ namespace MPinDemo.Models
 
         private async Task AddUser(List<string> data)
         {
+            this.IsUserInProcessing = true;
             User user = await AddAndRegisterUser(data);
 
             UpdateUsersList();
@@ -405,6 +411,7 @@ namespace MPinDemo.Models
 
                 this.skipProcessing = currentValue;
             }
+            this.isUserInProcessing = false;
 
             await FinishRegistration(user);
         }
