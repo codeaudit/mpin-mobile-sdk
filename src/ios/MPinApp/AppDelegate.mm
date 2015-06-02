@@ -10,7 +10,6 @@
 #import "Constants.h"
 #import "MFSideMenuContainerViewController.h"
 #import "SettingsManager.h"
-#import "Mint.h"
 #import "OTPViewController.h"
 #import "AFNetworkReachabilityManager.h"
 #import "ApplicationManager.h"
