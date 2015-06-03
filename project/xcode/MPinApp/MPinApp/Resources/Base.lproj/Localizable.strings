@@ -69,7 +69,7 @@
 "ADDCONFIGVC_ERROR_INVALID_URL" = "Invalid URL";
 "ADDCONFIGVC_MESSAGE_CONFIG_OK" = "Configuration is valid";
 "ADDCONFIGVC_INVALID_CONFIG" = "Invalid configuration";
-
+"ADDCONFIGVC_ERROR_EMPTY_NAME"  = "Service name field is empty";
 /* Account summary */
 
 "ACCOUNTSUMMARYVC_TITLE" = "Account summary";

@@ -317,6 +317,15 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 - ( IBAction )onSave:( id )sender
 {
     bTestingConfig = NO;
+    if ( [_txtMPINServiceNAME.text isEqualToString:@""] )
+    {
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
+         errorString:NSLocalizedString(@"ADDCONFIGVC_ERROR_EMPTY_NAME", @"")
+         addActivityIndicator:NO
+         minShowTime:3];
+        
+        return;
+    }
     if ( [_txtMPINServiceURL.text isEqualToString:@""] )
     {
         [[ErrorHandler sharedManager] presentMessageInViewController:self
