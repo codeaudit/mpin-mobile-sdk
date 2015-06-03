@@ -57,7 +57,7 @@ namespace MPinDemo
 
                 // When the navigation stack isn't restored navigate to the main screen; 
                 // if no param passed - we consider to be the initial load and navigate to a screen depending on the last selected user state
-                if (!MainFrame.Navigate(typeof(BlankPage1), string.IsNullOrEmpty(parameter) ? "InitialLoad" : e.Parameter))
+                if (!MainFrame.Navigate(typeof(BlankPage1), string.IsNullOrEmpty(parameter) ? "InitialLoad" : parameter))
                 {
                     throw new Exception("Failed to create main screen");
                 }
@@ -68,9 +68,6 @@ namespace MPinDemo
         {
             if (MainFrame.CanGoBack)
             {
-                // Clear the status block when navigating
-                //NotifyUser(String.Empty, NotifyType.StatusMessage);
-
                 MainFrame.GoBack("GoBack");
 
                 //Indicate the back button press is handled so the app does not exit
@@ -78,11 +75,12 @@ namespace MPinDemo
             }
             else // back from PinPadPages
             {
-                // TODO
-                //if (!MainFrame.Navigate(typeof(BlankPage1), string.Empty))
-                //{
-                //    throw new Exception("Failed to create main screen");
-                //}
+                Frame currentFrame = Window.Current.Content as Frame;
+                if (currentFrame != null && currentFrame.CanGoBack)
+                {
+                    currentFrame.GoBack("HardwareBack");
+                    e.Handled = true;
+                }
             }
         }
 

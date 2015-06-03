@@ -47,7 +47,7 @@ namespace MPinDemo
             _dispatcher = Window.Current.Dispatcher;
             this.DataContext = controller.DataModel;
             RoamingSettings = ApplicationData.Current.RoamingSettings;
-            controller.PropertyChanged += controller_PropertyChanged;            
+            controller.PropertyChanged += controller_PropertyChanged;
         }
 
         #endregion // constructors
@@ -62,7 +62,7 @@ namespace MPinDemo
         {
             rootPage = MainPage.Current;
 
-            SetControlsIsEnabled();
+            SetControlsIsEnabled(e.Parameter.ToString());
             
             List<object> data = (Window.Current.Content as Frame).GetNavigationData() as List<object>;
             if (data != null && data.Count == 2)
@@ -97,8 +97,12 @@ namespace MPinDemo
                 selectedServiceIndex = controller.NewAddedServiceIndex;
         }
 
-        private void SetControlsIsEnabled()
+        private void SetControlsIsEnabled(string param)
         {
+            // the process has been canceled
+            if (!string.IsNullOrEmpty(param) && param.Equals("HardwareBack"))
+                controller.IsUserInProcessing = false;
+
             this.IsEnabled = !controller.IsUserInProcessing;
             this.BottomAppBar.IsEnabled = !controller.IsUserInProcessing;
             Progress.Visibility = controller.IsUserInProcessing ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
