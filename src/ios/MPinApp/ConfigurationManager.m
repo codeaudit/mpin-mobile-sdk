@@ -58,8 +58,7 @@ static NSString* const kSettings = @"settings";
         _intSelectedConfiguration = [[NSUserDefaults standardUserDefaults] integerForKey:kCurrentSelectionIndex];
         _arrConfigrations = [[[NSUserDefaults standardUserDefaults] objectForKey:kSettings] mutableCopy];
         if (_arrConfigrations == nil)   _arrConfigrations = [NSMutableArray array];
-        if ([_arrConfigrations count] == 0) _intSelectedConfiguration = -1;
-        
+                
         NSString* filePath = [[NSBundle mainBundle] pathForResource:kSettingsFile ofType:@"plist"];
         NSDictionary * settingsDict = [[NSDictionary alloc] initWithContentsOfFile:filePath];
         NSArray* configs = [settingsDict objectForKey:kBackendsKey];
@@ -82,7 +81,7 @@ static NSString* const kSettings = @"settings";
                     [tmpArray addObject:_arrConfigrations[i]];
             
                 if ([configs count] != threshold) {
-                    _intSelectedConfiguration = (_intSelectedConfiguration >= threshold)?( _intSelectedConfiguration + ([configs count] - threshold) ):(0);
+                    _intSelectedConfiguration = ((_intSelectedConfiguration >= threshold) && ([_arrConfigrations count] !=0))?( _intSelectedConfiguration + ([configs count] - threshold) ):(0);
                     [[NSUserDefaults standardUserDefaults] setInteger:_intSelectedConfiguration forKey:kCurrentSelectionIndex];
                 }
             }
