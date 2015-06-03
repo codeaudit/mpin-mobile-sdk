@@ -58,9 +58,7 @@ static NSString *const kAN = @"AN";
     BOOL boolShouldAskForFingerprint;
     UIStoryboard *storyboard;
 }
-@property ( nonatomic, weak ) IBOutlet NSLayoutConstraint *constraintLeadingSpace;
-@property ( nonatomic, weak ) IBOutlet NSLayoutConstraint *constraintTrailingSpace;
-@property ( nonatomic, weak ) IBOutlet NSLayoutConstraint *constraintBottomSpace;
+@property ( nonatomic, weak ) IBOutlet NSLayoutConstraint *constraintMenuHeight;
 
 - ( void )showBottomBar:( BOOL )animated;
 - ( void )hideBottomBar:( BOOL )animated;
@@ -133,7 +131,7 @@ static NSString *const kAN = @"AN";
 
                 ConfigurationManager *cf = [ConfigurationManager sharedManager];
                 NSInteger nSelectedUserIndex = [cf getSelectedUserIndexforSelectedConfiguration];
-                if ( nSelectedUserIndex >= 0 && self.users && [self.users count])
+                if ( nSelectedUserIndex >= 0 && self.users && [self.users count] )
                 {
                     selectedIndexPath = [NSIndexPath indexPathForRow:nSelectedUserIndex inSection:NOT_SELECTED_SEC];
                     if ( self.users.count > selectedIndexPath.row )
@@ -145,12 +143,12 @@ static NSString *const kAN = @"AN";
                         currentUser = ( self.users ) [0];
                     }
 
-                    
-                    if ([selectedIndexPath row] < [self.users count]) {
+
+                    if ( [selectedIndexPath row] < [self.users count] )
+                    {
                         [self startAuthenticationFlow];
                         [self showBottomBar:NO];
                     }
-                    
                 }
                 else
                 {
@@ -165,9 +163,7 @@ static NSString *const kAN = @"AN";
 
 - ( void )showBottomBar:( BOOL )animated
 {
-    _constraintLeadingSpace.constant = 0;
-    _constraintTrailingSpace.constant = 0;
-    _constraintBottomSpace.constant = 0;
+    _constraintMenuHeight.constant = 54;
     if ( animated )
     {
         [UIView animateWithDuration:.25 animations: ^ {
@@ -182,9 +178,7 @@ static NSString *const kAN = @"AN";
 
 - ( void )hideBottomBar:( BOOL )animated
 {
-    _constraintLeadingSpace.constant = self.navigationController.navigationBar.frame.size.width / 2;
-    _constraintTrailingSpace.constant = self.navigationController.navigationBar.frame.size.width / 2;
-    _constraintBottomSpace.constant = -54;
+    _constraintMenuHeight.constant = 0;
     if ( animated )
     {
         [UIView animateWithDuration:.25 animations: ^ {
@@ -226,7 +220,7 @@ static NSString *const kAN = @"AN";
     {
         currentUser = self.users [nSelectedUserIndex];
         selectedIndexPath = [NSIndexPath indexPathForRow:nSelectedUserIndex inSection:NOT_SELECTED_SEC];
-        [self showBottomBar:NO];
+        [self showBottomBar:YES];
     }
     else
     {
@@ -538,71 +532,70 @@ static NSString *const kAN = @"AN";
 - ( void )startAuthenticationFlow
 {
     NSIndexPath *path = selectedIndexPath;
-    if ([path row] < [self.users count])
+    if ( [path row] < [self.users count] )
     {
         id<IUser> iuser = ( self.users ) [[path row]];
         NSDictionary *config;
         enum SERVICES s;
         IdentityBlockedViewController   *identityBlockedViewController;
         AccessNumberViewController      *accessViewController;
-        
+
         switch ( [iuser getState] )
         {
-            case INVALID:
-                [[ErrorHandler sharedManager] presentMessageInViewController:self
-                                                                 errorString:NSLocalizedString(@"HUD_REACTIVATE_USER", @"")
-                                                        addActivityIndicator:NO
-                                                                 minShowTime:0];
-                break;
-                
-            case STARTED_REGISTRATION:
-                [sdk FinishRegistration:iuser];
-                break;
-                
-            case ACTIVATED:
-                [sdk FinishRegistration:iuser];
-                break;
-                
-            case REGISTERED:
-                config = [[ConfigurationManager sharedManager] getSelectedConfiguration];
-                s = [config [kSERVICE_TYPE] intValue];
-                switch ( s )
-            {
-                case LOGIN_ON_MOBILE:
-                    [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
-                    [sdk Authenticate:iuser askForFingerprint:boolShouldAskForFingerprint];
-                    break;
-                    
-                case LOGIN_ONLINE:
-                    accessViewController = [storyboard instantiateViewControllerWithIdentifier:@"accessnumber"];
-                    accessViewController.delegate = self;
-                    accessViewController.strEmail = [currentUser getIdentity];
-                    accessViewController.currentUser = currentUser;
-                    [self.navigationController pushViewController:accessViewController animated:YES];
-                    break;
-                    
-                case LOGIN_WITH_OTP:
-                    [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
-                    [sdk AuthenticateOTP:iuser askForFingerprint:boolShouldAskForFingerprint];
-                    break;
-            }
-                break;
-                
-            case BLOCKED:
-                identityBlockedViewController = [storyboard instantiateViewControllerWithIdentifier:@"IdentityBlockedViewController"];
-                identityBlockedViewController.strUserEmail = [iuser getIdentity];
-                identityBlockedViewController.iuser = iuser;
-                [self.navigationController pushViewController:identityBlockedViewController animated:YES];
-                break;
-                
-            default:
-                [[ErrorHandler sharedManager] presentMessageInViewController:self
-                                                                 errorString:NSLocalizedString(@"HUD_UNSUPPORTED_ACTION", @"")
-                                                        addActivityIndicator:NO
-                                                                 minShowTime:0];
-                break;
-        }
+        case INVALID:
+            [[ErrorHandler sharedManager] presentMessageInViewController:self
+             errorString:NSLocalizedString(@"HUD_REACTIVATE_USER", @"")
+             addActivityIndicator:NO
+             minShowTime:0];
+            break;
 
+        case STARTED_REGISTRATION:
+            [sdk FinishRegistration:iuser];
+            break;
+
+        case ACTIVATED:
+            [sdk FinishRegistration:iuser];
+            break;
+
+        case REGISTERED:
+            config = [[ConfigurationManager sharedManager] getSelectedConfiguration];
+            s = [config [kSERVICE_TYPE] intValue];
+            switch ( s )
+            {
+            case LOGIN_ON_MOBILE:
+                [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
+                [sdk Authenticate:iuser askForFingerprint:boolShouldAskForFingerprint];
+                break;
+
+            case LOGIN_ONLINE:
+                accessViewController = [storyboard instantiateViewControllerWithIdentifier:@"accessnumber"];
+                accessViewController.delegate = self;
+                accessViewController.strEmail = [currentUser getIdentity];
+                accessViewController.currentUser = currentUser;
+                [self.navigationController pushViewController:accessViewController animated:YES];
+                break;
+
+            case LOGIN_WITH_OTP:
+                [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
+                [sdk AuthenticateOTP:iuser askForFingerprint:boolShouldAskForFingerprint];
+                break;
+            }
+            break;
+
+        case BLOCKED:
+            identityBlockedViewController = [storyboard instantiateViewControllerWithIdentifier:@"IdentityBlockedViewController"];
+            identityBlockedViewController.strUserEmail = [iuser getIdentity];
+            identityBlockedViewController.iuser = iuser;
+            [self.navigationController pushViewController:identityBlockedViewController animated:YES];
+            break;
+
+        default:
+            [[ErrorHandler sharedManager] presentMessageInViewController:self
+             errorString:NSLocalizedString(@"HUD_UNSUPPORTED_ACTION", @"")
+             addActivityIndicator:NO
+             minShowTime:0];
+            break;
+        }
     }
     else
     {
@@ -719,27 +712,29 @@ static NSString *const kAN = @"AN";
     }
 }
 
-- (void) invalidate {
+- ( void ) invalidate
+{
     self.users = [MPin listUsers];
-    
-    if ([self.users count] == 0)
+
+    if ( [self.users count] == 0 )
     {
         [self hideBottomBar:NO];
     }
-    
+
     ConfigurationManager *cf = [ConfigurationManager sharedManager];
     NSInteger nSelectedUserIndex = [cf getSelectedUserIndexforSelectedConfiguration];
-    if (nSelectedUserIndex >=0 && self.users && [self.users count]) {
+    if ( nSelectedUserIndex >= 0 && self.users && [self.users count] )
+    {
         selectedIndexPath = [NSIndexPath indexPathForRow:nSelectedUserIndex inSection:NOT_SELECTED_SEC];
-        if (self.users.count > selectedIndexPath.row)
+        if ( self.users.count > selectedIndexPath.row )
         {
-            currentUser = (self.users)[selectedIndexPath.row];
+            currentUser = ( self.users ) [selectedIndexPath.row];
         }
         else
         {
-            currentUser = (self.users)[0];
+            currentUser = ( self.users ) [0];
         }
-        
+
         [self showBottomBar:NO];
         [self startAuthenticationFlow];
     }
@@ -749,6 +744,5 @@ static NSString *const kAN = @"AN";
     }
     [self.table reloadData];
 }
-
 
 @end

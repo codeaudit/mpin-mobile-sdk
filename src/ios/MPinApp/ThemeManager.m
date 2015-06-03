@@ -218,7 +218,7 @@
     {
         SettingsViewController *myVc = (SettingsViewController *)vc;
 
-        [myVc.btnAddConfiguration setTitle:NSLocalizedString(@"KEY_ADD", @"")];
+        //[myVc.btnAddConfiguration setTitle:NSLocalizedString(@"KEY_ADD", @"")];
 
         [myVc.btnDeleteConfiguration setTitle:NSLocalizedString(@"KEY_DELETE", @"") forState:UIControlStateNormal];
         myVc.btnDeleteConfiguration.backgroundColor = [[SettingsManager sharedManager] color1];
