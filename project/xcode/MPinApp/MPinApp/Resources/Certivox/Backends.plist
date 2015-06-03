@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>backendss</key>
+	<key>backends</key>
 	<array>
 		<dict>
 			<key>backend</key>
@@ -16,7 +16,7 @@
 		</dict>
 		<dict>
 			<key>backend</key>
-			<string>http://ntt-vpn.certivox.org</string>
+			<string>http://mpin-otp.id</string>
 			<key>rps_prefix</key>
 			<string></string>
 			<key>SERVICE_TYPE</key>
