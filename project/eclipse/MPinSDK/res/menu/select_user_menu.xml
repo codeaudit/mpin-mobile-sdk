@@ -9,7 +9,7 @@
         mpin:showAsAction="always"/>
     <item
         android:id="@+id/reset_pin"
-        android:enabled="false"
+        android:enabled="true"
         android:title="@string/reset_pin"/>
     <item
         android:id="@+id/delete_user"

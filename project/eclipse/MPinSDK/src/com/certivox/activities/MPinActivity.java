@@ -18,9 +18,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.certivox.adapters.UsersAdapter;
+import com.certivox.fragments.AboutFragment;
 import com.certivox.fragments.AccessNumberFragment;
 import com.certivox.fragments.AddUsersFragment;
 import com.certivox.fragments.ConfirmEmailFragment;
+import com.certivox.fragments.IdentityBlockedFragment;
 import com.certivox.fragments.IdentityCreatedFragment;
 import com.certivox.fragments.NewUserFragment;
 import com.certivox.fragments.OTPFragment;
@@ -54,9 +56,11 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	private static final String FRAG_USERSLIST = "FRAG_USERSLIST";
 	private static final String FRAG_NEWUSER = "FRAG_NEWUSER";
 	private static final String FRAG_CONFIRMEMAIL = "FRAG_CONFIRMEMAIL";
-	private static final String FRAG_IDENTITYCREATED = "FRAG_IDENTITYCREATED";
+	private static final String FRAG_IDENTITY_CREATED = "FRAG_IDENTITY_CREATED";
 	private static final String FRAG_OTP = "FRAG_OTP";
 	private static final String FRAG_SUCCESSFUL_LOGIN = "SUCCESSFUL_LOGIN";
+	private static final String FRAG_IDENTITY_BLOCKED = "IDENTITY_BLOCKED";
+	private static final String FRAG_ABOUT = "ABOUT";
 
 	private static volatile Mpin s_sdk;
 	private static volatile MPinActivity mActivity;
@@ -76,6 +80,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	protected void onStart() {
 		super.onStart();
 		if (mConfiguration == null && !initConfiguration()) {
+			initEmptySDK();
 			startActivity(new Intent(this, PinpadConfigActivity.class));
 		} else {
 			initSDK(mConfiguration);
@@ -109,6 +114,10 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			serverConfig.put("RPA_server", config.getBackendUrl());
 			MPinActivity.init(this, serverConfig);
 		}
+	}
+
+	private void initEmptySDK() {
+		MPinActivity.init(this, null);
 	}
 
 	@Override
@@ -211,8 +220,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 		case RESPONSE_PARSE_ERROR:
 			new AlertDialog.Builder(MPinActivity.this)
 					.setTitle("OTP not supported")
-					.setMessage(
-							"The configuration does not support OTP")
+					.setMessage("The configuration does not support OTP")
 					.setPositiveButton("OK", null).show();
 			setChooseUserScreen();
 			break;
@@ -361,7 +369,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
 		}
-
 	}
 
 	@Override
@@ -413,7 +420,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
 			transaction.replace(R.id.content, identityCreatedFragment,
-					FRAG_IDENTITYCREATED);
+					FRAG_IDENTITY_CREATED);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
 		}
@@ -524,7 +531,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	@Override
 	public void addSuccessfulLoginFragment() {
 		Log.d("CV", " + SuccessfulLoginFragment");
-		if (getOTPFragment() == null) {
+		if (getSuccessfulLoginFragment() == null) {
 			SuccessfulLoginFragment successfulLoginFragment = new SuccessfulLoginFragment();
 			successfulLoginFragment.setController(mActivity);
 
@@ -540,10 +547,65 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	@Override
 	public void removeSuccessfulLoginFragment() {
 		Log.d("CV", " - SuccessfulLoginFragment");
-		if (getOTPFragment() != null) {
+		if (getSuccessfulLoginFragment() != null) {
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
 			transaction.remove(getSuccessfulLoginFragment());
+			transaction.commit();
+			getFragmentManager().executePendingTransactions();
+		}
+	}
+
+	@Override
+	public void addIdentityBlockedFragment() {
+		Log.d("CV", " + IdentityBlockedFragment");
+		if (getIdentityBlockedFragment() == null) {
+			IdentityBlockedFragment identityBlockedFragment = new IdentityBlockedFragment();
+			identityBlockedFragment.setController(mActivity);
+
+			FragmentTransaction transaction = getFragmentManager()
+					.beginTransaction();
+			transaction.replace(R.id.content, identityBlockedFragment,
+					FRAG_IDENTITY_BLOCKED);
+			transaction.commit();
+			getFragmentManager().executePendingTransactions();
+		}
+	}
+
+	@Override
+	public void removeIdentityBlockedFragment() {
+		Log.d("CV", " - IdentityBlockedFragment");
+		if (getIdentityBlockedFragment() != null) {
+			FragmentTransaction transaction = getFragmentManager()
+					.beginTransaction();
+			transaction.remove(getIdentityBlockedFragment());
+			transaction.commit();
+			getFragmentManager().executePendingTransactions();
+		}
+	}
+
+	@Override
+	public void addAboutFragment() {
+		Log.d("CV", " + AboutFragment");
+		if (getAboutFragment() == null) {
+			AboutFragment aboutFragment = new AboutFragment();
+			aboutFragment.setController(mActivity);
+
+			FragmentTransaction transaction = getFragmentManager()
+					.beginTransaction();
+			transaction.replace(R.id.content, aboutFragment, FRAG_ABOUT);
+			transaction.commit();
+			getFragmentManager().executePendingTransactions();
+		}
+	}
+
+	@Override
+	public void removeAboutFragment() {
+		Log.d("CV", " - AboutFragment");
+		if (getAboutFragment() != null) {
+			FragmentTransaction transaction = getFragmentManager()
+					.beginTransaction();
+			transaction.remove(getAboutFragment());
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
 		}
@@ -592,15 +654,11 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void userBlocked() {
-		new AlertDialog.Builder(MPinActivity.this).setTitle("USER BLOCKED")
-				.setMessage("This user was blocked!")
-				.setPositiveButton("OK", null).show();
-
-		setChooseUserScreen();
+		addIdentityBlockedFragment();
 	}
 
 	@Override
-	public void deleteUser() {
+	public void deleteCurrentUser() {
 		new AlertDialog.Builder(MPinActivity.this)
 				.setTitle("Delete user")
 				.setMessage(
@@ -612,9 +670,8 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 							public void onClick(DialogInterface dialog,
 									int which) {
 								sdk().DeleteUser(getCurrentUser());
-								initUsersList();
 								disableContextToolbar();
-								updateUsersList();
+								setInitialScreen();
 							}
 						}).setNegativeButton("Cancel", null).show();
 	}
@@ -630,6 +687,15 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void resetPin() {
+		reRegisterUser(getCurrentUser());
+	}
+
+	@Override
+	public void reRegisterUser(User user) {
+		String userId = user.getId();
+		sdk().DeleteUser(user);
+		createNewUser(userId);
+
 	}
 
 	@Override
@@ -644,6 +710,12 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 		mDrawerLayout.closeDrawers();
 		setChooseUserScreen();
 	}
+
+	@Override
+	protected void onAboutClicked() {
+		addAboutFragment();
+		closeDrawer();
+	};
 
 	@Override
 	public void onBackPressed() {
@@ -694,16 +766,26 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	private IdentityCreatedFragment getIdentityCreatedFragment() {
 		return (IdentityCreatedFragment) getFragmentManager()
-				.findFragmentByTag(FRAG_IDENTITYCREATED);
+				.findFragmentByTag(FRAG_IDENTITY_CREATED);
 	}
 
 	private OTPFragment getOTPFragment() {
 		return (OTPFragment) getFragmentManager().findFragmentByTag(FRAG_OTP);
 	}
 
+	private IdentityBlockedFragment getIdentityBlockedFragment() {
+		return (IdentityBlockedFragment) getFragmentManager()
+				.findFragmentByTag(FRAG_IDENTITY_BLOCKED);
+	}
+
 	private SuccessfulLoginFragment getSuccessfulLoginFragment() {
 		return (SuccessfulLoginFragment) getFragmentManager()
 				.findFragmentByTag(FRAG_SUCCESSFUL_LOGIN);
+	}
+
+	private AboutFragment getAboutFragment() {
+		return (AboutFragment) getFragmentManager().findFragmentByTag(
+				FRAG_ABOUT);
 	}
 
 	// Static methods
@@ -937,5 +1019,4 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			}
 		}
 	}
-
 }
