@@ -93,6 +93,8 @@
     <string name="request_an_title">Login to Online Session</string>
     <string name="check_service">Check Service URL</string>
     <string name="save_configuration">Save Configuration</string>
+    <string name="add_service">Add Service</string>
+    <string name="no_configurations">No configurations</string>
     <!-- Configuration Edit end -->
 
 
