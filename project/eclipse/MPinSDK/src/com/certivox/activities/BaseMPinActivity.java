@@ -1,5 +1,8 @@
 package com.certivox.activities;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.FeedbackManager;
+import net.hockeyapp.android.UpdateManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +22,9 @@ import com.example.mpinsdk.R;
 
 public abstract class BaseMPinActivity extends ActionBarActivity implements
 		MPinController, PinPadController {
+
+	// Needed for Hockey App
+	private static final String APP_ID = "40dc0524dbc338596640635c8c55dafb";
 
 	private Activity mActivity;
 
@@ -46,6 +52,26 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements
 		initViews();
 		initActionBar();
 		initNavigationDrawer();
+
+		// Needed for Hockey App
+		checkForUpdates();
+	}
+
+	// Needed for Hockey App
+	private void checkForCrashes() {
+		CrashManager.register(this, APP_ID);
+	}
+
+	// Needed for Hockey App
+	private void checkForUpdates() {
+		// Remove this for store / production builds!
+		UpdateManager.register(this, APP_ID);
+	}
+
+	// Needed for Hockey App
+	public void showFeedbackActivity() {
+		FeedbackManager.register(this, APP_ID, null);
+		FeedbackManager.showFeedbackActivity(this);
 	}
 
 	@Override
