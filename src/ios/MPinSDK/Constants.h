@@ -11,6 +11,10 @@
 
 #pragma mark - Navigation Controller Titles -
 
+static NSString *const kSettingsFile = @"Backends";
+static NSString *const kBackendsKey = @"backends";
+
+
 static NSString *kSetupPin = @"Setup PIN";
 static NSString *kEnterPin = @"Enter Your PIN";
 
@@ -24,6 +28,10 @@ static NSString *const kSERVICE_TYPE = @"SERVICE_TYPE";
 static NSString *const kIS_DN = @"dn";
 static NSString *const kCONFIG_NAME = @"CONFIG_NAME";
 static NSString *const kSelectedUser = @"SELECTED_USER";
+static NSString *const kConfigHashValue = @"hashValue";
+static NSString *const kDefConfigThreshold = @"DefConfigThreshold";
+static NSString *const kSelectedConfiguration = @"SelectedConfiguration";
+
 
 
 static NSString *const kDeviceName = @"setDeviceName";

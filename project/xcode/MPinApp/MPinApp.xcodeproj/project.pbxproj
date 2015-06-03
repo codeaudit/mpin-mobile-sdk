@@ -66,7 +66,6 @@
 		96130E511AEE4867005D2A86 /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A871A88C0E20068E0F7 /* OpenSans-LightItalic.ttf */; };
 		96130E521AEE4867005D2A86 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A821A88C0E20068E0F7 /* OpenSans-BoldItalic.ttf */; };
 		96130E531AEE4867005D2A86 /* MPin.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3D1A2F0FB7007E83EF /* MPin.h */; };
-		96130E541AEE4867005D2A86 /* Backends.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96130E181AEE35DA005D2A86 /* Backends.plist */; };
 		96130E551AEE4867005D2A86 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A891A88C0E20068E0F7 /* OpenSans-Semibold.ttf */; };
 		96130E561AEE4867005D2A86 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A861A88C0E20068E0F7 /* OpenSans-Light.ttf */; };
 		96130E571AEE4867005D2A86 /* MpinStatus.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3E1A2F0FB7007E83EF /* MpinStatus.h */; };
@@ -123,7 +122,6 @@
 		96130E9B1AEE490A005D2A86 /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A871A88C0E20068E0F7 /* OpenSans-LightItalic.ttf */; };
 		96130E9C1AEE490A005D2A86 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A821A88C0E20068E0F7 /* OpenSans-BoldItalic.ttf */; };
 		96130E9D1AEE490A005D2A86 /* MPin.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3D1A2F0FB7007E83EF /* MPin.h */; };
-		96130E9E1AEE490A005D2A86 /* Backends.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96130E181AEE35DA005D2A86 /* Backends.plist */; };
 		96130E9F1AEE490A005D2A86 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A891A88C0E20068E0F7 /* OpenSans-Semibold.ttf */; };
 		96130EA01AEE490A005D2A86 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A861A88C0E20068E0F7 /* OpenSans-Light.ttf */; };
 		96130EA11AEE490A005D2A86 /* MpinStatus.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3E1A2F0FB7007E83EF /* MpinStatus.h */; };
@@ -256,12 +254,13 @@
 		FEB901681A6D28550053DE92 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB901671A6D28550053DE92 /* SettingsViewController.m */; };
 		FED7691D1A8B4A30005A3ECA /* UIViewController+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FED7691C1A8B4A30005A3ECA /* UIViewController+Helper.m */; };
 		FEDDDE311A89F93E00E2068C /* UIView+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDDDE301A89F93E00E2068C /* UIView+Helper.m */; };
-		FEF5794C1B1493AE00B31A3E /* Backends.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEF5794B1B1493AE00B31A3E /* Backends.plist */; };
 		FEF5794D1B1493AE00B31A3E /* Backends.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEF5794B1B1493AE00B31A3E /* Backends.plist */; };
-		FEF5794E1B1493AE00B31A3E /* Backends.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEF5794B1B1493AE00B31A3E /* Backends.plist */; };
-		FEF5794F1B1493AE00B31A3E /* Backends.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEF5794B1B1493AE00B31A3E /* Backends.plist */; };
 		FEF579501B1493F700B31A3E /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FEAA2CCD1ACEBCB700EED79F /* NSString+Helper.m */; };
 		FEF579511B1494AD00B31A3E /* ApplicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE36B3B41B04E195000ACD70 /* ApplicationManager.m */; };
+		FEF579521B15BEC400B31A3E /* Backends.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96130EB81AEE4979005D2A86 /* Backends.plist */; };
+		FEF579531B15BEC900B31A3E /* Backends.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96130EB41AEE4979005D2A86 /* Backends.plist */; };
+		FEF579541B15F0BE00B31A3E /* ApplicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE36B3B41B04E195000ACD70 /* ApplicationManager.m */; };
+		FEF579551B15F10800B31A3E /* ApplicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE36B3B41B04E195000ACD70 /* ApplicationManager.m */; };
 		FEFA500E1A7143DB002D6E24 /* AccessNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFA500D1A7143DB002D6E24 /* AccessNumberViewController.m */; };
 		FEFA50111A7148E5002D6E24 /* DigitPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFA50101A7148E5002D6E24 /* DigitPadViewController.m */; };
 		FEFFDDF21A1A4268007C7CAA /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEFFDDF01A1A4268007C7CAA /* Main_iPhone.storyboard */; };
@@ -937,7 +936,7 @@
 				96130E4A1AEE4867005D2A86 /* Settings.bundle in Resources */,
 				968591CC1AF0C7E200726E63 /* Localizable.strings in Resources */,
 				96130E4B1AEE4867005D2A86 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
-				FEF5794E1B1493AE00B31A3E /* Backends.plist in Resources */,
+				FEF579531B15BEC900B31A3E /* Backends.plist in Resources */,
 				96130E4C1AEE4867005D2A86 /* OpenSans-Italic.ttf in Resources */,
 				96130E4E1AEE4867005D2A86 /* IUser.h in Resources */,
 				96130E4F1AEE4867005D2A86 /* LaunchScreen.xib in Resources */,
@@ -945,7 +944,6 @@
 				96130E511AEE4867005D2A86 /* OpenSans-LightItalic.ttf in Resources */,
 				96130E521AEE4867005D2A86 /* OpenSans-BoldItalic.ttf in Resources */,
 				96130E531AEE4867005D2A86 /* MPin.h in Resources */,
-				96130E541AEE4867005D2A86 /* Backends.plist in Resources */,
 				96130E551AEE4867005D2A86 /* OpenSans-Semibold.ttf in Resources */,
 				96D3CAD41AEE5324004BAC3A /* Colors.plist in Resources */,
 				96130E561AEE4867005D2A86 /* OpenSans-Light.ttf in Resources */,
@@ -969,7 +967,7 @@
 				96130E941AEE490A005D2A86 /* Settings.bundle in Resources */,
 				968591CD1AF0C7E200726E63 /* Localizable.strings in Resources */,
 				96130E951AEE490A005D2A86 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
-				FEF5794F1B1493AE00B31A3E /* Backends.plist in Resources */,
+				FEF579521B15BEC400B31A3E /* Backends.plist in Resources */,
 				96130E961AEE490A005D2A86 /* OpenSans-Italic.ttf in Resources */,
 				96130E981AEE490A005D2A86 /* IUser.h in Resources */,
 				96130E991AEE490A005D2A86 /* LaunchScreen.xib in Resources */,
@@ -977,7 +975,6 @@
 				96130E9B1AEE490A005D2A86 /* OpenSans-LightItalic.ttf in Resources */,
 				96130E9C1AEE490A005D2A86 /* OpenSans-BoldItalic.ttf in Resources */,
 				96130E9D1AEE490A005D2A86 /* MPin.h in Resources */,
-				96130E9E1AEE490A005D2A86 /* Backends.plist in Resources */,
 				96130E9F1AEE490A005D2A86 /* OpenSans-Semibold.ttf in Resources */,
 				96D3CAD51AEE5328004BAC3A /* Colors.plist in Resources */,
 				96130EA01AEE490A005D2A86 /* OpenSans-Light.ttf in Resources */,
@@ -1032,7 +1029,6 @@
 				960D6AA31A88C0E20068E0F7 /* Settings.bundle in Resources */,
 				968591CA1AF0C7E200726E63 /* Localizable.strings in Resources */,
 				960D6A971A88C0E20068E0F7 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
-				FEF5794C1B1493AE00B31A3E /* Backends.plist in Resources */,
 				960D6A981A88C0E20068E0F7 /* OpenSans-Italic.ttf in Resources */,
 				968A180C1ACA8C58000C0DB0 /* Colors.plist in Resources */,
 				FE148D461A2F1007007E83EF /* IUser.h in Resources */,
@@ -1264,6 +1260,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FEF579541B15F0BE00B31A3E /* ApplicationManager.m in Sources */,
 				96130E211AEE4867005D2A86 /* ConfigurationManager.m in Sources */,
 				96130E221AEE4867005D2A86 /* ConfirmEmailViewController.m in Sources */,
 				96130E231AEE4867005D2A86 /* CycleProgressBar.m in Sources */,
@@ -1303,6 +1300,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FEF579551B15F10800B31A3E /* ApplicationManager.m in Sources */,
 				96130E6B1AEE490A005D2A86 /* ConfigurationManager.m in Sources */,
 				96130E6C1AEE490A005D2A86 /* ConfirmEmailViewController.m in Sources */,
 				96130E6D1AEE490A005D2A86 /* CycleProgressBar.m in Sources */,

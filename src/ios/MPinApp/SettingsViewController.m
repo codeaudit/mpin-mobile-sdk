@@ -131,8 +131,11 @@
     if ([rpsPrefix isEqualToString:@""]) {
         rpsPrefix = nil;
     }
-
-    [sdk SetBackend:url rpsPrefix:rpsPrefix];
+    
+    if ( [MPin isInitialized] )
+        [sdk SetBackend:url rpsPrefix:rpsPrefix];
+    else
+        [sdk initSDK:[[ConfigurationManager sharedManager] getConfigurationAtIndex:intSelectedConfiguration]];
 
     [[ConfigurationManager sharedManager] setSelectedConfiguration:indexPath.row];
     [tableView reloadData];

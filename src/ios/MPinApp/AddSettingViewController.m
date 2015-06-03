@@ -315,7 +315,7 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
         return;
     }
 
-    if (![self isValidURL:_txtMPINServiceURL.text]) {
+    if (![NSString isValidURL:_txtMPINServiceURL.text]) {
         UIAlertView* alert =
             [[UIAlertView alloc] initWithTitle:kErrorTitle
                                        message:NSLocalizedString(@"ADDCONFIGVC_ERROR_INVALID_URL", @"")
@@ -409,29 +409,6 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
     [alert show];
 }
 
-- (BOOL)isValidURL:(NSString*)strTestURL
-{
-    if ([NSString isBlank:strTestURL]) {
-        return NO;
-    }
-
-    NSString* regExPattern = @"(http|https)://((\\w)*|([0-9]*)|([-|_])*)+([\\.|/"@"]((\\w)*|([0-9]*)|([-|_])*))+";
-
-    NSRegularExpression* regEx = [[NSRegularExpression alloc] initWithPattern:regExPattern
-                                                                      options:NSRegularExpressionCaseInsensitive
-                                                                        error:nil];
-    NSUInteger regExMatches = [regEx numberOfMatchesInString:strTestURL
-                                                     options:0
-                                                       range:NSMakeRange(0, [strTestURL length])];
-
-    if (regExMatches == 0) {
-        return NO;
-    }
-    else {
-        return YES;
-    }
-}
-
 - (IBAction)goBack:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -440,7 +417,7 @@ static NSString* const kErrorTitle = @"Validation ERROR!";
 - (IBAction)btnTestConfigTap:(id)sender
 {
     bTestingConfig = YES;
-    if ([self isValidURL:_txtMPINServiceURL.text])
+    if ([NSString isValidURL:_txtMPINServiceURL.text])
     {
         [self startLoading];
         if ([_txtMPINServiceRPSPrefix.text isEqualToString:@""])

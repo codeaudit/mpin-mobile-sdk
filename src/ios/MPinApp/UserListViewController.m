@@ -180,6 +180,8 @@ static NSString* const kAN = @"AN";
     [[ThemeManager sharedManager] beautifyViewController:self];
     [self stopLoading];
     self.users = [MPin listUsers];
+    
+    [_btnAdd setEnabled:![[ConfigurationManager sharedManager] isEmpty]];
 }
 
 - (void)viewDidAppear:(BOOL)animated

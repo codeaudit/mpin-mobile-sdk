@@ -56,10 +56,10 @@
                     [sdk initSDK:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
                 }
                 
-                // hide netowrk indicator
+                // TODO :: hide netowrk indicator
                 break;
             default: {
-                // show netowrk indicator
+                // TODO: show netowrk indicator
                 UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"ERROR" message:@"No Internet Connection!" delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
                 [alert show];
                 }
