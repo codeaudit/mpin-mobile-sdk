@@ -12,18 +12,18 @@
 }
 
 
-@property(nonatomic, weak) IBOutlet UILabel *label;
-@property (nonatomic, retain) IBOutletCollection(UIButton) NSArray *numButtonsCollection;
-@property(nonatomic, weak) IBOutlet UIButton *actionButton;
-@property(nonatomic, weak) IBOutlet UIButton *clearButton;
+@property( nonatomic, weak ) IBOutlet UILabel *label;
+@property ( nonatomic, retain )IBOutletCollection(UIButton) NSArray * numButtonsCollection;
+@property( nonatomic, weak ) IBOutlet UIButton *actionButton;
+@property( nonatomic, weak ) IBOutlet UIButton *clearButton;
 
-@property (nonatomic, strong) NSString * number;
+@property ( nonatomic, strong ) NSString *strNumber;
 
-- (void) enableNumButtons;
-- (void) disableNumButtons;
+- ( void ) enableNumButtons;
+- ( void ) disableNumButtons;
 
-- (IBAction)logInAction:(id)sender;
-- (IBAction)clearAction:(id)sender;
-- (IBAction)numberSelectedAction:(id)sender;
+- ( IBAction )logInAction:( id )sender;
+- ( IBAction )clearAction:( id )sender;
+- ( IBAction )numberSelectedAction:( id )sender;
 
 @end

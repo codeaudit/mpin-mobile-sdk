@@ -1,44 +1,38 @@
 PODS:
-  - AFNetworking (2.5.3):
-    - AFNetworking/NSURLConnection (= 2.5.3)
-    - AFNetworking/NSURLSession (= 2.5.3)
-    - AFNetworking/Reachability (= 2.5.3)
-    - AFNetworking/Security (= 2.5.3)
-    - AFNetworking/Serialization (= 2.5.3)
-    - AFNetworking/UIKit (= 2.5.3)
-  - AFNetworking/NSURLConnection (2.5.3):
+  - AFNetworking (2.5.4):
+    - AFNetworking/NSURLConnection (= 2.5.4)
+    - AFNetworking/NSURLSession (= 2.5.4)
+    - AFNetworking/Reachability (= 2.5.4)
+    - AFNetworking/Security (= 2.5.4)
+    - AFNetworking/Serialization (= 2.5.4)
+    - AFNetworking/UIKit (= 2.5.4)
+  - AFNetworking/NSURLConnection (2.5.4):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.5.3):
+  - AFNetworking/NSURLSession (2.5.4):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.5.3)
-  - AFNetworking/Security (2.5.3)
-  - AFNetworking/Serialization (2.5.3)
-  - AFNetworking/UIKit (2.5.3):
+  - AFNetworking/Reachability (2.5.4)
+  - AFNetworking/Security (2.5.4)
+  - AFNetworking/Serialization (2.5.4)
+  - AFNetworking/UIKit (2.5.4):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - ATMHud@dhoerl (3.0.0):
     - ATMHud@dhoerl/Core (= 3.0.0)
   - ATMHud@dhoerl/Core (3.0.0)
-  - iToast (0.0.1)
   - MFSideMenu (0.5.5)
-  - SplunkMint-iOS (4.2)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.5)
   - ATMHud@dhoerl (~> 3.0.0)
-  - iToast
   - MFSideMenu (~> 0.5.5)
-  - SplunkMint-iOS (~> 4.2)
 
 SPEC CHECKSUMS:
-  AFNetworking: e1d86c2a96bb5d2e7408da36149806706ee122fe
+  AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   ATMHud@dhoerl: 3ec62b6a26511d2f099c0886533c9fc78769277c
-  iToast: df147188215cc3293bd4366822833f2862fec451
   MFSideMenu: 268122e6894f2747fc3a2b48578100b232506c60
-  SplunkMint-iOS: 058e5297f7cc8d335aea3dcaa8111eeb0f657371
 
-COCOAPODS: 0.36.4
+COCOAPODS: 0.37.0
