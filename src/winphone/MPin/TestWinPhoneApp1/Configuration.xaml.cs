@@ -35,6 +35,13 @@ namespace MPinDemo
         public Configuration()
         {
             this.InitializeComponent();
+            InputScope scope = new InputScope();
+            InputScopeName name = new InputScopeName();
+
+            name.NameValue = InputScopeNameValue.Url;
+            scope.Names.Add(name);
+
+            this.UrlTB.InputScope = scope;
         }
 
         private Backend backend;

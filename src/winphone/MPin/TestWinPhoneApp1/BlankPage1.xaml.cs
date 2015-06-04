@@ -25,6 +25,7 @@ namespace MPinDemo
         private const string SelectedService = "ServiceSetIndex";
         private const string SelectedUser = "SelectedUser";
         private bool isInitialLoad = false;
+        private bool isServiceAdding = false;
         private MainPage rootPage = null;
         private CoreDispatcher _dispatcher;
 
@@ -63,12 +64,13 @@ namespace MPinDemo
             rootPage = MainPage.Current;
 
             SetControlsIsEnabled(e.Parameter.ToString());
-            
+
             List<object> data = (Window.Current.Content as Frame).GetNavigationData() as List<object>;
             if (data != null && data.Count == 2)
             {
                 string command = data[0].ToString();
-                SetProperties(command);
+                showUsers = !command.Contains("Service");
+                isServiceAdding = command == "AddService";
                 await controller.ProcessNavigation(command, data[1]);
             }
             else
@@ -89,13 +91,6 @@ namespace MPinDemo
         #endregion
 
         #region methods
-
-        private static void SetProperties(string command)
-        {
-            showUsers = !command.Contains("Service");
-            if (command == "AddService")
-                selectedServiceIndex = controller.NewAddedServiceIndex;
-        }
 
         private void SetControlsIsEnabled(string param)
         {
@@ -208,7 +203,7 @@ namespace MPinDemo
             UsersListBox.ScrollIntoView(UsersListBox.SelectedItem);
             if (isInitialLoad)
             {
-                controller.DataModel.CurrentUser = UsersListBox.SelectedItem as User;                
+                controller.DataModel.CurrentUser = UsersListBox.SelectedItem as User;
                 isInitialLoad = false;
             }
 
@@ -249,7 +244,7 @@ namespace MPinDemo
             switch (this.MainPivot.SelectedIndex)
             {
                 case 0:
-                    controller.AddService();                    
+                    controller.AddService();
                     break;
                 case 1:
                     controller.AddNewUser();
@@ -262,7 +257,7 @@ namespace MPinDemo
             selectedServiceIndex = this.ServicesList.SelectedIndex;
             controller.EditService(this.ServicesList.SelectedIndex, this.ServicesList.SelectedIndex > 2);
         }
-        
+
         private void MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectAppBarButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? ServicesList.SelectedItem != null : UsersListBox.SelectedItem != null;
@@ -307,7 +302,7 @@ namespace MPinDemo
             if (UsersListBox != null && UsersListBox.ItemsSource != null)
             {
                 UsersListBox.SelectedItem = GetSelectedUser(controller.DataModel.UsersList);
-                isInitialLoad = false;                
+                isInitialLoad = false;
             }
         }
 
@@ -318,16 +313,19 @@ namespace MPinDemo
                 throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
             }
         }
-        
+
         private void ServicesList_Loaded(object sender, RoutedEventArgs e)
         {
+            if (isServiceAdding)
+            {
+                selectedServiceIndex = controller.NewAddedServiceIndex;
+            }
+
             if (!showUsers && controller.DataModel.BackendsList.Count > selectedServiceIndex && selectedServiceIndex > -1)
             {
                 // select a service after being edited/added
                 this.ServicesList.SelectedItem = controller.DataModel.BackendsList[selectedServiceIndex];
-                if (this.ServicesList.SelectedItem != null)
-                    this.ServicesList.ScrollIntoView(this.ServicesList.SelectedItem);
-
+                
                 selectedServiceIndex = -1;
             }
         }
