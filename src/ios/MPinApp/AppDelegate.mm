@@ -10,12 +10,10 @@
 #import "Constants.h"
 #import "MFSideMenuContainerViewController.h"
 #import "SettingsManager.h"
-#import "Mint.h"
-#import <SplunkMint-iOS/SplunkMint-iOS.h>
 #import "OTPViewController.h"
 #import "AFNetworkReachabilityManager.h"
 #import "ApplicationManager.h"
-
+#import <HockeySDK/HockeySDK.h>
 
 @interface AppDelegate ()
 @end
@@ -25,8 +23,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-
-    [[Mint sharedInstance] initAndStartSession:@"a61632de"];
+    
+    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"e6619598d07be548f8c260efd8feb9df"];
+    // Configure the SDK in here only!
+    [[BITHockeyManager sharedHockeyManager] startManager];
+    [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
     
 	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone"
 	                            bundle:[NSBundle mainBundle]];
@@ -87,4 +88,8 @@
 	// appropriate. See also applicationDidEnterBackground:.
 }
 
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    return NO;
+}
 @end

@@ -1,5 +1,8 @@
 package com.certivox.activities;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.FeedbackManager;
+import net.hockeyapp.android.UpdateManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +20,11 @@ import com.certivox.interfaces.MPinController;
 import com.certivox.interfaces.PinPadController;
 import com.example.mpinsdk.R;
 
-public abstract class BaseMPinActivity extends ActionBarActivity implements MPinController, PinPadController {
+public abstract class BaseMPinActivity extends ActionBarActivity implements
+		MPinController, PinPadController {
+
+	// Needed for Hockey App
+	private static final String APP_ID = "40dc0524dbc338596640635c8c55dafb";
 
 	private Activity mActivity;
 
@@ -45,11 +52,31 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements MPin
 		initViews();
 		initActionBar();
 		initNavigationDrawer();
+
+		// Needed for Hockey App
+		checkForUpdates();
+	}
+
+	// Needed for Hockey App
+	private void checkForCrashes() {
+		CrashManager.register(this, APP_ID);
+	}
+
+	// Needed for Hockey App
+	private void checkForUpdates() {
+		// Remove this for store / production builds!
+		UpdateManager.register(this, APP_ID);
+	}
+
+	// Needed for Hockey App
+	public void showFeedbackActivity() {
+		FeedbackManager.register(this, APP_ID, null);
+		FeedbackManager.showFeedbackActivity(this);
 	}
 
 	@Override
 	protected void onStop() {
-		mDrawerLayout.closeDrawers();
+		closeDrawer();
 		super.onStop();
 	}
 
@@ -100,6 +127,9 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements MPin
 	protected void onChangeIdentityClicked() {
 	}
 
+	protected void onAboutClicked() {
+	}
+
 	private void initDrawerMenu() {
 		mChangeIdentityButton.setOnClickListener(new OnClickListener() {
 
@@ -114,6 +144,14 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements MPin
 			@Override
 			public void onClick(View v) {
 				startActivity(new Intent(mActivity, PinpadConfigActivity.class));
+			}
+		});
+
+		mAboutButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				onAboutClicked();
 			}
 		});
 	}
@@ -175,7 +213,7 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements MPin
 			}
 			return true;
 		case R.id.delete_user:
-			deleteUser();
+			deleteCurrentUser();
 			return true;
 		case R.id.reset_pin:
 			resetPin();
@@ -208,10 +246,16 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements MPin
 
 	@Override
 	public void onBackPressed() {
-		mDrawerLayout.closeDrawers();
+		closeDrawer();
 		if (getFragmentManager().getBackStackEntryCount() > 0) {
 			getFragmentManager().popBackStack();
 		}
 		super.onBackPressed();
+	}
+
+	protected void closeDrawer() {
+		if (mDrawerLayout != null) {
+			mDrawerLayout.closeDrawers();
+		}
 	}
 }

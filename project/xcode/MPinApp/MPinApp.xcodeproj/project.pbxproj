@@ -50,7 +50,6 @@
 		96130E3D1AEE4867005D2A86 /* MenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E7A561AA0818F00A276A7 /* MenuTableViewCell.m */; };
 		96130E3E1AEE4867005D2A86 /* OptionSelectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699B2541AADF812008AA313 /* OptionSelectTableViewCell.m */; };
 		96130E3F1AEE4867005D2A86 /* UserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE148D681A2F13D0007E83EF /* UserListViewController.m */; };
-		96130E411AEE4867005D2A86 /* libPods-SplunkMint-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9644B2201AD3AF400047E9CA /* libPods-SplunkMint-iOS.a */; };
 		96130E421AEE4867005D2A86 /* libMPinSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */; };
 		96130E431AEE4867005D2A86 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001C1A1A3CEB000030A4 /* CoreGraphics.framework */; };
 		96130E441AEE4867005D2A86 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001E1A1A3CEB000030A4 /* UIKit.framework */; };
@@ -70,7 +69,6 @@
 		96130E561AEE4867005D2A86 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A861A88C0E20068E0F7 /* OpenSans-Light.ttf */; };
 		96130E571AEE4867005D2A86 /* MpinStatus.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3E1A2F0FB7007E83EF /* MpinStatus.h */; };
 		96130E581AEE4867005D2A86 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEFFDDF01A1A4268007C7CAA /* Main_iPhone.storyboard */; };
-		96130E591AEE4867005D2A86 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE49002F1A1A3CEB000030A4 /* Main_iPad.storyboard */; };
 		96130E5A1AEE4867005D2A86 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A8A1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf */; };
 		96130E5B1AEE4867005D2A86 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE4900231A1A3CEB000030A4 /* InfoPlist.strings */; };
 		96130E5D1AEE4867005D2A86 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A881A88C0E20068E0F7 /* OpenSans-Regular.ttf */; };
@@ -106,7 +104,6 @@
 		96130E871AEE490A005D2A86 /* MenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E7A561AA0818F00A276A7 /* MenuTableViewCell.m */; };
 		96130E881AEE490A005D2A86 /* OptionSelectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699B2541AADF812008AA313 /* OptionSelectTableViewCell.m */; };
 		96130E891AEE490A005D2A86 /* UserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE148D681A2F13D0007E83EF /* UserListViewController.m */; };
-		96130E8B1AEE490A005D2A86 /* libPods-SplunkMint-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9644B2201AD3AF400047E9CA /* libPods-SplunkMint-iOS.a */; };
 		96130E8C1AEE490A005D2A86 /* libMPinSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */; };
 		96130E8D1AEE490A005D2A86 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001C1A1A3CEB000030A4 /* CoreGraphics.framework */; };
 		96130E8E1AEE490A005D2A86 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001E1A1A3CEB000030A4 /* UIKit.framework */; };
@@ -126,7 +123,6 @@
 		96130EA01AEE490A005D2A86 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A861A88C0E20068E0F7 /* OpenSans-Light.ttf */; };
 		96130EA11AEE490A005D2A86 /* MpinStatus.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3E1A2F0FB7007E83EF /* MpinStatus.h */; };
 		96130EA21AEE490A005D2A86 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEFFDDF01A1A4268007C7CAA /* Main_iPhone.storyboard */; };
-		96130EA31AEE490A005D2A86 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE49002F1A1A3CEB000030A4 /* Main_iPad.storyboard */; };
 		96130EA41AEE490A005D2A86 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A8A1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf */; };
 		96130EA51AEE490A005D2A86 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE4900231A1A3CEB000030A4 /* InfoPlist.strings */; };
 		96130EA71AEE490A005D2A86 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A881A88C0E20068E0F7 /* OpenSans-Regular.ttf */; };
@@ -134,8 +130,10 @@
 		9614F8CF1A9E1EC500337080 /* AccountSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9614F8CE1A9E1EC500337080 /* AccountSummaryViewController.m */; };
 		961957461A960E9900C93604 /* ThemeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 961957451A960E9900C93604 /* ThemeManager.m */; };
 		961957491A97276100C93604 /* ConfigListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 961957481A97276100C93604 /* ConfigListTableViewCell.m */; };
-		9644B2211AD3AF400047E9CA /* libPods-SplunkMint-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9644B2201AD3AF400047E9CA /* libPods-SplunkMint-iOS.a */; };
-		9644B2231AD3AF5C0047E9CA /* libPods-SplunkMint-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9644B2221AD3AF5C0047E9CA /* libPods-SplunkMint-iOS.a */; };
+		963D8BC51B15997F0055C343 /* ApplicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE36B3B41B04E195000ACD70 /* ApplicationManager.m */; };
+		963D8BC61B1599800055C343 /* ApplicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE36B3B41B04E195000ACD70 /* ApplicationManager.m */; };
+		963D8BC71B1599800055C343 /* ApplicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE36B3B41B04E195000ACD70 /* ApplicationManager.m */; };
+		963D8BC81B1599980055C343 /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FEAA2CCD1ACEBCB700EED79F /* NSString+Helper.m */; };
 		9649BC841AC045E900B9F41B /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9649BC821AC045E900B9F41B /* MenuViewController.m */; };
 		9649BC8D1AC16D1000B9F41B /* ConfirmEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 966EB9D31A8CF069004B936A /* ConfirmEmailViewController.m */; };
 		9649BC8F1AC16D1000B9F41B /* CycleProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4AEB071A443E4C000B3181 /* CycleProgressBar.m */; };
@@ -180,7 +178,6 @@
 		9649BCBD1AC16D1000B9F41B /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A861A88C0E20068E0F7 /* OpenSans-Light.ttf */; };
 		9649BCBE1AC16D1000B9F41B /* MpinStatus.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3E1A2F0FB7007E83EF /* MpinStatus.h */; };
 		9649BCC01AC16D1000B9F41B /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEFFDDF01A1A4268007C7CAA /* Main_iPhone.storyboard */; };
-		9649BCC11AC16D1000B9F41B /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE49002F1A1A3CEB000030A4 /* Main_iPad.storyboard */; };
 		9649BCC21AC16D1000B9F41B /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A8A1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf */; };
 		9649BCC31AC16D1000B9F41B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE4900231A1A3CEB000030A4 /* InfoPlist.strings */; };
 		9649BCC41AC16D1000B9F41B /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A881A88C0E20068E0F7 /* OpenSans-Regular.ttf */; };
@@ -224,6 +221,37 @@
 		96F62A241AC30FAF00B25B53 /* ConfigurationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A211AC30FAF00B25B53 /* ConfigurationManager.m */; };
 		96F62A251AC30FAF00B25B53 /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A231AC30FAF00B25B53 /* SettingsManager.m */; };
 		96F62A281AC311D000B25B53 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A261AC311D000B25B53 /* AboutViewController.m */; };
+		96F78E1C1B05E5B8005C2C7D /* ErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F78E1B1B05E5B8005C2C7D /* ErrorHandler.m */; };
+		96F78E1D1B05E5B8005C2C7D /* ErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F78E1B1B05E5B8005C2C7D /* ErrorHandler.m */; };
+		96F78E1E1B05E5B8005C2C7D /* ErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F78E1B1B05E5B8005C2C7D /* ErrorHandler.m */; };
+		96F78E1F1B05E5B8005C2C7D /* ErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F78E1B1B05E5B8005C2C7D /* ErrorHandler.m */; };
+		96F7EA671B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F7EA661B1858CB00A68A03 /* ANAuthenticationSuccessful.m */; };
+		96F7EA681B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F7EA661B1858CB00A68A03 /* ANAuthenticationSuccessful.m */; };
+		96F7EA691B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F7EA661B1858CB00A68A03 /* ANAuthenticationSuccessful.m */; };
+		96F7EA6A1B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F7EA661B1858CB00A68A03 /* ANAuthenticationSuccessful.m */; };
+		96F7EA711B1C48EE00A68A03 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA6D1B1C48EE00A68A03 /* HockeySDK.framework */; };
+		96F7EA721B1C48EE00A68A03 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA6D1B1C48EE00A68A03 /* HockeySDK.framework */; };
+		96F7EA731B1C48EE00A68A03 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA6D1B1C48EE00A68A03 /* HockeySDK.framework */; };
+		96F7EA741B1C48EE00A68A03 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA6D1B1C48EE00A68A03 /* HockeySDK.framework */; };
+		96F7EA751B1C48EF00A68A03 /* HockeySDK.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 96F7EA6F1B1C48EE00A68A03 /* HockeySDK.xcconfig */; };
+		96F7EA761B1C48EF00A68A03 /* HockeySDK.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 96F7EA6F1B1C48EE00A68A03 /* HockeySDK.xcconfig */; };
+		96F7EA771B1C48EF00A68A03 /* HockeySDK.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 96F7EA6F1B1C48EE00A68A03 /* HockeySDK.xcconfig */; };
+		96F7EA781B1C48EF00A68A03 /* HockeySDK.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 96F7EA6F1B1C48EE00A68A03 /* HockeySDK.xcconfig */; };
+		96F7EA791B1C48EF00A68A03 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 96F7EA701B1C48EE00A68A03 /* HockeySDKResources.bundle */; };
+		96F7EA7A1B1C48EF00A68A03 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 96F7EA701B1C48EE00A68A03 /* HockeySDKResources.bundle */; };
+		96F7EA7B1B1C48EF00A68A03 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 96F7EA701B1C48EE00A68A03 /* HockeySDKResources.bundle */; };
+		96F7EA7C1B1C48EF00A68A03 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 96F7EA701B1C48EE00A68A03 /* HockeySDKResources.bundle */; };
+		96F7EA7E1B1C492B00A68A03 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA7D1B1C492B00A68A03 /* AssetsLibrary.framework */; };
+		96F7EA801B1C493300A68A03 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA7F1B1C493300A68A03 /* CoreText.framework */; };
+		96F7EA821B1C494B00A68A03 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA811B1C494B00A68A03 /* MobileCoreServices.framework */; };
+		96F7EA841B1C495500A68A03 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA831B1C495500A68A03 /* QuartzCore.framework */; };
+		96F7EA861B1C496000A68A03 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA851B1C496000A68A03 /* QuickLook.framework */; };
+		96F7EA881B1C496900A68A03 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA871B1C496900A68A03 /* Security.framework */; };
+		96F7EA8A1B1C497400A68A03 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA891B1C497400A68A03 /* SystemConfiguration.framework */; };
+		96F7EA8C1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA8B1B1C49F200A68A03 /* HockeySDK.framework */; };
+		96F7EA8D1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA8B1B1C49F200A68A03 /* HockeySDK.framework */; };
+		96F7EA8E1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA8B1B1C49F200A68A03 /* HockeySDK.framework */; };
+		96F7EA8F1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA8B1B1C49F200A68A03 /* HockeySDK.framework */; };
 		C1A44EE9BAB1DEBF8C368A7C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8967D6B49D70B9963207D4 /* libPods.a */; };
 		FE148D3F1A2F0FB7007E83EF /* Constants.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3C1A2F0FB7007E83EF /* Constants.h */; };
 		FE148D401A2F0FB7007E83EF /* MPin.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3D1A2F0FB7007E83EF /* MPin.h */; };
@@ -239,12 +267,6 @@
 		FE49001F1A1A3CEB000030A4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001E1A1A3CEB000030A4 /* UIKit.framework */; };
 		FE4900251A1A3CEB000030A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE4900231A1A3CEB000030A4 /* InfoPlist.strings */; };
 		FE4900271A1A3CEB000030A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4900261A1A3CEB000030A4 /* main.m */; };
-		FE4900311A1A3CEB000030A4 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE49002F1A1A3CEB000030A4 /* Main_iPad.storyboard */; };
-		FE49003D1A1A3CEB000030A4 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49003C1A1A3CEB000030A4 /* XCTest.framework */; };
-		FE49003E1A1A3CEB000030A4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001A1A1A3CEB000030A4 /* Foundation.framework */; };
-		FE49003F1A1A3CEB000030A4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001E1A1A3CEB000030A4 /* UIKit.framework */; };
-		FE4900471A1A3CEB000030A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE4900451A1A3CEB000030A4 /* InfoPlist.strings */; };
-		FE4900491A1A3CEB000030A4 /* MPinAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4900481A1A3CEB000030A4 /* MPinAppTests.m */; };
 		FE4AEB051A443137000B3181 /* OTPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4AEB041A443137000B3181 /* OTPViewController.m */; };
 		FE4AEB081A443E4C000B3181 /* CycleProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4AEB071A443E4C000B3181 /* CycleProgressBar.m */; };
 		FE72C3451A6E519D0082F14D /* SettingsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE72C3441A6E519D0082F14D /* SettingsViewCell.m */; };
@@ -265,16 +287,6 @@
 		FEFA50111A7148E5002D6E24 /* DigitPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFA50101A7148E5002D6E24 /* DigitPadViewController.m */; };
 		FEFFDDF21A1A4268007C7CAA /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEFFDDF01A1A4268007C7CAA /* Main_iPhone.storyboard */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		FE4900401A1A3CEB000030A4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FE49000F1A1A3CEB000030A4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FE4900161A1A3CEB000030A4;
-			remoteInfo = MPinApp;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		05E7AD758BE70B1A9530DEA4 /* Pods.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.qa.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.qa.xcconfig"; sourceTree = "<group>"; };
@@ -316,7 +328,7 @@
 		964B121B1A93921C00FFB67A /* BackButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BackButton.h; path = ../../../../src/ios/MPinApp/BackButton.h; sourceTree = "<group>"; };
 		964B121C1A93921C00FFB67A /* BackButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BackButton.m; path = ../../../../src/ios/MPinApp/BackButton.m; sourceTree = "<group>"; };
 		966EB9D21A8CF069004B936A /* ConfirmEmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfirmEmailViewController.h; path = ../../../../src/ios/MPinApp/ConfirmEmailViewController.h; sourceTree = "<group>"; };
-		966EB9D31A8CF069004B936A /* ConfirmEmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConfirmEmailViewController.m; path = ../../../../src/ios/MPinApp/ConfirmEmailViewController.m; sourceTree = "<group>"; };
+		966EB9D31A8CF069004B936A /* ConfirmEmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = ConfirmEmailViewController.m; path = ../../../../src/ios/MPinApp/ConfirmEmailViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		968591AD1AF0BAAF00726E63 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main_iPhone.strings; sourceTree = "<group>"; };
 		968591B41AF0BEFC00726E63 /* LocalizationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalizationManager.h; path = ../../../../src/ios/MPinApp/LocalizationManager.h; sourceTree = "<group>"; };
 		968591B51AF0BEFC00726E63 /* LocalizationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocalizationManager.m; path = ../../../../src/ios/MPinApp/LocalizationManager.m; sourceTree = "<group>"; };
@@ -330,7 +342,7 @@
 		968D0A421A7B93C00037841D /* UIColor+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Helper.h"; sourceTree = "<group>"; };
 		968D0A431A7B93C00037841D /* UIColor+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Helper.m"; sourceTree = "<group>"; };
 		968E7A521AA06CA700A276A7 /* IdentityCreatedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IdentityCreatedViewController.h; path = ../../../../src/ios/MPinApp/IdentityCreatedViewController.h; sourceTree = "<group>"; };
-		968E7A531AA06CA700A276A7 /* IdentityCreatedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IdentityCreatedViewController.m; path = ../../../../src/ios/MPinApp/IdentityCreatedViewController.m; sourceTree = "<group>"; };
+		968E7A531AA06CA700A276A7 /* IdentityCreatedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = IdentityCreatedViewController.m; path = ../../../../src/ios/MPinApp/IdentityCreatedViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		968E7A551AA0818F00A276A7 /* MenuTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuTableViewCell.h; path = ../../../../src/ios/MPinApp/MenuTableViewCell.h; sourceTree = "<group>"; };
 		968E7A561AA0818F00A276A7 /* MenuTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuTableViewCell.m; path = ../../../../src/ios/MPinApp/MenuTableViewCell.m; sourceTree = "<group>"; };
 		9699B2501AADF7F0008AA313 /* TextFieldTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextFieldTableViewCell.h; path = ../../../../src/ios/MPinApp/TextFieldTableViewCell.h; sourceTree = "<group>"; };
@@ -338,7 +350,7 @@
 		9699B2531AADF812008AA313 /* OptionSelectTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionSelectTableViewCell.h; path = ../../../../src/ios/MPinApp/OptionSelectTableViewCell.h; sourceTree = "<group>"; };
 		9699B2541AADF812008AA313 /* OptionSelectTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OptionSelectTableViewCell.m; path = ../../../../src/ios/MPinApp/OptionSelectTableViewCell.m; sourceTree = "<group>"; };
 		96C9BF271AE6407D00FAC454 /* IdentityBlockedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IdentityBlockedViewController.h; path = ../../../../src/ios/MPinApp/IdentityBlockedViewController.h; sourceTree = "<group>"; };
-		96C9BF281AE6407D00FAC454 /* IdentityBlockedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IdentityBlockedViewController.m; path = ../../../../src/ios/MPinApp/IdentityBlockedViewController.m; sourceTree = "<group>"; };
+		96C9BF281AE6407D00FAC454 /* IdentityBlockedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = IdentityBlockedViewController.m; path = ../../../../src/ios/MPinApp/IdentityBlockedViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		96D3CACF1AEE4D34004BAC3A /* NTTComSecurityMPin.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = NTTComSecurityMPin.plist; sourceTree = "<group>"; };
 		96D3CAD01AEE4D6D004BAC3A /* OlswangMPin.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = OlswangMPin.plist; sourceTree = "<group>"; };
 		96D3CAD11AEE4D7B004BAC3A /* CertivoxMPin.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CertivoxMPin.plist; sourceTree = "<group>"; };
@@ -351,13 +363,28 @@
 		96F62A231AC30FAF00B25B53 /* SettingsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsManager.m; path = ../../../../src/ios/MPinApp/SettingsManager.m; sourceTree = "<group>"; };
 		96F62A261AC311D000B25B53 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutViewController.m; path = ../../../../src/ios/MPinApp/AboutViewController.m; sourceTree = "<group>"; };
 		96F62A271AC311D000B25B53 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutViewController.h; path = ../../../../src/ios/MPinApp/AboutViewController.h; sourceTree = "<group>"; };
+		96F78E1A1B05E5B8005C2C7D /* ErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = ErrorHandler.h; path = ../../../../src/ios/MPinApp/ErrorHandler.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		96F78E1B1B05E5B8005C2C7D /* ErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ErrorHandler.m; path = ../../../../src/ios/MPinApp/ErrorHandler.m; sourceTree = "<group>"; };
+		96F7EA651B1858CB00A68A03 /* ANAuthenticationSuccessful.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ANAuthenticationSuccessful.h; path = ../../../../src/ios/MPinApp/ANAuthenticationSuccessful.h; sourceTree = "<group>"; };
+		96F7EA661B1858CB00A68A03 /* ANAuthenticationSuccessful.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ANAuthenticationSuccessful.m; path = ../../../../src/ios/MPinApp/ANAuthenticationSuccessful.m; sourceTree = "<group>"; };
+		96F7EA6D1B1C48EE00A68A03 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = "<group>"; };
+		96F7EA6F1B1C48EE00A68A03 /* HockeySDK.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = HockeySDK.xcconfig; sourceTree = "<group>"; };
+		96F7EA701B1C48EE00A68A03 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HockeySDKResources.bundle; sourceTree = "<group>"; };
+		96F7EA7D1B1C492B00A68A03 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		96F7EA7F1B1C493300A68A03 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		96F7EA811B1C494B00A68A03 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		96F7EA831B1C495500A68A03 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		96F7EA851B1C496000A68A03 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
+		96F7EA871B1C496900A68A03 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		96F7EA891B1C497400A68A03 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		96F7EA8B1B1C49F200A68A03 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = "../../../../../../Downloads/HockeySDK-iOS/HockeySDKCrashOnly/HockeySDK.framework"; sourceTree = "<group>"; };
 		D2C36EBE5499747947972F44 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
 		FE148D3C1A2F0FB7007E83EF /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../../../src/ios/MPinSDK/Constants.h; sourceTree = "<group>"; };
 		FE148D3D1A2F0FB7007E83EF /* MPin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MPin.h; path = ../../../src/ios/MPinSDK/MPin.h; sourceTree = "<group>"; };
 		FE148D3E1A2F0FB7007E83EF /* MpinStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MpinStatus.h; path = ../../../src/ios/MPinSDK/MpinStatus.h; sourceTree = "<group>"; };
 		FE148D451A2F1007007E83EF /* IUser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IUser.h; path = ../../../src/ios/MPinSDK/IUser.h; sourceTree = "<group>"; };
 		FE148D5D1A2F13D0007E83EF /* AddIdentityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddIdentityViewController.h; path = ../../../../src/ios/MPinApp/AddIdentityViewController.h; sourceTree = "<group>"; };
-		FE148D5E1A2F13D0007E83EF /* AddIdentityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddIdentityViewController.m; path = ../../../../src/ios/MPinApp/AddIdentityViewController.m; sourceTree = "<group>"; };
+		FE148D5E1A2F13D0007E83EF /* AddIdentityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = AddIdentityViewController.m; path = ../../../../src/ios/MPinApp/AddIdentityViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FE148D5F1A2F13D0007E83EF /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../../../../src/ios/MPinApp/AppDelegate.h; sourceTree = "<group>"; };
 		FE148D601A2F13D0007E83EF /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = ../../../../src/ios/MPinApp/AppDelegate.mm; sourceTree = "<group>"; };
 		FE148D651A2F13D0007E83EF /* PinPadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PinPadViewController.h; path = ../../../../src/ios/MPinApp/PinPadViewController.h; sourceTree = "<group>"; };
@@ -373,8 +400,6 @@
 		FE4900241A1A3CEB000030A4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FE4900261A1A3CEB000030A4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		FE4900281A1A3CEB000030A4 /* MPinApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MPinApp-Prefix.pch"; sourceTree = "<group>"; };
-		FE4900301A1A3CEB000030A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
-		FE49003B1A1A3CEB000030A4 /* MPinAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MPinAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE49003C1A1A3CEB000030A4 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		FE4900441A1A3CEB000030A4 /* MPinAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MPinAppTests-Info.plist"; sourceTree = "<group>"; };
 		FE4900461A1A3CEB000030A4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -387,13 +412,13 @@
 		FE72C3431A6E519D0082F14D /* SettingsViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewCell.h; path = ../../../../src/ios/MPinApp/SettingsViewCell.h; sourceTree = "<group>"; };
 		FE72C3441A6E519D0082F14D /* SettingsViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewCell.m; path = ../../../../src/ios/MPinApp/SettingsViewCell.m; sourceTree = "<group>"; };
 		FE72C3461A6EA6960082F14D /* AddSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddSettingViewController.h; path = ../../../../src/ios/MPinApp/AddSettingViewController.h; sourceTree = "<group>"; };
-		FE72C3471A6EA6960082F14D /* AddSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddSettingViewController.m; path = ../../../../src/ios/MPinApp/AddSettingViewController.m; sourceTree = "<group>"; };
+		FE72C3471A6EA6960082F14D /* AddSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = AddSettingViewController.m; path = ../../../../src/ios/MPinApp/AddSettingViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FE8129651ABAB61B008677CE /* MPin+AsyncOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MPin+AsyncOperations.h"; path = "../../../../src/ios/MPinApp/MPin+AsyncOperations.h"; sourceTree = "<group>"; };
 		FE8129661ABAB61B008677CE /* MPin+AsyncOperations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MPin+AsyncOperations.m"; path = "../../../../src/ios/MPinApp/MPin+AsyncOperations.m"; sourceTree = "<group>"; };
 		FEAA2CCC1ACEBCB700EED79F /* NSString+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Helper.h"; path = "../../../../../src/ios/MPinApp/NSString+Helper.h"; sourceTree = "<group>"; };
 		FEAA2CCD1ACEBCB700EED79F /* NSString+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Helper.m"; path = "../../../../../src/ios/MPinApp/NSString+Helper.m"; sourceTree = "<group>"; };
 		FEB901661A6D28550053DE92 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewController.h; path = ../../../../src/ios/MPinApp/SettingsViewController.h; sourceTree = "<group>"; };
-		FEB901671A6D28550053DE92 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = ../../../../src/ios/MPinApp/SettingsViewController.m; sourceTree = "<group>"; };
+		FEB901671A6D28550053DE92 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = SettingsViewController.m; path = ../../../../src/ios/MPinApp/SettingsViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FEC5A39A1A446E29006990B5 /* OTP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTP.h; path = ../../../src/ios/MPinSDK/OTP.h; sourceTree = "<group>"; };
 		FED7691B1A8B4A30005A3ECA /* UIViewController+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Helper.h"; path = "../../../../../src/ios/MPinApp/UIViewController+Helper.h"; sourceTree = "<group>"; };
 		FED7691C1A8B4A30005A3ECA /* UIViewController+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Helper.m"; path = "../../../../../src/ios/MPinApp/UIViewController+Helper.m"; sourceTree = "<group>"; };
@@ -401,7 +426,7 @@
 		FEDDDE301A89F93E00E2068C /* UIView+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Helper.m"; path = "../../../../../src/ios/MPinApp/UIView+Helper.m"; sourceTree = "<group>"; };
 		FEF5794B1B1493AE00B31A3E /* Backends.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Backends.plist; sourceTree = "<group>"; };
 		FEFA500C1A7143DB002D6E24 /* AccessNumberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccessNumberViewController.h; path = ../../../../src/ios/MPinApp/AccessNumberViewController.h; sourceTree = "<group>"; };
-		FEFA500D1A7143DB002D6E24 /* AccessNumberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AccessNumberViewController.m; path = ../../../../src/ios/MPinApp/AccessNumberViewController.m; sourceTree = "<group>"; };
+		FEFA500D1A7143DB002D6E24 /* AccessNumberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = AccessNumberViewController.m; path = ../../../../src/ios/MPinApp/AccessNumberViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FEFA500F1A7148E5002D6E24 /* DigitPadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DigitPadViewController.h; path = ../../../../src/ios/MPinApp/DigitPadViewController.h; sourceTree = "<group>"; };
 		FEFA50101A7148E5002D6E24 /* DigitPadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DigitPadViewController.m; path = ../../../../src/ios/MPinApp/DigitPadViewController.m; sourceTree = "<group>"; };
 		FEFFDDF11A1A4268007C7CAA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
@@ -413,12 +438,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96130E411AEE4867005D2A86 /* libPods-SplunkMint-iOS.a in Frameworks */,
 				96130E421AEE4867005D2A86 /* libMPinSDK.a in Frameworks */,
 				96130E431AEE4867005D2A86 /* CoreGraphics.framework in Frameworks */,
 				96130E441AEE4867005D2A86 /* UIKit.framework in Frameworks */,
+				96F7EA8E1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */,
 				96130E451AEE4867005D2A86 /* Foundation.framework in Frameworks */,
 				96130E461AEE4867005D2A86 /* libPods.a in Frameworks */,
+				96F7EA731B1C48EE00A68A03 /* HockeySDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,12 +452,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96130E8B1AEE490A005D2A86 /* libPods-SplunkMint-iOS.a in Frameworks */,
 				96130E8C1AEE490A005D2A86 /* libMPinSDK.a in Frameworks */,
 				96130E8D1AEE490A005D2A86 /* CoreGraphics.framework in Frameworks */,
 				96130E8E1AEE490A005D2A86 /* UIKit.framework in Frameworks */,
+				96F7EA8F1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */,
 				96130E8F1AEE490A005D2A86 /* Foundation.framework in Frameworks */,
 				96130E901AEE490A005D2A86 /* libPods.a in Frameworks */,
+				96F7EA741B1C48EE00A68A03 /* HockeySDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,12 +466,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9644B2231AD3AF5C0047E9CA /* libPods-SplunkMint-iOS.a in Frameworks */,
 				96DA33F81ACD54C300B2CAAB /* libMPinSDK.a in Frameworks */,
 				9649BCAC1AC16D1000B9F41B /* CoreGraphics.framework in Frameworks */,
 				9649BCAD1AC16D1000B9F41B /* UIKit.framework in Frameworks */,
+				96F7EA8D1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */,
 				9649BCAE1AC16D1000B9F41B /* Foundation.framework in Frameworks */,
 				9649BCAF1AC16D1000B9F41B /* libPods.a in Frameworks */,
+				96F7EA721B1C48EE00A68A03 /* HockeySDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,22 +480,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9644B2211AD3AF400047E9CA /* libPods-SplunkMint-iOS.a in Frameworks */,
-				96DA33F91ACD54D700B2CAAB /* libMPinSDK.a in Frameworks */,
+				96F7EA8A1B1C497400A68A03 /* SystemConfiguration.framework in Frameworks */,
+				96F7EA881B1C496900A68A03 /* Security.framework in Frameworks */,
+				96F7EA861B1C496000A68A03 /* QuickLook.framework in Frameworks */,
+				96F7EA841B1C495500A68A03 /* QuartzCore.framework in Frameworks */,
+				96F7EA821B1C494B00A68A03 /* MobileCoreServices.framework in Frameworks */,
 				FE49001D1A1A3CEB000030A4 /* CoreGraphics.framework in Frameworks */,
+				96F7EA801B1C493300A68A03 /* CoreText.framework in Frameworks */,
+				96F7EA7E1B1C492B00A68A03 /* AssetsLibrary.framework in Frameworks */,
+				96F7EA8C1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */,
+				96DA33F91ACD54D700B2CAAB /* libMPinSDK.a in Frameworks */,
 				FE49001F1A1A3CEB000030A4 /* UIKit.framework in Frameworks */,
 				FE49001B1A1A3CEB000030A4 /* Foundation.framework in Frameworks */,
 				C1A44EE9BAB1DEBF8C368A7C /* libPods.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FE4900381A1A3CEB000030A4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FE49003D1A1A3CEB000030A4 /* XCTest.framework in Frameworks */,
-				FE49003F1A1A3CEB000030A4 /* UIKit.framework in Frameworks */,
-				FE49003E1A1A3CEB000030A4 /* Foundation.framework in Frameworks */,
+				96F7EA711B1C48EE00A68A03 /* HockeySDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -651,6 +677,8 @@
 				968E7A531AA06CA700A276A7 /* IdentityCreatedViewController.m */,
 				96C9BF271AE6407D00FAC454 /* IdentityBlockedViewController.h */,
 				96C9BF281AE6407D00FAC454 /* IdentityBlockedViewController.m */,
+				96F7EA651B1858CB00A68A03 /* ANAuthenticationSuccessful.h */,
+				96F7EA661B1858CB00A68A03 /* ANAuthenticationSuccessful.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -659,7 +687,6 @@
 			isa = PBXGroup;
 			children = (
 				FEFFDDF01A1A4268007C7CAA /* Main_iPhone.storyboard */,
-				FE49002F1A1A3CEB000030A4 /* Main_iPad.storyboard */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -686,8 +713,29 @@
 				FE36B3B41B04E195000ACD70 /* ApplicationManager.m */,
 				968591B41AF0BEFC00726E63 /* LocalizationManager.h */,
 				968591B51AF0BEFC00726E63 /* LocalizationManager.m */,
+				96F78E1A1B05E5B8005C2C7D /* ErrorHandler.h */,
+				96F78E1B1B05E5B8005C2C7D /* ErrorHandler.m */,
 			);
 			name = Managers;
+			sourceTree = "<group>";
+		};
+		96F7EA6C1B1C48EE00A68A03 /* HockeySDK.embeddedframework */ = {
+			isa = PBXGroup;
+			children = (
+				96F7EA6D1B1C48EE00A68A03 /* HockeySDK.framework */,
+				96F7EA6E1B1C48EE00A68A03 /* Resources */,
+			);
+			name = HockeySDK.embeddedframework;
+			path = "HockeySDK-iOS/HockeySDK.embeddedframework";
+			sourceTree = "<group>";
+		};
+		96F7EA6E1B1C48EE00A68A03 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				96F7EA6F1B1C48EE00A68A03 /* HockeySDK.xcconfig */,
+				96F7EA701B1C48EE00A68A03 /* HockeySDKResources.bundle */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		FE49000E1A1A3CEB000030A4 = {
@@ -711,7 +759,6 @@
 			isa = PBXGroup;
 			children = (
 				FE4900171A1A3CEB000030A4 /* CertiVox M-Pin.app */,
-				FE49003B1A1A3CEB000030A4 /* MPinAppTests.xctest */,
 				9649BCCA1AC16D1000B9F41B /* DD MPin.app */,
 				96130E651AEE4867005D2A86 /* NTTComSecurity MPin.app */,
 				96130EAF1AEE490A005D2A86 /* Olswang MPin.app */,
@@ -722,6 +769,15 @@
 		FE4900191A1A3CEB000030A4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				96F7EA8B1B1C49F200A68A03 /* HockeySDK.framework */,
+				96F7EA891B1C497400A68A03 /* SystemConfiguration.framework */,
+				96F7EA871B1C496900A68A03 /* Security.framework */,
+				96F7EA851B1C496000A68A03 /* QuickLook.framework */,
+				96F7EA831B1C495500A68A03 /* QuartzCore.framework */,
+				96F7EA811B1C494B00A68A03 /* MobileCoreServices.framework */,
+				96F7EA7F1B1C493300A68A03 /* CoreText.framework */,
+				96F7EA7D1B1C492B00A68A03 /* AssetsLibrary.framework */,
+				96F7EA6C1B1C48EE00A68A03 /* HockeySDK.embeddedframework */,
 				9644B2221AD3AF5C0047E9CA /* libPods-SplunkMint-iOS.a */,
 				9644B2201AD3AF400047E9CA /* libPods-SplunkMint-iOS.a */,
 				96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */,
@@ -867,24 +923,6 @@
 			productReference = FE4900171A1A3CEB000030A4 /* CertiVox M-Pin.app */;
 			productType = "com.apple.product-type.application";
 		};
-		FE49003A1A1A3CEB000030A4 /* MPinAppTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = FE49004F1A1A3CEB000030A4 /* Build configuration list for PBXNativeTarget "MPinAppTests" */;
-			buildPhases = (
-				FE4900371A1A3CEB000030A4 /* Sources */,
-				FE4900381A1A3CEB000030A4 /* Frameworks */,
-				FE4900391A1A3CEB000030A4 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				FE4900411A1A3CEB000030A4 /* PBXTargetDependency */,
-			);
-			name = MPinAppTests;
-			productName = MPinAppTests;
-			productReference = FE49003B1A1A3CEB000030A4 /* MPinAppTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -899,9 +937,6 @@
 					};
 					FE4900161A1A3CEB000030A4 = {
 						DevelopmentTeam = WF6XYF7P2L;
-					};
-					FE49003A1A1A3CEB000030A4 = {
-						TestTargetID = FE4900161A1A3CEB000030A4;
 					};
 				};
 			};
@@ -922,7 +957,6 @@
 				9649BC891AC16D1000B9F41B /* DD MPin */,
 				96130E1D1AEE4867005D2A86 /* NTTComSecurity */,
 				96130E671AEE490A005D2A86 /* Olswang */,
-				FE49003A1A1A3CEB000030A4 /* MPinAppTests */,
 			);
 		};
 /* End PBXProject section */
@@ -939,6 +973,8 @@
 				FEF579531B15BEC900B31A3E /* Backends.plist in Resources */,
 				96130E4C1AEE4867005D2A86 /* OpenSans-Italic.ttf in Resources */,
 				96130E4E1AEE4867005D2A86 /* IUser.h in Resources */,
+				96F7EA771B1C48EF00A68A03 /* HockeySDK.xcconfig in Resources */,
+				96F7EA7B1B1C48EF00A68A03 /* HockeySDKResources.bundle in Resources */,
 				96130E4F1AEE4867005D2A86 /* LaunchScreen.xib in Resources */,
 				96130E501AEE4867005D2A86 /* Constants.h in Resources */,
 				96130E511AEE4867005D2A86 /* OpenSans-LightItalic.ttf in Resources */,
@@ -951,7 +987,6 @@
 				96E21A561AF8AE6C00490625 /* en_BG.strings in Resources */,
 				96130E581AEE4867005D2A86 /* Main_iPhone.storyboard in Resources */,
 				968591A31AEE53F500726E63 /* NTTComSecurityImages.xcassets in Resources */,
-				96130E591AEE4867005D2A86 /* Main_iPad.storyboard in Resources */,
 				96130E5A1AEE4867005D2A86 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				96130E5B1AEE4867005D2A86 /* InfoPlist.strings in Resources */,
 				96130E5D1AEE4867005D2A86 /* OpenSans-Regular.ttf in Resources */,
@@ -970,6 +1005,8 @@
 				FEF579521B15BEC400B31A3E /* Backends.plist in Resources */,
 				96130E961AEE490A005D2A86 /* OpenSans-Italic.ttf in Resources */,
 				96130E981AEE490A005D2A86 /* IUser.h in Resources */,
+				96F7EA781B1C48EF00A68A03 /* HockeySDK.xcconfig in Resources */,
+				96F7EA7C1B1C48EF00A68A03 /* HockeySDKResources.bundle in Resources */,
 				96130E991AEE490A005D2A86 /* LaunchScreen.xib in Resources */,
 				96130E9A1AEE490A005D2A86 /* Constants.h in Resources */,
 				96130E9B1AEE490A005D2A86 /* OpenSans-LightItalic.ttf in Resources */,
@@ -981,7 +1018,6 @@
 				96130EA11AEE490A005D2A86 /* MpinStatus.h in Resources */,
 				96E21A571AF8AE6C00490625 /* en_BG.strings in Resources */,
 				96130EA21AEE490A005D2A86 /* Main_iPhone.storyboard in Resources */,
-				96130EA31AEE490A005D2A86 /* Main_iPad.storyboard in Resources */,
 				968591A21AEE53F200726E63 /* OlswangImages.xcassets in Resources */,
 				96130EA41AEE490A005D2A86 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				96130EA51AEE490A005D2A86 /* InfoPlist.strings in Resources */,
@@ -1007,11 +1043,12 @@
 				9649BCB91AC16D1000B9F41B /* OpenSans-BoldItalic.ttf in Resources */,
 				9649BCBB1AC16D1000B9F41B /* MPin.h in Resources */,
 				9649BCBC1AC16D1000B9F41B /* OpenSans-Semibold.ttf in Resources */,
+				96F7EA761B1C48EF00A68A03 /* HockeySDK.xcconfig in Resources */,
 				9649BCBD1AC16D1000B9F41B /* OpenSans-Light.ttf in Resources */,
 				968591CB1AF0C7E200726E63 /* Localizable.strings in Resources */,
 				9649BCBE1AC16D1000B9F41B /* MpinStatus.h in Resources */,
+				96F7EA7A1B1C48EF00A68A03 /* HockeySDKResources.bundle in Resources */,
 				9649BCC01AC16D1000B9F41B /* Main_iPhone.storyboard in Resources */,
-				9649BCC11AC16D1000B9F41B /* Main_iPad.storyboard in Resources */,
 				968591A01AEE53EB00726E63 /* DimensionDataImages.xcassets in Resources */,
 				FEF5794D1B1493AE00B31A3E /* Backends.plist in Resources */,
 				9649BCC21AC16D1000B9F41B /* OpenSans-SemiboldItalic.ttf in Resources */,
@@ -1031,6 +1068,8 @@
 				960D6A971A88C0E20068E0F7 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				960D6A981A88C0E20068E0F7 /* OpenSans-Italic.ttf in Resources */,
 				968A180C1ACA8C58000C0DB0 /* Colors.plist in Resources */,
+				96F7EA751B1C48EF00A68A03 /* HockeySDK.xcconfig in Resources */,
+				96F7EA791B1C48EF00A68A03 /* HockeySDKResources.bundle in Resources */,
 				FE148D461A2F1007007E83EF /* IUser.h in Resources */,
 				968CF31B1A77BB31002C4347 /* LaunchScreen.xib in Resources */,
 				FE148D3F1A2F0FB7007E83EF /* Constants.h in Resources */,
@@ -1043,20 +1082,11 @@
 				FE148D411A2F0FB7007E83EF /* MpinStatus.h in Resources */,
 				96E21A541AF8AE6C00490625 /* en_BG.strings in Resources */,
 				FEFFDDF21A1A4268007C7CAA /* Main_iPhone.storyboard in Resources */,
-				FE4900311A1A3CEB000030A4 /* Main_iPad.storyboard in Resources */,
 				960D6A9D1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				FE4900251A1A3CEB000030A4 /* InfoPlist.strings in Resources */,
 				960D6A9B1A88C0E20068E0F7 /* OpenSans-Regular.ttf in Resources */,
 				960D6A961A88C0E20068E0F7 /* OpenSans-ExtraBold.ttf in Resources */,
 				968591A11AEE53EE00726E63 /* CertivoxImages.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FE4900391A1A3CEB000030A4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FE4900471A1A3CEB000030A4 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1263,6 +1293,7 @@
 				FEF579541B15F0BE00B31A3E /* ApplicationManager.m in Sources */,
 				96130E211AEE4867005D2A86 /* ConfigurationManager.m in Sources */,
 				96130E221AEE4867005D2A86 /* ConfirmEmailViewController.m in Sources */,
+				96F7EA691B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */,
 				96130E231AEE4867005D2A86 /* CycleProgressBar.m in Sources */,
 				96130E241AEE4867005D2A86 /* AccountSummaryViewController.m in Sources */,
 				96130E251AEE4867005D2A86 /* UIViewController+Helper.m in Sources */,
@@ -1273,6 +1304,7 @@
 				96130E2A1AEE4867005D2A86 /* MenuViewController.m in Sources */,
 				96130E2B1AEE4867005D2A86 /* SettingsViewCell.m in Sources */,
 				96130E2C1AEE4867005D2A86 /* AboutViewController.m in Sources */,
+				963D8BC61B1599800055C343 /* ApplicationManager.m in Sources */,
 				96130E2D1AEE4867005D2A86 /* ThemeManager.m in Sources */,
 				96130E2E1AEE4867005D2A86 /* AddSettingViewController.m in Sources */,
 				96130E2F1AEE4867005D2A86 /* DigitPadViewController.m in Sources */,
@@ -1285,6 +1317,7 @@
 				96130E351AEE4867005D2A86 /* ConfigListTableViewCell.m in Sources */,
 				96130E361AEE4867005D2A86 /* MPin+AsyncOperations.m in Sources */,
 				96130E371AEE4867005D2A86 /* SettingsManager.m in Sources */,
+				96F78E1E1B05E5B8005C2C7D /* ErrorHandler.m in Sources */,
 				96130E381AEE4867005D2A86 /* UIView+Helper.m in Sources */,
 				96130E391AEE4867005D2A86 /* IdentityCreatedViewController.m in Sources */,
 				96130E3A1AEE4867005D2A86 /* IdentityBlockedViewController.m in Sources */,
@@ -1303,6 +1336,7 @@
 				FEF579551B15F10800B31A3E /* ApplicationManager.m in Sources */,
 				96130E6B1AEE490A005D2A86 /* ConfigurationManager.m in Sources */,
 				96130E6C1AEE490A005D2A86 /* ConfirmEmailViewController.m in Sources */,
+				96F7EA6A1B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */,
 				96130E6D1AEE490A005D2A86 /* CycleProgressBar.m in Sources */,
 				96130E6E1AEE490A005D2A86 /* AccountSummaryViewController.m in Sources */,
 				96130E6F1AEE490A005D2A86 /* UIViewController+Helper.m in Sources */,
@@ -1313,6 +1347,7 @@
 				96130E741AEE490A005D2A86 /* MenuViewController.m in Sources */,
 				96130E751AEE490A005D2A86 /* SettingsViewCell.m in Sources */,
 				96130E761AEE490A005D2A86 /* AboutViewController.m in Sources */,
+				963D8BC71B1599800055C343 /* ApplicationManager.m in Sources */,
 				96130E771AEE490A005D2A86 /* ThemeManager.m in Sources */,
 				96130E781AEE490A005D2A86 /* AddSettingViewController.m in Sources */,
 				96130E791AEE490A005D2A86 /* DigitPadViewController.m in Sources */,
@@ -1325,6 +1360,7 @@
 				96130E7F1AEE490A005D2A86 /* ConfigListTableViewCell.m in Sources */,
 				96130E801AEE490A005D2A86 /* MPin+AsyncOperations.m in Sources */,
 				96130E811AEE490A005D2A86 /* SettingsManager.m in Sources */,
+				96F78E1F1B05E5B8005C2C7D /* ErrorHandler.m in Sources */,
 				96130E821AEE490A005D2A86 /* UIView+Helper.m in Sources */,
 				96130E831AEE490A005D2A86 /* IdentityCreatedViewController.m in Sources */,
 				96130E841AEE490A005D2A86 /* IdentityBlockedViewController.m in Sources */,
@@ -1344,6 +1380,7 @@
 				FEF579501B1493F700B31A3E /* NSString+Helper.m in Sources */,
 				968591B71AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
 				9649BC8D1AC16D1000B9F41B /* ConfirmEmailViewController.m in Sources */,
+				96F7EA681B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */,
 				9649BC8F1AC16D1000B9F41B /* CycleProgressBar.m in Sources */,
 				9649BC901AC16D1000B9F41B /* AccountSummaryViewController.m in Sources */,
 				9649BC911AC16D1000B9F41B /* UIViewController+Helper.m in Sources */,
@@ -1359,6 +1396,7 @@
 				9649BC9B1AC16D1000B9F41B /* DigitPadViewController.m in Sources */,
 				9649BC9C1AC16D1000B9F41B /* main.m in Sources */,
 				9649BC9E1AC16D1000B9F41B /* OTPViewController.m in Sources */,
+				96F78E1D1B05E5B8005C2C7D /* ErrorHandler.m in Sources */,
 				9649BC9F1AC16D1000B9F41B /* TextFieldTableViewCell.m in Sources */,
 				9649BCA01AC16D1000B9F41B /* AccessNumberViewController.m in Sources */,
 				9649BCA11AC16D1000B9F41B /* UIColor+Helper.m in Sources */,
@@ -1367,12 +1405,14 @@
 				96C88F481AC42B7D00A5F27A /* SettingsManager.m in Sources */,
 				9649BCA41AC16D1000B9F41B /* IdentityCreatedViewController.m in Sources */,
 				96C9BF2A1AE6407D00FAC454 /* IdentityBlockedViewController.m in Sources */,
+				963D8BC51B15997F0055C343 /* ApplicationManager.m in Sources */,
 				9649BCA51AC16D1000B9F41B /* SettingsViewController.m in Sources */,
 				9649BCA61AC16D1000B9F41B /* AppDelegate.mm in Sources */,
 				9649BCA71AC16D1000B9F41B /* MenuTableViewCell.m in Sources */,
 				9649BCA81AC16D1000B9F41B /* OptionSelectTableViewCell.m in Sources */,
 				96C88F471AC42B7D00A5F27A /* ConfigurationManager.m in Sources */,
 				9649BCA91AC16D1000B9F41B /* UserListViewController.m in Sources */,
+				963D8BC81B1599980055C343 /* NSString+Helper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1382,6 +1422,7 @@
 			files = (
 				96F62A241AC30FAF00B25B53 /* ConfigurationManager.m in Sources */,
 				966EB9D41A8CF069004B936A /* ConfirmEmailViewController.m in Sources */,
+				96F7EA671B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */,
 				FE4AEB081A443E4C000B3181 /* CycleProgressBar.m in Sources */,
 				9614F8CF1A9E1EC500337080 /* AccountSummaryViewController.m in Sources */,
 				FED7691D1A8B4A30005A3ECA /* UIViewController+Helper.m in Sources */,
@@ -1404,6 +1445,7 @@
 				961957491A97276100C93604 /* ConfigListTableViewCell.m in Sources */,
 				FE8129671ABAB61B008677CE /* MPin+AsyncOperations.m in Sources */,
 				96F62A251AC30FAF00B25B53 /* SettingsManager.m in Sources */,
+				96F78E1C1B05E5B8005C2C7D /* ErrorHandler.m in Sources */,
 				FEDDDE311A89F93E00E2068C /* UIView+Helper.m in Sources */,
 				968E7A541AA06CA700A276A7 /* IdentityCreatedViewController.m in Sources */,
 				FE36B3B51B04E195000ACD70 /* ApplicationManager.m in Sources */,
@@ -1416,23 +1458,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FE4900371A1A3CEB000030A4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FE4900491A1A3CEB000030A4 /* MPinAppTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		FE4900411A1A3CEB000030A4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FE4900161A1A3CEB000030A4 /* Certivox MPin */;
-			targetProxy = FE4900401A1A3CEB000030A4 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		968591CF1AF0C7E200726E63 /* Localizable.strings */ = {
@@ -1450,14 +1476,6 @@
 				FE4900241A1A3CEB000030A4 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		FE49002F1A1A3CEB000030A4 /* Main_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FE4900301A1A3CEB000030A4 /* Base */,
-			);
-			name = Main_iPad.storyboard;
 			sourceTree = "<group>";
 		};
 		FE4900451A1A3CEB000030A4 /* InfoPlist.strings */ = {
@@ -1488,12 +1506,18 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/NTTComSecurity/NTTComSecurityMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "NTTComSecurity MPin";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1508,12 +1532,18 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/NTTComSecurity/NTTComSecurityMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "NTTComSecurity MPin";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1528,6 +1558,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/NTTComSecurity/NTTComSecurityMPin.plist";
@@ -1535,6 +1570,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "NTTComSecurity MPin";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1549,6 +1585,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/NTTComSecurity/NTTComSecurityMPin.plist";
@@ -1556,6 +1597,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "NTTComSecurity MPin";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1570,6 +1612,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/NTTComSecurity/NTTComSecurityMPin.plist";
@@ -1577,6 +1624,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "NTTComSecurity MPin";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1591,12 +1639,18 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Olswang/OlswangMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "Olswang MPin";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1611,12 +1665,18 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Olswang/OlswangMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "Olswang MPin";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1631,6 +1691,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Olswang/OlswangMPin.plist";
@@ -1638,6 +1703,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "Olswang MPin";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1652,6 +1718,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Olswang/OlswangMPin.plist";
@@ -1659,6 +1730,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "Olswang MPin";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1673,6 +1745,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Olswang/OlswangMPin.plist";
@@ -1680,6 +1757,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "Olswang MPin";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -1694,6 +1772,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/DimensionData/DDMPin.plist";
@@ -1752,6 +1835,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Certivox/CertivoxMPin.plist";
@@ -1759,28 +1847,10 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
-			};
-			name = AppStore;
-		};
-		9660534F1ACD38B60003DE7D /* AppStore */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
-				INFOPLIST_FILE = "MPinAppTests/MPinAppTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CertiVox M-Pin.app/CertiVox M-Pin";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = AppStore;
 		};
@@ -1792,6 +1862,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: CertiVox UK Ltd (WF6XYF7P2L)";
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/DimensionData/DDMPin.plist";
@@ -1851,6 +1926,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Certivox/CertivoxMPin.plist";
@@ -1858,28 +1938,10 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
-			};
-			name = AdHoc;
-		};
-		966053531ACD38C00003DE7D /* AdHoc */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
-				INFOPLIST_FILE = "MPinAppTests/MPinAppTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CertiVox M-Pin.app/CertiVox M-Pin";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = AdHoc;
 		};
@@ -1891,6 +1953,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: CertiVox UK Ltd (WF6XYF7P2L)";
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/DimensionData/DDMPin.plist";
@@ -1956,38 +2023,21 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Certivox/CertivoxMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
-			};
-			name = QA;
-		};
-		969D25AE1ACD2F9B0035294E /* QA */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "MPinAppTests/MPinAppTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CertiVox M-Pin.app/CertiVox M-Pin";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = QA;
 		};
@@ -1999,6 +2049,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/DimensionData/DDMPin.plist";
@@ -2058,6 +2113,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Certivox/CertivoxMPin.plist";
@@ -2065,28 +2125,10 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
-		};
-		969D25B21ACD331C0035294E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
-				INFOPLIST_FILE = "MPinAppTests/MPinAppTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CertiVox M-Pin.app/CertiVox M-Pin";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
@@ -2098,6 +2140,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: CertiVox UK Ltd (WF6XYF7P2L)";
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/DimensionData/DDMPin.plist";
@@ -2163,38 +2210,21 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Certivox/CertivoxMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
-			};
-			name = Debug;
-		};
-		FE4900501A1A3CEB000030A4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "MPinAppTests/MPinAppTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CertiVox M-Pin.app/CertiVox M-Pin";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
 		};
@@ -2257,18 +2287,6 @@
 				969D25B11ACD331C0035294E /* Release */,
 				9660534E1ACD38B60003DE7D /* AppStore */,
 				966053521ACD38C00003DE7D /* AdHoc */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = QA;
-		};
-		FE49004F1A1A3CEB000030A4 /* Build configuration list for PBXNativeTarget "MPinAppTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FE4900501A1A3CEB000030A4 /* Debug */,
-				969D25AE1ACD2F9B0035294E /* QA */,
-				969D25B21ACD331C0035294E /* Release */,
-				9660534F1ACD38B60003DE7D /* AppStore */,
-				966053531ACD38C00003DE7D /* AdHoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = QA;

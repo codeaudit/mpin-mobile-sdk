@@ -41,13 +41,21 @@ public interface MPinController {
 
 	void removeSuccessfulLoginFragment();
 
+	void addIdentityBlockedFragment();
+
+	void removeIdentityBlockedFragment();
+
+	void addAboutFragment();
+
+	void removeAboutFragment();
+
 	void setTooblarTitle(int resId);
 
 	void userChosen();
 
 	void userBlocked();
 
-	void deleteUser();
+	void deleteCurrentUser();
 
 	void resetPin();
 
@@ -74,4 +82,6 @@ public interface MPinController {
 	void onAccessNumberEntered(String accessNumber);
 
 	void setChosenConfiguration(String configTitle);
+
+	void reRegisterUser(User user);
 }

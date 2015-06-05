@@ -14,7 +14,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="No configurations"
+        android:text="@string/no_configurations"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large" />
+
+    <ImageButton
+        android:id="@+id/add_service_button"
+        style="@style/AppTheme"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:contentDescription="@string/add_service"
+        android:src="@drawable/ic_action_add" />
 
 </RelativeLayout>

@@ -189,6 +189,12 @@
 #pragma mark -
 #pragma mark Property forwards
 
+- (void)setTitle:(NSString *)caption
+{
+    hudView.caption = caption;
+}
+
+
 - (void)setCaption:(NSString *)caption
 {
 	hudView.caption = caption;

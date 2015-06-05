@@ -34,46 +34,6 @@
 			<key>CONFIG_NAME</key>
 			<string>Online banking login</string>
 		</dict>
-		<dict>
-			<key>backend</key>
-			<string>http://tcb.certivox.org</string>
-			<key>rps_prefix</key>
-			<string></string>
-			<key>SERVICE_TYPE</key>
-			<integer>1</integer>
-			<key>CONFIG_NAME</key>
-			<string>Online banking login</string>
-		</dict>
-		<dict>
-			<key>backend</key>
-			<string>http://tcb.certivox.org</string>
-			<key>rps_prefix</key>
-			<string></string>
-			<key>SERVICE_TYPE</key>
-			<integer>1</integer>
-			<key>CONFIG_NAME</key>
-			<string>Online banking login</string>
-		</dict>
-		<dict>
-			<key>backend</key>
-			<string>http://tcb.certivox.org</string>
-			<key>rps_prefix</key>
-			<string></string>
-			<key>SERVICE_TYPE</key>
-			<integer>1</integer>
-			<key>CONFIG_NAME</key>
-			<string>Online banking login</string>
-		</dict>
-		<dict>
-			<key>backend</key>
-			<string>http://tcb.certivox.org</string>
-			<key>rps_prefix</key>
-			<string></string>
-			<key>SERVICE_TYPE</key>
-			<integer>1</integer>
-			<key>CONFIG_NAME</key>
-			<string>Online banking login</string>
-		</dict>
 	</array>
 </dict>
 </plist>

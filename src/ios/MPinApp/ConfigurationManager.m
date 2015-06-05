@@ -11,12 +11,12 @@
 #import "NSString+Helper.h"
 
 
-static NSString* const kCurrentSelectionIndex = @"currentSelectionIndex";
-static NSString* const kSettings = @"settings";
+static NSString *const kCurrentSelectionIndex = @"currentSelectionIndex";
+static NSString *const kSettings = @"settings";
 
-@interface ConfigurationManager ()
+@interface ConfigurationManager ( )
 
-@property (nonatomic, strong) NSMutableArray* arrConfigrations;
+@property ( nonatomic, strong ) NSMutableArray *arrConfigrations;
 
 - (BOOL)saveConfigurationAtIndex:(NSInteger)index configData:(NSDictionary*)configData;
 - (BOOL) validate:(NSDictionary *) dict;
@@ -25,13 +25,14 @@ static NSString* const kSettings = @"settings";
 
 @implementation ConfigurationManager
 
-+ (ConfigurationManager*)sharedManager
++ ( ConfigurationManager * )sharedManager
 {
-    static ConfigurationManager* sharedManager = nil;
+    static ConfigurationManager *sharedManager = nil;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-		sharedManager = [[self alloc] init];
+    dispatch_once(&onceToken, ^ {
+        sharedManager = [[self alloc] init];
     });
+
     return sharedManager;
 }
 
@@ -51,10 +52,11 @@ static NSString* const kSettings = @"settings";
     return true;
 }
 
-- (instancetype)init
+- ( instancetype )init
 {
     self = [super init];
-    if (self) {
+    if ( self )
+    {
         _intSelectedConfiguration = [[NSUserDefaults standardUserDefaults] integerForKey:kCurrentSelectionIndex];
         _arrConfigrations = [[[NSUserDefaults standardUserDefaults] objectForKey:kSettings] mutableCopy];
         if (_arrConfigrations == nil)   _arrConfigrations = [NSMutableArray array];
@@ -90,9 +92,11 @@ static NSString* const kSettings = @"settings";
             
             [[NSUserDefaults standardUserDefaults] setInteger:configHash forKey:kConfigHashValue];
             [[NSUserDefaults standardUserDefaults] setInteger:[configs count] forKey:kDefConfigThreshold];
+
             [self saveConfigurations];
         }
     }
+
     return self;
 }
 
@@ -102,142 +106,170 @@ static NSString* const kSettings = @"settings";
 
 - (BOOL)saveConfigurationAtIndex:(NSInteger)index configData:(NSDictionary*)configData
 {
-    if (index < [_arrConfigrations count]) {
-        _arrConfigrations[index] = configData;
+    if ( index < [_arrConfigrations count] )
+    {
+        _arrConfigrations [index] = configData;
         [self saveConfigurations];
+
         return YES;
     }
     return false;
 }
 
-- (void)addConfigurationWithURL:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName
+- ( void )addConfigurationWithURL:( NSString * )url serviceType:( int )serviceType name:( NSString * )configurationName
 {
-    NSDictionary* data = @{ kRPSURL : url,
-        kSERVICE_TYPE : @(serviceType),
-        kCONFIG_NAME : configurationName };
+    NSDictionary *data = @{ kRPSURL : url,
+                            kSERVICE_TYPE : @( serviceType ),
+                            kCONFIG_NAME : configurationName };
 
     [_arrConfigrations addObject:data];
     [self saveConfigurations];
 }
 
-- (BOOL)saveConfigurationAtIndex:(NSInteger)index url:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName
+- ( BOOL )saveConfigurationAtIndex:( NSInteger )index url:( NSString * )url serviceType:( int )serviceType name:( NSString * )configurationName
 {
-    if (index < [_arrConfigrations count]) {
-        NSDictionary* data = @{ kRPSURL : url,
-            kSERVICE_TYPE : @(serviceType),
-            kCONFIG_NAME : configurationName };
+    if ( index < [_arrConfigrations count] )
+    {
+        NSDictionary *data = @{ kRPSURL : url,
+                                kSERVICE_TYPE : @( serviceType ),
+                                kCONFIG_NAME : configurationName };
 
-        _arrConfigrations[index] = data;
+        _arrConfigrations [index] = data;
         [self saveConfigurations];
+
         return YES;
     }
 
     return false;
 }
-- (BOOL)deleteConfigurationAtIndex:(NSInteger)index
+
+- ( BOOL )deleteConfigurationAtIndex:( NSInteger )index
 {
-    if (_intSelectedConfiguration == index) {
+    if ( _intSelectedConfiguration == index )
+    {
         //What to do here?
         [_arrConfigrations removeObjectAtIndex:index];
         [self saveConfigurations];
+
         return YES;
     }
+
     return false;
 }
-- (BOOL)setSelectedConfiguration:(NSInteger)index
+
+- ( BOOL )setSelectedConfiguration:( NSInteger )index
 {
-    if (index < [_arrConfigrations count]) {
-        if (index == _intSelectedConfiguration) {
+    if ( index < [_arrConfigrations count] )
+    {
+        if ( index == _intSelectedConfiguration )
+        {
             _intSelectedConfiguration = NOT_SELECTED;
         }
-        else {
+        else
+        {
             _intSelectedConfiguration = index;
         }
         [[NSUserDefaults standardUserDefaults] setInteger:_intSelectedConfiguration forKey:kCurrentSelectionIndex];
         [self saveConfigurations];
+
         return true;
     }
+
     return false;
 }
 
-- (BOOL)setSelectedUserForCurrentConfiguration:(NSInteger)userIndex
+- ( BOOL )setSelectedUserForCurrentConfiguration:( NSInteger )userIndex
 {
+    NSMutableDictionary *dictConfig = (NSMutableDictionary *)[self getSelectedConfiguration];
+    dictConfig [kSelectedUser] = @( userIndex );
 
-    NSMutableDictionary* dictConfig = (NSMutableDictionary*)[self getSelectedConfiguration];
-    dictConfig[kSelectedUser] = @(userIndex);
     return [self saveConfigurationAtIndex:_intSelectedConfiguration configData:dictConfig];
 }
 
-- (NSInteger)getSelectedUserIndexforSelectedConfiguration
+- ( NSInteger )getSelectedUserIndexforSelectedConfiguration
 {
+    NSDictionary *configDict = [self getSelectedConfiguration];
+    NSNumber *nSelectedUserIndex = configDict [kSelectedUser];
 
-    NSDictionary* configDict = [self getSelectedConfiguration];
-    NSNumber* nSelectedUserIndex = configDict[kSelectedUser];
-
-    if (nSelectedUserIndex == nil)
+    if ( nSelectedUserIndex == nil )
         return NOT_SELECTED;
 
     return [nSelectedUserIndex integerValue];
 }
 
-- (NSString*)getURLAtIndex:(NSInteger)index
+- ( NSString * )getURLAtIndex:( NSInteger )index
 {
-    if (index < [_arrConfigrations count]) {
-        NSDictionary* dictConfiguration = _arrConfigrations[index];
-        return dictConfiguration[kRPSURL];
+    if ( index < [_arrConfigrations count] )
+    {
+        NSDictionary *dictConfiguration = _arrConfigrations [index];
+
+        return dictConfiguration [kRPSURL];
     }
+
     return @"";
 }
 
-- (NSString*)getNameAtIndex:(NSInteger)index
+- ( NSString * )getNameAtIndex:( NSInteger )index
 {
-    if (index < [_arrConfigrations count]) {
-        NSDictionary* dictConfiguration = _arrConfigrations[index];
-        return dictConfiguration[kCONFIG_NAME];
+    if ( index < [_arrConfigrations count] )
+    {
+        NSDictionary *dictConfiguration = _arrConfigrations [index];
+
+        return dictConfiguration [kCONFIG_NAME];
     }
+
     return @"";
 }
 
-- (NSString*)getPrefixAtIndex:(NSInteger)index
+- ( NSString * )getPrefixAtIndex:( NSInteger )index
 {
-    if (index < [_arrConfigrations count]) {
-        NSDictionary* dictConfiguration = _arrConfigrations[index];
-        return dictConfiguration[kRPSPrefix];
+    if ( index < [_arrConfigrations count] )
+    {
+        NSDictionary *dictConfiguration = _arrConfigrations [index];
+
+        return dictConfiguration [kRPSPrefix];
     }
+
     return @"";
 }
 
-- (NSInteger)getConfigurationTypeAtIndex:(NSInteger)index
+- ( NSInteger )getConfigurationTypeAtIndex:( NSInteger )index
 {
-    if (index < [_arrConfigrations count]) {
-        NSDictionary* dictConfiguration = _arrConfigrations[index];
-        return [dictConfiguration[kSERVICE_TYPE] integerValue];
+    if ( index < [_arrConfigrations count] )
+    {
+        NSDictionary *dictConfiguration = _arrConfigrations [index];
+
+        return [dictConfiguration [kSERVICE_TYPE] integerValue];
     }
+
     return -1;
 }
 
-- (BOOL)getIsDeviceName:(NSInteger)index
+- ( BOOL )getIsDeviceName:( NSInteger )index
 {
-    if (index < [_arrConfigrations count]) {
-        NSDictionary* dictConfiguration = _arrConfigrations[index];
-        return [dictConfiguration[kIS_DN] boolValue];
+    if ( index < [_arrConfigrations count] )
+    {
+        NSDictionary *dictConfiguration = _arrConfigrations [index];
+
+        return [dictConfiguration [kIS_DN] boolValue];
     }
+
     return NO;
 }
 
-- (NSInteger)getConfigurationsCount
+- ( NSInteger )getConfigurationsCount
 {
     return [_arrConfigrations count];
 }
 
-- (void)saveConfigurations
+- ( void )saveConfigurations
 {
     [[NSUserDefaults standardUserDefaults] setInteger:_intSelectedConfiguration forKey:kCurrentSelectionIndex];
     [[NSUserDefaults standardUserDefaults] setObject:_arrConfigrations forKey:kSettings];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (NSDictionary*)getSelectedConfiguration
+- ( NSDictionary * )getSelectedConfiguration
 {
     if ([_arrConfigrations count] == 0)
         return nil;
@@ -252,21 +284,28 @@ static NSString* const kSettings = @"settings";
         return [NSMutableDictionary dictionaryWithDictionary:[_arrConfigrations objectAtIndexedSubscript:index]];
 }
 
-- (NSInteger)getSelectedConfigurationIndex
+- ( NSInteger )getSelectedConfigurationIndex
 {
     return _intSelectedConfiguration;
 }
 
--(NSString *) getDeviceName {
-    NSString * devName =[[NSUserDefaults standardUserDefaults] objectForKey:kDeviceName];
-    if (devName == nil) return kDefaultDeviceName;
+-( NSString * ) getDeviceName
+{
+    NSString *devName = [[NSUserDefaults standardUserDefaults] objectForKey:kDeviceName];
+    if ( devName == nil )
+        return kDefaultDeviceName;
+
     return devName;
 }
 
--(void) setDeviceName:(NSString *) devName {
-    if([NSString isBlank:devName]) return;
-    if ([kDefaultDeviceName isEqualToString:devName])   return;
-    
+-( void ) setDeviceName:( NSString * ) devName
+{
+    if ( [NSString isBlank:devName] )
+        return;
+
+    if ( [kDefaultDeviceName isEqualToString:devName] )
+        return;
+
     [[NSUserDefaults standardUserDefaults] setObject:devName forKey:kDeviceName];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
