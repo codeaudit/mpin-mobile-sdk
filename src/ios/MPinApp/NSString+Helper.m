@@ -9,6 +9,7 @@
 #import "NSString+Helper.h"
 
 static NSString *const kEmpty = @"";
+static NSString *const regExPattern = @"(http|https)://((\\w)*|([0-9]*)|([-|_])*)+([\\.|/"@"]((\\w)*|([0-9]*)|([-|_])*))+";
 
 @implementation NSString(Helper)
 
@@ -20,5 +21,20 @@ static NSString *const kEmpty = @"";
 +(Boolean) isNotBlank:(NSString *) str {
     return ![NSString isBlank:str];
 }
+
++ (BOOL)isValidURL:(NSString*)url {
+    if ([NSString isBlank:url]) return NO;
+    
+    NSRegularExpression* regEx = [[NSRegularExpression alloc] initWithPattern:regExPattern
+                                                                      options:NSRegularExpressionCaseInsensitive
+                                                                        error:nil];
+    NSUInteger regExMatches = [regEx numberOfMatchesInString:url
+                                                     options:0
+                                                       range:NSMakeRange(0, [url length])];
+    
+    return (regExMatches != 0);
+}
+
+
 
 @end

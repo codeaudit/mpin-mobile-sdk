@@ -50,26 +50,23 @@
     return self;
 }
 
-- ( void ) runNetowrkMonitoring
-{
-    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock: ^ (AFNetworkReachabilityStatus status) {
-        switch ( status )
-        {
-        ///case AFNetworkReachabilityStatusNotReachable:
-        case AFNetworkReachabilityStatusReachableViaWiFi:
-        case AFNetworkReachabilityStatusReachableViaWWAN:
-            if ( ![MPin isInitialized] )
-            {
-                [sdk initSDK:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
-            }
+/// TODO :: Move any MSGs to Localization File 
+- (void) runNetowrkMonitoring {
 
-            // hide netowrk indicator
-            break;
-
-        default:
-            {
-                // show netowrk indicator
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"ERROR" message:@"No Internet Connection!" delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        switch (status) {
+            ///case AFNetworkReachabilityStatusNotReachable:
+            case AFNetworkReachabilityStatusReachableViaWiFi:
+            case AFNetworkReachabilityStatusReachableViaWWAN:
+                if ( ! [MPin isInitialized] ) {
+                    [sdk initSDK:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
+                }
+                
+                // TODO :: hide netowrk indicator
+                break;
+            default: {
+                // TODO: show netowrk indicator
+                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"ERROR" message:@"No Internet Connection!" delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
                 [alert show];
             }
             break;

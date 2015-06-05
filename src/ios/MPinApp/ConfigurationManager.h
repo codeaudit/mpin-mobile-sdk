@@ -20,6 +20,7 @@
 - (BOOL)deleteConfigurationAtIndex:(NSInteger)index;
 - (BOOL)setSelectedConfiguration:(NSInteger)index;
 - (BOOL)setSelectedUserForCurrentConfiguration:(NSInteger)userIndex;
+- (BOOL)isEmpty;
 
 @property (NS_NONATOMIC_IOSONLY, getter=getSelectedConfigurationIndex, readonly) NSInteger selectedConfigurationIndex;
 @property (NS_NONATOMIC_IOSONLY, getter=getConfigurationsCount, readonly) NSInteger configurationsCount;
@@ -29,6 +30,7 @@
 - (BOOL)getIsDeviceName:(NSInteger)index;
 - (NSInteger)getConfigurationTypeAtIndex:(NSInteger)index;
 - (NSDictionary*)getSelectedConfiguration;
+- (NSDictionary*)getConfigurationAtIndex:(NSInteger) index;
 @property (NS_NONATOMIC_IOSONLY, getter=getSelectedUserIndexforSelectedConfiguration, readonly) NSInteger selectedUserIndexforSelectedConfiguration;
 
 -(NSString *) getDeviceName;

@@ -93,6 +93,7 @@ static NSString *const kAN = @"AN";
 {
     [super viewDidLoad];
     sdk = [[MPin alloc] init];
+    sdk.delegate = self;
     boolFirstTime = YES;
     boolShouldAskForFingerprint = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -111,54 +112,39 @@ static NSString *const kAN = @"AN";
     [_btnAdd setTitle:@"ADD NEW IDENTITY +" forState:UIControlStateNormal];
     _btnAdd.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:16.0];
 
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
+}
+
+- ( void ) invalidate
+{
+    self.users = [MPin listUsers];
+    
+    if ( [self.users count] == 0 )
     {
-        MpinStatus *status = [MPin initWithConfig:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
-
-        dispatch_async(dispatch_get_main_queue(), ^ (void)
+        [self hideBottomBar:NO];
+    }
+    
+    ConfigurationManager *cf = [ConfigurationManager sharedManager];
+    NSInteger nSelectedUserIndex = [cf getSelectedUserIndexforSelectedConfiguration];
+    if ( nSelectedUserIndex >= 0 && self.users && [self.users count] )
+    {
+        selectedIndexPath = [NSIndexPath indexPathForRow:nSelectedUserIndex inSection:NOT_SELECTED_SEC];
+        if ( self.users.count > selectedIndexPath.row )
         {
-            if ( status.status != OK )
-            {
-                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(status.statusCodeAsString, @"UNKNOWN ERROR") addActivityIndicator:NO hideAfter:3];
-            }
-            else
-            {
-                self.users = [MPin listUsers];
-                if ( [self.users count] == 0 )
-                {
-                    [self hideBottomBar:NO];
-                }
-
-                ConfigurationManager *cf = [ConfigurationManager sharedManager];
-                NSInteger nSelectedUserIndex = [cf getSelectedUserIndexforSelectedConfiguration];
-                if ( nSelectedUserIndex >= 0 && self.users && [self.users count] )
-                {
-                    selectedIndexPath = [NSIndexPath indexPathForRow:nSelectedUserIndex inSection:NOT_SELECTED_SEC];
-                    if ( self.users.count > selectedIndexPath.row )
-                    {
-                        currentUser = ( self.users ) [selectedIndexPath.row];
-                    }
-                    else
-                    {
-                        currentUser = ( self.users ) [0];
-                    }
-
-
-                    if ( [selectedIndexPath row] < [self.users count] )
-                    {
-                        [self startAuthenticationFlow];
-                        [self showBottomBar:NO];
-                    }
-                }
-                else
-                {
-                    [self hideBottomBar:NO];
-                }
-                [[ErrorHandler sharedManager] updateMessage:@"Configuration changed" addActivityIndicator:NO hideAfter:3];
-                [self.table reloadData];
-            }
-        });
-    });
+            currentUser = ( self.users ) [selectedIndexPath.row];
+        }
+        else
+        {
+            currentUser = ( self.users ) [0];
+        }
+        
+        [self showBottomBar:NO];
+        [self startAuthenticationFlow];
+    }
+    else
+    {
+        [self hideBottomBar:NO];
+    }
+    [self.table reloadData];
 }
 
 - ( void )showBottomBar:( BOOL )animated
@@ -198,7 +184,8 @@ static NSString *const kAN = @"AN";
     [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
     [[ThemeManager sharedManager] beautifyViewController:self];
     self.users = [MPin listUsers];
-    sdk.delegate = self;
+    [_btnAdd setEnabled:![[ConfigurationManager sharedManager] isEmpty]];
+
 }
 
 - ( void )viewDidAppear:( BOOL )animated
@@ -710,39 +697,6 @@ static NSString *const kAN = @"AN";
         ConfigurationManager *cfm = [ConfigurationManager sharedManager];
         [sdk RegisterNewUser:userID devName:[cfm getDeviceName]];
     }
-}
-
-- ( void ) invalidate
-{
-    self.users = [MPin listUsers];
-
-    if ( [self.users count] == 0 )
-    {
-        [self hideBottomBar:NO];
-    }
-
-    ConfigurationManager *cf = [ConfigurationManager sharedManager];
-    NSInteger nSelectedUserIndex = [cf getSelectedUserIndexforSelectedConfiguration];
-    if ( nSelectedUserIndex >= 0 && self.users && [self.users count] )
-    {
-        selectedIndexPath = [NSIndexPath indexPathForRow:nSelectedUserIndex inSection:NOT_SELECTED_SEC];
-        if ( self.users.count > selectedIndexPath.row )
-        {
-            currentUser = ( self.users ) [selectedIndexPath.row];
-        }
-        else
-        {
-            currentUser = ( self.users ) [0];
-        }
-
-        [self showBottomBar:NO];
-        [self startAuthenticationFlow];
-    }
-    else
-    {
-        [self hideBottomBar:NO];
-    }
-    [self.table reloadData];
 }
 
 @end

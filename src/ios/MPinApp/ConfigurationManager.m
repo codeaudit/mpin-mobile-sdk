@@ -18,7 +18,8 @@ static NSString *const kSettings = @"settings";
 
 @property ( nonatomic, strong ) NSMutableArray *arrConfigrations;
 
-- ( BOOL )saveConfigurationAtIndex:( NSInteger )index configData:( NSDictionary * )configData;
+- (BOOL)saveConfigurationAtIndex:(NSInteger)index configData:(NSDictionary*)configData;
+- (BOOL) validate:(NSDictionary *) dict;
 
 @end
 
@@ -35,6 +36,22 @@ static NSString *const kSettings = @"settings";
     return sharedManager;
 }
 
+- (BOOL) validate:(NSDictionary *) dict {
+    NSEnumerator *enumerator = [dict keyEnumerator];
+    NSString * key;
+    while ((key = [enumerator nextObject])) {
+        if( (![key isEqualToString:kRPSURL]) &&
+            (![key isEqualToString:kRPSPrefix]) &&
+            (![key isEqualToString:kSERVICE_TYPE]) &&
+            (![key isEqualToString:kCONFIG_NAME]))
+            return false;
+        
+        if ( [key isEqualToString:kRPSURL]  && ![NSString isValidURL:[dict objectForKey:kRPSURL]] )
+            return false;
+    }
+    return true;
+}
+
 - ( instancetype )init
 {
     self = [super init];
@@ -42,22 +59,39 @@ static NSString *const kSettings = @"settings";
     {
         _intSelectedConfiguration = [[NSUserDefaults standardUserDefaults] integerForKey:kCurrentSelectionIndex];
         _arrConfigrations = [[[NSUserDefaults standardUserDefaults] objectForKey:kSettings] mutableCopy];
-        if ( _arrConfigrations == nil )
-        {
-            NSDictionary *data = @{ kRPSURL : @"http://tcb.certivox.org",
-                                    kSERVICE_TYPE : @( LOGIN_ON_MOBILE ),
-                                    kCONFIG_NAME : @"Mobile banking login" };
-            NSDictionary *dataOTP = @{ kRPSURL : @"http://otp.m-pin.id",
-                                       kSERVICE_TYPE : @( LOGIN_WITH_OTP ),
-                                       kCONFIG_NAME : @"VPN login" };
-            NSDictionary *dataAN = @{ kRPSURL : @"http://tcb.certivox.org",
-                                      kSERVICE_TYPE : @( LOGIN_ONLINE ),
-                                      kCONFIG_NAME : @"Online banking login" };
+        if (_arrConfigrations == nil)   _arrConfigrations = [NSMutableArray array];
+                
+        NSString* filePath = [[NSBundle mainBundle] pathForResource:kSettingsFile ofType:@"plist"];
+        NSDictionary * settingsDict = [[NSDictionary alloc] initWithContentsOfFile:filePath];
+        NSArray* configs = [settingsDict objectForKey:kBackendsKey];
+        if (configs == nil) configs = [NSArray array];
+        NSString * fileContent = [NSString stringWithFormat:@"%@", configs];
+        
+        NSInteger hashValue  = [[NSUserDefaults standardUserDefaults] integerForKey:kConfigHashValue];
+        long configHash = [fileContent hash];
+        
+        if ( hashValue != configHash ) {
+            NSMutableArray * tmpArray = [NSMutableArray array];
+            
+            for (int i=0; i<[configs count]; i++)
+                if([self validate:configs[i]])
+                    [tmpArray addObject:configs[i]];
 
-            _arrConfigrations = [NSMutableArray array];
-            [_arrConfigrations addObject:data];
-            [_arrConfigrations addObject:dataOTP];
-            [_arrConfigrations addObject:dataAN];
+            if (hashValue != 0) {
+                NSInteger threshold = [[NSUserDefaults standardUserDefaults] integerForKey:kDefConfigThreshold];
+                for (int i = (int)threshold; i<[_arrConfigrations count]; i++)
+                    [tmpArray addObject:_arrConfigrations[i]];
+            
+                if ([configs count] != threshold) {
+                    _intSelectedConfiguration = ((_intSelectedConfiguration >= threshold) && ([_arrConfigrations count] !=0))?( _intSelectedConfiguration + ([configs count] - threshold) ):(0);
+                    [[NSUserDefaults standardUserDefaults] setInteger:_intSelectedConfiguration forKey:kCurrentSelectionIndex];
+                }
+            }
+            
+            _arrConfigrations = tmpArray;
+            
+            [[NSUserDefaults standardUserDefaults] setInteger:configHash forKey:kConfigHashValue];
+            [[NSUserDefaults standardUserDefaults] setInteger:[configs count] forKey:kDefConfigThreshold];
 
             [self saveConfigurations];
         }
@@ -66,7 +100,11 @@ static NSString *const kSettings = @"settings";
     return self;
 }
 
-- ( BOOL )saveConfigurationAtIndex:( NSInteger )index configData:( NSDictionary * )configData
+- (BOOL)isEmpty {
+    return [_arrConfigrations count] == 0;
+}
+
+- (BOOL)saveConfigurationAtIndex:(NSInteger)index configData:(NSDictionary*)configData
 {
     if ( index < [_arrConfigrations count] )
     {
@@ -75,7 +113,6 @@ static NSString *const kSettings = @"settings";
 
         return YES;
     }
-
     return false;
 }
 
@@ -234,7 +271,17 @@ static NSString *const kSettings = @"settings";
 
 - ( NSDictionary * )getSelectedConfiguration
 {
-    return [NSMutableDictionary dictionaryWithDictionary:[_arrConfigrations objectAtIndexedSubscript:_intSelectedConfiguration]];
+    if ([_arrConfigrations count] == 0)
+        return nil;
+    else
+        return [NSMutableDictionary dictionaryWithDictionary:[_arrConfigrations objectAtIndexedSubscript:_intSelectedConfiguration]];
+}
+
+- (NSDictionary*)getConfigurationAtIndex:(NSInteger) index {
+    if (index >= [_arrConfigrations count])
+        return nil;
+    else
+        return [NSMutableDictionary dictionaryWithDictionary:[_arrConfigrations objectAtIndexedSubscript:index]];
 }
 
 - ( NSInteger )getSelectedConfigurationIndex

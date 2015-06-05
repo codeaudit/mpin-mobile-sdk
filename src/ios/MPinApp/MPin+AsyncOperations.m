@@ -25,15 +25,14 @@ static BOOL isInitialized = false;
     return isInitialized;
 }
 
-- ( void ) initSDK:( NSDictionary * )config
-{
-    if ( isInitialized )
-        return;
-
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-        MpinStatus *mpinStatus = [MPin initWithConfig:config];
-        dispatch_async(dispatch_get_main_queue(), ^ (void) {
-            if ( mpinStatus.status == OK )
+- (void) initSDK:(NSDictionary *)config {
+    if (isInitialized) return;
+    if (config == nil) return;
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        MpinStatus* mpinStatus = [MPin initWithConfig:config];
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            if (mpinStatus.status == OK)
             {
                 isInitialized = true;
                 if ( [(NSObject *)self.delegate respondsToSelector:@selector( OnInitCompleted: )] )
