@@ -133,6 +133,11 @@ namespace MPinDemo
                 this.MainPivot.SelectedItem = this.UsersPivotItem;
             }
         }
+        
+        internal static string GetSelectedUser()
+        {
+            return controller != null && controller.DataModel != null && controller.DataModel.CurrentUser != null ? controller.DataModel.CurrentUser.Id : string.Empty;
+        }
 
         #region State
 

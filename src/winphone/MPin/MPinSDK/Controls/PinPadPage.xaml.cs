@@ -66,10 +66,11 @@ namespace MPinSDK.Controls
             {
                 pinPadClassControl = data[0] as PinPad;
                 bool? doAuthenticate = data[1] as bool?;
+                string userId = data[2].ToString();
 
                 if (pinPadClassControl != null && doAuthenticate != null)
                 {
-                    PinMailTB.Text = ResourceLoader.GetForCurrentView("MPinSDK/Resources").GetString(doAuthenticate.Value ? "PinPadAuthentication" : "PinPadRegistration"); // data[2].ToString();
+                    PinMailTB.Text = ResourceLoader.GetForCurrentView("MPinSDK/Resources").GetString(doAuthenticate.Value ? "PinPadAuthentication" : "PinPadRegistration") + userId; 
                 }
             }         
         }
