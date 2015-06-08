@@ -2,7 +2,34 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>backends</key>
+	<key>HOCKEYAPP_ID</key>
+	<string>e6619598d07be548f8c260efd8feb9df</string>
+	<key>COLORS</key>
+	<dict>
+		<key>color0</key>
+		<string>FFFFFF</string>
+		<key>color1</key>
+		<string>FCFCFC</string>
+		<key>color2</key>
+		<string>607D8B</string>
+		<key>color3</key>
+		<string>E7ECEE</string>
+		<key>color4</key>
+		<string>999B9E</string>
+		<key>color5</key>
+		<string>65818F</string>
+		<key>color6</key>
+		<string>39494F</string>
+		<key>color7</key>
+		<string>6D6E71</string>
+		<key>color8</key>
+		<string>ED5565</string>
+		<key>color9</key>
+		<string>22C064</string>
+		<key>color10</key>
+		<string>607D8B</string>
+	</dict>
+	<key>BACKENDS</key>
 	<array>
 		<dict>
 			<key>backend</key>
@@ -16,7 +43,7 @@
 		</dict>
 		<dict>
 			<key>backend</key>
-			<string>http://ddvpn.certivox.org/</string>
+			<string>http://olswang-vpn.certivox.org/</string>
 			<key>rps_prefix</key>
 			<string></string>
 			<key>SERVICE_TYPE</key>

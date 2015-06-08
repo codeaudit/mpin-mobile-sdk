@@ -20,6 +20,7 @@
 #import "UserListViewController.h"
 #import "OTPViewController.h"
 #import "IdentityBlockedViewController.h"
+#import "MenuViewController.h"
 
 #pragma mark - import managers -
 #import "ThemeManager.h"
@@ -50,7 +51,6 @@ static NSString *const kAN = @"AN";
 @interface UserListViewController ( )
 {
     NSIndexPath *selectedIndexPath;
-    BOOL boolIsInitialised;
     id<IUser> currentUser;
     ThemeManager *themeManager;
     MPin *sdk;
@@ -98,31 +98,58 @@ static NSString *const kAN = @"AN";
     boolShouldAskForFingerprint = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
     storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-    boolIsInitialised = NO;
+}
 
-    [[ErrorHandler sharedManager] presentMessageInViewController:self
-     errorString:NSLocalizedString(@"HUD_CHANGE_CONFIGURATION", @"")
-     addActivityIndicator:YES
-     minShowTime:0
-    ];
-
+- ( void )viewWillAppear:( BOOL )animated
+{
+    [super viewWillAppear:animated];
+    [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
     [[ThemeManager sharedManager] beautifyViewController:self];
+    self.users = [MPin listUsers];
+    [(MenuViewController *)self.menuContainerViewController.leftMenuViewController setConfiguration];
+}
 
-    _btnAdd.backgroundColor = [[SettingsManager sharedManager] color6];
-    [_btnAdd setTitle:@"ADD NEW IDENTITY +" forState:UIControlStateNormal];
-    _btnAdd.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:16.0];
+- ( void )viewDidAppear:( BOOL )animated
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
+    if ( [self.users count] == 0 )
+    {
+        [self hideBottomBar:NO];
+        [self.table reloadData];
 
+        return;
+    }
+    [self.table reloadData];
+
+    selectedIndexPath = [NSIndexPath indexPathForRow:NOT_SELECTED inSection:NOT_SELECTED_SEC];
+    ConfigurationManager *cf = [ConfigurationManager sharedManager];
+    NSInteger nSelectedUserIndex = [cf getSelectedUserIndexforSelectedConfiguration];
+    if ( nSelectedUserIndex >= 0 )
+    {
+        currentUser = self.users [nSelectedUserIndex];
+        selectedIndexPath = [NSIndexPath indexPathForRow:nSelectedUserIndex inSection:NOT_SELECTED_SEC];
+        [self showBottomBar:YES];
+    }
+    else
+    {
+        [self hideBottomBar:NO];
+    }
+}
+
+- ( void )viewDidDisappear:( BOOL )animated
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
 }
 
 - ( void ) invalidate
 {
     self.users = [MPin listUsers];
-    
+
     if ( [self.users count] == 0 )
     {
         [self hideBottomBar:NO];
     }
-    
+
     ConfigurationManager *cf = [ConfigurationManager sharedManager];
     NSInteger nSelectedUserIndex = [cf getSelectedUserIndexforSelectedConfiguration];
     if ( nSelectedUserIndex >= 0 && self.users && [self.users count] )
@@ -136,7 +163,7 @@ static NSString *const kAN = @"AN";
         {
             currentUser = ( self.users ) [0];
         }
-        
+
         [self showBottomBar:NO];
         [self startAuthenticationFlow];
     }
@@ -176,48 +203,6 @@ static NSString *const kAN = @"AN";
     {
         [self.view layoutIfNeeded];
     }
-}
-
-- ( void )viewWillAppear:( BOOL )animated
-{
-    [super viewWillAppear:animated];
-    [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
-    [[ThemeManager sharedManager] beautifyViewController:self];
-    self.users = [MPin listUsers];
-    [_btnAdd setEnabled:![[ConfigurationManager sharedManager] isEmpty]];
-
-}
-
-- ( void )viewDidAppear:( BOOL )animated
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
-    if ( [self.users count] == 0 )
-    {
-        [self hideBottomBar:NO];
-        [self.table reloadData];
-
-        return;
-    }
-    [self.table reloadData];
-
-    selectedIndexPath = [NSIndexPath indexPathForRow:NOT_SELECTED inSection:NOT_SELECTED_SEC];
-    ConfigurationManager *cf = [ConfigurationManager sharedManager];
-    NSInteger nSelectedUserIndex = [cf getSelectedUserIndexforSelectedConfiguration];
-    if ( nSelectedUserIndex >= 0 )
-    {
-        currentUser = self.users [nSelectedUserIndex];
-        selectedIndexPath = [NSIndexPath indexPathForRow:nSelectedUserIndex inSection:NOT_SELECTED_SEC];
-        [self showBottomBar:YES];
-    }
-    else
-    {
-        [self hideBottomBar:NO];
-    }
-}
-
-- ( void )viewDidDisappear:( BOOL )animated
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
 }
 
 - ( void ) requestAuth
@@ -460,6 +445,17 @@ static NSString *const kAN = @"AN";
             break;
         }
     }
+}
+
+- ( void )OnSetBackendCompleted:( id )sender
+{
+    [[ErrorHandler sharedManager] updateMessage:@"Configuration changed" addActivityIndicator:NO hideAfter:2];
+}
+
+- ( void )OnSetBackendError:( id )sender error:( NSError * )error
+{
+    MpinStatus *status = ( error.userInfo ) [kMPinSatus];
+    [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(status.statusCodeAsString, @"UNKNOWN ERROR") addActivityIndicator:NO hideAfter:2];
 }
 
 - ( void )deleteSelectedUser
