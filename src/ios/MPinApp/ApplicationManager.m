@@ -14,7 +14,6 @@
 #import "UserListViewController.h"
 
 
-
 @interface ApplicationManager ( ) {
     MPin *sdk;
     AppDelegate *appdelegate;
@@ -58,10 +57,9 @@
             ///case AFNetworkReachabilityStatusNotReachable:
             case AFNetworkReachabilityStatusReachableViaWiFi:
             case AFNetworkReachabilityStatusReachableViaWWAN:
-                if ( ! [MPin isInitialized] ) {
-                    [sdk initSDK:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
+                if ( ![MPin isConfigLoadSuccessfully] ) {
+                    [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
                 }
-                
                 // TODO :: hide netowrk indicator
                 break;
             default: {
@@ -76,7 +74,7 @@
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
 }
 
-- ( void ) OnInitCompleted:( id ) sender
+- ( void ) OnSetBackendCompleted:( id ) sender
 {
     MFSideMenuContainerViewController *container = (MFSideMenuContainerViewController *)appdelegate.window.rootViewController;
     if ( [( (UINavigationController *)container.centerViewController ).topViewController isMemberOfClass:[UserListViewController class]] )
@@ -85,7 +83,7 @@
     }
 }
 
-- ( void ) OnInitError:( id ) sender error:( NSError * ) error
+- ( void ) OnSetBackendError:( id ) sender error:( NSError * ) error;
 {
     MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[mpinStatus getStatusCodeAsString] message:mpinStatus.errorMessage delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
