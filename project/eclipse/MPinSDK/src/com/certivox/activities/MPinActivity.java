@@ -151,7 +151,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void createNewUser(String email) {
-		CreateNewUserAsyncTask createNewUserTask = new CreateNewUserAsyncTask();
+		StartRegistrationNewUserAsyncTask createNewUserTask = new StartRegistrationNewUserAsyncTask();
 		createNewUserTask.execute(email);
 	}
 
@@ -865,26 +865,42 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 		}
 	}
 
-	private class CreateNewUserAsyncTask extends AsyncTask<String, Void, Void> {
+	private class StartRegistrationNewUserAsyncTask extends
+			AsyncTask<String, Void, Integer> {
 		User user;
+		private final int USER_EXISTS = 0;
+		private final int REGISTRATION_STARTED = 1;
 
 		@Override
-		protected Void doInBackground(String... emails) {
+		protected Integer doInBackground(String... emails) {
+			String newUserId = emails[0];
+			ArrayList<User> users = new ArrayList<User>();
+			sdk().ListUsers(users);
+			for (User user : users) {
+				if (user.getId().equals(newUserId)) {
+					return USER_EXISTS;
+				}
+			}
 			user = sdk().MakeNewUser(emails[0]);
-			// TODO check the status for
-			// errors
-			com.certivox.models.Status status = sdk().StartRegistration(user);
+			sdk().StartRegistration(user);
 
-			return null;
+			return REGISTRATION_STARTED;
 		}
 
 		@Override
-		protected void onPostExecute(Void result) {
-			removeNewUserFragment();
-			updateUsersList();
-			showCreatingNewIdentity(user, null);
-		}
+		protected void onPostExecute(Integer result) {
+			switch (result) {
+			case REGISTRATION_STARTED:
+				showCreatingNewIdentity(user, null);
+				break;
+			case USER_EXISTS: {
 
+				break;
+			}
+			default:
+				break;
+			}
+		}
 	}
 
 	private class AuthenticateAsyncTask extends AsyncTask<String, Void, Void> {
