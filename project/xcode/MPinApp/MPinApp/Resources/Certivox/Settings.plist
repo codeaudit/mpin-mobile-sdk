@@ -16,7 +16,7 @@
 		</dict>
 		<dict>
 			<key>backend</key>
-			<string>http://ddvpn.certivox.org/</string>
+			<string>http://otp.m-pin.id</string>
 			<key>rps_prefix</key>
 			<string></string>
 			<key>SERVICE_TYPE</key>

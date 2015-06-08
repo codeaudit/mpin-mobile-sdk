@@ -1822,7 +1822,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
-					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
@@ -1913,7 +1912,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
-					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
@@ -2010,7 +2008,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
-					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
@@ -2100,7 +2097,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
-					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
@@ -2197,7 +2193,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
-					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";

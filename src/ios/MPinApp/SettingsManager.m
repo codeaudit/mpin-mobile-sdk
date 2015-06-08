@@ -28,11 +28,12 @@
         NSString *filePath = [[NSBundle mainBundle] pathForResource:@"Settings" ofType:@"plist"];
         NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:filePath];
 
-        //TODO: Add nsassert and check for valid colors
+
         NSAssert(dict [@"COLORS"] != nil, @"Missing colors in Settings file");
         NSAssert(dict [@"BACKENDS"] != nil, @"Missing backends in Settings file");
         NSAssert(dict [@"HOCKEYAPP_ID"] != nil, @"Missing HOCKEYAPP_ID in Settings file");
 
+        //TODO: Add nsassert and check for valid hex colors
         _color0 = [UIColor colorWithHexString:dict [@"COLORS"] [@"color0"]];
         _color1 = [UIColor colorWithHexString:dict [@"COLORS"] [@"color1"]];
         _color2 = [UIColor colorWithHexString:dict [@"COLORS"] [@"color2"]];
@@ -49,11 +50,6 @@
     }
 
     return self;
-}
-
-- ( void )dealloc
-{
-    // Should never be called, but just here for clarity really.
 }
 
 @end
