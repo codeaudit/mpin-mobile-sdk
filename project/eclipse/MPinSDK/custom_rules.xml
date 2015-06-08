@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="custom_rules">
+
+    <!-- Set version.name and version.code for this build -->
+    <xmlproperty file="AndroidManifest.xml" prefix="custom" collapseAttributes="true" />
+    <condition property="version.code" value="${Version.Code}" else="${custom.manifest.android:versionCode}">
+        <isset property="Version.Code" />
+    </condition>
+    <property name="version.name" value="${custom.manifest.android:versionName}.${version.code}" />
+
+    <target name="-set-mode-check" depends="android_rules.-set-mode-check, -set-apk-filenames, -set-version" />
+
+    <target name="-set-version">
+        <echo>Modifying AndroidManifest with version: ${version.name}</echo>
+        <replace file="AndroidManifest.xml">
+            <replacefilter token='android:versionCode="${custom.manifest.android:versionCode}"'
+                           value='android:versionCode="${version.code}"' />
+        </replace>
+    </target>
+
+    <target name="-set-apk-filenames">
+        <condition property="custom.tag" value="release">
+            <contains string="${ant.project.invoked-targets}" substring="release" />
+        </condition>
+        <condition property="custom.tag" value="debug">
+            <contains string="${ant.project.invoked-targets}" substring="debug" />
+        </condition>
+        <condition property="custom.tag" value="instrumented">
+            <contains string="${ant.project.invoked-targets}" substring="instrument" />
+        </condition>
+        <condition property="custom.suffix" value="unsigned" else="unaligned">
+            <contains string="${ant.project.invoked-targets}" substring="release" />
+        </condition>
+        <property name="out.packaged.file" location="${out.absolute.dir}/${ant.project.name}_${version.name}-${custom.tag}-${custom.suffix}.apk" />
+        <property name="out.final.file" location="${out.absolute.dir}/${ant.project.name}_${version.name}-${custom.tag}.apk" />
+    </target>
+</project>

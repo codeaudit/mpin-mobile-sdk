@@ -9,7 +9,6 @@
 
 #import "IUser.h"
 #import "Constants.h"
-#import "ATMHud.h"
 #import "MFSideMenu.h"
 #import "UIViewController+Helper.h"
 #import "MPin+AsyncOperations.h"
@@ -21,6 +20,7 @@
 #import "UserListViewController.h"
 #import "OTPViewController.h"
 #import "IdentityBlockedViewController.h"
+#import "MenuViewController.h"
 
 #pragma mark - import managers -
 #import "ThemeManager.h"
@@ -39,360 +39,387 @@
 #define NOT_SELECTED -1
 #define NOT_SELECTED_SEC 0
 
-static NSString* const kSettings = @"settings";
-static NSString* const kCurrentSelectionIndex = @"currentSelectionIndex";
+static NSString *const kSettings = @"settings";
+static NSString *const kCurrentSelectionIndex = @"currentSelectionIndex";
 
-static NSString* const kOTP = @"OTP";
-static NSString* const kAN = @"AN";
+static NSString *const kOTP = @"OTP";
+static NSString *const kAN = @"AN";
 
 @implementation UserListTableViewCell
 @end
 
-@interface UserListViewController () {
-    NSIndexPath* selectedIndexPath;
-    ATMHud* hud;
-    BOOL boolIsInitialised;
+@interface UserListViewController ( )
+{
+    NSIndexPath *selectedIndexPath;
     id<IUser> currentUser;
-    ThemeManager* themeManager;
-    MPin* sdk;
+    ThemeManager *themeManager;
+    MPin *sdk;
     BOOL boolFirstTime;
-    UIStoryboard* storyboard;
+    BOOL boolShouldAskForFingerprint;
+    UIStoryboard *storyboard;
 }
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint* constraintLeadingSpace;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint* constraintTrailingSpace;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint* constraintBottomSpace;
+@property ( nonatomic, weak ) IBOutlet NSLayoutConstraint *constraintMenuHeight;
 
-- (void)showBottomBar:(BOOL)animated;
-- (void)hideBottomBar:(BOOL)animated;
-- (void)starAuthenticationFlow;
+- ( void )showBottomBar:( BOOL )animated;
+- ( void )hideBottomBar:( BOOL )animated;
+- ( void )startAuthenticationFlow;
 
-- (void)startLoading;
-- (void)stopLoading;
-- (void)showPinPad;
+- ( void )showPinPad;
 
-- (IBAction)btnAddIDTap:(id)sender;
-- (IBAction)btnEditTap:(id)sender;
-- (IBAction)btnDeleteTap:(id)sender;
-- (IBAction)btnAuthTap:(id)sender;
-- (IBAction)onResetPinButtonClicked:(id)sender;
+- ( IBAction )btnAddIDTap:( id )sender;
+- ( IBAction )btnEditTap:( id )sender;
+- ( IBAction )btnDeleteTap:( id )sender;
+- ( IBAction )btnAuthTap:( id )sender;
+- ( IBAction )onResetPinButtonClicked:( id )sender;
 
-- (void)deleteSelectedUser;
+- ( void )deleteSelectedUser;
 
 @end
 
 @implementation UserListViewController
 
-- (instancetype)initWithCoder:(NSCoder*)coder
+- ( instancetype )initWithCoder:( NSCoder * )coder
 {
     self = [super initWithCoder:coder];
-    if (self) {
+    if ( self )
+    {
         selectedIndexPath = [NSIndexPath indexPathForRow:NOT_SELECTED inSection:NOT_SELECTED_SEC];
     }
+
     return self;
 }
 
-- (void)viewDidLoad
+- ( void )viewDidLoad
 {
     [super viewDidLoad];
-    boolFirstTime = YES;
-
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-    boolIsInitialised = NO;
-
-    hud = [[ATMHud alloc] initWithDelegate:self];
-    [hud setCaption:NSLocalizedString(@"HUD_CHANGE_CONFIGURATION", @"")];
-    [hud setActivity:YES];
-    [hud showInView:self.view];
-    [[ThemeManager sharedManager] beautifyViewController:self];
-    
-    _btnAdd.backgroundColor = [[SettingsManager sharedManager] color6];
-    [_btnAdd setTitle:@"ADD NEW IDENTITY +" forState:UIControlStateNormal];
-    _btnAdd.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:16.0];
-
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
+    boolFirstTime = YES;
+    boolShouldAskForFingerprint = YES;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
 }
 
-- (void) invalidate {
-    self.users = [MPin listUsers];
-    
-    if ([self.users count] == 0)
-    {
-        [self hideBottomBar:NO];
-    }
-    
-    ConfigurationManager *cf = [ConfigurationManager sharedManager];
-    NSInteger nSelectedUserIndex = [cf getSelectedUserIndexforSelectedConfiguration];
-    if (nSelectedUserIndex >=0) {
-        selectedIndexPath = [NSIndexPath indexPathForRow:nSelectedUserIndex inSection:NOT_SELECTED_SEC];
-        if (self.users.count > selectedIndexPath.row)
-        {
-            currentUser = (self.users)[selectedIndexPath.row];
-        }
-        else
-        {
-            currentUser = (self.users)[0];
-        }
-        
-        [self showBottomBar:NO];
-        [self starAuthenticationFlow];
-    } else  [self hideBottomBar:NO];
-    
-    [self.table reloadData];
-}
-
-- (void)showBottomBar:(BOOL)animated
-{
-    _constraintLeadingSpace.constant = 0;
-    _constraintTrailingSpace.constant = 0;
-    _constraintBottomSpace.constant = 0;
-    if (animated) {
-        [UIView animateWithDuration:.25 animations:^{
-            [self.view layoutIfNeeded];
-        }];
-    }
-    else {
-        [self.view layoutIfNeeded];
-    }
-}
-
-- (void)hideBottomBar:(BOOL)animated
-{
-    _constraintLeadingSpace.constant = self.navigationController.navigationBar.frame.size.width / 2;
-    _constraintTrailingSpace.constant = self.navigationController.navigationBar.frame.size.width / 2;
-    _constraintBottomSpace.constant = -54;
-    if (animated) {
-        [UIView animateWithDuration:.25 animations:^{
-            [self.view layoutIfNeeded];
-        }];
-    }
-    else {
-        [self.view layoutIfNeeded];
-    }
-}
-
-- (void)viewWillAppear:(BOOL)animated
+- ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
-
     [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
     [[ThemeManager sharedManager] beautifyViewController:self];
-    [self stopLoading];
     self.users = [MPin listUsers];
+    [(MenuViewController *)self.menuContainerViewController.leftMenuViewController setConfiguration];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- ( void )viewDidAppear:( BOOL )animated
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPinPad) name:kShowPinPadNotification object:nil];
-    
-    if ([self.users count] == 0) {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
+    if ( [self.users count] == 0 )
+    {
         [self hideBottomBar:NO];
         [self.table reloadData];
+
         return;
     }
     [self.table reloadData];
+
     selectedIndexPath = [NSIndexPath indexPathForRow:NOT_SELECTED inSection:NOT_SELECTED_SEC];
-    ConfigurationManager* cf = [ConfigurationManager sharedManager];
+    ConfigurationManager *cf = [ConfigurationManager sharedManager];
     NSInteger nSelectedUserIndex = [cf getSelectedUserIndexforSelectedConfiguration];
-    if (nSelectedUserIndex >= 0) {
+    if ( nSelectedUserIndex >= 0 )
+    {
+        currentUser = self.users [nSelectedUserIndex];
         selectedIndexPath = [NSIndexPath indexPathForRow:nSelectedUserIndex inSection:NOT_SELECTED_SEC];
-        [self showBottomBar:NO];
+        [self showBottomBar:YES];
     }
     else
+    {
         [self hideBottomBar:NO];
-    
+    }
 }
-- (void)viewDidDisappear:(BOOL)animated
+
+- ( void )viewDidDisappear:( BOOL )animated
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
 }
 
-- (void) requestAuth
+- ( void ) invalidate
 {
-    if (boolFirstTime)
+    self.users = [MPin listUsers];
+
+    if ( [self.users count] == 0 )
+    {
+        [self hideBottomBar:NO];
+    }
+
+    ConfigurationManager *cf = [ConfigurationManager sharedManager];
+    NSInteger nSelectedUserIndex = [cf getSelectedUserIndexforSelectedConfiguration];
+    if ( nSelectedUserIndex >= 0 && self.users && [self.users count] )
+    {
+        selectedIndexPath = [NSIndexPath indexPathForRow:nSelectedUserIndex inSection:NOT_SELECTED_SEC];
+        if ( self.users.count > selectedIndexPath.row )
+        {
+            currentUser = ( self.users ) [selectedIndexPath.row];
+        }
+        else
+        {
+            currentUser = ( self.users ) [0];
+        }
+
+        [self showBottomBar:NO];
+        [self startAuthenticationFlow];
+    }
+    else
+    {
+        [self hideBottomBar:NO];
+    }
+    [self.table reloadData];
+}
+
+- ( void )showBottomBar:( BOOL )animated
+{
+    _constraintMenuHeight.constant = 54;
+    if ( animated )
+    {
+        [UIView animateWithDuration:.25 animations: ^ {
+            [self.view layoutIfNeeded];
+        }];
+    }
+    else
+    {
+        [self.view layoutIfNeeded];
+    }
+}
+
+- ( void )hideBottomBar:( BOOL )animated
+{
+    _constraintMenuHeight.constant = 0;
+    if ( animated )
+    {
+        [UIView animateWithDuration:.25 animations: ^ {
+            [self.view layoutIfNeeded];
+        }
+        ];
+    }
+    else
+    {
+        [self.view layoutIfNeeded];
+    }
+}
+
+- ( void ) requestAuth
+{
+    if ( boolFirstTime )
     {
         LAContext *context = [[LAContext alloc] init];
         [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:@"Please, authorize yourself" reply:
-         ^(BOOL success, NSError *authenticationError) {
-             boolFirstTime = !success;
-             if (!success)
-             {
-                 [self requestAuth];
-             }
-         }];
+         ^ (BOOL success, NSError *authenticationError) {
+            boolFirstTime = !success;
+            if ( !success )
+            {
+                [self requestAuth];
+            }
+        }
+        ];
     }
 }
+
 #pragma mark - Table view delegate -
 
-- (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section
+- ( NSInteger )tableView:( UITableView * )tableView numberOfRowsInSection:( NSInteger )section
 {
     return self.users.count;
 }
 
-- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
+- ( UITableViewCell * )tableView:( UITableView * )tableView cellForRowAtIndexPath:( NSIndexPath * )indexPath
 {
-    static NSString* userListTableIdentifier = @"UserListTableViewCell";
-    UserListTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:userListTableIdentifier];
-    if (cell == nil)
+    static NSString *userListTableIdentifier = @"UserListTableViewCell";
+    UserListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:userListTableIdentifier];
+    if ( cell == nil )
+    {
         cell = [[UserListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:userListTableIdentifier];
+    }
     cell.lblUserID.font = [UIFont fontWithName:@"OpenSans" size:14.f];
     cell.lblUserID.textColor = [[SettingsManager sharedManager] color6];
+
     return cell;
 }
 
-- (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath
+- ( void )tableView:( UITableView * )tableView willDisplayCell:( UITableViewCell * )cell forRowAtIndexPath:( NSIndexPath * )indexPath
 {
-    UserListTableViewCell* c = (UserListTableViewCell*)cell;
-    id<IUser> iuser = (self.users)[indexPath.row];
+    UserListTableViewCell *c = (UserListTableViewCell *)cell;
+    id<IUser> iuser = ( self.users ) [indexPath.row];
     c.lblUserID.text = [iuser getIdentity];
 
-    if ((selectedIndexPath != nil) && (indexPath.row == selectedIndexPath.row)) {
+    if ( ( selectedIndexPath != nil ) && ( indexPath.row == selectedIndexPath.row ) )
+    {
         c.imgViewSelected.image = [UIImage imageNamed:@"checked"];
     }
-    else {
+    else
+    {
         c.imgViewSelected.image = [UIImage imageNamed:@"pin-dot-empty"];
     }
 
-    switch ([iuser getState]) {
+    switch ( [iuser getState] )
+    {
     case INVALID:
         c.imgViewUser.image = [UIImage imageNamed:@"avatar-list-unregistered"];
         break;
+
     case STARTED_REGISTRATION:
         c.imgViewUser.image = [UIImage imageNamed:@"avatar-list-unregistered"];
         break;
+
     case ACTIVATED:
         c.imgViewUser.image = [UIImage imageNamed:@"avatar-list-unregistered"];
         break;
+
     case REGISTERED:
         c.imgViewUser.image = [UIImage imageNamed:@"avatar-list-registered"];
         break;
+
     default:
         c.imgViewUser.image = [UIImage imageNamed:@"avatar-list-unregistered"];
         break;
     }
 }
 
-- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath
+- ( void )tableView:( UITableView * )tableView didSelectRowAtIndexPath:( NSIndexPath * )indexPath
 {
-    if (selectedIndexPath.row == indexPath.row) {
-
-        UserListTableViewCell* prevCell = (UserListTableViewCell*)[tableView cellForRowAtIndexPath:selectedIndexPath];
+    if ( [selectedIndexPath row] == [indexPath row] )
+    {
+        UserListTableViewCell *prevCell = (UserListTableViewCell *)[tableView cellForRowAtIndexPath:selectedIndexPath];
         prevCell.imgViewSelected.image = [UIImage imageNamed:@"pin-dot-empty"];
         selectedIndexPath = [NSIndexPath indexPathForRow:NOT_SELECTED inSection:NOT_SELECTED_SEC];
         [self hideBottomBar:YES];
+
         return;
     }
 
-    if (selectedIndexPath.row == NOT_SELECTED) {
+    if ( selectedIndexPath.row == NOT_SELECTED )
+    {
         [self showBottomBar:YES];
     }
-    else {
-        UserListTableViewCell* prevCell = (UserListTableViewCell*)[tableView cellForRowAtIndexPath:selectedIndexPath];
+    else
+    {
+        UserListTableViewCell *prevCell = (UserListTableViewCell *)[tableView cellForRowAtIndexPath:selectedIndexPath];
         prevCell.imgViewSelected.image = [UIImage imageNamed:@"pin-dot-empty"];
     }
-    currentUser = (self.users)[indexPath.row];
+    currentUser = ( self.users ) [indexPath.row];
     selectedIndexPath = indexPath;
-    UserListTableViewCell* cell = (UserListTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
+    UserListTableViewCell *cell = (UserListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    [self showBottomBar:YES];
     cell.imgViewSelected.image = [UIImage imageNamed:@"checked"];
 }
 
 #pragma mark - SDK Handlers -
-- (void)OnFinishRegistrationCompleted:(id)sender user:(const id<IUser>)user
+- ( void )OnFinishRegistrationCompleted:( id )sender user:( const id<IUser>)user
 {
-    [self stopLoading];
-    IdentityCreatedViewController* vcIDCreated = (IdentityCreatedViewController*)[storyboard instantiateViewControllerWithIdentifier:@"IdentityCreatedViewController"];
+    IdentityCreatedViewController *vcIDCreated = (IdentityCreatedViewController *)[storyboard instantiateViewControllerWithIdentifier:@"IdentityCreatedViewController"];
     vcIDCreated.user = user;
     vcIDCreated.strEmail = [user getIdentity];
     [self.navigationController pushViewController:vcIDCreated animated:YES];
 }
 
-- (void)OnFinishRegistrationError:(id)sender error:(NSError*)error
+- ( void )OnFinishRegistrationError:( id )sender error:( NSError * )error
 {
-    [self stopLoading];
-    if (error.code == IDENTITY_NOT_VERIFIED) {
-        ConfirmEmailViewController* cevc = (ConfirmEmailViewController*)[storyboard instantiateViewControllerWithIdentifier:@"ConfirmEmailViewController"];
-        cevc.iuser = (error.userInfo)[kUSER];
+    if ( error.code == IDENTITY_NOT_VERIFIED )
+    {
+        ConfirmEmailViewController *cevc = (ConfirmEmailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ConfirmEmailViewController"];
+        cevc.iuser = ( error.userInfo ) [kUSER];
         [self.navigationController pushViewController:cevc animated:YES];
     }
-    else {
+    else
+    {
         // TODO:
     }
 }
 
-- (void)OnAuthenticateOTPCompleted:(id)sender user:(id<IUser>)user otp:(OTP*)otp
+- ( void )OnAuthenticateOTPCompleted:( id )sender user:( id<IUser>)user otp:( OTP * )otp
 {
-    [self stopLoading];
+    if ( otp.status.status != OK )
+    {
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
+         errorString:@"OTP is not supported!"
+         addActivityIndicator:NO
+         minShowTime:0];
 
-    if (otp.status.status != OK) {
-        [self showError:[otp.status getStatusCodeAsString] desc:@"OTP is not supported!"];
         return;
     }
-    OTPViewController* otpViewController = [storyboard instantiateViewControllerWithIdentifier:@"OTP"];
+    OTPViewController *otpViewController = [storyboard instantiateViewControllerWithIdentifier:@"OTP"];
     otpViewController.otpData = otp;
     otpViewController.strEmail = [user getIdentity];
-    [self stopLoading];
     [self.navigationController pushViewController:otpViewController animated:YES];
 }
 
-- (void)OnAuthenticateOTPError:(id)sender error:(NSError*)error
+- ( void )OnAuthenticateOTPError:( id )sender error:( NSError * )error
 {
-    [self stopLoading];
-
-    MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
-    [self showError:[mpinStatus getStatusCodeAsString] desc:mpinStatus.errorMessage];
+    MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+     errorString:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR")
+     addActivityIndicator:NO
+     minShowTime:0];
 }
 
--(void) onAccessNumber:(NSString *) an {
-    [sdk AuthenticateAN:[self.users objectAtIndex:selectedIndexPath.row] accessNumber:an];
+-( void ) onAccessNumber:( NSString * ) an
+{
+    [sdk AuthenticateAN:[self.users objectAtIndex:selectedIndexPath.row] accessNumber:an askForFingerprint:boolShouldAskForFingerprint];
 }
 
-- (void)OnAuthenticateAccessNumberCompleted:(id)sender user:(id<IUser>)user
+- ( void )OnAuthenticateAccessNumberCompleted:( id )sender user:( id<IUser>)user
 {
-    [hud setCaption:NSLocalizedString(@"HUD_AUTH_SUCCESS", @"")];
-    [hud setMinShowTime:2.0];
-    [hud showInView:self.view];
-    [hud hide];
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+     errorString:NSLocalizedString(@"HUD_AUTH_SUCCESS", @"")
+     addActivityIndicator:NO
+     minShowTime:0];
 }
 
-- (void)OnAuthenticateAccessNumberError:(id)sender error:(NSError*)error
+- ( void )OnAuthenticateAccessNumberError:( id )sender error:( NSError * )error
 {
-    [self stopLoading];
-    switch (error.code) {
+    switch ( error.code )
+    {
     case INCORRECT_PIN:
-        [self showError:@"Authentication Failed!" desc:@"Wrong MPIN or Access Number!"];
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
+         errorString:@"Wrong MPIN or Access Number!"
+         addActivityIndicator:NO
+         minShowTime:0];
         break;
+
     case HTTP_REQUEST_ERROR:
-        [self showError:@"Authentication Failed!" desc:@"Wrong MPIN or Access Number!"];
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Wrong MPIN or Access Number!"
+         addActivityIndicator:NO
+         minShowTime:0];
         break;
-    default: {
-        MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
-        [self showError:[mpinStatus getStatusCodeAsString] desc:mpinStatus.errorMessage];
+
+    default:
+    {
+        MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR")
+         addActivityIndicator:NO
+         minShowTime:0];
     } break;
     }
 }
 
-- (void)OnAuthenticateCompleted:(id)sender user:(const id<IUser>)user
+- ( void )OnAuthenticateCompleted:( id )sender user:( const id<IUser>)user
 {
-    [self stopLoading];
-
-    AccountSummaryViewController* vcAccountSummary = [storyboard instantiateViewControllerWithIdentifier:@"AccountSummary"];
+    [[ErrorHandler sharedManager] hideMessage];
+    AccountSummaryViewController *vcAccountSummary = [storyboard instantiateViewControllerWithIdentifier:@"AccountSummary"];
     vcAccountSummary.strEmail = [currentUser getIdentity];
     [self.navigationController pushViewController:vcAccountSummary animated:YES];
 }
 
-- (void) OnAuthenticateCanceled
+- ( void ) OnAuthenticateCanceled
 {
-    [self stopLoading];
-    [self showError:@"Authentication Failed!" desc:@"TouchID failed"];
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+     errorString:@"TouchID failed"
+     addActivityIndicator:NO
+     minShowTime:0];
 }
 
-- (void)OnAuthenticateError:(id)sender error:(NSError*)error
+- ( void )OnAuthenticateError:( id )sender error:( NSError * )error
 {
-    [self stopLoading];
-    MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
-    id<IUser> iuser = (self.users)[selectedIndexPath.row];
-    if ([iuser getState] == BLOCKED)
+    MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
+    id<IUser> iuser = ( self.users ) [selectedIndexPath.row];
+    if ( [iuser getState] == BLOCKED )
     {
         IdentityBlockedViewController *identityBlockedViewController = [storyboard  instantiateViewControllerWithIdentifier:@"IdentityBlockedViewController"];
         identityBlockedViewController.strUserEmail = [iuser getIdentity];
@@ -401,55 +428,40 @@ static NSString* const kAN = @"AN";
     }
     else
     {
-        switch (error.code)
+        switch ( error.code )
         {
-            case INCORRECT_PIN:
-                [self showError:@"Authentication Failed!" desc:@"Wrong MPIN"];
-                break;
-            default:
-                [self showError:[mpinStatus getStatusCodeAsString] desc:mpinStatus.errorMessage];
-                break;
+        case INCORRECT_PIN:
+            [[ErrorHandler sharedManager] presentMessageInViewController:self
+             errorString:@"Wrong MPIN"
+             addActivityIndicator:NO
+             minShowTime:0];
+            break;
+
+        default:
+            [[ErrorHandler sharedManager] presentMessageInViewController:self
+             errorString:mpinStatus.errorMessage
+             addActivityIndicator:NO
+             minShowTime:0];
+            break;
         }
     }
 }
 
-- (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- ( void )OnSetBackendCompleted:( id )sender
 {
-    if ((alertView.tag == ON_LOGOUT) && (buttonIndex == LOGOUT_BUTTON_INDEX)) {
-
-        [hud setCaption:NSLocalizedString(@"HUD_LOGOUT", @"")];
-        [hud setActivity:YES];
-        [hud showInView:self.view];
-
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            BOOL isSuccessful = [MPin Logout:(self.users)[selectedIndexPath.row]];
-            dispatch_async(dispatch_get_main_queue(), ^(void) {
-                [hud hide];
-                NSString * descritpion = (isSuccessful)?NSLocalizedString(@"HUD_LOGOUT_OK", @""):NSLocalizedString(@"HUD_LOGOUT_NOT_OK", @"");
-                [hud setCaption:descritpion];
-                [hud setActivity:YES];
-                [hud showInView:self.view];
-                
-                
-            });
-        });
-        return;
-    } else if ((alertView.tag == DELETE_TAG) && (buttonIndex == DELETE_BUTTON_INDEX)) {
-        [self deleteSelectedUser];
-    } else if((alertView.tag == RESETPIN_TAG) && (buttonIndex == RESETPIN_BUTTON_INDEX)) {
-        [self startLoading];
-        id<IUser> iuser = (self.users)[selectedIndexPath.row];
-        NSString * userID = [iuser getIdentity];
-        [self deleteSelectedUser];
-        ConfigurationManager *cfm = [ConfigurationManager sharedManager];
-        [sdk RegisterNewUser:userID devName:[cfm getDeviceName]];
-    }
+    [[ErrorHandler sharedManager] updateMessage:@"Configuration changed" addActivityIndicator:NO hideAfter:2];
 }
 
-- (void)deleteSelectedUser
+- ( void )OnSetBackendError:( id )sender error:( NSError * )error
+{
+    MpinStatus *status = ( error.userInfo ) [kMPinSatus];
+    [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(status.statusCodeAsString, @"UNKNOWN ERROR") addActivityIndicator:NO hideAfter:2];
+}
+
+- ( void )deleteSelectedUser
 {
     [self hideBottomBar:YES];
-    id<IUser> iuser = (self.users)[selectedIndexPath.row];
+    id<IUser> iuser = ( self.users ) [selectedIndexPath.row];
     [MPin DeleteUser:iuser];
     [self.users removeObjectAtIndex:selectedIndexPath.row];
     selectedIndexPath = [NSIndexPath indexPathForRow:NOT_SELECTED inSection:NOT_SELECTED_SEC];
@@ -459,178 +471,228 @@ static NSString* const kAN = @"AN";
 
 #pragma mark - My actions -
 
-- (IBAction)btnAddIDTap:(id)sender
+- ( IBAction )btnAddIDTap:( id )sender
 {
-    UIViewController* addViewController = [storyboard instantiateViewControllerWithIdentifier:@"Add"];
+    UIViewController *addViewController = [storyboard instantiateViewControllerWithIdentifier:@"Add"];
     [self.navigationController pushViewController:addViewController animated:YES];
 }
 
-- (IBAction)btnEditTap:(id)sender
-{
-}
+- ( IBAction )btnEditTap:( id )sender
+{}
 
-- (IBAction)btnDeleteTap:(id)sender
+- ( IBAction )btnDeleteTap:( id )sender
 {
-    id<IUser> iuser = (self.users)[selectedIndexPath.row];
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"KEY_DELETE", @"")
-                                                    message:[NSString stringWithFormat:NSLocalizedString(@"WARNING_USER_WILL_BE_DELETED", @""), [iuser getIdentity]]
-                                                   delegate:self
-                                          cancelButtonTitle:NSLocalizedString(@"KEY_CANCEL", @"")
-                                          otherButtonTitles:NSLocalizedString(@"KEY_DELETE", @""),
-                                          nil];
+    id<IUser> iuser = ( self.users ) [selectedIndexPath.row];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"KEY_DELETE", @"")
+                          message:[NSString stringWithFormat:NSLocalizedString(@"WARNING_USER_WILL_BE_DELETED", @""), [iuser getIdentity]]
+                          delegate:self
+                          cancelButtonTitle:NSLocalizedString(@"KEY_CANCEL", @"")
+                          otherButtonTitles:NSLocalizedString(@"KEY_DELETE", @""),
+                          nil];
     alert.tag = DELETE_TAG;
     [alert show];
 }
 
-
-
-
-
--(IBAction)onResetPinButtonClicked:(id)sender {
-    
-    id<IUser> iuser = (self.users)[selectedIndexPath.row];
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"RESET_PIN"
-                                                    message:[NSString stringWithFormat:@"Are you sure that you would like to reset pin of \"%@\" ?", [iuser getIdentity]]
-                                                   delegate:self
-                                          cancelButtonTitle:@"CANCEL"
-                                          otherButtonTitles:@"RESET",
+-( IBAction )onResetPinButtonClicked:( id )sender
+{
+    id<IUser> iuser = ( self.users ) [selectedIndexPath.row];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"RESET_PIN"
+                          message:[NSString stringWithFormat:@"Are you sure that you would like to reset pin of \"%@\" ?", [iuser getIdentity]]
+                          delegate:self
+                          cancelButtonTitle:@"CANCEL"
+                          otherButtonTitles:@"RESET",
                           nil];
     alert.tag = RESETPIN_TAG;
     [alert show];
 }
 
-- (IBAction)btnAuthTap:(id)sender
+- ( IBAction )btnAuthTap:( id )sender
 {
-    ConfigurationManager* cf = [ConfigurationManager sharedManager];
-    [cf setSelectedUserForCurrentConfiguration:selectedIndexPath.row];
-    [self starAuthenticationFlow];
+    [[ConfigurationManager sharedManager] setSelectedUserForCurrentConfiguration:selectedIndexPath.row];
+    [self startAuthenticationFlow];
 }
 
-- (void)starAuthenticationFlow
+- ( void )startAuthenticationFlow
 {
-    id<IUser> iuser = (self.users)[selectedIndexPath.row];
-    NSDictionary* config;
-    enum SERVICES s;
-    IdentityBlockedViewController   *identityBlockedViewController;
-    AccessNumberViewController      *accessViewController;
-    
-    switch ([iuser getState])
+    NSIndexPath *path = selectedIndexPath;
+    if ( [path row] < [self.users count] )
     {
+        id<IUser> iuser = ( self.users ) [[path row]];
+        NSDictionary *config;
+        enum SERVICES s;
+        IdentityBlockedViewController   *identityBlockedViewController;
+        AccessNumberViewController      *accessViewController;
+
+        switch ( [iuser getState] )
+        {
         case INVALID:
-            [hud setCaption:NSLocalizedString(@"HUD_REACTIVATE_USER", @"")];
-            [hud setMinShowTime:2.0];
-            [hud showInView:self.view];
-            [hud hide];
+            [[ErrorHandler sharedManager] presentMessageInViewController:self
+             errorString:NSLocalizedString(@"HUD_REACTIVATE_USER", @"")
+             addActivityIndicator:NO
+             minShowTime:0];
             break;
+
         case STARTED_REGISTRATION:
-            [self startLoading];
             [sdk FinishRegistration:iuser];
             break;
+
         case ACTIVATED:
-            [self startLoading];
             [sdk FinishRegistration:iuser];
             break;
+
         case REGISTERED:
-            [hud setActivity:YES];
-            [hud showInView:self.view];
             config = [[ConfigurationManager sharedManager] getSelectedConfiguration];
-            s = [config[kSERVICE_TYPE] intValue];
-            switch (s)
+            s = [config [kSERVICE_TYPE] intValue];
+            switch ( s )
             {
-                case LOGIN_ON_MOBILE:
-                    [sdk Authenticate:iuser];
-                    break;
-                case LOGIN_ONLINE:
-                    accessViewController = [storyboard instantiateViewControllerWithIdentifier:@"accessnumber"];
-                    accessViewController.delegate = self;
-                    accessViewController.strEmail = [currentUser getIdentity];
-                    [self.navigationController pushViewController:accessViewController animated:YES];
-                    break;
-                    
-                case LOGIN_WITH_OTP:
-                    [sdk AuthenticateOTP:iuser];
-                    break;
+            case LOGIN_ON_MOBILE:
+                [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
+                [sdk Authenticate:iuser askForFingerprint:boolShouldAskForFingerprint];
+                break;
+
+            case LOGIN_ONLINE:
+                accessViewController = [storyboard instantiateViewControllerWithIdentifier:@"accessnumber"];
+                accessViewController.delegate = self;
+                accessViewController.strEmail = [currentUser getIdentity];
+                accessViewController.currentUser = currentUser;
+                [self.navigationController pushViewController:accessViewController animated:YES];
+                break;
+
+            case LOGIN_WITH_OTP:
+                [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
+                [sdk AuthenticateOTP:iuser askForFingerprint:boolShouldAskForFingerprint];
+                break;
             }
             break;
+
         case BLOCKED:
             identityBlockedViewController = [storyboard instantiateViewControllerWithIdentifier:@"IdentityBlockedViewController"];
             identityBlockedViewController.strUserEmail = [iuser getIdentity];
             identityBlockedViewController.iuser = iuser;
             [self.navigationController pushViewController:identityBlockedViewController animated:YES];
             break;
+
         default:
-            [hud setCaption:NSLocalizedString(@"HUD_UNSUPPORTED_ACTION", @"")];
-            [hud setMinShowTime:2.0];
-            [hud showInView:self.view];
-            [hud hide];
-        break;
+            [[ErrorHandler sharedManager] presentMessageInViewController:self
+             errorString:NSLocalizedString(@"HUD_UNSUPPORTED_ACTION", @"")
+             addActivityIndicator:NO
+             minShowTime:0];
+            break;
+        }
+    }
+    else
+    {
+        [self hideBottomBar:NO];
     }
 }
 
-- (void)showPinPad
+- ( void )showPinPad
 {
-    PinPadViewController* pinpadViewController = [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];
-    pinpadViewController.userId = [currentUser getIdentity];
+    PinPadViewController *pinpadViewController = [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];
+    pinpadViewController.sdk = sdk;
+    pinpadViewController.sdk.delegate = pinpadViewController;
+    pinpadViewController.currentUser = currentUser;
     pinpadViewController.boolShouldShowBackButton = YES;
     pinpadViewController.title = kEnterPin;
     [self.navigationController pushViewController:pinpadViewController animated:YES];
 }
 
-- (void)startLoading
-{
-    [hud showInView:self.view];
-}
-
-- (void)stopLoading
-{
-    [hud hide];
-}
-
-- (IBAction)showLeftMenuPressed:(id)sender
+- ( IBAction )showLeftMenuPressed:( id )sender
 {
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
 }
 
-- (void)OnRegisterNewUserCompleted:(id)sender user:(const id<IUser>)user {
-    [self stopLoading];
-    switch ([user getState]) {
-        case STARTED_REGISTRATION: {
-            ConfirmEmailViewController* cevc = (ConfirmEmailViewController*)
-            [storyboard instantiateViewControllerWithIdentifier:
-             @"ConfirmEmailViewController"];
-            cevc.iuser = user;
-            [self.navigationController pushViewController:cevc animated:YES];
-        } break;
-        case ACTIVATED:
-            [self startLoading];
-            currentUser = user;
-            [sdk FinishRegistration:user];
-            break;
-        default:
-            [self
-             showError:[user getIdentity]
-             desc:[NSString stringWithFormat:@"User state is unexpected %ld",
-                   [user getState]]];
-            break;
+- ( void )OnRegisterNewUserCompleted:( id )sender user:( const id<IUser>)user
+{
+    switch ( [user getState] )
+    {
+    case STARTED_REGISTRATION:
+    {
+        ConfirmEmailViewController *cevc = (ConfirmEmailViewController *)
+                                           [storyboard instantiateViewControllerWithIdentifier:
+                                            @"ConfirmEmailViewController"];
+        cevc.iuser = user;
+        [self.navigationController pushViewController:cevc animated:YES];
+    } break;
+
+    case ACTIVATED:
+        currentUser = user;
+        [sdk FinishRegistration:user];
+        break;
+
+    default:
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
+         errorString:[NSString stringWithFormat:@"User state is unexpected %ld",                                                                                       [user getState]]
+         addActivityIndicator:NO
+         minShowTime:0];
+        break;
     }
-    
-    NSArray * users = [MPin listUsers];
+
+    NSArray *users = [MPin listUsers];
     int index = 0;
-    for (;index<[users count];index++) {
+    for (; index < [users count]; index++ )
+    {
         id<IUser> cUser = [users objectAtIndex:index];
-        if ([[cUser getIdentity] isEqualToString:[user getIdentity]])   break;
+        if ( [[cUser getIdentity] isEqualToString:[user getIdentity]] )
+            break;
     }
-    
-    ConfigurationManager* cf = [ConfigurationManager sharedManager];
-    [cf setSelectedUserForCurrentConfiguration:(index)];
+
+    ConfigurationManager *cf = [ConfigurationManager sharedManager];
+    [cf setSelectedUserForCurrentConfiguration:( index )];
 }
 
-- (void)OnRegisterNewUserError:(id)sender error:(NSError*)error {
-    [self stopLoading];
-    MpinStatus* mpinStatus = [error.userInfo objectForKey:kMPinSatus];
-    [self showError:[mpinStatus getStatusCodeAsString]
-               desc:mpinStatus.errorMessage];
+- ( void )OnRegisterNewUserError:( id )sender error:( NSError * )error
+{
+    MpinStatus *mpinStatus = [error.userInfo objectForKey:kMPinSatus];
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+     errorString:mpinStatus.errorMessage
+     addActivityIndicator:NO
+     minShowTime:0];
 }
 
+#pragma mark - Alert view delegate -
+
+
+- ( void )alertView:( UIAlertView * )alertView clickedButtonAtIndex:( NSInteger )buttonIndex
+{
+    if ( ( alertView.tag == ON_LOGOUT ) && ( buttonIndex == LOGOUT_BUTTON_INDEX ) )
+    {
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
+         errorString:NSLocalizedString(@"HUD_LOGOUT", @"")
+         addActivityIndicator:NO
+         minShowTime:0];
+
+
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+            BOOL isSuccessful = [MPin Logout:( self.users ) [selectedIndexPath.row]];
+            dispatch_async(dispatch_get_main_queue(), ^ (void) {
+                [[ErrorHandler sharedManager] hideMessage];
+                NSString *descritpion = ( isSuccessful ) ? NSLocalizedString(@"HUD_LOGOUT_OK", @"") : NSLocalizedString(@"HUD_LOGOUT_NOT_OK", @"");
+                [[ErrorHandler sharedManager] presentMessageInViewController:self
+                 errorString:descritpion
+                 addActivityIndicator:NO
+                 minShowTime:0];
+            }
+                           );
+        }
+                       );
+
+        return;
+    }
+    else
+    if ( ( alertView.tag == DELETE_TAG ) && ( buttonIndex == DELETE_BUTTON_INDEX ) )
+    {
+        [self deleteSelectedUser];
+    }
+    else
+    if ( ( alertView.tag == RESETPIN_TAG ) && ( buttonIndex == RESETPIN_BUTTON_INDEX ) )
+    {
+        id<IUser> iuser = ( self.users ) [selectedIndexPath.row];
+        NSString *userID = [iuser getIdentity];
+        [self deleteSelectedUser];
+        ConfigurationManager *cfm = [ConfigurationManager sharedManager];
+        [sdk RegisterNewUser:userID devName:[cfm getDeviceName]];
+    }
+}
 
 @end

@@ -22,6 +22,7 @@
     <string name="otp_title">One Time Password</string>
     <string name="select_service_title">Select Service</string>
     <string name="account_summary">Account Summary</string>
+    <string name="identity_blocked_title">Identity Blocked</string>
     <!-- Toobar titles end -->
 
 
@@ -70,6 +71,15 @@
     <!-- OTP end -->
 
 
+    <!-- Identity Blocked -->
+    <string name="identity_blocked_1">Wrong PIN entered too many times.</string>
+    <string name="identity_blocked_2">Your identity is blocked.</string>
+    <string name="identity_blocked_3">You can sign up a new identity or choose existing one.</string>
+    <string name="reset_pin_button">Reset Pin</string>
+    <string name="remove_identity_button">Remove identity</string>
+    <!-- Identity Blocked End -->
+
+
     <!-- Configuration Edit -->
     <string name="select_service_toolbar_title">Select Service</string>
     <string name="add_service_toolbar_title">Add Service</string>
@@ -83,7 +93,16 @@
     <string name="request_an_title">Login to Online Session</string>
     <string name="check_service">Check Service URL</string>
     <string name="save_configuration">Save Configuration</string>
+    <string name="add_service">Add Service</string>
+    <string name="no_configurations">No configurations</string>
     <!-- Configuration Edit end -->
+
+
+    <!-- About -->
+    <string name="about_title">About</string>
+    <string name="about_version">Version:</string>
+    <string name="about_build">Build:</string>
+    <!-- About end -->
 
     <string name="logout">Logout</string>
 

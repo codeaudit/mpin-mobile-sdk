@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "MenuTableViewCell.h"
 #import "ThemeManager.h"
+#import "ConfigurationManager.h"
 
 #define USER_LIST 0
 #define SETTINGS 1
@@ -151,11 +152,13 @@
 
 - (void)setConfiguration
 {
-    NSArray* settings = [[NSUserDefaults standardUserDefaults] objectForKey:@"settings"];
-    NSInteger intSelectedConfiguration = [[NSUserDefaults standardUserDefaults] integerForKey:@"currentSelectionIndex"];
-    NSDictionary* dictConfiguration = settings[intSelectedConfiguration];
-    _lblConfigurationName.text = dictConfiguration[@"CONFIG_NAME"];
-    _lblConfigurationURL.text = dictConfiguration[@"backend"];
+    if (![[ConfigurationManager sharedManager] isEmpty]) {
+        NSArray* settings = [[NSUserDefaults standardUserDefaults] objectForKey:@"settings"];
+        NSInteger intSelectedConfiguration = [[NSUserDefaults standardUserDefaults] integerForKey:@"currentSelectionIndex"];
+        NSDictionary* dictConfiguration = settings[intSelectedConfiguration];
+        _lblConfigurationName.text = dictConfiguration[@"CONFIG_NAME"];
+        _lblConfigurationURL.text = dictConfiguration[@"backend"];
+    }
 }
 
 @end
