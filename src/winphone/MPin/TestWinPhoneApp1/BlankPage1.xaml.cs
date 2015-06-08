@@ -98,8 +98,6 @@ namespace MPinDemo
             if (!string.IsNullOrEmpty(param) && param.Equals("HardwareBack"))
                 controller.IsUserInProcessing = false;
 
-            this.IsEnabled = !controller.IsUserInProcessing;
-            this.BottomAppBar.IsEnabled = !controller.IsUserInProcessing;
             Progress.Visibility = controller.IsUserInProcessing ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
         }
 

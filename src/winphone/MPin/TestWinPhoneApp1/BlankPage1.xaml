@@ -26,10 +26,16 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid x:Name="Progress" Background="LightSlateGray" Visibility="Collapsed">
-            <ProgressBar IsIndeterminate="True" Foreground="Red"/>
+        <Grid x:Name="Progress" Visibility="Collapsed" Canvas.ZIndex="1" Background="Black" Opacity="0.7" HorizontalAlignment="Stretch" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <ProgressBar Grid.Row="1" IsIndeterminate="True"/>
+            <TextBlock Grid.Row="2" Text="Getting data from server..." FontSize="17" Foreground="White" HorizontalAlignment="Center"/>
         </Grid>
-
+        
         <Pivot x:Name="MainPivot" CommonNavigationTransitionInfo.IsStaggerElement="True" 
                SelectionChanged="MainPivot_SelectionChanged">
 
