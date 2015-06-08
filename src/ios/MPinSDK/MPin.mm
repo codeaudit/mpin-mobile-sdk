@@ -132,13 +132,6 @@ typedef sdk::Context Context;
     return [[MpinStatus alloc] initWith:(MPinStatus)s.GetStatusCode() errorMessage:[NSString stringWithUTF8String:s.GetErrorMessage().c_str()]];
 }
 
-+ (MpinStatus*)ResetPin:(const id<IUser>)user {
-    [lock lock];
-    Status s = mpin.ResetPin([((User *) user) getUserPtr]);
-    [lock unlock];
-    return [[MpinStatus alloc] initWith:(MPinStatus)s.GetStatusCode() errorMessage:[NSString stringWithUTF8String:s.GetErrorMessage().c_str()]];
-}
-
 + (MpinStatus*) Authenticate:(const id<IUser>) user {
     [lock lock];
     Status s = mpin.Authenticate([((User *) user) getUserPtr]);

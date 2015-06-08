@@ -105,45 +105,41 @@ static NSString* const kAN = @"AN";
     [hud setActivity:YES];
     [hud showInView:self.view];
     [[ThemeManager sharedManager] beautifyViewController:self];
-
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        MpinStatus* status = [MPin initWithConfig:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            if (status.status != OK) {
-                [self showError:[status getStatusCodeAsString] desc:status.errorMessage];
-            }
-            [hud hide];
-            self.users = [MPin listUsers];
-            
-            if ([self.users count] == 0)
-            {
-                [self hideBottomBar:NO];
-            }
-
-            ConfigurationManager *cf = [ConfigurationManager sharedManager];
-            NSInteger nSelectedUserIndex = [cf getSelectedUserIndexforSelectedConfiguration];
-            if (nSelectedUserIndex >=0) {
-                selectedIndexPath = [NSIndexPath indexPathForRow:nSelectedUserIndex inSection:NOT_SELECTED_SEC];
-                if (self.users.count > selectedIndexPath.row)
-                {
-                    currentUser = (self.users)[selectedIndexPath.row];
-                }
-                else
-                {
-                    currentUser = (self.users)[0];
-                }
-                
-                [self showBottomBar:NO];
-                [self starAuthenticationFlow];
-            } else  [self hideBottomBar:NO];
-            
-            [self.table reloadData];
-        });
-    });
-
+    
+    _btnAdd.backgroundColor = [[SettingsManager sharedManager] color6];
+    [_btnAdd setTitle:@"ADD NEW IDENTITY +" forState:UIControlStateNormal];
+    _btnAdd.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:16.0];
 
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
+}
+
+- (void) invalidate {
+    self.users = [MPin listUsers];
+    
+    if ([self.users count] == 0)
+    {
+        [self hideBottomBar:NO];
+    }
+    
+    ConfigurationManager *cf = [ConfigurationManager sharedManager];
+    NSInteger nSelectedUserIndex = [cf getSelectedUserIndexforSelectedConfiguration];
+    if (nSelectedUserIndex >=0) {
+        selectedIndexPath = [NSIndexPath indexPathForRow:nSelectedUserIndex inSection:NOT_SELECTED_SEC];
+        if (self.users.count > selectedIndexPath.row)
+        {
+            currentUser = (self.users)[selectedIndexPath.row];
+        }
+        else
+        {
+            currentUser = (self.users)[0];
+        }
+        
+        [self showBottomBar:NO];
+        [self starAuthenticationFlow];
+    } else  [self hideBottomBar:NO];
+    
+    [self.table reloadData];
 }
 
 - (void)showBottomBar:(BOOL)animated
