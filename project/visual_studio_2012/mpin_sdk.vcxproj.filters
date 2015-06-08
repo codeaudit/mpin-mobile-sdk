@@ -30,126 +30,6 @@
     <ClCompile Include="..\..\src\core\mpin_sdk.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\core\utils.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\aesGcmWrapper.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\certivox.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\eccsi_c.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\eccsiWrapper.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mpin_c.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mpinWrapper.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mraes.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mralloc.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrarth0.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrarth1.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrarth2.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrarth3.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrbits.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrcombaWin32.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrcore.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrcurve.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrecn2.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrgcd.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrgcm.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrio1.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrjack.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrlucas.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrmonty.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrmuldvWin32.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrpower.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrprime.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrrand.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrshs.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrshs256.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrsmall.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrsroot.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrstrong.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrxgcd.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrzzn2.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrzzn2b.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\mrzzn4.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\octet.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\sakke_bn_c.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\sakkeWrapper.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\ext\cvshared\cpp\windows\CvHttpRequest.cpp">
       <Filter>ext\cvshared</Filter>
     </ClCompile>
@@ -171,6 +51,75 @@
     <ClCompile Include="..\..\ext\cvshared\cpp\windows\CvThread.cpp">
       <Filter>ext\cvshared</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\core\crypto\aes.c">
+      <Filter>src\core\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\crypto\big.c">
+      <Filter>src\core\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\crypto\brian.c">
+      <Filter>src\core\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\crypto\ecdh.c">
+      <Filter>src\core\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\crypto\ecp.c">
+      <Filter>src\core\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\crypto\ecp2.c">
+      <Filter>src\core\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\crypto\ff.c">
+      <Filter>src\core\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\crypto\fp.c">
+      <Filter>src\core\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\crypto\fp2.c">
+      <Filter>src\core\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\crypto\fp4.c">
+      <Filter>src\core\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\crypto\fp12.c">
+      <Filter>src\core\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\crypto\gcm.c">
+      <Filter>src\core\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\crypto\hash.c">
+      <Filter>src\core\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\crypto\maxstack.c">
+      <Filter>src\core\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\crypto\mpin.c">
+      <Filter>src\core\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\crypto\oct.c">
+      <Filter>src\core\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\crypto\pair.c">
+      <Filter>src\core\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\crypto\rand.c">
+      <Filter>src\core\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\crypto\rom.c">
+      <Filter>src\core\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\crypto\rsa.c">
+      <Filter>src\core\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\crypto\sok.c">
+      <Filter>src\core\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\crypto\version.c">
+      <Filter>src\core\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\utils.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\core\mpin_crypto.h">
@@ -181,48 +130,6 @@
     </ClInclude>
     <ClInclude Include="..\..\src\core\mpin_sdk.h">
       <Filter>src\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\core\utils.h">
-      <Filter>src\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\core\crypto\aesGcmWrapper.h">
-      <Filter>src\core\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\core\crypto\certivox.h">
-      <Filter>src\core\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\core\crypto\DLLDefines.h">
-      <Filter>src\core\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\core\crypto\eccsi_c.h">
-      <Filter>src\core\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\core\crypto\eccsiWrapper.h">
-      <Filter>src\core\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\core\crypto\miracl.h">
-      <Filter>src\core\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\core\crypto\mirdef.h">
-      <Filter>src\core\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\core\crypto\mpin_c.h">
-      <Filter>src\core\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\core\crypto\MPinCryptoConfig.h">
-      <Filter>src\core\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\core\crypto\mpinWrapper.h">
-      <Filter>src\core\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\core\crypto\octet.h">
-      <Filter>src\core\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\core\crypto\sakke_bn_c.h">
-      <Filter>src\core\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\core\crypto\sakkeWrapper.h">
-      <Filter>src\core\crypto</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\core\json\elements.h">
       <Filter>src\core\json</Filter>
@@ -281,23 +188,35 @@
     <ClInclude Include="..\..\ext\cvshared\cpp\include\CvThread.h">
       <Filter>ext\cvshared</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\core\crypto\clint.h">
+      <Filter>src\core\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\crypto\DLLDefines.h">
+      <Filter>src\core\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\crypto\ecdh.h">
+      <Filter>src\core\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\crypto\mpin.h">
+      <Filter>src\core\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\crypto\rsa.h">
+      <Filter>src\core\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\crypto\sok.h">
+      <Filter>src\core\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\crypto\version.h">
+      <Filter>src\core\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\crypto\platform.h">
+      <Filter>src\core\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\utils.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\src\core\crypto\mirdef.gcc">
-      <Filter>src\core\crypto</Filter>
-    </None>
-    <None Include="..\..\src\core\crypto\mirdef.lc32">
-      <Filter>src\core\crypto</Filter>
-    </None>
-    <None Include="..\..\src\core\crypto\mirdef.lc64">
-      <Filter>src\core\crypto</Filter>
-    </None>
-    <None Include="..\..\src\core\crypto\mirdef.wc32">
-      <Filter>src\core\crypto</Filter>
-    </None>
-    <None Include="..\..\src\core\crypto\mirdef.wc64">
-      <Filter>src\core\crypto</Filter>
-    </None>
     <None Include="..\..\src\core\json\elements.inl">
       <Filter>src\core\json</Filter>
     </None>

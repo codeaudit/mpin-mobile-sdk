@@ -8,7 +8,7 @@
 #include "mpin_crypto.h"
 extern "C"
 {
-#include "crypto/mpin_c.h"
+#include "crypto/mpin.h"
 }
 
 class MPinCryptoNonTee : public IMPinCrypto
@@ -45,7 +45,6 @@ private:
 private:
     IPinPad *m_pinPad;
     IStorage *m_storage;
-    mpin_domain m_mpinDomain;
     bool m_initialized;
     bool m_sessionOpened;
     String m_mpinId;
