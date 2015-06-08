@@ -21,7 +21,7 @@
         
         <StackPanel x:Name="DeviceNameContainer" Grid.Row="2" Visibility="Collapsed">
             <TextBlock x:Uid="DeviceNameTB" />
-            <TextBox x:Name="DeviceName" Text="{Binding DefaultDeviceName, RelativeSource={RelativeSource Self}}" KeyUp="DeviceName_KeyUp" TextChanged="DeviceName_TextChanged" />
+            <TextBox x:Name="DeviceName" KeyUp="DeviceName_KeyUp" TextChanged="DeviceName_TextChanged" />
         </StackPanel>
         
         <Button x:Uid="NewUserButton" VerticalAlignment="Bottom" Click="Button_Click" Grid.Row="3"/>
