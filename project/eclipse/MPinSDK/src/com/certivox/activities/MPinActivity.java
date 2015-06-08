@@ -74,14 +74,10 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mActivity = this;
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
 		if (mConfiguration == null && !initConfiguration()) {
 			initEmptySDK();
 			startActivity(new Intent(this, PinpadConfigActivity.class));
+			finish();
 		} else {
 			initSDK(mConfiguration);
 			setInitialScreen();
