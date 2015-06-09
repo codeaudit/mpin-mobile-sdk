@@ -473,6 +473,7 @@ static NSString *const kAN = @"AN";
 
 - ( IBAction )btnAddIDTap:( id )sender
 {
+    if ([[ConfigurationManager sharedManager] isEmpty]) return;
     UIViewController *addViewController = [storyboard instantiateViewControllerWithIdentifier:@"Add"];
     [self.navigationController pushViewController:addViewController animated:YES];
 }

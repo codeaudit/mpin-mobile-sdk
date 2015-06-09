@@ -177,7 +177,7 @@
 
 - ( IBAction )edit:( id )sender
 {
-    if ( [[ConfigurationManager sharedManager] getSelectedConfigurationIndex] > 2 )
+    if ( [[ConfigurationManager sharedManager] getSelectedConfigurationIndex] > ([[ConfigurationManager sharedManager] defaultConfigCount] -1) )
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
         AddSettingViewController *addViewController = [storyboard instantiateViewControllerWithIdentifier:@"AddConfig"];
@@ -197,7 +197,7 @@
 
 - ( IBAction )deleteConfiguration:( id )sender
 {
-    if ( [[ConfigurationManager sharedManager] getSelectedConfigurationIndex] > 2 )
+    if ( [[ConfigurationManager sharedManager] getSelectedConfigurationIndex] > ([[ConfigurationManager sharedManager] defaultConfigCount] -1) )
     {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"KEY_WARNING", @"")
                                   message:NSLocalizedString(@"WARNING_THIS_WILL_DELETE_ALL_IDS", @"")
