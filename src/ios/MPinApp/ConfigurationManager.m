@@ -77,6 +77,9 @@ static NSString *const kSettings = @"settings";
         NSInteger hashValue  = [[NSUserDefaults standardUserDefaults] integerForKey:kConfigHashValue];
         long configHash = [fileContent hash];
 
+        defaultConfigCount = [configs count];
+
+        
         if ( hashValue != configHash )
         {
             NSMutableArray *tmpArray = [NSMutableArray array];
@@ -102,8 +105,7 @@ static NSString *const kSettings = @"settings";
 
             [[NSUserDefaults standardUserDefaults] setInteger:configHash forKey:kConfigHashValue];
             [[NSUserDefaults standardUserDefaults] setInteger:[configs count] forKey:kDefConfigThreshold];
-            defaultConfigCount = [configs count];
-
+           
             [self saveConfigurations];
         }
     }
