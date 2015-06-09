@@ -69,8 +69,14 @@ namespace MPinSDK
             await ThreadPool.RunAsync(operation => UIDispatcher.Execute(() =>
             {
                 Frame rootFrame = Window.Current.Content as Frame;
-                // TODO: UserID should be the current user mail
-                rootFrame.Navigate(typeof(PinPadPage), new List<object> { this, mode == Mode.AUTHENTICATE, " UserID " });
+                string userId = string.Empty;
+                IUser userScreen = rootFrame.Content as IUser;
+                if (userScreen != null)
+                {
+                    userId = userScreen.GetUserId();
+                }
+
+                rootFrame.Navigate(typeof(PinPadPage), new List<object> { this, mode == Mode.AUTHENTICATE, userId });
                 Window.Current.Activate();
             }));
         }
