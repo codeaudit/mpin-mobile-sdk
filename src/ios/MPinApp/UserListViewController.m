@@ -103,6 +103,7 @@ static NSString *const kAN = @"AN";
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
+    sdk.delegate = self;
     [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
     [[ThemeManager sharedManager] beautifyViewController:self];
     self.users = [MPin listUsers];
@@ -412,7 +413,7 @@ static NSString *const kAN = @"AN";
     [[ErrorHandler sharedManager] presentMessageInViewController:self
      errorString:@"TouchID failed"
      addActivityIndicator:NO
-     minShowTime:0];
+     minShowTime:3];
 }
 
 - ( void )OnAuthenticateError:( id )sender error:( NSError * )error
@@ -546,7 +547,11 @@ static NSString *const kAN = @"AN";
             switch ( s )
             {
             case LOGIN_ON_MOBILE:
-                [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
+                if (!boolShouldAskForFingerprint)
+                {
+                     [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];   
+                }
+                
                 [sdk Authenticate:iuser askForFingerprint:boolShouldAskForFingerprint];
                 break;
 
@@ -594,6 +599,19 @@ static NSString *const kAN = @"AN";
     pinpadViewController.currentUser = currentUser;
     pinpadViewController.boolShouldShowBackButton = YES;
     pinpadViewController.title = kEnterPin;
+    switch ([currentUser getState])
+    {
+        case REGISTERED:
+            pinpadViewController.boolSetupPin = NO;
+            break;
+        case STARTED_REGISTRATION:
+            pinpadViewController.boolSetupPin = YES;
+            break;
+            
+        default:
+            break;
+    }
+    
     [self.navigationController pushViewController:pinpadViewController animated:YES];
 }
 

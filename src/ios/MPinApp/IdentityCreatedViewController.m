@@ -56,14 +56,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
 }
 
-- (void)showError:(NSString*)title desc:(NSString*)desc
-{
-    [[ErrorHandler sharedManager] presentMessageInViewController:self
-                                                   errorString:desc
-                                          addActivityIndicator:NO
-                                             minShowTime:3];
-}
-
 - (void)showPinPad
 {
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];

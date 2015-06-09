@@ -16,6 +16,8 @@
 #import "AccountSummaryViewController.h"
 #import "OTPViewController.h"
 #import "ANAuthenticationSuccessful.h"
+#import "IdentityBlockedViewController.h"
+
 #define PIN_LENGTH 4
 
 static NSMutableArray *kCircles;
@@ -95,7 +97,14 @@ static NSMutableArray *kCircles;
     }
 
     self.lblEmail.text = [_currentUser getIdentity];
-
+    if ( _boolSetupPin )
+    {
+        self.title = NSLocalizedString(@"KEY_SETUP_PIN", @"");
+    }
+    else
+    {
+        self.title = NSLocalizedString(@"KEY_ENTER_PIN", @"");
+    }
 }
 
 - ( IBAction )back:( UIBarButtonItem * )sender
@@ -254,9 +263,20 @@ static NSMutableArray *kCircles;
 
 - ( void )OnAuthenticateError:( id )sender error:( NSError * )error
 {
-    [[ErrorHandler sharedManager] hideMessage];
-    [self showWrongPIN];
-    [_sdk Authenticate:_currentUser askForFingerprint:NO];
+    if ( [_currentUser getState] == BLOCKED )
+    {
+        IdentityBlockedViewController *identityBlockedViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"IdentityBlockedViewController"];
+        identityBlockedViewController.strUserEmail = [_currentUser getIdentity];
+        identityBlockedViewController.iuser = _currentUser;
+        [self.navigationController pushViewController:identityBlockedViewController animated:YES];
+
+    }
+    else
+    {
+        [[ErrorHandler sharedManager] hideMessage];
+        [self showWrongPIN];
+        [_sdk Authenticate:_currentUser askForFingerprint:NO];
+    }
 }
 
 @end

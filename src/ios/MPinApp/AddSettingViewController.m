@@ -362,6 +362,10 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
         caption = NSLocalizedString(@"HUD_SAVE_CONFIG", @"");
     }
 
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                     errorString:caption
+                                            addActivityIndicator:YES
+                                                     minShowTime:3];
 
     ///TODO :: add rpsPrefix test field to this VIEW it is needed for some configurations
     [sdk TestBackend:_txtMPINServiceURL.text rpsPrefix:nil];

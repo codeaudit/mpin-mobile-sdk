@@ -25,14 +25,18 @@ static BOOL isInitialized = false;
     return isInitialized;
 }
 
-- (void) initSDK:(NSDictionary *)config {
-    if (isInitialized) return;
-    if (config == nil) return;
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        MpinStatus* mpinStatus = [MPin initWithConfig:config];
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            if (mpinStatus.status == OK)
+- ( void ) initSDK:( NSDictionary * )config
+{
+    if ( isInitialized )
+        return;
+
+    if ( config == nil )
+        return;
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        MpinStatus *mpinStatus = [MPin initWithConfig:config];
+        dispatch_async(dispatch_get_main_queue(), ^ (void) {
+            if ( mpinStatus.status == OK )
             {
                 isInitialized = true;
                 if ( [(NSObject *)self.delegate respondsToSelector:@selector( OnInitCompleted: )] )
@@ -274,7 +278,11 @@ static BOOL isInitialized = false;
         else
         {
             dispatch_async(dispatch_get_main_queue(), ^ (void) {
-                [self.delegate OnAuthenticateCanceled];
+                if ( [(UIViewController *)self.delegate respondsToSelector:@selector(OnAuthenticateCanceled)] )
+                {
+                    [self.delegate OnAuthenticateCanceled];
+                }
+                
             });
         }
     };
@@ -283,7 +291,7 @@ static BOOL isInitialized = false;
         LAContext *context = [[LAContext alloc] init];
         NSError *error;
         if ( [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
-              error:&error] && boolAskForFingerprint)
+              error:&error] && boolAskForFingerprint )
         {
             [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
              localizedReason:NSLocalizedString(@"WARNING_VERIFY_FINGER", @"")

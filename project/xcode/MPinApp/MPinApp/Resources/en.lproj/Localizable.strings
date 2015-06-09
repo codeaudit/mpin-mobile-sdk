@@ -128,6 +128,8 @@
 "WARNING_VERIFY_FINGER" =  "Verify fingerprint";
 
 /* BASIC THINGS */
+"KEY_SETUP_PIN" = "Setup PIN";
+"KEY_ENTER_PIN" = "Enter PIN";
 "KEY_RESET" = "RESET PIN";
 "KEY_CANCEL" = "CANCEL";
 "KEY_OKBTN" = "OK";
