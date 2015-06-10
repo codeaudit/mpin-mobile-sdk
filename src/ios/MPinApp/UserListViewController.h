@@ -26,7 +26,6 @@
 
 @property(nonatomic, weak) IBOutlet UIView             *viewButtonsContainer;
 @property(nonatomic, weak) IBOutlet UITableView        *table;
-@property(nonatomic, weak) IBOutlet UIButton           *btnAdd;
 @property(nonatomic, weak) IBOutlet UIButton           *btnReset;
 @property(nonatomic, weak) IBOutlet UIButton           *btnDelete;
 @property(nonatomic, weak) IBOutlet UIButton           *btnAuthenticate;

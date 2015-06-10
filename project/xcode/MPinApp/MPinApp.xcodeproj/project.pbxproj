@@ -18,7 +18,6 @@
 		960D6A9C1A88C0E20068E0F7 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A891A88C0E20068E0F7 /* OpenSans-Semibold.ttf */; };
 		960D6A9D1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A8A1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf */; };
 		960D6AA31A88C0E20068E0F7 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A901A88C0E20068E0F7 /* Settings.bundle */; };
-		96130E191AEE35DA005D2A86 /* Backends.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96130E181AEE35DA005D2A86 /* Backends.plist */; };
 		96130E211AEE4867005D2A86 /* ConfigurationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A211AC30FAF00B25B53 /* ConfigurationManager.m */; };
 		96130E221AEE4867005D2A86 /* ConfirmEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 966EB9D31A8CF069004B936A /* ConfirmEmailViewController.m */; };
 		96130E231AEE4867005D2A86 /* CycleProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4AEB071A443E4C000B3181 /* CycleProgressBar.m */; };
@@ -196,8 +195,8 @@
 		968591CB1AF0C7E200726E63 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 968591CF1AF0C7E200726E63 /* Localizable.strings */; };
 		968591CC1AF0C7E200726E63 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 968591CF1AF0C7E200726E63 /* Localizable.strings */; };
 		968591CD1AF0C7E200726E63 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 968591CF1AF0C7E200726E63 /* Localizable.strings */; };
-		968A180C1ACA8C58000C0DB0 /* Colors.plist in Resources */ = {isa = PBXBuildFile; fileRef = 968A18091ACA8C58000C0DB0 /* Colors.plist */; };
-		968A18121ACA8E4A000C0DB0 /* Colors.plist in Resources */ = {isa = PBXBuildFile; fileRef = 968A180E1ACA8C70000C0DB0 /* Colors.plist */; };
+		968A180C1ACA8C58000C0DB0 /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 968A18091ACA8C58000C0DB0 /* Settings.plist */; };
+		968A18121ACA8E4A000C0DB0 /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 968A180E1ACA8C70000C0DB0 /* Settings.plist */; };
 		968CF31B1A77BB31002C4347 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 968CF31A1A77BB31002C4347 /* LaunchScreen.xib */; };
 		968D0A441A7B93C00037841D /* UIColor+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 968D0A431A7B93C00037841D /* UIColor+Helper.m */; };
 		968E7A541AA06CA700A276A7 /* IdentityCreatedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E7A531AA06CA700A276A7 /* IdentityCreatedViewController.m */; };
@@ -210,8 +209,8 @@
 		96C88F481AC42B7D00A5F27A /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A231AC30FAF00B25B53 /* SettingsManager.m */; };
 		96C9BF291AE6407D00FAC454 /* IdentityBlockedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C9BF281AE6407D00FAC454 /* IdentityBlockedViewController.m */; };
 		96C9BF2A1AE6407D00FAC454 /* IdentityBlockedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C9BF281AE6407D00FAC454 /* IdentityBlockedViewController.m */; };
-		96D3CAD41AEE5324004BAC3A /* Colors.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96130EB61AEE4979005D2A86 /* Colors.plist */; };
-		96D3CAD51AEE5328004BAC3A /* Colors.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96130EBA1AEE4979005D2A86 /* Colors.plist */; };
+		96D3CAD41AEE5324004BAC3A /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96130EB61AEE4979005D2A86 /* Settings.plist */; };
+		96D3CAD51AEE5328004BAC3A /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96130EBA1AEE4979005D2A86 /* Settings.plist */; };
 		96DA33F81ACD54C300B2CAAB /* libMPinSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */; };
 		96DA33F91ACD54D700B2CAAB /* libMPinSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */; };
 		96E21A541AF8AE6C00490625 /* en_BG.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG.strings */; };
@@ -276,11 +275,8 @@
 		FEB901681A6D28550053DE92 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB901671A6D28550053DE92 /* SettingsViewController.m */; };
 		FED7691D1A8B4A30005A3ECA /* UIViewController+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FED7691C1A8B4A30005A3ECA /* UIViewController+Helper.m */; };
 		FEDDDE311A89F93E00E2068C /* UIView+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDDDE301A89F93E00E2068C /* UIView+Helper.m */; };
-		FEF5794D1B1493AE00B31A3E /* Backends.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEF5794B1B1493AE00B31A3E /* Backends.plist */; };
 		FEF579501B1493F700B31A3E /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FEAA2CCD1ACEBCB700EED79F /* NSString+Helper.m */; };
 		FEF579511B1494AD00B31A3E /* ApplicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE36B3B41B04E195000ACD70 /* ApplicationManager.m */; };
-		FEF579521B15BEC400B31A3E /* Backends.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96130EB81AEE4979005D2A86 /* Backends.plist */; };
-		FEF579531B15BEC900B31A3E /* Backends.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96130EB41AEE4979005D2A86 /* Backends.plist */; };
 		FEF579541B15F0BE00B31A3E /* ApplicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE36B3B41B04E195000ACD70 /* ApplicationManager.m */; };
 		FEF579551B15F10800B31A3E /* ApplicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE36B3B41B04E195000ACD70 /* ApplicationManager.m */; };
 		FEFA500E1A7143DB002D6E24 /* AccessNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFA500D1A7143DB002D6E24 /* AccessNumberViewController.m */; };
@@ -305,15 +301,12 @@
 		960D6A891A88C0E20068E0F7 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		960D6A8A1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; };
 		960D6A901A88C0E20068E0F7 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		96130E181AEE35DA005D2A86 /* Backends.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Backends.plist; sourceTree = "<group>"; };
 		96130E651AEE4867005D2A86 /* NTTComSecurity MPin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NTTComSecurity MPin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		96130EAF1AEE490A005D2A86 /* Olswang MPin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Olswang MPin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		96130EB41AEE4979005D2A86 /* Backends.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Backends.plist; sourceTree = "<group>"; };
 		96130EB51AEE4979005D2A86 /* NTTComSecurityImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = NTTComSecurityImages.xcassets; sourceTree = "<group>"; };
-		96130EB61AEE4979005D2A86 /* Colors.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Colors.plist; sourceTree = "<group>"; };
-		96130EB81AEE4979005D2A86 /* Backends.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Backends.plist; sourceTree = "<group>"; };
+		96130EB61AEE4979005D2A86 /* Settings.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Settings.plist; sourceTree = "<group>"; };
 		96130EB91AEE4979005D2A86 /* OlswangImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = OlswangImages.xcassets; sourceTree = "<group>"; };
-		96130EBA1AEE4979005D2A86 /* Colors.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Colors.plist; sourceTree = "<group>"; };
+		96130EBA1AEE4979005D2A86 /* Settings.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Settings.plist; sourceTree = "<group>"; };
 		9614F8CD1A9E1EC500337080 /* AccountSummaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccountSummaryViewController.h; path = ../../../../src/ios/MPinApp/AccountSummaryViewController.h; sourceTree = "<group>"; };
 		9614F8CE1A9E1EC500337080 /* AccountSummaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AccountSummaryViewController.m; path = ../../../../src/ios/MPinApp/AccountSummaryViewController.m; sourceTree = "<group>"; };
 		961957441A960E9900C93604 /* ThemeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThemeManager.h; path = ../../../../src/ios/MPinApp/ThemeManager.h; sourceTree = "<group>"; };
@@ -334,9 +327,9 @@
 		968591B51AF0BEFC00726E63 /* LocalizationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocalizationManager.m; path = ../../../../src/ios/MPinApp/LocalizationManager.m; sourceTree = "<group>"; };
 		968591D11AF0C7F300726E63 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		968591D81AF0C9D400726E63 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		968A18091ACA8C58000C0DB0 /* Colors.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Colors.plist; sourceTree = "<group>"; };
+		968A18091ACA8C58000C0DB0 /* Settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Settings.plist; sourceTree = "<group>"; };
 		968A180A1ACA8C58000C0DB0 /* CertivoxImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CertivoxImages.xcassets; sourceTree = "<group>"; };
-		968A180E1ACA8C70000C0DB0 /* Colors.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Colors.plist; sourceTree = "<group>"; };
+		968A180E1ACA8C70000C0DB0 /* Settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Settings.plist; sourceTree = "<group>"; };
 		968A180F1ACA8C70000C0DB0 /* DimensionDataImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = DimensionDataImages.xcassets; sourceTree = "<group>"; };
 		968CF31A1A77BB31002C4347 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		968D0A421A7B93C00037841D /* UIColor+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Helper.h"; sourceTree = "<group>"; };
@@ -424,7 +417,6 @@
 		FED7691C1A8B4A30005A3ECA /* UIViewController+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Helper.m"; path = "../../../../../src/ios/MPinApp/UIViewController+Helper.m"; sourceTree = "<group>"; };
 		FEDDDE2F1A89F93E00E2068C /* UIView+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Helper.h"; path = "../../../../../src/ios/MPinApp/UIView+Helper.h"; sourceTree = "<group>"; };
 		FEDDDE301A89F93E00E2068C /* UIView+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Helper.m"; path = "../../../../../src/ios/MPinApp/UIView+Helper.m"; sourceTree = "<group>"; };
-		FEF5794B1B1493AE00B31A3E /* Backends.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Backends.plist; sourceTree = "<group>"; };
 		FEFA500C1A7143DB002D6E24 /* AccessNumberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccessNumberViewController.h; path = ../../../../src/ios/MPinApp/AccessNumberViewController.h; sourceTree = "<group>"; };
 		FEFA500D1A7143DB002D6E24 /* AccessNumberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = AccessNumberViewController.m; path = ../../../../src/ios/MPinApp/AccessNumberViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FEFA500F1A7148E5002D6E24 /* DigitPadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DigitPadViewController.h; path = ../../../../src/ios/MPinApp/DigitPadViewController.h; sourceTree = "<group>"; };
@@ -556,9 +548,8 @@
 			isa = PBXGroup;
 			children = (
 				96D3CACF1AEE4D34004BAC3A /* NTTComSecurityMPin.plist */,
-				96130EB41AEE4979005D2A86 /* Backends.plist */,
 				96130EB51AEE4979005D2A86 /* NTTComSecurityImages.xcassets */,
-				96130EB61AEE4979005D2A86 /* Colors.plist */,
+				96130EB61AEE4979005D2A86 /* Settings.plist */,
 			);
 			path = NTTComSecurity;
 			sourceTree = "<group>";
@@ -567,9 +558,8 @@
 			isa = PBXGroup;
 			children = (
 				96D3CAD01AEE4D6D004BAC3A /* OlswangMPin.plist */,
-				96130EB81AEE4979005D2A86 /* Backends.plist */,
 				96130EB91AEE4979005D2A86 /* OlswangImages.xcassets */,
-				96130EBA1AEE4979005D2A86 /* Colors.plist */,
+				96130EBA1AEE4979005D2A86 /* Settings.plist */,
 			);
 			path = Olswang;
 			sourceTree = "<group>";
@@ -596,9 +586,8 @@
 			isa = PBXGroup;
 			children = (
 				96D3CAD11AEE4D7B004BAC3A /* CertivoxMPin.plist */,
-				968A18091ACA8C58000C0DB0 /* Colors.plist */,
+				968A18091ACA8C58000C0DB0 /* Settings.plist */,
 				968A180A1ACA8C58000C0DB0 /* CertivoxImages.xcassets */,
-				96130E181AEE35DA005D2A86 /* Backends.plist */,
 			);
 			path = Certivox;
 			sourceTree = "<group>";
@@ -606,9 +595,8 @@
 		968A180B1ACA8C58000C0DB0 /* DimensionData */ = {
 			isa = PBXGroup;
 			children = (
-				FEF5794B1B1493AE00B31A3E /* Backends.plist */,
 				96D3CAD21AEE4D8E004BAC3A /* DDMPin.plist */,
-				968A180E1ACA8C70000C0DB0 /* Colors.plist */,
+				968A180E1ACA8C70000C0DB0 /* Settings.plist */,
 				968A180F1ACA8C70000C0DB0 /* DimensionDataImages.xcassets */,
 			);
 			path = DimensionData;
@@ -970,7 +958,6 @@
 				96130E4A1AEE4867005D2A86 /* Settings.bundle in Resources */,
 				968591CC1AF0C7E200726E63 /* Localizable.strings in Resources */,
 				96130E4B1AEE4867005D2A86 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
-				FEF579531B15BEC900B31A3E /* Backends.plist in Resources */,
 				96130E4C1AEE4867005D2A86 /* OpenSans-Italic.ttf in Resources */,
 				96130E4E1AEE4867005D2A86 /* IUser.h in Resources */,
 				96F7EA771B1C48EF00A68A03 /* HockeySDK.xcconfig in Resources */,
@@ -981,7 +968,7 @@
 				96130E521AEE4867005D2A86 /* OpenSans-BoldItalic.ttf in Resources */,
 				96130E531AEE4867005D2A86 /* MPin.h in Resources */,
 				96130E551AEE4867005D2A86 /* OpenSans-Semibold.ttf in Resources */,
-				96D3CAD41AEE5324004BAC3A /* Colors.plist in Resources */,
+				96D3CAD41AEE5324004BAC3A /* Settings.plist in Resources */,
 				96130E561AEE4867005D2A86 /* OpenSans-Light.ttf in Resources */,
 				96130E571AEE4867005D2A86 /* MpinStatus.h in Resources */,
 				96E21A561AF8AE6C00490625 /* en_BG.strings in Resources */,
@@ -1002,7 +989,6 @@
 				96130E941AEE490A005D2A86 /* Settings.bundle in Resources */,
 				968591CD1AF0C7E200726E63 /* Localizable.strings in Resources */,
 				96130E951AEE490A005D2A86 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
-				FEF579521B15BEC400B31A3E /* Backends.plist in Resources */,
 				96130E961AEE490A005D2A86 /* OpenSans-Italic.ttf in Resources */,
 				96130E981AEE490A005D2A86 /* IUser.h in Resources */,
 				96F7EA781B1C48EF00A68A03 /* HockeySDK.xcconfig in Resources */,
@@ -1013,7 +999,7 @@
 				96130E9C1AEE490A005D2A86 /* OpenSans-BoldItalic.ttf in Resources */,
 				96130E9D1AEE490A005D2A86 /* MPin.h in Resources */,
 				96130E9F1AEE490A005D2A86 /* OpenSans-Semibold.ttf in Resources */,
-				96D3CAD51AEE5328004BAC3A /* Colors.plist in Resources */,
+				96D3CAD51AEE5328004BAC3A /* Settings.plist in Resources */,
 				96130EA01AEE490A005D2A86 /* OpenSans-Light.ttf in Resources */,
 				96130EA11AEE490A005D2A86 /* MpinStatus.h in Resources */,
 				96E21A571AF8AE6C00490625 /* en_BG.strings in Resources */,
@@ -1035,7 +1021,7 @@
 				9649BCB31AC16D1000B9F41B /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				9649BCB41AC16D1000B9F41B /* OpenSans-Italic.ttf in Resources */,
 				9649BCB51AC16D1000B9F41B /* IUser.h in Resources */,
-				968A18121ACA8E4A000C0DB0 /* Colors.plist in Resources */,
+				968A18121ACA8E4A000C0DB0 /* Settings.plist in Resources */,
 				9649BCB61AC16D1000B9F41B /* LaunchScreen.xib in Resources */,
 				9649BCB71AC16D1000B9F41B /* Constants.h in Resources */,
 				9649BCB81AC16D1000B9F41B /* OpenSans-LightItalic.ttf in Resources */,
@@ -1050,7 +1036,6 @@
 				96F7EA7A1B1C48EF00A68A03 /* HockeySDKResources.bundle in Resources */,
 				9649BCC01AC16D1000B9F41B /* Main_iPhone.storyboard in Resources */,
 				968591A01AEE53EB00726E63 /* DimensionDataImages.xcassets in Resources */,
-				FEF5794D1B1493AE00B31A3E /* Backends.plist in Resources */,
 				9649BCC21AC16D1000B9F41B /* OpenSans-SemiboldItalic.ttf in Resources */,
 				9649BCC31AC16D1000B9F41B /* InfoPlist.strings in Resources */,
 				9649BCC41AC16D1000B9F41B /* OpenSans-Regular.ttf in Resources */,
@@ -1067,7 +1052,7 @@
 				968591CA1AF0C7E200726E63 /* Localizable.strings in Resources */,
 				960D6A971A88C0E20068E0F7 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				960D6A981A88C0E20068E0F7 /* OpenSans-Italic.ttf in Resources */,
-				968A180C1ACA8C58000C0DB0 /* Colors.plist in Resources */,
+				968A180C1ACA8C58000C0DB0 /* Settings.plist in Resources */,
 				96F7EA751B1C48EF00A68A03 /* HockeySDK.xcconfig in Resources */,
 				96F7EA791B1C48EF00A68A03 /* HockeySDKResources.bundle in Resources */,
 				FE148D461A2F1007007E83EF /* IUser.h in Resources */,
@@ -1076,7 +1061,6 @@
 				960D6A9A1A88C0E20068E0F7 /* OpenSans-LightItalic.ttf in Resources */,
 				960D6A951A88C0E20068E0F7 /* OpenSans-BoldItalic.ttf in Resources */,
 				FE148D401A2F0FB7007E83EF /* MPin.h in Resources */,
-				96130E191AEE35DA005D2A86 /* Backends.plist in Resources */,
 				960D6A9C1A88C0E20068E0F7 /* OpenSans-Semibold.ttf in Resources */,
 				960D6A991A88C0E20068E0F7 /* OpenSans-Light.ttf in Resources */,
 				FE148D411A2F0FB7007E83EF /* MpinStatus.h in Resources */,
@@ -1838,7 +1822,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
-					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
@@ -1929,7 +1912,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
-					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
@@ -2026,7 +2008,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
-					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
@@ -2116,7 +2097,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
-					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
@@ -2213,7 +2193,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
-					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";

@@ -10,6 +10,8 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using System.Linq;
+using Windows.UI.Xaml.Data;
 
 namespace MPinDemo
 {
@@ -23,12 +25,14 @@ namespace MPinDemo
         private const string SelectedService = "ServiceSetIndex";
         private const string SelectedUser = "SelectedUser";
         private bool isInitialLoad = false;
+        private bool isServiceAdding = false;
         private MainPage rootPage = null;
         private CoreDispatcher _dispatcher;
 
         internal static ApplicationDataContainer RoamingSettings = null;
         private static Controller controller = null;
-        private static bool IsSelectedBtnEnabled = true;
+        private static bool showUsers = true;
+        private static int selectedServiceIndex;
         #endregion // members
 
         #region constructors
@@ -45,8 +49,6 @@ namespace MPinDemo
             this.DataContext = controller.DataModel;
             RoamingSettings = ApplicationData.Current.RoamingSettings;
             controller.PropertyChanged += controller_PropertyChanged;
-
-            LoadSettings();
         }
 
         #endregion // constructors
@@ -61,10 +63,15 @@ namespace MPinDemo
         {
             rootPage = MainPage.Current;
 
+            SetControlsIsEnabled(e.Parameter.ToString());
+
             List<object> data = (Window.Current.Content as Frame).GetNavigationData() as List<object>;
             if (data != null && data.Count == 2)
             {
-                await controller.ProcessNavigation(data[0].ToString(), data[1]);
+                string command = data[0].ToString();
+                showUsers = !command.Contains("Service");
+                isServiceAdding = command == "AddService";
+                await controller.ProcessNavigation(command, data[1]);
             }
             else
             {
@@ -74,9 +81,24 @@ namespace MPinDemo
 
             if (isInitialLoad)
             {
-                //var sampleDataGroup = await AppDataModel.GetBackendsAsync();                
-                //controller.DataModel.BackendsList = sampleDataGroup;
+                var sampleDataGroup = await AppDataModel.GetBackendsAsync();
+                controller.DataModel.BackendsList = sampleDataGroup;
             }
+
+            LoadSettings();
+        }
+
+        #endregion
+
+        #region methods
+
+        private void SetControlsIsEnabled(string param)
+        {
+            // the process has been canceled
+            if (!string.IsNullOrEmpty(param) && param.Equals("HardwareBack"))
+                controller.IsUserInProcessing = false;
+
+            Progress.Visibility = controller.IsUserInProcessing ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
         }
 
         private string GetAllPossiblePassedParams(object param)
@@ -86,10 +108,6 @@ namespace MPinDemo
                 ? param == null ? "" : param.ToString()
                 : navigationData;
         }
-
-        #endregion
-
-        #region methods
 
         private User GetSelectedUser(ICollection<User> users)
         {
@@ -108,10 +126,15 @@ namespace MPinDemo
             SetSelectedServicesIndex();
             ResetPinButton.IsEnabled = UsersListBox.SelectedItem != null;
 
-            if (controller.DataModel.CurrentService != null && controller.DataModel.CurrentService.BackendUrl != null)
+            if (controller.DataModel.CurrentService != null && controller.DataModel.CurrentService.BackendUrl != null && showUsers)
             {
                 this.MainPivot.SelectedItem = this.UsersPivotItem;
             }
+        }
+        
+        internal static string GetSelectedUser()
+        {
+            return controller != null && controller.DataModel != null && controller.DataModel.CurrentUser != null ? controller.DataModel.CurrentUser.Id : string.Empty;
         }
 
         #region State
@@ -148,8 +171,8 @@ namespace MPinDemo
                 // if the selected service in the list is different from the currentService -> reset it
                 selectedIndex = 0;
             }
-            
-            if (selectedIndex != null && selectedIndex >= 0 && selectedIndex < ServicesList.Items.Count)
+
+            if (selectedIndex != null && selectedIndex >= 0 && selectedIndex < ServicesList.Items.Count && showUsers)
             {
                 controller.DataModel.CurrentService = (Backend)this.ServicesList.Items[selectedIndex.Value];
                 this.ServicesList.SelectedIndex = selectedIndex.Value;
@@ -170,22 +193,20 @@ namespace MPinDemo
                     break;
 
                 case 1:
-                    IsSelectedBtnEnabled = false;
                     controller.DataModel.CurrentUser = UsersListBox.SelectedItem as User;
-                    IsSelectedBtnEnabled = true;
                     break;
             }
         }
 
         private void UsersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectAppBarButton.IsEnabled = IsSelectedBtnEnabled && UsersListBox.SelectedItem != null;
+            SelectAppBarButton.IsEnabled = !controller.IsUserInProcessing && UsersListBox.SelectedItem != null;
             ResetPinButton.IsEnabled = UsersListBox.SelectedItem != null;
 
             UsersListBox.ScrollIntoView(UsersListBox.SelectedItem);
             if (isInitialLoad)
             {
-                controller.DataModel.CurrentUser = UsersListBox.SelectedItem as User;                
+                controller.DataModel.CurrentUser = UsersListBox.SelectedItem as User;
                 isInitialLoad = false;
             }
 
@@ -195,7 +216,7 @@ namespace MPinDemo
         private void Services_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectAppBarButton.IsEnabled = ServicesList.SelectedItem != null;
-            TestBackendButton.IsEnabled = ServicesList.SelectedItem != null;
+            EditButton.IsEnabled = ServicesList.SelectedItem != null;
             ServicesList.ScrollIntoView(ServicesList.SelectedItem);
             SavePropertyState(SelectedService, ServicesList.SelectedIndex);
         }
@@ -210,23 +231,23 @@ namespace MPinDemo
 
         private void controller_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "IsValidService" && controller.IsValidService)
+            switch (e.PropertyName)
             {
-                    this.MainPivot.SelectedItem = this.UsersPivotItem;
-            }            
+                case "IsValidService":
+                    if (controller.IsValidService)
+                    {
+                        this.MainPivot.SelectedItem = this.UsersPivotItem;
+                    }
+                    break;
+            }
         }
 
         private void AddAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            var container = this.MainPivot.ContainerFromIndex(this.MainPivot.SelectedIndex) as ContentControl;
-            var listView = container.ContentTemplateRoot as ListView;
-
             switch (this.MainPivot.SelectedIndex)
             {
                 case 0:
-                    // Add a service
-
-                    //listView.ScrollIntoView(newItem, ScrollIntoViewAlignment.Leading);
+                    controller.AddService();
                     break;
                 case 1:
                     controller.AddNewUser();
@@ -234,9 +255,10 @@ namespace MPinDemo
             }
         }
 
-        private async void TestBackendButton_Click(object sender, RoutedEventArgs e)
+        private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            await controller.TestBackend();
+            selectedServiceIndex = this.ServicesList.SelectedIndex;
+            controller.EditService(this.ServicesList.SelectedIndex, this.ServicesList.SelectedIndex > 2);
         }
 
         private void MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -245,7 +267,7 @@ namespace MPinDemo
             ResetPinButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Collapsed : Visibility.Visible;
             AddAppBarButton.Icon = new SymbolIcon(this.MainPivot.SelectedIndex == 0 ? Symbol.Add : Symbol.AddFriend);
 
-            TestBackendButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
+            EditButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private async void Delete_Click(object sender, RoutedEventArgs e)
@@ -254,9 +276,9 @@ namespace MPinDemo
             {
                 case 0:
                     Backend backend = ServicesList.SelectedItem as Backend;
-                    if (backend != null && string.IsNullOrEmpty(backend.BackendUrl))
+                    if (backend != null && !string.IsNullOrEmpty(backend.BackendUrl))
                     {
-                        await controller.DeleteService(backend);
+                        await controller.DeleteService(backend, this.ServicesList.SelectedIndex > 2);
                     }
                     break;
 
@@ -283,7 +305,7 @@ namespace MPinDemo
             if (UsersListBox != null && UsersListBox.ItemsSource != null)
             {
                 UsersListBox.SelectedItem = GetSelectedUser(controller.DataModel.UsersList);
-                isInitialLoad = false;                
+                isInitialLoad = false;
             }
         }
 
@@ -295,6 +317,44 @@ namespace MPinDemo
             }
         }
 
+        private void ServicesList_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (isServiceAdding)
+            {
+                selectedServiceIndex = controller.NewAddedServiceIndex;
+            }
+
+            if (!showUsers && controller.DataModel.BackendsList.Count > selectedServiceIndex && selectedServiceIndex > -1)
+            {
+                // select a service after being edited/added
+                this.ServicesList.SelectedItem = controller.DataModel.BackendsList[selectedServiceIndex];
+                
+                selectedServiceIndex = -1;
+            }
+        }
         #endregion // handlers
+    }
+
+    public class ConfigurationConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            Backend backend = value as Backend;
+            if (backend == null)
+                return string.Empty;
+
+            if (backend.RequestAccessNumber)
+                return ResourceLoader.GetForCurrentView().GetString("OnlineLogin");
+
+            if (backend.RequestOtp)
+                return ResourceLoader.GetForCurrentView().GetString("OTPLogin");
+
+            return ResourceLoader.GetForCurrentView().GetString("MobileLogin");
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return value;
+        }
     }
 }

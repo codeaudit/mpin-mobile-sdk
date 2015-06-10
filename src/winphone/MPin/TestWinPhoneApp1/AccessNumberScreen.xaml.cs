@@ -82,7 +82,7 @@ namespace MPinDemo
 
         private void AccessNumberTB_KeyUp(object sender, KeyRoutedEventArgs e)
         {
-            if (this.DoneButton.IsEnabled)
+            if (this.DoneButton.IsEnabled && e.Key == Windows.System.VirtualKey.Enter)
             {
                 ProcessAN();
             }

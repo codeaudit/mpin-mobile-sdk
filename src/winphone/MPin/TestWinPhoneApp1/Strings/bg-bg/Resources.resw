@@ -141,9 +141,6 @@
   <data name="ConfirmTB.Text" xml:space="preserve">
     <value>Изберете връзката от пощата си за да потвърдите самоличността си и да продължите напред. </value>
   </data>
-  <data name="DeleteServiceButton.Label" xml:space="preserve">
-    <value>Изтрий</value>
-  </data>
   <data name="EmailTB.Text" xml:space="preserve">
     <value>Изпратихме ви поща на:</value>
   </data>
@@ -219,9 +216,6 @@
   <data name="SuccessfulAuth" xml:space="preserve">
     <value>е успешно аутентикиран!</value>
   </data>
-  <data name="TestServiceButton.Label" xml:space="preserve">
-    <value>Тествай Бекенда</value>
-  </data>
   <data name="TimeLeftTB.Text" xml:space="preserve">
     <value>Оставащо време:</value>
   </data>
@@ -238,7 +232,7 @@
     <value>Потребители</value>
   </data>
   <data name="SelectAppBarButton.Label" xml:space="preserve">
-    <value>Избери</value>
+    <value>избери</value>
   </data>
   <data name="AccessNumberLength" xml:space="preserve">
     <value>Въведете {0} цифрен номер за достъп</value>
@@ -258,7 +252,7 @@
   <data name="ResetPinButton.Label" xml:space="preserve">
     <value>Задай нов ПИН</value>
   </data>
-  <data name="TestBackendButton.Label" xml:space="preserve">
+  <data name="TestBackendButton.Content" xml:space="preserve">
     <value>Пробвай избраната конфигурация</value>
   </data>
   <data name="YesCommand" xml:space="preserve">
@@ -290,5 +284,65 @@
   </data>
   <data name="DeviceNameTB.Text" xml:space="preserve">
     <value>Име на устройство:</value>
+  </data>
+  <data name="SuccessfulRegistration" xml:space="preserve">
+    <value>Успешно регистриран потребител {0}!</value>
+  </data>
+  <data name="AddService" xml:space="preserve">
+    <value>Добави Конфигурация</value>
+  </data>
+  <data name="EditButton.Label" xml:space="preserve">
+    <value>Редактирай Кофигурацията</value>
+  </data>
+  <data name="EditService" xml:space="preserve">
+    <value>Редактирай</value>
+  </data>
+  <data name="MobileLoginRadioButton.Content" xml:space="preserve">
+    <value>Вход с мобилно устройство</value>
+  </data>
+  <data name="NoSelectedService" xml:space="preserve">
+    <value>Няма избрана конфигурация!</value>
+  </data>
+  <data name="NotSpecifiedBackend" xml:space="preserve">
+    <value>Невалидна Конфигурация!</value>
+  </data>
+  <data name="OnlineLoginRadioButton.Content" xml:space="preserve">
+    <value>Вход в Уеб Браузър</value>
+  </data>
+  <data name="OTPLoginRadioButton.Content" xml:space="preserve">
+    <value>Вход с еднократна парола</value>
+  </data>
+  <data name="PredifinedServices" xml:space="preserve">
+    <value>Предефинираните конфигурации не могат да бъдат редактиране/изтривани!</value>
+  </data>
+  <data name="RPSPrefix.Text" xml:space="preserve">
+    <value>RPS Префикс</value>
+  </data>
+  <data name="ServiceName.Text" xml:space="preserve">
+    <value>Име на конфигурацията</value>
+  </data>
+  <data name="SeviceURLText.Text" xml:space="preserve">
+    <value>Адрес на Кофигурацията</value>
+  </data>
+  <data name="DeleteServiceConfirmation" xml:space="preserve">
+    <value>Сигурни ли сте, че искате да изтриете конфигурация "{0}"?</value>
+  </data>
+  <data name="EmptyTitle" xml:space="preserve">
+    <value>Моля, задайте заглавие на конфигурацията!</value>
+  </data>
+  <data name="LostUsers" xml:space="preserve">
+    <value>Всички предефинирани потребители ще бъдат изтрити поради смяна на адреса на конфигурацията! Сигурни ли сте, че искате да продължите?</value>
+  </data>
+  <data name="MobileLogin" xml:space="preserve">
+    <value>Вход с мобилно устройство</value>
+  </data>
+  <data name="OnlineLogin" xml:space="preserve">
+    <value>Вход в Уеб Браузър</value>
+  </data>
+  <data name="OTPLogin" xml:space="preserve">
+    <value>Вход с еднократна парола</value>
+  </data>
+  <data name="WrongURL" xml:space="preserve">
+    <value>Некоректен формат на адреса на конфигурацията!</value>
   </data>
 </root>
