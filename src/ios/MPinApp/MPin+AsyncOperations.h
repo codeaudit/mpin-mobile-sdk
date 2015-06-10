@@ -54,7 +54,7 @@ static NSString *const kUSER = @"currentUser";
 
 @interface MPin ( AsyncOperations )
 
-@property( weak ) id<MPinSDKDelegate> delegate;
+@property( nonatomic, strong ) id<MPinSDKDelegate> delegate;
 
 + ( BOOL ) isInitialized;
 - ( void ) initSDK:( NSDictionary * )config;

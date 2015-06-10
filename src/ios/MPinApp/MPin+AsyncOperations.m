@@ -18,8 +18,6 @@ static BOOL isInitialized = false;
 
 @implementation MPin ( AsyncOperations )
 
-@dynamic delegate;
-
 + ( BOOL ) isInitialized
 {
     return isInitialized;
