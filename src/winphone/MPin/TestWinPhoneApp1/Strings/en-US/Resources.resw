@@ -345,4 +345,10 @@
   <data name="WrongURL" xml:space="preserve">
     <value>The URL string is not correct!</value>
   </data>
+  <data name="FeedbackButton.Label" xml:space="preserve">
+    <value>Feedback</value>
+  </data>
+  <data name="UpdateCheckButton.Label" xml:space="preserve">
+    <value>Check for update</value>
+  </data>
 </root>

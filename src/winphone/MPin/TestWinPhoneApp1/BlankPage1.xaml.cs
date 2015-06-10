@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using System.Linq;
 using Windows.UI.Xaml.Data;
+using HockeyApp;
 
 namespace MPinDemo
 {
@@ -315,6 +316,19 @@ namespace MPinDemo
             {
                 throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
             }
+        }   
+
+        private void FeedbackButton_Click(object sender, RoutedEventArgs e)
+        {
+            HockeyClient.Current.ShowFeedback();
+        }
+
+        private async void CheckForUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            await HockeyClient.Current.CheckForAppUpdateAsync(new UpdateCheckSettings()
+            {
+                UpdateMode = UpdateMode.InApp
+            });
         }
 
         private void ServicesList_Loaded(object sender, RoutedEventArgs e)

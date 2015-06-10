@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using HockeyApp;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
@@ -35,6 +36,7 @@ namespace MPinDemo
         {
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
+            HockeyClient.Current.Configure("584408f872a0f7e10991ddb9954b3eb3");            
         }
 
         //internal static Frame RootFrame;
@@ -44,7 +46,7 @@ namespace MPinDemo
         /// search results, and so forth.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -103,6 +105,10 @@ namespace MPinDemo
             // Ensure the current window is active
             Window.Current.Activate();
 
+            await HockeyClient.Current.SendCrashesAsync();
+#if WINDOWS_PHONE_APP
+            await HockeyClient.Current.CheckForAppUpdateAsync();
+#endif
         }
 
         /// <summary>
