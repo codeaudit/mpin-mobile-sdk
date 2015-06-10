@@ -44,6 +44,12 @@ public class ConfigDetailFragment extends Fragment {
 
 	private Config mConfig;
 
+	private static final int INVALID_URL = 0;
+	private static final int INVALID_BACKEND = 1;
+	private static final int VALID_BACKEND = 2;
+
+	private Status mChechBackendStatus;
+
 	public void setController(ConfigController controller) {
 		this.controller = controller;
 	}
@@ -128,14 +134,42 @@ public class ConfigDetailFragment extends Fragment {
 		mCheckServiceButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				checkBackend(false);
+				switch (checkBackend()) {
+				case INVALID_URL:
+					showInvalidURLDialog();
+					break;
+				case INVALID_BACKEND:
+					showInvalidBackednURL();
+					break;
+				case VALID_BACKEND:
+					showValidBackendDialog();
+					break;
+				default:
+					break;
+				}
 			}
 		});
 
 		mSaveServiceButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				checkBackend(true);
+				if (isEmptyTitle()) {
+					showEmptyTitleDialog();
+				} else {
+					switch (checkBackend()) {
+					case INVALID_URL:
+						showInvalidURLDialog();
+						break;
+					case INVALID_BACKEND:
+						showInvalidBackednURL();
+						break;
+					case VALID_BACKEND:
+						preSaveConfiguration();
+						break;
+					default:
+						break;
+					}
+				}
 			}
 		});
 
@@ -196,7 +230,37 @@ public class ConfigDetailFragment extends Fragment {
 		}
 	}
 
-	private void onValidBackend(String backendUrl) {
+	private boolean isEmptyTitle() {
+		if (mServiceNameEditText.getText().toString().trim().length() == 0) {
+			return true;
+		}
+		return false;
+	}
+
+	private void showInvalidURLDialog() {
+		new AlertDialog.Builder(getActivity()).setTitle("Invalid URL address")
+				.setMessage("Try Again").setPositiveButton("OK", null).show();
+	}
+
+	private void showInvalidBackednURL() {
+		new AlertDialog.Builder(getActivity()).setTitle("Error")
+				.setMessage("Invalid backend URL")
+				.setPositiveButton("OK", null).show();
+	}
+
+	private void showValidBackendDialog() {
+		new AlertDialog.Builder(getActivity()).setTitle("Success")
+				.setMessage("The backend URL is correct!")
+				.setPositiveButton("OK", null).show();
+	}
+
+	private void showEmptyTitleDialog() {
+		new AlertDialog.Builder(getActivity()).setTitle("Error")
+				.setMessage("Service name field is empty")
+				.setPositiveButton("OK", null).show();
+	}
+
+	private void saveConfiguration(String backendUrl) {
 		// Setting service name
 		String serviceName = mServiceNameEditText.getText().toString();
 		mConfig.setTitle(serviceName);
@@ -216,71 +280,52 @@ public class ConfigDetailFragment extends Fragment {
 		controller.configurationSaved();
 	}
 
-	private void checkBackend(final boolean saveIfCorrect) {
-		final Activity activity = this.getActivity();
+	private int checkBackend() {
 		final String backendUrl = mServiceUrlEditText.getText().toString();
-
 		if (!URLUtil.isValidUrl(backendUrl)) {
-			new AlertDialog.Builder(activity).setTitle("Invalid URL address")
-					.setMessage("Try Again").setPositiveButton("OK", null)
-					.show();
+			return INVALID_URL;
 		} else {
-			new Thread(new Runnable() {
+			mChechBackendStatus = null;
+			Thread checkBackendThread = new Thread(new Runnable() {
 				@Override
 				public void run() {
-					Status status = MPinActivity.sdk().TestBackend(backendUrl);
-					if (status.getStatusCode() != Status.Code.OK) {
-						activity.runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								new AlertDialog.Builder(activity)
-										.setTitle("Error")
-										.setMessage("Invalid backend URL")
-										.setPositiveButton("OK", null).show();
-							}
-						});
-						return;
-					} else {
-						activity.runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								if (saveIfCorrect) {
-									if (mConfigId != -1
-											&& !mConfigURL.equals(backendUrl)) {
-										new AlertDialog.Builder(activity)
-												.setTitle(
-														"Updating configuration")
-												.setMessage(
-														"This action will also delete all identities, associated with this configuration.")
-												.setPositiveButton(
-														"OK",
-														new DialogInterface.OnClickListener() {
-															@Override
-															public void onClick(
-																	DialogInterface dialog,
-																	int which) {
-																onValidBackend(backendUrl);
-															}
-														})
-												.setNegativeButton("Cancel",
-														null).show();
-									} else {
-										onValidBackend(backendUrl);
-									}
-
-								} else {
-									new AlertDialog.Builder(activity)
-											.setTitle("Success")
-											.setMessage(
-													"The backend URL is correct!")
-											.setPositiveButton("OK", null)
-											.show();
-								}
-							}
-						});
-					}
+					mChechBackendStatus = MPinActivity.sdk().TestBackend(
+							backendUrl);
 				}
-			}).start();
+			});
+			checkBackendThread.start();
+			try {
+				checkBackendThread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			if (mChechBackendStatus.getStatusCode() != Status.Code.OK) {
+				return INVALID_BACKEND;
+			} else {
+				return VALID_BACKEND;
+			}
+
+		}
+	}
+
+	private void preSaveConfiguration() {
+		final String backendUrl = mServiceUrlEditText.getText().toString();
+		if (mConfigId != -1 && !mConfigURL.equals(backendUrl)) {
+			new AlertDialog.Builder(getActivity())
+					.setTitle("Updating configuration")
+					.setMessage(
+							"This action will also delete all identities, associated with this configuration.")
+					.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									saveConfiguration(backendUrl);
+								}
+							}).setNegativeButton("Cancel", null).show();
+		} else {
+			saveConfiguration(backendUrl);
 		}
 	}
 }
