@@ -86,36 +86,21 @@
     ConfigListTableViewCell *customCell = (ConfigListTableViewCell *)cell;
     customCell.lblConfigurationName.text = [[ConfigurationManager sharedManager] getNameAtIndex:indexPath.row];
     NSInteger service = [[ConfigurationManager sharedManager] getConfigurationTypeAtIndex:indexPath.row];
-    switch ( indexPath.row )
+    switch ( service )
     {
-    case NONE:
-        customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_MOBILE_APP", @"");
-        break;
-
-    case OTP:
-        customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_OTP", @"");
-        break;
-
-    case AN:
-        customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_ONLINE_SESSION", @"");
-        break;
-
-    default:
-        switch ( service )
-        {
         case LOGIN_ON_MOBILE:
             customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_MOBILE_APP", @"");;
             break;
-
+            
         case LOGIN_ONLINE:
             customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_ONLINE_SESSION", @"");
             break;
-
+            
         case LOGIN_WITH_OTP:
             customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_OTP", @"");
             break;
-        }
-        break;
+            default:
+            break;
     }
     [customCell setIsSelectedImage:( [[ConfigurationManager sharedManager] getSelectedConfigurationIndex] == indexPath.row )];
     [[ThemeManager sharedManager] customiseConfigurationListCell:customCell];
@@ -142,10 +127,8 @@
         rpsPrefix = nil;
     }
     
-    if ( [MPin isInitialized] )
-        [sdk SetBackend:url rpsPrefix:rpsPrefix];
-    else
-        [sdk initSDK:[[ConfigurationManager sharedManager] getConfigurationAtIndex:intSelectedConfiguration]];
+    [sdk SetBackend:url rpsPrefix:rpsPrefix];
+  
 
     [[ConfigurationManager sharedManager] setSelectedConfiguration:indexPath.row];
     [tableView reloadData];
@@ -179,7 +162,9 @@
 
 - ( IBAction )edit:( id )sender
 {
-    if ( [[ConfigurationManager sharedManager] getSelectedConfigurationIndex] > 2 )
+     if ([[ConfigurationManager sharedManager] isEmpty]) return;
+    
+    if ( [[ConfigurationManager sharedManager] getSelectedConfigurationIndex] > ([[ConfigurationManager sharedManager] defaultConfigCount] -1))
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
         AddSettingViewController *addViewController = [storyboard instantiateViewControllerWithIdentifier:@"AddConfig"];
@@ -199,7 +184,9 @@
 
 - ( IBAction )deleteConfiguration:( id )sender
 {
-    if ( [[ConfigurationManager sharedManager] getSelectedConfigurationIndex] > 2 )
+    if ([[ConfigurationManager sharedManager] isEmpty]) return;
+    
+    if ( [[ConfigurationManager sharedManager] getSelectedConfigurationIndex] > ([[ConfigurationManager sharedManager] defaultConfigCount] -1) )
     {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"KEY_WARNING", @"")
                                   message:NSLocalizedString(@"WARNING_THIS_WILL_DELETE_ALL_IDS", @"")
@@ -240,7 +227,7 @@
         [[ConfigurationManager sharedManager] deleteConfigurationAtIndex:intSelectedIndex];
         [[ConfigurationManager sharedManager] setSelectedConfiguration:0];
         [self.tableView reloadData];
-
+        [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
         break;
     }
 }

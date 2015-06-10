@@ -13,7 +13,7 @@
 @import LocalAuthentication;
 
 static char const *const delegateKey = "delegateKey";
-static BOOL isInitialized = false;
+static BOOL isConfigLoadSuccessfuly = false;
 
 
 @implementation MPin ( AsyncOperations )
@@ -101,6 +101,7 @@ static BOOL isInitialized = false;
 
             if ( mpinStatus.status == OK )
             {
+                isConfigLoadSuccessfuly = true;
                 if ( [(NSObject *)self.delegate respondsToSelector:@selector( OnSetBackendCompleted: )] )
                 {
                     [self.delegate OnSetBackendCompleted:self];
@@ -108,6 +109,7 @@ static BOOL isInitialized = false;
             }
             else
             {
+                isConfigLoadSuccessfuly = false;
                 if ( [(NSObject *)self.delegate respondsToSelector:@selector( OnSetBackendError:error: )] )
                 {
                     [self.delegate OnSetBackendError:self error:[NSError errorWithDomain:@"SDK" code:mpinStatus.status userInfo:@{kMPinSatus : mpinStatus}]];
@@ -115,6 +117,12 @@ static BOOL isInitialized = false;
             }
         });
     });
+}
+
+- ( void ) SetBackend:(const NSDictionary *) config {
+    // TODO :: notify listeners
+    if (config == nil) return;
+    [self SetBackend:config[kRPSURL] rpsPrefix:config[kRPSPrefix]];
 }
 
 - ( void )RegisterNewUser:( NSString * )userName devName:( NSString * )devName userData:( NSString * )userData

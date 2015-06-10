@@ -16,9 +16,6 @@ static NSString *const kUSER = @"currentUser";
 @protocol MPinSDKDelegate
 @optional
 
-- ( void ) OnInitCompleted:( id ) sender;
-- ( void ) OnInitError:( id ) sender error:( NSError * ) error;
-
 - ( void ) OnTestBackendCompleted:( id ) sender;
 - ( void ) OnTestBackendError:( id ) sender error:( NSError * ) error;
 
@@ -60,6 +57,7 @@ static NSString *const kUSER = @"currentUser";
 - ( void ) initSDK:( NSDictionary * )config;
 - ( void ) TestBackend:( const NSString * ) url rpsPrefix:( NSString * ) rpsPrefix;
 - ( void ) SetBackend:( const NSString * ) url rpsPrefix:( NSString * ) rpsPrefix;
+- ( void ) SetBackend:(const NSDictionary *) config;
 - ( void ) RegisterNewUser:( NSString * ) userName devName:( NSString * ) devName;
 - ( void ) RegisterNewUser:( NSString * ) userName devName:( NSString * ) devName userData:( NSString * ) userData;
 - ( void ) RestartRegistration:( const id<IUser>) user;

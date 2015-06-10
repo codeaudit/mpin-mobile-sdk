@@ -15,10 +15,10 @@
 #import "Constants.h"
 
 static MPinSDK mpin;
+static BOOL isInitialized = false;
 
 /// TEMPORARY FIX
 static NSString * rpsURL;
-
 static NSLock * lock = [[NSLock alloc] init];
 
 typedef MPinSDK::UserPtr UserPtr;
@@ -32,22 +32,13 @@ typedef sdk::Context Context;
     return rpsURL;
 }
 
-+(MpinStatus *) initWithConfig:(NSDictionary*) config {
-    /// TEMPORARY FIX
-    rpsURL = [config objectForKey:kRPSURL];
-    ///
-    NSString * rpsPrefix = [config objectForKey:kRPSPrefix];
-    
++(void) initSDK {
+    if (isInitialized) return;
     StringMap sm;
-    sm[([kRPSURL UTF8String])] = [rpsURL UTF8String];
-    if (rpsPrefix != nil && rpsPrefix.length != 0) {
-        sm[([kRPSPrefix UTF8String])] = [rpsPrefix UTF8String];
-    }
-    
     [lock lock];
-    Status s =  mpin.Init(sm, Context::Instance());
+    mpin.Init(sm, Context::Instance());
     [lock unlock];
-    return [[MpinStatus alloc] initWith:(MPinStatus)s.GetStatusCode() errorMessage:[NSString stringWithUTF8String:s.GetErrorMessage().c_str()]];
+    isInitialized = true;
 }
 
 +(MpinStatus *) TestBackend:(const NSString * ) url {

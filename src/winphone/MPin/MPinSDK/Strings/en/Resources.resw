@@ -139,10 +139,10 @@
     <value>1</value>
   </data>
   <data name="PinPadAuthentication" xml:space="preserve">
-    <value>Authentication</value>
+    <value>Authenticate user </value>
   </data>
   <data name="PinPadRegistration" xml:space="preserve">
-    <value>Registration</value>
+    <value>Register user </value>
   </data>
   <data name="PinPasswordBox.PlaceholderText" xml:space="preserve">
     <value>Enter your pin..</value>
