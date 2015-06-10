@@ -14,12 +14,14 @@
 static NSString *const kCurrentSelectionIndex = @"currentSelectionIndex";
 static NSString *const kSettings = @"settings";
 
-@interface ConfigurationManager ( )
+@interface ConfigurationManager ( ) {
+    NSInteger defaultConfigCount;
+}
 
 @property ( nonatomic, strong ) NSMutableArray *arrConfigrations;
 
-- (BOOL)saveConfigurationAtIndex:(NSInteger)index configData:(NSDictionary*)configData;
-- (BOOL) validate:(NSDictionary *) dict;
+- ( BOOL )saveConfigurationAtIndex:( NSInteger )index configData:( NSDictionary * )configData;
+- ( BOOL ) validate:( NSDictionary * ) dict;
 
 @end
 
@@ -36,19 +38,22 @@ static NSString *const kSettings = @"settings";
     return sharedManager;
 }
 
-- (BOOL) validate:(NSDictionary *) dict {
+- ( BOOL ) validate:( NSDictionary * ) dict
+{
     NSEnumerator *enumerator = [dict keyEnumerator];
-    NSString * key;
-    while ((key = [enumerator nextObject])) {
-        if( (![key isEqualToString:kRPSURL]) &&
-            (![key isEqualToString:kRPSPrefix]) &&
-            (![key isEqualToString:kSERVICE_TYPE]) &&
-            (![key isEqualToString:kCONFIG_NAME]))
+    NSString *key;
+    while ( ( key = [enumerator nextObject] ) )
+    {
+        if ( ( ![key isEqualToString:kRPSURL] ) &&
+             ( ![key isEqualToString:kRPSPrefix] ) &&
+             ( ![key isEqualToString:kSERVICE_TYPE] ) &&
+             ( ![key isEqualToString:kCONFIG_NAME] ) )
             return false;
-        
+
         if ( [key isEqualToString:kRPSURL]  && ![NSString isValidURL:[dict objectForKey:kRPSURL]] )
             return false;
     }
+
     return true;
 }
 
@@ -59,40 +64,48 @@ static NSString *const kSettings = @"settings";
     {
         _intSelectedConfiguration = [[NSUserDefaults standardUserDefaults] integerForKey:kCurrentSelectionIndex];
         _arrConfigrations = [[[NSUserDefaults standardUserDefaults] objectForKey:kSettings] mutableCopy];
-        if (_arrConfigrations == nil)   _arrConfigrations = [NSMutableArray array];
-                
-        NSString* filePath = [[NSBundle mainBundle] pathForResource:kSettingsFile ofType:@"plist"];
-        NSDictionary * settingsDict = [[NSDictionary alloc] initWithContentsOfFile:filePath];
-        NSArray* configs = [settingsDict objectForKey:kBackendsKey];
-        if (configs == nil) configs = [NSArray array];
-        NSString * fileContent = [NSString stringWithFormat:@"%@", configs];
-        
+        if ( _arrConfigrations == nil )
+            _arrConfigrations = [NSMutableArray array];
+
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:kSettingsFile ofType:@"plist"];
+        NSDictionary *settingsDict = [[NSDictionary alloc] initWithContentsOfFile:filePath];
+        NSArray *configs = [settingsDict objectForKey:kBackendsKey];
+        if ( configs == nil )
+            configs = [NSArray array];
+        NSString *fileContent = [NSString stringWithFormat:@"%@", configs];
+
         NSInteger hashValue  = [[NSUserDefaults standardUserDefaults] integerForKey:kConfigHashValue];
         long configHash = [fileContent hash];
-        
-        if ( hashValue != configHash ) {
-            NSMutableArray * tmpArray = [NSMutableArray array];
-            
-            for (int i=0; i<[configs count]; i++)
-                if([self validate:configs[i]])
-                    [tmpArray addObject:configs[i]];
 
-            if (hashValue != 0) {
+        defaultConfigCount = [configs count];
+
+        
+        if ( hashValue != configHash )
+        {
+            NSMutableArray *tmpArray = [NSMutableArray array];
+
+            for ( int i = 0; i < [configs count]; i++ )
+                if ( [self validate:configs [i]] )
+                    [tmpArray addObject:configs [i]];
+
+            if ( hashValue != 0 )
+            {
                 NSInteger threshold = [[NSUserDefaults standardUserDefaults] integerForKey:kDefConfigThreshold];
-                for (int i = (int)threshold; i<[_arrConfigrations count]; i++)
-                    [tmpArray addObject:_arrConfigrations[i]];
-            
-                if ([configs count] != threshold) {
-                    _intSelectedConfiguration = ((_intSelectedConfiguration >= threshold) && ([_arrConfigrations count] !=0))?( _intSelectedConfiguration + ([configs count] - threshold) ):(0);
+                for ( int i = (int)threshold; i < [_arrConfigrations count]; i++ )
+                    [tmpArray addObject:_arrConfigrations [i]];
+
+                if ( [configs count] != threshold )
+                {
+                    _intSelectedConfiguration = ( ( _intSelectedConfiguration >= threshold ) && ( [_arrConfigrations count] != 0 ) ) ? ( _intSelectedConfiguration + ( [configs count] - threshold ) ) : ( 0 );
                     [[NSUserDefaults standardUserDefaults] setInteger:_intSelectedConfiguration forKey:kCurrentSelectionIndex];
                 }
             }
-            
+
             _arrConfigrations = tmpArray;
-            
+
             [[NSUserDefaults standardUserDefaults] setInteger:configHash forKey:kConfigHashValue];
             [[NSUserDefaults standardUserDefaults] setInteger:[configs count] forKey:kDefConfigThreshold];
-
+           
             [self saveConfigurations];
         }
     }
@@ -100,11 +113,16 @@ static NSString *const kSettings = @"settings";
     return self;
 }
 
-- (BOOL)isEmpty {
+- ( BOOL )isEmpty
+{
     return [_arrConfigrations count] == 0;
 }
 
-- (BOOL)saveConfigurationAtIndex:(NSInteger)index configData:(NSDictionary*)configData
+- (NSInteger) defaultConfigCount {
+    return defaultConfigCount;
+}
+
+- ( BOOL )saveConfigurationAtIndex:( NSInteger )index configData:( NSDictionary * )configData
 {
     if ( index < [_arrConfigrations count] )
     {
@@ -113,34 +131,48 @@ static NSString *const kSettings = @"settings";
 
         return YES;
     }
+
     return false;
 }
 
 - ( void )addConfigurationWithURL:( NSString * )url serviceType:( int )serviceType name:( NSString * )configurationName
 {
+    [self addConfigurationWithURL:url serviceType:serviceType name:configurationName prefixName:nil];
+}
+
+- (void)addConfigurationWithURL:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName prefixName:(NSString *) prefixName {
     NSDictionary *data = @{ kRPSURL : url,
                             kSERVICE_TYPE : @( serviceType ),
-                            kCONFIG_NAME : configurationName };
-
+                            kCONFIG_NAME : configurationName,
+                            kRPSPrefix : (prefixName == nil)?(@""):(prefixName) };
+    
     [_arrConfigrations addObject:data];
     [self saveConfigurations];
+
 }
 
 - ( BOOL )saveConfigurationAtIndex:( NSInteger )index url:( NSString * )url serviceType:( int )serviceType name:( NSString * )configurationName
 {
+    return [self saveConfigurationAtIndex:index url:url serviceType:serviceType name:configurationName prefixName:nil];
+}
+
+- (BOOL)saveConfigurationAtIndex:(NSInteger)index url:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName prefixName:(NSString *) prefixName {
+    
     if ( index < [_arrConfigrations count] )
     {
         NSDictionary *data = @{ kRPSURL : url,
                                 kSERVICE_TYPE : @( serviceType ),
-                                kCONFIG_NAME : configurationName };
-
+                                kCONFIG_NAME : configurationName,
+                                kRPSPrefix : (prefixName == nil)?(@""):(prefixName) };
+        
         _arrConfigrations [index] = data;
         [self saveConfigurations];
-
+        
         return YES;
     }
-
+    
     return false;
+
 }
 
 - ( BOOL )deleteConfigurationAtIndex:( NSInteger )index
@@ -271,14 +303,15 @@ static NSString *const kSettings = @"settings";
 
 - ( NSDictionary * )getSelectedConfiguration
 {
-    if ([_arrConfigrations count] == 0)
+    if ( [_arrConfigrations count] == 0 )
         return nil;
     else
         return [NSMutableDictionary dictionaryWithDictionary:[_arrConfigrations objectAtIndexedSubscript:_intSelectedConfiguration]];
 }
 
-- (NSDictionary*)getConfigurationAtIndex:(NSInteger) index {
-    if (index >= [_arrConfigrations count])
+- ( NSDictionary * )getConfigurationAtIndex:( NSInteger ) index
+{
+    if ( index >= [_arrConfigrations count] )
         return nil;
     else
         return [NSMutableDictionary dictionaryWithDictionary:[_arrConfigrations objectAtIndexedSubscript:index]];

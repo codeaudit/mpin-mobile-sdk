@@ -15,7 +15,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
-        <TextBlock x:Name="PinMailTB" />
+        <TextBlock x:Name="PinMailTB" VerticalAlignment="Center" HorizontalAlignment="Center" />
         <mPin:PinPadControl x:Name="PinPad" Grid.Row="1" />
     </Grid>
 </Page>

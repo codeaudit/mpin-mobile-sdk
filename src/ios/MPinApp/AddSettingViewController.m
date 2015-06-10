@@ -39,6 +39,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 
 - ( IBAction )goBack:( id )sender;
 - ( IBAction )textFieldReturn:( id )sender;
+- (NSString *) getTXTMPINServiceRPSPrefix;
 
 @end
 
@@ -362,9 +363,12 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
         caption = NSLocalizedString(@"HUD_SAVE_CONFIG", @"");
     }
 
+    [sdk TestBackend:_txtMPINServiceURL.text rpsPrefix:[self getTXTMPINServiceRPSPrefix]];
+}
 
-    ///TODO :: add rpsPrefix test field to this VIEW it is needed for some configurations
-    [sdk TestBackend:_txtMPINServiceURL.text rpsPrefix:nil];
+- (NSString *) getTXTMPINServiceRPSPrefix {
+    if ([NSString isBlank:_txtMPINServiceRPSPrefix.text]) return nil;
+    return _txtMPINServiceRPSPrefix.text;
 }
 
 - ( void )OnTestBackendCompleted:( id )sender
@@ -378,27 +382,36 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     }
     else
     {
+        BOOL isEmpty = [[ConfigurationManager sharedManager] isEmpty];
         int minShowTime = 1;
         if ( _selectedIndex >= 0 )
         {
+            
             if ( _isEdit )
             {
                 [[ConfigurationManager sharedManager] saveConfigurationAtIndex:_selectedIndex
                  url:_txtMPINServiceURL.text
                  serviceType:(int)_service
-                 name:_txtMPINServiceNAME.text];
+                 name:_txtMPINServiceNAME.text
+                 prefixName:[self getTXTMPINServiceRPSPrefix]];
             }
             else
             {
                 [[ConfigurationManager sharedManager] addConfigurationWithURL:_txtMPINServiceURL.text
                  serviceType:(int)_service
-                 name:_txtMPINServiceNAME.text];
+                 name:_txtMPINServiceNAME.text
+                 prefixName:[self getTXTMPINServiceRPSPrefix]];
             }
         }
-        dispatch_after(dispatch_time( DISPATCH_TIME_NOW, (int64_t)( minShowTime * NSEC_PER_SEC ) ),
-                       dispatch_get_main_queue(), ^ {
-            [self.navigationController popViewControllerAnimated:YES];
-        });
+        
+        if (isEmpty) {
+            [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
+        } else {
+        
+            dispatch_after(dispatch_time( DISPATCH_TIME_NOW, (int64_t)( minShowTime * NSEC_PER_SEC ) ), dispatch_get_main_queue(), ^ {
+                                                                                [self.navigationController popViewControllerAnimated:YES];
+            });
+        }
     }
 }
 
@@ -411,7 +424,19 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
      addActivityIndicator:NO
      hideAfter:3];
 }
-    
+
+- ( void )OnSetBackendCompleted:( id )sender
+{
+    dispatch_after(dispatch_time( DISPATCH_TIME_NOW, (int64_t)( NSEC_PER_SEC ) ), dispatch_get_main_queue(), ^ {
+        [self.navigationController popViewControllerAnimated:YES];
+    });
+}
+
+- ( void )OnSetBackendError:( id )sender error:( NSError * )error
+{
+    [self OnTestBackendError:sender error:error];
+}
+
 - (IBAction)goBack:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];

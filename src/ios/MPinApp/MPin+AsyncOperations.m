@@ -13,42 +13,22 @@
 @import LocalAuthentication;
 
 static char const *const delegateKey = "delegateKey";
-static BOOL isInitialized = false;
+static BOOL isConfigLoadSuccessfuly = false;
 
 
 @implementation MPin ( AsyncOperations )
 
 @dynamic delegate;
 
-+ ( BOOL ) isInitialized
-{
-    return isInitialized;
++ ( BOOL ) isConfigLoadSuccessfully {
+    return isConfigLoadSuccessfuly;
 }
 
-- (void) initSDK:(NSDictionary *)config {
-    if (isInitialized) return;
-    if (config == nil) return;
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        MpinStatus* mpinStatus = [MPin initWithConfig:config];
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            if (mpinStatus.status == OK)
-            {
-                isInitialized = true;
-                if ( [(NSObject *)self.delegate respondsToSelector:@selector( OnInitCompleted: )] )
-                {
-                    [self.delegate OnInitCompleted:self];
-                }
-            }
-            else
-            {
-                if ( [(NSObject *)self.delegate respondsToSelector:@selector( OnInitError:error: )] )
-                {
-                    [self.delegate OnInitError:self error:[NSError errorWithDomain:@"SDK" code:mpinStatus.status userInfo:@{kMPinSatus : mpinStatus}]];
-                }
-            }
-        });
-    });
+-(id) init {
+    if (self = [super init]) {
+        [MPin initSDK];
+    }
+    return self;
 }
 
 - ( id<MPinSDKDelegate>)delegate
@@ -99,6 +79,7 @@ static BOOL isInitialized = false;
 
             if ( mpinStatus.status == OK )
             {
+                isConfigLoadSuccessfuly = true;
                 if ( [(NSObject *)self.delegate respondsToSelector:@selector( OnSetBackendCompleted: )] )
                 {
                     [self.delegate OnSetBackendCompleted:self];
@@ -106,6 +87,7 @@ static BOOL isInitialized = false;
             }
             else
             {
+                isConfigLoadSuccessfuly = false;
                 if ( [(NSObject *)self.delegate respondsToSelector:@selector( OnSetBackendError:error: )] )
                 {
                     [self.delegate OnSetBackendError:self error:[NSError errorWithDomain:@"SDK" code:mpinStatus.status userInfo:@{kMPinSatus : mpinStatus}]];
@@ -113,6 +95,12 @@ static BOOL isInitialized = false;
             }
         });
     });
+}
+
+- ( void ) SetBackend:(const NSDictionary *) config {
+    // TODO :: notify listeners
+    if (config == nil) return;
+    [self SetBackend:config[kRPSURL] rpsPrefix:config[kRPSPrefix]];
 }
 
 - ( void )RegisterNewUser:( NSString * )userName devName:( NSString * )devName userData:( NSString * )userData
