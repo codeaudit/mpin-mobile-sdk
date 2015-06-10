@@ -7,14 +7,12 @@ import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Process;
 import android.preference.PreferenceManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -273,14 +271,6 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 				@Override
 				public void run() {
 					Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
-
-					LocalBroadcastManager lbm = LocalBroadcastManager
-							.getInstance(mActivity);
-					Intent intent = new Intent(ACTION_CHANGING_CONFIG);
-					intent.putExtra(EXTRA_PREVIOUS_CONFIG,
-							mLastConfig != null ? mLastConfig.getId() : -1);
-					lbm.sendBroadcast(intent);
-
 					HashMap<String, String> cfg = new HashMap<String, String>();
 					cfg.put("RPA_server", config.getBackendUrl());
 					MPinActivity.init(mActivity, cfg);
@@ -288,25 +278,10 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 					final Status status = MPinActivity.sdk().SetBackend(
 							config.getBackendUrl());
 					if (status.getStatusCode() == Status.Code.OK) {
-
 						PreferenceManager
 								.getDefaultSharedPreferences(
 										mActivity.getApplicationContext())
 								.edit().putLong(KEY_ACTIVE_CONFIG, id).commit();
-
-						intent = new Intent(ACTION_CONFIG_CHANGED);
-						intent.putExtra(EXTRA_PREVIOUS_CONFIG,
-								mLastConfig != null ? mLastConfig.getId() : -1);
-						intent.putExtra(EXTRA_CURRENT_CONFIG, id);
-						lbm.sendBroadcast(intent);
-					} else {
-						intent = new Intent(ACTION_CONFIG_CHANGED);
-						intent.putExtra(EXTRA_PREVIOUS_CONFIG,
-								mLastConfig != null ? mLastConfig.getId() : -1);
-						intent.putExtra(EXTRA_CURRENT_CONFIG,
-								mLastConfig != null ? mLastConfig.getId() : -1);
-						LocalBroadcastManager.getInstance(mActivity)
-								.sendBroadcast(intent);
 					}
 
 					new Handler(Looper.getMainLooper()).post(new Runnable() {

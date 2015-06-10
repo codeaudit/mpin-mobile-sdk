@@ -102,8 +102,6 @@ public class ConfigListFragment extends ListFragment {
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		// menu.findItem(R.id.configs_list_delete).setEnabled(
-		// getListAdapter().getCount() > 1);
 		super.onPrepareOptionsMenu(menu);
 	}
 
