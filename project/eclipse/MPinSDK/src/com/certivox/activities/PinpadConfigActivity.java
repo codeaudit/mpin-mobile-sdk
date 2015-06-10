@@ -70,6 +70,20 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 		addConfigListFragment();
 	}
 
+	@Override
+	protected void onStop() {
+		Config activeConfiguration = getActiveConfiguration(this);
+		if (activeConfiguration != null) {
+			PreferenceManager
+					.getDefaultSharedPreferences(this.getApplicationContext())
+					.edit()
+					.putLong(KEY_ACTIVE_CONFIG, activeConfiguration.getId())
+					.commit();
+		}
+
+		super.onStop();
+	}
+
 	public void addConfigListFragment() {
 		Log.d("CV", " + config list");
 		if (getConfigListFragment() == null) {
@@ -213,20 +227,6 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 		mDrawerToggle.syncState();
 	}
 
-	@Override
-	protected void onStop() {
-		Config activeConfiguration = getActiveConfiguration(this);
-		if (activeConfiguration != null) {
-			PreferenceManager
-					.getDefaultSharedPreferences(this.getApplicationContext())
-					.edit()
-					.putLong(KEY_ACTIVE_CONFIG, activeConfiguration.getId())
-					.commit();
-		}
-
-		super.onStop();
-	}
-
 	public static Cursor deleteConfiguration(Context context, long configId) {
 
 		Cursor cursor = ConfigsDao.deleteConfigurationById(context, configId);
@@ -296,7 +296,8 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 
 								Intent intent = new Intent(mActivity,
 										MPinActivity.class);
-								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+										| Intent.FLAG_ACTIVITY_SINGLE_TOP);
 								startActivity(intent);
 								finish();
 							} else {
