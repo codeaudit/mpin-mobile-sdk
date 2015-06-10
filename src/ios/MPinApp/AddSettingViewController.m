@@ -13,7 +13,8 @@
 #import "ConfigurationManager.h"
 #import "ThemeManager.h"
 #import "MpinStatus.h"
-#import "MPin.h"
+
+#import "MPin+AsyncOperations.h"
 #import "ThemeManager.h"
 #import "SettingsManager.h"
 #import "NSString+Helper.h"
@@ -363,10 +364,13 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
         caption = NSLocalizedString(@"HUD_SAVE_CONFIG", @"");
     }
 
+    [sdk TestBackend:_txtMPINServiceURL.text rpsPrefix:[self getTXTMPINServiceRPSPrefix]];
+    
     [[ErrorHandler sharedManager] presentMessageInViewController:self
                                                      errorString:caption
                                             addActivityIndicator:YES
                                                      minShowTime:3];
+}
 
 - (NSString *) getTXTMPINServiceRPSPrefix {
     if ([NSString isBlank:_txtMPINServiceRPSPrefix.text]) return nil;

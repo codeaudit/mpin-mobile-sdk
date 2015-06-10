@@ -53,9 +53,8 @@ static NSString *const kUSER = @"currentUser";
 
 @property( nonatomic, strong ) id<MPinSDKDelegate> delegate;
 
-+ ( BOOL ) isInitialized;
-- ( void ) initSDK:( NSDictionary * )config;
-- ( void ) TestBackend:( const NSString * ) url rpsPrefix:( NSString * ) rpsPrefix;
++ ( BOOL ) isConfigLoadSuccessfully;
+- ( void ) TestBackend:( const NSString * ) url rpsPrefix:( NSString * ) rpsPrefix;- ( void ) TestBackend:( const NSString * ) url rpsPrefix:( NSString * ) rpsPrefix;
 - ( void ) SetBackend:( const NSString * ) url rpsPrefix:( NSString * ) rpsPrefix;
 - ( void ) SetBackend:(const NSDictionary *) config;
 - ( void ) RegisterNewUser:( NSString * ) userName devName:( NSString * ) devName;

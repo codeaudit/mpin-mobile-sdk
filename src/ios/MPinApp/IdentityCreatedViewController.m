@@ -18,7 +18,6 @@
 }
 
 - (void)showPinPad;
-- (void)showError:(NSString*)title desc:(NSString*)desc;
 
 - (void)startAuthenticationFlow:(id<IUser>)forUser forService:(enum SERVICES)service;
 
@@ -97,13 +96,13 @@
 
 - (void)OnAuthenticateCanceled
 {
-    [self showError:@"Authentication Failed!" desc:@"TouchID failed"];
+//FIXME::    [self showError:@"Authentication Failed!" desc:@"TouchID failed"];
 }
 
 - (void)OnAuthenticateOTPCompleted:(id)sender user:(id<IUser>)user otp:(OTP*)otp
 {
     if (otp.status.status != OK) {
-        [self showError:[otp.status getStatusCodeAsString] desc:@"OTP is not supported!"];
+//FIXME::           [self showError:[otp.status getStatusCodeAsString] desc:@"OTP is not supported!"];
         return;
     }
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
@@ -116,7 +115,7 @@
 - (void)OnAuthenticateOTPError:(id)sender error:(NSError*)error
 {
     MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
-    [self showError:[mpinStatus getStatusCodeAsString] desc:mpinStatus.errorMessage];
+//FIXME::       [self showError:[mpinStatus getStatusCodeAsString] desc:mpinStatus.errorMessage];
 }
 
 -(void) onAccessNumber:(NSString *) an {
@@ -133,14 +132,14 @@
 {
     switch (error.code) {
     case INCORRECT_PIN:
-        [self showError:@"Authentication Failed!" desc:@"Wrong MPIN or Access Number!"];
+//FIXME::           [self showError:@"Authentication Failed!" desc:@"Wrong MPIN or Access Number!"];
         break;
     case HTTP_REQUEST_ERROR:
-        [self showError:@"Authentication Failed!" desc:@"Wrong MPIN or Access Number!"];
+ //FIXME::          [self showError:@"Authentication Failed!" desc:@"Wrong MPIN or Access Number!"];
         break;
     default: {
         MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
-        [self showError:[mpinStatus getStatusCodeAsString] desc:mpinStatus.errorMessage];
+ //FIXME::          [self showError:[mpinStatus getStatusCodeAsString] desc:mpinStatus.errorMessage];
     } break;
     }
 }
@@ -157,11 +156,11 @@
 {
     switch (error.code) {
     case INCORRECT_PIN:
-        [self showError:@"Authentication Failed!" desc:@"Wrong MPIN"];
+  //FIXME::         [self showError:@"Authentication Failed!" desc:@"Wrong MPIN"];
         break;
     default: {
         MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
-        [self showError:[mpinStatus getStatusCodeAsString] desc:mpinStatus.errorMessage];
+ //FIXME::          [self showError:[mpinStatus getStatusCodeAsString] desc:mpinStatus.errorMessage];
     } break;
     }
 }

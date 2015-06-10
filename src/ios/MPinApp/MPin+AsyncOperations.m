@@ -18,39 +18,17 @@ static BOOL isConfigLoadSuccessfuly = false;
 
 @implementation MPin ( AsyncOperations )
 
-+ ( BOOL ) isInitialized
-{
-    return isInitialized;
+@dynamic delegate;
+
++ ( BOOL ) isConfigLoadSuccessfully {
+    return isConfigLoadSuccessfuly;
 }
 
-- ( void ) initSDK:( NSDictionary * )config
-{
-    if ( isInitialized )
-        return;
-
-    if ( config == nil )
-        return;
-
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-        MpinStatus *mpinStatus = [MPin initWithConfig:config];
-        dispatch_async(dispatch_get_main_queue(), ^ (void) {
-            if ( mpinStatus.status == OK )
-            {
-                isInitialized = true;
-                if ( [(NSObject *)self.delegate respondsToSelector:@selector( OnInitCompleted: )] )
-                {
-                    [self.delegate OnInitCompleted:self];
-                }
-            }
-            else
-            {
-                if ( [(NSObject *)self.delegate respondsToSelector:@selector( OnInitError:error: )] )
-                {
-                    [self.delegate OnInitError:self error:[NSError errorWithDomain:@"SDK" code:mpinStatus.status userInfo:@{kMPinSatus : mpinStatus}]];
-                }
-            }
-        });
-    });
+-(id) init {
+    if (self = [super init]) {
+        [MPin initSDK];
+    }
+    return self;
 }
 
 - ( id<MPinSDKDelegate>)delegate
