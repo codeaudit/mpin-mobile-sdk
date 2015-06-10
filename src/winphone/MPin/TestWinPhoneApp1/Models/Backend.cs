@@ -5,12 +5,18 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Data.Json;
 
 namespace MPinDemo.Models
 {
     public class Backend: INotifyPropertyChanged
     {
         public const string DEFAULT_RPS_PREFIX = "rps";
+        private const string urlKey = "BackendUrl";
+        private const string requestANKey = "RequestAccessNumber";
+        private const string requestOtpKey = "RequestOtp";
+        private const string titleKey = "Title";
+        private const string rpsKey = "rps";
 
         private string backendUrl;
         public string BackendUrl
@@ -136,6 +142,38 @@ namespace MPinDemo.Models
             return base.GetHashCode();
         }
 
+        public Backend()
+        {
+            this.BackendUrl = string.Empty;
+            this.title = string.Empty;
+            this.RequestAccessNumber = false;
+            this.RequestOtp = false;
+            this.IsSet = false;            
+        }
+
+        public Backend(JsonObject jsonObject)
+        {
+            if (jsonObject != null)
+            {
+                this.BackendUrl = jsonObject.GetNamedString(urlKey, "");
+                this.RequestAccessNumber = jsonObject.GetNamedBoolean(requestANKey, false);
+                this.RequestOtp = jsonObject.GetNamedBoolean(requestOtpKey, false);
+                this.Title = jsonObject.GetNamedString(titleKey, "");
+                this.RpsPrefix = jsonObject.GetNamedString(rpsKey, "");
+            }
+        }
+
+        public JsonObject ToJsonObject()
+        {
+            JsonObject backendObject = new JsonObject();
+            backendObject.SetNamedValue(urlKey, JsonValue.CreateStringValue(BackendUrl));
+            backendObject.SetNamedValue(requestANKey, JsonValue.CreateBooleanValue(RequestAccessNumber));
+            backendObject.SetNamedValue(requestOtpKey, JsonValue.CreateBooleanValue(RequestOtp));
+            backendObject.SetNamedValue(titleKey, JsonValue.CreateStringValue(Title));
+            backendObject.GetNamedValue(rpsKey, JsonValue.CreateStringValue(RpsPrefix));
+
+            return backendObject;
+        }
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
