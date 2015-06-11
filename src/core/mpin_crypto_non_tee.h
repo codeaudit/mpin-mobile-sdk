@@ -17,6 +17,7 @@ public:
     typedef MPinSDK::IPinPad IPinPad;
     typedef MPinSDK::IStorage IStorage;
     typedef util::JsonObject JsonObject;
+    typedef MPinSDK::UserPtr UserPtr;
 
     MPinCryptoNonTee();
     ~MPinCryptoNonTee();
@@ -26,9 +27,9 @@ public:
 
     virtual Status OpenSession();
     virtual void CloseSession();
-    virtual Status Register(const String& mpinId, IN std::vector<String>& clientSecretShares);
-    virtual Status AuthenticatePass1(const String& mpinId, IN std::vector<String>& timePermitShares, OUT String& commitmentU, OUT String& commitmentUT);
-    virtual Status AuthenticatePass2(const String& mpinId, const String& challenge, OUT String& validator);
+    virtual Status Register(IN UserPtr user, IN std::vector<String>& clientSecretShares);
+    virtual Status AuthenticatePass1(IN UserPtr user, IN std::vector<String>& timePermitShares, OUT String& commitmentU, OUT String& commitmentUT);
+    virtual Status AuthenticatePass2(IN UserPtr user, const String& challenge, OUT String& validator);
     virtual void DeleteToken(const String& mpinId);
 
 	virtual Status SaveRegOTT(const String& mpinId, const String& regOTT);

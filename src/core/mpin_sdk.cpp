@@ -875,7 +875,7 @@ Status MPinSDK::FinishRegistration(UserPtr user)
     clientSecretShares.push_back(cs1);
     clientSecretShares.push_back(cs2);
 
-    s = m_crypto->Register(mpinId, clientSecretShares);
+    s = m_crypto->Register(user, clientSecretShares);
     if(s != Status::OK)
     {
         m_crypto->CloseSession();
@@ -990,7 +990,7 @@ Status MPinSDK::AuthenticateImpl(INOUT UserPtr user, const String& accessNumber,
 
     // Authentication pass 1
     String u, ut;
-    s = m_crypto->AuthenticatePass1(mpinId, timePermitShares, u, ut);
+    s = m_crypto->AuthenticatePass1(user, timePermitShares, u, ut);
     if(s != Status::OK)
     {
         m_crypto->CloseSession();
@@ -1016,7 +1016,7 @@ Status MPinSDK::AuthenticateImpl(INOUT UserPtr user, const String& accessNumber,
 
     // Authentication pass 2
     String v;
-    m_crypto->AuthenticatePass2(mpinId, y, v);
+    m_crypto->AuthenticatePass2(user, y, v);
     if(s != Status::OK)
     {
         m_crypto->CloseSession();

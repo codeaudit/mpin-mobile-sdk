@@ -12,6 +12,7 @@ typedef MPinSDK::String String;
 typedef MPinSDK::IHttpRequest IHttpRequest;
 typedef MPinSDK::IPinPad IPinPad;
 typedef MPinSDK::CryptoType CryptoType;
+typedef MPinSDK::UserPtr UserPtr;
 using namespace std;
 
 /*
@@ -62,7 +63,7 @@ private:
 class CmdLinePinpad : public MPinSDK::IPinPad
 {
 public:
-    virtual String Show(Mode mode)
+    virtual String Show(UserPtr user, Mode mode)
     {
         String pin;
         cout << "Enter pin: ";

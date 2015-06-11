@@ -127,8 +127,10 @@ void MPinCryptoNonTee::CloseSession()
     }
 }
 
-Status MPinCryptoNonTee::Register(const String& mpinId, std::vector<String>& clientSecretShares)
+Status MPinCryptoNonTee::Register(UserPtr user, std::vector<String>& clientSecretShares)
 {
+    const String& mpinId = user->GetMPinId();
+    
     if(!m_sessionOpened)
     {
         return Status(Status::CRYPTO_ERROR, String("Session is not opened or not initialized"));
@@ -151,7 +153,7 @@ Status MPinCryptoNonTee::Register(const String& mpinId, std::vector<String>& cli
     }
 
     // Query the user for the pin
-    String pin = m_pinPad->Show(IPinPad::REGISTER);
+    String pin = m_pinPad->Show(user, IPinPad::REGISTER);
     if(pin.empty())
     {
         return Status(Status::PIN_INPUT_CANCELED, "Pin input canceled");
@@ -174,8 +176,10 @@ Status MPinCryptoNonTee::Register(const String& mpinId, std::vector<String>& cli
     return Status(Status::OK);
 }
 
-Status MPinCryptoNonTee::AuthenticatePass1(const String& mpinId, std::vector<String>& timePermitShares, String& commitmentU, String& commitmentUT)
+Status MPinCryptoNonTee::AuthenticatePass1(UserPtr user, std::vector<String>& timePermitShares, String& commitmentU, String& commitmentUT)
 {
+    const String& mpinId = user->GetMPinId();
+
     if(!m_sessionOpened)
     {
         return Status(Status::CRYPTO_ERROR, String("Session is not opened or not initialized"));
@@ -205,7 +209,7 @@ Status MPinCryptoNonTee::AuthenticatePass1(const String& mpinId, std::vector<Str
     }
 
     // Query the user for the pin
-    String pin = m_pinPad->Show(IPinPad::AUTHENTICATE);
+    String pin = m_pinPad->Show(user, IPinPad::AUTHENTICATE);
     if(pin.empty())
     {
         return Status(Status::PIN_INPUT_CANCELED, "Pin input canceled");
@@ -245,8 +249,10 @@ Status MPinCryptoNonTee::AuthenticatePass1(const String& mpinId, std::vector<Str
     return Status(Status::OK);
 }
 
-Status MPinCryptoNonTee::AuthenticatePass2(const String& mpinId, const String& challenge, String& validator)
+Status MPinCryptoNonTee::AuthenticatePass2(UserPtr user, const String& challenge, String& validator)
 {
+    const String& mpinId = user->GetMPinId();
+
     if(!m_sessionOpened)
     {
         return Status(Status::CRYPTO_ERROR, String("Session is not opened or not initialized"));
