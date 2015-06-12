@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
@@ -67,6 +68,20 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 		initNavigationDrawer();
 
 		addConfigListFragment();
+	}
+
+	@Override
+	protected void onStop() {
+		Config activeConfiguration = getActiveConfiguration(this);
+		if (activeConfiguration != null) {
+			PreferenceManager
+					.getDefaultSharedPreferences(this.getApplicationContext())
+					.edit()
+					.putLong(KEY_ACTIVE_CONFIG, activeConfiguration.getId())
+					.commit();
+		}
+
+		super.onStop();
 	}
 
 	public void addConfigListFragment() {
@@ -212,20 +227,6 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 		mDrawerToggle.syncState();
 	}
 
-	@Override
-	protected void onStop() {
-		Config activeConfiguration = getActiveConfiguration(this);
-		if (activeConfiguration != null) {
-			PreferenceManager
-					.getDefaultSharedPreferences(this.getApplicationContext())
-					.edit()
-					.putLong(KEY_ACTIVE_CONFIG, activeConfiguration.getId())
-					.commit();
-		}
-
-		super.onStop();
-	}
-
 	public static Cursor deleteConfiguration(Context context, long configId) {
 
 		Cursor cursor = ConfigsDao.deleteConfigurationById(context, configId);
@@ -292,6 +293,12 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 								Toast.makeText(mActivity,
 										"Configuration changed successfully",
 										Toast.LENGTH_SHORT).show();
+
+								Intent intent = new Intent(mActivity,
+										MPinActivity.class);
+								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+										| Intent.FLAG_ACTIVITY_SINGLE_TOP);
+								startActivity(intent);
 								finish();
 							} else {
 								Toast.makeText(mActivity,

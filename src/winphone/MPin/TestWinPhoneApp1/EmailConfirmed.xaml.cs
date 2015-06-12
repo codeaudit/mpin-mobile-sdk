@@ -96,7 +96,7 @@ namespace MPinDemo
         {
             System.Diagnostics.Debug.WriteLine("EmailConfirmed -> Identities");
             Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-            mainFrame.GoBack(new List<object>() { "EmailConfirmed", string.Empty});
+            mainFrame.GoBack(new List<object >() { "EmailConfirmed", string.Empty});
         }
         #endregion
 

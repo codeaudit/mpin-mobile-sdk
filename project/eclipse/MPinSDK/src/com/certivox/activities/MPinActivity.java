@@ -65,7 +65,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	private static volatile Mpin s_sdk;
 	private static volatile MPinActivity mActivity;
 
-	private List<User> m_usersList = new ArrayList<User>();
+	private List<User> mUsersList = new ArrayList<User>();
 	private User mSelectedUser;
 
 	private Config mConfiguration;
@@ -74,16 +74,12 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mActivity = this;
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-		if (mConfiguration == null && !initConfiguration()) {
-			initEmptySDK();
-			startActivity(new Intent(this, PinpadConfigActivity.class));
+		if (!isConfigurationInited()) {
+			setInitialConfiguration();
 		} else {
 			initSDK(mConfiguration);
+			setChosenConfiguration(mConfiguration.getTitle());
+			initUsersList();
 			setInitialScreen();
 		}
 	}
@@ -91,23 +87,29 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	@Override
 	protected void onDestroy() {
 		mActivity = null;
+		mConfiguration = null;
+		mSelectedUser = null;
+		mUsersList = null;
 		super.onDestroy();
 	}
 
-	private boolean initConfiguration() {
+	private void setInitialConfiguration() {
+		initEmptySDK();
+		startActivity(new Intent(this, PinpadConfigActivity.class));
+		finish();
+	}
+
+	private boolean isConfigurationInited() {
 		mConfiguration = PinpadConfigActivity.getActiveConfiguration(this);
 		if (mConfiguration == null) {
 			Toast.makeText(this, "No active configuration", Toast.LENGTH_SHORT)
 					.show();
 			return false;
-		} else {
-			setChosenConfiguration(mConfiguration.getTitle());
 		}
 		return true;
 	}
 
 	private void initSDK(Config config) {
-		initConfiguration();
 		Mpin sdk = MPinActivity.peekSdk();
 		if (sdk == null) {
 			HashMap<String, String> serverConfig = new HashMap<String, String>();
@@ -125,16 +127,21 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 		if (mSelectedUser != null) {
 			return mSelectedUser;
 		}
+
 		String id = PreferenceManager.getDefaultSharedPreferences(this)
 				.getString(PREF_LAST_USER, "");
-		if (TextUtils.isEmpty(id))
+
+		if (TextUtils.isEmpty(id)) {
 			return null;
-		for (User user : m_usersList) {
+		}
+
+		for (User user : mUsersList) {
 			if (TextUtils.equals(user.getId(), id)) {
 				mSelectedUser = user;
 				return mSelectedUser;
 			}
 		}
+
 		return null;
 	}
 
@@ -263,15 +270,12 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	}
 
 	private void initUsersList() {
-		mSelectedUser = null;
-		m_usersList.clear();
-		sdk().ListUsers(m_usersList);
-		getCurrentUser();
+		mUsersList.clear();
+		sdk().ListUsers(mUsersList);
 	}
 
 	private void setInitialScreen() {
-		initUsersList();
-		if (mSelectedUser != null) {
+		if (getCurrentUser() != null) {
 			userChosen();
 		} else {
 			setChooseUserScreen();
@@ -280,7 +284,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	private void setChooseUserScreen() {
 		initUsersList();
-		if (m_usersList.isEmpty()) {
+		if (mUsersList.isEmpty()) {
 			addUsersFragment();
 		} else {
 			addUsersListFragment();
@@ -321,7 +325,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	public void addUsersListFragment() {
 		Log.d("CV", " + users list");
 		UsersAdapter usersAdapter = new UsersAdapter(mActivity);
-		usersAdapter.setData(m_usersList);
+		usersAdapter.setData(mUsersList);
 
 		if (getUsersListFragment() == null) {
 
@@ -341,7 +345,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 		} else {
 			getUsersListFragment().setListAdapter(usersAdapter);
 		}
-		getUsersListFragment().setSelectedUser(getCurrentUser());
 	}
 
 	@Override
@@ -613,10 +616,10 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	private void updateUsersList() {
 		if (getUsersListFragment() != null) {
-			if (m_usersList.isEmpty()) {
+			if (mUsersList.isEmpty()) {
 				addUsersFragment();
 			} else {
-				getUsersListFragment().getListAdapter().setData(m_usersList);
+				getUsersListFragment().getListAdapter().setData(mUsersList);
 			}
 		}
 	}
@@ -718,8 +721,13 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	};
 
 	@Override
+	public void onOTPExpired() {
+		setInitialScreen();
+	}
+
+	@Override
 	public void onBackPressed() {
-		if (m_usersList.isEmpty()) {
+		if (mUsersList.isEmpty()) {
 			if (getAddUserFragment() != null) {
 				super.onBackPressed();
 				return;

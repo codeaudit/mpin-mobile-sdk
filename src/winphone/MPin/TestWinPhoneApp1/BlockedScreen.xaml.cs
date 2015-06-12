@@ -43,10 +43,14 @@ namespace MPinDemo
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            this.User = e.Parameter as User;
-            if (this.User != null)
+            List<object> data = e.Parameter as List<object>;
+            if (data != null)
             {
-                BlockedUesrTB.Text = string.Format(ResourceLoader.GetForCurrentView().GetString("BlockedUser"), this.User.Id);
+                this.User = data[0] as User;
+                if (this.User != null)
+                {
+                    BlockedUesrTB.Text = string.Format(ResourceLoader.GetForCurrentView().GetString("BlockedUser"), this.User.Id);
+                }
             }
         }
 

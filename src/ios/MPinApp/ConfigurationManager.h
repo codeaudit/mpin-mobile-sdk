@@ -15,12 +15,16 @@
 + (ConfigurationManager*)sharedManager;
 
 @property (nonatomic) NSInteger intSelectedConfiguration;
+
 - (void)addConfigurationWithURL:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName;
+- (void)addConfigurationWithURL:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName prefixName:(NSString *) prefixName;
 - (BOOL)saveConfigurationAtIndex:(NSInteger)index url:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName;
+- (BOOL)saveConfigurationAtIndex:(NSInteger)index url:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName prefixName:(NSString *) prefixName;
 - (BOOL)deleteConfigurationAtIndex:(NSInteger)index;
 - (BOOL)setSelectedConfiguration:(NSInteger)index;
 - (BOOL)setSelectedUserForCurrentConfiguration:(NSInteger)userIndex;
 - (BOOL)isEmpty;
+- (NSInteger) defaultConfigCount;
 
 @property (NS_NONATOMIC_IOSONLY, getter=getSelectedConfigurationIndex, readonly) NSInteger selectedConfigurationIndex;
 @property (NS_NONATOMIC_IOSONLY, getter=getConfigurationsCount, readonly) NSInteger configurationsCount;

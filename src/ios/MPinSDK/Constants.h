@@ -11,8 +11,8 @@
 
 #pragma mark - Navigation Controller Titles -
 
-static NSString *const kSettingsFile = @"Backends";
-static NSString *const kBackendsKey = @"backends";
+static NSString *const kSettingsFile = @"Settings";
+static NSString *const kBackendsKey = @"BACKENDS";
 
 
 static NSString *kSetupPin = @"Setup PIN";

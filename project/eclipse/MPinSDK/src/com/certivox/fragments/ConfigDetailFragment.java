@@ -243,9 +243,8 @@ public class ConfigDetailFragment extends Fragment {
 	}
 
 	private void showInvalidBackednURL() {
-		new AlertDialog.Builder(getActivity()).setTitle("Error")
-				.setMessage("Invalid backend URL")
-				.setPositiveButton("OK", null).show();
+		new AlertDialog.Builder(getActivity()).setTitle("Invalid backend URL")
+				.setMessage("Try Again").setPositiveButton("OK", null).show();
 	}
 
 	private void showValidBackendDialog() {
