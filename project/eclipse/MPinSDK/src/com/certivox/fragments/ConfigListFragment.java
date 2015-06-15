@@ -117,16 +117,11 @@ public class ConfigListFragment extends ListFragment {
 			return true;
 		}
 		case R.id.configs_list_edit: {
-			if (sSelectedId != -1) {
-				controller.editConfiguration(sSelectedId);
-			}
+			controller.editConfiguration(sSelectedId);
 			return true;
 		}
 		case R.id.configs_list_delete: {
-			if (sSelectedId != -1) {
-				controller.onDeleteConfiguration(sSelectedId);
-			}
-
+			controller.onDeleteConfiguration(sSelectedId);
 			return true;
 		}
 		default:

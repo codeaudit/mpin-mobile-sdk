@@ -73,7 +73,14 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.i("DEBUG", "MPin Activity onCreate()");
 		mActivity = this;
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		Log.i("DEBUG", "MPin Activity onStart()");
 		if (!isConfigurationInited()) {
 			setInitialConfiguration();
 		} else {
@@ -86,11 +93,12 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	protected void onDestroy() {
+		super.onDestroy();
+		Log.i("DEBUG", "MPin Activity onDestroy()");
 		mActivity = null;
 		mConfiguration = null;
 		mSelectedUser = null;
 		mUsersList = null;
-		super.onDestroy();
 	}
 
 	private void setInitialConfiguration() {
@@ -271,6 +279,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	private void initUsersList() {
 		mUsersList.clear();
+		mSelectedUser = null;
 		sdk().ListUsers(mUsersList);
 	}
 
@@ -616,7 +625,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	private void updateUsersList() {
 		if (getUsersListFragment() != null) {
-			if (mUsersList.isEmpty()) {
+			if (mUsersList == null || mUsersList.isEmpty()) {
 				addUsersFragment();
 			} else {
 				getUsersListFragment().getListAdapter().setData(mUsersList);
@@ -727,16 +736,10 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void onBackPressed() {
-		if (mUsersList.isEmpty()) {
-			if (getAddUserFragment() != null) {
-				super.onBackPressed();
-				return;
-			}
-		} else {
-			if (getUsersListFragment() != null) {
-				super.onBackPressed();
-				return;
-			}
+		if ((mUsersList.isEmpty() && getAddUserFragment() != null)
+				|| getUsersListFragment() != null) {
+			super.onBackPressed();
+			return;
 		}
 		setChooseUserScreen();
 	}
