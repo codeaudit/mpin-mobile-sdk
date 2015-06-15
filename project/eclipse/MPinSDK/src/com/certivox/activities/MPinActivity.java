@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.certivox.adapters.UsersAdapter;
@@ -304,7 +305,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	@Override
 	public void addUsersFragment() {
 		Log.d("CV", " + users");
-
 		if (getAddUserFragment() == null) {
 			AddUsersFragment addUserFragment = new AddUsersFragment();
 			addUserFragment.setController(mActivity);
@@ -316,7 +316,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
 		}
-
 	}
 
 	@Override
@@ -609,6 +608,10 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			transaction.replace(R.id.content, aboutFragment, FRAG_ABOUT);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
+
+			disableDrawer();
+			setNavigationBack();
+
 		}
 	}
 

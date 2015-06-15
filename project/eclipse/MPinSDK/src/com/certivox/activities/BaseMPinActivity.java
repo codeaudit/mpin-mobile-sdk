@@ -180,13 +180,23 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements
 		deselectAllUsers();
 	}
 
-	private void disableDrawer() {
+	public void disableDrawer() {
 		// Disable the drawer from opening via swipe
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		mDrawerToggle.setDrawerIndicatorEnabled(false);
 		// Change the hamburger icon to up carret
 		mDrawerToggle
 				.setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+	}
+
+	public void setNavigationBack() {
+		mDrawerToggle.setToolbarNavigationClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				enableDrawer();
+				onBackPressed();
+			}
+		});
 	}
 
 	public void enableDrawer() {
