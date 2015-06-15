@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -683,6 +684,8 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 									int which) {
 								sdk().DeleteUser(getCurrentUser());
 								disableContextToolbar();
+								mSelectedUser = null;
+								initUsersList();
 								setInitialScreen();
 							}
 						}).setNegativeButton("Cancel", null).show();
@@ -905,7 +908,17 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 				showCreatingNewIdentity(user, null);
 				break;
 			case USER_EXISTS: {
+				new AlertDialog.Builder(mActivity)
+						.setTitle("User already registered")
+						.setMessage("Do you want to re-register the user?")
+						.setPositiveButton("OK", new OnClickListener() {
 
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								resetPin();
+							}
+						}).show();
 				break;
 			}
 			default:
