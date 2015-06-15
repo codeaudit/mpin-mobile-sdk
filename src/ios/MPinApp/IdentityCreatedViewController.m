@@ -114,7 +114,7 @@
 
 - (void)OnAuthenticateOTPError:(id)sender error:(NSError*)error
 {
-    MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
+//    MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
 //FIXME::       [self showError:[mpinStatus getStatusCodeAsString] desc:mpinStatus.errorMessage];
 }
 
@@ -138,7 +138,7 @@
  //FIXME::          [self showError:@"Authentication Failed!" desc:@"Wrong MPIN or Access Number!"];
         break;
     default: {
-        MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
+//        MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
  //FIXME::          [self showError:[mpinStatus getStatusCodeAsString] desc:mpinStatus.errorMessage];
     } break;
     }
@@ -159,7 +159,7 @@
   //FIXME::         [self showError:@"Authentication Failed!" desc:@"Wrong MPIN"];
         break;
     default: {
-        MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
+//        MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
  //FIXME::          [self showError:[mpinStatus getStatusCodeAsString] desc:mpinStatus.errorMessage];
     } break;
     }

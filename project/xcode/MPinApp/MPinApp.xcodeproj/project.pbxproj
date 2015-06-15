@@ -129,10 +129,6 @@
 		9614F8CF1A9E1EC500337080 /* AccountSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9614F8CE1A9E1EC500337080 /* AccountSummaryViewController.m */; };
 		961957461A960E9900C93604 /* ThemeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 961957451A960E9900C93604 /* ThemeManager.m */; };
 		961957491A97276100C93604 /* ConfigListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 961957481A97276100C93604 /* ConfigListTableViewCell.m */; };
-		963D8BC51B15997F0055C343 /* ApplicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE36B3B41B04E195000ACD70 /* ApplicationManager.m */; };
-		963D8BC61B1599800055C343 /* ApplicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE36B3B41B04E195000ACD70 /* ApplicationManager.m */; };
-		963D8BC71B1599800055C343 /* ApplicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE36B3B41B04E195000ACD70 /* ApplicationManager.m */; };
-		963D8BC81B1599980055C343 /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FEAA2CCD1ACEBCB700EED79F /* NSString+Helper.m */; };
 		9649BC841AC045E900B9F41B /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9649BC821AC045E900B9F41B /* MenuViewController.m */; };
 		9649BC8D1AC16D1000B9F41B /* ConfirmEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 966EB9D31A8CF069004B936A /* ConfirmEmailViewController.m */; };
 		9649BC8F1AC16D1000B9F41B /* CycleProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4AEB071A443E4C000B3181 /* CycleProgressBar.m */; };
@@ -232,10 +228,6 @@
 		96F7EA721B1C48EE00A68A03 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA6D1B1C48EE00A68A03 /* HockeySDK.framework */; };
 		96F7EA731B1C48EE00A68A03 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA6D1B1C48EE00A68A03 /* HockeySDK.framework */; };
 		96F7EA741B1C48EE00A68A03 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA6D1B1C48EE00A68A03 /* HockeySDK.framework */; };
-		96F7EA751B1C48EF00A68A03 /* HockeySDK.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 96F7EA6F1B1C48EE00A68A03 /* HockeySDK.xcconfig */; };
-		96F7EA761B1C48EF00A68A03 /* HockeySDK.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 96F7EA6F1B1C48EE00A68A03 /* HockeySDK.xcconfig */; };
-		96F7EA771B1C48EF00A68A03 /* HockeySDK.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 96F7EA6F1B1C48EE00A68A03 /* HockeySDK.xcconfig */; };
-		96F7EA781B1C48EF00A68A03 /* HockeySDK.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 96F7EA6F1B1C48EE00A68A03 /* HockeySDK.xcconfig */; };
 		96F7EA791B1C48EF00A68A03 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 96F7EA701B1C48EE00A68A03 /* HockeySDKResources.bundle */; };
 		96F7EA7A1B1C48EF00A68A03 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 96F7EA701B1C48EE00A68A03 /* HockeySDKResources.bundle */; };
 		96F7EA7B1B1C48EF00A68A03 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 96F7EA701B1C48EE00A68A03 /* HockeySDKResources.bundle */; };
@@ -917,7 +909,7 @@
 		FE49000F1A1A3CEB000030A4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = Certivox;
 				TargetAttributes = {
 					9649BC891AC16D1000B9F41B = {
@@ -960,7 +952,6 @@
 				96130E4B1AEE4867005D2A86 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				96130E4C1AEE4867005D2A86 /* OpenSans-Italic.ttf in Resources */,
 				96130E4E1AEE4867005D2A86 /* IUser.h in Resources */,
-				96F7EA771B1C48EF00A68A03 /* HockeySDK.xcconfig in Resources */,
 				96F7EA7B1B1C48EF00A68A03 /* HockeySDKResources.bundle in Resources */,
 				96130E4F1AEE4867005D2A86 /* LaunchScreen.xib in Resources */,
 				96130E501AEE4867005D2A86 /* Constants.h in Resources */,
@@ -991,7 +982,6 @@
 				96130E951AEE490A005D2A86 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				96130E961AEE490A005D2A86 /* OpenSans-Italic.ttf in Resources */,
 				96130E981AEE490A005D2A86 /* IUser.h in Resources */,
-				96F7EA781B1C48EF00A68A03 /* HockeySDK.xcconfig in Resources */,
 				96F7EA7C1B1C48EF00A68A03 /* HockeySDKResources.bundle in Resources */,
 				96130E991AEE490A005D2A86 /* LaunchScreen.xib in Resources */,
 				96130E9A1AEE490A005D2A86 /* Constants.h in Resources */,
@@ -1029,7 +1019,6 @@
 				9649BCB91AC16D1000B9F41B /* OpenSans-BoldItalic.ttf in Resources */,
 				9649BCBB1AC16D1000B9F41B /* MPin.h in Resources */,
 				9649BCBC1AC16D1000B9F41B /* OpenSans-Semibold.ttf in Resources */,
-				96F7EA761B1C48EF00A68A03 /* HockeySDK.xcconfig in Resources */,
 				9649BCBD1AC16D1000B9F41B /* OpenSans-Light.ttf in Resources */,
 				968591CB1AF0C7E200726E63 /* Localizable.strings in Resources */,
 				9649BCBE1AC16D1000B9F41B /* MpinStatus.h in Resources */,
@@ -1053,7 +1042,6 @@
 				960D6A971A88C0E20068E0F7 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				960D6A981A88C0E20068E0F7 /* OpenSans-Italic.ttf in Resources */,
 				968A180C1ACA8C58000C0DB0 /* Settings.plist in Resources */,
-				96F7EA751B1C48EF00A68A03 /* HockeySDK.xcconfig in Resources */,
 				96F7EA791B1C48EF00A68A03 /* HockeySDKResources.bundle in Resources */,
 				FE148D461A2F1007007E83EF /* IUser.h in Resources */,
 				968CF31B1A77BB31002C4347 /* LaunchScreen.xib in Resources */,
@@ -1288,7 +1276,6 @@
 				96130E2A1AEE4867005D2A86 /* MenuViewController.m in Sources */,
 				96130E2B1AEE4867005D2A86 /* SettingsViewCell.m in Sources */,
 				96130E2C1AEE4867005D2A86 /* AboutViewController.m in Sources */,
-				963D8BC61B1599800055C343 /* ApplicationManager.m in Sources */,
 				96130E2D1AEE4867005D2A86 /* ThemeManager.m in Sources */,
 				96130E2E1AEE4867005D2A86 /* AddSettingViewController.m in Sources */,
 				96130E2F1AEE4867005D2A86 /* DigitPadViewController.m in Sources */,
@@ -1331,7 +1318,6 @@
 				96130E741AEE490A005D2A86 /* MenuViewController.m in Sources */,
 				96130E751AEE490A005D2A86 /* SettingsViewCell.m in Sources */,
 				96130E761AEE490A005D2A86 /* AboutViewController.m in Sources */,
-				963D8BC71B1599800055C343 /* ApplicationManager.m in Sources */,
 				96130E771AEE490A005D2A86 /* ThemeManager.m in Sources */,
 				96130E781AEE490A005D2A86 /* AddSettingViewController.m in Sources */,
 				96130E791AEE490A005D2A86 /* DigitPadViewController.m in Sources */,
@@ -1389,14 +1375,12 @@
 				96C88F481AC42B7D00A5F27A /* SettingsManager.m in Sources */,
 				9649BCA41AC16D1000B9F41B /* IdentityCreatedViewController.m in Sources */,
 				96C9BF2A1AE6407D00FAC454 /* IdentityBlockedViewController.m in Sources */,
-				963D8BC51B15997F0055C343 /* ApplicationManager.m in Sources */,
 				9649BCA51AC16D1000B9F41B /* SettingsViewController.m in Sources */,
 				9649BCA61AC16D1000B9F41B /* AppDelegate.mm in Sources */,
 				9649BCA71AC16D1000B9F41B /* MenuTableViewCell.m in Sources */,
 				9649BCA81AC16D1000B9F41B /* OptionSelectTableViewCell.m in Sources */,
 				96C88F471AC42B7D00A5F27A /* ConfigurationManager.m in Sources */,
 				9649BCA91AC16D1000B9F41B /* UserListViewController.m in Sources */,
-				963D8BC81B1599980055C343 /* NSString+Helper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

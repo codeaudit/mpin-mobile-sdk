@@ -40,7 +40,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 
 - ( IBAction )goBack:( id )sender;
 - ( IBAction )textFieldReturn:( id )sender;
-- (NSString *) getTXTMPINServiceRPSPrefix;
+- ( NSString * ) getTXTMPINServiceRPSPrefix;
 
 @end
 
@@ -325,7 +325,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
          errorString:NSLocalizedString(@"ADDCONFIGVC_ERROR_EMPTY_NAME", @"")
          addActivityIndicator:NO
          minShowTime:3];
-        
+
         return;
     }
     if ( [_txtMPINServiceURL.text isEqualToString:@""] )
@@ -338,11 +338,13 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
         return;
     }
 
-    if (![NSString isValidURL:_txtMPINServiceURL.text]) {
+    if ( ![NSString isValidURL:_txtMPINServiceURL.text] )
+    {
         [[ErrorHandler sharedManager] presentMessageInViewController:self
          errorString:NSLocalizedString(@"ADDCONFIGVC_ERROR_INVALID_URL", @"")
          addActivityIndicator:NO
          minShowTime:3];
+
         return;
     }
     int minShowTime = 1;
@@ -365,15 +367,18 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     }
 
     [sdk TestBackend:_txtMPINServiceURL.text rpsPrefix:[self getTXTMPINServiceRPSPrefix]];
-    
+
     [[ErrorHandler sharedManager] presentMessageInViewController:self
-                                                     errorString:caption
-                                            addActivityIndicator:YES
-                                                     minShowTime:3];
+     errorString:caption
+     addActivityIndicator:YES
+     minShowTime:3];
 }
 
-- (NSString *) getTXTMPINServiceRPSPrefix {
-    if ([NSString isBlank:_txtMPINServiceRPSPrefix.text]) return nil;
+- ( NSString * ) getTXTMPINServiceRPSPrefix
+{
+    if ( [NSString isBlank:_txtMPINServiceRPSPrefix.text] )
+        return nil;
+
     return _txtMPINServiceRPSPrefix.text;
 }
 
@@ -392,7 +397,6 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
         int minShowTime = 1;
         if ( _selectedIndex >= 0 )
         {
-            
             if ( _isEdit )
             {
                 [[ConfigurationManager sharedManager] saveConfigurationAtIndex:_selectedIndex
@@ -409,13 +413,15 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
                  prefixName:[self getTXTMPINServiceRPSPrefix]];
             }
         }
-        
-        if (isEmpty) {
+
+        if ( isEmpty )
+        {
             [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
-        } else {
-        
+        }
+        else
+        {
             dispatch_after(dispatch_time( DISPATCH_TIME_NOW, (int64_t)( minShowTime * NSEC_PER_SEC ) ), dispatch_get_main_queue(), ^ {
-                                                                                [self.navigationController popViewControllerAnimated:YES];
+                [self.navigationController popViewControllerAnimated:YES];
             });
         }
     }
@@ -443,7 +449,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     [self OnTestBackendError:sender error:error];
 }
 
-- (IBAction)goBack:(id)sender
+- ( IBAction )goBack:( id )sender
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -451,8 +457,8 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 - ( IBAction )btnTestConfigTap:( id )sender
 {
     bTestingConfig = YES;
-    
-    if ([NSString isValidURL:_txtMPINServiceURL.text])
+
+    if ( [NSString isValidURL:_txtMPINServiceURL.text] )
     {
         [[ErrorHandler sharedManager] presentMessageInViewController:self
          errorString:@"Testing configuration"
