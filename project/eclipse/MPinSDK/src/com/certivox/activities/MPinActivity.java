@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -73,7 +74,14 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.i("DEBUG", "MPin Activity onCreate()");
 		mActivity = this;
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		Log.i("DEBUG", "MPin Activity onStart()");
 		if (!isConfigurationInited()) {
 			setInitialConfiguration();
 		} else {
@@ -86,11 +94,12 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	protected void onDestroy() {
+		super.onDestroy();
+		Log.i("DEBUG", "MPin Activity onDestroy()");
 		mActivity = null;
 		mConfiguration = null;
 		mSelectedUser = null;
 		mUsersList = null;
-		super.onDestroy();
 	}
 
 	private void setInitialConfiguration() {
@@ -158,7 +167,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void createNewUser(String email) {
-		CreateNewUserAsyncTask createNewUserTask = new CreateNewUserAsyncTask();
+		StartRegistrationNewUserAsyncTask createNewUserTask = new StartRegistrationNewUserAsyncTask();
 		createNewUserTask.execute(email);
 	}
 
@@ -271,6 +280,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	private void initUsersList() {
 		mUsersList.clear();
+		mSelectedUser = null;
 		sdk().ListUsers(mUsersList);
 	}
 
@@ -616,7 +626,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	private void updateUsersList() {
 		if (getUsersListFragment() != null) {
-			if (mUsersList.isEmpty()) {
+			if (mUsersList == null || mUsersList.isEmpty()) {
 				addUsersFragment();
 			} else {
 				getUsersListFragment().getListAdapter().setData(mUsersList);
@@ -674,6 +684,8 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 									int which) {
 								sdk().DeleteUser(getCurrentUser());
 								disableContextToolbar();
+								mSelectedUser = null;
+								initUsersList();
 								setInitialScreen();
 							}
 						}).setNegativeButton("Cancel", null).show();
@@ -727,16 +739,10 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void onBackPressed() {
-		if (mUsersList.isEmpty()) {
-			if (getAddUserFragment() != null) {
-				super.onBackPressed();
-				return;
-			}
-		} else {
-			if (getUsersListFragment() != null) {
-				super.onBackPressed();
-				return;
-			}
+		if ((mUsersList.isEmpty() && getAddUserFragment() != null)
+				|| getUsersListFragment() != null) {
+			super.onBackPressed();
+			return;
 		}
 		setChooseUserScreen();
 	}
@@ -873,26 +879,52 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 		}
 	}
 
-	private class CreateNewUserAsyncTask extends AsyncTask<String, Void, Void> {
+	private class StartRegistrationNewUserAsyncTask extends
+			AsyncTask<String, Void, Integer> {
 		User user;
+		private final int USER_EXISTS = 0;
+		private final int REGISTRATION_STARTED = 1;
 
 		@Override
-		protected Void doInBackground(String... emails) {
+		protected Integer doInBackground(String... emails) {
+			String newUserId = emails[0];
+			ArrayList<User> users = new ArrayList<User>();
+			sdk().ListUsers(users);
+			for (User user : users) {
+				if (user.getId().equals(newUserId)) {
+					return USER_EXISTS;
+				}
+			}
 			user = sdk().MakeNewUser(emails[0]);
-			// TODO check the status for
-			// errors
-			com.certivox.models.Status status = sdk().StartRegistration(user);
+			sdk().StartRegistration(user);
 
-			return null;
+			return REGISTRATION_STARTED;
 		}
 
 		@Override
-		protected void onPostExecute(Void result) {
-			removeNewUserFragment();
-			updateUsersList();
-			showCreatingNewIdentity(user, null);
-		}
+		protected void onPostExecute(Integer result) {
+			switch (result) {
+			case REGISTRATION_STARTED:
+				showCreatingNewIdentity(user, null);
+				break;
+			case USER_EXISTS: {
+				new AlertDialog.Builder(mActivity)
+						.setTitle("User already registered")
+						.setMessage("Do you want to re-register the user?")
+						.setPositiveButton("OK", new OnClickListener() {
 
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								resetPin();
+							}
+						}).show();
+				break;
+			}
+			default:
+				break;
+			}
+		}
 	}
 
 	private class AuthenticateAsyncTask extends AsyncTask<String, Void, Void> {

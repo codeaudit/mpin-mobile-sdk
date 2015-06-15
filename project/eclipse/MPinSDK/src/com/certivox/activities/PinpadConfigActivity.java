@@ -201,24 +201,56 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 				if (mLastConfig != null) {
 					onBackPressed();
 				} else {
-					new AlertDialog.Builder(mActivity)
-							.setTitle("No active configuration")
-							.setMessage(
-									"Please, choose a configuration to continue.")
-							.setPositiveButton("OK", null).show();
+					showNoActiveConfigurationDialog();
 				}
 			}
 		});
+	}
+
+	private void showNoActiveConfigurationDialog() {
+		new AlertDialog.Builder(mActivity).setTitle("No active configuration")
+				.setMessage("Please, choose a configuration to continue")
+				.setPositiveButton("OK", null).show();
+	}
+
+	private void showNoSelectedConfigurationDialog() {
+		new AlertDialog.Builder(mActivity)
+				.setTitle("No selected configuration")
+				.setMessage("Please, choose a configuration")
+				.setPositiveButton("OK", null).show();
+	}
+
+	private void showDeleteConfigurationDialog(final long configId) {
+		new AlertDialog.Builder(mActivity)
+				.setTitle("Delete configuration")
+				.setMessage(
+						"This action will also delete all identities, associated with this configuration.")
+				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Cursor cursor = deleteConfiguration(mActivity, configId);
+						((CursorAdapter) getConfigListFragment()
+								.getListAdapter()).changeCursor(cursor);
+					}
+				}).setNegativeButton("Cancel", null).show();
 	}
 
 	private void setConfigEditBackClickListener() {
 		mDrawerToggle.setToolbarNavigationClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				removeConfigDetailsFragment();
 				addConfigListFragment();
 			}
 		});
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (getConfigDetailsFragment() != null) {
+			addConfigListFragment();
+			return;
+		}
+		super.onBackPressed();
 	}
 
 	@Override
@@ -296,8 +328,12 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 
 								Intent intent = new Intent(mActivity,
 										MPinActivity.class);
+
+								// TODO revise these flags
 								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-										| Intent.FLAG_ACTIVITY_SINGLE_TOP);
+										| Intent.FLAG_ACTIVITY_SINGLE_TOP
+										| Intent.FLAG_ACTIVITY_CLEAR_TASK
+										| Intent.FLAG_ACTIVITY_NEW_TASK);
 								startActivity(intent);
 								finish();
 							} else {
@@ -325,24 +361,21 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 
 	@Override
 	public void editConfiguration(long configId) {
-		addConfigDetailsFragment(configId);
+		if (configId != -1) {
+			addConfigDetailsFragment(configId);
+		} else {
+			showNoSelectedConfigurationDialog();
+		}
 	}
 
 	@Override
 	public void onDeleteConfiguration(final long configId) {
+		if (configId != -1) {
+			showDeleteConfigurationDialog(configId);
+		} else {
+			showNoSelectedConfigurationDialog();
+		}
 
-		new AlertDialog.Builder(mActivity)
-				.setTitle("Delete configuration")
-				.setMessage(
-						"This action will also delete all identities, associated with this configuration.")
-				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						Cursor cursor = deleteConfiguration(mActivity, configId);
-						((CursorAdapter) getConfigListFragment()
-								.getListAdapter()).changeCursor(cursor);
-					}
-				}).setNegativeButton("Cancel", null).show();
 	}
 
 	@Override
