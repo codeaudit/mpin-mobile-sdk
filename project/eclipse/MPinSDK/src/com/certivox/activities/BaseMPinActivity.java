@@ -193,7 +193,6 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements
 		mDrawerToggle.setToolbarNavigationClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				enableDrawer();
 				onBackPressed();
 			}
 		});

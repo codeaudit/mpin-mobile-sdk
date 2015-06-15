@@ -1,7 +1,5 @@
 package com.certivox.activities;
 
-import java.util.HashMap;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
@@ -304,9 +302,6 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 				@Override
 				public void run() {
 					Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
-					HashMap<String, String> cfg = new HashMap<String, String>();
-					cfg.put("RPA_server", config.getBackendUrl());
-					MPinActivity.init(mActivity, cfg);
 
 					final Status status = MPinActivity.sdk().SetBackend(
 							config.getBackendUrl());
