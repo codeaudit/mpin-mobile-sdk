@@ -104,7 +104,7 @@
     <string name="about_build">Build:</string>
     <string name="certivox_logo">Certivox Logo</string>
     <string name="mpin_logo">Mpin Logo</string>
-    <string name="about_info_text">Lorem ipsum bla bla bla bla bla</string>
+    <string name="about_info_text"></string>
     <!-- About end -->
 
     <string name="logout">Logout</string>
