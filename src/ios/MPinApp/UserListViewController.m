@@ -724,7 +724,7 @@ static NSString *const kAN = @"AN";
 
 - ( void )connectionTimeout: (id) sender
 {
-    [[ErrorHandler sharedManager] updateMessage:@"Connection timeout" addActivityIndicator:NO hideAfter:3];
+    [[ErrorHandler sharedManager] hideMessage];
 }
 
 - ( void )showPinPad

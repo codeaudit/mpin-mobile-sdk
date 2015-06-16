@@ -222,11 +222,36 @@ static NSMutableArray *kCircles;
 
 - ( void )OnAuthenticateOTPError:( id )sender error:( NSError * )error
 {
-    MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
-    _lblWrongPIN.text = NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR");
-    [_sdk AuthenticateOTP:_currentUser askForFingerprint:NO];
-    [self showWrongPIN];
-    [self clearAction:self];
+    if ( [_currentUser getState] == BLOCKED )
+    {
+        [self showBlockedScreen];
+    }
+    else
+    {
+        MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
+        switch ( error.code )
+        {
+        case INCORRECT_PIN:
+            [[ErrorHandler sharedManager] hideMessage];
+            [_sdk AuthenticateOTP:_currentUser askForFingerprint:NO];
+            [self showWrongPIN];
+            [self clearAction:self];
+
+            break;
+
+        case HTTP_REQUEST_ERROR:
+            [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"HTTP REQUEST ERROR"
+             addActivityIndicator:NO
+             minShowTime:0];
+            break;
+
+        default:
+            [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR")
+             addActivityIndicator:NO
+             minShowTime:0];
+            break;
+        }
+    }
 }
 
 -( void ) onAccessNumber:( NSString * ) an
@@ -243,9 +268,41 @@ static NSMutableArray *kCircles;
 
 - ( void )OnAuthenticateAccessNumberError:( id )sender error:( NSError * )error
 {
-    [[ErrorHandler sharedManager] hideMessage];
-    [self showWrongPIN];
-    [_sdk AuthenticateAN:_currentUser accessNumber:_strAccessNumber askForFingerprint:NO];
+    if ( [_currentUser getState] == BLOCKED )
+    {
+        [self showBlockedScreen];
+    }
+    else
+    {
+        MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
+        switch ( error.code )
+        {
+        case INCORRECT_ACCESS_NUMBER:
+            [[ErrorHandler sharedManager] updateMessage:@"Wrong Access Number"
+             addActivityIndicator:NO
+             hideAfter:3];
+            [self clearAction:self];
+            break;
+
+        case INCORRECT_PIN:
+            [[ErrorHandler sharedManager] hideMessage];
+            [self showWrongPIN];
+            [_sdk AuthenticateAN:_currentUser accessNumber:_strAccessNumber askForFingerprint:NO];
+            break;
+
+        case HTTP_REQUEST_ERROR:
+            [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"HTTP REQUEST ERROR"
+             addActivityIndicator:NO
+             minShowTime:0];
+            break;
+
+        default:
+            [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR")
+             addActivityIndicator:NO
+             minShowTime:0];
+            break;
+        }
+    }
 }
 
 - ( void )OnAuthenticateCompleted:( id )sender user:( const id<IUser>)user
@@ -265,11 +322,7 @@ static NSMutableArray *kCircles;
 {
     if ( [_currentUser getState] == BLOCKED )
     {
-        IdentityBlockedViewController *identityBlockedViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"IdentityBlockedViewController"];
-        identityBlockedViewController.strUserEmail = [_currentUser getIdentity];
-        identityBlockedViewController.iuser = _currentUser;
-        [self.navigationController pushViewController:identityBlockedViewController animated:YES];
-
+        [self showBlockedScreen];
     }
     else
     {
@@ -277,6 +330,14 @@ static NSMutableArray *kCircles;
         [self showWrongPIN];
         [_sdk Authenticate:_currentUser askForFingerprint:NO];
     }
+}
+
+- ( void ) showBlockedScreen
+{
+    IdentityBlockedViewController *identityBlockedViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"IdentityBlockedViewController"];
+    identityBlockedViewController.strUserEmail = [_currentUser getIdentity];
+    identityBlockedViewController.iuser = _currentUser;
+    [self.navigationController pushViewController:identityBlockedViewController animated:YES];
 }
 
 @end

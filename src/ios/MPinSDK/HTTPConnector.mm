@@ -8,7 +8,7 @@
 #include "HTTPConnector.h"
 #import "MPin.h"
 
-static NSInteger constIntTimeoutInterval = 1;
+static NSInteger constIntTimeoutInterval = 15;
 static NSString *constStrConnectionTimeoutNotification = @"ConnectionTimeoutNotification";
 
 namespace net {
@@ -96,21 +96,20 @@ namespace net {
         NSData * data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         
         if(error != nil) {
-//TODO: IMPORTANT FIX THIS IN LATER COMMITS
+            //TODO: IMPORTANT FIX THIS IN LATER COMMITS
+           
             switch (error.code) {
                 case -1001:
-                    
                     [[NSNotificationCenter defaultCenter] postNotificationName:constStrConnectionTimeoutNotification object:nil userInfo:@{ @"error" : @"Connection timeout"}];
+                    return true;
                     break;
                 case -1012:
                     m_statusCode = 401;
                     m_errorMessage += "Unauthorized Access! Please check your e-mail and confirm the activation link!";
                     return true;
                     break;
-                default:
-                    m_errorMessage += [error.localizedDescription UTF8String];
-                    break;
             }
+            m_errorMessage += [error.localizedDescription UTF8String];
             return false;
         }
         

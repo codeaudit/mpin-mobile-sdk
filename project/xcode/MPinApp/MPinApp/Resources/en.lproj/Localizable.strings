@@ -139,6 +139,8 @@
 "KEY_CLOSE" = "CLOSE";
 "KEY_WARNING" = "WARNING";
 "KEY_DONE" = "DONE";
+"KEY_SETUP_PIN" = "Create PIN";
+"KEY_ENTER_PIN" = "Enter PIN";
 
 /* OTHER SHARED STRINGS */
 "LOGIN_MOBILE_APP" = "Mobile application login";
