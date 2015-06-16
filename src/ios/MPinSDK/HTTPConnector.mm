@@ -8,6 +8,8 @@
 #include "HTTPConnector.h"
 #import "MPin.h"
 
+static NSInteger constIntTimeoutInterval = 10;
+static NSString *constStrConnectionTimeoutNotification = @"ConnectionTimeoutNotification";
 
 namespace net {
     static const String HTTP_GET = "GET";
@@ -49,7 +51,7 @@ namespace net {
         if(seconds <=0) throw IllegalArgumentException("Timeout is negative or 0");
         timeout = seconds;
 	}
-
+    
 	bool HTTPConnector::Execute(Method method, const String& url){
         NSString * strURL = [NSString stringWithUTF8String:url.c_str()];
         strURL = [strURL stringByReplacingOccurrencesOfString:@"wss://" withString:@"https://"];
@@ -76,6 +78,8 @@ namespace net {
         NSURL * theUrl = [NSURL URLWithString:strURL];
         NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:theUrl cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:timeout];
         request.HTTPMethod = [NSString stringWithUTF8String:(getHTTPMethod(method)).c_str()];
+
+        [request setTimeoutInterval:constIntTimeoutInterval];
         
         if(!m_requestHeaders.empty()) {
             for (StringMap::const_iterator it=m_requestHeaders.begin(); it!=m_requestHeaders.end(); ++it) {
@@ -92,13 +96,20 @@ namespace net {
         NSData * data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         
         if(error != nil) {
-            /// TODO :: IMPORTANT FIX THIS IN LATER COMMITS
-            if(error.code == -1012) {
-                m_statusCode = 401;
-                m_errorMessage += "Unauthorized Access! Please check your e-mail and confirm the activation link!";
-                return true;
+//TODO: IMPORTANT FIX THIS IN LATER COMMITS
+            switch (error.code) {
+                case -1001:
+                    [[NSNotificationCenter defaultCenter] postNotificationName:constStrConnectionTimeoutNotification object:nil];
+                    break;
+                case -1012:
+                    m_statusCode = 401;
+                    m_errorMessage += "Unauthorized Access! Please check your e-mail and confirm the activation link!";
+                    return true;
+                    break;
+                default:
+                    m_errorMessage += [error.localizedDescription UTF8String];
+                    break;
             }
-            m_errorMessage += [error.localizedDescription UTF8String];
             return false;
         }
         
@@ -129,3 +140,5 @@ namespace net {
 	HTTPConnector :: ~HTTPConnector () { }
 
 }
+
+
