@@ -11,20 +11,43 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_marginBottom="40dp"
         android:layout_marginTop="40dp"
         android:contentDescription="@string/mpin_logo"
         android:src="@drawable/ic_mpin_logo_about" />
 
     <TextView
-        android:id="@+id/user_email"
+        android:id="@+id/about_info_text_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/mpin_logo"
-        android:layout_marginTop="20dp"
+        android:fontFamily="@string/font_roboto"
         android:gravity="center_horizontal"
-        android:text="@string/about_info_text"
+        android:text="@string/about_info_text_1"
         android:textColor="@color/base_text_color"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/about_info_text_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/about_info_text_1"
+        android:fontFamily="@string/font_roboto"
+        android:gravity="center_horizontal"
+        android:text="@string/about_info_text_2"
+        android:textColor="@color/base_text_color"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/terms_and_conditions_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/about_info_text_2"
+        android:fontFamily="@string/font_roboto"
+        android:gravity="center_horizontal"
+        android:text="@string/terms_and_conditions_link"
+        android:textColor="@color/base_text_color"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/about_build_text"
