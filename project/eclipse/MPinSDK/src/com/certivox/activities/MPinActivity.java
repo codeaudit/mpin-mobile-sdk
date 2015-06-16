@@ -71,17 +71,19 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	private Config mConfiguration;
 
+	// Threads
+	private Thread mSDKInitializationThread;
+	private LogoutAsyncTask mLogoutAsyncTask;
+	private StartRegistrationNewUserAsyncTask mCreateNewUserTask;
+	private AuthenticateAsyncTask mShowAuthenticateAsyncTask;
+	private FinishRegistrationAsyncTask mFinishRegistrationAsyncTask;
+	private RestartRegistrationAsyncTask mRestartRegistrationAsyncTask;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.i("DEBUG", "MPin Activity onCreate()");
 		mActivity = this;
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-		Log.i("DEBUG", "MPin Activity onStart()");
 		if (!isConfigurationInited()) {
 			setInitialConfiguration();
 		} else {
@@ -93,6 +95,12 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	}
 
 	@Override
+	protected void onStart() {
+		super.onStart();
+
+	}
+
+	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		Log.i("DEBUG", "MPin Activity onDestroy()");
@@ -100,6 +108,31 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 		mConfiguration = null;
 		mSelectedUser = null;
 		mUsersList = null;
+
+		stopRunningThreads();
+	}
+
+	private void stopRunningThreads() {
+		Log.i("DEBUG", "Stop running Threads");
+		if (mSDKInitializationThread != null
+				&& mSDKInitializationThread.isAlive()) {
+			mSDKInitializationThread.interrupt();
+		}
+		if (mLogoutAsyncTask != null) {
+			mLogoutAsyncTask.cancel(true);
+		}
+		if (mCreateNewUserTask != null) {
+			mCreateNewUserTask.cancel(true);
+		}
+		if (mShowAuthenticateAsyncTask != null) {
+			mShowAuthenticateAsyncTask.cancel(true);
+		}
+		if (mFinishRegistrationAsyncTask != null) {
+			mFinishRegistrationAsyncTask.cancel(true);
+		}
+		if (mRestartRegistrationAsyncTask != null) {
+			mRestartRegistrationAsyncTask.cancel(true);
+		}
 	}
 
 	private void setInitialConfiguration() {
@@ -123,12 +156,12 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 		if (sdk == null) {
 			HashMap<String, String> serverConfig = new HashMap<String, String>();
 			serverConfig.put("RPA_server", config.getBackendUrl());
-			MPinActivity.init(this, serverConfig);
+			startSDKInitialization(this, serverConfig);
 		}
 	}
 
 	private void initEmptySDK() {
-		MPinActivity.init(this, null);
+		startSDKInitialization(this, null);
 	}
 
 	@Override
@@ -167,8 +200,8 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void createNewUser(String email) {
-		StartRegistrationNewUserAsyncTask createNewUserTask = new StartRegistrationNewUserAsyncTask();
-		createNewUserTask.execute(email);
+		mCreateNewUserTask = new StartRegistrationNewUserAsyncTask();
+		mCreateNewUserTask.execute(email);
 	}
 
 	private OnUserSelectedListener getOnUserSelectedListener() {
@@ -202,8 +235,8 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	}
 
 	private void showAuthenticate(final String accessNumber) {
-		AuthenticateAsyncTask showAuthenticateAsyncTask = new AuthenticateAsyncTask();
-		showAuthenticateAsyncTask.execute(accessNumber);
+		mShowAuthenticateAsyncTask = new AuthenticateAsyncTask();
+		mShowAuthenticateAsyncTask.execute(accessNumber);
 	}
 
 	private void onFailedToAuthenticate(Status status, boolean isAccessNumber) {
@@ -257,14 +290,14 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void emailConfirmed() {
-		FinishRegistrationAsyncTask finishRegistrationAsyncTask = new FinishRegistrationAsyncTask();
-		finishRegistrationAsyncTask.execute();
+		mFinishRegistrationAsyncTask = new FinishRegistrationAsyncTask();
+		mFinishRegistrationAsyncTask.execute();
 	}
 
 	@Override
 	public void resendEmail() {
-		RestartRegistrationAsyncTask restartRegistrationAsyncTask = new RestartRegistrationAsyncTask();
-		restartRegistrationAsyncTask.execute();
+		mRestartRegistrationAsyncTask = new RestartRegistrationAsyncTask();
+		mRestartRegistrationAsyncTask.execute();
 	}
 
 	@Override
@@ -274,8 +307,8 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void logout() {
-		LogoutAsyncTask logoutAsyncTask = new LogoutAsyncTask();
-		logoutAsyncTask.execute();
+		mLogoutAsyncTask = new LogoutAsyncTask();
+		mLogoutAsyncTask.execute();
 	}
 
 	private void initUsersList() {
@@ -304,7 +337,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	@Override
 	public void addUsersFragment() {
 		Log.d("CV", " + users");
-
 		if (getAddUserFragment() == null) {
 			AddUsersFragment addUserFragment = new AddUsersFragment();
 			addUserFragment.setController(mActivity);
@@ -315,8 +347,8 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			transaction.replace(R.id.content, addUserFragment, FRAG_ADDUSERS);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
+			enableDrawer();
 		}
-
 	}
 
 	@Override
@@ -352,9 +384,9 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 					.replace(R.id.content, usersListFramgent, FRAG_USERSLIST)
 					.commit();
 			getFragmentManager().executePendingTransactions();
-		} else {
-			getUsersListFragment().setListAdapter(usersAdapter);
+			enableDrawer();
 		}
+
 	}
 
 	@Override
@@ -381,6 +413,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			transaction.replace(R.id.content, newUserFragment, FRAG_NEWUSER);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
+			enableDrawer();
 		}
 	}
 
@@ -408,6 +441,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 					FRAG_CONFIRMEMAIL);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
+			enableDrawer();
 		}
 	}
 
@@ -436,6 +470,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 					FRAG_IDENTITY_CREATED);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
+			enableDrawer();
 		}
 
 	}
@@ -464,6 +499,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			transaction.replace(R.id.content, pinPadFragment, FRAG_PINPAD);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
+			enableDrawer();
 		}
 
 		synchronized (MPinActivity.class) {
@@ -496,6 +532,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 					FRAG_ACCESSNUMBER);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
+			enableDrawer();
 		}
 
 	}
@@ -525,6 +562,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			transaction.replace(R.id.content, otpFragment, FRAG_OTP);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
+			enableDrawer();
 		}
 
 	}
@@ -554,6 +592,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 					FRAG_SUCCESSFUL_LOGIN);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
+			enableDrawer();
 		}
 	}
 
@@ -582,6 +621,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 					FRAG_IDENTITY_BLOCKED);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
+			enableDrawer();
 		}
 	}
 
@@ -609,6 +649,8 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			transaction.replace(R.id.content, aboutFragment, FRAG_ABOUT);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
+			disableDrawer();
+			setNavigationBack();
 		}
 	}
 
@@ -802,10 +844,9 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 				FRAG_ABOUT);
 	}
 
-	// Static methods
-	public static void init(final Context context,
+	public void startSDKInitialization(final Context context,
 			final Map<String, String> config) {
-		new Thread(new Runnable() {
+		mSDKInitializationThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				synchronized (MPinActivity.class) {
@@ -815,15 +856,20 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 						mActivity.runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
-								mActivity.updateUsersList();
+								if (mActivity != null) {
+									mActivity.updateUsersList();
+								}
 							}
 						});
 					}
 				}
 			}
-		}).start();
+		});
+
+		mSDKInitializationThread.start();
 	}
 
+	// Static methods
 	public static Mpin peekSdk() {
 		synchronized (MPinActivity.class) {
 			return s_sdk;
@@ -843,6 +889,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	}
 
 	public static String show() {
+		// TODO This seems not thread-safe
 		mActivity.runOnUiThread(new Runnable() {
 
 			@Override
@@ -850,6 +897,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 				mActivity.addPinPadFragment();
 			}
 		});
+
 		synchronized (MPinActivity.class) {
 			while (mActivity.getPinPadFragment() == null) {
 				try {
