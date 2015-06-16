@@ -39,6 +39,9 @@
 #define NOT_SELECTED -1
 #define NOT_SELECTED_SEC 0
 
+
+static NSString *constStrConnectionTimeoutNotification = @"ConnectionTimeoutNotification";
+
 static NSString *const kSettings = @"settings";
 static NSString *const kCurrentSelectionIndex = @"currentSelectionIndex";
 
@@ -99,6 +102,7 @@ static NSString *const kAN = @"AN";
     self.automaticallyAdjustsScrollViewInsets = NO;
     storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     [self hideBottomBar:NO];
+    [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
 }
 
 - ( void )viewWillAppear:( BOOL )animated
@@ -109,11 +113,18 @@ static NSString *const kAN = @"AN";
     [[ThemeManager sharedManager] beautifyViewController:self];
     self.users = [MPin listUsers];
     [(MenuViewController *)self.menuContainerViewController.leftMenuViewController setConfiguration];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+     name:kShowPinPadNotification
+     object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+     name:constStrConnectionTimeoutNotification
+     object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( connectionTimeout: ) name:constStrConnectionTimeoutNotification object:nil];
 }
 
 - ( void )viewDidAppear:( BOOL )animated
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
     if ( [self.users count] == 0 )
     {
         [self hideBottomBar:NO];
@@ -334,7 +345,8 @@ static NSString *const kAN = @"AN";
     break;
 
     case HTTP_SERVER_ERROR:
-            [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Server error" addActivityIndicator:NO minShowTime:3];
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Server error" addActivityIndicator:NO minShowTime:3];
+
     default:
         break;
     }
@@ -353,7 +365,6 @@ static NSString *const kAN = @"AN";
 //    INCORRECT_ACCESS_NUMBER, // Remote/local error - wrong access number (checksum failed or RPS returned 412)
 //    HTTP_SERVER_ERROR, // Remote error, that was not reduced to one of the above - the remote server returned internal server error status (5xx)
 //    HTTP_REQUEST_ERROR // Remote error, that was not reduced to one of the above - invalid data sent to server, the remote server returned 4xx error status
-
 }
 
 - ( void )OnAuthenticateOTPCompleted:( id )sender user:( id<IUser>)user otp:( OTP * )otp
@@ -470,17 +481,6 @@ static NSString *const kAN = @"AN";
     }
 }
 
-- ( void )OnSetBackendCompleted:( id )sender
-{
-    [[ErrorHandler sharedManager] updateMessage:@"Configuration changed" addActivityIndicator:NO hideAfter:2];
-}
-
-- ( void )OnSetBackendError:( id )sender error:( NSError * )error
-{
-    MpinStatus *status = ( error.userInfo ) [kMPinSatus];
-    [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(status.statusCodeAsString, @"UNKNOWN ERROR") addActivityIndicator:NO hideAfter:2];
-}
-
 - ( void )deleteSelectedUser
 {
     [self hideBottomBar:YES];
@@ -569,7 +569,7 @@ static NSString *const kAN = @"AN";
         case REGISTERED:
             config = [[ConfigurationManager sharedManager] getSelectedConfiguration];
             s = [config [kSERVICE_TYPE] intValue];
-                [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
+            [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
             switch ( s )
             {
             case LOGIN_ON_MOBILE:
@@ -582,6 +582,7 @@ static NSString *const kAN = @"AN";
                 break;
 
             case LOGIN_ONLINE:
+                [[ErrorHandler sharedManager] hideMessage];
                 accessViewController = [storyboard instantiateViewControllerWithIdentifier:@"accessnumber"];
                 accessViewController.delegate = self;
                 accessViewController.strEmail = [currentUser getIdentity];
@@ -590,6 +591,7 @@ static NSString *const kAN = @"AN";
                 break;
 
             case LOGIN_WITH_OTP:
+                [[ErrorHandler sharedManager] hideMessage];
                 [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
                 [sdk AuthenticateOTP:iuser askForFingerprint:boolShouldAskForFingerprint];
                 break;
@@ -617,32 +619,6 @@ static NSString *const kAN = @"AN";
     }
 }
 
-- ( void )showPinPad
-{
-    [[ErrorHandler sharedManager] hideMessage];
-    PinPadViewController *pinpadViewController = [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];
-    pinpadViewController.sdk = sdk;
-    pinpadViewController.sdk.delegate = pinpadViewController;
-    pinpadViewController.currentUser = currentUser;
-    pinpadViewController.boolShouldShowBackButton = YES;
-    pinpadViewController.title = kEnterPin;
-    switch ( [currentUser getState] )
-    {
-    case REGISTERED:
-        pinpadViewController.boolSetupPin = NO;
-        break;
-
-    case STARTED_REGISTRATION:
-        pinpadViewController.boolSetupPin = YES;
-        break;
-
-    default:
-        break;
-    }
-
-    [self.navigationController pushViewController:pinpadViewController animated:YES];
-}
-
 - ( IBAction )showLeftMenuPressed:( id )sender
 {
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
@@ -650,6 +626,7 @@ static NSString *const kAN = @"AN";
 
 - ( void )OnRegisterNewUserCompleted:( id )sender user:( const id<IUser>)user
 {
+    [[ErrorHandler sharedManager] hideMessage];
     switch ( [user getState] )
     {
     case STARTED_REGISTRATION:
@@ -689,6 +666,7 @@ static NSString *const kAN = @"AN";
 
 - ( void )OnRegisterNewUserError:( id )sender error:( NSError * )error
 {
+    [[ErrorHandler sharedManager] hideMessage];
     MpinStatus *mpinStatus = [error.userInfo objectForKey:kMPinSatus];
     [[ErrorHandler sharedManager] presentMessageInViewController:self
      errorString:mpinStatus.errorMessage
@@ -733,12 +711,46 @@ static NSString *const kAN = @"AN";
     else
     if ( ( alertView.tag == RESETPIN_TAG ) && ( buttonIndex == RESETPIN_BUTTON_INDEX ) )
     {
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
         id<IUser> iuser = ( self.users ) [selectedIndexPath.row];
         NSString *userID = [iuser getIdentity];
         [self deleteSelectedUser];
         ConfigurationManager *cfm = [ConfigurationManager sharedManager];
         [sdk RegisterNewUser:userID devName:[cfm getDeviceName]];
     }
+}
+
+#pragma mark - Notifications handlers -
+
+- ( void )connectionTimeout: (id) sender
+{
+    [[ErrorHandler sharedManager] updateMessage:@"Connection timeout" addActivityIndicator:NO hideAfter:3];
+}
+
+- ( void )showPinPad
+{
+    [[ErrorHandler sharedManager] hideMessage];
+    PinPadViewController *pinpadViewController = [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];
+    pinpadViewController.sdk = sdk;
+    pinpadViewController.sdk.delegate = pinpadViewController;
+    pinpadViewController.currentUser = currentUser;
+    pinpadViewController.boolShouldShowBackButton = YES;
+    pinpadViewController.title = kEnterPin;
+    switch ( [currentUser getState] )
+    {
+    case REGISTERED:
+        pinpadViewController.boolSetupPin = NO;
+        break;
+
+    case STARTED_REGISTRATION:
+        pinpadViewController.boolSetupPin = YES;
+        break;
+
+    default:
+        break;
+    }
+
+    [self.navigationController pushViewController:pinpadViewController animated:YES];
 }
 
 @end

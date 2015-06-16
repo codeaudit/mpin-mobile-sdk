@@ -30,7 +30,7 @@
 @interface ErrorHandler(){
     
 }
-@property (nonatomic, strong) CVXATMHud *hud;
+
 @end
 
 @implementation ErrorHandler

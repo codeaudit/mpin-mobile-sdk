@@ -2453,10 +2453,13 @@
                             <constraint firstItem="kC6-To-d3a" firstAttribute="leading" secondItem="zRX-cK-6L4" secondAttribute="leadingMargin" id="HaP-Sn-imF"/>
                             <constraint firstItem="t3o-EA-X97" firstAttribute="leading" secondItem="zRX-cK-6L4" secondAttribute="leadingMargin" id="I4F-kD-gsm"/>
                             <constraint firstItem="YpR-FM-BND" firstAttribute="top" secondItem="ASR-zw-mbI" secondAttribute="bottom" constant="22" id="JR8-1z-G66"/>
+                            <constraint firstAttribute="trailing" secondItem="2US-mP-gcJ" secondAttribute="trailing" id="PEJ-1r-wEf"/>
+                            <constraint firstItem="2US-mP-gcJ" firstAttribute="leading" secondItem="zRX-cK-6L4" secondAttribute="leading" id="Rrf-HW-bEc"/>
                             <constraint firstAttribute="centerX" secondItem="YpR-FM-BND" secondAttribute="centerX" id="S6F-mI-NGW"/>
                             <constraint firstItem="t3o-EA-X97" firstAttribute="top" secondItem="kC6-To-d3a" secondAttribute="bottom" constant="-4" id="TqA-CX-Cg3"/>
                             <constraint firstItem="Zqp-g5-bNG" firstAttribute="top" secondItem="2US-mP-gcJ" secondAttribute="bottom" id="Xoe-eN-iel"/>
                             <constraint firstItem="t3o-EA-X97" firstAttribute="trailing" secondItem="zRX-cK-6L4" secondAttribute="trailingMargin" id="Yz6-pm-zfc"/>
+                            <constraint firstItem="Zqp-g5-bNG" firstAttribute="top" secondItem="2US-mP-gcJ" secondAttribute="bottom" id="cPW-ib-MRu"/>
                             <constraint firstItem="kC6-To-d3a" firstAttribute="trailing" secondItem="zRX-cK-6L4" secondAttribute="trailingMargin" id="fhe-OR-7fi"/>
                             <constraint firstItem="t3o-EA-X97" firstAttribute="top" secondItem="ASR-zw-mbI" secondAttribute="bottom" constant="140" id="jSh-aY-RCL"/>
                             <constraint firstItem="t3o-EA-X97" firstAttribute="leading" secondItem="zRX-cK-6L4" secondAttribute="leading" constant="16" id="mkQ-yI-iMo"/>

@@ -8,7 +8,7 @@
 #include "HTTPConnector.h"
 #import "MPin.h"
 
-static NSInteger constIntTimeoutInterval = 10;
+static NSInteger constIntTimeoutInterval = 1;
 static NSString *constStrConnectionTimeoutNotification = @"ConnectionTimeoutNotification";
 
 namespace net {
@@ -99,7 +99,8 @@ namespace net {
 //TODO: IMPORTANT FIX THIS IN LATER COMMITS
             switch (error.code) {
                 case -1001:
-                    [[NSNotificationCenter defaultCenter] postNotificationName:constStrConnectionTimeoutNotification object:nil];
+                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:constStrConnectionTimeoutNotification object:nil userInfo:@{ @"error" : @"Connection timeout"}];
                     break;
                 case -1012:
                     m_statusCode = 401;
