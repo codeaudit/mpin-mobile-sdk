@@ -2,7 +2,7 @@
 //  AddSettingViewController.m
 //  MPinApp
 //
-//  Created by Georgi Georgiev on 1/20/15.
+//  Created by Certivox Developer on 1/20/15.
 //  Copyright (c) 2015 Certivox. All rights reserved.
 //
 
@@ -113,11 +113,10 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 - ( NSInteger )tableView:( UITableView * )tableView
     numberOfRowsInSection:( NSInteger )section;
 {
-    return 6;
+    return 5;
 }
 
-- ( UITableViewCell * )tableView:( UITableView * )tableView
-    cellForRowAtIndexPath:( NSIndexPath * )indexPath
+- ( UITableViewCell * )tableView:( UITableView * )tableView cellForRowAtIndexPath:( NSIndexPath * )indexPath
 {
     switch ( indexPath.row )
     {
@@ -171,7 +170,6 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 
     case 3:
     case 4:
-    case 5:
     {
         OptionSelectTableViewCell *cell1 =
             [tableView dequeueReusableCellWithIdentifier:@"ConfigCell1"];
@@ -223,26 +221,26 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
         }
         break;
 
+//    case 3:
+//        ( (OptionSelectTableViewCell *)cell ).lblName.text = NSLocalizedString(@"LOGIN_MOBILE_APP", @"");
+//        switch ( _service )
+//        {
+//        case LOGIN_ON_MOBILE:
+//            [( (OptionSelectTableViewCell *)cell )setServiceSelected:YES];
+//            break;
+//
+//        case LOGIN_ONLINE:
+//            [( (OptionSelectTableViewCell *)cell )setServiceSelected:NO];
+//            break;
+//
+//        case LOGIN_WITH_OTP:
+//            [( (OptionSelectTableViewCell *)cell )setServiceSelected:NO];
+//            break;
+//        }
+//
+//        break;
+
     case 3:
-        ( (OptionSelectTableViewCell *)cell ).lblName.text = NSLocalizedString(@"LOGIN_MOBILE_APP", @"");
-        switch ( _service )
-        {
-        case LOGIN_ON_MOBILE:
-            [( (OptionSelectTableViewCell *)cell )setServiceSelected:YES];
-            break;
-
-        case LOGIN_ONLINE:
-            [( (OptionSelectTableViewCell *)cell )setServiceSelected:NO];
-            break;
-
-        case LOGIN_WITH_OTP:
-            [( (OptionSelectTableViewCell *)cell )setServiceSelected:NO];
-            break;
-        }
-
-        break;
-
-    case 4:
         ( (OptionSelectTableViewCell *)cell ).lblName.text = NSLocalizedString(@"LOGIN_ONLINE_SESSION", @"");
         switch ( _service )
         {
@@ -261,7 +259,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 
         break;
 
-    case 5:
+    case 4:
         ( (OptionSelectTableViewCell *)cell ).lblName.text = NSLocalizedString(@"LOGIN_OTP", @"");
         switch ( _service )
         {
@@ -290,15 +288,15 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 {
     switch ( indexPath.row )
     {
-    case 3:
-        _service = LOGIN_ON_MOBILE;
-        break;
+//    case 3:
+//        _service = LOGIN_ON_MOBILE;
+//        break;
 
-    case 4:
+    case 3:
         _service = LOGIN_ONLINE;
         break;
 
-    case 5:
+    case 4:
         _service = LOGIN_WITH_OTP;
         break;
     }
@@ -365,7 +363,8 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     {
         caption = NSLocalizedString(@"HUD_SAVE_CONFIG", @"");
     }
-
+    
+    [_btnDone setEnabled:NO];
     [sdk TestBackend:_txtMPINServiceURL.text rpsPrefix:[self getTXTMPINServiceRPSPrefix]];
 
     [[ErrorHandler sharedManager] presentMessageInViewController:self
@@ -390,11 +389,10 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
          addActivityIndicator:NO
          hideAfter:3];
         bTestingConfig = NO;
+        [_btnDone setEnabled:YES];
     }
     else
     {
-        BOOL isEmpty = [[ConfigurationManager sharedManager] isEmpty];
-        int minShowTime = 1;
         if ( _selectedIndex >= 0 )
         {
             if ( _isEdit )
@@ -435,10 +433,12 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     [[ErrorHandler sharedManager] updateMessage:[NSString stringWithFormat:@"%@", message]
      addActivityIndicator:NO
      hideAfter:3];
+    [_btnDone setEnabled:YES];
 }
 
 - ( void )OnSetBackendCompleted:( id )sender
 {
+    [_btnDone setEnabled:YES];
     dispatch_after(dispatch_time( DISPATCH_TIME_NOW, (int64_t)( NSEC_PER_SEC ) ), dispatch_get_main_queue(), ^ {
         [self.navigationController popViewControllerAnimated:YES];
     });
