@@ -48,7 +48,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 - ( void )viewDidLoad
 {
     [super viewDidLoad];
-    _service = LOGIN_ON_MOBILE;
+    _service = LOGIN_ONLINE;
     [[ThemeManager sharedManager] beautifyViewController:self];
     UITapGestureRecognizer *singleTap =
         [[UITapGestureRecognizer alloc] initWithTarget:self
@@ -282,8 +282,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     }
 }
 
-- ( void )tableView:( UITableView * )tableView
-    didSelectRowAtIndexPath:( NSIndexPath * )indexPath
+- ( void )tableView:( UITableView * )tableView didSelectRowAtIndexPath:( NSIndexPath * )indexPath
 {
     switch ( indexPath.row )
     {
