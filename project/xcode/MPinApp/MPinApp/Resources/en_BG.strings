@@ -126,6 +126,9 @@
 "WARNING_VERIFY_FINGER" =  "Проверка на пръстов отпечатък";
 
 /* BASIC THINGS */
+"KEY_SETUP_PIN" = "Създаване на PIN";
+"KEY_ENTER_PIN" = "Въведи PIN";
+
 "KEY_RESET" = "НОВ ПИН";
 "KEY_CANCEL" = "ОТКАЗ";
 "KEY_OKBTN" = "OK";

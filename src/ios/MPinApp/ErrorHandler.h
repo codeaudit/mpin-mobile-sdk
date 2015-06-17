@@ -18,6 +18,7 @@
 
 + (ErrorHandler*)sharedManager;
 
+
 -(void) presentMessageInViewController:(UIViewController *)viewController
                          errorString:(NSString *)strMessage
                 addActivityIndicator:(BOOL)addActivityIndicator
@@ -28,7 +29,7 @@
 
 -(void) hideMessage;
 
-
+@property (nonatomic, strong) CVXATMHud *hud;
 
 
 @end

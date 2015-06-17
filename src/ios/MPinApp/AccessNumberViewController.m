@@ -85,6 +85,7 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
         }
     }
 
+    [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
     [sdk AuthenticateAN:_currentUser accessNumber:self.strNumber askForFingerprint:YES];
 }
 
@@ -140,6 +141,7 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
 
 - ( void )showPinPad
 {
+    [[ErrorHandler sharedManager] hideMessage];
     PinPadViewController *pinpadViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"pinpad"];
     pinpadViewController.sdk = sdk;
     pinpadViewController.sdk.delegate = pinpadViewController;

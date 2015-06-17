@@ -57,4 +57,40 @@
 {
     return NO;
 }
+
+- (void)applicationWillResignActive:(UIApplication *)application {
+    
+    // fill screen with our own colour
+    UIView *protectionView = [[UIView alloc]initWithFrame:self.window.frame];
+    protectionView.backgroundColor = [UIColor whiteColor];
+    protectionView.tag = 1234;
+    protectionView.alpha = 0;
+    [self.window addSubview:protectionView];
+    UIImageView *imgView = [[UIImageView alloc] initWithFrame:self.window.frame];
+    [protectionView addSubview:imgView];
+    [imgView setImage:[UIImage imageNamed:@"CVXLogo"]];
+    imgView.contentMode = UIViewContentModeCenter;
+    imgView.backgroundColor = [[SettingsManager sharedManager] color10];
+    [self.window bringSubviewToFront:protectionView];
+    
+    // fade in the view
+    [UIView animateWithDuration:0.5 animations:^{
+        protectionView.alpha = 1;
+    }];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    
+    // grab a reference to our coloured view
+    UIView *colourView = [self.window viewWithTag:1234];
+    
+    // fade away colour view from main view
+    [UIView animateWithDuration:0.5 animations:^{
+        colourView.alpha = 0;
+    } completion:^(BOOL finished) {
+        // remove when finished fading
+        [colourView removeFromSuperview];
+    }];
+}
+
 @end
