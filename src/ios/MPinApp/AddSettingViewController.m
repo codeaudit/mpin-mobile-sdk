@@ -360,7 +360,8 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     {
         caption = NSLocalizedString(@"HUD_SAVE_CONFIG", @"");
     }
-
+    
+    [_btnDone setEnabled:NO];
     [sdk TestBackend:_txtMPINServiceURL.text rpsPrefix:[self getTXTMPINServiceRPSPrefix]];
 }
 
@@ -377,6 +378,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
          addActivityIndicator:NO
          hideAfter:3];
         bTestingConfig = NO;
+        [_btnDone setEnabled:YES];
     }
     else
     {
@@ -412,10 +414,12 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     [[ErrorHandler sharedManager] updateMessage:[NSString stringWithFormat:@"%@", message]
      addActivityIndicator:NO
      hideAfter:3];
+    [_btnDone setEnabled:YES];
 }
 
 - ( void )OnSetBackendCompleted:( id )sender
 {
+    [_btnDone setEnabled:YES];
     dispatch_after(dispatch_time( DISPATCH_TIME_NOW, (int64_t)( NSEC_PER_SEC ) ), dispatch_get_main_queue(), ^ {
         [self.navigationController popViewControllerAnimated:YES];
     });
