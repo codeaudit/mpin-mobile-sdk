@@ -8,7 +8,7 @@
 #include "HTTPConnector.h"
 #import "MPin.h"
 
-static NSInteger constIntTimeoutInterval = 5;
+static NSInteger constIntTimeoutInterval = 30;
 static NSString *constStrConnectionTimeoutNotification = @"ConnectionTimeoutNotification";
 
 namespace net {

@@ -527,7 +527,6 @@ static NSString *const constStrConnectionTimeoutNotification = @"ConnectionTimeo
 
 - ( void )connectionTimeout: ( id ) sender
 {
-    NSLog(@"%f",[ErrorHandler sharedManager].hud.view.frame.origin.x);
     [[ErrorHandler sharedManager] updateMessage:@"Connection timeout" addActivityIndicator:NO hideAfter:3];
 }
 

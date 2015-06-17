@@ -671,15 +671,6 @@
 			name = View;
 			sourceTree = "<group>";
 		};
-		9699B2591AADF8E5008AA313 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				FE8129651ABAB61B008677CE /* MPin+AsyncOperations.h */,
-				FE8129661ABAB61B008677CE /* MPin+AsyncOperations.m */,
-			);
-			name = Model;
-			sourceTree = "<group>";
-		};
 		9699B25A1AADF8F7008AA313 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -695,6 +686,8 @@
 				968591B51AF0BEFC00726E63 /* LocalizationManager.m */,
 				96F78E1A1B05E5B8005C2C7D /* ErrorHandler.h */,
 				96F78E1B1B05E5B8005C2C7D /* ErrorHandler.m */,
+				FE8129651ABAB61B008677CE /* MPin+AsyncOperations.h */,
+				FE8129661ABAB61B008677CE /* MPin+AsyncOperations.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -777,7 +770,6 @@
 			children = (
 				9649BC881AC0472D00B9F41B /* CustomComponents */,
 				9699B25A1AADF8F7008AA313 /* Managers */,
-				9699B2591AADF8E5008AA313 /* Model */,
 				9699B2581AADF8DD008AA313 /* View */,
 				9699B2571AADF8C6008AA313 /* ViewControllers */,
 				9699B2561AADF81F008AA313 /* Cells */,

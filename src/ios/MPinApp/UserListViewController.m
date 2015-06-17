@@ -102,7 +102,7 @@ static NSString *const kAN = @"AN";
     self.automaticallyAdjustsScrollViewInsets = NO;
     storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     [self hideBottomBar:NO];
-    [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
+    [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Initializing" addActivityIndicator:YES minShowTime:0];
 }
 
 - ( void )viewWillAppear:( BOOL )animated
@@ -115,9 +115,6 @@ static NSString *const kAN = @"AN";
     [(MenuViewController *)self.menuContainerViewController.leftMenuViewController setConfiguration];
     [[NSNotificationCenter defaultCenter] removeObserver:self
      name:kShowPinPadNotification
-     object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-     name:constStrConnectionTimeoutNotification
      object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
 }
@@ -184,6 +181,7 @@ static NSString *const kAN = @"AN";
         [self hideBottomBar:NO];
     }
     [self.table reloadData];
+    [[ErrorHandler sharedManager] hideMessage];
 }
 
 - ( void )showBottomBar:( BOOL )animated

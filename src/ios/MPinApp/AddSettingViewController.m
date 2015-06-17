@@ -13,8 +13,7 @@
 #import "ConfigurationManager.h"
 #import "ThemeManager.h"
 #import "MpinStatus.h"
-
-#import "MPin+AsyncOperations.h"
+#import "MPin.h"
 #import "ThemeManager.h"
 #import "SettingsManager.h"
 #import "NSString+Helper.h"
@@ -411,17 +410,8 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
                  prefixName:[self getTXTMPINServiceRPSPrefix]];
             }
         }
-
-        if ( isEmpty )
-        {
-            [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
-        }
-        else
-        {
-            dispatch_after(dispatch_time( DISPATCH_TIME_NOW, (int64_t)( minShowTime * NSEC_PER_SEC ) ), dispatch_get_main_queue(), ^ {
-                [self.navigationController popViewControllerAnimated:YES];
-            });
-        }
+        
+        [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
     }
 }
 

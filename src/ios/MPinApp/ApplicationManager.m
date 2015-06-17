@@ -86,12 +86,12 @@ static NSString *constStrConnectionTimeoutNotification = @"ConnectionTimeoutNoti
     {
         [(UserListViewController *)( ( (UINavigationController *)container.centerViewController ).topViewController )invalidate];
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:constStrConnectionTimeoutNotification object:nil];
 }
 
 - ( void ) OnSetBackendError:( id ) sender error:( NSError * ) error;
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:constStrConnectionTimeoutNotification object:nil];
+
     //FIXME: Remove alert
     MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[mpinStatus getStatusCodeAsString] message:mpinStatus.errorMessage delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
