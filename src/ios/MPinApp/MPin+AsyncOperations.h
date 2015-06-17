@@ -51,11 +51,12 @@ static NSString *const kUSER = @"currentUser";
 
 @interface MPin ( AsyncOperations )
 
-@property( weak ) id<MPinSDKDelegate> delegate;
+@property( nonatomic, strong ) id<MPinSDKDelegate> delegate;
+
 + ( BOOL ) isConfigLoadSuccessfully;
 - ( void ) TestBackend:( const NSString * ) url rpsPrefix:( NSString * ) rpsPrefix;
 - ( void ) SetBackend:( const NSString * ) url rpsPrefix:( NSString * ) rpsPrefix;
-- ( void ) SetBackend:(const NSDictionary *) config;
+- ( void ) SetBackend:( const NSDictionary * ) config;
 - ( void ) RegisterNewUser:( NSString * ) userName devName:( NSString * ) devName;
 - ( void ) RegisterNewUser:( NSString * ) userName devName:( NSString * ) devName userData:( NSString * ) userData;
 - ( void ) RestartRegistration:( const id<IUser>) user;
