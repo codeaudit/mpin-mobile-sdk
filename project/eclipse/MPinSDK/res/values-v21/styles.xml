@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryColorDark</item>
         <item name="android:statusBarColor">@color/primaryColorDark</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="android:colorAccent">@color/green</item>
+        <item name="android:colorControlHighlight">@color/dark_green</item>
     </style>
 
     <style name="toolbarTheme" parent="AppTheme">
@@ -18,6 +20,33 @@
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">@color/white</item>
+    </style>
+
+    <style name="FloatingActionButton" parent="android:Widget.Material.Button">
+        <item name="android:background">@drawable/fab_background</item>
+        <item name="android:stateListAnimator">@anim/fab_state_list_animator</item>
+        <item name="android:layout_width">56dp</item>
+        <item name="android:layout_height">56dp</item>
+    </style>
+
+    <style name="RaisedButton" parent="android:Widget.Material.Button">
+        <item name="android:stateListAnimator">@anim/rb_state_list_animator</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+    </style>
+
+    <style name="RaisedButtonGreen" parent="RaisedButton">
+        <item name="android:background">@drawable/raised_button_green_background</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="RaisedButtonWhite" parent="RaisedButton">
+        <item name="android:background">@drawable/raised_button_white_background</item>
+        <item name="android:textColor">@color/button_selector_white_textcolor</item>
     </style>
 
 </resources>

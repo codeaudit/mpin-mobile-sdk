@@ -472,7 +472,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			getFragmentManager().executePendingTransactions();
 			enableDrawer();
 		}
-
 	}
 
 	@Override
@@ -934,6 +933,13 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 		private final int REGISTRATION_STARTED = 1;
 
 		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			Log.i("DEBUG", "StartRegistrationNewUserAsyncTask");
+			showLoader();
+		}
+
+		@Override
 		protected Integer doInBackground(String... emails) {
 			String newUserId = emails[0];
 			ArrayList<User> users = new ArrayList<User>();
@@ -951,6 +957,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 		@Override
 		protected void onPostExecute(Integer result) {
+			hideLoader();
 			switch (result) {
 			case REGISTRATION_STARTED:
 				showCreatingNewIdentity(user, null);
@@ -1045,6 +1052,13 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			AsyncTask<Void, Void, Void> {
 
 		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			Log.i("DEBUG", "RestartRegistrationAsyncTask");
+			showLoader();
+		}
+
+		@Override
 		protected Void doInBackground(Void... params) {
 			com.certivox.models.Status status = sdk().RestartRegistration(
 					getCurrentUser());
@@ -1053,6 +1067,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 		@Override
 		protected void onPostExecute(Void result) {
+			hideLoader();
 			Toast.makeText(mActivity, "Email sent", Toast.LENGTH_LONG).show();
 		}
 
@@ -1095,6 +1110,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 		@Override
 		protected void onPostExecute(Void result) {
+			hideLoader();
 			if (isLoggedOut) {
 				new AlertDialog.Builder(mActivity)
 						.setTitle("Successful Logout")
