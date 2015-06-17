@@ -40,7 +40,7 @@
 #define NOT_SELECTED_SEC 0
 
 
-static NSString *constStrConnectionTimeoutNotification = @"ConnectionTimeoutNotification";
+static NSString *const constStrConnectionTimeoutNotification = @"ConnectionTimeoutNotification";
 
 static NSString *const kSettings = @"settings";
 static NSString *const kCurrentSelectionIndex = @"currentSelectionIndex";
@@ -120,7 +120,6 @@ static NSString *const kAN = @"AN";
      name:constStrConnectionTimeoutNotification
      object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( connectionTimeout: ) name:constStrConnectionTimeoutNotification object:nil];
 }
 
 - ( void )viewDidAppear:( BOOL )animated
@@ -721,11 +720,6 @@ static NSString *const kAN = @"AN";
 }
 
 #pragma mark - Notifications handlers -
-
-- ( void )connectionTimeout: (id) sender
-{
-    [[ErrorHandler sharedManager] hideMessage];
-}
 
 - ( void )showPinPad
 {

@@ -14,20 +14,28 @@
 
 static char const *const delegateKey = "delegateKey";
 static BOOL isConfigLoadSuccessfuly = false;
-
+static NSString *const constStrConnectionTimeoutNotification = @"ConnectionTimeoutNotification";
 
 @implementation MPin ( AsyncOperations )
 
 @dynamic delegate;
 
-+ ( BOOL ) isConfigLoadSuccessfully {
++ ( BOOL ) isConfigLoadSuccessfully
+{
     return isConfigLoadSuccessfuly;
 }
 
--(id) init {
-    if (self = [super init]) {
+-( id ) init
+{
+    if ( self = [super init] )
+    {
         [MPin initSDK];
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+         name:constStrConnectionTimeoutNotification
+         object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( connectionTimeout: ) name:constStrConnectionTimeoutNotification object:nil];
     }
+
     return self;
 }
 
@@ -97,10 +105,13 @@ static BOOL isConfigLoadSuccessfuly = false;
     });
 }
 
-- ( void ) SetBackend:(const NSDictionary *) config {
+- ( void ) SetBackend:( const NSDictionary * ) config
+{
     // TODO :: notify listeners
-    if (config == nil) return;
-    [self SetBackend:config[kRPSURL] rpsPrefix:config[kRPSPrefix]];
+    if ( config == nil )
+        return;
+
+    [self SetBackend:config [kRPSURL] rpsPrefix:config [kRPSPrefix]];
 }
 
 - ( void )RegisterNewUser:( NSString * )userName devName:( NSString * )devName userData:( NSString * )userData
@@ -262,11 +273,10 @@ static BOOL isConfigLoadSuccessfuly = false;
         else
         {
             dispatch_async(dispatch_get_main_queue(), ^ (void) {
-                if ( [(UIViewController *)self.delegate respondsToSelector:@selector(OnAuthenticateCanceled)] )
+                if ( [(UIViewController *)self.delegate respondsToSelector:@selector( OnAuthenticateCanceled )] )
                 {
                     [self.delegate OnAuthenticateCanceled];
                 }
-                
             });
         }
     };
@@ -511,6 +521,14 @@ static BOOL isConfigLoadSuccessfuly = false;
             }
         });
     });
+}
+
+#pragma mark - Notifications handlers -
+
+- ( void )connectionTimeout: ( id ) sender
+{
+    NSLog(@"%f",[ErrorHandler sharedManager].hud.view.frame.origin.x);
+    [[ErrorHandler sharedManager] updateMessage:@"Connection timeout" addActivityIndicator:NO hideAfter:3];
 }
 
 @end
