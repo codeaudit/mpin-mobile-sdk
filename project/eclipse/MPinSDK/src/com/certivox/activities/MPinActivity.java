@@ -67,7 +67,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	private static volatile MPinActivity mActivity;
 
 	private List<User> mUsersList = new ArrayList<User>();
-	private User mSelectedUser;
+	private User mCurrentUser;
 
 	private Config mConfiguration;
 
@@ -106,7 +106,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 		Log.i("DEBUG", "MPin Activity onDestroy()");
 		mActivity = null;
 		mConfiguration = null;
-		mSelectedUser = null;
+		mCurrentUser = null;
 		mUsersList = null;
 
 		stopRunningThreads();
@@ -166,8 +166,8 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public User getCurrentUser() {
-		if (mSelectedUser != null) {
-			return mSelectedUser;
+		if (mCurrentUser != null) {
+			return mCurrentUser;
 		}
 
 		String id = PreferenceManager.getDefaultSharedPreferences(this)
@@ -179,8 +179,8 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 		for (User user : mUsersList) {
 			if (TextUtils.equals(user.getId(), id)) {
-				mSelectedUser = user;
-				return mSelectedUser;
+				mCurrentUser = user;
+				return mCurrentUser;
 			}
 		}
 
@@ -188,7 +188,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	}
 
 	public void setCurrentUser(User user) {
-		mSelectedUser = user;
+		mCurrentUser = user;
 		PreferenceManager.getDefaultSharedPreferences(this).edit()
 				.putString(PREF_LAST_USER, user != null ? user.getId() : "")
 				.commit();
@@ -313,7 +313,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	private void initUsersList() {
 		mUsersList.clear();
-		mSelectedUser = null;
+		mCurrentUser = null;
 		sdk().ListUsers(mUsersList);
 	}
 
@@ -725,7 +725,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 									int which) {
 								sdk().DeleteUser(getCurrentUser());
 								disableContextToolbar();
-								mSelectedUser = null;
+								mCurrentUser = null;
 								initUsersList();
 								setInitialScreen();
 							}
@@ -946,10 +946,12 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			sdk().ListUsers(users);
 			for (User user : users) {
 				if (user.getId().equals(newUserId)) {
+					mCurrentUser = user;
 					return USER_EXISTS;
 				}
 			}
 			user = sdk().MakeNewUser(emails[0]);
+			mCurrentUser = user;
 			sdk().StartRegistration(user);
 
 			return REGISTRATION_STARTED;
