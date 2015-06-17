@@ -10,10 +10,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.certivox.interfaces.MPinController;
@@ -33,6 +35,7 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements
 	private ActionBarDrawerToggle mDrawerToggle;
 	protected DrawerLayout mDrawerLayout;
 	private Toolbar mToolbar;
+	private RelativeLayout mLoader;
 
 	private TextView mDrawerSubtitle;
 
@@ -92,6 +95,8 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements
 		mChangeIdentityButton = (TextView) findViewById(R.id.change_identitiy);
 		mChangeServiceButton = (TextView) findViewById(R.id.change_service);
 		mAboutButton = (TextView) findViewById(R.id.about);
+
+		mLoader = (RelativeLayout) findViewById(R.id.loader);
 	}
 
 	private void initActionBar() {
@@ -122,6 +127,16 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 		initDrawerMenu();
 
+	}
+
+	public void showLoader() {
+		Log.i("DEBUG", "SHOW LOADER!");
+		mLoader.setVisibility(View.VISIBLE);
+	}
+
+	public void hideLoader() {
+		Log.i("DEBUG", "HIDE LOADER!");
+		mLoader.setVisibility(View.GONE);
 	}
 
 	protected void onChangeIdentityClicked() {

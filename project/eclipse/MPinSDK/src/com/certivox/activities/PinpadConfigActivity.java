@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CursorAdapter;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.certivox.db.ConfigsContract.ConfigEntry;
@@ -53,6 +54,8 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 
 	private static Config mLastConfig;
 
+	private RelativeLayout mLoader;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -66,6 +69,16 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 		initNavigationDrawer();
 
 		addConfigListFragment();
+	}
+
+	public void showLoader() {
+		Log.i("DEBUG", "SHOW LOADER!");
+		mLoader.setVisibility(View.VISIBLE);
+	}
+
+	public void hideLoader() {
+		Log.i("DEBUG", "HIDE LOADER!");
+		mLoader.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -159,6 +172,7 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 	private void initViews() {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
 		mToolbar = (Toolbar) findViewById(R.id.toolbar);
+		mLoader = (RelativeLayout) findViewById(R.id.loader);
 	}
 
 	private void initActionBar() {
@@ -298,6 +312,7 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 	public void activateConfiguration(final Config config) {
 		final long id = config != null ? config.getId() : -1;
 		if (config != null) {
+			showLoader();
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -315,6 +330,7 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 					new Handler(Looper.getMainLooper()).post(new Runnable() {
 						@Override
 						public void run() {
+							hideLoader();
 							if (status.getStatusCode() == Status.Code.OK) {
 								mLastConfig = getActiveConfiguration(PinpadConfigActivity.this);
 								Toast.makeText(mActivity,
@@ -336,6 +352,7 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 										"Failed to activate configuration",
 										Toast.LENGTH_SHORT).show();
 							}
+
 						}
 					});
 				}

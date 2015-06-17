@@ -3,9 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:paddingTop="20dp" >
+    android:padding="20dp" >
 
     <ImageView
         android:id="@+id/user_avatar"
@@ -35,17 +33,11 @@
 
     <Button
         android:id="@+id/create_identity_button"
+        style="@style/RaisedButtonGreen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/button_selector_green"
-        android:paddingEnd="20dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingStart="20dp"
-        android:text="@string/create_identity"
-        android:textColor="@color/button_selector_green_textcolor" />
+        android:text="@string/create_identity" />
 
 </RelativeLayout>
