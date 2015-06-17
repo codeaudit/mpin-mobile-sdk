@@ -67,44 +67,24 @@
 
         <Button
             android:id="@+id/reset_pin_button"
+            style="@style/RaisedButtonGreen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/button_selector_green"
-            android:paddingEnd="20dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingStart="20dp"
-            android:text="@string/reset_pin_button"
-            android:textColor="@color/button_selector_green_textcolor"
-            android:textSize="14sp" />
+            android:text="@string/reset_pin_button" />
 
         <Button
             android:id="@+id/remove_identity_button"
+            style="@style/RaisedButtonWhite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-           android:background="@drawable/button_selector_white"
-            android:paddingEnd="20dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingStart="20dp"
-            android:text="@string/remove_identity_button"
-            android:textColor="@color/button_selector_white_textcolor"
-            android:textSize="14sp" />
+            android:text="@string/remove_identity_button" />
 
         <Button
             android:id="@+id/back_button"
+            style="@style/RaisedButtonWhite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_selector_white"
-            android:paddingEnd="20dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingStart="20dp"
-            android:text="@string/back_button"
-            android:textColor="@color/button_selector_white_textcolor"
-            android:textSize="14sp" />
+            android:text="@string/back_button" />
     </LinearLayout>
 
 </RelativeLayout>

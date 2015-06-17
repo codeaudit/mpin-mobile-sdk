@@ -280,8 +280,10 @@ public class ConfigDetailFragment extends Fragment {
 	}
 
 	private int checkBackend() {
+		controller.showLoader();
 		final String backendUrl = mServiceUrlEditText.getText().toString();
 		if (!URLUtil.isValidUrl(backendUrl)) {
+			controller.hideLoader();
 			return INVALID_URL;
 		} else {
 			mChechBackendStatus = null;
@@ -292,13 +294,14 @@ public class ConfigDetailFragment extends Fragment {
 							backendUrl);
 				}
 			});
+
 			checkBackendThread.start();
 			try {
 				checkBackendThread.join();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-
+			controller.hideLoader();
 			if (mChechBackendStatus.getStatusCode() != Status.Code.OK) {
 				return INVALID_BACKEND;
 			} else {
