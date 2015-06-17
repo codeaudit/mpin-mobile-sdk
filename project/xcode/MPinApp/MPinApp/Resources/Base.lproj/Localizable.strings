@@ -32,7 +32,7 @@
 "ID_CREATED_TITLE" = "Identity Created";
 
 "ID_CREATED_MESSAGE" = "Congratulations!\n Your identity: %@ \nhad been set up successfully.";
-"ID_CREATED_BTN_SIGN_IN" = "SIGN IN WITH THIS IDENTITY(arrow?)";
+"ID_CREATED_BTN_SIGN_IN" = "SIGN IN WITH THIS IDENTITY";
 
 
 /*CONFIRM ID VC */
