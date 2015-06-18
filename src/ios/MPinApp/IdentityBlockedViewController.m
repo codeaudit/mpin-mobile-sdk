@@ -130,11 +130,11 @@
 }
 
 -(IBAction)onResetPinButtonClicked:(id)sender {
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"RESET_PIN"
-                                                    message:[NSString stringWithFormat:@"Are you sure that you would like to reset pin of \"%@\" ?", [self.iuser getIdentity]]
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"KEY_RESET", @"RESET PIN")
+                                                    message:[NSString stringWithFormat:NSLocalizedString(@"BLOCKED_ID_RESET_PIN_CONFIRM", @"Are you sure that you would like to reset pin of \"%@\" ?"), [self.iuser getIdentity]]
                                                    delegate:self
-                                          cancelButtonTitle:@"CANCEL"
-                                          otherButtonTitles:@"RESET",
+                                          cancelButtonTitle:NSLocalizedString(@"KEY_CANCEL", @"CANCEL")
+                                          otherButtonTitles:NSLocalizedString(@"KEY_RESET", @"RESET PIN"),
                           nil];
     alert.tag = RESETPIN_TAG;
     [alert show];

@@ -1210,7 +1210,7 @@
             </objects>
             <point key="canvasLocation" x="463" y="-660"/>
         </scene>
-        <!--Identity Blocked-->
+        <!--Identity Blocked View Controller-->
         <scene sceneID="cAv-fw-OTl">
             <objects>
                 <viewController storyboardIdentifier="IdentityBlockedViewController" id="NCw-zV-yPN" customClass="IdentityBlockedViewController" sceneMemberID="viewController">
@@ -1328,7 +1328,7 @@
                             <constraint firstItem="1Yy-pu-DFE" firstAttribute="top" secondItem="ZaY-zx-p0u" secondAttribute="bottom" constant="22" id="x0k-Ni-x6a"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Identity Blocked" id="Ou0-qF-YUs">
+                    <navigationItem key="navigationItem" id="Ou0-qF-YUs">
                         <barButtonItem key="leftBarButtonItem" image="MenuIcon" id="Jjl-sy-qhK">
                             <connections>
                                 <action selector="showLeftMenuPressed:" destination="NCw-zV-yPN" id="gRE-8K-4Yu"/>
@@ -1612,7 +1612,7 @@
             </objects>
             <point key="canvasLocation" x="463" y="-1351"/>
         </scene>
-        <!--Confirm Email-->
+        <!--Confirm Email View Controller-->
         <scene sceneID="dm5-ut-giB">
             <objects>
                 <viewController storyboardIdentifier="ConfirmEmailViewController" id="FRx-bR-6cA" customClass="ConfirmEmailViewController" sceneMemberID="viewController">
@@ -1739,7 +1739,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Confirm Email" id="tUB-pV-hH1">
+                    <navigationItem key="navigationItem" id="tUB-pV-hH1">
                         <barButtonItem key="leftBarButtonItem" image="MenuIcon" id="tZ5-5B-85G">
                             <connections>
                                 <action selector="showLeftMenuPressed:" destination="FRx-bR-6cA" id="ngQ-hX-Rtn"/>
@@ -2395,7 +2395,7 @@
             </objects>
             <point key="canvasLocation" x="-209" y="-2048"/>
         </scene>
-        <!--Identity Created-->
+        <!--Identity Created View Controller-->
         <scene sceneID="43z-tR-GXh">
             <objects>
                 <viewController storyboardIdentifier="IdentityCreatedViewController" id="gPM-4X-Pwr" customClass="IdentityCreatedViewController" sceneMemberID="viewController">
@@ -2468,7 +2468,7 @@
                             <constraint firstItem="Zqp-g5-bNG" firstAttribute="top" secondItem="t3o-EA-X97" secondAttribute="bottom" constant="69" id="zer-VI-rQ0"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Identity Created" id="s03-gD-xvI">
+                    <navigationItem key="navigationItem" id="s03-gD-xvI">
                         <barButtonItem key="leftBarButtonItem" image="MenuIcon" id="VPt-gt-amj">
                             <connections>
                                 <action selector="showLeftMenuPressed:" destination="gPM-4X-Pwr" id="Zfs-ut-8nq"/>
