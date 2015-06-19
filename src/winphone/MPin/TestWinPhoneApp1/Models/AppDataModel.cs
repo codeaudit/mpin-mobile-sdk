@@ -16,7 +16,15 @@ namespace MPinDemo.Models
     public class AppDataModel : INotifyPropertyChanged
     {
         #region Members
-        private const string FilePath = "ms-appx:///Resources/SampleData.json";
+        private const string FilePath = 
+#if DEBUG
+            "ms-appx:///Resources/SampleData_Debug.json";
+#elif MPinConnect
+            "ms-appx:///Resources/SampleData_MPinConnect.json";
+#else
+            "ms-appx:///Resources/SampleData.json";
+#endif
+
         private const string backendsKey = "Backends";
         private static AppDataModel _appDataModel = new AppDataModel();
 

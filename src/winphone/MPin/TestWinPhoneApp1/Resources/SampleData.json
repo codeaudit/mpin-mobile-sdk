@@ -1,6 +1,5 @@
-
 {
-    "Backends": [        
+    "Backends": [
         {
             "BackendUrl": "http://tcb.certivox.org",
             "RequestAccessNumber": false,
