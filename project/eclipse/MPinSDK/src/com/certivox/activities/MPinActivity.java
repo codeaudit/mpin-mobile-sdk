@@ -975,7 +975,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 									int which) {
 								resetPin();
 							}
-						}).show();
+						}).setNegativeButton("Cancel", null).show();
 				break;
 			}
 			default:
