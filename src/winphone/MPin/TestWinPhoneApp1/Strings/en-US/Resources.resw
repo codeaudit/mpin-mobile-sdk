@@ -268,7 +268,7 @@
     <value>About</value>
   </data>
   <data name="About.Text" xml:space="preserve">
-    <value>M-Pin Windows Phone Sample Application</value>
+    <value>Windows Phone Sample Application</value>
   </data>
   <data name="AboutVersion" xml:space="preserve">
     <value>Version </value>
@@ -350,5 +350,11 @@
   </data>
   <data name="UpdateCheckButton.Label" xml:space="preserve">
     <value>Check for update</value>
+  </data>
+  <data name="AboutBuild" xml:space="preserve">
+    <value>Build: </value>
+  </data>
+  <data name="AboutTitle.Text" xml:space="preserve">
+    <value>CertiVox M-Pin</value>
   </data>
 </root>
