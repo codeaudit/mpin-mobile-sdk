@@ -12,20 +12,19 @@ import com.certivox.models.Config;
 
 public class ConfigsDao {
 
-	private SQLiteDatabase mDb;
 	private Context mContext;
 	public static final String KEY_ACTIVE_CONFIG = "active_config";
 
 	public ConfigsDao(Context context) {
 		mContext = context;
-		mDb = new ConfigsDbHelper(context).getReadableDatabase();
 	}
 
 	public Cursor getConfigs() {
 		Cursor cursor = null;
 
-		cursor = mDb.query(ConfigEntry.TABLE_NAME,
-				ConfigEntry.getFullProjection(), null, null, null, null, null);
+		cursor = new ConfigsDbHelper(mContext).getReadableDatabase().query(
+				ConfigEntry.TABLE_NAME, ConfigEntry.getFullProjection(), null,
+				null, null, null, null);
 
 		return cursor;
 	}
@@ -38,10 +37,10 @@ public class ConfigsDao {
 
 		Cursor cursor = null;
 		try {
-			cursor = mDb.query(ConfigEntry.TABLE_NAME,
-					ConfigEntry.getFullProjection(), ConfigEntry._ID
-							+ " LIKE ?", new String[] { String.valueOf(id) },
-					null, null, null);
+			cursor = new ConfigsDbHelper(mContext).getReadableDatabase().query(
+					ConfigEntry.TABLE_NAME, ConfigEntry.getFullProjection(),
+					ConfigEntry._ID + " LIKE ?",
+					new String[] { String.valueOf(id) }, null, null, null);
 			if (cursor.moveToFirst()) {
 				Config config = new Config();
 				config = getByCursor(cursor);
@@ -56,25 +55,29 @@ public class ConfigsDao {
 
 	public Cursor deleteConfigurationById(long configId) {
 
-		mDb.delete(ConfigEntry.TABLE_NAME, ConfigEntry._ID + " LIKE ?",
+		new ConfigsDbHelper(mContext).getReadableDatabase().delete(
+				ConfigEntry.TABLE_NAME, ConfigEntry._ID + " LIKE ?",
 				new String[] { String.valueOf(configId) });
 
-		Cursor cursor = mDb.query(ConfigEntry.TABLE_NAME,
-				ConfigEntry.getFullProjection(), null, null, null, null, null);
+		Cursor cursor = new ConfigsDbHelper(mContext).getReadableDatabase()
+				.query(ConfigEntry.TABLE_NAME, ConfigEntry.getFullProjection(),
+						null, null, null, null, null);
 
 		return cursor;
 	}
 
 	public Config saveOrUpdate(Config config) {
 		ContentValues values = toContentValues(config);
-
+		SQLiteDatabase db = new ConfigsDbHelper(mContext).getReadableDatabase();
 		if (config.getId() == -1) {
-			config.setId(mDb.insert(ConfigEntry.TABLE_NAME, null, values));
+			config.setId(db.insert(ConfigEntry.TABLE_NAME, null, values));
 		} else {
-			mDb.update(ConfigEntry.TABLE_NAME, values, ConfigEntry._ID
+			db.update(ConfigEntry.TABLE_NAME, values, ConfigEntry._ID
 					+ " LIKE ?",
 					new String[] { String.valueOf(config.getId()) });
 		}
+
+		db.close();
 		return config;
 	}
 
@@ -113,6 +116,14 @@ public class ConfigsDao {
 				.getLong(KEY_ACTIVE_CONFIG, -1);
 
 		return getConfigurationById(id);
+	}
+
+	public void setActiveConfig(Config config) {
+
+		long id = config != null ? config.getId() : -1;
+
+		PreferenceManager.getDefaultSharedPreferences(mContext).edit()
+				.putLong(KEY_ACTIVE_CONFIG, id).commit();
 	}
 
 }

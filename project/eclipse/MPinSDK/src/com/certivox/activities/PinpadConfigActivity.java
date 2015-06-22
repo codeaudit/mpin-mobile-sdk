@@ -276,25 +276,11 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 		Cursor cursor = mConfigsDao.deleteConfigurationById(configId);
 
 		if (cursor.moveToFirst()) {
-			setActiveConfig(context, mConfigsDao.getConfigurationById(cursor
+			mConfigsDao.setActiveConfig(mConfigsDao.getConfigurationById(cursor
 					.getLong(cursor.getColumnIndexOrThrow(ConfigEntry._ID))));
 		}
 
 		return cursor;
-	}
-
-	public void setActiveConfig(final Context context, final Config config) {
-
-		final long id = config != null ? config.getId() : -1;
-		mLastConfig = mConfigsDao.getActiveConfiguration();
-
-		if ((mLastConfig != null ? mLastConfig.getId() : -1) == id) {
-			return;
-		}
-
-		PreferenceManager
-				.getDefaultSharedPreferences(context.getApplicationContext())
-				.edit().putLong(KEY_ACTIVE_CONFIG, id).commit();
 	}
 
 	public void activateConfiguration(final Config config) {

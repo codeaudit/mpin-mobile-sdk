@@ -1,6 +1,7 @@
 package com.certivox.db;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.certivox.db.ConfigsContract.ConfigEntry;
@@ -10,6 +11,7 @@ public class ConfigsTable {
 
 	private SQLiteDatabase mDb;
 	private ConfigsDao mConfigsDao;
+	private Context mContext;
 
 	private static final String TYPE_ID = " INTEGER PRIMARY KEY";
 	private static final String TYPE_TEXT = " TEXT";
@@ -31,8 +33,10 @@ public class ConfigsTable {
 		return "DROP TABLE IF EXISTS " + ConfigEntry.TABLE_NAME;
 	}
 
-	public ConfigsTable(SQLiteDatabase db) {
+	public ConfigsTable(Context context, SQLiteDatabase db) {
 		mDb = db;
+		mContext = context;
+		mConfigsDao = new ConfigsDao(mContext);
 	}
 
 	public void createAndInitTable() {
