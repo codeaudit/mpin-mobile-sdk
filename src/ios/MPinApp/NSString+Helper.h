@@ -12,5 +12,6 @@
 
 +(Boolean) isBlank:(NSString *) str;
 +(Boolean) isNotBlank:(NSString *) str;
++ (BOOL)isValidURL:(NSString*)url;
 
 @end

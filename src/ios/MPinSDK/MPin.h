@@ -13,8 +13,7 @@
 
 @interface MPin : NSObject
 
-+ (MpinStatus*)initWithConfig:(const NSDictionary*)config;
-
++ (void)initSDK;
 + (MpinStatus*)TestBackend:(const NSString*)url;
 + (MpinStatus*)SetBackend:(const NSString*)url;
 + (MpinStatus*)TestBackend:(const NSString*)url rpsPrefix:(NSString*)rpsPrefix;

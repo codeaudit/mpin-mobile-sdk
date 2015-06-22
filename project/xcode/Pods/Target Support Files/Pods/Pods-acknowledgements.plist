@@ -14,7 +14,7 @@
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com/)
+			<string>Copyright (c) 2011&#8211;2015 Alamofire Software Foundation (http://alamofire.org/)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -85,24 +85,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</string>
 			<key>Title</key>
 			<string>MFSideMenu</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>See https://mint.splunk.com/termsofuse</string>
-			<key>Title</key>
-			<string>SplunkMint-iOS</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Created by Diallo Mamadou Bobo on 2/10/11.
-Copyright 2011 __MyCompanyName__. All rights reserved.
-</string>
-			<key>Title</key>
-			<string>iToast</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>

@@ -31,7 +31,7 @@ public class NewUserFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		mView = inflater.inflate(R.layout.new_user_layout, container, false);
+		mView = inflater.inflate(R.layout.create_identity_layout, container, false);
 		initViews();
 		return mView;
 	}

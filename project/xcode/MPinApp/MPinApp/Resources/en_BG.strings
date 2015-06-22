@@ -69,6 +69,7 @@
 "ADDCONFIGVC_ERROR_INVALID_URL" = "НЕВАЛИДЕН URL";
 "ADDCONFIGVC_MESSAGE_CONFIG_OK" = "ВАЛИДНА КОНФИГУРАЦИЯ";
 "ADDCONFIGVC_INVALID_CONFIG" = "НЕВАЛИДНА КОНФИГУРАЦИЯ";
+"ADDCONFIGVC_ERROR_EMPTY_NAME"  = "МОЛЯ ВЪВЕДЕТЕ ИМЕ НА КОНФИГУРАЦИЯТА";
 
 /* Account summary */
 
@@ -125,6 +126,10 @@
 "WARNING_VERIFY_FINGER" =  "Проверка на пръстов отпечатък";
 
 /* BASIC THINGS */
+"KEY_SETUP_PIN" = "Създаване на PIN";
+"KEY_ENTER_PIN" = "Въведи PIN";
+
+"KEY_RESET" = "НОВ ПИН";
 "KEY_CANCEL" = "ОТКАЗ";
 "KEY_OKBTN" = "OK";
 "KEY_DELETE" = "ИЗТРИВАНЕ";
@@ -138,3 +143,22 @@
 "LOGIN_MOBILE_APP" = "ЛОГИН В МОБИЛНО ПРИЛОЖЕНИЕ";
 "LOGIN_ONLINE_SESSION" = "ЛОГИН В УЕБ БРАУЗЪР";
 "LOGIN_OTP" = "ЛОГИН С ЕДНОКРАТНА ПАРОЛА";
+
+/* MPIN STATUS ERROR MESSAGES */
+
+"KEY_BTNOK" = " ГРЕШКА В КЛЮЧА";
+"PIN_INPUT_CANCELED" = "ВЕВЕЖДАНЕТО НА ПИН Е ОТКАЗАНО";
+"CRYPTO_ERROR" = "ГРЕШКА В КРИПТОГРАФИЯТА";
+"STORAGE_ERROR" = "ГРЕШКА ПРИ СЪХРАНЕНИЕ";
+"NETWORK_ERROR" = "МРЕЖОВА ГРЕШКА";
+"RESPONSE_PARSE_ERROR" = "ГРЕШКА ПРИ ОБРАБОТКА НА ОТГОВОРА ОТ СЪРВЪРА";
+"FLOW_ERROR" = "FLOW ERROR";
+"IDENTITY_NOT_AUTHORIZED" = "АКАУНТА НЕ Е АУТОРИЗИРАН";
+"IDENTITY_NOT_VERIFIED" = "АКАУНТА НЕ Е ВЕРИФИЦИРАН";
+"REQUEST_EXPIRED" = "ОСТАРЯЛА ЗАЯВКА";
+"REVOKED" = "ЗАБРАНЕН АКАУНТ";
+"INCORRECT_PIN" = "Грешен ПИН, моля опитайте отново!";
+"INCORRECT_ACCESS_NUMBER" = "НЕВАЛИДЕН НОМЕР ЗА ДОСТЪП";
+"HTTP_SERVER_ERROR" = "HTTP ГРЕШКА";
+"HTTP_REQUEST_ERROR" = "HTTP REQUEST ГРЕШКА";
+

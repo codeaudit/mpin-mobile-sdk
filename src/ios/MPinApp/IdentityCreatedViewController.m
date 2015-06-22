@@ -10,201 +10,189 @@
 #import "ConfigurationManager.h"
 #import "OTPViewController.h"
 #import "AccountSummaryViewController.h"
-#import "ATMHud.h"
 #import "ThemeManager.h"
 #import "MFSideMenu.h"
 
-@interface IdentityCreatedViewController () {
-    MPin* sdk;
-    ATMHud* hud;
+@interface IdentityCreatedViewController ( ) {
+    MPin *sdk;
 }
 
-- (void)startLoading;
-- (void)stopLoading;
-- (void)showPinPad;
-- (void)showError:(NSString*)title desc:(NSString*)desc;
+- ( void )showPinPad;
 
-- (void)startAuthenticationFlow:(id<IUser>)forUser forService:(enum SERVICES)service;
+- ( void )startAuthenticationFlow:( id<IUser>)forUser forService:( enum SERVICES )service;
 
-- (IBAction)gotoIDList:(id)sender;
+- ( IBAction )gotoIDList:( id )sender;
 
 @end
 
 @implementation IdentityCreatedViewController
 
-- (void)viewDidLoad
+- ( void )viewDidLoad
 {
     [super viewDidLoad];
 
-    hud = [[ATMHud alloc] initWithDelegate:self];
-    [hud setActivity:YES];
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
     [[ThemeManager sharedManager] beautifyViewController:self];
-    
+
     self.title = NSLocalizedString(@"ID_CREATED_TITLE", @"");
     [self.btnSignIn setTitle:NSLocalizedString(@"ID_CREATED_BTN_SIGN_IN", @"") forState:UIControlStateNormal];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
     _lblEmail.text = _strEmail;
     _lblMessage.text = [NSString stringWithFormat:NSLocalizedString(@"ID_CREATED_MESSAGE", @""), _strEmail];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- ( void )viewDidAppear:( BOOL )animated
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPinPad) name:kShowPinPadNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
 }
-- (void)viewDidDisappear:(BOOL)animated
+
+- ( void )viewDidDisappear:( BOOL )animated
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
 }
 
-- (void)startLoading
+#pragma mark - mpin async delegates -
+
+- ( void )OnAuthenticateCanceled
 {
-    [hud showInView:self.view];
-}
-- (void)stopLoading
-{
-    [hud hide];
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+     errorString:@"Authentication canceled" addActivityIndicator:NO minShowTime:3];
 }
 
-- (void)showError:(NSString*)title desc:(NSString*)desc
+- ( void )OnAuthenticateOTPCompleted:( id )sender user:( id<IUser>)user otp:( OTP * )otp
 {
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:title message:desc delegate:self cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"") otherButtonTitles:nil];
-    [alert show];
-}
+    if ( otp.status.status != OK )
+    {
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:[otp.status getStatusCodeAsString] addActivityIndicator:NO minShowTime:3];
 
-- (void)showPinPad
-{
-    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-    PinPadViewController* pinpadViewController = [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];
-    pinpadViewController.userId = [self.user getIdentity];
-    pinpadViewController.boolShouldShowBackButton = YES;
-    pinpadViewController.title = kEnterPin;
-    [self.navigationController pushViewController:pinpadViewController animated:NO];
-}
-
-- (void)startAuthenticationFlow:(id<IUser>)forUser forService:(enum SERVICES)service;
-{
-    self.user = forUser;
-    switch (service) {
-    case LOGIN_ON_MOBILE:
-        [self startLoading];
-        [sdk Authenticate:self.user];
-        break;
-    case LOGIN_ONLINE: {
-        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-        AccessNumberViewController* accessViewController = [storyboard instantiateViewControllerWithIdentifier:@"accessnumber"];
-        accessViewController.delegate = self;
-        accessViewController.strEmail = [self.user getIdentity];
-        [self.navigationController pushViewController:accessViewController animated:YES];
-    } break;
-    case LOGIN_WITH_OTP:
-        [self startLoading];
-        [sdk AuthenticateOTP:self.user];
-        break;
-    }
-}
-
-- (IBAction)gotoIDList:(id)sender
-{
-    NSDictionary* config = [[ConfigurationManager sharedManager] getSelectedConfiguration];
-    [self startAuthenticationFlow:self.user forService:[config[kSERVICE_TYPE] intValue]];
-}
-
-- (void)OnAuthenticateCanceled
-{
-    [self stopLoading];
-    [self showError:@"Authentication Failed!" desc:@"TouchID failed"];
-}
-
-- (void)OnAuthenticateOTPCompleted:(id)sender user:(id<IUser>)user otp:(OTP*)otp
-{
-    [self stopLoading];
-    if (otp.status.status != OK) {
-        [self showError:[otp.status getStatusCodeAsString] desc:@"OTP is not supported!"];
         return;
     }
-    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-    OTPViewController* otpViewController = [storyboard instantiateViewControllerWithIdentifier:@"OTP"];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    OTPViewController *otpViewController = [storyboard instantiateViewControllerWithIdentifier:@"OTP"];
     otpViewController.otpData = otp;
     otpViewController.strEmail = [user getIdentity];
     [self.navigationController pushViewController:otpViewController animated:YES];
 }
 
-- (void)OnAuthenticateOTPError:(id)sender error:(NSError*)error
+- ( void )OnAuthenticateOTPError:( id )sender error:( NSError * )error
 {
-    [self stopLoading];
-
-    MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
-    [self showError:[mpinStatus getStatusCodeAsString] desc:mpinStatus.errorMessage];
+    MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
+    [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:NSLocalizedString([mpinStatus getStatusCodeAsString], @"") addActivityIndicator:NO minShowTime:3];
 }
 
--(void) onAccessNumber:(NSString *) an {
-    [self startLoading];
-    [sdk AuthenticateAN:self.user accessNumber:an];
+-( void ) onAccessNumber:( NSString * ) an
+{
+    [sdk AuthenticateAN:self.user accessNumber:an askForFingerprint:YES];
 }
 
-- (void)OnAuthenticateAccessNumberCompleted:(id)sender user:(id<IUser>)user
+- ( void )OnAuthenticateAccessNumberCompleted:( id )sender user:( id<IUser>)user
 {
-    [self stopLoading];
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Authentication Successful!" message:nil delegate:nil cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"") otherButtonTitles:nil, nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Authentication Successful!" message:nil delegate:nil cancelButtonTitle:NSLocalizedString(@"KEY_CLOSE", @"") otherButtonTitles:nil, nil];
     [alert show];
 }
 
-- (void)OnAuthenticateAccessNumberError:(id)sender error:(NSError*)error
+- ( void )OnAuthenticateAccessNumberError:( id )sender error:( NSError * )error
 {
-    [self stopLoading];
-
-    switch (error.code) {
+    switch ( error.code )
+    {
     case INCORRECT_PIN:
-        [self showError:@"Authentication Failed!" desc:@"Wrong MPIN or Access Number!"];
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Wrong MPIN or Access Number" addActivityIndicator:NO minShowTime:3];
         break;
+
     case HTTP_REQUEST_ERROR:
-        [self showError:@"Authentication Failed!" desc:@"Wrong MPIN or Access Number!"];
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"HTTP REQUEST ERROR" addActivityIndicator:NO minShowTime:3];
         break;
-    default: {
-        MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
-        [self showError:[mpinStatus getStatusCodeAsString] desc:mpinStatus.errorMessage];
-    } break;
+
+    default:
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:[( error.userInfo ) [kMPinSatus] getStatusCodeAsString] addActivityIndicator:NO minShowTime:3];
     }
 }
 
-- (void)OnAuthenticateCompleted:(id)sender user:(const id<IUser>)user
+- ( void )OnAuthenticateCompleted:( id )sender user:( const id<IUser>)user
 {
-    [self stopLoading];
-
-    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-    AccountSummaryViewController* vcAccountSummary = [storyboard instantiateViewControllerWithIdentifier:@"AccountSummary"];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    AccountSummaryViewController *vcAccountSummary = [storyboard instantiateViewControllerWithIdentifier:@"AccountSummary"];
     vcAccountSummary.strEmail = [self.user getIdentity];
     [self.navigationController pushViewController:vcAccountSummary animated:YES];
 }
 
-- (void)OnAuthenticateError:(id)sender error:(NSError*)error
+- ( void )OnAuthenticateError:( id )sender error:( NSError * )error
 {
-
-    [self stopLoading];
-
-    switch (error.code) {
+    switch ( error.code )
+    {
     case INCORRECT_PIN:
-        [self showError:@"Authentication Failed!" desc:@"Wrong MPIN"];
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Authentication Failed" addActivityIndicator:NO minShowTime:3];
+
         break;
-    default: {
-        MpinStatus* mpinStatus = (error.userInfo)[kMPinSatus];
-        [self showError:[mpinStatus getStatusCodeAsString] desc:mpinStatus.errorMessage];
+
+    default:
+    {
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:[( error.userInfo ) [kMPinSatus] getStatusCodeAsString] addActivityIndicator:NO minShowTime:3];
     } break;
     }
 }
 
-- (IBAction)showLeftMenuPressed:(id)sender
+#pragma mark - My methods -
+
+- ( void )showPinPad
+{
+    [[ErrorHandler sharedManager] hideMessage];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    PinPadViewController *pinpadViewController = [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];
+    pinpadViewController.sdk = sdk;
+    pinpadViewController.sdk.delegate = pinpadViewController;
+    pinpadViewController.currentUser = self.user;
+    pinpadViewController.boolShouldShowBackButton = YES;
+    pinpadViewController.title = kEnterPin;
+    [self.navigationController pushViewController:pinpadViewController animated:YES];
+}
+
+- ( void )startAuthenticationFlow:( id<IUser>)forUser forService:( enum SERVICES )service;
+{
+    self.user = forUser;
+    switch ( service )
+    {
+    case LOGIN_ON_MOBILE:
+        [sdk Authenticate:self.user askForFingerprint:YES];
+        break;
+
+    case LOGIN_ONLINE:
+    {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+        AccessNumberViewController *accessViewController = [storyboard instantiateViewControllerWithIdentifier:@"accessnumber"];
+        accessViewController.currentUser = self.user;
+        accessViewController.delegate = self;
+        accessViewController.strEmail = [self.user getIdentity];
+        [self.navigationController pushViewController:accessViewController animated:YES];
+    } break;
+
+    case LOGIN_WITH_OTP:
+        [sdk AuthenticateOTP:self.user askForFingerprint:YES];
+        break;
+    }
+}
+
+
+#pragma mark - My actions -
+- ( IBAction )showLeftMenuPressed:( id )sender
 {
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
 }
 
-- (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- ( IBAction )gotoIDList:( id )sender
+{
+    [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
+    NSDictionary *config = [[ConfigurationManager sharedManager] getSelectedConfiguration];
+    [self startAuthenticationFlow:self.user forService:[config [kSERVICE_TYPE] intValue]];
+}
+
+#pragma mark - Alert view delegate -
+- ( void )alertView:( UIAlertView * )alertView clickedButtonAtIndex:( NSInteger )buttonIndex
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
 }

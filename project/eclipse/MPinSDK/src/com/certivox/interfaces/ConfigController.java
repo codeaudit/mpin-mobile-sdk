@@ -13,4 +13,7 @@ public interface ConfigController {
 
 	void configurationSaved();
 
+	public void showLoader();
+
+	public void hideLoader();
 }

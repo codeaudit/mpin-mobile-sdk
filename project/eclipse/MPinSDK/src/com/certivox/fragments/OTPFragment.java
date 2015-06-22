@@ -83,9 +83,7 @@ public class OTPFragment extends Fragment {
 					mOTPProgressBar.setProgress((int) (mOTPProgressBar.getMax() * prog));
 					mOTPProgressBar.postDelayed(this, 100);
 				} else {
-					mOTPProgressBar.setProgress(0);
-					mOTPTextView.setText("EXPIRED");
-					mTimeLeftTextView.setText("0 sec");
+					mMpinController.onOTPExpired();
 				}
 			}
 		});

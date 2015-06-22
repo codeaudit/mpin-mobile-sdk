@@ -22,7 +22,7 @@
     [self invalidateNavBar];
     self.actionButton.enabled = FALSE;
     numberIndex = 0;
-    self.number = @"";
+    self.strNumber = @"";
 
     [self.label setBottomBorder:[[SettingsManager sharedManager] color10] width:2.f alpha:.5f];
 }
@@ -43,14 +43,14 @@
 
 - (IBAction)clearAction:(id)sender {
     numberIndex = 0;
-    self.number = @"";
+    self.strNumber = @"";
     self.label.text = @"";
     [self enableNumButtons];
 }
 
 - (IBAction)numberSelectedAction:(id)sender {
     UIButton * button = (UIButton *) sender;
-    self.number = [self.number stringByAppendingString:button.titleLabel.text];
+    self.strNumber = [self.strNumber stringByAppendingString:button.titleLabel.text];
 
     if (++numberIndex >= max) {
         [self disableNumButtons];

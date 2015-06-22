@@ -10,17 +10,18 @@
 
 @implementation LocalizationManager
 
-+ (LocalizationManager*)sharedManager
++ ( LocalizationManager * )sharedManager
 {
-    static LocalizationManager* sharedManager = nil;
+    static LocalizationManager *sharedManager = nil;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         sharedManager = [[self alloc] init];
     });
+
     return sharedManager;
 }
 
-- (NSString *)localizedString:(NSString *)key comment:(NSString *)comment
+- ( NSString * )localizedString:( NSString * )key comment:( NSString * )comment
 {
     NSString *localizedString = @"";
     NSLocale *locale = [NSLocale currentLocale];
@@ -31,13 +32,11 @@
     }
     else
     {
-        
         NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
         localizedString = [dict objectForKey:key];
-        
     }
 
-    return (localizedString == nil ) ?  @"" : localizedString;
+    return ( localizedString == nil ) ?  comment : localizedString;
 }
 
 @end
