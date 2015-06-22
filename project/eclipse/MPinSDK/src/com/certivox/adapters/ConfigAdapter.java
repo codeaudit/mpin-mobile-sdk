@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.certivox.db.ConfigsDao;
 import com.certivox.fragments.ConfigListFragment;
-import com.certivox.mpinsdk.Config;
+import com.certivox.models.Config;
 import com.example.mpinsdk.R;
 
 public class ConfigAdapter extends CursorAdapter {

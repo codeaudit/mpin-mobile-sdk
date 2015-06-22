@@ -8,7 +8,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.certivox.db.ConfigsContract.ConfigEntry;
-import com.certivox.mpinsdk.Config;
+import com.certivox.models.Config;
 
 public class ConfigsDao {
 

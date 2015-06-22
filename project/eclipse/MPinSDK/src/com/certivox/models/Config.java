@@ -1,4 +1,4 @@
-package com.certivox.mpinsdk;
+package com.certivox.models;
 
 public final class Config {
 

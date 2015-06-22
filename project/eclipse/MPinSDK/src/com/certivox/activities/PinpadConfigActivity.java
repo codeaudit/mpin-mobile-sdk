@@ -28,8 +28,8 @@ import com.certivox.db.ConfigsDao;
 import com.certivox.fragments.ConfigDetailFragment;
 import com.certivox.fragments.ConfigListFragment;
 import com.certivox.interfaces.ConfigController;
+import com.certivox.models.Config;
 import com.certivox.models.Status;
-import com.certivox.mpinsdk.Config;
 import com.example.mpinsdk.R;
 
 public class PinpadConfigActivity extends ActionBarActivity implements

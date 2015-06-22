@@ -17,7 +17,7 @@ import android.widget.ListView;
 import com.certivox.adapters.ConfigAdapter;
 import com.certivox.db.ConfigsDao;
 import com.certivox.interfaces.ConfigController;
-import com.certivox.mpinsdk.Config;
+import com.certivox.models.Config;
 import com.example.mpinsdk.R;
 
 public class ConfigListFragment extends ListFragment {

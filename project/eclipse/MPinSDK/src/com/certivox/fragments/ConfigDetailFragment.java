@@ -18,8 +18,8 @@ import android.widget.EditText;
 import com.certivox.activities.MPinActivity;
 import com.certivox.db.ConfigsDao;
 import com.certivox.interfaces.ConfigController;
+import com.certivox.models.Config;
 import com.certivox.models.Status;
-import com.certivox.mpinsdk.Config;
 import com.example.mpinsdk.R;
 
 public class ConfigDetailFragment extends Fragment {

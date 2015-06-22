@@ -34,11 +34,11 @@ import com.certivox.fragments.UsersListFragment;
 import com.certivox.interfaces.PinPadController;
 import com.certivox.listeners.OnAddNewUserListener;
 import com.certivox.listeners.OnUserSelectedListener;
+import com.certivox.models.Config;
 import com.certivox.models.OTP;
 import com.certivox.models.Status;
 import com.certivox.models.User;
 import com.certivox.models.User.State;
-import com.certivox.mpinsdk.Config;
 import com.certivox.mpinsdk.Mpin;
 import com.example.mpinsdk.R;
 

@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.certivox.db.ConfigsContract.ConfigEntry;
-import com.certivox.mpinsdk.Config;
+import com.certivox.models.Config;
 
 public class ConfigsTable {
 
