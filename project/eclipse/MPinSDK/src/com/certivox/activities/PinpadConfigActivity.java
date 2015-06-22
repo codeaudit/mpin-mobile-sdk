@@ -39,7 +39,7 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 	private Toolbar mToolbar;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private DrawerLayout mDrawerLayout;
-
+	private ConfigsDao mConfigsDao;
 	// Fragments
 	private static final String FRAG_CONFIG_LIST = "FRAG_CONFIG_LIST";
 	private static final String FRAG_CONFIG_DETAILS = "FRAG_CONFIG_EDIT";
@@ -60,9 +60,9 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.base_drawer_layout);
-
+		mConfigsDao = new ConfigsDao(getApplicationContext());
 		mActivity = this;
-		mLastConfig = getActiveConfiguration(this);
+		mLastConfig = mConfigsDao.getActiveConfiguration();
 
 		initViews();
 		initActionBar();
@@ -83,7 +83,7 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 
 	@Override
 	protected void onStop() {
-		Config activeConfiguration = getActiveConfiguration(this);
+		Config activeConfiguration = mConfigsDao.getActiveConfiguration();
 		if (activeConfiguration != null) {
 			PreferenceManager
 					.getDefaultSharedPreferences(this.getApplicationContext())
@@ -271,34 +271,22 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 		mDrawerToggle.syncState();
 	}
 
-	public static Cursor deleteConfiguration(Context context, long configId) {
+	public Cursor deleteConfiguration(Context context, long configId) {
 
-		Cursor cursor = ConfigsDao.deleteConfigurationById(context, configId);
+		Cursor cursor = mConfigsDao.deleteConfigurationById(configId);
 
 		if (cursor.moveToFirst()) {
-			setActiveConfig(context, ConfigsDao.getConfigurationById(context,
-					cursor.getLong(cursor
-							.getColumnIndexOrThrow(ConfigEntry._ID))));
+			setActiveConfig(context, mConfigsDao.getConfigurationById(cursor
+					.getLong(cursor.getColumnIndexOrThrow(ConfigEntry._ID))));
 		}
 
 		return cursor;
 	}
 
-	public static Config getActiveConfiguration(Context context) {
-		if (context == null)
-			return null;
-
-		long id = PreferenceManager.getDefaultSharedPreferences(
-				context.getApplicationContext()).getLong(KEY_ACTIVE_CONFIG, -1);
-
-		return ConfigsDao.getConfigurationById(context, id);
-	}
-
-	public static void setActiveConfig(final Context context,
-			final Config config) {
+	public void setActiveConfig(final Context context, final Config config) {
 
 		final long id = config != null ? config.getId() : -1;
-		mLastConfig = getActiveConfiguration(context);
+		mLastConfig = mConfigsDao.getActiveConfiguration();
 
 		if ((mLastConfig != null ? mLastConfig.getId() : -1) == id) {
 			return;
@@ -332,7 +320,8 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 						public void run() {
 							hideLoader();
 							if (status.getStatusCode() == Status.Code.OK) {
-								mLastConfig = getActiveConfiguration(PinpadConfigActivity.this);
+								mLastConfig = mConfigsDao
+										.getActiveConfiguration();
 								Toast.makeText(mActivity,
 										"Configuration changed successfully",
 										Toast.LENGTH_SHORT).show();
@@ -362,8 +351,7 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 
 	@Override
 	public void configurationSelected(long mSelectedId) {
-		activateConfiguration(ConfigsDao.getConfigurationById(mActivity,
-				mSelectedId));
+		activateConfiguration(mConfigsDao.getConfigurationById(mSelectedId));
 	}
 
 	@Override

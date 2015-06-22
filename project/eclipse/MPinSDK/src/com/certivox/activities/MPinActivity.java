@@ -19,6 +19,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.certivox.adapters.UsersAdapter;
+import com.certivox.db.ConfigsDao;
 import com.certivox.fragments.AboutFragment;
 import com.certivox.fragments.AccessNumberFragment;
 import com.certivox.fragments.AddUsersFragment;
@@ -70,6 +71,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	private User mCurrentUser;
 
 	private Config mConfiguration;
+	private ConfigsDao mConfigsDao;
 
 	// Threads
 	private Thread mSDKInitializationThread;
@@ -84,6 +86,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 		super.onCreate(savedInstanceState);
 		Log.i("DEBUG", "MPin Activity onCreate()");
 		mActivity = this;
+		mConfigsDao = new ConfigsDao(getApplicationContext());
 		if (!isConfigurationInited()) {
 			setInitialConfiguration();
 		} else {
@@ -142,7 +145,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	}
 
 	private boolean isConfigurationInited() {
-		mConfiguration = PinpadConfigActivity.getActiveConfiguration(this);
+		mConfiguration = mConfigsDao.getActiveConfiguration();
 		if (mConfiguration == null) {
 			Toast.makeText(this, "No active configuration", Toast.LENGTH_SHORT)
 					.show();

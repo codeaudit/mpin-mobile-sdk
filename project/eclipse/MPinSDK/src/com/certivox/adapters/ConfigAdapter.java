@@ -10,7 +10,7 @@ import android.widget.CursorAdapter;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.certivox.activities.PinpadConfigActivity;
+import com.certivox.db.ConfigsDao;
 import com.certivox.fragments.ConfigListFragment;
 import com.certivox.mpinsdk.Config;
 import com.example.mpinsdk.R;
@@ -19,18 +19,20 @@ public class ConfigAdapter extends CursorAdapter {
 
 	private final Context mContext;
 	private long mActiveId;
+	private ConfigsDao mConfigsDao;
 
 	public ConfigAdapter(Context context, Cursor c) {
 		super(context, c, 0);
 		mContext = context;
-		Config active = PinpadConfigActivity.getActiveConfiguration(context);
+		mConfigsDao = new ConfigsDao(context);
+		Config active = mConfigsDao.getActiveConfiguration();
 		mActiveId = active == null ? -1 : active.getId();
 	}
 
 	public ConfigAdapter(Context context, Cursor c, int flags) {
 		super(context, c, flags);
 		mContext = context;
-		Config active = PinpadConfigActivity.getActiveConfiguration(context);
+		Config active = mConfigsDao.getActiveConfiguration();
 		mActiveId = active == null ? -1 : active.getId();
 	}
 
@@ -57,7 +59,7 @@ public class ConfigAdapter extends CursorAdapter {
 	public void bindView(View view, Context context, Cursor cursor) {
 		ViewHolder holder = (ViewHolder) view.getTag();
 		Config config = new Config();
-		config.formCursor(cursor);
+		config = mConfigsDao.getByCursor(cursor);
 		holder.title.setText(config.getTitle());
 		holder.url.setText(getConfigurationType(config));
 		if (config.getId() == mActiveId) {

@@ -1,10 +1,5 @@
 package com.certivox.mpinsdk;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-
-import com.certivox.db.ConfigsContract.ConfigEntry;
-
 public final class Config {
 
 	private long mId;
@@ -80,29 +75,5 @@ public final class Config {
 
 	public void setRequestAccessNumber(boolean requestAccessNumber) {
 		mRequestAccessNumber = requestAccessNumber;
-	}
-
-	public void toContentValues(ContentValues values) {
-		values.put(ConfigEntry.COLUMN_TITLE, getTitle());
-		values.put(ConfigEntry.COLUMN_BACKEND_URL, getBackendUrl());
-		values.put(ConfigEntry.COLUMN_RTS, getRTS());
-		values.put(ConfigEntry.COLUMN_REQUEST_OTP, getRequestOtp());
-		values.put(ConfigEntry.COLUMN_REQUEST_ACCESS_NUMBER,
-				getRequestAccessNumber());
-	}
-
-	public void formCursor(Cursor cursor) {
-		setId(cursor.getLong(cursor.getColumnIndexOrThrow(ConfigEntry._ID)));
-		setTitle(cursor.getString(cursor
-				.getColumnIndexOrThrow(ConfigEntry.COLUMN_TITLE)));
-		setBackendUrl(cursor.getString(cursor
-				.getColumnIndexOrThrow(ConfigEntry.COLUMN_BACKEND_URL)));
-		setRTS(cursor.getString(cursor
-				.getColumnIndexOrThrow(ConfigEntry.COLUMN_RTS)));
-		setRequestOtp(cursor.getInt(cursor
-				.getColumnIndexOrThrow(ConfigEntry.COLUMN_REQUEST_OTP)) == 1);
-		setRequestAccessNumber(cursor
-				.getInt(cursor
-						.getColumnIndexOrThrow(ConfigEntry.COLUMN_REQUEST_ACCESS_NUMBER)) == 1);
 	}
 }
