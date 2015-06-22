@@ -1,5 +1,8 @@
 package com.certivox.activities;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.FeedbackManager;
+import net.hockeyapp.android.UpdateManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,17 +10,23 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.certivox.interfaces.MPinController;
 import com.certivox.interfaces.PinPadController;
 import com.example.mpinsdk.R;
 
-public abstract class BaseMPinActivity extends ActionBarActivity implements MPinController, PinPadController {
+public abstract class BaseMPinActivity extends ActionBarActivity implements
+		MPinController, PinPadController {
+
+	// Needed for Hockey App
+	private static final String APP_ID = "40dc0524dbc338596640635c8c55dafb";
 
 	private Activity mActivity;
 
@@ -26,6 +35,7 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements MPin
 	private ActionBarDrawerToggle mDrawerToggle;
 	protected DrawerLayout mDrawerLayout;
 	private Toolbar mToolbar;
+	private RelativeLayout mLoader;
 
 	private TextView mDrawerSubtitle;
 
@@ -45,11 +55,31 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements MPin
 		initViews();
 		initActionBar();
 		initNavigationDrawer();
+
+		// Needed for Hockey App
+		checkForUpdates();
+	}
+
+	// Needed for Hockey App
+	private void checkForCrashes() {
+		CrashManager.register(this, APP_ID);
+	}
+
+	// Needed for Hockey App
+	private void checkForUpdates() {
+		// Remove this for store / production builds!
+		UpdateManager.register(this, APP_ID);
+	}
+
+	// Needed for Hockey App
+	public void showFeedbackActivity() {
+		FeedbackManager.register(this, APP_ID, null);
+		FeedbackManager.showFeedbackActivity(this);
 	}
 
 	@Override
 	protected void onStop() {
-		mDrawerLayout.closeDrawers();
+		closeDrawer();
 		super.onStop();
 	}
 
@@ -65,6 +95,8 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements MPin
 		mChangeIdentityButton = (TextView) findViewById(R.id.change_identitiy);
 		mChangeServiceButton = (TextView) findViewById(R.id.change_service);
 		mAboutButton = (TextView) findViewById(R.id.about);
+
+		mLoader = (RelativeLayout) findViewById(R.id.loader);
 	}
 
 	private void initActionBar() {
@@ -97,7 +129,20 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements MPin
 
 	}
 
+	public void showLoader() {
+		Log.i("DEBUG", "SHOW LOADER!");
+		mLoader.setVisibility(View.VISIBLE);
+	}
+
+	public void hideLoader() {
+		Log.i("DEBUG", "HIDE LOADER!");
+		mLoader.setVisibility(View.GONE);
+	}
+
 	protected void onChangeIdentityClicked() {
+	}
+
+	protected void onAboutClicked() {
 	}
 
 	private void initDrawerMenu() {
@@ -114,6 +159,14 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements MPin
 			@Override
 			public void onClick(View v) {
 				startActivity(new Intent(mActivity, PinpadConfigActivity.class));
+			}
+		});
+
+		mAboutButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				onAboutClicked();
 			}
 		});
 	}
@@ -142,13 +195,22 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements MPin
 		deselectAllUsers();
 	}
 
-	private void disableDrawer() {
+	public void disableDrawer() {
 		// Disable the drawer from opening via swipe
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		mDrawerToggle.setDrawerIndicatorEnabled(false);
 		// Change the hamburger icon to up carret
 		mDrawerToggle
 				.setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+	}
+
+	public void setNavigationBack() {
+		mDrawerToggle.setToolbarNavigationClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onBackPressed();
+			}
+		});
 	}
 
 	public void enableDrawer() {
@@ -175,7 +237,7 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements MPin
 			}
 			return true;
 		case R.id.delete_user:
-			deleteUser();
+			deleteCurrentUser();
 			return true;
 		case R.id.reset_pin:
 			resetPin();
@@ -208,10 +270,16 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements MPin
 
 	@Override
 	public void onBackPressed() {
-		mDrawerLayout.closeDrawers();
+		closeDrawer();
 		if (getFragmentManager().getBackStackEntryCount() > 0) {
 			getFragmentManager().popBackStack();
 		}
 		super.onBackPressed();
+	}
+
+	protected void closeDrawer() {
+		if (mDrawerLayout != null) {
+			mDrawerLayout.closeDrawers();
+		}
 	}
 }

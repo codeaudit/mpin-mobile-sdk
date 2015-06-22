@@ -2,6 +2,7 @@ package com.certivox.fragments;
 
 import android.app.ListFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,7 @@ public class UsersListFragment extends ListFragment {
 
 	private MPinController mMpinController;
 
-	private OnUserSelectedListener m_selectedListener;
+	private OnUserSelectedListener mSelectedUserListener;
 	private OnAddNewUserListener mAddNewListener;
 
 	public void setController(MPinController controller) {
@@ -27,7 +28,7 @@ public class UsersListFragment extends ListFragment {
 	}
 
 	public void setOnUserSelectedListener(OnUserSelectedListener listener) {
-		m_selectedListener = listener;
+		mSelectedUserListener = listener;
 	}
 
 	public void setOnAddNewListener(OnAddNewUserListener listener) {
@@ -75,9 +76,8 @@ public class UsersListFragment extends ListFragment {
 		UsersAdapter adapter = getListAdapter();
 		if (adapter != null) {
 			User user = adapter.getItem(position);
-			setSelectedUser(user);
-			if (m_selectedListener != null) {
-				m_selectedListener.onUserSelected(user);
+			if (mSelectedUserListener != null) {
+				mSelectedUserListener.onUserSelected(user);
 			}
 		}
 	}

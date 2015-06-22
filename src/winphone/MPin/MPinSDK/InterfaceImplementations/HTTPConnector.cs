@@ -186,7 +186,7 @@ namespace MPinSDK
                         request.Properties.Add(new KeyValuePair<string, object>(key, requestProperties[key]));                        
                     }
                 }
-
+                
                 HttpResponseMessage response = await httpClient.SendRequestAsync(
                     request,
                     HttpCompletionOption.ResponseHeadersRead).AsTask(cts.Token);
@@ -196,15 +196,17 @@ namespace MPinSDK
                 this.statusCode = (int)response.StatusCode;
 
             }
-            catch (TaskCanceledException)
+            catch (TaskCanceledException tce)
             {
                 this.responseData = string.Empty;
                 this.errorMessage = "Request canceled!";
+                throw tce;
             }
             catch (Exception ex)
             {
                 this.responseData = string.Empty;
                 this.errorMessage = "Error: " + ex.Message;
+                throw ex;
             }
         }
        

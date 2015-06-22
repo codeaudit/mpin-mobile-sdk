@@ -1,7 +1,5 @@
 package com.certivox.activities;
 
-import java.util.HashMap;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
@@ -14,7 +12,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Process;
 import android.preference.PreferenceManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CursorAdapter;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.certivox.db.ConfigsContract.ConfigEntry;
@@ -56,6 +54,8 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 
 	private static Config mLastConfig;
 
+	private RelativeLayout mLoader;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -69,6 +69,30 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 		initNavigationDrawer();
 
 		addConfigListFragment();
+	}
+
+	public void showLoader() {
+		Log.i("DEBUG", "SHOW LOADER!");
+		mLoader.setVisibility(View.VISIBLE);
+	}
+
+	public void hideLoader() {
+		Log.i("DEBUG", "HIDE LOADER!");
+		mLoader.setVisibility(View.GONE);
+	}
+
+	@Override
+	protected void onStop() {
+		Config activeConfiguration = getActiveConfiguration(this);
+		if (activeConfiguration != null) {
+			PreferenceManager
+					.getDefaultSharedPreferences(this.getApplicationContext())
+					.edit()
+					.putLong(KEY_ACTIVE_CONFIG, activeConfiguration.getId())
+					.commit();
+		}
+
+		super.onStop();
 	}
 
 	public void addConfigListFragment() {
@@ -148,6 +172,7 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 	private void initViews() {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
 		mToolbar = (Toolbar) findViewById(R.id.toolbar);
+		mLoader = (RelativeLayout) findViewById(R.id.loader);
 	}
 
 	private void initActionBar() {
@@ -188,44 +213,62 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 				if (mLastConfig != null) {
 					onBackPressed();
 				} else {
-					new AlertDialog.Builder(mActivity)
-							.setTitle("No active configuration")
-							.setMessage(
-									"Please, choose a configuration to continue.")
-							.setPositiveButton("OK", null).show();
+					showNoActiveConfigurationDialog();
 				}
 			}
 		});
+	}
+
+	private void showNoActiveConfigurationDialog() {
+		new AlertDialog.Builder(mActivity).setTitle("No active configuration")
+				.setMessage("Please, choose a configuration to continue")
+				.setPositiveButton("OK", null).show();
+	}
+
+	private void showNoSelectedConfigurationDialog() {
+		new AlertDialog.Builder(mActivity)
+				.setTitle("No selected configuration")
+				.setMessage("Please, choose a configuration")
+				.setPositiveButton("OK", null).show();
+	}
+
+	private void showDeleteConfigurationDialog(final long configId) {
+		new AlertDialog.Builder(mActivity)
+				.setTitle("Delete configuration")
+				.setMessage(
+						"This action will also delete all identities, associated with this configuration.")
+				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Cursor cursor = deleteConfiguration(mActivity, configId);
+						((CursorAdapter) getConfigListFragment()
+								.getListAdapter()).changeCursor(cursor);
+					}
+				}).setNegativeButton("Cancel", null).show();
 	}
 
 	private void setConfigEditBackClickListener() {
 		mDrawerToggle.setToolbarNavigationClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				removeConfigDetailsFragment();
 				addConfigListFragment();
 			}
 		});
 	}
 
 	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		mDrawerToggle.syncState();
+	public void onBackPressed() {
+		if (getConfigDetailsFragment() != null) {
+			addConfigListFragment();
+			return;
+		}
+		super.onBackPressed();
 	}
 
 	@Override
-	protected void onStop() {
-		Config activeConfiguration = getActiveConfiguration(this);
-		if (activeConfiguration != null) {
-			PreferenceManager
-					.getDefaultSharedPreferences(this.getApplicationContext())
-					.edit()
-					.putLong(KEY_ACTIVE_CONFIG, activeConfiguration.getId())
-					.commit();
-		}
-
-		super.onStop();
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		mDrawerToggle.syncState();
 	}
 
 	public static Cursor deleteConfiguration(Context context, long configId) {
@@ -269,60 +312,47 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 	public void activateConfiguration(final Config config) {
 		final long id = config != null ? config.getId() : -1;
 		if (config != null) {
+			showLoader();
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
 					Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
 
-					LocalBroadcastManager lbm = LocalBroadcastManager
-							.getInstance(mActivity);
-					Intent intent = new Intent(ACTION_CHANGING_CONFIG);
-					intent.putExtra(EXTRA_PREVIOUS_CONFIG,
-							mLastConfig != null ? mLastConfig.getId() : -1);
-					lbm.sendBroadcast(intent);
-
-					HashMap<String, String> cfg = new HashMap<String, String>();
-					cfg.put("RPA_server", config.getBackendUrl());
-					MPinActivity.init(mActivity, cfg);
-
 					final Status status = MPinActivity.sdk().SetBackend(
 							config.getBackendUrl());
 					if (status.getStatusCode() == Status.Code.OK) {
-
 						PreferenceManager
 								.getDefaultSharedPreferences(
 										mActivity.getApplicationContext())
 								.edit().putLong(KEY_ACTIVE_CONFIG, id).commit();
-
-						intent = new Intent(ACTION_CONFIG_CHANGED);
-						intent.putExtra(EXTRA_PREVIOUS_CONFIG,
-								mLastConfig != null ? mLastConfig.getId() : -1);
-						intent.putExtra(EXTRA_CURRENT_CONFIG, id);
-						lbm.sendBroadcast(intent);
-					} else {
-						intent = new Intent(ACTION_CONFIG_CHANGED);
-						intent.putExtra(EXTRA_PREVIOUS_CONFIG,
-								mLastConfig != null ? mLastConfig.getId() : -1);
-						intent.putExtra(EXTRA_CURRENT_CONFIG,
-								mLastConfig != null ? mLastConfig.getId() : -1);
-						LocalBroadcastManager.getInstance(mActivity)
-								.sendBroadcast(intent);
 					}
 
 					new Handler(Looper.getMainLooper()).post(new Runnable() {
 						@Override
 						public void run() {
+							hideLoader();
 							if (status.getStatusCode() == Status.Code.OK) {
 								mLastConfig = getActiveConfiguration(PinpadConfigActivity.this);
 								Toast.makeText(mActivity,
 										"Configuration changed successfully",
 										Toast.LENGTH_SHORT).show();
+
+								Intent intent = new Intent(mActivity,
+										MPinActivity.class);
+
+								// TODO revise these flags
+								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+										| Intent.FLAG_ACTIVITY_SINGLE_TOP
+										| Intent.FLAG_ACTIVITY_CLEAR_TASK
+										| Intent.FLAG_ACTIVITY_NEW_TASK);
+								startActivity(intent);
 								finish();
 							} else {
 								Toast.makeText(mActivity,
 										"Failed to activate configuration",
 										Toast.LENGTH_SHORT).show();
 							}
+
 						}
 					});
 				}
@@ -343,24 +373,21 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 
 	@Override
 	public void editConfiguration(long configId) {
-		addConfigDetailsFragment(configId);
+		if (configId != -1) {
+			addConfigDetailsFragment(configId);
+		} else {
+			showNoSelectedConfigurationDialog();
+		}
 	}
 
 	@Override
 	public void onDeleteConfiguration(final long configId) {
+		if (configId != -1) {
+			showDeleteConfigurationDialog(configId);
+		} else {
+			showNoSelectedConfigurationDialog();
+		}
 
-		new AlertDialog.Builder(mActivity)
-				.setTitle("Delete configuration")
-				.setMessage(
-						"This action will also delete all identities, associated with this configuration.")
-				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						Cursor cursor = deleteConfiguration(mActivity, configId);
-						((CursorAdapter) getConfigListFragment()
-								.getListAdapter()).changeCursor(cursor);
-					}
-				}).setNegativeButton("Cancel", null).show();
 	}
 
 	@Override

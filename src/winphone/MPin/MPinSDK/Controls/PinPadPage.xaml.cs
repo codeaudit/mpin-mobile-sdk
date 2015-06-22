@@ -1,5 +1,5 @@
 ﻿using MPinSDK.Models;
-using MPinSDK.Common;
+using MPinSDK.Common; // navigation extensions
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,6 +33,19 @@ namespace MPinSDK.Controls
         {
             this.InitializeComponent();
             this.PinPad.PinEntered += PinPad_PinEntered;
+            Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+        }
+
+        private void HardwareButtons_BackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
+        {
+            string param = (Window.Current.Content as Frame).GetNavigationData() as string;
+            if (e.Handled && param != null && param.Equals("HardwareBack"))
+            {
+                // need to set the IsEntered property so we could pass the pin (empty string in that case) as a result of the PinPad.Show method
+                pinPadClassControl.Pin = string.Empty;
+                if (!this.PinPad.IsEntered)
+                    this.PinPad.IsEntered = true;
+            }          
         }
 
         public User CurrentUser
@@ -53,10 +66,11 @@ namespace MPinSDK.Controls
             {
                 pinPadClassControl = data[0] as PinPad;
                 bool? doAuthenticate = data[1] as bool?;
+                string userId = data[2].ToString();
 
                 if (pinPadClassControl != null && doAuthenticate != null)
                 {
-                    PinMailTB.Text = ResourceLoader.GetForCurrentView("MPinSDK/Resources").GetString(doAuthenticate.Value ? "PinPadAuthentication" : "PinPadRegistration"); // data[2].ToString();
+                    PinMailTB.Text = ResourceLoader.GetForCurrentView("MPinSDK/Resources").GetString(doAuthenticate.Value ? "PinPadAuthentication" : "PinPadRegistration") + userId; 
                 }
             }         
         }

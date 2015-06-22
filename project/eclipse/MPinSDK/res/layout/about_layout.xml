@@ -1,0 +1,109 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingBottom="20dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp" >
+
+    <ImageView
+        android:id="@+id/mpin_logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="40dp"
+        android:contentDescription="@string/mpin_logo"
+        android:src="@drawable/ic_mpin_logo_about" />
+
+    <TextView
+        android:id="@+id/about_info_text_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mpin_logo"
+        android:fontFamily="@string/font_roboto"
+        android:gravity="center_horizontal"
+        android:text="@string/about_info_text_1"
+        android:textColor="@color/base_text_color"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/about_info_text_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/about_info_text_1"
+        android:fontFamily="@string/font_roboto"
+        android:gravity="center_horizontal"
+        android:text="@string/about_info_text_2"
+        android:textColor="@color/base_text_color"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/terms_and_conditions_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/about_info_text_2"
+        android:fontFamily="@string/font_roboto"
+        android:gravity="center_horizontal"
+        android:text="@string/terms_and_conditions_link"
+        android:textColor="@color/base_text_color"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/about_build_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="@string/about_build"
+        android:textColor="@color/base_text_color"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/about_build"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/about_build_text"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@id/about_build_text"
+        android:layout_toRightOf="@id/about_build_text"
+        android:textColor="@color/base_text_color"
+        android:textSize="12sp" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/aboout_version_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/about_build_text"
+        android:text="@string/about_version"
+        android:textColor="@color/base_text_color"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/about_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/aboout_version_text"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@id/aboout_version_text"
+        android:layout_toRightOf="@id/aboout_version_text"
+        android:textColor="@color/base_text_color"
+        android:textSize="12sp" >
+    </TextView>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:contentDescription="@string/certivox_logo"
+        android:src="@drawable/ic_certivox_logo_about" />
+
+</RelativeLayout>

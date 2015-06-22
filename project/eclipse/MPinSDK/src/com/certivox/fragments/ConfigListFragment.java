@@ -9,7 +9,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.certivox.activities.PinpadConfigActivity;
@@ -24,6 +26,7 @@ public class ConfigListFragment extends ListFragment {
 	public static long sSelectedId;
 
 	private ConfigController controller;
+	private ImageButton addServiceImageButton;
 
 	public void setController(ConfigController controller) {
 		this.controller = controller;
@@ -59,10 +62,30 @@ public class ConfigListFragment extends ListFragment {
 		setListAdapter(new ConfigAdapter(getActivity(), cursor));
 	}
 
+	private void initViews() {
+		addServiceImageButton = (ImageButton) getActivity().findViewById(
+				R.id.add_service_button);
+		addServiceImageButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (controller != null) {
+					controller.createNewConfiguration();
+				}
+			}
+		});
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.config_list_layout, container, false);
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		initViews();
 	}
 
 	@Override
@@ -79,8 +102,6 @@ public class ConfigListFragment extends ListFragment {
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		// menu.findItem(R.id.configs_list_delete).setEnabled(
-		// getListAdapter().getCount() > 1);
 		super.onPrepareOptionsMenu(menu);
 	}
 
@@ -96,16 +117,11 @@ public class ConfigListFragment extends ListFragment {
 			return true;
 		}
 		case R.id.configs_list_edit: {
-			if (sSelectedId != -1) {
-				controller.editConfiguration(sSelectedId);
-			}
+			controller.editConfiguration(sSelectedId);
 			return true;
 		}
 		case R.id.configs_list_delete: {
-			if (sSelectedId != -1) {
-				controller.onDeleteConfiguration(sSelectedId);
-			}
-
+			controller.onDeleteConfiguration(sSelectedId);
 			return true;
 		}
 		default:

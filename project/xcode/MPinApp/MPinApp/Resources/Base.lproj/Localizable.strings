@@ -3,39 +3,40 @@
  MPinApp
  
  Created by Tihomir Ganev on 29.Apr.15.
+ Edited by: Ivelina Dimitrova 28.May.15.
  Copyright (c) 2015 Certivox. All rights reserved.
  */
 
 /* menu */
 
-"MENUVC_OPTION_0" = "IDENTITIES";
-"MENUVC_OPTION_1" = "CONFIGURATIONS";
+"MENUVC_OPTION_0" = "IDENTITY LIST";
+"MENUVC_OPTION_1" = "CONFIGURATION LIST";
 "MENUVC_OPTION_2" = "ABOUT";
 
 /* User list */
 
-"USERLISTVC_TITLE" = "IDENTITIES";
-"USERLISTVC_ADD_NEW_ID" = "Add account +";
+"USERLISTVC_TITLE" = "Identity List";
+"USERLISTVC_ADD_NEW_ID" = "ADD NEW IDENTITY +";
 
 /* Add user */
 
-"ADDIDVC_TITLE" = "ADD IDENTITY";
+"ADDIDVC_TITLE" = "Add Identity";
 
 "ADDIDVC_LBL_IDENTITY" = "ENTER YOUR EMAIL";
 "ADDIDVC_TXT_IDENTITY" = "email...";
 "ADDIDVC_LBL_DEVNAME" = "DEVICE NAME";
-"ADDIDVC_TXT_DEVNAME" = "Name...";
+"ADDIDVC_TXT_DEVNAME" = "Device name...";
 
 /* ID Created */
 
-"ID_CREATED_TITLE" = "IDENTITY CREATED";
+"ID_CREATED_TITLE" = "Identity Created";
 
-"ID_CREATED_MESSAGE" = "CONGRATULATIONS!\n Your identity: %@ was succesfilly created.";
+"ID_CREATED_MESSAGE" = "Congratulations!\n Your identity: %@ \nhad been set up successfully.";
 "ID_CREATED_BTN_SIGN_IN" = "SIGN IN WITH THIS IDENTITY";
 
 
 /*CONFIRM ID VC */
-"CONFIRM_EMAIL_VC_TITLE" = "CONFIRM EMAIL";
+"CONFIRM_EMAIL_VC_TITLE" = "Confirm Email";
 
 "CONFIRM_EMAIL_VC_LBL_MESSAGE" = "We have sent you an email to: \r\n %@ \r\n Click the link in the email to confirm your identity and proceed.";
 "CONFIRM_EMAIL_VC_BTN_EMAIL_CONFIRMED" = "I CONFIRMED MY EMAIL";
@@ -44,35 +45,36 @@
 
 /* OTP */
 
-"OTPVC_TITLE" = "ONE TIME PASSWORD";
+"OTPVC_TITLE" = "One Time Password";
 
 "OTPVC_LBL_MESSAGE"        = "You can now use this password to log in to your VPN service.";
 "OTPVC_LBL_YOUR_PASSWORD" = "YOUR PASSWORD";
 
 /* ACCESS NUMBER */
-"ACCESSNUMBERVC_TITLE" = "ACCESS NUMBER";
+"ACCESSNUMBERVC_TITLE" = "Enter Access Number";
 
-"ACCESSNUMBERVC_NOTE"   = "Please enter %d digits access number";
+"ACCESSNUMBERVC_NOTE"   = "ENTER %d DIGITS ACCESS NUMBER";
 
 
 /* Configuration list */
-"CONFIGLISTVC_TITLE"    = "CONFIGURATIONS";
+"CONFIGLISTVC_TITLE"    = "Configuration List";
+
 
 /* Add Configuration*/
-"ADDCONFIGVC_TITLE_ADD" = "Add configuration";
-"ADDCONFIGVC_TITLE_EDIT" = "Edit configuration";
+"ADDCONFIGVC_TITLE_ADD" = "Add Configuration";
+"ADDCONFIGVC_TITLE_EDIT" = "Edit Configuration";
 "ADDCONFIGVC_NAME" = "NAME";
-"ADDCONFIGVC_URL" = "URL";
+"ADDCONFIGVC_URL" = "M-PIN SERVER URL";
 "ADDCONFIGVC_PREFIX" = "RPS PREFIX";
 "ADDCONFIGVC_BTN_TEST_CONFIG" = "TEST CONFIGURATION";
-"ADDCONFIGVC_ERROR_EMPTY_URL" = "URL field is empty";
-"ADDCONFIGVC_ERROR_INVALID_URL" = "Invalid URL";
+"ADDCONFIGVC_ERROR_EMPTY_URL" = "M-PIN SERVER URL is empty";
+"ADDCONFIGVC_ERROR_INVALID_URL" = "M-PIN SERVER URL is not valid";
 "ADDCONFIGVC_MESSAGE_CONFIG_OK" = "Configuration is valid";
 "ADDCONFIGVC_INVALID_CONFIG" = "Invalid configuration";
 
 /* Account summary */
 
-"ACCOUNTSUMMARYVC_TITLE" = "Account summary";
+"ACCOUNTSUMMARYVC_TITLE" = "Account Summary";
 
 /* About */
 "ABOUTVC_TITLE"         = "About";
@@ -94,6 +96,7 @@
 "HUD_UNSUPPORTED_ACTION"    = "Unsupported State and Action!";
 "HUD_SAVE_CONFIG"           = "Saving configuration. Please wait.";
 "HUD_SAVE_CONFIG_AND_DEL"   = "Saving configuration. Please wait. All associated identities will be deleted.";
+"HUD_REACTIVATE_USER"       = "Please wait";
 
 /* ERROR Messages */
 
@@ -117,6 +120,7 @@
 "HTTP_SERVER_ERROR"                     = "Server error";
 "HTTP_REQUEST_ERROR"                    = "Invalid request";
 
+
 /* WARNINGS */
 "WARNING_USER_WILL_BE_DELETED"          = "User \"%@\" will be deleted!";
 "WARNING_CANNOT_EDIT_PREDEFINED_CONFIG" = "Predefined configurations cannot be edited.";
@@ -126,6 +130,7 @@
 "WARNING_VERIFY_FINGER" =  "Verify fingerprint";
 
 /* BASIC THINGS */
+"KEY_RESET" = "RESET PIN";
 "KEY_CANCEL" = "CANCEL";
 "KEY_OKBTN" = "OK";
 "KEY_DELETE" = "DELETE";
@@ -134,8 +139,29 @@
 "KEY_CLOSE" = "CLOSE";
 "KEY_WARNING" = "WARNING";
 "KEY_DONE" = "DONE";
+"KEY_SETUP_PIN" = "Create PIN";
+"KEY_ENTER_PIN" = "Enter PIN";
 
 /* OTHER SHARED STRINGS */
 "LOGIN_MOBILE_APP" = "Mobile application login";
 "LOGIN_ONLINE_SESSION" = "Web login";
 "LOGIN_OTP" = "OTP Login";
+
+/* MPIN STATUS ERROR MESSAGES */
+
+"KEY_BTNOK" = "KEY NOT OK";
+"PIN_INPUT_CANCELED" = "PIN INPUT CANCELED";
+"CRYPTO_ERROR" = "CRYPTO ERROR";
+"STORAGE_ERROR" = "STOARGE ERROR";
+"NETWORK_ERROR" = "NETWORK ERROR";
+"RESPONSE_PARSE_ERROR" = "RESOPNSE PARSE ERROR";
+"FLOW_ERROR" = "FLOW ERROR";
+"IDENTITY_NOT_AUTHORIZED" = "IDENTITY NOT AUTHORIZED";
+"IDENTITY_NOT_VERIFIED" = "IDENTITY NOT VERIFIED";
+"REQUEST_EXPIRED" = "REQUEST EXPIRED";
+"REVOKED" = "REVOKED";
+"INCORRECT_PIN" = "INCORRECT PIN";
+"INCORRECT_ACCESS_NUMBER" = "INCORRECT ACCESS NUMBER";
+"HTTP_SERVER_ERROR" = "HTTP ERROR";
+"HTTP_REQUEST_ERROR" = "HTTP REQUEST ERROR";
+

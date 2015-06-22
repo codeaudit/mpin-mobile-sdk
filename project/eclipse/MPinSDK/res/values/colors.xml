@@ -4,9 +4,11 @@
     <color name="selected_item_background">#ECEFF1</color>
     <color name="black">#000000</color>
     <color name="green">#4DB6AC</color>
+    <color name="dark_green">#00897B</color>
     <color name="primaryColorDark">#4D646F</color>
     <color name="mpinMainColor">#4DB6AC</color>
     <color name="subtitleColor">#878787</color>
     <color name="base_gray_color">#9E9E9E</color>
+    <color name="active_white_button">#E0E0E0</color>
 
 </resources>
