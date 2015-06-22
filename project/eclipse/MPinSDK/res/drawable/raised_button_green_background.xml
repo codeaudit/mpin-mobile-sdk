@@ -22,6 +22,7 @@
             <!-- SHADOW LAYER -->
             <item android:left="0dp" android:top="10dp"><shape>
                     <solid android:color="@color/gray" />
+                    <corners android:radius="2dp" />
                 </shape></item>
             <!-- CONTENT LAYER -->
             <item><shape android:shape="rectangle">

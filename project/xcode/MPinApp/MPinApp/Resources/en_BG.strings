@@ -73,6 +73,7 @@
 "ADDCONFIGVC_PREFIX" = "RPS ПРЕФИКС";
 "ADDCONFIGVC_BTN_TEST_CONFIG" = "ТЕСТВАЙ КОНФИГУРАЦИЯТА";
 "ADDCONFIGVC_ERROR_EMPTY_URL" = "МОЛЯ ВЪВЕДЕТЕ URL";
+"ADDCONFIGVC_ERROR_EMPTY_NAME" = "M-PIN SERVER Name is empty";
 "ADDCONFIGVC_ERROR_INVALID_URL" = "НЕВАЛИДЕН URL";
 "ADDCONFIGVC_MESSAGE_CONFIG_OK" = "ВАЛИДНА КОНФИГУРАЦИЯ";
 "ADDCONFIGVC_INVALID_CONFIG" = "НЕВАЛИДНА КОНФИГУРАЦИЯ";
