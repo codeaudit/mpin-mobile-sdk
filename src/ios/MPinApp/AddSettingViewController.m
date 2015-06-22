@@ -368,7 +368,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     [[ErrorHandler sharedManager] presentMessageInViewController:self
      errorString:caption
      addActivityIndicator:YES
-     minShowTime:3];
+     minShowTime:0];
 }
 
 - ( NSString * ) getTXTMPINServiceRPSPrefix
@@ -466,8 +466,8 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     {
         [[ErrorHandler sharedManager] presentMessageInViewController:self
          errorString:NSLocalizedString(@"ADDCONFIGVC_ERROR_INVALID_URL", @"")
-         addActivityIndicator:YES
-         minShowTime:0];
+         addActivityIndicator:NO
+         minShowTime:3];
     }
 }
 
