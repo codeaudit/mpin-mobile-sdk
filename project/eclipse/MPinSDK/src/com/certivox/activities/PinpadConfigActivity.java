@@ -59,7 +59,7 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.base_drawer_layout);
+		setContentView(R.layout.activity_mpin);
 		mConfigsDao = new ConfigsDao(getApplicationContext());
 		mActivity = this;
 		mLastConfig = mConfigsDao.getActiveConfiguration();
@@ -292,7 +292,7 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 				public void run() {
 					Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
 
-					final Status status = MPinActivity.sdk().SetBackend(
+					final Status status = MPinActivityOld.sdk().SetBackend(
 							config.getBackendUrl());
 					if (status.getStatusCode() == Status.Code.OK) {
 						PreferenceManager
@@ -313,7 +313,7 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 										Toast.LENGTH_SHORT).show();
 
 								Intent intent = new Intent(mActivity,
-										MPinActivity.class);
+										MPinActivityOld.class);
 
 								// TODO revise these flags
 								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP

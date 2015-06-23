@@ -15,7 +15,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
-import com.certivox.activities.MPinActivity;
+import com.certivox.activities.MPinActivityOld;
 import com.certivox.dal.ConfigsDao;
 import com.certivox.interfaces.ConfigController;
 import com.certivox.models.Config;
@@ -265,7 +265,7 @@ public class ConfigDetailFragment extends Fragment {
 			Thread checkBackendThread = new Thread(new Runnable() {
 				@Override
 				public void run() {
-					mChechBackendStatus = MPinActivity.sdk().TestBackend(
+					mChechBackendStatus = MPinActivityOld.sdk().TestBackend(
 							backendUrl);
 				}
 			});

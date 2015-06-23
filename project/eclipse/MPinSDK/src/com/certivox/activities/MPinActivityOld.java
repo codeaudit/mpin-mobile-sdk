@@ -42,7 +42,7 @@ import com.certivox.models.User.State;
 import com.certivox.mpinsdk.Mpin;
 import com.example.mpinsdk.R;
 
-public class MPinActivity extends BaseMPinActivity implements PinPadController {
+public class MPinActivityOld extends BaseMPinActivity implements PinPadController {
 
 	static {
 		System.loadLibrary("AndroidMpinSDK");
@@ -65,7 +65,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	private static final String FRAG_ABOUT = "ABOUT";
 
 	private static volatile Mpin s_sdk;
-	private static volatile MPinActivity mActivity;
+	private static volatile MPinActivityOld mActivity;
 
 	private List<User> mUsersList = new ArrayList<User>();
 	private User mCurrentUser;
@@ -155,7 +155,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	}
 
 	private void initSDK(Config config) {
-		Mpin sdk = MPinActivity.peekSdk();
+		Mpin sdk = MPinActivityOld.peekSdk();
 		if (sdk == null) {
 			HashMap<String, String> serverConfig = new HashMap<String, String>();
 			serverConfig.put("RPA_server", config.getBackendUrl());
@@ -259,7 +259,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			break;
 		case INCORRECT_PIN:
 			if (isAccessNumber) {
-				new AlertDialog.Builder(MPinActivity.this)
+				new AlertDialog.Builder(MPinActivityOld.this)
 						.setTitle("INCORRECT PIN")
 						.setMessage("You entered wrong pin!")
 						.setPositiveButton("OK", null).show();
@@ -270,7 +270,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			showAuthenticate();
 			break;
 		case RESPONSE_PARSE_ERROR:
-			new AlertDialog.Builder(MPinActivity.this)
+			new AlertDialog.Builder(MPinActivityOld.this)
 					.setTitle("OTP not supported")
 					.setMessage("The configuration does not support OTP")
 					.setPositiveButton("OK", null).show();
@@ -496,8 +496,8 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			enableDrawer();
 		}
 
-		synchronized (MPinActivity.class) {
-			MPinActivity.class.notifyAll();
+		synchronized (MPinActivityOld.class) {
+			MPinActivityOld.class.notifyAll();
 		}
 	}
 
@@ -697,7 +697,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void deleteCurrentUser() {
-		new AlertDialog.Builder(MPinActivity.this)
+		new AlertDialog.Builder(MPinActivityOld.this)
 				.setTitle("Delete user")
 				.setMessage(
 						"Do you want to delete user "
@@ -832,9 +832,9 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 		mSDKInitializationThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				synchronized (MPinActivity.class) {
+				synchronized (MPinActivityOld.class) {
 					s_sdk = new Mpin(context, config);
-					MPinActivity.class.notifyAll();
+					MPinActivityOld.class.notifyAll();
 					if (mActivity != null) {
 						mActivity.runOnUiThread(new Runnable() {
 							@Override
@@ -854,16 +854,16 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	// Static methods
 	public static Mpin peekSdk() {
-		synchronized (MPinActivity.class) {
+		synchronized (MPinActivityOld.class) {
 			return s_sdk;
 		}
 	}
 
 	public static Mpin sdk() {
 		try {
-			synchronized (MPinActivity.class) {
+			synchronized (MPinActivityOld.class) {
 				while (s_sdk == null)
-					MPinActivity.class.wait();
+					MPinActivityOld.class.wait();
 				return s_sdk;
 			}
 		} catch (InterruptedException e) {
@@ -881,10 +881,10 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			}
 		});
 
-		synchronized (MPinActivity.class) {
+		synchronized (MPinActivityOld.class) {
 			while (mActivity.getPinPadFragment() == null) {
 				try {
-					MPinActivity.class.wait();
+					MPinActivityOld.class.wait();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

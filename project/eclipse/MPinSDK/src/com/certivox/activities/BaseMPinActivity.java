@@ -48,7 +48,7 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.base_drawer_layout);
+		setContentView(R.layout.activity_mpin);
 		mActivity = this;
 		isSelectUserContext = false;
 
@@ -126,7 +126,6 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements
 		mDrawerToggle.setDrawerIndicatorEnabled(true);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 		initDrawerMenu();
-
 	}
 
 	public void showLoader() {
