@@ -1,0 +1,10 @@
+﻿{
+    "Backends": [
+        {
+            "BackendUrl": "https://m-pin.my.id",
+            "RequestAccessNumber": true,
+            "RequestOtp": false,
+            "Title": "M-Pin Connect"
+        }
+    ]
+}
