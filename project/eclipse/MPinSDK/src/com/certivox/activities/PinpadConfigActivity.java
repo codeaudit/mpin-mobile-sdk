@@ -23,8 +23,8 @@ import android.widget.CursorAdapter;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.certivox.db.ConfigsContract.ConfigEntry;
-import com.certivox.db.ConfigsDao;
+import com.certivox.dal.ConfigsDao;
+import com.certivox.dal.ConfigsContract.ConfigEntry;
 import com.certivox.fragments.ConfigDetailFragment;
 import com.certivox.fragments.ConfigListFragment;
 import com.certivox.interfaces.ConfigController;

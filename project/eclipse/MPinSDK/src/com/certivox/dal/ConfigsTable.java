@@ -1,10 +1,10 @@
-package com.certivox.db;
+package com.certivox.dal;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.certivox.db.ConfigsContract.ConfigEntry;
+import com.certivox.dal.ConfigsContract.ConfigEntry;
 import com.certivox.models.Config;
 
 public class ConfigsTable {
@@ -58,7 +58,8 @@ public class ConfigsTable {
 		insertConfig(configurationOnlineBanking);
 		insertConfig(configurationVPNLogin);
 	}
-
+	
+	//TODO check if this could be done in the DAO
 	private void insertConfig(Config config) {
 		ContentValues sampleVals = mConfigsDao.toContentValues(config);
 		mDb.insert(ConfigEntry.TABLE_NAME, null, sampleVals);

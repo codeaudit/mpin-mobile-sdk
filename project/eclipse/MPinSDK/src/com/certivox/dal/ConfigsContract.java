@@ -1,4 +1,4 @@
-package com.certivox.db;
+package com.certivox.dal;
 
 import android.provider.BaseColumns;
 

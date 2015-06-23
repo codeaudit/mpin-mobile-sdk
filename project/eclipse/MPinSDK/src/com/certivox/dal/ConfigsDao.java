@@ -1,4 +1,4 @@
-package com.certivox.db;
+package com.certivox.dal;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.certivox.db.ConfigsContract.ConfigEntry;
+import com.certivox.dal.ConfigsContract.ConfigEntry;
 import com.certivox.models.Config;
 
 public class ConfigsDao {

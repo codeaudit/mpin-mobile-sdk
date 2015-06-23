@@ -10,7 +10,7 @@ import android.widget.CursorAdapter;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.certivox.db.ConfigsDao;
+import com.certivox.dal.ConfigsDao;
 import com.certivox.fragments.ConfigListFragment;
 import com.certivox.models.Config;
 import com.example.mpinsdk.R;

@@ -1,4 +1,4 @@
-package com.certivox.db;
+package com.certivox.dal;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

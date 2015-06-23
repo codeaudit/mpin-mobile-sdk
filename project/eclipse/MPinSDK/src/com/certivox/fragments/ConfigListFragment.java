@@ -15,7 +15,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.certivox.adapters.ConfigAdapter;
-import com.certivox.db.ConfigsDao;
+import com.certivox.dal.ConfigsDao;
 import com.certivox.interfaces.ConfigController;
 import com.certivox.models.Config;
 import com.example.mpinsdk.R;

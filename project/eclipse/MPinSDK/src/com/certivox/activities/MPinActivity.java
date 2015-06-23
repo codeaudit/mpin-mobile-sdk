@@ -19,14 +19,14 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.certivox.adapters.UsersAdapter;
-import com.certivox.db.ConfigsDao;
+import com.certivox.dal.ConfigsDao;
 import com.certivox.fragments.AboutFragment;
 import com.certivox.fragments.AccessNumberFragment;
-import com.certivox.fragments.AddUsersFragment;
+import com.certivox.fragments.EmptyUsersListFragment;
 import com.certivox.fragments.ConfirmEmailFragment;
 import com.certivox.fragments.IdentityBlockedFragment;
 import com.certivox.fragments.IdentityCreatedFragment;
-import com.certivox.fragments.NewUserFragment;
+import com.certivox.fragments.CreateIdentityFragment;
 import com.certivox.fragments.OTPFragment;
 import com.certivox.fragments.PinPadFragment;
 import com.certivox.fragments.SuccessfulLoginFragment;
@@ -54,7 +54,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	// Fragments
 	private static final String FRAG_PINPAD = "FRAG_PINPAD";
 	private static final String FRAG_ACCESSNUMBER = "FRAG_ACCESSNUMBER";
-	private static final String FRAG_ADDUSERS = "FRAG_ADDUSERS";
+	private static final String FRAG_EMPTY_USERS_LIST = "FRAG_ADDUSERS";
 	private static final String FRAG_USERSLIST = "FRAG_USERSLIST";
 	private static final String FRAG_NEWUSER = "FRAG_NEWUSER";
 	private static final String FRAG_CONFIRMEMAIL = "FRAG_CONFIRMEMAIL";
@@ -222,7 +222,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 		OnAddNewUserListener onAddNewUserListener = new OnAddNewUserListener() {
 			@Override
 			public void onAddNewUser() {
-				addNewUserFragment();
+				addCreateIdentityFragment();
 			}
 		};
 
@@ -331,23 +331,24 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	private void setChooseUserScreen() {
 		initUsersList();
 		if (mUsersList.isEmpty()) {
-			addUsersFragment();
+			addEmptyUsersListFragment();
 		} else {
 			addUsersListFragment();
 		}
 	}
 
 	@Override
-	public void addUsersFragment() {
-		Log.d("CV", " + users");
-		if (getAddUserFragment() == null) {
-			AddUsersFragment addUserFragment = new AddUsersFragment();
-			addUserFragment.setController(mActivity);
-			addUserFragment.setOnAddNewListener(getOnAddNewUserListener());
+	public void addEmptyUsersListFragment() {
+		if (getEmptyUsersListFragment() == null) {
+			EmptyUsersListFragment emptyUsersListFragment = new EmptyUsersListFragment();
+			emptyUsersListFragment.setController(mActivity);
+			emptyUsersListFragment
+					.setOnAddNewListener(getOnAddNewUserListener());
 
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
-			transaction.replace(R.id.content, addUserFragment, FRAG_ADDUSERS);
+			transaction.replace(R.id.content, emptyUsersListFragment,
+					FRAG_EMPTY_USERS_LIST);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
 			enableDrawer();
@@ -355,12 +356,11 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	}
 
 	@Override
-	public void removeAddUsersFragment() {
-		Log.d("CV", " - users");
-		if (getAddUserFragment() != null) {
+	public void removeEmptyUsersListFragment() {
+		if (getEmptyUsersListFragment() != null) {
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
-			transaction.remove(getAddUserFragment());
+			transaction.remove(getEmptyUsersListFragment());
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
 		}
@@ -368,7 +368,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void addUsersListFragment() {
-		Log.d("CV", " + users list");
 		UsersAdapter usersAdapter = new UsersAdapter(mActivity);
 		usersAdapter.setData(mUsersList);
 
@@ -394,7 +393,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void removeUsersListFragment() {
-		Log.d("CV", " - users list");
 		if (getUsersListFragment() != null) {
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
@@ -405,15 +403,15 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	}
 
 	@Override
-	public void addNewUserFragment() {
-		Log.d("CV", " + new user");
-		if (getNewUserFragment() == null) {
-			NewUserFragment newUserFragment = new NewUserFragment();
-			newUserFragment.setController(mActivity);
+	public void addCreateIdentityFragment() {
+		if (getCreateIdentityFragment() == null) {
+			CreateIdentityFragment createIdentityFragment = new CreateIdentityFragment();
+			createIdentityFragment.setController(mActivity);
 
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
-			transaction.replace(R.id.content, newUserFragment, FRAG_NEWUSER);
+			transaction.replace(R.id.content, createIdentityFragment,
+					FRAG_NEWUSER);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
 			enableDrawer();
@@ -421,12 +419,11 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	}
 
 	@Override
-	public void removeNewUserFragment() {
-		Log.d("CV", " - new user");
-		if (getNewUserFragment() != null) {
+	public void removeCreateIdentityFragment() {
+		if (getCreateIdentityFragment() != null) {
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
-			transaction.remove(getNewUserFragment());
+			transaction.remove(getCreateIdentityFragment());
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
 		}
@@ -434,7 +431,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void addConfirmEmailFragment() {
-		Log.d("CV", " + confirm");
 		if (getConfirmEmailFragment() == null) {
 			ConfirmEmailFragment confirmEmailFragment = new ConfirmEmailFragment();
 			confirmEmailFragment.setController(mActivity);
@@ -450,7 +446,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void removeConfirmEmailFragment() {
-		Log.d("CV", " - confirm");
 		if (getConfirmEmailFragment() != null) {
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
@@ -462,7 +457,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void addIdentityCreatedFragment() {
-		Log.d("CV", " + id created");
 		if (getIdentityCreatedFragment() == null) {
 			IdentityCreatedFragment identityCreatedFragment = new IdentityCreatedFragment();
 			identityCreatedFragment.setController(mActivity);
@@ -479,7 +473,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void removeIdentityCreatedFragment() {
-		Log.d("CV", " - id created");
 		if (getIdentityCreatedFragment() != null) {
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
@@ -491,7 +484,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void addPinPadFragment() {
-		Log.d("CV", " + pinpad");
 		if (getPinPadFragment() == null) {
 			PinPadFragment pinPadFragment = new PinPadFragment();
 			pinPadFragment.setController(mActivity);
@@ -511,7 +503,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void removePinPadFragment() {
-		Log.d("CV", " - pinpad");
 		if (getPinPadFragment() != null) {
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
@@ -523,7 +514,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void addAccessNumberFragment() {
-		Log.d("CV", " + an");
 		if (getAccessNumberFragment() == null) {
 			AccessNumberFragment accessNumberFragment = new AccessNumberFragment();
 			accessNumberFragment.setController(mActivity);
@@ -541,7 +531,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void removeAccessNumberFragment() {
-		Log.d("CV", " - an");
 		if (getAccessNumberFragment() != null) {
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
@@ -553,7 +542,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void addOTPFragment(OTP otp) {
-		Log.d("CV", " + otp");
 		if (getOTPFragment() == null) {
 			OTPFragment otpFragment = new OTPFragment();
 			otpFragment.setController(mActivity);
@@ -571,7 +559,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void removeOTPFragment() {
-		Log.d("CV", " - otp");
 		if (getOTPFragment() != null) {
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
@@ -583,7 +570,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void addSuccessfulLoginFragment() {
-		Log.d("CV", " + SuccessfulLoginFragment");
 		if (getSuccessfulLoginFragment() == null) {
 			SuccessfulLoginFragment successfulLoginFragment = new SuccessfulLoginFragment();
 			successfulLoginFragment.setController(mActivity);
@@ -600,7 +586,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void removeSuccessfulLoginFragment() {
-		Log.d("CV", " - SuccessfulLoginFragment");
 		if (getSuccessfulLoginFragment() != null) {
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
@@ -612,7 +597,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void addIdentityBlockedFragment() {
-		Log.d("CV", " + IdentityBlockedFragment");
 		if (getIdentityBlockedFragment() == null) {
 			IdentityBlockedFragment identityBlockedFragment = new IdentityBlockedFragment();
 			identityBlockedFragment.setController(mActivity);
@@ -629,7 +613,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void removeIdentityBlockedFragment() {
-		Log.d("CV", " - IdentityBlockedFragment");
 		if (getIdentityBlockedFragment() != null) {
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
@@ -641,7 +624,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void addAboutFragment() {
-		Log.d("CV", " + AboutFragment");
 		if (getAboutFragment() == null) {
 			AboutFragment aboutFragment = new AboutFragment();
 			aboutFragment.setController(mActivity);
@@ -658,7 +640,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void removeAboutFragment() {
-		Log.d("CV", " - AboutFragment");
 		if (getAboutFragment() != null) {
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
@@ -671,7 +652,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	private void updateUsersList() {
 		if (getUsersListFragment() != null) {
 			if (mUsersList == null || mUsersList.isEmpty()) {
-				addUsersFragment();
+				addEmptyUsersListFragment();
 			} else {
 				getUsersListFragment().getListAdapter().setData(mUsersList);
 			}
@@ -783,7 +764,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void onBackPressed() {
-		if ((mUsersList.isEmpty() && getAddUserFragment() != null)
+		if ((mUsersList.isEmpty() && getEmptyUsersListFragment() != null)
 				|| getUsersListFragment() != null) {
 			super.onBackPressed();
 			return;
@@ -802,9 +783,9 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 				FRAG_ACCESSNUMBER);
 	}
 
-	private AddUsersFragment getAddUserFragment() {
-		return (AddUsersFragment) getFragmentManager().findFragmentByTag(
-				FRAG_ADDUSERS);
+	private EmptyUsersListFragment getEmptyUsersListFragment() {
+		return (EmptyUsersListFragment) getFragmentManager().findFragmentByTag(
+				FRAG_EMPTY_USERS_LIST);
 	}
 
 	private UsersListFragment getUsersListFragment() {
@@ -812,8 +793,8 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 				FRAG_USERSLIST);
 	}
 
-	private NewUserFragment getNewUserFragment() {
-		return (NewUserFragment) getFragmentManager().findFragmentByTag(
+	private CreateIdentityFragment getCreateIdentityFragment() {
+		return (CreateIdentityFragment) getFragmentManager().findFragmentByTag(
 				FRAG_NEWUSER);
 	}
 
