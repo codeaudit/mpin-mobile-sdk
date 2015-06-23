@@ -98,7 +98,7 @@ static NSString *const kAN = @"AN";
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
     boolFirstTime = YES;
-    boolShouldAskForFingerprint = YES;
+    boolShouldAskForFingerprint = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
     storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     [self hideBottomBar:NO];
