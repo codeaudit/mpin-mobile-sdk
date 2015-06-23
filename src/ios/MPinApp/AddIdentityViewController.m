@@ -76,9 +76,12 @@ static NSString *const kUser = @"User";
 
 - ( void )viewDidDisappear:( BOOL )animated
 {
+    [super viewDidDisappear:animated];
+    [[ErrorHandler sharedManager] hideMessage];
     [[NSNotificationCenter defaultCenter] removeObserver:self
      name:kShowPinPadNotification
      object:nil];
+    
 }
 
 - ( void )showPinPad
@@ -138,6 +141,11 @@ static NSString *const kUser = @"User";
         ConfigurationManager *cfm = [ConfigurationManager sharedManager];
         [cfm setDeviceName:self.txtDevName.text];
     }
+
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+     errorString:@""
+     addActivityIndicator:YES
+     minShowTime:0];
 
     [sdk RegisterNewUser:self.txtIdentity.text devName:self.txtDevName.text];
 }

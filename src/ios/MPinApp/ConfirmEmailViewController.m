@@ -58,11 +58,13 @@
 
 - ( void )showPinPad
 {
+    [[ErrorHandler sharedManager] hideMessage];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     PinPadViewController *pinpadViewController = [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];
     pinpadViewController.currentUser = self.iuser;
     pinpadViewController.boolShouldShowBackButton = NO;
     pinpadViewController.title = kSetupPin;
+    pinpadViewController.boolSetupPin = YES;
     [self.navigationController pushViewController:pinpadViewController animated:YES];
 }
 
@@ -78,6 +80,10 @@
 
 - ( IBAction )OnConfirmEmail:( id )sender
 {
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+     errorString:@""
+     addActivityIndicator:YES
+     minShowTime:0];
     [sdk FinishRegistration:self.iuser];
 }
 
@@ -93,10 +99,8 @@
 - ( void )OnFinishRegistrationError:( id )sender error:( NSError * )error
 {
     MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
-    [[ErrorHandler sharedManager] presentMessageInViewController:self
-     errorString:[NSString stringWithFormat:@"%@ Please check your e-mail and follow the activation link!", mpinStatus.errorMessage]
-     addActivityIndicator:NO
-     minShowTime:3];
+    [[ErrorHandler sharedManager] updateMessage:[NSString stringWithFormat:@"%@ Please check your e-mail and follow the activation link!", mpinStatus.errorMessage]
+     addActivityIndicator:NO hideAfter:3];
 }
 
 - ( IBAction )OnResendEmail:( id )sender

@@ -1426,7 +1426,7 @@
                                     <outlet property="delegate" destination="wf5-y6-O6m" id="BUU-8W-h89"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cft-dE-XMB">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cft-dE-XMB">
                                 <rect key="frame" x="16" y="16" width="227" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="227" id="MHB-iY-x6W"/>
@@ -1436,7 +1436,7 @@
                                 <color key="textColor" red="0.85842803030000003" green="0.85842803030000003" blue="0.85842803030000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uHg-JL-LHF">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uHg-JL-LHF">
                                 <rect key="frame" x="16" y="39" width="227" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="227" id="bjg-qB-5V2"/>
@@ -2407,7 +2407,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="lisa@email.com" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kC6-To-d3a">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="email" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kC6-To-d3a">
                                 <rect key="frame" x="16" y="144" width="568" height="64"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="5Y0-PN-DYM"/>
@@ -2453,10 +2453,13 @@
                             <constraint firstItem="kC6-To-d3a" firstAttribute="leading" secondItem="zRX-cK-6L4" secondAttribute="leadingMargin" id="HaP-Sn-imF"/>
                             <constraint firstItem="t3o-EA-X97" firstAttribute="leading" secondItem="zRX-cK-6L4" secondAttribute="leadingMargin" id="I4F-kD-gsm"/>
                             <constraint firstItem="YpR-FM-BND" firstAttribute="top" secondItem="ASR-zw-mbI" secondAttribute="bottom" constant="22" id="JR8-1z-G66"/>
+                            <constraint firstAttribute="trailing" secondItem="2US-mP-gcJ" secondAttribute="trailing" id="PEJ-1r-wEf"/>
+                            <constraint firstItem="2US-mP-gcJ" firstAttribute="leading" secondItem="zRX-cK-6L4" secondAttribute="leading" id="Rrf-HW-bEc"/>
                             <constraint firstAttribute="centerX" secondItem="YpR-FM-BND" secondAttribute="centerX" id="S6F-mI-NGW"/>
                             <constraint firstItem="t3o-EA-X97" firstAttribute="top" secondItem="kC6-To-d3a" secondAttribute="bottom" constant="-4" id="TqA-CX-Cg3"/>
                             <constraint firstItem="Zqp-g5-bNG" firstAttribute="top" secondItem="2US-mP-gcJ" secondAttribute="bottom" id="Xoe-eN-iel"/>
                             <constraint firstItem="t3o-EA-X97" firstAttribute="trailing" secondItem="zRX-cK-6L4" secondAttribute="trailingMargin" id="Yz6-pm-zfc"/>
+                            <constraint firstItem="Zqp-g5-bNG" firstAttribute="top" secondItem="2US-mP-gcJ" secondAttribute="bottom" id="cPW-ib-MRu"/>
                             <constraint firstItem="kC6-To-d3a" firstAttribute="trailing" secondItem="zRX-cK-6L4" secondAttribute="trailingMargin" id="fhe-OR-7fi"/>
                             <constraint firstItem="t3o-EA-X97" firstAttribute="top" secondItem="ASR-zw-mbI" secondAttribute="bottom" constant="140" id="jSh-aY-RCL"/>
                             <constraint firstItem="t3o-EA-X97" firstAttribute="leading" secondItem="zRX-cK-6L4" secondAttribute="leading" constant="16" id="mkQ-yI-iMo"/>
@@ -2495,6 +2498,6 @@
         <image name="avatar-single-success" width="111" height="95"/>
         <image name="identity-blocked" width="111" height="96"/>
         <image name="pin-dot-empty" width="22" height="22"/>
-        <image name="plus-white" width="52" height="52"/>
+        <image name="plus-white" width="17" height="17"/>
     </resources>
 </document>

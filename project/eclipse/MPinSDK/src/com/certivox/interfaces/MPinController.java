@@ -84,4 +84,6 @@ public interface MPinController {
 	void setChosenConfiguration(String configTitle);
 
 	void reRegisterUser(User user);
+
+	void onOTPExpired();
 }

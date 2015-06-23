@@ -13,42 +13,30 @@
 @import LocalAuthentication;
 
 static char const *const delegateKey = "delegateKey";
-static BOOL isInitialized = false;
-
+static BOOL isConfigLoadSuccessfuly = false;
+static NSString *const constStrConnectionTimeoutNotification = @"ConnectionTimeoutNotification";
 
 @implementation MPin ( AsyncOperations )
 
 @dynamic delegate;
 
-+ ( BOOL ) isInitialized
++ ( BOOL ) isConfigLoadSuccessfully
 {
-    return isInitialized;
+    return isConfigLoadSuccessfuly;
 }
 
-- (void) initSDK:(NSDictionary *)config {
-    if (isInitialized) return;
-    if (config == nil) return;
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        MpinStatus* mpinStatus = [MPin initWithConfig:config];
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            if (mpinStatus.status == OK)
-            {
-                isInitialized = true;
-                if ( [(NSObject *)self.delegate respondsToSelector:@selector( OnInitCompleted: )] )
-                {
-                    [self.delegate OnInitCompleted:self];
-                }
-            }
-            else
-            {
-                if ( [(NSObject *)self.delegate respondsToSelector:@selector( OnInitError:error: )] )
-                {
-                    [self.delegate OnInitError:self error:[NSError errorWithDomain:@"SDK" code:mpinStatus.status userInfo:@{kMPinSatus : mpinStatus}]];
-                }
-            }
-        });
-    });
+-( id ) init
+{
+    if ( self = [super init] )
+    {
+        [MPin initSDK];
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+         name:constStrConnectionTimeoutNotification
+         object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( connectionTimeout: ) name:constStrConnectionTimeoutNotification object:nil];
+    }
+
+    return self;
 }
 
 - ( id<MPinSDKDelegate>)delegate
@@ -99,6 +87,7 @@ static BOOL isInitialized = false;
 
             if ( mpinStatus.status == OK )
             {
+                isConfigLoadSuccessfuly = true;
                 if ( [(NSObject *)self.delegate respondsToSelector:@selector( OnSetBackendCompleted: )] )
                 {
                     [self.delegate OnSetBackendCompleted:self];
@@ -106,6 +95,7 @@ static BOOL isInitialized = false;
             }
             else
             {
+                isConfigLoadSuccessfuly = false;
                 if ( [(NSObject *)self.delegate respondsToSelector:@selector( OnSetBackendError:error: )] )
                 {
                     [self.delegate OnSetBackendError:self error:[NSError errorWithDomain:@"SDK" code:mpinStatus.status userInfo:@{kMPinSatus : mpinStatus}]];
@@ -113,6 +103,15 @@ static BOOL isInitialized = false;
             }
         });
     });
+}
+
+- ( void ) SetBackend:( const NSDictionary * ) config
+{
+    // TODO :: notify listeners
+    if ( config == nil )
+        return;
+
+    [self SetBackend:config [kRPSURL] rpsPrefix:config [kRPSPrefix]];
 }
 
 - ( void )RegisterNewUser:( NSString * )userName devName:( NSString * )devName userData:( NSString * )userData
@@ -274,7 +273,10 @@ static BOOL isInitialized = false;
         else
         {
             dispatch_async(dispatch_get_main_queue(), ^ (void) {
-                [self.delegate OnAuthenticateCanceled];
+                if ( [(UIViewController *)self.delegate respondsToSelector:@selector( OnAuthenticateCanceled )] )
+                {
+                    [self.delegate OnAuthenticateCanceled];
+                }
             });
         }
     };
@@ -283,7 +285,7 @@ static BOOL isInitialized = false;
         LAContext *context = [[LAContext alloc] init];
         NSError *error;
         if ( [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
-              error:&error] && boolAskForFingerprint)
+              error:&error] && boolAskForFingerprint )
         {
             [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
              localizedReason:NSLocalizedString(@"WARNING_VERIFY_FINGER", @"")
@@ -519,6 +521,13 @@ static BOOL isInitialized = false;
             }
         });
     });
+}
+
+#pragma mark - Notifications handlers -
+
+- ( void )connectionTimeout: ( id ) sender
+{
+    [[ErrorHandler sharedManager] updateMessage:@"Connection timeout" addActivityIndicator:NO hideAfter:3];
 }
 
 @end

@@ -21,6 +21,7 @@ static NSString *const kOnFinishShowingPinPadNotification = @"onFinishShowingPin
 @property( nonatomic, weak ) UILabel *strEmail;
 
 @property( nonatomic ) BOOL boolShouldShowBackButton;
+@property( nonatomic ) BOOL boolSetupPin;
 @property ( nonatomic, strong ) MPin         *sdk;
 @property( nonatomic,strong ) id<IUser> currentUser;
 @property ( nonatomic, strong ) NSString         *strAccessNumber;

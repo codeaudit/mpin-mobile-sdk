@@ -2,7 +2,7 @@
 //  AddSettingViewController.m
 //  MPinApp
 //
-//  Created by Georgi Georgiev on 1/20/15.
+//  Created by Certivox Developer on 1/20/15.
 //  Copyright (c) 2015 Certivox. All rights reserved.
 //
 
@@ -39,6 +39,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 
 - ( IBAction )goBack:( id )sender;
 - ( IBAction )textFieldReturn:( id )sender;
+- ( NSString * ) getTXTMPINServiceRPSPrefix;
 
 @end
 
@@ -47,7 +48,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 - ( void )viewDidLoad
 {
     [super viewDidLoad];
-    _service = LOGIN_ON_MOBILE;
+    _service = LOGIN_ONLINE;
     [[ThemeManager sharedManager] beautifyViewController:self];
     UITapGestureRecognizer *singleTap =
         [[UITapGestureRecognizer alloc] initWithTarget:self
@@ -111,11 +112,10 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 - ( NSInteger )tableView:( UITableView * )tableView
     numberOfRowsInSection:( NSInteger )section;
 {
-    return 6;
+    return 5;
 }
 
-- ( UITableViewCell * )tableView:( UITableView * )tableView
-    cellForRowAtIndexPath:( NSIndexPath * )indexPath
+- ( UITableViewCell * )tableView:( UITableView * )tableView cellForRowAtIndexPath:( NSIndexPath * )indexPath
 {
     switch ( indexPath.row )
     {
@@ -169,7 +169,6 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 
     case 3:
     case 4:
-    case 5:
     {
         OptionSelectTableViewCell *cell1 =
             [tableView dequeueReusableCellWithIdentifier:@"ConfigCell1"];
@@ -221,26 +220,26 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
         }
         break;
 
+//    case 3:
+//        ( (OptionSelectTableViewCell *)cell ).lblName.text = NSLocalizedString(@"LOGIN_MOBILE_APP", @"");
+//        switch ( _service )
+//        {
+//        case LOGIN_ON_MOBILE:
+//            [( (OptionSelectTableViewCell *)cell )setServiceSelected:YES];
+//            break;
+//
+//        case LOGIN_ONLINE:
+//            [( (OptionSelectTableViewCell *)cell )setServiceSelected:NO];
+//            break;
+//
+//        case LOGIN_WITH_OTP:
+//            [( (OptionSelectTableViewCell *)cell )setServiceSelected:NO];
+//            break;
+//        }
+//
+//        break;
+
     case 3:
-        ( (OptionSelectTableViewCell *)cell ).lblName.text = NSLocalizedString(@"LOGIN_MOBILE_APP", @"");
-        switch ( _service )
-        {
-        case LOGIN_ON_MOBILE:
-            [( (OptionSelectTableViewCell *)cell )setServiceSelected:YES];
-            break;
-
-        case LOGIN_ONLINE:
-            [( (OptionSelectTableViewCell *)cell )setServiceSelected:NO];
-            break;
-
-        case LOGIN_WITH_OTP:
-            [( (OptionSelectTableViewCell *)cell )setServiceSelected:NO];
-            break;
-        }
-
-        break;
-
-    case 4:
         ( (OptionSelectTableViewCell *)cell ).lblName.text = NSLocalizedString(@"LOGIN_ONLINE_SESSION", @"");
         switch ( _service )
         {
@@ -259,7 +258,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 
         break;
 
-    case 5:
+    case 4:
         ( (OptionSelectTableViewCell *)cell ).lblName.text = NSLocalizedString(@"LOGIN_OTP", @"");
         switch ( _service )
         {
@@ -283,20 +282,19 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     }
 }
 
-- ( void )tableView:( UITableView * )tableView
-    didSelectRowAtIndexPath:( NSIndexPath * )indexPath
+- ( void )tableView:( UITableView * )tableView didSelectRowAtIndexPath:( NSIndexPath * )indexPath
 {
     switch ( indexPath.row )
     {
-    case 3:
-        _service = LOGIN_ON_MOBILE;
-        break;
+//    case 3:
+//        _service = LOGIN_ON_MOBILE;
+//        break;
 
-    case 4:
+    case 3:
         _service = LOGIN_ONLINE;
         break;
 
-    case 5:
+    case 4:
         _service = LOGIN_WITH_OTP;
         break;
     }
@@ -323,7 +321,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
          errorString:NSLocalizedString(@"ADDCONFIGVC_ERROR_EMPTY_NAME", @"")
          addActivityIndicator:NO
          minShowTime:3];
-        
+
         return;
     }
     if ( [_txtMPINServiceURL.text isEqualToString:@""] )
@@ -336,11 +334,13 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
         return;
     }
 
-    if (![NSString isValidURL:_txtMPINServiceURL.text]) {
+    if ( ![NSString isValidURL:_txtMPINServiceURL.text] )
+    {
         [[ErrorHandler sharedManager] presentMessageInViewController:self
          errorString:NSLocalizedString(@"ADDCONFIGVC_ERROR_INVALID_URL", @"")
          addActivityIndicator:NO
          minShowTime:3];
+
         return;
     }
     int minShowTime = 1;
@@ -361,10 +361,22 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     {
         caption = NSLocalizedString(@"HUD_SAVE_CONFIG", @"");
     }
+    
+    [_btnDone setEnabled:NO];
+    [sdk TestBackend:_txtMPINServiceURL.text rpsPrefix:[self getTXTMPINServiceRPSPrefix]];
 
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+     errorString:caption
+     addActivityIndicator:YES
+     minShowTime:3];
+}
 
-    ///TODO :: add rpsPrefix test field to this VIEW it is needed for some configurations
-    [sdk TestBackend:_txtMPINServiceURL.text rpsPrefix:nil];
+- ( NSString * ) getTXTMPINServiceRPSPrefix
+{
+    if ( [NSString isBlank:_txtMPINServiceRPSPrefix.text] )
+        return nil;
+
+    return _txtMPINServiceRPSPrefix.text;
 }
 
 - ( void )OnTestBackendCompleted:( id )sender
@@ -375,10 +387,10 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
          addActivityIndicator:NO
          hideAfter:3];
         bTestingConfig = NO;
+        [_btnDone setEnabled:YES];
     }
     else
     {
-        int minShowTime = 1;
         if ( _selectedIndex >= 0 )
         {
             if ( _isEdit )
@@ -386,19 +398,19 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
                 [[ConfigurationManager sharedManager] saveConfigurationAtIndex:_selectedIndex
                  url:_txtMPINServiceURL.text
                  serviceType:(int)_service
-                 name:_txtMPINServiceNAME.text];
+                 name:_txtMPINServiceNAME.text
+                 prefixName:[self getTXTMPINServiceRPSPrefix]];
             }
             else
             {
                 [[ConfigurationManager sharedManager] addConfigurationWithURL:_txtMPINServiceURL.text
                  serviceType:(int)_service
-                 name:_txtMPINServiceNAME.text];
+                 name:_txtMPINServiceNAME.text
+                 prefixName:[self getTXTMPINServiceRPSPrefix]];
             }
         }
-        dispatch_after(dispatch_time( DISPATCH_TIME_NOW, (int64_t)( minShowTime * NSEC_PER_SEC ) ),
-                       dispatch_get_main_queue(), ^ {
-            [self.navigationController popViewControllerAnimated:YES];
-        });
+        
+        [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
     }
 }
 
@@ -410,9 +422,23 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     [[ErrorHandler sharedManager] updateMessage:[NSString stringWithFormat:@"%@", message]
      addActivityIndicator:NO
      hideAfter:3];
+    [_btnDone setEnabled:YES];
 }
-    
-- (IBAction)goBack:(id)sender
+
+- ( void )OnSetBackendCompleted:( id )sender
+{
+    [_btnDone setEnabled:YES];
+    dispatch_after(dispatch_time( DISPATCH_TIME_NOW, (int64_t)( NSEC_PER_SEC ) ), dispatch_get_main_queue(), ^ {
+        [self.navigationController popViewControllerAnimated:YES];
+    });
+}
+
+- ( void )OnSetBackendError:( id )sender error:( NSError * )error
+{
+    [self OnTestBackendError:sender error:error];
+}
+
+- ( IBAction )goBack:( id )sender
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -420,8 +446,8 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 - ( IBAction )btnTestConfigTap:( id )sender
 {
     bTestingConfig = YES;
-    
-    if ([NSString isValidURL:_txtMPINServiceURL.text])
+
+    if ( [NSString isValidURL:_txtMPINServiceURL.text] )
     {
         [[ErrorHandler sharedManager] presentMessageInViewController:self
          errorString:@"Testing configuration"

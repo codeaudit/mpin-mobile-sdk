@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ public class AboutFragment extends Fragment {
 
 	private MPinController mMpinController;
 	private View mView;
+	private TextView mLinkTextView;
 	private TextView mVersionTextView;
 	private TextView mBuildTextView;
 
@@ -28,6 +30,9 @@ public class AboutFragment extends Fragment {
 			Bundle savedInstanceState) {
 
 		mView = inflater.inflate(R.layout.about_layout, container, false);
+		mLinkTextView = (TextView) mView
+				.findViewById(R.id.terms_and_conditions_link);
+		mLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
 		mVersionTextView = (TextView) mView.findViewById(R.id.about_version);
 		mBuildTextView = (TextView) mView.findViewById(R.id.about_build);
 		setVersion();
@@ -53,7 +58,7 @@ public class AboutFragment extends Fragment {
 			int versionCode = pInfo.versionCode;
 
 			mVersionTextView.setText(versionName);
-			mBuildTextView.setText(versionCode+"");
+			mBuildTextView.setText(versionCode + "");
 
 		} catch (NameNotFoundException e) {
 			// TODO Auto-generated catch block

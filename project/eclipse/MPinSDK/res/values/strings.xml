@@ -102,6 +102,11 @@
     <string name="about_title">About</string>
     <string name="about_version">Version:</string>
     <string name="about_build">Build:</string>
+    <string name="certivox_logo">Certivox Logo</string>
+    <string name="mpin_logo">Mpin Logo</string>
+    <string name="about_info_text_1">CertiVox M-Pin</string>
+    <string name="about_info_text_2">Copyright  \u00A9 2015 CertiVox.\n All rights reserved. </string>
+    <string name="terms_and_conditions_link"><a href="https://www.certivox.com/about-certivox/terms-and-conditions">CertiVox Terms &amp; Conditions</a></string>
     <!-- About end -->
 
     <string name="logout">Logout</string>

@@ -14,7 +14,9 @@
 static NSString *const kCurrentSelectionIndex = @"currentSelectionIndex";
 static NSString *const kSettings = @"settings";
 
-@interface ConfigurationManager ( )
+@interface ConfigurationManager ( ) {
+    NSInteger defaultConfigCount;
+}
 
 @property ( nonatomic, strong ) NSMutableArray *arrConfigrations;
 
@@ -75,6 +77,9 @@ static NSString *const kSettings = @"settings";
         NSInteger hashValue  = [[NSUserDefaults standardUserDefaults] integerForKey:kConfigHashValue];
         long configHash = [fileContent hash];
 
+        defaultConfigCount = [configs count];
+
+        
         if ( hashValue != configHash )
         {
             NSMutableArray *tmpArray = [NSMutableArray array];
@@ -100,7 +105,7 @@ static NSString *const kSettings = @"settings";
 
             [[NSUserDefaults standardUserDefaults] setInteger:configHash forKey:kConfigHashValue];
             [[NSUserDefaults standardUserDefaults] setInteger:[configs count] forKey:kDefConfigThreshold];
-
+           
             [self saveConfigurations];
         }
     }
@@ -111,6 +116,10 @@ static NSString *const kSettings = @"settings";
 - ( BOOL )isEmpty
 {
     return [_arrConfigrations count] == 0;
+}
+
+- (NSInteger) defaultConfigCount {
+    return defaultConfigCount;
 }
 
 - ( BOOL )saveConfigurationAtIndex:( NSInteger )index configData:( NSDictionary * )configData
@@ -128,29 +137,42 @@ static NSString *const kSettings = @"settings";
 
 - ( void )addConfigurationWithURL:( NSString * )url serviceType:( int )serviceType name:( NSString * )configurationName
 {
+    [self addConfigurationWithURL:url serviceType:serviceType name:configurationName prefixName:nil];
+}
+
+- (void)addConfigurationWithURL:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName prefixName:(NSString *) prefixName {
     NSDictionary *data = @{ kRPSURL : url,
                             kSERVICE_TYPE : @( serviceType ),
-                            kCONFIG_NAME : configurationName };
-
+                            kCONFIG_NAME : configurationName,
+                            kRPSPrefix : (prefixName == nil)?(@""):(prefixName) };
+    
     [_arrConfigrations addObject:data];
     [self saveConfigurations];
+
 }
 
 - ( BOOL )saveConfigurationAtIndex:( NSInteger )index url:( NSString * )url serviceType:( int )serviceType name:( NSString * )configurationName
 {
+    return [self saveConfigurationAtIndex:index url:url serviceType:serviceType name:configurationName prefixName:nil];
+}
+
+- (BOOL)saveConfigurationAtIndex:(NSInteger)index url:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName prefixName:(NSString *) prefixName {
+    
     if ( index < [_arrConfigrations count] )
     {
         NSDictionary *data = @{ kRPSURL : url,
                                 kSERVICE_TYPE : @( serviceType ),
-                                kCONFIG_NAME : configurationName };
-
+                                kCONFIG_NAME : configurationName,
+                                kRPSPrefix : (prefixName == nil)?(@""):(prefixName) };
+        
         _arrConfigrations [index] = data;
         [self saveConfigurations];
-
+        
         return YES;
     }
-
+    
     return false;
+
 }
 
 - ( BOOL )deleteConfigurationAtIndex:( NSInteger )index

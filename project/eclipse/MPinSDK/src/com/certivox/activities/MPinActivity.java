@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -65,81 +66,129 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	private static volatile Mpin s_sdk;
 	private static volatile MPinActivity mActivity;
 
-	private List<User> m_usersList = new ArrayList<User>();
-	private User mSelectedUser;
+	private List<User> mUsersList = new ArrayList<User>();
+	private User mCurrentUser;
 
 	private Config mConfiguration;
+
+	// Threads
+	private Thread mSDKInitializationThread;
+	private LogoutAsyncTask mLogoutAsyncTask;
+	private StartRegistrationNewUserAsyncTask mCreateNewUserTask;
+	private AuthenticateAsyncTask mShowAuthenticateAsyncTask;
+	private FinishRegistrationAsyncTask mFinishRegistrationAsyncTask;
+	private RestartRegistrationAsyncTask mRestartRegistrationAsyncTask;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.i("DEBUG", "MPin Activity onCreate()");
 		mActivity = this;
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-		if (mConfiguration == null && !initConfiguration()) {
-			initEmptySDK();
-			startActivity(new Intent(this, PinpadConfigActivity.class));
+		if (!isConfigurationInited()) {
+			setInitialConfiguration();
 		} else {
 			initSDK(mConfiguration);
+			setChosenConfiguration(mConfiguration.getTitle());
+			initUsersList();
 			setInitialScreen();
 		}
 	}
 
 	@Override
-	protected void onDestroy() {
-		mActivity = null;
-		super.onDestroy();
+	protected void onStart() {
+		super.onStart();
+
 	}
 
-	private boolean initConfiguration() {
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Log.i("DEBUG", "MPin Activity onDestroy()");
+		mActivity = null;
+		mConfiguration = null;
+		mCurrentUser = null;
+		mUsersList = null;
+
+		stopRunningThreads();
+	}
+
+	private void stopRunningThreads() {
+		Log.i("DEBUG", "Stop running Threads");
+		if (mSDKInitializationThread != null
+				&& mSDKInitializationThread.isAlive()) {
+			mSDKInitializationThread.interrupt();
+		}
+		if (mLogoutAsyncTask != null) {
+			mLogoutAsyncTask.cancel(true);
+		}
+		if (mCreateNewUserTask != null) {
+			mCreateNewUserTask.cancel(true);
+		}
+		if (mShowAuthenticateAsyncTask != null) {
+			mShowAuthenticateAsyncTask.cancel(true);
+		}
+		if (mFinishRegistrationAsyncTask != null) {
+			mFinishRegistrationAsyncTask.cancel(true);
+		}
+		if (mRestartRegistrationAsyncTask != null) {
+			mRestartRegistrationAsyncTask.cancel(true);
+		}
+	}
+
+	private void setInitialConfiguration() {
+		initEmptySDK();
+		startActivity(new Intent(this, PinpadConfigActivity.class));
+		finish();
+	}
+
+	private boolean isConfigurationInited() {
 		mConfiguration = PinpadConfigActivity.getActiveConfiguration(this);
 		if (mConfiguration == null) {
 			Toast.makeText(this, "No active configuration", Toast.LENGTH_SHORT)
 					.show();
 			return false;
-		} else {
-			setChosenConfiguration(mConfiguration.getTitle());
 		}
 		return true;
 	}
 
 	private void initSDK(Config config) {
-		initConfiguration();
 		Mpin sdk = MPinActivity.peekSdk();
 		if (sdk == null) {
 			HashMap<String, String> serverConfig = new HashMap<String, String>();
 			serverConfig.put("RPA_server", config.getBackendUrl());
-			MPinActivity.init(this, serverConfig);
+			startSDKInitialization(this, serverConfig);
 		}
 	}
 
 	private void initEmptySDK() {
-		MPinActivity.init(this, null);
+		startSDKInitialization(this, null);
 	}
 
 	@Override
 	public User getCurrentUser() {
-		if (mSelectedUser != null) {
-			return mSelectedUser;
+		if (mCurrentUser != null) {
+			return mCurrentUser;
 		}
+
 		String id = PreferenceManager.getDefaultSharedPreferences(this)
 				.getString(PREF_LAST_USER, "");
-		if (TextUtils.isEmpty(id))
+
+		if (TextUtils.isEmpty(id)) {
 			return null;
-		for (User user : m_usersList) {
+		}
+
+		for (User user : mUsersList) {
 			if (TextUtils.equals(user.getId(), id)) {
-				mSelectedUser = user;
-				return mSelectedUser;
+				mCurrentUser = user;
+				return mCurrentUser;
 			}
 		}
+
 		return null;
 	}
 
 	public void setCurrentUser(User user) {
-		mSelectedUser = user;
+		mCurrentUser = user;
 		PreferenceManager.getDefaultSharedPreferences(this).edit()
 				.putString(PREF_LAST_USER, user != null ? user.getId() : "")
 				.commit();
@@ -151,8 +200,8 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void createNewUser(String email) {
-		CreateNewUserAsyncTask createNewUserTask = new CreateNewUserAsyncTask();
-		createNewUserTask.execute(email);
+		mCreateNewUserTask = new StartRegistrationNewUserAsyncTask();
+		mCreateNewUserTask.execute(email);
 	}
 
 	private OnUserSelectedListener getOnUserSelectedListener() {
@@ -186,8 +235,8 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	}
 
 	private void showAuthenticate(final String accessNumber) {
-		AuthenticateAsyncTask showAuthenticateAsyncTask = new AuthenticateAsyncTask();
-		showAuthenticateAsyncTask.execute(accessNumber);
+		mShowAuthenticateAsyncTask = new AuthenticateAsyncTask();
+		mShowAuthenticateAsyncTask.execute(accessNumber);
 	}
 
 	private void onFailedToAuthenticate(Status status, boolean isAccessNumber) {
@@ -241,14 +290,14 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void emailConfirmed() {
-		FinishRegistrationAsyncTask finishRegistrationAsyncTask = new FinishRegistrationAsyncTask();
-		finishRegistrationAsyncTask.execute();
+		mFinishRegistrationAsyncTask = new FinishRegistrationAsyncTask();
+		mFinishRegistrationAsyncTask.execute();
 	}
 
 	@Override
 	public void resendEmail() {
-		RestartRegistrationAsyncTask restartRegistrationAsyncTask = new RestartRegistrationAsyncTask();
-		restartRegistrationAsyncTask.execute();
+		mRestartRegistrationAsyncTask = new RestartRegistrationAsyncTask();
+		mRestartRegistrationAsyncTask.execute();
 	}
 
 	@Override
@@ -258,20 +307,18 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	@Override
 	public void logout() {
-		LogoutAsyncTask logoutAsyncTask = new LogoutAsyncTask();
-		logoutAsyncTask.execute();
+		mLogoutAsyncTask = new LogoutAsyncTask();
+		mLogoutAsyncTask.execute();
 	}
 
 	private void initUsersList() {
-		mSelectedUser = null;
-		m_usersList.clear();
-		sdk().ListUsers(m_usersList);
-		getCurrentUser();
+		mUsersList.clear();
+		mCurrentUser = null;
+		sdk().ListUsers(mUsersList);
 	}
 
 	private void setInitialScreen() {
-		initUsersList();
-		if (mSelectedUser != null) {
+		if (getCurrentUser() != null) {
 			userChosen();
 		} else {
 			setChooseUserScreen();
@@ -280,7 +327,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	private void setChooseUserScreen() {
 		initUsersList();
-		if (m_usersList.isEmpty()) {
+		if (mUsersList.isEmpty()) {
 			addUsersFragment();
 		} else {
 			addUsersListFragment();
@@ -290,7 +337,6 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	@Override
 	public void addUsersFragment() {
 		Log.d("CV", " + users");
-
 		if (getAddUserFragment() == null) {
 			AddUsersFragment addUserFragment = new AddUsersFragment();
 			addUserFragment.setController(mActivity);
@@ -301,8 +347,8 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			transaction.replace(R.id.content, addUserFragment, FRAG_ADDUSERS);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
+			enableDrawer();
 		}
-
 	}
 
 	@Override
@@ -321,7 +367,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	public void addUsersListFragment() {
 		Log.d("CV", " + users list");
 		UsersAdapter usersAdapter = new UsersAdapter(mActivity);
-		usersAdapter.setData(m_usersList);
+		usersAdapter.setData(mUsersList);
 
 		if (getUsersListFragment() == null) {
 
@@ -338,10 +384,9 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 					.replace(R.id.content, usersListFramgent, FRAG_USERSLIST)
 					.commit();
 			getFragmentManager().executePendingTransactions();
-		} else {
-			getUsersListFragment().setListAdapter(usersAdapter);
+			enableDrawer();
 		}
-		getUsersListFragment().setSelectedUser(getCurrentUser());
+
 	}
 
 	@Override
@@ -368,6 +413,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			transaction.replace(R.id.content, newUserFragment, FRAG_NEWUSER);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
+			enableDrawer();
 		}
 	}
 
@@ -395,6 +441,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 					FRAG_CONFIRMEMAIL);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
+			enableDrawer();
 		}
 	}
 
@@ -423,8 +470,8 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 					FRAG_IDENTITY_CREATED);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
+			enableDrawer();
 		}
-
 	}
 
 	@Override
@@ -451,6 +498,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			transaction.replace(R.id.content, pinPadFragment, FRAG_PINPAD);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
+			enableDrawer();
 		}
 
 		synchronized (MPinActivity.class) {
@@ -483,6 +531,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 					FRAG_ACCESSNUMBER);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
+			enableDrawer();
 		}
 
 	}
@@ -512,6 +561,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			transaction.replace(R.id.content, otpFragment, FRAG_OTP);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
+			enableDrawer();
 		}
 
 	}
@@ -541,6 +591,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 					FRAG_SUCCESSFUL_LOGIN);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
+			enableDrawer();
 		}
 	}
 
@@ -569,6 +620,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 					FRAG_IDENTITY_BLOCKED);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
+			enableDrawer();
 		}
 	}
 
@@ -596,6 +648,8 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			transaction.replace(R.id.content, aboutFragment, FRAG_ABOUT);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
+			disableDrawer();
+			setNavigationBack();
 		}
 	}
 
@@ -613,10 +667,10 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 	private void updateUsersList() {
 		if (getUsersListFragment() != null) {
-			if (m_usersList.isEmpty()) {
+			if (mUsersList == null || mUsersList.isEmpty()) {
 				addUsersFragment();
 			} else {
-				getUsersListFragment().getListAdapter().setData(m_usersList);
+				getUsersListFragment().getListAdapter().setData(mUsersList);
 			}
 		}
 	}
@@ -671,6 +725,8 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 									int which) {
 								sdk().DeleteUser(getCurrentUser());
 								disableContextToolbar();
+								mCurrentUser = null;
+								initUsersList();
 								setInitialScreen();
 							}
 						}).setNegativeButton("Cancel", null).show();
@@ -718,17 +774,16 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	};
 
 	@Override
+	public void onOTPExpired() {
+		setInitialScreen();
+	}
+
+	@Override
 	public void onBackPressed() {
-		if (m_usersList.isEmpty()) {
-			if (getAddUserFragment() != null) {
-				super.onBackPressed();
-				return;
-			}
-		} else {
-			if (getUsersListFragment() != null) {
-				super.onBackPressed();
-				return;
-			}
+		if ((mUsersList.isEmpty() && getAddUserFragment() != null)
+				|| getUsersListFragment() != null) {
+			super.onBackPressed();
+			return;
 		}
 		setChooseUserScreen();
 	}
@@ -788,10 +843,9 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 				FRAG_ABOUT);
 	}
 
-	// Static methods
-	public static void init(final Context context,
+	public void startSDKInitialization(final Context context,
 			final Map<String, String> config) {
-		new Thread(new Runnable() {
+		mSDKInitializationThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				synchronized (MPinActivity.class) {
@@ -801,15 +855,20 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 						mActivity.runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
-								mActivity.updateUsersList();
+								if (mActivity != null) {
+									mActivity.updateUsersList();
+								}
 							}
 						});
 					}
 				}
 			}
-		}).start();
+		});
+
+		mSDKInitializationThread.start();
 	}
 
+	// Static methods
 	public static Mpin peekSdk() {
 		synchronized (MPinActivity.class) {
 			return s_sdk;
@@ -829,6 +888,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 	}
 
 	public static String show() {
+		// TODO This seems not thread-safe
 		mActivity.runOnUiThread(new Runnable() {
 
 			@Override
@@ -836,6 +896,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 				mActivity.addPinPadFragment();
 			}
 		});
+
 		synchronized (MPinActivity.class) {
 			while (mActivity.getPinPadFragment() == null) {
 				try {
@@ -865,26 +926,62 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 		}
 	}
 
-	private class CreateNewUserAsyncTask extends AsyncTask<String, Void, Void> {
+	private class StartRegistrationNewUserAsyncTask extends
+			AsyncTask<String, Void, Integer> {
 		User user;
+		private final int USER_EXISTS = 0;
+		private final int REGISTRATION_STARTED = 1;
 
 		@Override
-		protected Void doInBackground(String... emails) {
+		protected void onPreExecute() {
+			super.onPreExecute();
+			Log.i("DEBUG", "StartRegistrationNewUserAsyncTask");
+			showLoader();
+		}
+
+		@Override
+		protected Integer doInBackground(String... emails) {
+			String newUserId = emails[0];
+			ArrayList<User> users = new ArrayList<User>();
+			sdk().ListUsers(users);
+			for (User user : users) {
+				if (user.getId().equals(newUserId)) {
+					mCurrentUser = user;
+					return USER_EXISTS;
+				}
+			}
 			user = sdk().MakeNewUser(emails[0]);
-			// TODO check the status for
-			// errors
-			com.certivox.models.Status status = sdk().StartRegistration(user);
+			mCurrentUser = user;
+			sdk().StartRegistration(user);
 
-			return null;
+			return REGISTRATION_STARTED;
 		}
 
 		@Override
-		protected void onPostExecute(Void result) {
-			removeNewUserFragment();
-			updateUsersList();
-			showCreatingNewIdentity(user, null);
-		}
+		protected void onPostExecute(Integer result) {
+			hideLoader();
+			switch (result) {
+			case REGISTRATION_STARTED:
+				showCreatingNewIdentity(user, null);
+				break;
+			case USER_EXISTS: {
+				new AlertDialog.Builder(mActivity)
+						.setTitle("User already registered")
+						.setMessage("Do you want to re-register the user?")
+						.setPositiveButton("OK", new OnClickListener() {
 
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								resetPin();
+							}
+						}).setNegativeButton("Cancel", null).show();
+				break;
+			}
+			default:
+				break;
+			}
+		}
 	}
 
 	private class AuthenticateAsyncTask extends AsyncTask<String, Void, Void> {
@@ -957,6 +1054,13 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 			AsyncTask<Void, Void, Void> {
 
 		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			Log.i("DEBUG", "RestartRegistrationAsyncTask");
+			showLoader();
+		}
+
+		@Override
 		protected Void doInBackground(Void... params) {
 			com.certivox.models.Status status = sdk().RestartRegistration(
 					getCurrentUser());
@@ -965,6 +1069,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 		@Override
 		protected void onPostExecute(Void result) {
+			hideLoader();
 			Toast.makeText(mActivity, "Email sent", Toast.LENGTH_LONG).show();
 		}
 
@@ -1007,6 +1112,7 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 
 		@Override
 		protected void onPostExecute(Void result) {
+			hideLoader();
 			if (isLoggedOut) {
 				new AlertDialog.Builder(mActivity)
 						.setTitle("Successful Logout")

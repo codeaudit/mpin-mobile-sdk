@@ -80,7 +80,7 @@ private:
 	public:
 		CPinPad()	{}
 		virtual ~CPinPad()	{}
-		virtual String Show() { return m_pin; }
+		virtual String Show(Mode mode) { return m_pin; }
 
 		void SetPin( const String& aPin )	{ m_pin = aPin; }
 

@@ -13,7 +13,7 @@
 #import "MFSideMenuContainerViewController.h"
 #import "UserListViewController.h"
 
-
+static NSString *constStrConnectionTimeoutNotification = @"ConnectionTimeoutNotification";
 
 @interface ApplicationManager ( ) {
     MPin *sdk;
@@ -50,23 +50,26 @@
     return self;
 }
 
-/// TODO :: Move any MSGs to Localization File 
-- (void) runNetowrkMonitoring {
+/// TODO :: Move any MSGs to Localization File
+- ( void ) runNetowrkMonitoring
+{
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock: ^ (AFNetworkReachabilityStatus status) {
+        switch ( status )
+        {
+        ///case AFNetworkReachabilityStatusNotReachable:
+        case AFNetworkReachabilityStatusReachableViaWiFi:
+        case AFNetworkReachabilityStatusReachableViaWWAN:
+            if ( ![MPin isConfigLoadSuccessfully] )
+            {
+                [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
+            }
+            //TODO: hide netowrk indicator
+            break;
 
-    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-        switch (status) {
-            ///case AFNetworkReachabilityStatusNotReachable:
-            case AFNetworkReachabilityStatusReachableViaWiFi:
-            case AFNetworkReachabilityStatusReachableViaWWAN:
-                if ( ! [MPin isInitialized] ) {
-                    [sdk initSDK:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
-                }
-                
-                // TODO :: hide netowrk indicator
-                break;
-            default: {
-                // TODO: show netowrk indicator
-                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"ERROR" message:@"No Internet Connection!" delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
+        default:
+            {
+                //TODO: show netowrk indicator
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"ERROR" message:@"No Internet Connection!" delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
                 [alert show];
             }
             break;
@@ -76,7 +79,7 @@
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
 }
 
-- ( void ) OnInitCompleted:( id ) sender
+- ( void ) OnSetBackendCompleted:( id ) sender
 {
     MFSideMenuContainerViewController *container = (MFSideMenuContainerViewController *)appdelegate.window.rootViewController;
     if ( [( (UINavigationController *)container.centerViewController ).topViewController isMemberOfClass:[UserListViewController class]] )
@@ -85,8 +88,11 @@
     }
 }
 
-- ( void ) OnInitError:( id ) sender error:( NSError * ) error
+- ( void ) OnSetBackendError:( id ) sender error:( NSError * ) error;
 {
+    [[NSNotificationCenter defaultCenter] postNotificationName:constStrConnectionTimeoutNotification object:nil];
+
+    //FIXME: Remove alert
     MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[mpinStatus getStatusCodeAsString] message:mpinStatus.errorMessage delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
     [alert show];
