@@ -96,7 +96,7 @@
 
 /* HUD Messages */
 "HUD_CHANGE_CONFIGURATION"  = "Changing configuration. Please wait.";
-"HUD_AUTH_SUCCESS"          = "Authentication Successful!";
+"HUD_AUTH_SUCCESS"          = "Your authentication is \n successful !";
 "HUD_LOGOUT"                = "Logging OUT";
 "HUD_LOGOUT_OK"             = "Logout Successful";
 "HUD_LOGOUT_NOT_OK"         = "Logout Unsuccessful";
