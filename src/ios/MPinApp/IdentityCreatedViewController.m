@@ -87,7 +87,7 @@
 
 -( void ) onAccessNumber:( NSString * ) an
 {
-    [sdk AuthenticateAN:self.user accessNumber:an askForFingerprint:YES];
+    [sdk AuthenticateAN:self.user accessNumber:an askForFingerprint:NO];
 }
 
 - ( void )OnAuthenticateAccessNumberCompleted:( id )sender user:( id<IUser>)user
