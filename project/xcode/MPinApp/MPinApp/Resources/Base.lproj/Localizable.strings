@@ -86,6 +86,14 @@
 
 /* About */
 "ABOUTVC_TITLE"         = "About";
+
+"ABOUTVC_BTN_MOB_GUIDE" =   "M-Pin Mobile Guide";
+"ABOUTVC_BTN_SDK_URL"   =   "Built on the M-Pin Mobile SDK";
+"ABOUTVC_BTN_HOMEPAGE"  =   "CertiVox Homepage";
+"ABOUTVC_BTN_SUPPORT"   =   "Product Support";
+"ABOUTVC_BTN_TERMS"     =   "CertiVox Terms & Conditions";
+"ABOUTVC_BTN_VALUES"    =   "Values / Security / Privacy";
+
 "ABOUTVC_BUILD_NUMBER"  = "Build: %@";
 "ABOUTVC_VER_NUMBER"    = "Ver. %@";
 "ABOUTVC_COPYRIGHT"     = "Copyright (c) %@ Certivox. all rights reserved.";
