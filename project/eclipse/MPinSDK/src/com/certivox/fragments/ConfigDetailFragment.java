@@ -3,10 +3,7 @@ package com.certivox.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.ContentValues;
 import android.content.DialogInterface;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +16,10 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.certivox.activities.MPinActivity;
-import com.certivox.db.ConfigsContract.ConfigEntry;
-import com.certivox.db.ConfigsDbHelper;
+import com.certivox.dal.ConfigsDao;
 import com.certivox.interfaces.ConfigController;
+import com.certivox.models.Config;
 import com.certivox.models.Status;
-import com.certivox.mpinsdk.Config;
 import com.example.mpinsdk.R;
 
 public class ConfigDetailFragment extends Fragment {
@@ -38,11 +34,12 @@ public class ConfigDetailFragment extends Fragment {
 	private Button mCheckServiceButton;
 	private Button mSaveServiceButton;
 
-	private long mConfigId;
-	private String mConfigURL;
 	private ConfigController controller;
 
 	private Config mConfig;
+	private ConfigsDao mConfigsDao;
+	private long mConfigId;
+	private String mConfigURL;
 
 	private static final int INVALID_URL = 0;
 	private static final int INVALID_BACKEND = 1;
@@ -61,7 +58,7 @@ public class ConfigDetailFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-
+		mConfigsDao = new ConfigsDao(activity.getApplicationContext());
 		mConfig = new Config();
 		if (mConfigId != -1) {
 			initConfig();
@@ -69,23 +66,8 @@ public class ConfigDetailFragment extends Fragment {
 	}
 
 	private void initConfig() {
-		SQLiteDatabase db = new ConfigsDbHelper(getActivity())
-				.getReadableDatabase();
-		Cursor cursor = null;
-		try {
-			cursor = db.query(ConfigEntry.TABLE_NAME,
-					ConfigEntry.getFullProjection(), ConfigEntry._ID
-							+ " LIKE ?",
-					new String[] { String.valueOf(mConfigId) }, null, null,
-					null);
-			if (cursor.moveToFirst()) {
-				mConfig.formCursor(cursor);
-				mConfigURL = mConfig.getBackendUrl();
-			}
-		} finally {
-			if (cursor != null)
-				cursor.close();
-		}
+		mConfig = mConfigsDao.getConfigurationById(mConfigId);
+		mConfigURL = mConfig.getBackendUrl();
 	}
 
 	@Override
@@ -98,18 +80,11 @@ public class ConfigDetailFragment extends Fragment {
 	}
 
 	private void updateDb() {
-		if (mConfig == null)
+		if (mConfig == null) {
 			return;
-		SQLiteDatabase db = new ConfigsDbHelper(this.getActivity())
-				.getReadableDatabase();
-		ContentValues values = new ContentValues();
-		mConfig.toContentValues(values);
-		if (mConfig.getId() == -1) {
-			mConfig.setId(db.insert(ConfigEntry.TABLE_NAME, null, values));
-		} else {
-			db.update(ConfigEntry.TABLE_NAME, values, ConfigEntry._ID
-					+ " LIKE ?", new String[] { String.valueOf(mConfigId) });
 		}
+
+		mConfigsDao.saveOrUpdate(mConfig);
 	}
 
 	private void initViews() {

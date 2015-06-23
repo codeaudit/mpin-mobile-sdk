@@ -14,11 +14,10 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
-import com.certivox.activities.PinpadConfigActivity;
 import com.certivox.adapters.ConfigAdapter;
-import com.certivox.db.ConfigsDao;
+import com.certivox.dal.ConfigsDao;
 import com.certivox.interfaces.ConfigController;
-import com.certivox.mpinsdk.Config;
+import com.certivox.models.Config;
 import com.example.mpinsdk.R;
 
 public class ConfigListFragment extends ListFragment {
@@ -27,25 +26,10 @@ public class ConfigListFragment extends ListFragment {
 
 	private ConfigController controller;
 	private ImageButton addServiceImageButton;
+	private ConfigsDao mConfigsDao;
 
 	public void setController(ConfigController controller) {
 		this.controller = controller;
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-		sSelectedId = -1;
-
-		Config activeConfig = PinpadConfigActivity
-				.getActiveConfiguration(getActivity());
-
-		if (activeConfig != null) {
-			sSelectedId = activeConfig.getId();
-		}
-
-		Cursor configsCursor = ConfigsDao.getConfigs(getActivity());
-		((ConfigAdapter) getListAdapter()).changeCursor(configsCursor);
 	}
 
 	@Override
@@ -57,9 +41,23 @@ public class ConfigListFragment extends ListFragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-
-		Cursor cursor = ConfigsDao.getConfigs(getActivity());
+		mConfigsDao = new ConfigsDao(getActivity().getApplicationContext());
+		Cursor cursor = mConfigsDao.getConfigs();
 		setListAdapter(new ConfigAdapter(getActivity(), cursor));
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		sSelectedId = -1;
+		Config activeConfig = mConfigsDao.getActiveConfiguration();
+
+		if (activeConfig != null) {
+			sSelectedId = activeConfig.getId();
+		}
+
+		Cursor configsCursor = mConfigsDao.getConfigs();
+		((ConfigAdapter) getListAdapter()).changeCursor(configsCursor);
 	}
 
 	private void initViews() {

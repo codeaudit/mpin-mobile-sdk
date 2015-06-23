@@ -16,7 +16,7 @@ import android.widget.EditText;
 import com.certivox.interfaces.MPinController;
 import com.example.mpinsdk.R;
 
-public class NewUserFragment extends Fragment {
+public class CreateIdentityFragment extends Fragment {
 
 	private MPinController mMpinController;
 	private View mView;
