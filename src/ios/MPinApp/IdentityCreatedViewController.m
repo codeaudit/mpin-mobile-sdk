@@ -158,7 +158,7 @@
     switch ( service )
     {
     case LOGIN_ON_MOBILE:
-        [sdk Authenticate:self.user askForFingerprint:YES];
+        [sdk Authenticate:self.user askForFingerprint:NO];
         break;
 
     case LOGIN_ONLINE:
@@ -172,7 +172,7 @@
     } break;
 
     case LOGIN_WITH_OTP:
-        [sdk AuthenticateOTP:self.user askForFingerprint:YES];
+        [sdk AuthenticateOTP:self.user askForFingerprint:NO];
         break;
     }
 }
