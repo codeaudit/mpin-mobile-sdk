@@ -1179,7 +1179,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="FvQ-kZ-Hpw">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="FvQ-kZ-Hpw">
                                 <rect key="frame" x="0.0" y="64" width="600" height="482"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -1269,7 +1269,7 @@
                                 <rect key="frame" x="0.0" y="545" width="600" height="55"/>
                                 <color key="backgroundColor" red="0.30196078430000001" green="0.41568627450000001" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="55" id="WKp-Ig-93A"/>
+                                    <constraint firstAttribute="height" constant="55" id="FIJ-p3-knI"/>
                                 </constraints>
                                 <state key="normal" title="Test configuration"/>
                                 <connections>
@@ -1281,15 +1281,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="FvQ-kZ-Hpw" firstAttribute="top" secondItem="3TG-Xi-pn4" secondAttribute="bottom" id="6sK-CM-brn"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="K54-IC-1av" secondAttribute="trailing" constant="-16" id="874-fc-uCo"/>
-                            <constraint firstItem="K54-IC-1av" firstAttribute="top" secondItem="FvQ-kZ-Hpw" secondAttribute="bottom" constant="-1" id="JEE-yP-rmx"/>
                             <constraint firstItem="FvQ-kZ-Hpw" firstAttribute="leading" secondItem="Z5P-N3-rRg" secondAttribute="leadingMargin" constant="-16" id="KxH-8P-WlI"/>
                             <constraint firstAttribute="trailingMargin" secondItem="FvQ-kZ-Hpw" secondAttribute="trailing" constant="-16" id="Mb2-wU-aCy"/>
-                            <constraint firstItem="K54-IC-1av" firstAttribute="leading" secondItem="Z5P-N3-rRg" secondAttribute="leadingMargin" constant="-16" id="YjK-k5-4dW"/>
-                            <constraint firstItem="X43-yg-Ph6" firstAttribute="top" secondItem="K54-IC-1av" secondAttribute="bottom" id="Ymo-1M-GIM"/>
-                            <constraint firstItem="X43-yg-Ph6" firstAttribute="top" secondItem="K54-IC-1av" secondAttribute="bottom" id="ehB-DS-RA2"/>
-                            <constraint firstItem="K54-IC-1av" firstAttribute="leading" secondItem="Z5P-N3-rRg" secondAttribute="leading" id="ieF-5w-bd0"/>
-                            <constraint firstAttribute="trailing" secondItem="K54-IC-1av" secondAttribute="trailing" id="uis-J7-4TS"/>
+                            <constraint firstItem="X43-yg-Ph6" firstAttribute="top" secondItem="K54-IC-1av" secondAttribute="bottom" id="SX1-AE-200"/>
+                            <constraint firstAttribute="trailing" secondItem="K54-IC-1av" secondAttribute="trailing" id="bvx-Dm-mUi"/>
+                            <constraint firstItem="K54-IC-1av" firstAttribute="leading" secondItem="Z5P-N3-rRg" secondAttribute="leading" id="rqp-MH-w7Y"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Add Configuration" id="188-gh-NOc">
