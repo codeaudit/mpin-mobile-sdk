@@ -1,22 +1,3 @@
-/* 
-Copyright 2014 CertiVox UK Ltd, All Rights Reserved.
-
-The CertiVox M-Pin Client and Server Libraries are free software: you can
-redistribute it and/or modify it under the terms of the BSD 3-Clause
-License - http://opensource.org/licenses/BSD-3-Clause
-
-For full details regarding our CertiVox terms of service please refer to
-the following links:
-
-  * Our Terms and Conditions -
-    http://www.certivox.com/about-certivox/terms-and-conditions/
-  
-  * Our Security and Privacy -
-    http://www.certivox.com/about-certivox/security-privacy/
-
-  * Our Statement of Position and Our Promise on Software Patents -
-    http://www.certivox.com/about-certivox/patents/
-*/
 /*
  * Implementation of the Secure Hashing Algorithm (SHA-256)
  *
@@ -24,10 +5,11 @@ the following links:
  * come up with two messages that hash to the same value ("collision free").
  *
  * For use with byte-oriented messages only. Could/Should be speeded
- * up by unwinding loops in shs_transform(), and assembly patches.
+ * up by unwinding loops in HASH_transform(), and assembly patches.
  */
+/* SU=m, m is Stack Usage */
 
-#include "miracl.h"
+#include "clint.h"
 
 #define H0 0x6A09E667L
 #define H1 0xBB67AE85L
@@ -38,7 +20,7 @@ the following links:
 #define H6 0x1F83D9ABL
 #define H7 0x5BE0CD19L
 
-static const mr_unsign32 K[64]={
+static const unsign32 K[64]={
 0x428a2f98L,0x71374491L,0xb5c0fbcfL,0xe9b5dba5L,0x3956c25bL,0x59f111f1L,0x923f82a4L,0xab1c5ed5L,
 0xd807aa98L,0x12835b01L,0x243185beL,0x550c7dc3L,0x72be5d74L,0x80deb1feL,0x9bdc06a7L,0xc19bf174L,
 0xe49b69c1L,0xefbe4786L,0x0fc19dc6L,0x240ca1ccL,0x2de92c6fL,0x4a7484aaL,0x5cb0a9dcL,0x76f988daL,
@@ -63,9 +45,10 @@ static const mr_unsign32 K[64]={
 #define theta0(x)  (S(7,x)^S(18,x)^R(3,x))
 #define theta1(x)  (S(17,x)^S(19,x)^R(10,x))
 
-static void shs_transform(sha256 *sh)
+/* SU= 72 */
+static void HASH_transform(hash *sh)
 { /* basic transformation step */
-    mr_unsign32 a,b,c,d,e,f,g,h,t1,t2;
+    unsign32 a,b,c,d,e,f,g,h,t1,t2;
     int j;
     for (j=16;j<64;j++) 
         sh->w[j]=theta1(sh->w[j-2])+sh->w[j-7]+theta0(sh->w[j-15])+sh->w[j-16];
@@ -84,11 +67,13 @@ static void shs_transform(sha256 *sh)
         b=a;
         a=t1+t2;        
     }
+
     sh->h[0]+=a; sh->h[1]+=b; sh->h[2]+=c; sh->h[3]+=d; 
     sh->h[4]+=e; sh->h[5]+=f; sh->h[6]+=g; sh->h[7]+=h; 
 } 
 
-void shs256_init(sha256 *sh)
+/* Initialise Hash function */
+void HASH_init(hash *sh)
 { /* re-initialise */
     int i;
     for (i=0;i<64;i++) sh->w[i]=0L;
@@ -103,57 +88,62 @@ void shs256_init(sha256 *sh)
     sh->h[7]=H7;
 }
 
-void shs256_process(sha256 *sh,int byte)
+/* process a single byte */
+void HASH_process(hash *sh,int byte)
 { /* process the next message byte */
     int cnt;
-
+//printf("byt= %x\n",byte);
     cnt=(int)((sh->length[0]/32)%16);
     
     sh->w[cnt]<<=8;
-    sh->w[cnt]|=(mr_unsign32)(byte&0xFF);
+    sh->w[cnt]|=(unsign32)(byte&0xFF);
 
     sh->length[0]+=8;
     if (sh->length[0]==0L) { sh->length[1]++; sh->length[0]=0L; }
-    if ((sh->length[0]%512)==0) shs_transform(sh);
+    if ((sh->length[0]%512)==0) HASH_transform(sh);
 }
 
-void shs256_hash(sha256 *sh,char hash[32])
+/* SU= 24 */
+/* Generate 32-byte Hash */
+void HASH_hash(hash *sh,char digest[32])
 { /* pad message and finish - supply digest */
     int i;
-    mr_unsign32 len0,len1;
+    unsign32 len0,len1;
     len0=sh->length[0];
     len1=sh->length[1];
-    shs256_process(sh,PAD);
-    while ((sh->length[0]%512)!=448) shs256_process(sh,ZERO);
+    HASH_process(sh,PAD);
+    while ((sh->length[0]%512)!=448) HASH_process(sh,ZERO);
     sh->w[14]=len1;
     sh->w[15]=len0;    
-    shs_transform(sh);
+    HASH_transform(sh);
     for (i=0;i<32;i++)
     { /* convert to bytes */
-        hash[i]=(char)((sh->h[i/4]>>(8*(3-i%4))) & 0xffL);
+        digest[i]=(char)((sh->h[i/4]>>(8*(3-i%4))) & 0xffL);
     }
-    shs256_init(sh);
+    HASH_init(sh);
 }
 
-/* test program: should produce digest  
+/* test program: should produce digest  */
 
-248d6a61 d20638b8 e5c02693 0c3e6039 a33ce459 64ff2167 f6ecedd4 19db06c1
+//248d6a61 d20638b8 e5c02693 0c3e6039 a33ce459 64ff2167 f6ecedd4 19db06c1
 
-
+/*
 #include <stdio.h>
-#include "miracl.h"
+#include "clint.h"
 
 char test[]="abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq";
 
 int main()
 {
-    char hash[32];
+    char digest[32];
     int i;
-    sha256 sh;
-    shs256_init(&sh);
-    for (i=0;test[i]!=0;i++) shs256_process(&sh,test[i]);
-    shs256_hash(&sh,hash);    
-    for (i=0;i<32;i++) printf("%02x",(unsigned char)hash[i]);
+    hash sh;
+    HASH_init(&sh);
+    for (i=0;test[i]!=0;i++)
+		HASH_process(&sh,test[i]);
+	
+    HASH_hash(&sh,digest);    
+    for (i=0;i<32;i++) printf("%02x",(unsigned char)digest[i]);
     printf("\n");
     return 0;
 }

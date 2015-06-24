@@ -1,22 +1,5 @@
-/* 
-Copyright 2014 CertiVox UK Ltd, All Rights Reserved.
 
-The CertiVox M-Pin Client and Server Libraries are free software: you can
-redistribute it and/or modify it under the terms of the BSD 3-Clause
-License - http://opensource.org/licenses/BSD-3-Clause
 
-For full details regarding our CertiVox terms of service please refer to
-the following links:
-
-  * Our Terms and Conditions -
-    http://www.certivox.com/about-certivox/terms-and-conditions/
-  
-  * Our Security and Privacy -
-    http://www.certivox.com/about-certivox/security-privacy/
-
-  * Our Statement of Position and Our Promise on Software Patents -
-    http://www.certivox.com/about-certivox/patents/
-*/
 /*
  * Implementation of the AES-GCM Encryption/Authentication
  *
@@ -26,29 +9,30 @@ the following links:
  * 3. The order of function calls must follow some rules
  *
  * Typical sequence of calls..
- * 1. call gcm_init
- * 2. call gcm_add_header any number of times, as long as length of header is multiple of 16 bytes (block size)
- * 3. call gcm_add_header one last time with any length of header
- * 4. call gcm_add_cipher any number of times, as long as length of cipher/plaintext is multiple of 16 bytes
- * 5. call gcm_add_cipher one last time with any length of cipher/plaintext
- * 6. call gcm_finish to extract the tag.
+ * 1. call GCM_init
+ * 2. call GCM_add_header any number of times, as long as length of header is multiple of 16 bytes (block size)
+ * 3. call GCM_add_header one last time with any length of header
+ * 4. call GCM_add_cipher any number of times, as long as length of cipher/plaintext is multiple of 16 bytes
+ * 5. call GCM_add_cipher one last time with any length of cipher/plaintext
+ * 6. call GCM_finish to extract the tag.
  *
  * See http://www.mindspring.com/~dmcgrew/gcm-nist-6.pdf
  */
+/* SU=m, m is Stack Usage */
 
 #include <stdlib.h> 
 #include <string.h>
-#include "miracl.h"
+#include "clint.h"
 
 #define NB 4
-#define MR_WORD mr_unsign32
+#define MR_TOBYTE(x) ((uchar)((x)))
 
-static MR_WORD pack(const MR_BYTE *b)
+static unsign32 pack(const uchar *b)
 { /* pack bytes into a 32-bit Word */
-    return ((MR_WORD)b[0]<<24)|((MR_WORD)b[1]<<16)|((MR_WORD)b[2]<<8)|(MR_WORD)b[3];
+    return ((unsign32)b[0]<<24)|((unsign32)b[1]<<16)|((unsign32)b[2]<<8)|(unsign32)b[3];
 }
 
-static void unpack(MR_WORD a,MR_BYTE *b)
+static void unpack(unsign32 a,uchar *b)
 { /* unpack bytes from a word */
     b[3]=MR_TOBYTE(a);
     b[2]=MR_TOBYTE(a>>8);
@@ -56,12 +40,12 @@ static void unpack(MR_WORD a,MR_BYTE *b)
     b[0]=MR_TOBYTE(a>>24);
 }
 
-static void precompute(gcm *g,MR_BYTE *H)
+static void precompute(gcm *g,uchar *H)
 { /* precompute small 2k bytes gf2m table of x^n.H */
 	int i,j;
-	MR_WORD *last,*next,b;
+	unsign32 *last,*next,b;
 
-	for (i=j=0;i<NB;i++,j+=4) g->table[0][i]=pack((MR_BYTE *)&H[j]);
+	for (i=j=0;i<NB;i++,j+=4) g->table[0][i]=pack((uchar *)&H[j]);
 
 	for (i=1;i<128;i++)
 	{
@@ -71,11 +55,12 @@ static void precompute(gcm *g,MR_BYTE *H)
 	}
 }
 
+/* SU= 32 */
 static void gf2mul(gcm *g)
 { /* gf2m mul - Z=H*X mod 2^128 */
 	int i,j,m,k;
-	MR_WORD P[4];
-	MR_BYTE b;
+	unsign32 P[4];
+	uchar b;
 
 	P[0]=P[1]=P[2]=P[3]=0;
 	j=8; m=0;
@@ -89,58 +74,84 @@ static void gf2mul(gcm *g)
 			if (m==16) break;
 		}
 	}
-	for (i=j=0;i<NB;i++,j+=4) unpack(P[i],(MR_BYTE *)&g->stateX[j]);
+	for (i=j=0;i<NB;i++,j+=4) unpack(P[i],(uchar *)&g->stateX[j]);
 }
 
-static void gcm_wrap(gcm *g)
+/* SU= 32 */
+static void GCM_wrap(gcm *g)
 { /* Finish off GHASH */
 	int i,j;
-	MR_WORD F[4];
-	MR_BYTE L[16];
+	unsign32 F[4];
+	uchar L[16];
 
 /* convert lengths from bytes to bits */
 	F[0]=(g->lenA[0]<<3)|(g->lenA[1]&0xE0000000)>>29;
 	F[1]=g->lenA[1]<<3;
 	F[2]=(g->lenC[0]<<3)|(g->lenC[1]&0xE0000000)>>29;
 	F[3]=g->lenC[1]<<3;
-	for (i=j=0;i<NB;i++,j+=4) unpack(F[i],(MR_BYTE *)&L[j]);
+	for (i=j=0;i<NB;i++,j+=4) unpack(F[i],(uchar *)&L[j]);
 
 	for (i=0;i<16;i++) g->stateX[i]^=L[i];
 	gf2mul(g);
 }
 
-void gcm_init(gcm* g,int nk,char *key,int niv,char *iv)
+static int GCM_ghash(gcm *g,char *plain,int len)
+{
+	int i,j=0;
+	unsign32 counter;
+	uchar B[16];
+	if (g->status==GCM_ACCEPTING_HEADER) g->status=GCM_ACCEPTING_CIPHER;
+	if (g->status!=GCM_ACCEPTING_CIPHER) return 0;
+
+	while (j<len)
+	{
+		for (i=0;i<16 && j<len;i++)
+		{
+			g->stateX[i]^=plain[j++];
+			g->lenC[1]++; if (g->lenC[1]==0) g->lenC[0]++;
+		}
+		gf2mul(g);
+	}
+	if (len%16!=0) g->status=GCM_NOT_ACCEPTING_MORE;
+	return 1;
+}
+
+/* SU= 48 */
+/* Initialize GCM mode */
+void GCM_init(gcm* g,char *key,int niv,char *iv)
 { /* iv size niv is usually 12 bytes (96 bits). AES key size nk can be 16,24 or 32 bytes */
 	int i;
-	MR_BYTE H[16];
+	uchar H[16];
 	for (i=0;i<16;i++) {H[i]=0; g->stateX[i]=0;}
 
-	aes_init(&(g->a),MR_ECB,nk,key,iv);
-	aes_ecb_encrypt(&(g->a),H);     /* E(K,0) */
+	AES_init(&(g->a),ECB,key,iv);
+	AES_ecb_encrypt(&(g->a),H);     /* E(K,0) */
 	precompute(g,H);
 	
 	g->lenA[0]=g->lenC[0]=g->lenA[1]=g->lenC[1]=0;
 	if (niv==12)
 	{
 		for (i=0;i<12;i++) g->a.f[i]=iv[i];
-		unpack((MR_WORD)1,(MR_BYTE *)&(g->a.f[12]));  /* initialise IV */
+		unpack((unsign32)1,(uchar *)&(g->a.f[12]));  /* initialise IV */
 		for (i=0;i<16;i++) g->Y_0[i]=g->a.f[i];
 	}
 	else
 	{
 		g->status=GCM_ACCEPTING_CIPHER;
-		gcm_add_cipher(g,0,iv,niv,NULL); /* GHASH(H,0,IV) */
-		gcm_wrap(g);
+		GCM_ghash(g,iv,niv); /* GHASH(H,0,IV) */
+		GCM_wrap(g);
 		for (i=0;i<16;i++) {g->a.f[i]=g->stateX[i];g->Y_0[i]=g->a.f[i];g->stateX[i]=0;}
 		g->lenA[0]=g->lenC[0]=g->lenA[1]=g->lenC[1]=0;
 	}
 	g->status=GCM_ACCEPTING_HEADER;
 }
 
-BOOL gcm_add_header(gcm* g,char *header,int len)
+/* SU= 24 */
+/* Add Header data - included but not encrypted */
+int GCM_add_header(gcm* g,char *header,int len)
 { /* Add some header. Won't be encrypted, but will be authenticated. len is length of header */
 	int i,j=0;
-	if (g->status!=GCM_ACCEPTING_HEADER) return FALSE;
+	if (g->status!=GCM_ACCEPTING_HEADER) return 0;
 
 	while (j<len)
 	{
@@ -152,66 +163,92 @@ BOOL gcm_add_header(gcm* g,char *header,int len)
 		gf2mul(g);
 	}
 	if (len%16!=0) g->status=GCM_ACCEPTING_CIPHER;
-	return TRUE;
+	return 1;
 }
 
-BOOL gcm_add_cipher(gcm *g,int mode,char *plain,int len,char *cipher)
-{ /* Add plaintext to extract ciphertext, or visa versa, depending on mode. len is length of plaintext/ciphertext. Note this file combines GHASH() functionality with encryption/decryption */
+/* SU= 48 */
+/* Add Plaintext - included and encrypted */
+int GCM_add_plain(gcm *g,char *cipher,char *plain,int len)
+{ /* Add plaintext to extract ciphertext, len is length of plaintext.  */
 	int i,j=0;
-	MR_WORD counter;
-	MR_BYTE B[16];
+	unsign32 counter;
+	uchar B[16];
 	if (g->status==GCM_ACCEPTING_HEADER) g->status=GCM_ACCEPTING_CIPHER;
-	if (g->status!=GCM_ACCEPTING_CIPHER) return FALSE;
+	if (g->status!=GCM_ACCEPTING_CIPHER) return 0;
 
 	while (j<len)
 	{
-		if (cipher!=NULL)
-		{
-			counter=pack((MR_BYTE *)&(g->a.f[12]));
-			counter++;
-			unpack(counter,(MR_BYTE *)&(g->a.f[12]));  /* increment counter */
-			for (i=0;i<16;i++) B[i]=g->a.f[i];
-			aes_ecb_encrypt(&(g->a),B);        /* encrypt it  */
-		}
+		counter=pack((uchar *)&(g->a.f[12]));
+		counter++;
+		unpack(counter,(uchar *)&(g->a.f[12]));  /* increment counter */
+		for (i=0;i<16;i++) B[i]=g->a.f[i];
+		AES_ecb_encrypt(&(g->a),B);        /* encrypt it  */
+		
 		for (i=0;i<16 && j<len;i++)
 		{
-			if (cipher==NULL)
-				g->stateX[i]^=plain[j++];
-			else
-			{
-				if (mode==GCM_ENCRYPTING) cipher[j]=plain[j]^B[i];
-				if (mode==GCM_DECRYPTING) plain[j]=cipher[j]^B[i];
-				g->stateX[i]^=cipher[j++];
-			}
+			cipher[j]=plain[j]^B[i];
+			g->stateX[i]^=cipher[j++];
 			g->lenC[1]++; if (g->lenC[1]==0) g->lenC[0]++;
 		}
 		gf2mul(g);
 	}
 	if (len%16!=0) g->status=GCM_NOT_ACCEPTING_MORE;
-	return TRUE;
+	return 1;
 }
 
-void gcm_finish(gcm *g,char *tag)
+/* SU= 48 */
+/* Add Ciphertext - decrypts to plaintext */
+int GCM_add_cipher(gcm *g,char *plain,char *cipher,int len)
+{ /* Add ciphertext to extract plaintext, len is length of ciphertext. */
+	int i,j=0;
+	unsign32 counter;
+	uchar B[16];
+	if (g->status==GCM_ACCEPTING_HEADER) g->status=GCM_ACCEPTING_CIPHER;
+	if (g->status!=GCM_ACCEPTING_CIPHER) return 0;
+
+	while (j<len)
+	{
+		counter=pack((uchar *)&(g->a.f[12]));
+		counter++;
+		unpack(counter,(uchar *)&(g->a.f[12]));  /* increment counter */
+		for (i=0;i<16;i++) B[i]=g->a.f[i];
+		AES_ecb_encrypt(&(g->a),B);        /* encrypt it  */
+		for (i=0;i<16 && j<len;i++)
+		{
+			plain[j]=cipher[j]^B[i];
+			g->stateX[i]^=cipher[j++];
+			g->lenC[1]++; if (g->lenC[1]==0) g->lenC[0]++;
+		}
+		gf2mul(g);
+	}
+	if (len%16!=0) g->status=GCM_NOT_ACCEPTING_MORE;
+	return 1;
+}
+
+/* SU= 16 */
+/* Finish and extract Tag */
+void GCM_finish(gcm *g,char *tag)
 { /* Finish off GHASH and extract tag (MAC) */
 	int i;
 
-	gcm_wrap(g);
+	GCM_wrap(g);
 
 /* extract tag */
 	if (tag!=NULL)
 	{
-		aes_ecb_encrypt(&(g->a),g->Y_0);        /* E(K,Y0) */
+		AES_ecb_encrypt(&(g->a),g->Y_0);        /* E(K,Y0) */
 		for (i=0;i<16;i++) g->Y_0[i]^=g->stateX[i];
 		for (i=0;i<16;i++) {tag[i]=g->Y_0[i];g->Y_0[i]=g->stateX[i]=0;}
 	}
 	g->status=GCM_FINISHED;
-	aes_end(&(g->a));
+	AES_end(&(g->a));
 }
 
-/*
-// Compile with
-// cl /O2 mrgcm.c mraes.c
 
+// Compile with
+// gcc -O2 clint_gcm.c clint_aes.c -o clint_gcm.exe
+/* SU= 16
+*/
 static void hex2bytes(char *hex,char *bin)
 {
 	int i;
@@ -243,6 +280,7 @@ static void hex2bytes(char *hex,char *bin)
     }
 }
 
+/*
 int main()
 {
 	int i;
@@ -262,7 +300,7 @@ int main()
 	int lenIV=strlen(NT)/2;
 
 	char T[16];   // Tag
-	char K[32];   // AES Key
+	char K[16];   // AES Key
 	char H[64];   // Header - to be included in Authentication, but not encrypted
 	char N[100];   // IV - Initialisation vector
 	char M[100];  // Plaintext to be encrypted/authenticated
@@ -280,10 +318,10 @@ int main()
 	for (i=0;i<len;i++) printf("%02x",(unsigned char)M[i]);
 	printf("\n");
 
-	gcm_init(&g,lenK,K,lenIV,N);
-	gcm_add_header(&g,H,lenH);
-	gcm_add_cipher(&g,GCM_ENCRYPTING,M,len,C);
-	gcm_finish(&g,T);
+	GCM_init(&g,K,lenIV,N);
+	GCM_add_header(&g,H,lenH);
+	GCM_add_plain(&g,C,M,len);
+	GCM_finish(&g,T);
 
 	printf("Ciphertext=\n");
 	for (i=0;i<len;i++) printf("%02x",(unsigned char)C[i]);
@@ -293,10 +331,10 @@ int main()
 	for (i=0;i<16;i++) printf("%02x",(unsigned char)T[i]);
 	printf("\n");
 
-	gcm_init(&g,lenK,K,lenIV,N);
-	gcm_add_header(&g,H,lenH);
-	gcm_add_cipher(&g,GCM_DECRYPTING,P,len,C);
-	gcm_finish(&g,T);
+	GCM_init(&g,K,lenIV,N);
+	GCM_add_header(&g,H,lenH);
+	GCM_add_cipher(&g,P,C,len);
+	GCM_finish(&g,T);
 
  	printf("Plaintext=\n");
 	for (i=0;i<len;i++) printf("%02x",(unsigned char)P[i]);
@@ -306,4 +344,5 @@ int main()
 	for (i=0;i<16;i++) printf("%02x",(unsigned char)T[i]);
 	printf("\n");
 }
+
 */

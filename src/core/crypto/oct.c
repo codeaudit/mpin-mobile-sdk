@@ -1,31 +1,15 @@
-/* 
-Copyright 2014 CertiVox UK Ltd, All Rights Reserved.
-
-The CertiVox M-Pin Client and Server Libraries are free software: you can
-redistribute it and/or modify it under the terms of the BSD 3-Clause
-License - http://opensource.org/licenses/BSD-3-Clause
-
-For full details regarding our CertiVox terms of service please refer to
-the following links:
-
-  * Our Terms and Conditions -
-    http://www.certivox.com/about-certivox/terms-and-conditions/
-  
-  * Our Security and Privacy -
-    http://www.certivox.com/about-certivox/security-privacy/
-
-  * Our Statement of Position and Our Promise on Software Patents -
-    http://www.certivox.com/about-certivox/patents/
-*/
-
 
 /*** Basic Octet string maintainance routines  ***/
+/* SU=m, m is Stack Usage */
 
-#include "octet.h"
+#include <string.h>
+#include "clint.h"
 
 /* Output an octet string (Debug Only) */
 
-void OCTET_OUTPUT(octet *w)
+/* SU= 16 */
+/* output octet */
+void OCT_output(octet *w)
 {
     int i;
     unsigned char ch;
@@ -35,9 +19,10 @@ void OCTET_OUTPUT(octet *w)
         printf("%02x",ch);
     }
     printf("\n");
-}        
+}  
 
-void OCTET_OUTPUT_STRING(octet *w)
+/* SU= 16 */
+void OCT_output_string(octet *w)
 {
     int i;
     unsigned char ch;
@@ -47,11 +32,10 @@ void OCTET_OUTPUT_STRING(octet *w)
         printf("%c",ch);
     }
   /*  printf("\n"); */
-}    
+} 
 
 /* Convert C string to octet format - truncates if no room  */
-
-void OCTET_JOIN_STRING(char *s,octet *y)
+void OCT_jstring(octet *y,char *s)
 {
     int i,j;
     i=y->len;
@@ -66,8 +50,8 @@ void OCTET_JOIN_STRING(char *s,octet *y)
 
 /* compare 2 octet strings. 
  * If x==y return TRUE, else return FALSE */ 
-
-int OCTET_COMPARE(octet *x,octet *y)
+/* SU= 8 */
+int OCT_comp(octet *x,octet *y)
 {
     int i;
     if (x->len>y->len) return 0;
@@ -79,9 +63,36 @@ int OCTET_COMPARE(octet *x,octet *y)
     return 1;
 }
 
-/* Append binary string to octet - truncates if no room */
+/* check are first n bytes the same */
 
-void OCTET_JOIN_BYTES(char *b,int len,octet *y)
+int OCT_ncomp(octet *x,octet *y,int n)
+{
+    int i;
+    if (n>y->len || n>x->len) return 0;
+    for (i=0;i<n;i++)
+    {
+        if (x->val[i]!=y->val[i]) return 0;
+    }
+    return 1;
+}
+
+/* Shift octet to the left by n bytes. Leftmost bytes disappear  */
+void OCT_shl(octet *x,int n)
+{
+    int i;
+    if (n>=x->len)
+    {
+        x->len=0;
+        return;
+    }
+    x->len-=n;
+    for (i=0;i<x->len;i++)
+        x->val[i]=x->val[i+n];
+} 
+
+/* Append binary string to octet - truncates if no room */
+/* SU= 12 */
+void OCT_jbytes(octet *y,char *b,int len)
 {
     int i,j;
     i=y->len;
@@ -94,8 +105,8 @@ void OCTET_JOIN_BYTES(char *b,int len,octet *y)
 }
 
 /* Concatenates two octet strings */
-
-void OCTET_JOIN_OCTET(octet *x,octet *y)
+/* SU= 8 */
+void OCT_joctet(octet *y,octet *x)
 { /* y=y || x */
     int i,j;
     if (x==NULL) return;
@@ -114,8 +125,8 @@ void OCTET_JOIN_OCTET(octet *x,octet *y)
 }
 
 /* Append byte to octet rep times */
-
-void OCTET_JOIN_BYTE(int ch,int rep,octet *y)
+/* SU= 8 */
+void OCT_jbyte(octet *y,int ch,int rep)
 {
     int i,j;
     i=y->len;
@@ -128,8 +139,8 @@ void OCTET_JOIN_BYTE(int ch,int rep,octet *y)
 }
 
 /* XOR common bytes of x with y */
-
-void OCTET_XOR(octet *x,octet *y)
+/* SU= 8 */
+void OCT_xor(octet *y,octet *x)
 { /* xor first x->len bytes of y */
 
     int i;
@@ -140,25 +151,22 @@ void OCTET_XOR(octet *x,octet *y)
 }
 
 /* clear an octet */
-
-void OCTET_EMPTY(octet *w)
+void OCT_empty(octet *w)
 {
     w->len=0;
 }
 
 /* Kill an octet string - Zeroise it for security */
-
-void OCTET_CLEAR(octet *w)
+void OCT_clear(octet *w)
 {
     int i;
     for (i=0;i<w->max;i++) w->val[i]=0;
     w->len=0;
 }
 
-/* OCTET_JOIN_LONG primitive */
-/* appends long x of length len bytes to OCTET string */
-
-void OCTET_JOIN_LONG(long x,int len,octet *y) 
+/* appends int x of length len bytes to OCTET string */
+/* SU= 8 */
+void OCT_jint(octet *y,int x,int len) 
 {
     int i,n;
     n=y->len+len;
@@ -176,22 +184,25 @@ void OCTET_JOIN_LONG(long x,int len,octet *y)
 }
 
 /* Pad an octet to a given length */
-
-void OCTET_PAD(int n,octet *w)
+/* SU= 8 */
+int OCT_pad(octet *w,int n)
 {
 	int i,d;
-	if (w->len>=n || n>w->max) return;
+	if (w->len>n || n>w->max) return 0;
+	if (n==w->len) return 1;
 	d=n-w->len;
 	for (i=n-1;i>=d;i--)
 		w->val[i]=w->val[i-d];
 	for (i=d-1;i>=0;i--)
 		w->val[i]=0;
 	w->len=n;
+	return 1;
 }
 
-/* Convert an octet string to base64 string */
 
-void OCTET_TO_BASE64(octet *w,char *b)
+/* Convert an octet string to base64 string */
+/* SU= 56 */
+void OCT_tobase64(char *b,octet *w)
 {
 	int i,j,k,rem,last;
 	int c,ch[4];
@@ -220,12 +231,13 @@ void OCTET_TO_BASE64(octet *w,char *b)
 		}
 	}
 	if (rem>0) for (i=rem;i<3;i++) b[k++]='=';
-	b[k]='\0';  // dangerous!
+	b[k]='\0';  /* dangerous! */
 }
 
-void OCTET_FROM_BASE64(char *b,octet *w)
+/* SU= 56 */
+void OCT_frombase64(octet *w,char *b)
 {
-	int i,j,k,pads,len=strlen(b);
+	int i,j,k,pads,len=(int)strlen(b);
 	int c,ch[4],ptr[3];
 	int lead=1;
 	j=k=0;
@@ -259,11 +271,11 @@ void OCTET_FROM_BASE64(char *b,octet *w)
 }
 
 /* copy an octet string - truncates if no room */
-
-void OCTET_COPY(octet *x,octet *y)
+/* SU= 16 */
+void OCT_copy(octet *y,octet *x)
 {
     int i;
-    OCTET_CLEAR(y);
+    OCT_clear(y);
     y->len=x->len;
     if (y->len>y->max) y->len=y->max;
 
@@ -272,16 +284,15 @@ void OCTET_COPY(octet *x,octet *y)
 }
 
 /* XOR m with all of x */
-
-void OCTET_XOR_BYTE(int m,octet *x)
+void OCT_xorbyte(octet *x,int m)
 {
     int i;
     for (i=0;i<x->len;i++) x->val[i]^=m;
 }
 
 /* truncates x to n bytes and places the rest in y (if y is not NULL) */
-
-void OCTET_CHOP(octet *x,int n,octet *y)
+/* SU= 8 */
+void OCT_chop(octet *x,octet *y,int n)
 {
     int i;
     if (n>=x->len)
@@ -297,3 +308,38 @@ void OCTET_CHOP(octet *x,int n,octet *y)
         for (i=0;i<y->len && i<y->max;i++) y->val[i]=x->val[i+n];
     }
 }
+
+/* set x to len random bytes */
+void OCT_rand(octet *x,csprng *RNG,int len)
+{
+    int i;
+    if (len>x->max) len=x->max;
+    x->len=len;
+
+    for (i=0;i<len;i++) x->val[i]=RAND_byte(RNG);
+}
+
+/* Test program 
+#include <stdio.h>
+#include "clint.h"
+
+char test[]="abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq";
+
+int main()
+{
+	char gm[100],gn[100],t[100];
+    octet m={0,sizeof(gm),gm};
+    octet n={0,sizeof(gn),gn};
+
+	OCT_jbytes(&m,test,strlen(test));
+	OCT_output(&m);
+
+	OCT_tobase64(t,&m);
+	printf(t); printf("\n");
+
+	OCT_frombase64(&n,t);
+	OCT_output(&n);
+
+    return 0;
+}
+*/

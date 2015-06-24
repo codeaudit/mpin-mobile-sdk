@@ -30,6 +30,23 @@ namespace MPinRC
 		AUTHENTICATE
 	};
 
+#pragma region UserWrapper
+	/// <summary>
+	/// A wrapper class used to pass User data from managed to unmanaged User objects and vice versa.
+	/// </summary>
+	public ref class UserWrapper sealed
+	{
+	internal:
+		MPinSDK::UserPtr user;
+		UserWrapper(MPinSDK::UserPtr);
+
+	public:
+		Platform::String^ GetId();
+		int GetState();
+		void Destruct();
+	};
+#pragma endregion UserWrapper
+
 #pragma region IPinPd
 	/// <summary>
 	/// Provides an interface to trigger the display of the PIN Pad.
@@ -38,7 +55,7 @@ namespace MPinRC
 	public interface class IPinPad
 	{
 	public:
-		virtual Platform::String^ Show(MPinRC::Mode mode) = 0;
+		virtual Platform::String^ Show(MPinRC::UserWrapper^ user, MPinRC::Mode mode) = 0;
 		virtual void SetUiDispatcher(Windows::UI::Core::CoreDispatcher^ dispatcher) = 0;
 	};
 
@@ -53,7 +70,7 @@ namespace MPinRC
 
 		void SetPinPad(MPinRC::IPinPad^ pinPad);
 
-		virtual MPinSDK::String Show(MPinSDK::IPinPad::Mode mode);
+		virtual MPinSDK::String Show(MPinSDK::UserPtr user, MPinSDK::IPinPad::Mode mode);
 	};
 
 #pragma endregion IPinPd
@@ -95,23 +112,6 @@ namespace MPinRC
 	};
 
 #pragma endregion IContext
-
-#pragma region UserWrapper
-	/// <summary>
-	/// A wrapper class used to pass User data from managed to unmanaged User objects and vice versa.
-	/// </summary>
-	public ref class UserWrapper sealed
-	{
-	internal:
-		MPinSDK::UserPtr user;
-		UserWrapper(MPinSDK::UserPtr);
-
-	public:
-		Platform::String^ GetId();
-		int GetState();
-		void Destruct();
-	};
-#pragma endregion UserWrapper
 
 #pragma region StatusWrapper
 	/// <summary>
