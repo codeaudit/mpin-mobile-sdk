@@ -132,11 +132,6 @@ namespace MPinDemo
             }
         }
         
-        internal static string GetSelectedUser()
-        {
-            return controller != null && controller.DataModel != null && controller.DataModel.CurrentUser != null ? controller.DataModel.CurrentUser.Id : string.Empty;
-        }
-
         #region State
 
         internal static void SavePropertyState(string key, object value)
