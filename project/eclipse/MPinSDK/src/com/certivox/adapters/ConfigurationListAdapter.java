@@ -17,13 +17,18 @@ public class ConfigurationListAdapter extends BaseAdapter {
 
 	private Context mContext;
 	private List<Config> mConfigsList;
-	private long mActiveConfigurationId;
+	private long mSelectedConfigurationId;
 
 	public ConfigurationListAdapter(Context context,
-			List<Config> configurations, long activeConfigurationId) {
+			List<Config> configurations, long selectedConfigurationId) {
 		mContext = context;
 		mConfigsList = configurations;
-		mActiveConfigurationId = activeConfigurationId;
+		mSelectedConfigurationId = selectedConfigurationId;
+	}
+
+	public void setSelectedfigurationId(long id) {
+		mSelectedConfigurationId = id;
+		notifyDataSetChanged();
 	}
 
 	@Override
@@ -43,27 +48,31 @@ public class ConfigurationListAdapter extends BaseAdapter {
 
 	@Override
 	public long getItemId(int position) {
-		return 0;
+		return mConfigsList.get(position).getId();
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = convertView;
+		ViewHolder holder;
 		if (view == null) {
 			view = LayoutInflater.from(mContext).inflate(R.layout.item_config,
 					parent, false);
-			ViewHolder holder = new ViewHolder();
+			holder = new ViewHolder();
 			holder.title = (TextView) view.findViewById(R.id.item_config_title);
 			holder.url = (TextView) view.findViewById(R.id.item_config_url);
 			holder.button = (RadioButton) view.findViewById(R.id.toggle_button);
 			view.setTag(holder);
 		}
 
-		ViewHolder holder = (ViewHolder) view.getTag();
+		holder = (ViewHolder) view.getTag();
 		Config config = mConfigsList.get(position);
 		holder.title.setText(config.getTitle());
 		holder.url.setText(getConfigurationType(config));
-		if (config.getId() == mActiveConfigurationId) {
+
+		view.setId((int) config.getId());
+
+		if (config.getId() == mSelectedConfigurationId) {
 			holder.button.setChecked(true);
 		} else {
 			holder.button.setChecked(false);

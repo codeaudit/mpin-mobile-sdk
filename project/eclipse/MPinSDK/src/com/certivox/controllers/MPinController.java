@@ -6,16 +6,17 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.certivox.activities.MPinActivityOld;
 import com.certivox.dal.ConfigsDao;
 import com.certivox.interfaces.Controller;
 import com.certivox.models.Config;
+import com.certivox.models.Status;
 import com.certivox.models.User;
 import com.certivox.mpinsdk.Mpin;
 
@@ -45,14 +46,24 @@ public class MPinController extends Controller {
 	public static final int MESSAGE_ON_DESTROY = 1;
 	public static final int MESSAGE_ON_START = 2;
 	public static final int MESSAGE_ON_STOP = 3;
-	public static final int MESSAGE_ON_BACK_PRESSED = 4;
+	public static final int MESSAGE_ON_BACK = 4;
+	public static final int MESSAGE_ON_DRAWER_BACK = 5;
 
 	public static final int GET_CONFIGURATIONS_LIST = 5;
+
+	// Receive Messages from Fragment Configurations List
+	public static final int MESSAGE_ON_NEW_CONFIGURATION = 6;
+	public static final int MESSAGE_ON_SELECT_CONFIGURATION = 7;
+	public static final int MESSAGE_ON_EDIT_CONFIGURATION = 8;
+	public static final int MESSAGE_DELETE_CONFIGURATION = 9;
 
 	// Sent Messages
 	public static final int MESSAGE_START_WORK_IN_PROGRESS = 1;
 	public static final int MESSAGE_STOP_WORK_IN_PROGRESS = 2;
 	public static final int MESSAGE_SHOW_CONFIGURATIONS_LIST_FRAGMENT = 3;
+	public static final int MESSAGE_CONFIGURATION_DELETED = 4;
+	public static final int MESSAGE_CONFIGURATION_CHANGED = 5;
+	public static final int MESSAGE_CONFIGURATION_CHANGE_ERROR = 6;
 
 	// Threads
 	private Thread mSDKInitializationThread;
@@ -82,7 +93,12 @@ public class MPinController extends Controller {
 			return true;
 		case MESSAGE_ON_STOP:
 			return true;
-		case MESSAGE_ON_BACK_PRESSED:
+		case MESSAGE_ON_BACK:
+			return true;
+		case MESSAGE_ON_DRAWER_BACK:
+			return true;
+		case MESSAGE_ON_NEW_CONFIGURATION:
+			onNewConfiguration();
 			return true;
 		default:
 			return false;
@@ -91,7 +107,73 @@ public class MPinController extends Controller {
 
 	@Override
 	public boolean handleMessage(int what, Object data) {
-		return false;
+		switch (what) {
+		case MESSAGE_ON_SELECT_CONFIGURATION:
+			activateConfiguration(((Long) data).longValue());
+			return true;
+		case MESSAGE_ON_EDIT_CONFIGURATION:
+			editConfiguration(((Long) data).longValue());
+			return true;
+		case MESSAGE_DELETE_CONFIGURATION:
+			deleteConfiguration(((Long) data).longValue());
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	private void onNewConfiguration() {
+
+	}
+
+	private void activateConfiguration(long id) {
+		final Config config = mConfigsDao.getConfigurationById(id);
+		if (config != null) {
+			notifyOutboxHandlers(MESSAGE_START_WORK_IN_PROGRESS, 0, 0, null);
+			mWorkerHandler.post(new Runnable() {
+
+				@Override
+				public void run() {
+					final Status status = getSDK().SetBackend(
+							config.getBackendUrl());
+					if (status.getStatusCode() == Status.Code.OK) {
+						// TODO: check if could just sent the id
+						mConfigsDao.setActiveConfig(config);
+						notifyOutboxHandlers(MESSAGE_CONFIGURATION_CHANGED, 0,
+								0, null);
+					} else {
+						notifyOutboxHandlers(
+								MESSAGE_CONFIGURATION_CHANGE_ERROR, 0, 0, null);
+					}
+					notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0,
+							null);
+				}
+			});
+		}
+	}
+
+	private void editConfiguration(long id) {
+	}
+
+	private void deleteConfiguration(final long id) {
+		notifyOutboxHandlers(MESSAGE_START_WORK_IN_PROGRESS, 0, 0, null);
+		mWorkerHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				if (id != -1) {
+					mConfigsDao.deleteConfigurationById(id);
+					notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0,
+							null);
+					notifyOutboxHandlers(MESSAGE_CONFIGURATION_DELETED, 0, 0,
+							null);
+				}
+			}
+		});
+	}
+
+	private void saveConfigurationInCache() {
+
 	}
 
 	private void startSDKInitializationThread() {

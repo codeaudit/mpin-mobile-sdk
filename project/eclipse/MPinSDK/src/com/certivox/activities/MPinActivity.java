@@ -127,7 +127,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 	@Override
 	public void onBackPressed() {
 		Log.i(TAG, "onBackPressed");
-		mController.handleMessage(MPinController.MESSAGE_ON_BACK_PRESSED);
+		mController.handleMessage(MPinController.MESSAGE_ON_BACK);
 	}
 
 	@Override
@@ -148,6 +148,9 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 			hideLoader();
 			return true;
 		case MPinController.MESSAGE_SHOW_CONFIGURATIONS_LIST_FRAGMENT:
+
+			// TODO: Check if this could be done in the fragment
+			disableDrawer();
 			createAndAddFragment(FRAGMENT_CONFIGURATIONS_LIST,
 					ConfigurationsListFragment.class, false);
 			return true;
@@ -218,9 +221,32 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 			}
 		};
 
-		mDrawerToggle.setDrawerIndicatorEnabled(true);
+		enableDrawer();
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 		initDrawerMenu();
+	}
+
+	private void enableDrawer() {
+		mDrawerToggle.setDrawerIndicatorEnabled(true);
+		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+	}
+
+	private void disableDrawer() {
+		// Disable the drawer from opening via swipe
+		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+		mDrawerToggle.setDrawerIndicatorEnabled(false);
+		// Change the hamburger icon to up carret
+		mDrawerToggle
+				.setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+
+		mDrawerToggle.setToolbarNavigationClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				mController
+						.handleMessage(MPinController.MESSAGE_ON_DRAWER_BACK);
+			}
+		});
 	}
 
 	private void initDrawerMenu() {
