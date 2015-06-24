@@ -31,7 +31,7 @@
 
         NSAssert(dict [@"COLORS"] != nil, @"Missing colors in Settings file");
         NSAssert(dict [@"BACKENDS"] != nil, @"Missing backends in Settings file");
-        NSAssert(dict [@"HOCKEYAPP_ID"] != nil, @"Missing HOCKEYAPP_ID in Settings file");
+
 
         //TODO: Add nsassert and check for valid hex colors
         _color0 = [UIColor colorWithHexString:dict [@"COLORS"] [@"color0"]];
@@ -46,7 +46,26 @@
         _color9 = [UIColor colorWithHexString:dict [@"COLORS"] [@"color9"]];
         _color10 = [UIColor colorWithHexString:dict [@"COLORS"] [@"color10"]];
 
+        NSAssert(dict [@"HOCKEYAPP_ID"] != nil, @"Missing HOCKEYAPP_ID in Settings file");
         _strHockeyAppID = dict [@"HOCKEYAPP_ID"];
+
+        NSAssert(dict [@"URL_MOBILE_GUIDE"] != nil, @"Missing URL_MOBILE_GUIDE in Settings file");
+        _strUrlMobGuide = dict [@"URL_MOBILE_GUIDE"];
+
+        NSAssert(dict [@"URL_SDK"] != nil, @"Missing URL_SDK in Settings file");
+        _strUrlSDK      = dict [@"URL_SDK"];
+
+        NSAssert(dict [@"URL_HOMEPAGE"] != nil, @"Missing URL_HOMEPAGE in Settings file");
+        _strUrlHomepage = dict [@"URL_HOMEPAGE"];
+
+        NSAssert(dict [@"URL_SUPPORT"] != nil, @"Missing URL_SUPPORT in Settings file");
+        _strUrlSupport  = dict [@"URL_SUPPORT"];
+
+        NSAssert(dict [@"URL_TERMS"] != nil, @"Missing URL_TERMS in Settings file");
+        _strUrlTerms    = dict [@"URL_TERMS"];
+
+        NSAssert(dict [@"URL_VALUES"] != nil, @"Missing URL_VALUES in Settings file");
+        _strUrlValues   = dict [@"URL_VALUES"];
     }
 
     return self;

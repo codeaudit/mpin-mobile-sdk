@@ -9,4 +9,18 @@
 
 @interface AboutViewController : UIViewController
 
+@property (nonatomic, weak) IBOutlet UIButton *btnGuide;
+@property (nonatomic, weak) IBOutlet UIButton *btnSDK_URL;
+@property (nonatomic, weak) IBOutlet UIButton *btnHomepage;
+@property (nonatomic, weak) IBOutlet UIButton *btnSupport;
+@property (nonatomic, weak) IBOutlet UIButton *btnTerms;
+@property (nonatomic, weak) IBOutlet UIButton *btnValues;
+
+-(IBAction)btnGuideTap:(id)sender;
+-(IBAction)btnSKDTap:(id)sender;
+-(IBAction)btnHomepageTap:(id)sender;
+-(IBAction)btnSupportTap:(id)sender;
+-(IBAction)btnTermsTap:(id)sender;
+-(IBAction)btnValuesTap:(id)sender;
+
 @end
