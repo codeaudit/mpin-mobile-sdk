@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -97,6 +98,7 @@ public class ConfigDetailFragment extends Fragment {
 
 		mServiceOTPCheckBox = (CheckBox) mView.findViewById(R.id.service_otp);
 		mServiceANCheckBox = (CheckBox) mView.findViewById(R.id.service_an);
+		mServiceANCheckBox.setChecked(true);
 
 		mCheckServiceButton = (Button) mView
 				.findViewById(R.id.check_service_button);
@@ -145,7 +147,7 @@ public class ConfigDetailFragment extends Fragment {
 			}
 		});
 
-		if (mConfig != null) {
+		if (mConfig.getId() != -1) {
 			mServiceNameEditText.setText(mConfig.getTitle());
 			mServiceUrlEditText.setText(mConfig.getBackendUrl());
 			mServiceRTSEditText.setText(mConfig.getRTS());
