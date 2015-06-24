@@ -178,7 +178,7 @@
         [[ErrorHandler sharedManager] presentMessageInViewController:self
          errorString:NSLocalizedString(@"WARNING_CANNOT_EDIT_PREDEFINED_CONFIG", @"")
          addActivityIndicator:NO
-         minShowTime:0];
+         minShowTime:3];
     }
 }
 
@@ -200,7 +200,7 @@
         [[ErrorHandler sharedManager] presentMessageInViewController:self
          errorString:NSLocalizedString(@"WARNING_CANNOT_DELETE_PREDEFINED_CONFIG", @"")
          addActivityIndicator:NO
-         minShowTime:0];
+         minShowTime:3];
     }
 }
 
