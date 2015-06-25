@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.certivox.db.ConfigsDbHelper;
+import com.certivox.dal.ConfigsDbHelper;
 
 public class MainActivity extends Activity {
 

@@ -12,7 +12,7 @@ import com.certivox.interfaces.MPinController;
 import com.certivox.listeners.OnAddNewUserListener;
 import com.example.mpinsdk.R;
 
-public class AddUsersFragment extends Fragment {
+public class EmptyUsersListFragment extends Fragment {
 
 	private MPinController mMpinController;
 	private View mView;

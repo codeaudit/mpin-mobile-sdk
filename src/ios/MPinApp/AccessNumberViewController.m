@@ -86,7 +86,7 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
     }
 
     [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
-    [sdk AuthenticateAN:_currentUser accessNumber:self.strNumber askForFingerprint:YES];
+    [sdk AuthenticateAN:_currentUser accessNumber:self.strNumber askForFingerprint:NO];
 }
 
 -( IBAction )btnBackTap:( id )sender

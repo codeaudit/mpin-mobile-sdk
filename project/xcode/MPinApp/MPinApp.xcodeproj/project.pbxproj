@@ -213,6 +213,10 @@
 		96E21A551AF8AE6C00490625 /* en_BG.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG.strings */; };
 		96E21A561AF8AE6C00490625 /* en_BG.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG.strings */; };
 		96E21A571AF8AE6C00490625 /* en_BG.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG.strings */; };
+		96E9D36E1B39699B004ADDEA /* AboutDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */; };
+		96E9D36F1B39699B004ADDEA /* AboutDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */; };
+		96E9D3701B39699B004ADDEA /* AboutDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */; };
+		96E9D3711B39699B004ADDEA /* AboutDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */; };
 		96F62A241AC30FAF00B25B53 /* ConfigurationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A211AC30FAF00B25B53 /* ConfigurationManager.m */; };
 		96F62A251AC30FAF00B25B53 /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A231AC30FAF00B25B53 /* SettingsManager.m */; };
 		96F62A281AC311D000B25B53 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A261AC311D000B25B53 /* AboutViewController.m */; };
@@ -342,6 +346,8 @@
 		96D3CAD21AEE4D8E004BAC3A /* DDMPin.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = DDMPin.plist; sourceTree = "<group>"; };
 		96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMPinSDK.a; path = "../../../../Library/Developer/Xcode/DerivedData/MPin-fkvltgzbxheajafuhhxznfslxxnp/Build/Products/Release-iphoneos/libMPinSDK.a"; sourceTree = "<group>"; };
 		96E21A531AF8AE6C00490625 /* en_BG.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = en_BG.strings; sourceTree = "<group>"; };
+		96E9D36C1B39699B004ADDEA /* AboutDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutDetailsViewController.h; path = ../../../../src/ios/MPinApp/AboutDetailsViewController.h; sourceTree = "<group>"; };
+		96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutDetailsViewController.m; path = ../../../../src/ios/MPinApp/AboutDetailsViewController.m; sourceTree = "<group>"; };
 		96F62A201AC30FAF00B25B53 /* ConfigurationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfigurationManager.h; path = ../../../../src/ios/MPinApp/ConfigurationManager.h; sourceTree = "<group>"; };
 		96F62A211AC30FAF00B25B53 /* ConfigurationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConfigurationManager.m; path = ../../../../src/ios/MPinApp/ConfigurationManager.m; sourceTree = "<group>"; };
 		96F62A221AC30FAF00B25B53 /* SettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsManager.h; path = ../../../../src/ios/MPinApp/SettingsManager.h; sourceTree = "<group>"; };
@@ -659,6 +665,8 @@
 				9614F8CE1A9E1EC500337080 /* AccountSummaryViewController.m */,
 				96F7EA651B1858CB00A68A03 /* ANAuthenticationSuccessful.h */,
 				96F7EA661B1858CB00A68A03 /* ANAuthenticationSuccessful.m */,
+				96E9D36C1B39699B004ADDEA /* AboutDetailsViewController.h */,
+				96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -1257,6 +1265,7 @@
 				FEF579541B15F0BE00B31A3E /* ApplicationManager.m in Sources */,
 				96130E211AEE4867005D2A86 /* ConfigurationManager.m in Sources */,
 				96130E221AEE4867005D2A86 /* ConfirmEmailViewController.m in Sources */,
+				96E9D3701B39699B004ADDEA /* AboutDetailsViewController.m in Sources */,
 				96F7EA691B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */,
 				96130E231AEE4867005D2A86 /* CycleProgressBar.m in Sources */,
 				96130E241AEE4867005D2A86 /* AccountSummaryViewController.m in Sources */,
@@ -1299,6 +1308,7 @@
 				FEF579551B15F10800B31A3E /* ApplicationManager.m in Sources */,
 				96130E6B1AEE490A005D2A86 /* ConfigurationManager.m in Sources */,
 				96130E6C1AEE490A005D2A86 /* ConfirmEmailViewController.m in Sources */,
+				96E9D3711B39699B004ADDEA /* AboutDetailsViewController.m in Sources */,
 				96F7EA6A1B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */,
 				96130E6D1AEE490A005D2A86 /* CycleProgressBar.m in Sources */,
 				96130E6E1AEE490A005D2A86 /* AccountSummaryViewController.m in Sources */,
@@ -1341,6 +1351,7 @@
 				FEF579511B1494AD00B31A3E /* ApplicationManager.m in Sources */,
 				FEF579501B1493F700B31A3E /* NSString+Helper.m in Sources */,
 				968591B71AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
+				96E9D36F1B39699B004ADDEA /* AboutDetailsViewController.m in Sources */,
 				9649BC8D1AC16D1000B9F41B /* ConfirmEmailViewController.m in Sources */,
 				96F7EA681B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */,
 				9649BC8F1AC16D1000B9F41B /* CycleProgressBar.m in Sources */,
@@ -1383,6 +1394,7 @@
 				96F62A241AC30FAF00B25B53 /* ConfigurationManager.m in Sources */,
 				966EB9D41A8CF069004B936A /* ConfirmEmailViewController.m in Sources */,
 				96F7EA671B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */,
+				96E9D36E1B39699B004ADDEA /* AboutDetailsViewController.m in Sources */,
 				FE4AEB081A443E4C000B3181 /* CycleProgressBar.m in Sources */,
 				9614F8CF1A9E1EC500337080 /* AccountSummaryViewController.m in Sources */,
 				FED7691D1A8B4A30005A3ECA /* UIViewController+Helper.m in Sources */,

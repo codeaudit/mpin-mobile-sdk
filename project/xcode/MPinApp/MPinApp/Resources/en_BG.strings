@@ -33,6 +33,13 @@
 "ID_CREATED_MESSAGE" = "ПОЗДРАВЛЕНИЯ!\n Вашето ID: %@ БЕШЕ СЪЗДАДЕНО УСПЕШНО.";
 "ID_CREATED_BTN_SIGN_IN" = "ВЛИЗАНЕ С ТОВА ID";
 
+/* ID Blocked */
+"BLOCKED_ID_TITLE" = "Акаунта е блокиран";
+"BLOCKED_ID_MESSAGE" = "Акаунта е блокиран. Създайте нов или изберете вече съществуващ.";
+"BLOCKED_ID_BACK_TO_ID_LIST" = "НАЗАД";
+"BLOCKED_ID_RESET_PIN" = "ПРОМЕНИ PIN";
+"BLOCKED_ID_REMOVE_ID" = "ИЗТРИЙ АКАУНТА";
+"BLOCKED_ID_RESET_PIN_CONFIRM" = "Сигурни ли сте, че искате да промените PIN кода на акаунт \"%@\" ?";
 
 /*CONFIRM ID VC */
 "CONFIRM_EMAIL_VC_TITLE" = "ПОТВЪРЖДЕНИЕ НА EMAIL";
@@ -66,6 +73,7 @@
 "ADDCONFIGVC_PREFIX" = "RPS ПРЕФИКС";
 "ADDCONFIGVC_BTN_TEST_CONFIG" = "ТЕСТВАЙ КОНФИГУРАЦИЯТА";
 "ADDCONFIGVC_ERROR_EMPTY_URL" = "МОЛЯ ВЪВЕДЕТЕ URL";
+"ADDCONFIGVC_ERROR_EMPTY_NAME" = "M-PIN SERVER Name is empty";
 "ADDCONFIGVC_ERROR_INVALID_URL" = "НЕВАЛИДЕН URL";
 "ADDCONFIGVC_MESSAGE_CONFIG_OK" = "ВАЛИДНА КОНФИГУРАЦИЯ";
 "ADDCONFIGVC_INVALID_CONFIG" = "НЕВАЛИДНА КОНФИГУРАЦИЯ";
@@ -87,7 +95,7 @@
 
 /* HUD Messages */
 "HUD_CHANGE_CONFIGURATION"  = "Смяна на конфигурацията. Моля изчакайте.";
-"HUD_AUTH_SUCCESS"          = "Успешна автентикация";
+"HUD_AUTH_SUCCESS"          = "Your authentication is \n successful !";
 "HUD_LOGOUT"                = "Излизане";
 "HUD_LOGOUT_OK"             = "Успешно излизане";
 "HUD_LOGOUT_NOT_OK"         = "Неуспешно излизане";
