@@ -19,8 +19,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.certivox.controllers.MPinController;
+import com.certivox.fragments.AboutFragment;
 import com.certivox.fragments.ConfigurationsListFragment;
 import com.certivox.fragments.MPinFragment;
+import com.certivox.fragments.UsersListFragment;
 import com.example.mpinsdk.R;
 
 public class MPinActivity extends ActionBarActivity implements OnClickListener,
@@ -45,7 +47,6 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 	private static final String FRAGMENT_CONFIGURATIONS_LIST = "FRAGMENT_CONFIGURATIONS_LIST";
 	private static final String FRAGMENT_PINPAD = "FRAGMENT_PINPAD";
 	private static final String FRAGMENT_ACCESS_NUMBER = "FRAGMENT_ACCESS_NUMBER";
-	private static final String FRAGMENT_EMPTY_USERS_LIST = "FRAGMENT_EMPTY_USERS_LIST";
 	private static final String FRAGMENT_USERS_LIST = "FRAGMENT_USERS_LIST";
 	private static final String FRAGMENT_NEW_USER = "FRAGMENT_NEW_USER";
 	private static final String FRAGMENT_CONFIRM_EMAIL = "FRAGMENT_CONFIRM_EMAIL";
@@ -117,7 +118,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 			Log.i(TAG, "Change service pressed");
 			break;
 		case R.id.about:
-			Log.i(TAG, "About pressed");
+			mController.handleMessage(MPinController.MESSAGE_ON_ABOUT);
 			break;
 		default:
 			return;
@@ -127,7 +128,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 	@Override
 	public void onBackPressed() {
 		Log.i(TAG, "onBackPressed");
-		mController.handleMessage(MPinController.MESSAGE_ON_BACK);
+		mController.handleMessage(MPinController.MESSAGE_GO_BACK_REQUEST);
 	}
 
 	@Override
@@ -147,12 +148,23 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		case MPinController.MESSAGE_STOP_WORK_IN_PROGRESS:
 			hideLoader();
 			return true;
-		case MPinController.MESSAGE_SHOW_CONFIGURATIONS_LIST_FRAGMENT:
-
+		case MPinController.MESSAGE_GO_BACK:
+			goBack();
+			return true;
+		case MPinController.MESSAGE_SHOW_CONFIGURATIONS_LIST:
 			// TODO: Check if this could be done in the fragment
 			disableDrawer();
 			createAndAddFragment(FRAGMENT_CONFIGURATIONS_LIST,
 					ConfigurationsListFragment.class, false);
+			return true;
+		case MPinController.MESSAGE_SHOW_ABOUT:
+			// TODO: Check if this could be done in the fragment
+			disableDrawer();
+			createAndAddFragment(FRAGMENT_ABOUT, AboutFragment.class, false);
+			return true;
+		case MPinController.MESSAGE_SHOW_USERS_LIST:
+			createAndAddFragment(FRAGMENT_USERS_LIST, UsersListFragment.class,
+					false);
 			return true;
 		}
 		return false;
@@ -295,13 +307,13 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 
 		if (fragment == null) {
 			try {
-
 				fragment = fragmentClass.getConstructor().newInstance();
 				fragment.setMPinController(mController);
 
 				FragmentTransaction transaction = getFragmentManager()
 						.beginTransaction();
 				transaction.replace(R.id.content, fragment, tag);
+				// transaction.addToBackStack(tag);
 				transaction.commit();
 				getFragmentManager().executePendingTransactions();
 
@@ -317,5 +329,13 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private void goBack() {
+		if (getFragmentManager().getBackStackEntryCount() > 0) {
+			getFragmentManager().popBackStack();
+			return;
+		}
+		super.onBackPressed();
 	}
 }

@@ -9,6 +9,8 @@ public abstract class MPinFragment extends Fragment {
 	// MPinController
 	private MPinController mMPinController;
 
+	abstract protected void initViews();
+
 	public void setMPinController(MPinController mController2) {
 		mMPinController = mController2;
 	}

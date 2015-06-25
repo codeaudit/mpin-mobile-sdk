@@ -12,7 +12,6 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.certivox.activities.MPinActivityOld;
 import com.certivox.dal.ConfigsDao;
 import com.certivox.interfaces.Controller;
 import com.certivox.models.Config;
@@ -48,25 +47,25 @@ public class MPinController extends Controller {
 	public static final int MESSAGE_ON_STOP = 3;
 	public static final int MESSAGE_ON_BACK = 4;
 	public static final int MESSAGE_ON_DRAWER_BACK = 5;
-
-	public static final int GET_CONFIGURATIONS_LIST = 5;
+	public static final int MESSAGE_GO_BACK_REQUEST = 6;
+	public static final int MESSAGE_ON_ABOUT = 7;
 
 	// Receive Messages from Fragment Configurations List
-	public static final int MESSAGE_ON_NEW_CONFIGURATION = 6;
-	public static final int MESSAGE_ON_SELECT_CONFIGURATION = 7;
-	public static final int MESSAGE_ON_EDIT_CONFIGURATION = 8;
-	public static final int MESSAGE_DELETE_CONFIGURATION = 9;
+	public static final int MESSAGE_ON_NEW_CONFIGURATION = 8;
+	public static final int MESSAGE_ON_SELECT_CONFIGURATION = 9;
+	public static final int MESSAGE_ON_EDIT_CONFIGURATION = 10;
+	public static final int MESSAGE_DELETE_CONFIGURATION = 11;
 
 	// Sent Messages
-	public static final int MESSAGE_START_WORK_IN_PROGRESS = 1;
-	public static final int MESSAGE_STOP_WORK_IN_PROGRESS = 2;
-	public static final int MESSAGE_SHOW_CONFIGURATIONS_LIST_FRAGMENT = 3;
+	public static final int MESSAGE_GO_BACK = 1;
+	public static final int MESSAGE_START_WORK_IN_PROGRESS = 2;
+	public static final int MESSAGE_STOP_WORK_IN_PROGRESS = 3;
 	public static final int MESSAGE_CONFIGURATION_DELETED = 4;
 	public static final int MESSAGE_CONFIGURATION_CHANGED = 5;
 	public static final int MESSAGE_CONFIGURATION_CHANGE_ERROR = 6;
-
-	// Threads
-	private Thread mSDKInitializationThread;
+	public static final int MESSAGE_SHOW_CONFIGURATIONS_LIST = 7;
+	public static final int MESSAGE_SHOW_ABOUT = 8;
+	public static final int MESSAGE_SHOW_USERS_LIST = 9;
 
 	public MPinController(Context context) {
 		mContext = context;
@@ -74,9 +73,7 @@ public class MPinController extends Controller {
 		mUsersList = new ArrayList<User>();
 		mCurrentConfiguration = mConfigsDao.getActiveConfiguration();
 
-		mWorkerThread = new HandlerThread("Controller Worker Thread");
-		mWorkerThread.start();
-		mWorkerHandler = new Handler(mWorkerThread.getLooper());
+		initWorkerThread();
 		startSDKInitializationThread();
 		startSetupInitialScreenThread();
 	}
@@ -96,9 +93,17 @@ public class MPinController extends Controller {
 		case MESSAGE_ON_BACK:
 			return true;
 		case MESSAGE_ON_DRAWER_BACK:
+			// TODO: change the logic acording the fragment
+			notifyOutboxHandlers(MESSAGE_GO_BACK, 0, 0, null);
 			return true;
 		case MESSAGE_ON_NEW_CONFIGURATION:
 			onNewConfiguration();
+			return true;
+		case MESSAGE_ON_ABOUT:
+			notifyOutboxHandlers(MESSAGE_SHOW_ABOUT, 0, 0, null);
+			return true;
+		case MESSAGE_GO_BACK_REQUEST:
+			notifyOutboxHandlers(MESSAGE_GO_BACK, 0, 0, null);
 			return true;
 		default:
 			return false;
@@ -122,6 +127,12 @@ public class MPinController extends Controller {
 		}
 	}
 
+	private void initWorkerThread() {
+		mWorkerThread = new HandlerThread("Controller Worker Thread");
+		mWorkerThread.start();
+		mWorkerHandler = new Handler(mWorkerThread.getLooper());
+	}
+
 	private void onNewConfiguration() {
 
 	}
@@ -141,6 +152,8 @@ public class MPinController extends Controller {
 						mConfigsDao.setActiveConfig(config);
 						notifyOutboxHandlers(MESSAGE_CONFIGURATION_CHANGED, 0,
 								0, null);
+						// TODO: The model should listen for this to update
+						initUsersList();
 					} else {
 						notifyOutboxHandlers(
 								MESSAGE_CONFIGURATION_CHANGE_ERROR, 0, 0, null);
@@ -172,10 +185,6 @@ public class MPinController extends Controller {
 		});
 	}
 
-	private void saveConfigurationInCache() {
-
-	}
-
 	private void startSDKInitializationThread() {
 		mWorkerHandler.post(new Runnable() {
 
@@ -195,11 +204,10 @@ public class MPinController extends Controller {
 			@Override
 			public void run() {
 				if (mCurrentConfiguration == null) {
-					notifyOutboxHandlers(
-							MESSAGE_SHOW_CONFIGURATIONS_LIST_FRAGMENT, 0, 0,
-							null);
+					notifyOutboxHandlers(MESSAGE_SHOW_CONFIGURATIONS_LIST, 0,
+							0, null);
 				} else {
-
+					notifyOutboxHandlers(MESSAGE_SHOW_USERS_LIST, 0, 0, null);
 				}
 			}
 		});
@@ -238,17 +246,11 @@ public class MPinController extends Controller {
 		Log.i(TAG, "MPin initialization finished");
 	}
 
+	// TODO this should be in model
 	private void initUsersList() {
 		mUsersList.clear();
 		mCurrentUser = null;
 		getSDK().ListUsers(mUsersList);
-	}
-
-	private void stopRunningThreads() {
-		if (mSDKInitializationThread != null
-				&& mSDKInitializationThread.isAlive()) {
-			mSDKInitializationThread.interrupt();
-		}
 	}
 
 	// TODO this should be in model
@@ -280,6 +282,11 @@ public class MPinController extends Controller {
 		PreferenceManager.getDefaultSharedPreferences(mContext).edit()
 				.putString(PREF_LAST_USER, user != null ? user.getId() : "")
 				.commit();
+	}
+
+	// TODO this should be in model
+	public List<User> getUsersList() {
+		return mUsersList;
 	}
 
 	public List<Config> getConfigurationsList() {

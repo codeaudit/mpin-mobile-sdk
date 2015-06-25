@@ -4,11 +4,9 @@ import java.util.List;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,8 +15,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -64,7 +60,8 @@ public class ConfigurationsListFragment extends MPinFragment implements
 	public boolean handleMessage(Message msg) {
 		switch (msg.what) {
 		case MPinController.MESSAGE_CONFIGURATION_DELETED:
-			initAdapter();
+			mAdapter.updateConfigsList(getMPinController()
+					.getConfigurationsList());
 			return true;
 		case MPinController.MESSAGE_CONFIGURATION_CHANGED:
 			Toast.makeText(getActivity(), "Configuration activated!",
@@ -128,7 +125,8 @@ public class ConfigurationsListFragment extends MPinFragment implements
 		mAdapter.setSelectedfigurationId(mSelectedConfiguraionId);
 	}
 
-	private void initViews() {
+	@Override
+	protected void initViews() {
 		mListView = (ListView) mView.findViewById(android.R.id.list);
 		mAddServiceButton = (ImageButton) mView
 				.findViewById(R.id.add_service_button);

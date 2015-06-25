@@ -26,6 +26,12 @@ public class ConfigurationListAdapter extends BaseAdapter {
 		mSelectedConfigurationId = selectedConfigurationId;
 	}
 
+	public void updateConfigsList(List<Config> configList) {
+		mConfigsList.clear();
+		mConfigsList.addAll(configList);
+		notifyDataSetChanged();
+	}
+
 	public void setSelectedfigurationId(long id) {
 		mSelectedConfigurationId = id;
 		notifyDataSetChanged();
@@ -53,24 +59,26 @@ public class ConfigurationListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		View view = convertView;
 		ViewHolder holder;
-		if (view == null) {
-			view = LayoutInflater.from(mContext).inflate(R.layout.item_config,
-					parent, false);
+		if (convertView == null) {
+			convertView = LayoutInflater.from(mContext).inflate(
+					R.layout.item_config, parent, false);
 			holder = new ViewHolder();
-			holder.title = (TextView) view.findViewById(R.id.item_config_title);
-			holder.url = (TextView) view.findViewById(R.id.item_config_url);
-			holder.button = (RadioButton) view.findViewById(R.id.toggle_button);
-			view.setTag(holder);
+			holder.title = (TextView) convertView
+					.findViewById(R.id.item_config_title);
+			holder.url = (TextView) convertView
+					.findViewById(R.id.item_config_url);
+			holder.button = (RadioButton) convertView
+					.findViewById(R.id.toggle_button);
+			convertView.setTag(holder);
 		}
 
-		holder = (ViewHolder) view.getTag();
+		holder = (ViewHolder) convertView.getTag();
 		Config config = mConfigsList.get(position);
 		holder.title.setText(config.getTitle());
 		holder.url.setText(getConfigurationType(config));
 
-		view.setId((int) config.getId());
+		convertView.setId((int) config.getId());
 
 		if (config.getId() == mSelectedConfigurationId) {
 			holder.button.setChecked(true);
@@ -78,7 +86,7 @@ public class ConfigurationListAdapter extends BaseAdapter {
 			holder.button.setChecked(false);
 		}
 
-		return view;
+		return convertView;
 	}
 
 	private String getConfigurationType(Config config) {

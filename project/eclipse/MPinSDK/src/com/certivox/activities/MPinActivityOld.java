@@ -30,7 +30,7 @@ import com.certivox.fragments.CreateIdentityFragment;
 import com.certivox.fragments.OTPFragment;
 import com.certivox.fragments.PinPadFragment;
 import com.certivox.fragments.SuccessfulLoginFragment;
-import com.certivox.fragments.UsersListFragment;
+import com.certivox.fragments.UsersListFragmentOld;
 import com.certivox.interfaces.PinPadController;
 import com.certivox.listeners.OnAddNewUserListener;
 import com.certivox.listeners.OnUserSelectedListener;
@@ -42,7 +42,8 @@ import com.certivox.models.User.State;
 import com.certivox.mpinsdk.Mpin;
 import com.example.mpinsdk.R;
 
-public class MPinActivityOld extends BaseMPinActivity implements PinPadController {
+public class MPinActivityOld extends BaseMPinActivity implements
+		PinPadController {
 
 	static {
 		System.loadLibrary("AndroidMpinSDK");
@@ -368,26 +369,6 @@ public class MPinActivityOld extends BaseMPinActivity implements PinPadControlle
 
 	@Override
 	public void addUsersListFragment() {
-		UsersAdapter usersAdapter = new UsersAdapter(mActivity);
-		usersAdapter.setData(mUsersList);
-
-		if (getUsersListFragment() == null) {
-
-			UsersListFragment usersListFramgent = new UsersListFragment();
-			usersListFramgent.setController(mActivity);
-			usersListFramgent.setListAdapter(usersAdapter);
-
-			usersListFramgent
-					.setOnUserSelectedListener(getOnUserSelectedListener());
-
-			usersListFramgent.setOnAddNewListener(getOnAddNewUserListener());
-
-			getFragmentManager().beginTransaction()
-					.replace(R.id.content, usersListFramgent, FRAG_USERSLIST)
-					.commit();
-			getFragmentManager().executePendingTransactions();
-			enableDrawer();
-		}
 
 	}
 
@@ -626,7 +607,6 @@ public class MPinActivityOld extends BaseMPinActivity implements PinPadControlle
 	public void addAboutFragment() {
 		if (getAboutFragment() == null) {
 			AboutFragment aboutFragment = new AboutFragment();
-			aboutFragment.setController(mActivity);
 
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
@@ -654,7 +634,6 @@ public class MPinActivityOld extends BaseMPinActivity implements PinPadControlle
 			if (mUsersList == null || mUsersList.isEmpty()) {
 				addEmptyUsersListFragment();
 			} else {
-				getUsersListFragment().getListAdapter().setData(mUsersList);
 			}
 		}
 	}
@@ -788,8 +767,8 @@ public class MPinActivityOld extends BaseMPinActivity implements PinPadControlle
 				FRAG_EMPTY_USERS_LIST);
 	}
 
-	private UsersListFragment getUsersListFragment() {
-		return (UsersListFragment) getFragmentManager().findFragmentByTag(
+	private UsersListFragmentOld getUsersListFragment() {
+		return (UsersListFragmentOld) getFragmentManager().findFragmentByTag(
 				FRAG_USERSLIST);
 	}
 

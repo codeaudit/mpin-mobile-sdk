@@ -1,102 +1,123 @@
 package com.certivox.fragments;
 
-import android.app.ListFragment;
+import java.util.List;
+
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.certivox.adapters.UsersAdapter;
-import com.certivox.interfaces.MPinController;
-import com.certivox.listeners.OnAddNewUserListener;
-import com.certivox.listeners.OnUserSelectedListener;
 import com.certivox.models.User;
 import com.example.mpinsdk.R;
 
-public class UsersListFragment extends ListFragment {
+public class UsersListFragment extends MPinFragment implements OnClickListener,
+		AdapterView.OnItemClickListener, Handler.Callback {
 
-	private MPinController mMpinController;
+	private final String TAG = UsersListFragment.class.getCanonicalName();
 
-	private OnUserSelectedListener mSelectedUserListener;
-	private OnAddNewUserListener mAddNewListener;
+	private List<User> mUsersList;
 
-	public void setController(MPinController controller) {
-		mMpinController = controller;
-	}
-
-	public void setOnUserSelectedListener(OnUserSelectedListener listener) {
-		mSelectedUserListener = listener;
-	}
-
-	public void setOnAddNewListener(OnAddNewUserListener listener) {
-		mAddNewListener = listener;
-	}
+	private View mView;
+	private ListView mListView;
+	private BaseAdapter mAdapter;
+	private ImageButton mCreateIdentityFAButton;
+	private Button mCreateIdentityButton;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.users_list_layout, container,
-				false);
-		view.findViewById(R.id.add_user_button).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						if (mAddNewListener != null) {
-							mAddNewListener.onAddNewUser();
-						}
-					}
-				});
+		mView = inflater.inflate(R.layout.users_list_layout, container, false);
+		initViews();
 
-		return view;
+		initScreen();
+
+		return mView;
 	}
 
 	@Override
 	public void onResume() {
-		mMpinController.setTooblarTitle(R.string.select_identity_title);
 		super.onResume();
 	}
 
 	@Override
-	public void setListAdapter(ListAdapter adapter) {
-		if (!(adapter instanceof UsersAdapter))
-			throw new IllegalArgumentException("Only UsersAdapter is supported");
-		super.setListAdapter(adapter);
+	public boolean handleMessage(Message msg) {
+		return false;
 	}
 
 	@Override
-	public UsersAdapter getListAdapter() {
-		return (UsersAdapter) super.getListAdapter();
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.create_identity_button:
+		case R.id.create_identity_fa_button:
+			Log.i(TAG, "Create identity clicked");
+			break;
+		default:
+			break;
+		}
 	}
 
 	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-		UsersAdapter adapter = getListAdapter();
-		if (adapter != null) {
-			User user = adapter.getItem(position);
-			if (mSelectedUserListener != null) {
-				mSelectedUserListener.onUserSelected(user);
-			}
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+
+	}
+
+	@Override
+	protected void initViews() {
+		mListView = (ListView) mView.findViewById(android.R.id.list);
+		mCreateIdentityButton = (Button) mView
+				.findViewById(R.id.create_identity_button);
+		mCreateIdentityFAButton = (ImageButton) mView
+				.findViewById(R.id.create_identity_fa_button);
+
+		mCreateIdentityButton.setOnClickListener(this);
+		mCreateIdentityFAButton.setOnClickListener(this);
+	}
+
+	private void initScreen() {
+		mUsersList = getMPinController().getUsersList();
+		if (mUsersList.isEmpty()) {
+			hideIdentitiesList();
+			showCreateIdentityButton();
+		} else {
+			hideCreateIdentityButton();
+			showIdentitiesList();
+			initAdapter();
 		}
 	}
 
-	public void setSelectedUser(User user) {
-		UsersAdapter adapter = getListAdapter();
-		if (adapter != null) {
-			deselectAllUsers();
-			if (user != null) {
-				user.setUserSelected(true);
-				mMpinController.enableContextToolbar();
-			}
-			adapter.notifyDataSetChanged();
-		}
+	private void initAdapter() {
+		mAdapter = new UsersAdapter(getActivity().getApplicationContext(),
+				mUsersList);
+
+		mListView.setAdapter(mAdapter);
+		mListView.setOnItemClickListener(this);
 	}
 
-	public void deselectAllUsers() {
-		UsersAdapter adapter = getListAdapter();
-		adapter.deselectAllUsers();
+	private void showIdentitiesList() {
+		mListView.setVisibility(View.VISIBLE);
+	}
+
+	private void hideIdentitiesList() {
+		mListView.setVisibility(View.GONE);
+	}
+
+	private void showCreateIdentityButton() {
+		mCreateIdentityButton.setVisibility(View.VISIBLE);
+	}
+
+	private void hideCreateIdentityButton() {
+		mCreateIdentityButton.setVisibility(View.GONE);
 	}
 
 }
