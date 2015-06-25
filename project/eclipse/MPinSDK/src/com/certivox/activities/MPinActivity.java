@@ -161,27 +161,22 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		case MPinController.MESSAGE_SHOW_CONFIGURATIONS_LIST:
 			// TODO: Check if this could be done in the fragment
 			disableDrawer();
-			setTooblarTitle(R.string.select_service_toolbar_title);
 			createAndAddFragment(FRAGMENT_CONFIGURATIONS_LIST,
 					ConfigsListFragment.class, false, null);
 			return true;
 		case MPinController.MESSAGE_SHOW_CONFIGURATION_EDIT:
-			setTooblarTitle(R.string.config_detail_toolbar_title);
 			createAndAddFragment(FRAGMENT_ABOUT, ConfigDetailFragment.class,
 					false, msg.arg1);
 			return true;
 		case MPinController.MESSAGE_SHOW_ABOUT:
 			// TODO: Check if this could be done in the fragment
 			disableDrawer();
-			setTooblarTitle(R.string.about_title);
 			createAndAddFragment(FRAGMENT_ABOUT, AboutFragment.class, false,
 					null);
 			return true;
 		case MPinController.MESSAGE_SHOW_USERS_LIST:
 			// TODO: Check if this could be done in the fragment
 			enableDrawer();
-			// TODO: Title should be conditional based on identity list
-			setTooblarTitle(R.string.select_identity_title);
 			createAndAddFragment(FRAGMENT_USERS_LIST, UsersListFragment.class,
 					false, null);
 			return true;
@@ -231,10 +226,6 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 			getSupportActionBar().setDisplayShowHomeEnabled(true);
 		}
-	}
-
-	private void setTooblarTitle(int resId) {
-		getSupportActionBar().setTitle(resId);
 	}
 
 	private void initNavigationDrawer() {
@@ -335,7 +326,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 						.beginTransaction();
 				transaction.replace(R.id.content, fragment, tag);
 				// TODO: Check when to add to backstack
-//				transaction.addToBackStack(tag);
+				// transaction.addToBackStack(tag);
 				transaction.commit();
 				getFragmentManager().executePendingTransactions();
 

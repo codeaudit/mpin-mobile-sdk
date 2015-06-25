@@ -47,6 +47,8 @@ public class ConfigsListFragment extends MPinFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		setTooblarTitle(R.string.select_service_toolbar_title);
+
 		mView = inflater.inflate(R.layout.fragment_configurations_list,
 				container, false);
 		initViews();
@@ -85,13 +87,10 @@ public class ConfigsListFragment extends MPinFragment implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.select_config:
-			getMPinController().handleMessage(
-					MPinController.MESSAGE_ON_SELECT_CONFIGURATION,
-					mSelectedConfiguraionId);
+			onSelectConfig();
 			return true;
 		case R.id.configs_list_new:
-			getMPinController().handleMessage(
-					MPinController.MESSAGE_ON_NEW_CONFIGURATION);
+			onNewConfig();
 			return true;
 		case R.id.configs_list_edit:
 			onEditConfig();
@@ -142,6 +141,21 @@ public class ConfigsListFragment extends MPinFragment implements
 
 		mListView.setAdapter(mAdapter);
 		mListView.setOnItemClickListener(this);
+	}
+
+	private void onSelectConfig() {
+		if (mSelectedConfiguraionId == -1) {
+			showNoSelectedConfigurationDialog();
+		} else {
+			getMPinController().handleMessage(
+					MPinController.MESSAGE_ON_SELECT_CONFIGURATION,
+					mSelectedConfiguraionId);
+		}
+	}
+
+	private void onNewConfig() {
+		getMPinController().handleMessage(
+				MPinController.MESSAGE_ON_NEW_CONFIGURATION);
 	}
 
 	private void onEditConfig() {

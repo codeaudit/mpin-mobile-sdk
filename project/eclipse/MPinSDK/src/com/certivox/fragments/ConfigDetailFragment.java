@@ -78,6 +78,8 @@ public class ConfigDetailFragment extends MPinFragment implements
 		mView = inflater.inflate(R.layout.config_details_layout, container,
 				false);
 		initViews();
+		initScreen();
+
 		return mView;
 	}
 
@@ -101,8 +103,11 @@ public class ConfigDetailFragment extends MPinFragment implements
 
 		mCheckServiceButton.setOnClickListener(this);
 		mSaveServiceButton.setOnClickListener(this);
+	}
 
+	private void initScreen() {
 		if (mConfig.getId() != -1) {
+			setTooblarTitle(R.string.config_detail_toolbar_title);
 			mServiceNameEditText.setText(mConfig.getTitle());
 			mServiceUrlEditText.setText(mConfig.getBackendUrl());
 			mServiceRTSEditText.setText(mConfig.getRTS());
@@ -135,6 +140,8 @@ public class ConfigDetailFragment extends MPinFragment implements
 							}
 						}
 					});
+		} else {
+			setTooblarTitle(R.string.add_service_toolbar_title);
 		}
 	}
 

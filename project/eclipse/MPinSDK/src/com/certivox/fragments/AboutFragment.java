@@ -31,6 +31,7 @@ public class AboutFragment extends MPinFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		setTooblarTitle(R.string.about_title);
 		mView = inflater.inflate(R.layout.about_layout, container, false);
 		initViews();
 		setVersion();
