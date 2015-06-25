@@ -48,13 +48,15 @@ public class MPinController extends Controller {
 	public static final int MESSAGE_ON_BACK = 4;
 	public static final int MESSAGE_ON_DRAWER_BACK = 5;
 	public static final int MESSAGE_GO_BACK_REQUEST = 6;
-	public static final int MESSAGE_ON_ABOUT = 7;
+	public static final int MESSAGE_ON_CHANGE_IDENTITY = 7;
+	public static final int MESSAGE_ON_CHANGE_SERVICE = 8;
+	public static final int MESSAGE_ON_ABOUT = 9;
 
 	// Receive Messages from Fragment Configurations List
-	public static final int MESSAGE_ON_NEW_CONFIGURATION = 8;
-	public static final int MESSAGE_ON_SELECT_CONFIGURATION = 9;
-	public static final int MESSAGE_ON_EDIT_CONFIGURATION = 10;
-	public static final int MESSAGE_DELETE_CONFIGURATION = 11;
+	public static final int MESSAGE_ON_NEW_CONFIGURATION = 10;
+	public static final int MESSAGE_ON_SELECT_CONFIGURATION = 11;
+	public static final int MESSAGE_ON_EDIT_CONFIGURATION = 12;
+	public static final int MESSAGE_DELETE_CONFIGURATION = 13;
 
 	// Sent Messages
 	public static final int MESSAGE_GO_BACK = 1;
@@ -98,6 +100,12 @@ public class MPinController extends Controller {
 			return true;
 		case MESSAGE_ON_NEW_CONFIGURATION:
 			onNewConfiguration();
+			return true;
+		case MESSAGE_ON_CHANGE_IDENTITY:
+			notifyOutboxHandlers(MESSAGE_SHOW_USERS_LIST, 0, 0, null);
+			return true;
+		case MESSAGE_ON_CHANGE_SERVICE:
+			notifyOutboxHandlers(MESSAGE_SHOW_CONFIGURATIONS_LIST, 0, 0, null);
 			return true;
 		case MESSAGE_ON_ABOUT:
 			notifyOutboxHandlers(MESSAGE_SHOW_ABOUT, 0, 0, null);
@@ -295,5 +303,9 @@ public class MPinController extends Controller {
 
 	public long getActiveConfigurationId() {
 		return mConfigsDao.getActiveConfigurationId();
+	}
+
+	public Config getActiveConfiguration() {
+		return mConfigsDao.getActiveConfiguration();
 	}
 }

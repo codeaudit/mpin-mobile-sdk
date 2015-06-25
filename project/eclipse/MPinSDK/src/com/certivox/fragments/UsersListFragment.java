@@ -37,8 +37,8 @@ public class UsersListFragment extends MPinFragment implements OnClickListener,
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		mView = inflater.inflate(R.layout.users_list_layout, container, false);
+		getMPinController().addOutboxHandler(new Handler(this));
 		initViews();
-
 		initScreen();
 
 		return mView;

@@ -23,7 +23,7 @@ import com.certivox.models.Config;
 import com.certivox.models.Status;
 import com.example.mpinsdk.R;
 
-public class ConfigDetailFragment extends Fragment {
+public class ConfigDetailFragment extends MPinFragment {
 
 	private View mView;
 	private EditText mServiceNameEditText;
@@ -34,10 +34,7 @@ public class ConfigDetailFragment extends Fragment {
 	private Button mCheckServiceButton;
 	private Button mSaveServiceButton;
 
-	private ConfigController controller;
-
 	private Config mConfig;
-	private ConfigsDao mConfigsDao;
 	private long mConfigId;
 	private String mConfigURL;
 
@@ -45,11 +42,7 @@ public class ConfigDetailFragment extends Fragment {
 	private static final int INVALID_BACKEND = 1;
 	private static final int VALID_BACKEND = 2;
 
-	private Status mChechBackendStatus;
-
-	public void setController(ConfigController controller) {
-		this.controller = controller;
-	}
+	private Status mCheckBackendStatus;
 
 	public void setConfigId(long configId) {
 		this.mConfigId = configId;
@@ -58,7 +51,6 @@ public class ConfigDetailFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		mConfigsDao = new ConfigsDao(activity.getApplicationContext());
 		mConfig = new Config();
 		if (mConfigId != -1) {
 			initConfig();
@@ -66,7 +58,7 @@ public class ConfigDetailFragment extends Fragment {
 	}
 
 	private void initConfig() {
-		mConfig = mConfigsDao.getConfigurationById(mConfigId);
+		// ???
 		mConfigURL = mConfig.getBackendUrl();
 	}
 
@@ -80,15 +72,10 @@ public class ConfigDetailFragment extends Fragment {
 	}
 
 	private void updateDb() {
-		if (mConfig == null) {
-			return;
-		}
-
-		mConfigsDao.saveOrUpdate(mConfig);
 	}
 
-	private void initViews() {
-
+	@Override
+	protected void initViews() {
 		mServiceNameEditText = (EditText) mView
 				.findViewById(R.id.service_name_input);
 		mServiceUrlEditText = (EditText) mView
@@ -228,21 +215,18 @@ public class ConfigDetailFragment extends Fragment {
 		boolean anChecked = mServiceANCheckBox.isChecked();
 		mConfig.setRequestAccessNumber(anChecked);
 		updateDb();
-		controller.configurationSaved();
 	}
 
 	private int checkBackend() {
-		controller.showLoader();
 		final String backendUrl = mServiceUrlEditText.getText().toString();
 		if (!URLUtil.isValidUrl(backendUrl)) {
-			controller.hideLoader();
 			return INVALID_URL;
 		} else {
-			mChechBackendStatus = null;
+			mCheckBackendStatus = null;
 			Thread checkBackendThread = new Thread(new Runnable() {
 				@Override
 				public void run() {
-					mChechBackendStatus = MPinActivityOld.sdk().TestBackend(
+					mCheckBackendStatus = MPinActivityOld.sdk().TestBackend(
 							backendUrl);
 				}
 			});
@@ -253,8 +237,7 @@ public class ConfigDetailFragment extends Fragment {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			controller.hideLoader();
-			if (mChechBackendStatus.getStatusCode() != Status.Code.OK) {
+			if (mCheckBackendStatus.getStatusCode() != Status.Code.OK) {
 				return INVALID_BACKEND;
 			} else {
 				return VALID_BACKEND;

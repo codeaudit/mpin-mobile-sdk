@@ -44,12 +44,9 @@ public class ConfigurationsListFragment extends MPinFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
+		getMPinController().addOutboxHandler(new Handler(this));
 		mView = inflater.inflate(R.layout.fragment_configurations_list,
 				container, false);
-
-		getMPinController().addOutboxHandler(new Handler(this));
-
 		initViews();
 		initAdapter();
 

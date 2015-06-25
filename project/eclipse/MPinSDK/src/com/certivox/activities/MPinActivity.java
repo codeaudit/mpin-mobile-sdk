@@ -112,10 +112,11 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.change_identitiy:
-			Log.i(TAG, "Change identity pressed");
+			mController
+					.handleMessage(MPinController.MESSAGE_ON_CHANGE_IDENTITY);
 			break;
 		case R.id.change_service:
-			Log.i(TAG, "Change service pressed");
+			mController.handleMessage(MPinController.MESSAGE_ON_CHANGE_SERVICE);
 			break;
 		case R.id.about:
 			mController.handleMessage(MPinController.MESSAGE_ON_ABOUT);
@@ -151,18 +152,28 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		case MPinController.MESSAGE_GO_BACK:
 			goBack();
 			return true;
+		case MPinController.MESSAGE_CONFIGURATION_CHANGED:
+			// TODO: This should be also called on initial time
+			setDrawerTitle(mController.getActiveConfiguration().getTitle());
+			return true;
 		case MPinController.MESSAGE_SHOW_CONFIGURATIONS_LIST:
 			// TODO: Check if this could be done in the fragment
 			disableDrawer();
+			setTooblarTitle(R.string.select_service_toolbar_title);
 			createAndAddFragment(FRAGMENT_CONFIGURATIONS_LIST,
 					ConfigurationsListFragment.class, false);
 			return true;
 		case MPinController.MESSAGE_SHOW_ABOUT:
 			// TODO: Check if this could be done in the fragment
 			disableDrawer();
+			setTooblarTitle(R.string.about_title);
 			createAndAddFragment(FRAGMENT_ABOUT, AboutFragment.class, false);
 			return true;
 		case MPinController.MESSAGE_SHOW_USERS_LIST:
+			// TODO: Check if this could be done in the fragment
+			enableDrawer();
+			// TODO: Title should be conditional based on identity list
+			setTooblarTitle(R.string.select_identity_title);
 			createAndAddFragment(FRAGMENT_USERS_LIST, UsersListFragment.class,
 					false);
 			return true;
@@ -313,7 +324,8 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 				FragmentTransaction transaction = getFragmentManager()
 						.beginTransaction();
 				transaction.replace(R.id.content, fragment, tag);
-				// transaction.addToBackStack(tag);
+				// TODO: Check when to add to backstack
+				transaction.addToBackStack(tag);
 				transaction.commit();
 				getFragmentManager().executePendingTransactions();
 
@@ -328,10 +340,13 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 			} catch (NoSuchMethodException e) {
 				e.printStackTrace();
 			}
+			// Close the drawer if opened
+			closeDrawer();
 		}
 	}
 
 	private void goBack() {
+		// TODO: This doesn't update the Toolbar "back" button
 		if (getFragmentManager().getBackStackEntryCount() > 0) {
 			getFragmentManager().popBackStack();
 			return;
