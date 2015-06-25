@@ -105,6 +105,32 @@ public class ConfigDetailFragment extends Fragment {
 		mSaveServiceButton = (Button) mView
 				.findViewById(R.id.save_service_button);
 
+		mServiceOTPCheckBox
+				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						if (isChecked) {
+							mServiceANCheckBox.setChecked(false);
+						} else if (!mServiceANCheckBox.isChecked()) {
+							buttonView.setChecked(true);
+						}
+					}
+				});
+
+		mServiceANCheckBox
+				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						if (isChecked) {
+							mServiceOTPCheckBox.setChecked(false);
+						} else if (!mServiceOTPCheckBox.isChecked()) {
+							buttonView.setChecked(true);
+						}
+					}
+				});
+
 		mCheckServiceButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -153,32 +179,6 @@ public class ConfigDetailFragment extends Fragment {
 			mServiceRTSEditText.setText(mConfig.getRTS());
 			mServiceOTPCheckBox.setChecked(mConfig.getRequestOtp());
 			mServiceANCheckBox.setChecked(mConfig.getRequestAccessNumber());
-
-			mServiceOTPCheckBox
-					.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-						@Override
-						public void onCheckedChanged(CompoundButton buttonView,
-								boolean isChecked) {
-							if (isChecked) {
-								mServiceANCheckBox.setChecked(false);
-							} else if (!mServiceANCheckBox.isChecked()) {
-								buttonView.setChecked(true);
-							}
-						}
-					});
-
-			mServiceANCheckBox
-					.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-						@Override
-						public void onCheckedChanged(CompoundButton buttonView,
-								boolean isChecked) {
-							if (isChecked) {
-								mServiceOTPCheckBox.setChecked(false);
-							} else if (!mServiceOTPCheckBox.isChecked()) {
-								buttonView.setChecked(true);
-							}
-						}
-					});
 		}
 	}
 
