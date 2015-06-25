@@ -51,18 +51,6 @@
                 android:inputType="text" />
 
             <CheckBox
-                android:id="@+id/service_mobile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:button="@android:color/transparent"
-                android:drawableLeft="@drawable/checkbox"
-                android:drawablePadding="20dp"
-                android:drawableStart="@drawable/checkbox"
-                android:padding="3dp"
-                android:text="@string/request_mobile_title" />
-
-            <CheckBox
                 android:id="@+id/service_otp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

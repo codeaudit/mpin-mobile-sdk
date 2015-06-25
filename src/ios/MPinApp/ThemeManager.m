@@ -63,8 +63,8 @@
     if ( [vc isMemberOfClass:[ANAuthenticationSuccessful class]] )
     {
         ANAuthenticationSuccessful *myVc = (ANAuthenticationSuccessful *)vc;
-        myVc.lblMessage.textColor = [[SettingsManager sharedManager] color9];
-        myVc.lblMessage.font = [UIFont fontWithName:@"OpenSans-Semibold" size:12.];
+        myVc.lblMessage.textColor = [[SettingsManager sharedManager] color7];
+        myVc.lblMessage.font = [UIFont fontWithName:@"OpenSans-Semibold" size:22.f];
     }
     else
     if ( [vc isMemberOfClass:[MenuViewController class]] )
@@ -185,7 +185,7 @@
     {
         IdentityBlockedViewController *myVc = (IdentityBlockedViewController *)vc;
 
-        myVc.navigationController.title = @"Identity blocked";
+        myVc.title = NSLocalizedString(@"BLOCKED_ID_TITLE", @"Identity Blocked");
         myVc.lblUserEmail.textColor = [[SettingsManager sharedManager] color5];
         myVc.lblUserEmail.font = [UIFont fontWithName:@"OpenSans-Semibold" size:16.0];
         myVc.lblUserEmail.backgroundColor = [UIColor clearColor];
@@ -193,22 +193,22 @@
         myVc.lblMessage.textColor = [[SettingsManager sharedManager] color2];
         myVc.lblMessage.font = [UIFont fontWithName:@"OpenSans" size:14.0];
         myVc.lblMessage.numberOfLines = 0;
-        myVc.lblMessage.text = @"Wrong PIN entered too many times. Your identity is blocked. You can sign up a new identity or choose existing one.";
+        myVc.lblMessage.text = NSLocalizedString(@"BLOCKED_ID_MESSAGE",@"Wrong PIN entered too many times. Your identity is blocked. You can sign up a new identity or choose existing one.");
         myVc.lblMessage.backgroundColor = [UIColor clearColor];
 
         [myVc.imgViewBlockedId setImage:[UIImage imageNamed:@"identity-blocked"]];
 
         [myVc.btnResetPIN setTitleColor:[[SettingsManager sharedManager] color10] forState:UIControlStateNormal];
         myVc.btnResetPIN.backgroundColor = [[SettingsManager sharedManager] color1];
-        [myVc.btnResetPIN setTitle:@"RESET PIN" forState:UIControlStateNormal];
+        [myVc.btnResetPIN setTitle:NSLocalizedString(@"BLOCKED_ID_RESET_PIN", @"RESET PIN") forState:UIControlStateNormal];
 
         [myVc.btnBackToIdList setTitleColor:[[SettingsManager sharedManager] color10] forState:UIControlStateNormal];
         myVc.btnBackToIdList.backgroundColor = [[SettingsManager sharedManager] color1];
-        [myVc.btnBackToIdList setTitle:@"BACK TO IDENTITY LIST"  forState:UIControlStateNormal];
+        [myVc.btnBackToIdList setTitle:NSLocalizedString(@"BLOCKED_ID_BACK_TO_ID_LIST", @"BACK TO IDENTITY LIST")  forState:UIControlStateNormal];
 
         [myVc.btnDeleteId setTitleColor:[[SettingsManager sharedManager] color1] forState:UIControlStateNormal];
         myVc.btnDeleteId.backgroundColor = [[SettingsManager sharedManager] color10];
-        [myVc.btnDeleteId setTitle:@"REMOVE THIS IDENTITY"  forState:UIControlStateNormal];
+        [myVc.btnDeleteId setTitle:NSLocalizedString(@"BLOCKED_ID_REMOVE_ID", @"REMOVE THIS IDENTITY")  forState:UIControlStateNormal];
 
         myVc.viewButtonsBG.backgroundColor = [[SettingsManager sharedManager] color3];
     }
