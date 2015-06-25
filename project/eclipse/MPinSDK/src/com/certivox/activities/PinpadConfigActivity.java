@@ -23,13 +23,13 @@ import android.widget.CursorAdapter;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.certivox.db.ConfigsContract.ConfigEntry;
-import com.certivox.db.ConfigsDao;
+import com.certivox.dal.ConfigsDao;
+import com.certivox.dal.ConfigsContract.ConfigEntry;
 import com.certivox.fragments.ConfigDetailFragment;
 import com.certivox.fragments.ConfigListFragment;
 import com.certivox.interfaces.ConfigController;
+import com.certivox.models.Config;
 import com.certivox.models.Status;
-import com.certivox.mpinsdk.Config;
 import com.example.mpinsdk.R;
 
 public class PinpadConfigActivity extends ActionBarActivity implements
@@ -39,7 +39,7 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 	private Toolbar mToolbar;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private DrawerLayout mDrawerLayout;
-
+	private ConfigsDao mConfigsDao;
 	// Fragments
 	private static final String FRAG_CONFIG_LIST = "FRAG_CONFIG_LIST";
 	private static final String FRAG_CONFIG_DETAILS = "FRAG_CONFIG_EDIT";
@@ -60,9 +60,9 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.base_drawer_layout);
-
+		mConfigsDao = new ConfigsDao(getApplicationContext());
 		mActivity = this;
-		mLastConfig = getActiveConfiguration(this);
+		mLastConfig = mConfigsDao.getActiveConfiguration();
 
 		initViews();
 		initActionBar();
@@ -83,7 +83,7 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 
 	@Override
 	protected void onStop() {
-		Config activeConfiguration = getActiveConfiguration(this);
+		Config activeConfiguration = mConfigsDao.getActiveConfiguration();
 		if (activeConfiguration != null) {
 			PreferenceManager
 					.getDefaultSharedPreferences(this.getApplicationContext())
@@ -271,42 +271,16 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 		mDrawerToggle.syncState();
 	}
 
-	public static Cursor deleteConfiguration(Context context, long configId) {
+	public Cursor deleteConfiguration(Context context, long configId) {
 
-		Cursor cursor = ConfigsDao.deleteConfigurationById(context, configId);
+		Cursor cursor = mConfigsDao.deleteConfigurationById(configId);
 
 		if (cursor.moveToFirst()) {
-			setActiveConfig(context, ConfigsDao.getConfigurationById(context,
-					cursor.getLong(cursor
-							.getColumnIndexOrThrow(ConfigEntry._ID))));
+			mConfigsDao.setActiveConfig(mConfigsDao.getConfigurationById(cursor
+					.getLong(cursor.getColumnIndexOrThrow(ConfigEntry._ID))));
 		}
 
 		return cursor;
-	}
-
-	public static Config getActiveConfiguration(Context context) {
-		if (context == null)
-			return null;
-
-		long id = PreferenceManager.getDefaultSharedPreferences(
-				context.getApplicationContext()).getLong(KEY_ACTIVE_CONFIG, -1);
-
-		return ConfigsDao.getConfigurationById(context, id);
-	}
-
-	public static void setActiveConfig(final Context context,
-			final Config config) {
-
-		final long id = config != null ? config.getId() : -1;
-		mLastConfig = getActiveConfiguration(context);
-
-		if ((mLastConfig != null ? mLastConfig.getId() : -1) == id) {
-			return;
-		}
-
-		PreferenceManager
-				.getDefaultSharedPreferences(context.getApplicationContext())
-				.edit().putLong(KEY_ACTIVE_CONFIG, id).commit();
 	}
 
 	public void activateConfiguration(final Config config) {
@@ -332,7 +306,8 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 						public void run() {
 							hideLoader();
 							if (status.getStatusCode() == Status.Code.OK) {
-								mLastConfig = getActiveConfiguration(PinpadConfigActivity.this);
+								mLastConfig = mConfigsDao
+										.getActiveConfiguration();
 								Toast.makeText(mActivity,
 										"Configuration changed successfully",
 										Toast.LENGTH_SHORT).show();
@@ -362,8 +337,7 @@ public class PinpadConfigActivity extends ActionBarActivity implements
 
 	@Override
 	public void configurationSelected(long mSelectedId) {
-		activateConfiguration(ConfigsDao.getConfigurationById(mActivity,
-				mSelectedId));
+		activateConfiguration(mConfigsDao.getConfigurationById(mSelectedId));
 	}
 
 	@Override

@@ -1,42 +1,6 @@
 {
     "Backends": [
         {
-            "BackendUrl": "https://m-pindemo.certivox.org",
-            "RequestAccessNumber": false,
-            "RequestOtp": false,
-            "Title": "Basic"
-        },
-        {
-            "BackendUrl": "http://ec2-52-28-120-46.eu-central-1.compute.amazonaws.com",
-            "RequestAccessNumber": false,
-            "RequestOtp": false,
-            "Title": "Force Activation"
-        },
-        {
-            "BackendUrl": "https://mpindemo-qa-v3.certivox.org",
-            "RequestAccessNumber": true,
-            "RequestOtp": false,
-            "Title": "Bank service AN"
-        },
-        {
-            "BackendUrl": "http://otp.m-pin.id/rps",
-            "RequestAccessNumber": false,
-            "RequestOtp": true,
-            "Title": "Longest Journey Service"
-        },
-        {
-            "BackendUrl": "http://risso.certivox.org/",
-            "RequestAccessNumber": false,
-            "RequestOtp": true,
-            "Title": "OTP login"
-        },
-        {
-            "BackendUrl": "http://ntt-vpn.certivox.org",
-            "RequestAccessNumber": false,
-            "RequestOtp": true,
-            "Title": "OTP NTT login"
-        },
-        {
             "BackendUrl": "http://tcb.certivox.org",
             "RequestAccessNumber": false,
             "RequestOtp": false,
@@ -46,13 +10,13 @@
             "BackendUrl": "http://tcb.certivox.org",
             "RequestAccessNumber": true,
             "RequestOtp": false,
-            "Title": "Online banking login AN"
+            "Title": "Online banking login"
         },
         {
             "BackendUrl": "http://otp.m-pin.id",
             "RequestAccessNumber": false,
             "RequestOtp": true,
-            "Title": "VPN login OTP"
+            "Title": "VPN login"
         }
     ]
 }

@@ -16,7 +16,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
-        <TextBlock x:Uid="NewUserIdTB" />
+        <TextBlock x:Uid="NewUserIdTB"   /> 
         <TextBox x:Name="UserId" Text="{Binding eMail, Mode=TwoWay}" KeyUp="UserId_KeyUp" Grid.Row="1"/>
         
         <StackPanel x:Name="DeviceNameContainer" Grid.Row="2" Visibility="Collapsed">
