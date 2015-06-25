@@ -75,8 +75,6 @@
     <ClCompile Include="..\..\ext\cvshared\cpp\windows\CvThread.cpp" />
     <ClCompile Include="..\..\src\core\crypto\aes.c" />
     <ClCompile Include="..\..\src\core\crypto\big.c" />
-    <ClCompile Include="..\..\src\core\crypto\brian.c" />
-    <ClCompile Include="..\..\src\core\crypto\ecdh.c" />
     <ClCompile Include="..\..\src\core\crypto\ecp.c" />
     <ClCompile Include="..\..\src\core\crypto\ecp2.c" />
     <ClCompile Include="..\..\src\core\crypto\ff.c" />
@@ -92,8 +90,6 @@
     <ClCompile Include="..\..\src\core\crypto\pair.c" />
     <ClCompile Include="..\..\src\core\crypto\rand.c" />
     <ClCompile Include="..\..\src\core\crypto\rom.c" />
-    <ClCompile Include="..\..\src\core\crypto\rsa.c" />
-    <ClCompile Include="..\..\src\core\crypto\sok.c" />
     <ClCompile Include="..\..\src\core\crypto\version.c" />
     <ClCompile Include="..\..\src\core\mpin_crypto_non_tee.cpp" />
     <ClCompile Include="..\..\src\core\mpin_sdk.cpp" />
@@ -111,11 +107,8 @@
     <ClInclude Include="..\..\ext\cvshared\cpp\include\CvXcode.h" />
     <ClInclude Include="..\..\src\core\crypto\clint.h" />
     <ClInclude Include="..\..\src\core\crypto\DLLDefines.h" />
-    <ClInclude Include="..\..\src\core\crypto\ecdh.h" />
     <ClInclude Include="..\..\src\core\crypto\mpin.h" />
     <ClInclude Include="..\..\src\core\crypto\platform.h" />
-    <ClInclude Include="..\..\src\core\crypto\rsa.h" />
-    <ClInclude Include="..\..\src\core\crypto\sok.h" />
     <ClInclude Include="..\..\src\core\crypto\version.h" />
     <ClInclude Include="..\..\src\core\cv_shared_ptr.h" />
     <ClInclude Include="..\..\src\core\json\elements.h" />

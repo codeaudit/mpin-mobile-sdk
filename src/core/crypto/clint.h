@@ -317,7 +317,7 @@ FP2 z;
 /* SHA256 structure */
 
 typedef struct {
-uint32_t length[2];
+unsign32 length[2];
 unsign32 h[8];
 unsign32 w[64];
 } hash;
