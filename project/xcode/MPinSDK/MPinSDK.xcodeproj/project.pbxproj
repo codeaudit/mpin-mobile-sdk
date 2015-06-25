@@ -21,7 +21,6 @@
 		FE1C9EB41A77D0E900E5F384 /* CvXcode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FE1C9EB21A77D0E900E5F384 /* CvXcode.cpp */; };
 		FE298BB71B3BFD220071E6B3 /* aes.c in Sources */ = {isa = PBXBuildFile; fileRef = FE298B831B3BFD220071E6B3 /* aes.c */; };
 		FE298BB91B3BFD220071E6B3 /* big.c in Sources */ = {isa = PBXBuildFile; fileRef = FE298B841B3BFD220071E6B3 /* big.c */; };
-		FE298BBD1B3BFD220071E6B3 /* ecdh.c in Sources */ = {isa = PBXBuildFile; fileRef = FE298B881B3BFD220071E6B3 /* ecdh.c */; };
 		FE298BBF1B3BFD220071E6B3 /* ecp.c in Sources */ = {isa = PBXBuildFile; fileRef = FE298B8A1B3BFD220071E6B3 /* ecp.c */; };
 		FE298BC11B3BFD220071E6B3 /* ecp2.c in Sources */ = {isa = PBXBuildFile; fileRef = FE298B8B1B3BFD220071E6B3 /* ecp2.c */; };
 		FE298BC31B3BFD220071E6B3 /* ff.c in Sources */ = {isa = PBXBuildFile; fileRef = FE298B8C1B3BFD220071E6B3 /* ff.c */; };
@@ -37,8 +36,6 @@
 		FE298BD71B3BFD220071E6B3 /* pair.c in Sources */ = {isa = PBXBuildFile; fileRef = FE298B971B3BFD220071E6B3 /* pair.c */; };
 		FE298BD91B3BFD220071E6B3 /* rand.c in Sources */ = {isa = PBXBuildFile; fileRef = FE298B991B3BFD220071E6B3 /* rand.c */; };
 		FE298BDB1B3BFD220071E6B3 /* rom.c in Sources */ = {isa = PBXBuildFile; fileRef = FE298B9A1B3BFD220071E6B3 /* rom.c */; };
-		FE298BDD1B3BFD220071E6B3 /* rsa.c in Sources */ = {isa = PBXBuildFile; fileRef = FE298B9B1B3BFD220071E6B3 /* rsa.c */; };
-		FE298BDF1B3BFD220071E6B3 /* sok.c in Sources */ = {isa = PBXBuildFile; fileRef = FE298B9D1B3BFD220071E6B3 /* sok.c */; };
 		FE298BE11B3BFD220071E6B3 /* version.c in Sources */ = {isa = PBXBuildFile; fileRef = FE298B9F1B3BFD220071E6B3 /* version.c */; };
 		FE298BE61B3BFD220071E6B3 /* mpin_crypto_non_tee.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FE298BAB1B3BFD220071E6B3 /* mpin_crypto_non_tee.cpp */; };
 		FE298BE81B3BFD220071E6B3 /* mpin_sdk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FE298BAD1B3BFD220071E6B3 /* mpin_sdk.cpp */; };
@@ -88,8 +85,6 @@
 		FE298B841B3BFD220071E6B3 /* big.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = big.c; sourceTree = "<group>"; };
 		FE298B861B3BFD220071E6B3 /* clint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clint.h; sourceTree = "<group>"; };
 		FE298B871B3BFD220071E6B3 /* DLLDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLLDefines.h; sourceTree = "<group>"; };
-		FE298B881B3BFD220071E6B3 /* ecdh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ecdh.c; sourceTree = "<group>"; };
-		FE298B891B3BFD220071E6B3 /* ecdh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ecdh.h; sourceTree = "<group>"; };
 		FE298B8A1B3BFD220071E6B3 /* ecp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ecp.c; sourceTree = "<group>"; };
 		FE298B8B1B3BFD220071E6B3 /* ecp2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ecp2.c; sourceTree = "<group>"; };
 		FE298B8C1B3BFD220071E6B3 /* ff.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ff.c; sourceTree = "<group>"; };
@@ -107,10 +102,6 @@
 		FE298B981B3BFD220071E6B3 /* platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = platform.h; sourceTree = "<group>"; };
 		FE298B991B3BFD220071E6B3 /* rand.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rand.c; sourceTree = "<group>"; };
 		FE298B9A1B3BFD220071E6B3 /* rom.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rom.c; sourceTree = "<group>"; };
-		FE298B9B1B3BFD220071E6B3 /* rsa.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rsa.c; sourceTree = "<group>"; };
-		FE298B9C1B3BFD220071E6B3 /* rsa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rsa.h; sourceTree = "<group>"; };
-		FE298B9D1B3BFD220071E6B3 /* sok.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sok.c; sourceTree = "<group>"; };
-		FE298B9E1B3BFD220071E6B3 /* sok.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sok.h; sourceTree = "<group>"; };
 		FE298B9F1B3BFD220071E6B3 /* version.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = version.c; sourceTree = "<group>"; };
 		FE298BA01B3BFD220071E6B3 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 		FE298BA11B3BFD220071E6B3 /* cv_shared_ptr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cv_shared_ptr.h; sourceTree = "<group>"; };
@@ -181,8 +172,6 @@
 				FE298B841B3BFD220071E6B3 /* big.c */,
 				FE298B861B3BFD220071E6B3 /* clint.h */,
 				FE298B871B3BFD220071E6B3 /* DLLDefines.h */,
-				FE298B881B3BFD220071E6B3 /* ecdh.c */,
-				FE298B891B3BFD220071E6B3 /* ecdh.h */,
 				FE298B8A1B3BFD220071E6B3 /* ecp.c */,
 				FE298B8B1B3BFD220071E6B3 /* ecp2.c */,
 				FE298B8C1B3BFD220071E6B3 /* ff.c */,
@@ -200,10 +189,6 @@
 				FE298B981B3BFD220071E6B3 /* platform.h */,
 				FE298B991B3BFD220071E6B3 /* rand.c */,
 				FE298B9A1B3BFD220071E6B3 /* rom.c */,
-				FE298B9B1B3BFD220071E6B3 /* rsa.c */,
-				FE298B9C1B3BFD220071E6B3 /* rsa.h */,
-				FE298B9D1B3BFD220071E6B3 /* sok.c */,
-				FE298B9E1B3BFD220071E6B3 /* sok.h */,
 				FE298B9F1B3BFD220071E6B3 /* version.c */,
 				FE298BA01B3BFD220071E6B3 /* version.h */,
 			);
@@ -353,7 +338,6 @@
 				FE298BD91B3BFD220071E6B3 /* rand.c in Sources */,
 				FE298BD11B3BFD220071E6B3 /* maxstack.c in Sources */,
 				FE298BE61B3BFD220071E6B3 /* mpin_crypto_non_tee.cpp in Sources */,
-				FE298BBD1B3BFD220071E6B3 /* ecdh.c in Sources */,
 				FE298BC31B3BFD220071E6B3 /* ff.c in Sources */,
 				FE298BB91B3BFD220071E6B3 /* big.c in Sources */,
 				FE148D2F1A2F0CD2007E83EF /* MPin.mm in Sources */,
@@ -365,14 +349,12 @@
 				FE298BE11B3BFD220071E6B3 /* version.c in Sources */,
 				FE298BC71B3BFD220071E6B3 /* fp12.c in Sources */,
 				FE298BD31B3BFD220071E6B3 /* mpin.c in Sources */,
-				FE298BDD1B3BFD220071E6B3 /* rsa.c in Sources */,
 				FE298BD71B3BFD220071E6B3 /* pair.c in Sources */,
 				FE148D2B1A2F0CD2007E83EF /* Context.mm in Sources */,
 				FE298BDB1B3BFD220071E6B3 /* rom.c in Sources */,
 				FE298BBF1B3BFD220071E6B3 /* ecp.c in Sources */,
 				FE298BB71B3BFD220071E6B3 /* aes.c in Sources */,
 				FE1C9EB41A77D0E900E5F384 /* CvXcode.cpp in Sources */,
-				FE298BDF1B3BFD220071E6B3 /* sok.c in Sources */,
 				FE148D331A2F0CD2007E83EF /* Storage.mm in Sources */,
 				FE298BCD1B3BFD220071E6B3 /* gcm.c in Sources */,
 				FE1C9EB31A77D0E900E5F384 /* CvString.cpp in Sources */,
