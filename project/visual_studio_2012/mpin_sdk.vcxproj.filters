@@ -57,12 +57,6 @@
     <ClCompile Include="..\..\src\core\crypto\big.c">
       <Filter>src\core\crypto</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\brian.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\ecdh.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\core\crypto\ecp.c">
       <Filter>src\core\crypto</Filter>
     </ClCompile>
@@ -106,12 +100,6 @@
       <Filter>src\core\crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\core\crypto\rom.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\rsa.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\sok.c">
       <Filter>src\core\crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\core\crypto\version.c">
@@ -194,16 +182,7 @@
     <ClInclude Include="..\..\src\core\crypto\DLLDefines.h">
       <Filter>src\core\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\core\crypto\ecdh.h">
-      <Filter>src\core\crypto</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\core\crypto\mpin.h">
-      <Filter>src\core\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\core\crypto\rsa.h">
-      <Filter>src\core\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\core\crypto\sok.h">
       <Filter>src\core\crypto</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\core\crypto\version.h">
