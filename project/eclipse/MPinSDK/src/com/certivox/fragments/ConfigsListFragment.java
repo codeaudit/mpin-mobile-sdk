@@ -145,23 +145,42 @@ public class ConfigsListFragment extends MPinFragment implements
 	}
 
 	private void onEditConfig() {
-		getMPinController().handleMessage(
-				MPinController.MESSAGE_ON_EDIT_CONFIGURATION,
-				mSelectedConfiguraionId);
+		if (mSelectedConfiguraionId == -1) {
+			showNoSelectedConfigurationDialog();
+		} else {
+			getMPinController().handleMessage(
+					MPinController.MESSAGE_ON_EDIT_CONFIGURATION,
+					mSelectedConfiguraionId);
+		}
 	}
 
 	private void onDeleteConfig() {
+		if (mSelectedConfiguraionId == -1) {
+			showNoSelectedConfigurationDialog();
+		} else {
+			new AlertDialog.Builder(getActivity())
+					.setTitle("Delete configuration")
+					.setMessage(
+							"This action will also delete all identities, associated with this configuration.")
+					.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									getMPinController()
+											.handleMessage(
+													MPinController.MESSAGE_DELETE_CONFIGURATION,
+													mSelectedConfiguraionId);
+								}
+							}).setNegativeButton("Cancel", null).show();
+		}
+
+	}
+
+	private void showNoSelectedConfigurationDialog() {
 		new AlertDialog.Builder(getActivity())
-				.setTitle("Delete configuration")
-				.setMessage(
-						"This action will also delete all identities, associated with this configuration.")
-				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						getMPinController().handleMessage(
-								MPinController.MESSAGE_DELETE_CONFIGURATION,
-								mSelectedConfiguraionId);
-					}
-				}).setNegativeButton("Cancel", null).show();
+				.setTitle("No selected configuration")
+				.setMessage("Please, choose a configuration")
+				.setPositiveButton("OK", null).show();
 	}
 }
