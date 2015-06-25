@@ -300,9 +300,7 @@ static NSMutableArray *kCircles;
             break;
 
         default:
-            [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR")
-             addActivityIndicator:NO
-             minShowTime:3];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR") addActivityIndicator:NO hideAfter:3];
             break;
         }
     }

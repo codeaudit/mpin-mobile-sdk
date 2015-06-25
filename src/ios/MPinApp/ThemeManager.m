@@ -193,7 +193,7 @@
         myVc.lblMessage.textColor = [[SettingsManager sharedManager] color2];
         myVc.lblMessage.font = [UIFont fontWithName:@"OpenSans" size:14.0];
         myVc.lblMessage.numberOfLines = 0;
-        myVc.lblMessage.text = NSLocalizedString(@"BLOCKED_ID_MESSAGE",@"Wrong PIN entered too many times. Your identity is blocked. You can sign up a new identity or choose existing one.");
+        myVc.lblMessage.text = NSLocalizedString(@"BLOCKED_ID_MESSAGE",@"Wrong PIN entered too many times. Your identity has been blocked. You can either select a different identity, reset your PIN or remove your blocked identity.");
         myVc.lblMessage.backgroundColor = [UIColor clearColor];
 
         [myVc.imgViewBlockedId setImage:[UIImage imageNamed:@"identity-blocked"]];

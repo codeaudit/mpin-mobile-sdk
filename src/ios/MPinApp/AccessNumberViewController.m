@@ -137,6 +137,8 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
 {
     [[ErrorHandler sharedManager] hideMessage];
     PinPadViewController *pinpadViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"pinpad"];
+    pinpadViewController.sdk = sdk;
+    pinpadViewController.sdk.delegate = pinpadViewController;
     pinpadViewController.strAccessNumber = self.strNumber;
     pinpadViewController.currentUser = _currentUser;
     pinpadViewController.boolShouldShowBackButton = YES;

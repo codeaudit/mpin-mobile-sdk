@@ -1152,12 +1152,12 @@ bool MPinSDK::LogoutData::ExtractFrom(const util::JsonObject& json)
     {
         return false;
     }
-    //TODO: Fixme ASAP
+
     try
     {
         logoutData = util::JsonObject(i->element).ToString();
     }
-    catch (json::Exception&)
+    catch(json::Exception&)
     {
         logoutData = "";
     }
