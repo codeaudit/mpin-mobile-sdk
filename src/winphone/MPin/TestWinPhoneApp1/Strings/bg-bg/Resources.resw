@@ -268,7 +268,7 @@
     <value>Информация</value>
   </data>
   <data name="About.Text" xml:space="preserve">
-    <value>M-Pin Windows Phone примерно приложение</value>
+    <value>Windows Phone примерно приложение</value>
   </data>
   <data name="AboutVersion" xml:space="preserve">
     <value>Версия на приложението:</value>
@@ -344,5 +344,17 @@
   </data>
   <data name="WrongURL" xml:space="preserve">
     <value>Некоректен формат на адреса на конфигурацията!</value>
+  </data>
+  <data name="FeedbackButton.Label" xml:space="preserve">
+    <value>Обратна връзка</value>
+  </data>
+  <data name="UpdateCheckButton.Label" xml:space="preserve">
+    <value>Проверка за нова версия</value>
+  </data>
+  <data name="AboutBuild" xml:space="preserve">
+    <value>Build: </value>
+  </data>
+  <data name="AboutTitle.Text" xml:space="preserve">
+    <value>CertiVox M-Pin</value>
   </data>
 </root>

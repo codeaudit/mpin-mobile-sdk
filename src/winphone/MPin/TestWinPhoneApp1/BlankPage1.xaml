@@ -147,6 +147,8 @@
                 <AppBarButton x:Uid="EditButton" x:Name="EditButton" Click="EditButton_Click" IsEnabled="False" />
                 <AppBarButton x:Uid="ResetPinButton" x:Name="ResetPinButton" Click="ResetPinButton_Click" Visibility="Collapsed" />
                 <AppBarButton x:Uid="AboutButton" Click="AboutButton_Click" />
+                <AppBarButton x:Uid="FeedbackButton" Click="FeedbackButton_Click"/>
+                <AppBarButton x:Uid="UpdateCheckButton" Click="CheckForUpdate_Click" />
             </CommandBar.SecondaryCommands>
 
         </CommandBar>
