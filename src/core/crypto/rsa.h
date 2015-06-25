@@ -12,6 +12,8 @@
 
 /* RSA Auxiliary Functions */
 
+extern void CREATE_CSPRNG(csprng *,octet *);
+extern void KILL_CSPRNG(csprng *);
 extern void RSA_KEY_PAIR(csprng *,sign32,rsa_private_key*,rsa_public_key*);
 extern int	OAEP_ENCODE(octet *,csprng *,octet *,octet *); 
 extern int  OAEP_DECODE(octet *,octet *);

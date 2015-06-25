@@ -40,9 +40,6 @@
 		FE298BE61B3BFD220071E6B3 /* mpin_crypto_non_tee.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FE298BAB1B3BFD220071E6B3 /* mpin_crypto_non_tee.cpp */; };
 		FE298BE81B3BFD220071E6B3 /* mpin_sdk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FE298BAD1B3BFD220071E6B3 /* mpin_sdk.cpp */; };
 		FE298BEA1B3BFD220071E6B3 /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FE298BB41B3BFD220071E6B3 /* utils.cpp */; };
-		FE298BEE1B3C33AF0071E6B3 /* ecdh.c in Sources */ = {isa = PBXBuildFile; fileRef = FE298BEC1B3C33AF0071E6B3 /* ecdh.c */; };
-		FE298BF31B3C33FF0071E6B3 /* rsa.c in Sources */ = {isa = PBXBuildFile; fileRef = FE298BEF1B3C33FF0071E6B3 /* rsa.c */; };
-		FE298BF41B3C33FF0071E6B3 /* sok.c in Sources */ = {isa = PBXBuildFile; fileRef = FE298BF11B3C33FF0071E6B3 /* sok.c */; };
 		FE49FF9C1A1A3C2D000030A4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49FF9B1A1A3C2D000030A4 /* Foundation.framework */; };
 		FE4AEB001A442316000B3181 /* OTP.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4AEAFF1A442316000B3181 /* OTP.m */; };
 		FE4AEB021A442954000B3181 /* OTP.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FE4AEAFE1A442316000B3181 /* OTP.h */; };
@@ -127,12 +124,6 @@
 		FE298BB41B3BFD220071E6B3 /* utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = utils.cpp; sourceTree = "<group>"; };
 		FE298BB51B3BFD220071E6B3 /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		FE298BB61B3BFD220071E6B3 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
-		FE298BEC1B3C33AF0071E6B3 /* ecdh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ecdh.c; sourceTree = "<group>"; };
-		FE298BED1B3C33AF0071E6B3 /* ecdh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ecdh.h; sourceTree = "<group>"; };
-		FE298BEF1B3C33FF0071E6B3 /* rsa.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rsa.c; sourceTree = "<group>"; };
-		FE298BF01B3C33FF0071E6B3 /* rsa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rsa.h; sourceTree = "<group>"; };
-		FE298BF11B3C33FF0071E6B3 /* sok.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sok.c; sourceTree = "<group>"; };
-		FE298BF21B3C33FF0071E6B3 /* sok.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sok.h; sourceTree = "<group>"; };
 		FE49FF981A1A3C2D000030A4 /* libMPinSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMPinSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE49FF9B1A1A3C2D000030A4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FE49FF9F1A1A3C2D000030A4 /* MPinSDK-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MPinSDK-Prefix.pch"; sourceTree = "<group>"; };
@@ -181,8 +172,6 @@
 				FE298B841B3BFD220071E6B3 /* big.c */,
 				FE298B861B3BFD220071E6B3 /* clint.h */,
 				FE298B871B3BFD220071E6B3 /* DLLDefines.h */,
-				FE298BEC1B3C33AF0071E6B3 /* ecdh.c */,
-				FE298BED1B3C33AF0071E6B3 /* ecdh.h */,
 				FE298B8A1B3BFD220071E6B3 /* ecp.c */,
 				FE298B8B1B3BFD220071E6B3 /* ecp2.c */,
 				FE298B8C1B3BFD220071E6B3 /* ff.c */,
@@ -200,10 +189,6 @@
 				FE298B981B3BFD220071E6B3 /* platform.h */,
 				FE298B991B3BFD220071E6B3 /* rand.c */,
 				FE298B9A1B3BFD220071E6B3 /* rom.c */,
-				FE298BEF1B3C33FF0071E6B3 /* rsa.c */,
-				FE298BF01B3C33FF0071E6B3 /* rsa.h */,
-				FE298BF11B3C33FF0071E6B3 /* sok.c */,
-				FE298BF21B3C33FF0071E6B3 /* sok.h */,
 				FE298B9F1B3BFD220071E6B3 /* version.c */,
 				FE298BA01B3BFD220071E6B3 /* version.h */,
 			);
@@ -348,14 +333,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FE298BF41B3C33FF0071E6B3 /* sok.c in Sources */,
 				FE298BC51B3BFD220071E6B3 /* fp.c in Sources */,
 				FE298BEA1B3BFD220071E6B3 /* utils.cpp in Sources */,
 				FE298BD91B3BFD220071E6B3 /* rand.c in Sources */,
 				FE298BD11B3BFD220071E6B3 /* maxstack.c in Sources */,
 				FE298BE61B3BFD220071E6B3 /* mpin_crypto_non_tee.cpp in Sources */,
 				FE298BC31B3BFD220071E6B3 /* ff.c in Sources */,
-				FE298BEE1B3C33AF0071E6B3 /* ecdh.c in Sources */,
 				FE298BB91B3BFD220071E6B3 /* big.c in Sources */,
 				FE148D2F1A2F0CD2007E83EF /* MPin.mm in Sources */,
 				FE298BE81B3BFD220071E6B3 /* mpin_sdk.cpp in Sources */,
@@ -377,7 +360,6 @@
 				FE1C9EB31A77D0E900E5F384 /* CvString.cpp in Sources */,
 				FE298BCB1B3BFD220071E6B3 /* fp4.c in Sources */,
 				FE4AEB001A442316000B3181 /* OTP.m in Sources */,
-				FE298BF31B3C33FF0071E6B3 /* rsa.c in Sources */,
 				FE298BCF1B3BFD220071E6B3 /* hash.c in Sources */,
 				FE148D2D1A2F0CD2007E83EF /* HTTPConnector.mm in Sources */,
 				FE148D311A2F0CD2007E83EF /* MpinStatus.m in Sources */,

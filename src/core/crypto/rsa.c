@@ -36,6 +36,18 @@ static void hashit(octet *p,int n,octet *w)
     for (i=0;i<32;i++) hh[i]=0;
 }
 
+/* Initialise a Cryptographically Strong Random Number Generator from 
+   an octet of raw random data */
+void CREATE_CSPRNG(csprng *RNG,octet *RAW)
+{
+    RAND_seed(RNG,RAW->len,RAW->val);
+}
+
+void KILL_CSPRNG(csprng *RNG)
+{
+    RAND_clean(RNG);
+}
+
 /* generate an RSA key pair */
 
 void RSA_KEY_PAIR(csprng *RNG,sign32 e,rsa_private_key *PRIV,rsa_public_key *PUB)

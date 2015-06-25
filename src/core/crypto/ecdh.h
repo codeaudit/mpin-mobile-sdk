@@ -24,6 +24,8 @@
 
 /* ECDH Auxiliary Functions */
 
+extern void CREATE_CSPRNG(csprng *,octet *);
+extern void KILL_CSPRNG(csprng *);
 extern void HASH(octet *,octet *);
 extern int HMAC(octet *,octet *,int,octet *);
 extern void KDF1(octet *,int,octet *);
