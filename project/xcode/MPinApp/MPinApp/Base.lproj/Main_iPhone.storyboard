@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="w4v-me-Wqj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="w4v-me-Wqj">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -1046,7 +1046,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="About" id="91F-pM-DvF">
-                        <barButtonItem key="leftBarButtonItem" image="MenuIcon" id="fQq-V8-tpe">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="MenuIcon" id="fQq-V8-tpe">
                             <connections>
                                 <action selector="showLeftMenuPressed:" destination="Yd9-6T-AhG" id="d6J-AT-Q2S"/>
                             </connections>
@@ -1382,11 +1382,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="UcR-db-Qwx">
-                                <rect key="frame" x="0.0" y="68" width="300" height="180"/>
+                                <rect key="frame" x="0.0" y="68" width="300" height="240"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="6sH-4H-Vqt"/>
-                                    <constraint firstAttribute="height" constant="180" id="cD2-x8-2kk"/>
+                                    <constraint firstAttribute="height" constant="240" id="cD2-x8-2kk"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MenuTableViewCell" rowHeight="60" id="a98-yl-LOR" customClass="MenuTableViewCell">
@@ -1759,6 +1759,71 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cg9-Pm-Csf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1131" y="-1410"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="cFX-tW-0mv">
+            <objects>
+                <viewController storyboardIdentifier="QRController" id="lga-rj-VE7" customClass="QRViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="UGW-nE-v3V"/>
+                        <viewControllerLayoutGuide type="bottom" id="K6c-es-NFI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1tE-eS-4e6">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QIV-oa-aQx">
+                                <rect key="frame" x="20" y="40" width="280" height="350"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tap on Start! to read a QR Code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kDm-g9-new">
+                                        <rect key="frame" x="17" y="164" width="247" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vTY-yP-qwy">
+                                <rect key="frame" x="16" y="446" width="284" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="CdX-XJ-oFb"/>
+                                    <barButtonItem title="Start" id="77k-ND-OkN">
+                                        <connections>
+                                            <action selector="startStopReading:" destination="lga-rj-VE7" id="9Ek-5j-9eC"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="cDr-5j-o4C"/>
+                                </items>
+                            </toolbar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Reading ... " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9sg-Ei-rX7">
+                                <rect key="frame" x="20" y="404" width="280" height="27"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qdn-bu-syL">
+                                <rect key="frame" x="-1" y="0.0" width="322" height="44"/>
+                                <items>
+                                    <barButtonItem image="MenuIcon" id="O9r-uS-hD1">
+                                        <connections>
+                                            <action selector="back:" destination="lga-rj-VE7" id="ln1-7Q-jD8"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="bbItemStart" destination="77k-ND-OkN" id="Bce-LL-0Wp"/>
+                        <outlet property="lblStatus" destination="9sg-Ei-rX7" id="5aG-Vh-yMd"/>
+                        <outlet property="viewPreview" destination="QIV-oa-aQx" id="8Ec-ZJ-7N1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sWu-Mp-o4s" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1281" y="-603"/>
         </scene>
         <!--PinPad-->
         <scene sceneID="wR9-Ur-68X">

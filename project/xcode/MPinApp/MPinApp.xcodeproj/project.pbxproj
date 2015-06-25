@@ -252,6 +252,10 @@
 		FE148D6C1A2F13D0007E83EF /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE148D601A2F13D0007E83EF /* AppDelegate.mm */; };
 		FE148D6F1A2F13D0007E83EF /* PinPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE148D661A2F13D0007E83EF /* PinPadViewController.m */; };
 		FE148D701A2F13D0007E83EF /* UserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE148D681A2F13D0007E83EF /* UserListViewController.m */; };
+		FE298B7B1B3ABBD80071E6B3 /* QRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE298B7A1B3ABBD80071E6B3 /* QRViewController.m */; };
+		FE298B7C1B3ABBD80071E6B3 /* QRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE298B7A1B3ABBD80071E6B3 /* QRViewController.m */; };
+		FE298B7D1B3ABBD80071E6B3 /* QRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE298B7A1B3ABBD80071E6B3 /* QRViewController.m */; };
+		FE298B7E1B3ABBD80071E6B3 /* QRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE298B7A1B3ABBD80071E6B3 /* QRViewController.m */; };
 		FE36B3B51B04E195000ACD70 /* ApplicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE36B3B41B04E195000ACD70 /* ApplicationManager.m */; };
 		FE49001B1A1A3CEB000030A4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001A1A1A3CEB000030A4 /* Foundation.framework */; };
 		FE49001D1A1A3CEB000030A4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001C1A1A3CEB000030A4 /* CoreGraphics.framework */; };
@@ -376,6 +380,8 @@
 		FE148D661A2F13D0007E83EF /* PinPadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PinPadViewController.m; path = ../../../../src/ios/MPinApp/PinPadViewController.m; sourceTree = "<group>"; };
 		FE148D671A2F13D0007E83EF /* UserListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserListViewController.h; path = ../../../../src/ios/MPinApp/UserListViewController.h; sourceTree = "<group>"; };
 		FE148D681A2F13D0007E83EF /* UserListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserListViewController.m; path = ../../../../src/ios/MPinApp/UserListViewController.m; sourceTree = "<group>"; };
+		FE298B791B3ABBD80071E6B3 /* QRViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QRViewController.h; path = ../../../../src/ios/MPinApp/QRViewController.h; sourceTree = "<group>"; };
+		FE298B7A1B3ABBD80071E6B3 /* QRViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QRViewController.m; path = ../../../../src/ios/MPinApp/QRViewController.m; sourceTree = "<group>"; };
 		FE36B3B31B04E195000ACD70 /* ApplicationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApplicationManager.h; path = ../../../../src/ios/MPinApp/ApplicationManager.h; sourceTree = "<group>"; };
 		FE36B3B41B04E195000ACD70 /* ApplicationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApplicationManager.m; path = ../../../../src/ios/MPinApp/ApplicationManager.m; sourceTree = "<group>"; };
 		FE4900171A1A3CEB000030A4 /* CertiVox M-Pin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CertiVox M-Pin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -659,6 +665,8 @@
 				9614F8CE1A9E1EC500337080 /* AccountSummaryViewController.m */,
 				96F7EA651B1858CB00A68A03 /* ANAuthenticationSuccessful.h */,
 				96F7EA661B1858CB00A68A03 /* ANAuthenticationSuccessful.m */,
+				FE298B791B3ABBD80071E6B3 /* QRViewController.h */,
+				FE298B7A1B3ABBD80071E6B3 /* QRViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -1269,6 +1277,7 @@
 				96130E2B1AEE4867005D2A86 /* SettingsViewCell.m in Sources */,
 				96130E2C1AEE4867005D2A86 /* AboutViewController.m in Sources */,
 				96130E2D1AEE4867005D2A86 /* ThemeManager.m in Sources */,
+				FE298B7D1B3ABBD80071E6B3 /* QRViewController.m in Sources */,
 				96130E2E1AEE4867005D2A86 /* AddSettingViewController.m in Sources */,
 				96130E2F1AEE4867005D2A86 /* DigitPadViewController.m in Sources */,
 				96130E301AEE4867005D2A86 /* main.m in Sources */,
@@ -1311,6 +1320,7 @@
 				96130E751AEE490A005D2A86 /* SettingsViewCell.m in Sources */,
 				96130E761AEE490A005D2A86 /* AboutViewController.m in Sources */,
 				96130E771AEE490A005D2A86 /* ThemeManager.m in Sources */,
+				FE298B7E1B3ABBD80071E6B3 /* QRViewController.m in Sources */,
 				96130E781AEE490A005D2A86 /* AddSettingViewController.m in Sources */,
 				96130E791AEE490A005D2A86 /* DigitPadViewController.m in Sources */,
 				96130E7A1AEE490A005D2A86 /* main.m in Sources */,
@@ -1353,6 +1363,7 @@
 				9649BC951AC16D1000B9F41B /* MenuViewController.m in Sources */,
 				9649BC961AC16D1000B9F41B /* SettingsViewCell.m in Sources */,
 				96C88F461AC42B6E00A5F27A /* AboutViewController.m in Sources */,
+				FE298B7C1B3ABBD80071E6B3 /* QRViewController.m in Sources */,
 				9649BC991AC16D1000B9F41B /* ThemeManager.m in Sources */,
 				9649BC9A1AC16D1000B9F41B /* AddSettingViewController.m in Sources */,
 				9649BC9B1AC16D1000B9F41B /* DigitPadViewController.m in Sources */,
@@ -1395,6 +1406,7 @@
 				96F62A281AC311D000B25B53 /* AboutViewController.m in Sources */,
 				961957461A960E9900C93604 /* ThemeManager.m in Sources */,
 				FE72C3481A6EA6960082F14D /* AddSettingViewController.m in Sources */,
+				FE298B7B1B3ABBD80071E6B3 /* QRViewController.m in Sources */,
 				FEFA50111A7148E5002D6E24 /* DigitPadViewController.m in Sources */,
 				FE4900271A1A3CEB000030A4 /* main.m in Sources */,
 				FE4AEB051A443137000B3181 /* OTPViewController.m in Sources */,
