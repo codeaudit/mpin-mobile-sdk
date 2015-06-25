@@ -160,7 +160,7 @@
 
 /* OTHER SHARED STRINGS */
 "LOGIN_MOBILE_APP" = "Mobile application login";
-"LOGIN_ONLINE_SESSION" = "Web login";
+"LOGIN_ONLINE_SESSION" = "Login to Online Session";
 "LOGIN_OTP" = "OTP Login";
 
 /* MPIN STATUS ERROR MESSAGES */

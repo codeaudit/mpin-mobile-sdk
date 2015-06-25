@@ -222,6 +222,7 @@ static NSMutableArray *kCircles;
 
 - ( void )OnAuthenticateOTPError:( id )sender error:( NSError * )error
 {
+    NSLog(@"Error");
     if ( [_currentUser getState] == BLOCKED )
     {
         [self showBlockedScreen];
@@ -261,6 +262,7 @@ static NSMutableArray *kCircles;
 
 - ( void )OnAuthenticateAccessNumberCompleted:( id )sender user:( id<IUser>)user
 {
+    NSLog(@"OnAuthenticateAccessNumberCompleted");
     ANAuthenticationSuccessful *vcANsuccess = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"ANAuthenticationSuccessful"];
     vcANsuccess.currentUser = _currentUser;
     [self.navigationController pushViewController:vcANsuccess animated:YES];
@@ -268,6 +270,7 @@ static NSMutableArray *kCircles;
 
 - ( void )OnAuthenticateAccessNumberError:( id )sender error:( NSError * )error
 {
+    NSLog(@"OnAuthenticateAccessNumberError");
     if ( [_currentUser getState] == BLOCKED )
     {
         [self showBlockedScreen];
@@ -293,13 +296,13 @@ static NSMutableArray *kCircles;
         case HTTP_REQUEST_ERROR:
             [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"HTTP REQUEST ERROR"
              addActivityIndicator:NO
-             minShowTime:0];
+             minShowTime:3];
             break;
 
         default:
             [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR")
              addActivityIndicator:NO
-             minShowTime:0];
+             minShowTime:3];
             break;
         }
     }
@@ -315,6 +318,7 @@ static NSMutableArray *kCircles;
 
 - ( void ) OnAuthenticateCanceled
 {
+    NSLog(@"OnAuthenticateCanceled");
     [self popToRoot];
 }
 

@@ -109,6 +109,7 @@ static NSString *const kAN = @"AN";
 {
     [super viewWillAppear:animated];
     sdk.delegate = self;
+
     [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
     [[ThemeManager sharedManager] beautifyViewController:self];
     self.users = [MPin listUsers];
@@ -396,13 +397,13 @@ static NSString *const kAN = @"AN";
         [[ErrorHandler sharedManager] presentMessageInViewController:self
          errorString:@"Wrong MPIN or Access Number!"
          addActivityIndicator:NO
-         minShowTime:0];
+         minShowTime:3];
         break;
 
     case HTTP_REQUEST_ERROR:
         [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Wrong MPIN or Access Number!"
          addActivityIndicator:NO
-         minShowTime:0];
+         minShowTime:3];
         break;
 
     default:
