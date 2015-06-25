@@ -18,6 +18,7 @@ import com.certivox.interfaces.Controller;
 import com.certivox.models.Config;
 import com.certivox.models.Status;
 import com.certivox.models.User;
+import com.certivox.models.User.State;
 import com.certivox.mpinsdk.Mpin;
 
 public class MPinController extends Controller {
@@ -52,16 +53,27 @@ public class MPinController extends Controller {
 	public static final int MESSAGE_ON_CHANGE_IDENTITY = 7;
 	public static final int MESSAGE_ON_CHANGE_SERVICE = 8;
 	public static final int MESSAGE_ON_ABOUT = 9;
+	public static final int MESSAGE_RESET_PIN = 10;
 
 	// Receive Messages from Fragment Configurations List
-	public static final int MESSAGE_ON_NEW_CONFIGURATION = 10;
-	public static final int MESSAGE_ON_SELECT_CONFIGURATION = 11;
-	public static final int MESSAGE_ON_EDIT_CONFIGURATION = 12;
-	public static final int MESSAGE_DELETE_CONFIGURATION = 13;
+	public static final int MESSAGE_ON_NEW_CONFIGURATION = 11;
+	public static final int MESSAGE_ON_SELECT_CONFIGURATION = 12;
+	public static final int MESSAGE_ON_EDIT_CONFIGURATION = 13;
+	public static final int MESSAGE_DELETE_CONFIGURATION = 14;
 
 	// Receive Messages from Fragment Configuration Edit
-	public static final int MESSAGE_CHECK_BACKEND_URL = 14;
-	public static final int MESSAGE_SAVE_CONFIG = 15;
+	public static final int MESSAGE_CHECK_BACKEND_URL = 15;
+	public static final int MESSAGE_SAVE_CONFIG = 16;
+
+	// Receive Messages from Fragment Users List
+	public static final int MESSAGE_ON_CREATE_IDENTITY = 17;
+
+	// Receive Messages from Fragment Create identity
+	public static final int MESSAGE_CREATE_IDENTITY = 18;
+
+	// Receive Messages from Fragment CONFIRM EMAIL
+	public static final int MESSAGE_EMAIL_CONFIRMED = 19;
+	public static final int MESSAGE_RESEND_EMAIL = 20;
 
 	// Sent Messages
 	public static final int MESSAGE_GO_BACK = 1;
@@ -73,10 +85,15 @@ public class MPinController extends Controller {
 	public static final int MESSAGE_VALID_BACKEND = 7;
 	public static final int MESSAGE_INVALID_BACKEND = 8;
 	public static final int MESSAGE_CONFIGURATION_SAVED = 9;
-	public static final int MESSAGE_SHOW_CONFIGURATIONS_LIST = 10;
-	public static final int MESSAGE_SHOW_CONFIGURATION_EDIT = 11;
-	public static final int MESSAGE_SHOW_ABOUT = 12;
-	public static final int MESSAGE_SHOW_USERS_LIST = 13;
+	public static final int MESSAGE_IDENTITY_EXISTS = 10;
+	public static final int MESSAGE_SHOW_CONFIGURATIONS_LIST = 11;
+	public static final int MESSAGE_SHOW_CONFIGURATION_EDIT = 12;
+	public static final int MESSAGE_SHOW_ABOUT = 13;
+	public static final int MESSAGE_SHOW_USERS_LIST = 14;
+	public static final int MESSAGE_SHOW_CREATE_IDENTITY = 15;
+	public static final int MESSAGE_SHOW_CONFIRM_EMAIL = 16;
+	public static final int MESSAGE_EMAIL_NOT_CONFIRMED = 17;
+	public static final int MESSAGE_EMAIL_SENT = 18;
 
 	public MPinController(Context context) {
 		mContext = context;
@@ -122,6 +139,18 @@ public class MPinController extends Controller {
 		case MESSAGE_GO_BACK_REQUEST:
 			notifyOutboxHandlers(MESSAGE_GO_BACK, 0, 0, null);
 			return true;
+		case MESSAGE_ON_CREATE_IDENTITY:
+			notifyOutboxHandlers(MESSAGE_SHOW_CREATE_IDENTITY, 0, 0, null);
+			return true;
+		case MESSAGE_EMAIL_CONFIRMED:
+			finishRegistration();
+			return true;
+		case MESSAGE_RESEND_EMAIL:
+			restarRegistration();
+			return true;
+		case MESSAGE_RESET_PIN:
+			resetPin();
+			return true;
 		default:
 			return false;
 		}
@@ -144,9 +173,19 @@ public class MPinController extends Controller {
 			return true;
 		case MESSAGE_SAVE_CONFIG:
 			saveConfig((Config) data);
+			return true;
+		case MESSAGE_CREATE_IDENTITY:
+			startRegistration((String) data);
+			return true;
 		default:
 			return false;
 		}
+	}
+
+	private void initWorkerThread() {
+		mWorkerThread = new HandlerThread("Controller Worker Thread");
+		mWorkerThread.start();
+		mWorkerHandler = new Handler(mWorkerThread.getLooper());
 	}
 
 	private void checkBackendUrl(final String backendUrl) {
@@ -186,16 +225,6 @@ public class MPinController extends Controller {
 				}
 			}
 		});
-	}
-
-	private void initWorkerThread() {
-		mWorkerThread = new HandlerThread("Controller Worker Thread");
-		mWorkerThread.start();
-		mWorkerHandler = new Handler(mWorkerThread.getLooper());
-	}
-
-	private void onNewConfiguration() {
-
 	}
 
 	private void activateConfiguration(long id) {
@@ -275,6 +304,76 @@ public class MPinController extends Controller {
 		});
 	}
 
+	private void startRegistration(final String userId) {
+		Log.i(TAG, "createIdentity " + userId);
+		mWorkerHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				for (User user : getUsersList()) {
+					if (user.getId().equals(userId)) {
+						mCurrentUser = user;
+						notifyOutboxHandlers(MESSAGE_IDENTITY_EXISTS, 0, 0,
+								null);
+						return;
+					}
+				}
+				mCurrentUser = getSdk().MakeNewUser(userId);
+				Log.i(TAG, "MAKE NEW USER CALLED id = " + mCurrentUser.getId());
+				getSdk().StartRegistration(mCurrentUser);
+				if (mCurrentUser.getState() == State.ACTIVATED) {
+					finishRegistration();
+				} else {
+					Log.i(TAG,
+							"NEW IDENTITY STATE = " + mCurrentUser.getState());
+					notifyOutboxHandlers(MESSAGE_SHOW_CONFIRM_EMAIL, 0, 0, null);
+				}
+			}
+		});
+	}
+
+	private void restarRegistration() {
+		Log.i(TAG, "Restarting registration " + getCurrentUser().getId());
+		mWorkerHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				Status status = getSdk().RestartRegistration(getCurrentUser());
+				notifyOutboxHandlers(MESSAGE_EMAIL_SENT, 0, 0, null);
+			}
+		});
+	}
+
+	private void finishRegistration() {
+		Log.i(TAG, "finishRegistration ");
+		mWorkerHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				Status status = getSdk().FinishRegistration(getCurrentUser());
+				if (status.getStatusCode() != com.certivox.models.Status.Code.OK) {
+					notifyOutboxHandlers(MESSAGE_EMAIL_NOT_CONFIRMED, 0, 0,
+							null);
+				} else {
+					Log.i(TAG, "Registration finished");
+				}
+			}
+		});
+	}
+
+	private void resetPin() {
+		mWorkerHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				Log.i(TAG, "RESETING PIN");
+				// TODO: This should be called from model
+				String userId = getCurrentUser().getId();
+				// TODO: This should be separate method
+				getSdk().DeleteUser(getCurrentUser());
+				startRegistration(userId);
+			}
+		});
+	}
+
 	// Do not call on UI Thread
 	private Mpin getSdk() {
 		try {
@@ -303,6 +402,8 @@ public class MPinController extends Controller {
 
 	private void startSDKInitialization(final Map<String, String> config) {
 		sSDK = new Mpin(mContext, config);
+		// TODO: This should be event catched by model
+		initUsersList();
 		mSDKLockObject.notifyAll();
 		notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
 		Log.i(TAG, "MPin initialization finished");
@@ -310,13 +411,14 @@ public class MPinController extends Controller {
 
 	// TODO this should be in model
 	private void initUsersList() {
+		Log.i(TAG, "INIT USERS LIST");
 		mUsersList.clear();
 		mCurrentUser = null;
 		getSdk().ListUsers(mUsersList);
 	}
 
 	// TODO this should be in model
-	private User getCurrentUser() {
+	public User getCurrentUser() {
 		if (mCurrentUser != null) {
 			return mCurrentUser;
 		}

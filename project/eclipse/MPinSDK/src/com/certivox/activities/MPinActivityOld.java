@@ -10,7 +10,6 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -18,15 +17,13 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.certivox.adapters.UsersAdapter;
 import com.certivox.dal.ConfigsDao;
 import com.certivox.fragments.AboutFragment;
 import com.certivox.fragments.AccessNumberFragment;
-import com.certivox.fragments.EmptyUsersListFragment;
 import com.certivox.fragments.ConfirmEmailFragment;
+import com.certivox.fragments.CreateIdentityFragment;
 import com.certivox.fragments.IdentityBlockedFragment;
 import com.certivox.fragments.IdentityCreatedFragment;
-import com.certivox.fragments.CreateIdentityFragment;
 import com.certivox.fragments.OTPFragment;
 import com.certivox.fragments.PinPadFragment;
 import com.certivox.fragments.SuccessfulLoginFragment;
@@ -339,31 +336,10 @@ public class MPinActivityOld extends BaseMPinActivity implements
 
 	@Override
 	public void addEmptyUsersListFragment() {
-		if (getEmptyUsersListFragment() == null) {
-			EmptyUsersListFragment emptyUsersListFragment = new EmptyUsersListFragment();
-			emptyUsersListFragment.setController(mActivity);
-			emptyUsersListFragment
-					.setOnAddNewListener(getOnAddNewUserListener());
-
-			FragmentTransaction transaction = getFragmentManager()
-					.beginTransaction();
-			transaction.replace(R.id.content, emptyUsersListFragment,
-					FRAG_EMPTY_USERS_LIST);
-			transaction.commit();
-			getFragmentManager().executePendingTransactions();
-			enableDrawer();
-		}
 	}
 
 	@Override
 	public void removeEmptyUsersListFragment() {
-		if (getEmptyUsersListFragment() != null) {
-			FragmentTransaction transaction = getFragmentManager()
-					.beginTransaction();
-			transaction.remove(getEmptyUsersListFragment());
-			transaction.commit();
-			getFragmentManager().executePendingTransactions();
-		}
 	}
 
 	@Override
@@ -386,7 +362,6 @@ public class MPinActivityOld extends BaseMPinActivity implements
 	public void addCreateIdentityFragment() {
 		if (getCreateIdentityFragment() == null) {
 			CreateIdentityFragment createIdentityFragment = new CreateIdentityFragment();
-			createIdentityFragment.setController(mActivity);
 
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
@@ -413,7 +388,6 @@ public class MPinActivityOld extends BaseMPinActivity implements
 	public void addConfirmEmailFragment() {
 		if (getConfirmEmailFragment() == null) {
 			ConfirmEmailFragment confirmEmailFragment = new ConfirmEmailFragment();
-			confirmEmailFragment.setController(mActivity);
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
 			transaction.replace(R.id.content, confirmEmailFragment,
@@ -742,12 +716,6 @@ public class MPinActivityOld extends BaseMPinActivity implements
 
 	@Override
 	public void onBackPressed() {
-		if ((mUsersList.isEmpty() && getEmptyUsersListFragment() != null)
-				|| getUsersListFragment() != null) {
-			super.onBackPressed();
-			return;
-		}
-		setChooseUserScreen();
 	}
 
 	// Fragments
@@ -759,11 +727,6 @@ public class MPinActivityOld extends BaseMPinActivity implements
 	private AccessNumberFragment getAccessNumberFragment() {
 		return (AccessNumberFragment) getFragmentManager().findFragmentByTag(
 				FRAG_ACCESSNUMBER);
-	}
-
-	private EmptyUsersListFragment getEmptyUsersListFragment() {
-		return (EmptyUsersListFragment) getFragmentManager().findFragmentByTag(
-				FRAG_EMPTY_USERS_LIST);
 	}
 
 	private UsersListFragmentOld getUsersListFragment() {

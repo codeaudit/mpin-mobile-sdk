@@ -22,6 +22,8 @@ import com.certivox.controllers.MPinController;
 import com.certivox.fragments.AboutFragment;
 import com.certivox.fragments.ConfigDetailFragment;
 import com.certivox.fragments.ConfigsListFragment;
+import com.certivox.fragments.ConfirmEmailFragment;
+import com.certivox.fragments.CreateIdentityFragment;
 import com.certivox.fragments.MPinFragment;
 import com.certivox.fragments.UsersListFragment;
 import com.example.mpinsdk.R;
@@ -50,7 +52,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 	private static final String FRAGMENT_PINPAD = "FRAGMENT_PINPAD";
 	private static final String FRAGMENT_ACCESS_NUMBER = "FRAGMENT_ACCESS_NUMBER";
 	private static final String FRAGMENT_USERS_LIST = "FRAGMENT_USERS_LIST";
-	private static final String FRAGMENT_NEW_USER = "FRAGMENT_NEW_USER";
+	private static final String FRAGMENT_CREATE_IDENTITY = "FRAGMENT_NEW_USER";
 	private static final String FRAGMENT_CONFIRM_EMAIL = "FRAGMENT_CONFIRM_EMAIL";
 	private static final String FRAGMENT_IDENTITY_CREATED = "FRAGMENT_IDENTITY_CREATED";
 	private static final String FRAGMENT_OTP = "FRAGMENT_OTP";
@@ -179,6 +181,14 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 			enableDrawer();
 			createAndAddFragment(FRAGMENT_USERS_LIST, UsersListFragment.class,
 					false, null);
+			return true;
+		case MPinController.MESSAGE_SHOW_CREATE_IDENTITY:
+			createAndAddFragment(FRAGMENT_CREATE_IDENTITY,
+					CreateIdentityFragment.class, false, null);
+			return true;
+		case MPinController.MESSAGE_SHOW_CONFIRM_EMAIL:
+			createAndAddFragment(FRAGMENT_CONFIRM_EMAIL,
+					ConfirmEmailFragment.class, false, null);
 			return true;
 		}
 		return false;
@@ -353,5 +363,10 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 			return;
 		}
 		super.onBackPressed();
+	}
+
+	public static String show() {
+		Log.i(TAG, "SHOW CALLED");
+		return "1234";
 	}
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.certivox.adapters.UsersAdapter;
+import com.certivox.controllers.MPinController;
 import com.certivox.models.User;
 import com.example.mpinsdk.R;
 
@@ -61,7 +61,8 @@ public class UsersListFragment extends MPinFragment implements OnClickListener,
 		switch (v.getId()) {
 		case R.id.create_identity_button:
 		case R.id.create_identity_fa_button:
-			Log.i(TAG, "Create identity clicked");
+			getMPinController().handleMessage(
+					MPinController.MESSAGE_ON_CREATE_IDENTITY);
 			break;
 		default:
 			break;
