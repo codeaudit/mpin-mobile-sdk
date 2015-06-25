@@ -46,18 +46,6 @@ void HASH(octet *p,octet *w)
 	hashit(p,-1,NULL,NULL,w);
 }
 
-/* Initialise a Cryptographically Strong Random Number Generator from 
-   an octet of raw random data */
-void CREATE_CSPRNG(csprng *RNG,octet *RAW)
-{
-    RAND_seed(RNG,RAW->len,RAW->val);
-}
-
-void KILL_CSPRNG(csprng *RNG)
-{
-    RAND_clean(RNG);
-}
-
 /* Calculate HMAC of m using key k. HMAC is tag of length olen */
 int HMAC(octet *m,octet *k,int olen,octet *tag)
 {

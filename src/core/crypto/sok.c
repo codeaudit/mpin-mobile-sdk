@@ -317,19 +317,6 @@ unsign32 today(void)
   return (long)(ti/(60*TIME_SLOT_MINUTES));
 }
 
-/* Initialise a Cryptographically Strong Random Number Generator from 
-   an octet of raw random data */
-
-void CREATE_CSPRNG(csprng *RNG,octet *RAW)
-{
-  RAND_seed(RNG,RAW->len,RAW->val);
-}
-
-void KILL_CSPRNG(csprng *RNG)
-{
-  RAND_clean(RNG);
-}
-
 void SOK_HASH_ID(octet *ID,octet *HID)
 {
   hashit(0,ID,HID);
