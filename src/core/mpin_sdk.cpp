@@ -1161,6 +1161,7 @@ bool MPinSDK::LogoutData::ExtractFrom(const util::JsonObject& json)
     {
         logoutData = "";
     }
+    
     return true;
 }
 

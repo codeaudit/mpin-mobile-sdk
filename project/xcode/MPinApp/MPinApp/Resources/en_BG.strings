@@ -95,7 +95,7 @@
 
 /* HUD Messages */
 "HUD_CHANGE_CONFIGURATION"  = "Смяна на конфигурацията. Моля изчакайте.";
-"HUD_AUTH_SUCCESS"          = "Your authentication is \n successful !";
+"HUD_AUTH_SUCCESS"          = "You have successfully been \n authenticated";
 "HUD_LOGOUT"                = "Излизане";
 "HUD_LOGOUT_OK"             = "Успешно излизане";
 "HUD_LOGOUT_NOT_OK"         = "Неуспешно излизане";
