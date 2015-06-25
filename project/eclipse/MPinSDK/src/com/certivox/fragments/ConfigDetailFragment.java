@@ -15,10 +15,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
-import com.certivox.activities.MPinActivityOld;
 import com.certivox.controllers.MPinController;
 import com.certivox.models.Config;
-import com.certivox.models.Status;
 import com.example.mpinsdk.R;
 
 public class ConfigDetailFragment extends MPinFragment implements
@@ -103,6 +101,33 @@ public class ConfigDetailFragment extends MPinFragment implements
 
 		mCheckServiceButton.setOnClickListener(this);
 		mSaveServiceButton.setOnClickListener(this);
+
+		// TODO: This should be natural radio group buttons
+		mServiceOTPCheckBox
+				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						if (isChecked) {
+							mServiceANCheckBox.setChecked(false);
+						} else if (!mServiceANCheckBox.isChecked()) {
+							buttonView.setChecked(true);
+						}
+					}
+				});
+
+		mServiceANCheckBox
+				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						if (isChecked) {
+							mServiceOTPCheckBox.setChecked(false);
+						} else if (!mServiceOTPCheckBox.isChecked()) {
+							buttonView.setChecked(true);
+						}
+					}
+				});
 	}
 
 	private void initScreen() {
@@ -113,33 +138,6 @@ public class ConfigDetailFragment extends MPinFragment implements
 			mServiceRTSEditText.setText(mConfig.getRTS());
 			mServiceOTPCheckBox.setChecked(mConfig.getRequestOtp());
 			mServiceANCheckBox.setChecked(mConfig.getRequestAccessNumber());
-
-			// TODO: This should be natural radio group buttons
-			mServiceOTPCheckBox
-					.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-						@Override
-						public void onCheckedChanged(CompoundButton buttonView,
-								boolean isChecked) {
-							if (isChecked) {
-								mServiceANCheckBox.setChecked(false);
-							} else if (!mServiceANCheckBox.isChecked()) {
-								buttonView.setChecked(true);
-							}
-						}
-					});
-
-			mServiceANCheckBox
-					.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-						@Override
-						public void onCheckedChanged(CompoundButton buttonView,
-								boolean isChecked) {
-							if (isChecked) {
-								mServiceOTPCheckBox.setChecked(false);
-							} else if (!mServiceOTPCheckBox.isChecked()) {
-								buttonView.setChecked(true);
-							}
-						}
-					});
 		} else {
 			setTooblarTitle(R.string.add_service_toolbar_title);
 		}
