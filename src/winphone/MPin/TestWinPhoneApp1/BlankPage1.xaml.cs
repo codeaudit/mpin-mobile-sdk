@@ -170,7 +170,10 @@ namespace MPinDemo
 
             if (selectedIndex != null && selectedIndex >= 0 && selectedIndex < ServicesList.Items.Count && showUsers)
             {
-                controller.DataModel.CurrentService = (Backend)this.ServicesList.Items[selectedIndex.Value];
+                // do not change the current service if already set as it clears and initializes the Users which makes the currentUser invalid pointer
+                if (controller.DataModel.CurrentService != (Backend)this.ServicesList.Items[selectedIndex.Value])
+                    controller.DataModel.CurrentService = (Backend)this.ServicesList.Items[selectedIndex.Value];
+
                 this.ServicesList.SelectedIndex = selectedIndex.Value;
                 this.ServicesList.ScrollIntoView(this.ServicesList.SelectedItem);
             }
