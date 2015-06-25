@@ -207,11 +207,8 @@ static NSMutableArray *kCircles;
 {
     if ( otp.status.status != OK )
     {
-        [[ErrorHandler sharedManager] presentMessageInViewController:self
-         errorString:@"OTP is not supported!"
-         addActivityIndicator:NO
-         minShowTime:0];
-
+        [[ErrorHandler sharedManager] updateMessage:@"OTP is not supported!" addActivityIndicator:NO hideAfter:3];
+        [self clearAction:self];
         return;
     }
     OTPViewController *otpViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"OTP"];

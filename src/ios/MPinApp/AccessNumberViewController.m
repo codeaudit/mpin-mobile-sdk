@@ -33,9 +33,6 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
 - ( void ) viewDidLoad
 {
     [super viewDidLoad];
-
-    sdk = [[MPin alloc] init];
-    sdk.delegate = self;
     BackButton *btnBack = [[BackButton alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:@selector( btnBackTap: )];
     [btnBack setup];
     self.navigationItem.leftBarButtonItem = btnBack;
@@ -44,6 +41,9 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
 -( void ) viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
+    sdk = [[MPin alloc] init];
+    sdk.delegate = self;
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self
      name:kShowPinPadNotification
      object:nil];
@@ -137,8 +137,7 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
 {
     [[ErrorHandler sharedManager] hideMessage];
     PinPadViewController *pinpadViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"pinpad"];
-    pinpadViewController.sdk = sdk;
-    pinpadViewController.sdk.delegate = pinpadViewController;
+
     pinpadViewController.strAccessNumber = self.strNumber;
     pinpadViewController.currentUser = _currentUser;
     pinpadViewController.boolShouldShowBackButton = YES;
