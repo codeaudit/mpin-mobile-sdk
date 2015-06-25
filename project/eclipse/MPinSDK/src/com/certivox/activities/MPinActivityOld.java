@@ -141,7 +141,6 @@ public class MPinActivityOld extends BaseMPinActivity implements
 
 	private void setInitialConfiguration() {
 		initEmptySDK();
-		startActivity(new Intent(this, PinpadConfigActivity.class));
 		finish();
 	}
 

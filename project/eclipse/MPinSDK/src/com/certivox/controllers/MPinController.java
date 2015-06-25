@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.certivox.activities.MPinActivityOld;
 import com.certivox.dal.ConfigsDao;
 import com.certivox.interfaces.Controller;
 import com.certivox.models.Config;
@@ -58,6 +59,10 @@ public class MPinController extends Controller {
 	public static final int MESSAGE_ON_EDIT_CONFIGURATION = 12;
 	public static final int MESSAGE_DELETE_CONFIGURATION = 13;
 
+	// Receive Messages from Fragment Configuration Edit
+	public static final int MESSAGE_CHECK_BACKEND_URL = 14;
+	public static final int MESSAGE_SAVE_CONFIG = 15;
+
 	// Sent Messages
 	public static final int MESSAGE_GO_BACK = 1;
 	public static final int MESSAGE_START_WORK_IN_PROGRESS = 2;
@@ -65,9 +70,13 @@ public class MPinController extends Controller {
 	public static final int MESSAGE_CONFIGURATION_DELETED = 4;
 	public static final int MESSAGE_CONFIGURATION_CHANGED = 5;
 	public static final int MESSAGE_CONFIGURATION_CHANGE_ERROR = 6;
-	public static final int MESSAGE_SHOW_CONFIGURATIONS_LIST = 7;
-	public static final int MESSAGE_SHOW_ABOUT = 8;
-	public static final int MESSAGE_SHOW_USERS_LIST = 9;
+	public static final int MESSAGE_VALID_BACKEND = 7;
+	public static final int MESSAGE_INVALID_BACKEND = 8;
+	public static final int MESSAGE_CONFIGURATION_SAVED = 9;
+	public static final int MESSAGE_SHOW_CONFIGURATIONS_LIST = 10;
+	public static final int MESSAGE_SHOW_CONFIGURATION_EDIT = 11;
+	public static final int MESSAGE_SHOW_ABOUT = 12;
+	public static final int MESSAGE_SHOW_USERS_LIST = 13;
 
 	public MPinController(Context context) {
 		mContext = context;
@@ -99,7 +108,7 @@ public class MPinController extends Controller {
 			notifyOutboxHandlers(MESSAGE_GO_BACK, 0, 0, null);
 			return true;
 		case MESSAGE_ON_NEW_CONFIGURATION:
-			onNewConfiguration();
+			onEditConfiguration(-1);
 			return true;
 		case MESSAGE_ON_CHANGE_IDENTITY:
 			notifyOutboxHandlers(MESSAGE_SHOW_USERS_LIST, 0, 0, null);
@@ -125,14 +134,58 @@ public class MPinController extends Controller {
 			activateConfiguration(((Long) data).longValue());
 			return true;
 		case MESSAGE_ON_EDIT_CONFIGURATION:
-			editConfiguration(((Long) data).longValue());
+			onEditConfiguration((int) ((Long) data).longValue());
 			return true;
 		case MESSAGE_DELETE_CONFIGURATION:
 			deleteConfiguration(((Long) data).longValue());
 			return true;
+		case MESSAGE_CHECK_BACKEND_URL:
+			checkBackendUrl((String) data);
+			return true;
+		case MESSAGE_SAVE_CONFIG:
+			saveConfig((Config) data);
 		default:
 			return false;
 		}
+	}
+
+	private void checkBackendUrl(final String backendUrl) {
+		notifyOutboxHandlers(MESSAGE_START_WORK_IN_PROGRESS, 0, 0, null);
+		mWorkerHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				Status status = getSdk().TestBackend(backendUrl);
+
+				notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
+
+				if (status.getStatusCode() == Status.Code.OK) {
+					notifyOutboxHandlers(MESSAGE_VALID_BACKEND, 0, 0, null);
+				} else {
+					notifyOutboxHandlers(MESSAGE_INVALID_BACKEND, 0, 0, null);
+				}
+			}
+		});
+	}
+
+	private void saveConfig(final Config config) {
+		notifyOutboxHandlers(MESSAGE_START_WORK_IN_PROGRESS, 0, 0, null);
+		mWorkerHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				Status status = getSdk().TestBackend(config.getBackendUrl());
+
+				notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
+
+				if (status.getStatusCode() == Status.Code.OK) {
+					mConfigsDao.saveOrUpdate(config);
+					mConfigsDao.setActiveConfig(config);
+					notifyOutboxHandlers(MESSAGE_CONFIGURATION_SAVED, 0, 0,
+							null);
+				} else {
+					notifyOutboxHandlers(MESSAGE_INVALID_BACKEND, 0, 0, null);
+				}
+			}
+		});
 	}
 
 	private void initWorkerThread() {
@@ -153,7 +206,7 @@ public class MPinController extends Controller {
 
 				@Override
 				public void run() {
-					final Status status = getSDK().SetBackend(
+					final Status status = getSdk().SetBackend(
 							config.getBackendUrl());
 					if (status.getStatusCode() == Status.Code.OK) {
 						// TODO: check if could just sent the id
@@ -173,7 +226,8 @@ public class MPinController extends Controller {
 		}
 	}
 
-	private void editConfiguration(long id) {
+	private void onEditConfiguration(int id) {
+		notifyOutboxHandlers(MESSAGE_SHOW_CONFIGURATION_EDIT, id, 0, null);
 	}
 
 	private void deleteConfiguration(final long id) {
@@ -222,7 +276,7 @@ public class MPinController extends Controller {
 	}
 
 	// Do not call on UI Thread
-	private Mpin getSDK() {
+	private Mpin getSdk() {
 		try {
 			synchronized (mSDKLockObject) {
 				while (sSDK == null)
@@ -258,7 +312,7 @@ public class MPinController extends Controller {
 	private void initUsersList() {
 		mUsersList.clear();
 		mCurrentUser = null;
-		getSDK().ListUsers(mUsersList);
+		getSdk().ListUsers(mUsersList);
 	}
 
 	// TODO this should be in model
@@ -307,5 +361,9 @@ public class MPinController extends Controller {
 
 	public Config getActiveConfiguration() {
 		return mConfigsDao.getActiveConfiguration();
+	}
+
+	public Config getConfiguration(int configId) {
+		return mConfigsDao.getConfigurationById(configId);
 	}
 }

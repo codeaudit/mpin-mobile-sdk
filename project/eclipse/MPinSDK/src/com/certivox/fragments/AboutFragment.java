@@ -3,6 +3,7 @@ package com.certivox.fragments;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,15 @@ public class AboutFragment extends MPinFragment {
 	private TextView mLinkTextView;
 	private TextView mVersionTextView;
 	private TextView mBuildTextView;
+
+	@Override
+	public void setData(Object data) {
+	};
+
+	@Override
+	public boolean handleMessage(Message msg) {
+		return false;
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,5 +63,4 @@ public class AboutFragment extends MPinFragment {
 		}
 
 	}
-
 }

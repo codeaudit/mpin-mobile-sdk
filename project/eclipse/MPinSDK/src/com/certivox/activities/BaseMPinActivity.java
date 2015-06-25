@@ -4,7 +4,6 @@ import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.FeedbackManager;
 import net.hockeyapp.android.UpdateManager;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -125,7 +124,6 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements
 
 		mDrawerToggle.setDrawerIndicatorEnabled(true);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-		initDrawerMenu();
 	}
 
 	public void showLoader() {
@@ -142,32 +140,6 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements
 	}
 
 	protected void onAboutClicked() {
-	}
-
-	private void initDrawerMenu() {
-		mChangeIdentityButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				onChangeIdentityClicked();
-			}
-		});
-
-		mChangeServiceButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				startActivity(new Intent(mActivity, PinpadConfigActivity.class));
-			}
-		});
-
-		mAboutButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				onAboutClicked();
-			}
-		});
 	}
 
 	@Override

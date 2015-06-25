@@ -3,7 +3,6 @@ package com.certivox.fragments;
 import java.util.List;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +20,7 @@ import com.certivox.models.User;
 import com.example.mpinsdk.R;
 
 public class UsersListFragment extends MPinFragment implements OnClickListener,
-		AdapterView.OnItemClickListener, Handler.Callback {
+		AdapterView.OnItemClickListener {
 
 	private final String TAG = UsersListFragment.class.getCanonicalName();
 
@@ -34,10 +33,13 @@ public class UsersListFragment extends MPinFragment implements OnClickListener,
 	private Button mCreateIdentityButton;
 
 	@Override
+	public void setData(Object data) {
+	};
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		mView = inflater.inflate(R.layout.users_list_layout, container, false);
-		getMPinController().addOutboxHandler(new Handler(this));
 		initViews();
 		initScreen();
 

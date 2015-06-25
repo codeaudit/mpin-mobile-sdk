@@ -5,7 +5,6 @@ import java.util.List;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,16 +23,20 @@ import com.certivox.controllers.MPinController;
 import com.certivox.models.Config;
 import com.example.mpinsdk.R;
 
-public class ConfigurationsListFragment extends MPinFragment implements
-		OnClickListener, AdapterView.OnItemClickListener, Handler.Callback {
+public class ConfigsListFragment extends MPinFragment implements
+		OnClickListener, AdapterView.OnItemClickListener {
 
-	private String TAG = ConfigurationsListFragment.class.getCanonicalName();
+	private String TAG = ConfigsListFragment.class.getCanonicalName();
 
 	private View mView;
 	private ListView mListView;
 	private ConfigurationListAdapter mAdapter;
 	private ImageButton mAddServiceButton;
 	private long mSelectedConfiguraionId;
+
+	@Override
+	public void setData(Object data) {
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,6 @@ public class ConfigurationsListFragment extends MPinFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		getMPinController().addOutboxHandler(new Handler(this));
 		mView = inflater.inflate(R.layout.fragment_configurations_list,
 				container, false);
 		initViews();
@@ -92,12 +94,10 @@ public class ConfigurationsListFragment extends MPinFragment implements
 					MPinController.MESSAGE_ON_NEW_CONFIGURATION);
 			return true;
 		case R.id.configs_list_edit:
-			getMPinController().handleMessage(
-					MPinController.MESSAGE_ON_EDIT_CONFIGURATION,
-					mSelectedConfiguraionId);
+			onEditConfig();
 			return true;
 		case R.id.configs_list_delete:
-			onDeleteConfiguration();
+			onDeleteConfig();
 			return true;
 		default:
 			return false;
@@ -144,7 +144,13 @@ public class ConfigurationsListFragment extends MPinFragment implements
 		mListView.setOnItemClickListener(this);
 	}
 
-	private void onDeleteConfiguration() {
+	private void onEditConfig() {
+		getMPinController().handleMessage(
+				MPinController.MESSAGE_ON_EDIT_CONFIGURATION,
+				mSelectedConfiguraionId);
+	}
+
+	private void onDeleteConfig() {
 		new AlertDialog.Builder(getActivity())
 				.setTitle("Delete configuration")
 				.setMessage(

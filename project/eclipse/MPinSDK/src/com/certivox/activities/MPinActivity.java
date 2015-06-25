@@ -20,7 +20,8 @@ import android.widget.TextView;
 
 import com.certivox.controllers.MPinController;
 import com.certivox.fragments.AboutFragment;
-import com.certivox.fragments.ConfigurationsListFragment;
+import com.certivox.fragments.ConfigDetailFragment;
+import com.certivox.fragments.ConfigsListFragment;
 import com.certivox.fragments.MPinFragment;
 import com.certivox.fragments.UsersListFragment;
 import com.example.mpinsdk.R;
@@ -45,6 +46,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 
 	// Fragments
 	private static final String FRAGMENT_CONFIGURATIONS_LIST = "FRAGMENT_CONFIGURATIONS_LIST";
+	private static final String FRAGMENT_CONFIGURATION_EDIT = "FRAGMENT_CONFIGURATION_EDIT";
 	private static final String FRAGMENT_PINPAD = "FRAGMENT_PINPAD";
 	private static final String FRAGMENT_ACCESS_NUMBER = "FRAGMENT_ACCESS_NUMBER";
 	private static final String FRAGMENT_USERS_LIST = "FRAGMENT_USERS_LIST";
@@ -161,13 +163,19 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 			disableDrawer();
 			setTooblarTitle(R.string.select_service_toolbar_title);
 			createAndAddFragment(FRAGMENT_CONFIGURATIONS_LIST,
-					ConfigurationsListFragment.class, false);
+					ConfigsListFragment.class, false, null);
+			return true;
+		case MPinController.MESSAGE_SHOW_CONFIGURATION_EDIT:
+			setTooblarTitle(R.string.config_detail_toolbar_title);
+			createAndAddFragment(FRAGMENT_ABOUT, ConfigDetailFragment.class,
+					false, msg.arg1);
 			return true;
 		case MPinController.MESSAGE_SHOW_ABOUT:
 			// TODO: Check if this could be done in the fragment
 			disableDrawer();
 			setTooblarTitle(R.string.about_title);
-			createAndAddFragment(FRAGMENT_ABOUT, AboutFragment.class, false);
+			createAndAddFragment(FRAGMENT_ABOUT, AboutFragment.class, false,
+					null);
 			return true;
 		case MPinController.MESSAGE_SHOW_USERS_LIST:
 			// TODO: Check if this could be done in the fragment
@@ -175,7 +183,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 			// TODO: Title should be conditional based on identity list
 			setTooblarTitle(R.string.select_identity_title);
 			createAndAddFragment(FRAGMENT_USERS_LIST, UsersListFragment.class,
-					false);
+					false, null);
 			return true;
 		}
 		return false;
@@ -311,7 +319,8 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 	}
 
 	private void createAndAddFragment(String tag,
-			Class<? extends MPinFragment> fragmentClass, boolean addToBackStack) {
+			Class<? extends MPinFragment> fragmentClass,
+			boolean addToBackStack, Object data) {
 
 		MPinFragment fragment = (MPinFragment) getFragmentManager()
 				.findFragmentByTag(tag);
@@ -320,12 +329,13 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 			try {
 				fragment = fragmentClass.getConstructor().newInstance();
 				fragment.setMPinController(mController);
+				fragment.setData(data);
 
 				FragmentTransaction transaction = getFragmentManager()
 						.beginTransaction();
 				transaction.replace(R.id.content, fragment, tag);
 				// TODO: Check when to add to backstack
-				transaction.addToBackStack(tag);
+//				transaction.addToBackStack(tag);
 				transaction.commit();
 				getFragmentManager().executePendingTransactions();
 
