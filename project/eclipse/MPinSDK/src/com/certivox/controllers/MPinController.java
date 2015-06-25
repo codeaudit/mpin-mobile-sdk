@@ -369,7 +369,9 @@ public class MPinController extends Controller {
 				String userId = getCurrentUser().getId();
 				// TODO: This should be separate method
 				getSdk().DeleteUser(getCurrentUser());
+				// TODO: NOT GOOD!
 				setCurrentUser(null);
+				initUsersList();
 				startRegistration(userId);
 			}
 		});
