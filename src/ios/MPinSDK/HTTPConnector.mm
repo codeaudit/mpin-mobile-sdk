@@ -100,7 +100,7 @@ namespace net {
            
             switch (error.code) {
                 case -1001: //Connection timeout
-                    [[NSNotificationCenter defaultCenter] postNotificationName:constStrConnectionTimeoutNotification object:nil userInfo:@{ @"error" : @"Connection timeout"}];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:constStrConnectionTimeoutNotification object:nil];
                     return false;
                     break;
                 case -1012:

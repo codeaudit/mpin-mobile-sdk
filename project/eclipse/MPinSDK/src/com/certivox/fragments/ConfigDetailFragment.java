@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,7 +29,6 @@ public class ConfigDetailFragment extends Fragment {
 	private EditText mServiceNameEditText;
 	private EditText mServiceUrlEditText;
 	private EditText mServiceRTSEditText;
-	private CheckBox mServiceMobileCheckBox;
 	private CheckBox mServiceOTPCheckBox;
 	private CheckBox mServiceANCheckBox;
 	private Button mCheckServiceButton;
@@ -96,10 +96,9 @@ public class ConfigDetailFragment extends Fragment {
 		mServiceRTSEditText = (EditText) mView
 				.findViewById(R.id.service_rts_input);
 
-		mServiceMobileCheckBox = (CheckBox) mView
-				.findViewById(R.id.service_mobile);
 		mServiceOTPCheckBox = (CheckBox) mView.findViewById(R.id.service_otp);
 		mServiceANCheckBox = (CheckBox) mView.findViewById(R.id.service_an);
+		mServiceANCheckBox.setChecked(true);
 
 		mCheckServiceButton = (Button) mView
 				.findViewById(R.id.check_service_button);
@@ -148,30 +147,12 @@ public class ConfigDetailFragment extends Fragment {
 			}
 		});
 
-		if (mConfig != null) {
+		if (mConfig.getId() != -1) {
 			mServiceNameEditText.setText(mConfig.getTitle());
 			mServiceUrlEditText.setText(mConfig.getBackendUrl());
 			mServiceRTSEditText.setText(mConfig.getRTS());
-			mServiceMobileCheckBox.setChecked(!mConfig.getRequestOtp()
-					&& !mConfig.getRequestAccessNumber());
 			mServiceOTPCheckBox.setChecked(mConfig.getRequestOtp());
 			mServiceANCheckBox.setChecked(mConfig.getRequestAccessNumber());
-
-			mServiceMobileCheckBox
-					.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-						@Override
-						public void onCheckedChanged(CompoundButton buttonView,
-								boolean isChecked) {
-							if (isChecked) {
-								mServiceOTPCheckBox.setChecked(false);
-								mServiceANCheckBox.setChecked(false);
-							} else if (!mServiceOTPCheckBox.isChecked()
-									&& !mServiceANCheckBox.isChecked()) {
-								buttonView.setChecked(true);
-							}
-
-						}
-					});
 
 			mServiceOTPCheckBox
 					.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -179,10 +160,8 @@ public class ConfigDetailFragment extends Fragment {
 						public void onCheckedChanged(CompoundButton buttonView,
 								boolean isChecked) {
 							if (isChecked) {
-								mServiceMobileCheckBox.setChecked(false);
 								mServiceANCheckBox.setChecked(false);
-							} else if (!mServiceMobileCheckBox.isChecked()
-									&& !mServiceANCheckBox.isChecked()) {
+							} else if (!mServiceANCheckBox.isChecked()) {
 								buttonView.setChecked(true);
 							}
 						}
@@ -195,9 +174,7 @@ public class ConfigDetailFragment extends Fragment {
 								boolean isChecked) {
 							if (isChecked) {
 								mServiceOTPCheckBox.setChecked(false);
-								mServiceMobileCheckBox.setChecked(false);
-							} else if (!mServiceOTPCheckBox.isChecked()
-									&& !mServiceMobileCheckBox.isChecked()) {
+							} else if (!mServiceOTPCheckBox.isChecked()) {
 								buttonView.setChecked(true);
 							}
 						}

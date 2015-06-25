@@ -25,4 +25,12 @@
 @property ( nonatomic, strong ) UIColor *color10;
 
 @property ( nonatomic, strong ) NSString *strHockeyAppID;
+
+@property ( nonatomic, strong ) NSString *strUrlMobGuide;
+@property ( nonatomic, strong ) NSString *strUrlSDK;
+@property ( nonatomic, strong ) NSString *strUrlHomepage;
+@property ( nonatomic, strong ) NSString *strUrlSupport;
+@property ( nonatomic, strong ) NSString *strUrlTerms;
+@property ( nonatomic, strong ) NSString *strUrlValues;
+
 @end
