@@ -70,6 +70,7 @@
   addActivityIndicator:(BOOL)addActivityIndicator
              hideAfter:(NSInteger) hideAfter
 {
+    NSLog(@"%f",_hud.minShowTime);
     _hud.minShowTime = hideAfter;
     if (addActivityIndicator)
     {
@@ -91,6 +92,8 @@
                 addActivityIndicator:(BOOL)addActivityIndicator
                          minShowTime:(NSInteger) seconds
 {
+    NSLog(@"%f",_hud.minShowTime);
+
     _hud.minShowTime = seconds;
     [_hud setCaption:strError];
     
@@ -101,9 +104,11 @@
     else
     {
         [_hud setActivity:NO];
+        _hud.minShowTime = 3.0;
     }
     
     [_hud showInView:viewController.view];
+    
     if (seconds > 0)
     {
         [_hud hide];
