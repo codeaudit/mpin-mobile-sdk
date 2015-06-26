@@ -31,8 +31,7 @@
 {
     [super viewDidLoad];
 
-    sdk = [[MPin alloc] init];
-    sdk.delegate = self;
+
     [[ThemeManager sharedManager] beautifyViewController:self];
 
     self.title = NSLocalizedString(@"ID_CREATED_TITLE", @"");
@@ -42,6 +41,10 @@
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
+
+    sdk = [[MPin alloc] init];
+    sdk.delegate = self;
+
     _lblEmail.text = _strEmail;
     _lblMessage.text = [NSString stringWithFormat:NSLocalizedString(@"ID_CREATED_MESSAGE", @""), _strEmail];
 }

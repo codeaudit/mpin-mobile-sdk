@@ -95,8 +95,7 @@ static NSString *const kAN = @"AN";
 - ( void )viewDidLoad
 {
     [super viewDidLoad];
-    sdk = [[MPin alloc] init];
-    sdk.delegate = self;
+    
     boolFirstTime = YES;
     boolShouldAskForFingerprint = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -108,6 +107,9 @@ static NSString *const kAN = @"AN";
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
+    
+    sdk = [[MPin alloc] init];
+    
     sdk.delegate = self;
 
     [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
