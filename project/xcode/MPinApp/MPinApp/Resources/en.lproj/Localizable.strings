@@ -54,7 +54,7 @@
 
 "OTPVC_TITLE" = "One Time Password";
 
-"OTPVC_LBL_MESSAGE"        = "You can now use this password to log in to your VPN service.";
+"OTPVC_LBL_MESSAGE"        = "You can now use this password to log in to your RADIUS service";
 "OTPVC_LBL_YOUR_PASSWORD" = "YOUR PASSWORD";
 
 /* ACCESS NUMBER */

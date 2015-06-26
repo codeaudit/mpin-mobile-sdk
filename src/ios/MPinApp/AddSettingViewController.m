@@ -317,6 +317,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 
 - ( IBAction )onSave:( id )sender
 {
+    _txtMPINServiceURL.text = [_txtMPINServiceURL.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     bTestingConfig = NO;
     if ( [_txtMPINServiceNAME.text isEqualToString:@""] )
     {
@@ -419,6 +420,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 
 - ( void )OnTestBackendError:( id )sender error:( NSError * )error
 {
+    _txtMPINServiceURL.text = [_txtMPINServiceURL.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
     NSString *message = NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR");
 

@@ -177,7 +177,7 @@
         myVc.lblOTP.textColor = [[SettingsManager sharedManager] color5];
         myVc.lblOTP.font = [UIFont fontWithName:@"OpenSans" size:38.0];
 
-        myVc.lblMessage.text = @"You can now use this password to log in to your VPN service";
+        myVc.lblMessage.text = NSLocalizedString(@"OTPVC_LBL_MESSAGE", @"You can now use this password to log in to your RADIUS service");
     }
 
     else
