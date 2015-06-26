@@ -155,7 +155,7 @@
 /* MPIN STATUS ERROR MESSAGES */
 
 "KEY_BTNOK" = " ГРЕШКА В КЛЮЧА";
-"PIN_INPUT_CANCELED" = "ВЕВЕЖДАНЕТО НА ПИН Е ОТКАЗАНО";
+"PIN_INPUT_CANCELED" = "ВЪВЕЖДАНЕТО НА ПИН Е ОТКАЗАНО";
 "CRYPTO_ERROR" = "ГРЕШКА В КРИПТОГРАФИЯТА";
 "STORAGE_ERROR" = "ГРЕШКА ПРИ СЪХРАНЕНИЕ";
 "NETWORK_ERROR" = "МРЕЖОВА ГРЕШКА";
