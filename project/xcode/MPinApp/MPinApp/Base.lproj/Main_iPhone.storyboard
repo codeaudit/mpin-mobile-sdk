@@ -2081,8 +2081,7 @@
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="clearAction:" destination="3v6-6F-SX9" eventType="touchUpInside" id="MAY-82-eTe"/>
-                                    <action selector="numberSelectedAction:" destination="TMa-N8-4Sq" eventType="touchUpInside" id="0za-6h-EXs"/>
+                                    <action selector="clearAction:" destination="TMa-N8-4Sq" eventType="touchUpInside" id="Slg-tc-Ksu"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -2392,7 +2391,7 @@
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="clearAction:" destination="3v6-6F-SX9" eventType="touchUpInside" id="oj6-jr-ewR"/>
+                                    <action selector="clearAction:" destination="3v6-6F-SX9" eventType="touchUpInside" id="8hK-4g-FTV"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJA-pa-rXQ">
