@@ -29,14 +29,15 @@
     [[ThemeManager sharedManager] beautifyViewController:self];
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
-
-    sdk = [[MPin alloc] init];
-    sdk.delegate = self;
 }
 
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
+
+    sdk = [[MPin alloc] init];
+    sdk.delegate = self;
+
     self.lblUserID.text = [self.iuser getIdentity];
     self.title = NSLocalizedString(@"CONFIRM_EMAIL_VC_TITLE", @"");
 

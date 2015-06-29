@@ -178,6 +178,7 @@
 		9649BCC41AC16D1000B9F41B /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A881A88C0E20068E0F7 /* OpenSans-Regular.ttf */; };
 		9649BCC51AC16D1000B9F41B /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A831A88C0E20068E0F7 /* OpenSans-ExtraBold.ttf */; };
 		964B121D1A93921C00FFB67A /* BackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 964B121C1A93921C00FFB67A /* BackButton.m */; };
+		964F19D11B4130E4000A03A5 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 964F19D01B4130E4000A03A5 /* Main_iPad.storyboard */; };
 		966EB9D41A8CF069004B936A /* ConfirmEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 966EB9D31A8CF069004B936A /* ConfirmEmailViewController.m */; };
 		968591A01AEE53EB00726E63 /* DimensionDataImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 968A180F1ACA8C70000C0DB0 /* DimensionDataImages.xcassets */; };
 		968591A11AEE53EE00726E63 /* CertivoxImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 968A180A1ACA8C58000C0DB0 /* CertivoxImages.xcassets */; };
@@ -316,6 +317,7 @@
 		9649BCCA1AC16D1000B9F41B /* DD MPin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DD MPin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		964B121B1A93921C00FFB67A /* BackButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BackButton.h; path = ../../../../src/ios/MPinApp/BackButton.h; sourceTree = "<group>"; };
 		964B121C1A93921C00FFB67A /* BackButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BackButton.m; path = ../../../../src/ios/MPinApp/BackButton.m; sourceTree = "<group>"; };
+		964F19D01B4130E4000A03A5 /* Main_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main_iPad.storyboard; sourceTree = "<group>"; };
 		966EB9D21A8CF069004B936A /* ConfirmEmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfirmEmailViewController.h; path = ../../../../src/ios/MPinApp/ConfirmEmailViewController.h; sourceTree = "<group>"; };
 		966EB9D31A8CF069004B936A /* ConfirmEmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = ConfirmEmailViewController.m; path = ../../../../src/ios/MPinApp/ConfirmEmailViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		968591AD1AF0BAAF00726E63 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main_iPhone.strings; sourceTree = "<group>"; };
@@ -675,6 +677,7 @@
 			isa = PBXGroup;
 			children = (
 				FEFFDDF01A1A4268007C7CAA /* Main_iPhone.storyboard */,
+				964F19D01B4130E4000A03A5 /* Main_iPad.storyboard */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1057,6 +1060,7 @@
 				960D6A9D1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				FE4900251A1A3CEB000030A4 /* InfoPlist.strings in Resources */,
 				960D6A9B1A88C0E20068E0F7 /* OpenSans-Regular.ttf in Resources */,
+				964F19D11B4130E4000A03A5 /* Main_iPad.storyboard in Resources */,
 				960D6A961A88C0E20068E0F7 /* OpenSans-ExtraBold.ttf in Resources */,
 				968591A11AEE53EE00726E63 /* CertivoxImages.xcassets in Resources */,
 			);

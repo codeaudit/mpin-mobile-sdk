@@ -104,7 +104,6 @@
     else
     {
         [_hud setActivity:NO];
-        _hud.minShowTime = 3.0;
     }
     
     [_hud showInView:viewController.view];

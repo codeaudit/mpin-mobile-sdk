@@ -23,6 +23,8 @@
 static NSMutableArray *kCircles;
 
 @interface PinPadViewController ( )
+{
+}
 
 @property ( nonatomic, weak ) IBOutlet UIImageView *imgViewDigit0;
 @property ( nonatomic, weak ) IBOutlet UIImageView *imgViewDigit1;
@@ -156,6 +158,9 @@ static NSMutableArray *kCircles;
 
 - ( IBAction )numberSelectedAction:( id )sender
 {
+    if ([self.strNumber length] >= 4) {
+        return;
+    }
     NSLog(@"Number: %@", self.strNumber);
     [super numberSelectedAction:sender];
     [self hideWrongPIN];
@@ -207,6 +212,7 @@ static NSMutableArray *kCircles;
 {
     if ( otp.status.status != OK )
     {
+        [_sdk AuthenticateOTP:_currentUser askForFingerprint:NO];
         [[ErrorHandler sharedManager] updateMessage:@"OTP is not supported!" addActivityIndicator:NO hideAfter:3];
         [self clearAction:self];
         return;
@@ -240,13 +246,13 @@ static NSMutableArray *kCircles;
         case HTTP_REQUEST_ERROR:
             [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"HTTP REQUEST ERROR"
              addActivityIndicator:NO
-             minShowTime:0];
+             minShowTime:3];
             break;
 
         default:
             [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR")
              addActivityIndicator:NO
-             minShowTime:0];
+             minShowTime:3];
             break;
         }
     }
@@ -278,6 +284,7 @@ static NSMutableArray *kCircles;
         switch ( error.code )
         {
         case INCORRECT_ACCESS_NUMBER:
+            [_sdk AuthenticateAN:_currentUser accessNumber:_strAccessNumber askForFingerprint:NO];
             [[ErrorHandler sharedManager] updateMessage:@"Wrong Access Number"
              addActivityIndicator:NO
              hideAfter:3];
