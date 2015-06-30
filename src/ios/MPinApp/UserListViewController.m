@@ -95,8 +95,7 @@ static NSString *const kAN = @"AN";
 - ( void )viewDidLoad
 {
     [super viewDidLoad];
-    sdk = [[MPin alloc] init];
-    sdk.delegate = self;
+
     boolFirstTime = YES;
     boolShouldAskForFingerprint = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -108,7 +107,12 @@ static NSString *const kAN = @"AN";
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
+
+
+    sdk = [[MPin alloc] init];
+
     sdk.delegate = self;
+
     [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
     [[ThemeManager sharedManager] beautifyViewController:self];
     self.users = [MPin listUsers];
@@ -396,13 +400,13 @@ static NSString *const kAN = @"AN";
         [[ErrorHandler sharedManager] presentMessageInViewController:self
          errorString:@"Wrong MPIN or Access Number!"
          addActivityIndicator:NO
-         minShowTime:0];
+         minShowTime:3];
         break;
 
     case HTTP_REQUEST_ERROR:
         [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Wrong MPIN or Access Number!"
          addActivityIndicator:NO
-         minShowTime:0];
+         minShowTime:3];
         break;
 
     default:
@@ -516,6 +520,7 @@ static NSString *const kAN = @"AN";
 
 - ( IBAction )btnAuthTap:( id )sender
 {
+    [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
     [[ConfigurationManager sharedManager] setSelectedUserForCurrentConfiguration:selectedIndexPath.row];
     [self startAuthenticationFlow];
 }
@@ -534,10 +539,7 @@ static NSString *const kAN = @"AN";
         switch ( [iuser getState] )
         {
         case INVALID:
-            [[ErrorHandler sharedManager] presentMessageInViewController:self
-             errorString:NSLocalizedString(@"HUD_REACTIVATE_USER", @"")
-             addActivityIndicator:NO
-             minShowTime:0];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"HUD_REACTIVATE_USER", @"") addActivityIndicator:NO hideAfter:3];
             break;
 
         case STARTED_REGISTRATION:
@@ -551,20 +553,16 @@ static NSString *const kAN = @"AN";
         case REGISTERED:
             config = [[ConfigurationManager sharedManager] getSelectedConfiguration];
             s = [config [kSERVICE_TYPE] intValue];
-            [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
+
+
+
             switch ( s )
             {
             case LOGIN_ON_MOBILE:
-                if ( !boolShouldAskForFingerprint )
-                {
-                    [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
-                }
-
                 [sdk Authenticate:iuser askForFingerprint:boolShouldAskForFingerprint];
                 break;
 
             case LOGIN_ONLINE:
-                [[ErrorHandler sharedManager] hideMessage];
                 accessViewController = [storyboard instantiateViewControllerWithIdentifier:@"accessnumber"];
                 accessViewController.delegate = self;
                 accessViewController.strEmail = [currentUser getIdentity];
@@ -573,8 +571,6 @@ static NSString *const kAN = @"AN";
                 break;
 
             case LOGIN_WITH_OTP:
-                [[ErrorHandler sharedManager] hideMessage];
-                [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
                 [sdk AuthenticateOTP:iuser askForFingerprint:boolShouldAskForFingerprint];
                 break;
             }

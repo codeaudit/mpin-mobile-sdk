@@ -45,9 +45,6 @@ static NSString *const kUser = @"User";
 
     [[ThemeManager sharedManager] beautifyViewController:self];
 
-    sdk = [[MPin alloc] init];
-    sdk.delegate = self;
-
     ConfigurationManager *cfm = [ConfigurationManager sharedManager];
     self.txtDevName.text = [cfm getDeviceName];
 
@@ -66,6 +63,12 @@ static NSString *const kUser = @"User";
     self.title                  = NSLocalizedString(@"ADDIDVC_TITLE", @"");
 }
 
+-(void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    sdk = [[MPin alloc] init];
+    sdk.delegate = self;
+}
 - ( void )viewDidAppear:( BOOL )animated
 {
     [[NSNotificationCenter defaultCenter] addObserver:self

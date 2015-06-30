@@ -58,8 +58,6 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     singleTap.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:singleTap];
 
-    sdk = [[MPin alloc] init];
-    sdk.delegate = self;
 
     self.title = NSLocalizedString(@"ADDCONFIGVC_TITLE",@"");
     [_btnTestConfig setTitle:NSLocalizedString(@"ADDCONFIGVC_BTN_TEST_CONFIG", @"") forState:UIControlStateNormal];
@@ -68,6 +66,11 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
+
+    sdk = [[MPin alloc] init];
+    sdk.delegate = self;
+
+
     if ( _isEdit )
     {
         self.title = NSLocalizedString(@"ADDCONFIGVC_TITLE_EDIT", @"");
@@ -314,6 +317,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 
 - ( IBAction )onSave:( id )sender
 {
+    _txtMPINServiceURL.text = [_txtMPINServiceURL.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     bTestingConfig = NO;
     if ( [_txtMPINServiceNAME.text isEqualToString:@""] )
     {
@@ -361,7 +365,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     {
         caption = NSLocalizedString(@"HUD_SAVE_CONFIG", @"");
     }
-    
+
     [_btnDone setEnabled:NO];
     [sdk TestBackend:_txtMPINServiceURL.text rpsPrefix:[self getTXTMPINServiceRPSPrefix]];
 
@@ -409,13 +413,14 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
                  prefixName:[self getTXTMPINServiceRPSPrefix]];
             }
         }
-        
+
         [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
     }
 }
 
 - ( void )OnTestBackendError:( id )sender error:( NSError * )error
 {
+    _txtMPINServiceURL.text = [_txtMPINServiceURL.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
     NSString *message = NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR");
 

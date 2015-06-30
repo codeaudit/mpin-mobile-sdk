@@ -36,7 +36,7 @@
 
 /* ID Blocked */
 "BLOCKED_ID_TITLE" = "Identity Blocked";
-"BLOCKED_ID_MESSAGE" = "Wrong PIN Entered too many times. Your identity is blocked. You can sign up a new identity or choose existing one.";
+"BLOCKED_ID_MESSAGE" = "Wrong PIN entered too many times. Your identity has been blocked. You can either select a different identity, reset your PIN or remove your blocked identity.";
 "BLOCKED_ID_BACK_TO_ID_LIST" = "BACK TO IDENTITY LIST";
 "BLOCKED_ID_RESET_PIN" = "RESET PIN";
 "BLOCKED_ID_REMOVE_ID" = "REMOVE THIS IDENTITY";
@@ -54,13 +54,13 @@
 
 "OTPVC_TITLE" = "One Time Password";
 
-"OTPVC_LBL_MESSAGE"        = "You can now use this password to log in to your VPN service.";
+"OTPVC_LBL_MESSAGE"        = "You can now use this password to log in to your RADIUS service";
 "OTPVC_LBL_YOUR_PASSWORD" = "YOUR PASSWORD";
 
 /* ACCESS NUMBER */
 "ACCESSNUMBERVC_TITLE" = "Enter Access Number";
 
-"ACCESSNUMBERVC_NOTE"   = "ENTER %d DIGITS ACCESS NUMBER";
+"ACCESSNUMBERVC_NOTE"   = "ENTER %d DIGIT ACCESS NUMBER";
 
 
 /* Configuration list */
@@ -96,7 +96,7 @@
 
 /* HUD Messages */
 "HUD_CHANGE_CONFIGURATION"  = "Changing configuration. Please wait.";
-"HUD_AUTH_SUCCESS"          = "Your authentication is \n successful !";
+"HUD_AUTH_SUCCESS"          = "You have successfully been \n authenticated";
 "HUD_LOGOUT"                = "Logging OUT";
 "HUD_LOGOUT_OK"             = "Logout Successful";
 "HUD_LOGOUT_NOT_OK"         = "Logout Unsuccessful";
@@ -152,7 +152,7 @@
 
 /* OTHER SHARED STRINGS */
 "LOGIN_MOBILE_APP" = "Mobile application login";
-"LOGIN_ONLINE_SESSION" = "Web login";
+"LOGIN_ONLINE_SESSION" = "Login to Online Session";
 "LOGIN_OTP" = "OTP Login";
 
 /* MPIN STATUS ERROR MESSAGES */

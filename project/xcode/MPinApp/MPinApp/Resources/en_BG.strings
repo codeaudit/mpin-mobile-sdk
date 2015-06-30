@@ -95,7 +95,7 @@
 
 /* HUD Messages */
 "HUD_CHANGE_CONFIGURATION"  = "Смяна на конфигурацията. Моля изчакайте.";
-"HUD_AUTH_SUCCESS"          = "Your authentication is \n successful !";
+"HUD_AUTH_SUCCESS"          = "You have successfully been \n authenticated";
 "HUD_LOGOUT"                = "Излизане";
 "HUD_LOGOUT_OK"             = "Успешно излизане";
 "HUD_LOGOUT_NOT_OK"         = "Неуспешно излизане";
@@ -155,7 +155,7 @@
 /* MPIN STATUS ERROR MESSAGES */
 
 "KEY_BTNOK" = " ГРЕШКА В КЛЮЧА";
-"PIN_INPUT_CANCELED" = "ВЕВЕЖДАНЕТО НА ПИН Е ОТКАЗАНО";
+"PIN_INPUT_CANCELED" = "ВЪВЕЖДАНЕТО НА ПИН Е ОТКАЗАНО";
 "CRYPTO_ERROR" = "ГРЕШКА В КРИПТОГРАФИЯТА";
 "STORAGE_ERROR" = "ГРЕШКА ПРИ СЪХРАНЕНИЕ";
 "NETWORK_ERROR" = "МРЕЖОВА ГРЕШКА";

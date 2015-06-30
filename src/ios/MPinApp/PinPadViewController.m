@@ -23,6 +23,8 @@
 static NSMutableArray *kCircles;
 
 @interface PinPadViewController ( )
+{
+}
 
 @property ( nonatomic, weak ) IBOutlet UIImageView *imgViewDigit0;
 @property ( nonatomic, weak ) IBOutlet UIImageView *imgViewDigit1;
@@ -156,6 +158,9 @@ static NSMutableArray *kCircles;
 
 - ( IBAction )numberSelectedAction:( id )sender
 {
+    if ([self.strNumber length] >= 4) {
+        return;
+    }
     NSLog(@"Number: %@", self.strNumber);
     [super numberSelectedAction:sender];
     [self hideWrongPIN];
@@ -207,11 +212,9 @@ static NSMutableArray *kCircles;
 {
     if ( otp.status.status != OK )
     {
-        [[ErrorHandler sharedManager] presentMessageInViewController:self
-         errorString:@"OTP is not supported!"
-         addActivityIndicator:NO
-         minShowTime:0];
-
+        [_sdk AuthenticateOTP:_currentUser askForFingerprint:NO];
+        [[ErrorHandler sharedManager] updateMessage:@"OTP is not supported!" addActivityIndicator:NO hideAfter:3];
+        [self clearAction:self];
         return;
     }
     OTPViewController *otpViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"OTP"];
@@ -222,6 +225,7 @@ static NSMutableArray *kCircles;
 
 - ( void )OnAuthenticateOTPError:( id )sender error:( NSError * )error
 {
+    NSLog(@"Error");
     if ( [_currentUser getState] == BLOCKED )
     {
         [self showBlockedScreen];
@@ -242,13 +246,13 @@ static NSMutableArray *kCircles;
         case HTTP_REQUEST_ERROR:
             [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"HTTP REQUEST ERROR"
              addActivityIndicator:NO
-             minShowTime:0];
+             minShowTime:3];
             break;
 
         default:
             [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR")
              addActivityIndicator:NO
-             minShowTime:0];
+             minShowTime:3];
             break;
         }
     }
@@ -261,6 +265,7 @@ static NSMutableArray *kCircles;
 
 - ( void )OnAuthenticateAccessNumberCompleted:( id )sender user:( id<IUser>)user
 {
+    NSLog(@"OnAuthenticateAccessNumberCompleted");
     ANAuthenticationSuccessful *vcANsuccess = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"ANAuthenticationSuccessful"];
     vcANsuccess.currentUser = _currentUser;
     [self.navigationController pushViewController:vcANsuccess animated:YES];
@@ -268,6 +273,7 @@ static NSMutableArray *kCircles;
 
 - ( void )OnAuthenticateAccessNumberError:( id )sender error:( NSError * )error
 {
+    NSLog(@"OnAuthenticateAccessNumberError");
     if ( [_currentUser getState] == BLOCKED )
     {
         [self showBlockedScreen];
@@ -278,6 +284,7 @@ static NSMutableArray *kCircles;
         switch ( error.code )
         {
         case INCORRECT_ACCESS_NUMBER:
+            [_sdk AuthenticateAN:_currentUser accessNumber:_strAccessNumber askForFingerprint:NO];
             [[ErrorHandler sharedManager] updateMessage:@"Wrong Access Number"
              addActivityIndicator:NO
              hideAfter:3];
@@ -293,13 +300,11 @@ static NSMutableArray *kCircles;
         case HTTP_REQUEST_ERROR:
             [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"HTTP REQUEST ERROR"
              addActivityIndicator:NO
-             minShowTime:0];
+             minShowTime:3];
             break;
 
         default:
-            [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR")
-             addActivityIndicator:NO
-             minShowTime:0];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR") addActivityIndicator:NO hideAfter:3];
             break;
         }
     }
@@ -315,6 +320,7 @@ static NSMutableArray *kCircles;
 
 - ( void ) OnAuthenticateCanceled
 {
+    NSLog(@"OnAuthenticateCanceled");
     [self popToRoot];
 }
 
