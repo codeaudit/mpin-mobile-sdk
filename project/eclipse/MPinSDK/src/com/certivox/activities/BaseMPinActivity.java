@@ -18,11 +18,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.certivox.interfaces.MPinController;
-import com.certivox.interfaces.PinPadController;
 import com.example.mpinsdk.R;
 
 public abstract class BaseMPinActivity extends ActionBarActivity implements
-		MPinController, PinPadController {
+		MPinController {
 
 	// Needed for Hockey App
 	private static final String APP_ID = "40dc0524dbc338596640635c8c55dafb";

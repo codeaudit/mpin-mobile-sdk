@@ -12,10 +12,10 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.certivox.activities.MPinActivityOld;
 import com.certivox.dal.ConfigsDao;
 import com.certivox.interfaces.Controller;
 import com.certivox.models.Config;
+import com.certivox.models.OTP;
 import com.certivox.models.Status;
 import com.certivox.models.User;
 import com.certivox.models.User.State;
@@ -75,6 +75,9 @@ public class MPinController extends Controller {
 	public static final int MESSAGE_EMAIL_CONFIRMED = 19;
 	public static final int MESSAGE_RESEND_EMAIL = 20;
 
+	// Receive Messages from Fragment Identity created
+	public static final int MESSAGE_ON_SIGN_IN = 21;
+
 	// Sent Messages
 	public static final int MESSAGE_GO_BACK = 1;
 	public static final int MESSAGE_START_WORK_IN_PROGRESS = 2;
@@ -92,8 +95,16 @@ public class MPinController extends Controller {
 	public static final int MESSAGE_SHOW_USERS_LIST = 14;
 	public static final int MESSAGE_SHOW_CREATE_IDENTITY = 15;
 	public static final int MESSAGE_SHOW_CONFIRM_EMAIL = 16;
-	public static final int MESSAGE_EMAIL_NOT_CONFIRMED = 17;
-	public static final int MESSAGE_EMAIL_SENT = 18;
+	public static final int MESSAGE_SHOW_IDENTITY_CREATED = 17;
+	public static final int MESSAGE_SHOW_SIGN_IN = 18;
+	public static final int MESSAGE_SHOW_ACCESS_NUMBER = 19;
+	public static final int MESSAGE_SHOW_USER_BLOCKED = 20;
+	public static final int MESSAGE_SHOW_LOGGED_IN = 21;
+	public static final int MESSAGE_SHOW_OTP = 22;
+	public static final int MESSAGE_EMAIL_NOT_CONFIRMED = 23;
+	public static final int MESSAGE_EMAIL_SENT = 24;
+	public static final int MESSAGE_INCORRECT_ACCESS_NUMBER = 25;
+	public static final int MESSAGE_INCORRECT_PIN = 26;
 
 	public MPinController(Context context) {
 		mContext = context;
@@ -121,7 +132,7 @@ public class MPinController extends Controller {
 		case MESSAGE_ON_BACK:
 			return true;
 		case MESSAGE_ON_DRAWER_BACK:
-			// TODO: change the logic acording the fragment
+			// TODO: change the logic according the fragment
 			notifyOutboxHandlers(MESSAGE_GO_BACK, 0, 0, null);
 			return true;
 		case MESSAGE_ON_NEW_CONFIGURATION:
@@ -150,6 +161,9 @@ public class MPinController extends Controller {
 			return true;
 		case MESSAGE_RESET_PIN:
 			resetPin();
+			return true;
+		case MESSAGE_ON_SIGN_IN:
+			onSignIn();
 			return true;
 		default:
 			return false;
@@ -318,13 +332,10 @@ public class MPinController extends Controller {
 					}
 				}
 				mCurrentUser = getSdk().MakeNewUser(userId);
-				Log.i(TAG, "MAKE NEW USER CALLED id = " + mCurrentUser.getId());
 				getSdk().StartRegistration(mCurrentUser);
 				if (mCurrentUser.getState() == State.ACTIVATED) {
 					finishRegistration();
 				} else {
-					Log.i(TAG,
-							"NEW IDENTITY STATE = " + mCurrentUser.getState());
 					notifyOutboxHandlers(MESSAGE_SHOW_CONFIRM_EMAIL, 0, 0, null);
 				}
 			}
@@ -349,11 +360,12 @@ public class MPinController extends Controller {
 			@Override
 			public void run() {
 				Status status = getSdk().FinishRegistration(getCurrentUser());
-				if (status.getStatusCode() != com.certivox.models.Status.Code.OK) {
+				if (status.getStatusCode() != Status.Code.OK) {
 					notifyOutboxHandlers(MESSAGE_EMAIL_NOT_CONFIRMED, 0, 0,
 							null);
 				} else {
-					Log.i(TAG, "Registration finished");
+					notifyOutboxHandlers(MESSAGE_SHOW_IDENTITY_CREATED, 0, 0,
+							null);
 				}
 			}
 		});
@@ -441,6 +453,124 @@ public class MPinController extends Controller {
 		}
 
 		return null;
+	}
+
+	private void onSignIn() {
+		mWorkerHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				if (mConfigsDao.getActiveConfiguration()
+						.getRequestAccessNumber()) {
+					notifyOutboxHandlers(MESSAGE_SHOW_ACCESS_NUMBER, 0, 0, null);
+				} else {
+					preAuthenticate("");
+				}
+			}
+		});
+		notifyOutboxHandlers(MESSAGE_SHOW_SIGN_IN, 0, 0, null);
+
+	}
+
+	private void preAuthenticate(final String accessNumber) {
+		mWorkerHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				OTP otp = mConfigsDao.getActiveConfiguration().getRequestOtp() ? new OTP()
+						: null;
+				if (!accessNumber.equals("")) {
+					authenticateAN(accessNumber);
+				} else if (otp != null) {
+					authenticateOTP(otp);
+				} else {
+					authenticate();
+				}
+			}
+		});
+	}
+
+	private void authenticateAN(final String accessNumber) {
+		mWorkerHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				Status status = getSdk().AuthenticateAN(getCurrentUser(),
+						accessNumber);
+
+				switch (status.getStatusCode()) {
+				case PIN_INPUT_CANCELED:
+					break;
+				case INCORRECT_ACCESS_NUMBER:
+					notifyOutboxHandlers(MESSAGE_INCORRECT_ACCESS_NUMBER, 0, 0,
+							null);
+					break;
+				case INCORRECT_PIN:
+					notifyOutboxHandlers(MESSAGE_INCORRECT_PIN, 0, 0, null);
+					onSignIn();
+					break;
+				case OK:
+					break;
+				default:
+					return;
+				}
+			}
+		});
+	}
+
+	private void authenticateOTP(final OTP otp) {
+		mWorkerHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				Status status = getSdk().AuthenticateOTP(getCurrentUser(), otp);
+
+				switch (status.getStatusCode()) {
+				case PIN_INPUT_CANCELED:
+					break;
+				case OK: {
+					if (otp.status != null && otp.ttlSeconds > 0) {
+						// TODO: pass the otp
+						notifyOutboxHandlers(MESSAGE_SHOW_OTP, 0, 0, null);
+					}
+				}
+					break;
+				default:
+					return;
+				}
+			}
+		});
+	}
+
+	private void authenticate() {
+		mWorkerHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				final StringBuilder resultData = new StringBuilder();
+				Status status = getSdk().Authenticate(getCurrentUser(),
+						resultData);
+
+				if (getCurrentUser().getState().equals(User.State.BLOCKED)) {
+					notifyOutboxHandlers(MESSAGE_SHOW_USER_BLOCKED, 0, 0, null);
+					return;
+				}
+
+				switch (status.getStatusCode()) {
+				case PIN_INPUT_CANCELED:
+					break;
+				case INCORRECT_PIN:
+					notifyOutboxHandlers(MESSAGE_INCORRECT_PIN, 0, 0, null);
+					onSignIn();
+					break;
+				case OK:
+					notifyOutboxHandlers(MESSAGE_SHOW_LOGGED_IN, 0, 0, null);
+					break;
+				default:
+					return;
+				}
+			}
+		});
 	}
 
 	// TODO this should be in model

@@ -2,6 +2,7 @@ package com.certivox.activities;
 
 import java.lang.reflect.InvocationTargetException;
 
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,7 +25,10 @@ import com.certivox.fragments.ConfigDetailFragment;
 import com.certivox.fragments.ConfigsListFragment;
 import com.certivox.fragments.ConfirmEmailFragment;
 import com.certivox.fragments.CreateIdentityFragment;
+import com.certivox.fragments.IdentityCreatedFragment;
 import com.certivox.fragments.MPinFragment;
+import com.certivox.fragments.PinPadFragment;
+import com.certivox.fragments.SuccessfulLoginFragment;
 import com.certivox.fragments.UsersListFragment;
 import com.example.mpinsdk.R;
 
@@ -35,6 +39,8 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 
 	// Controller
 	private MPinController mController;
+
+	private static MPinActivity mActivity;
 
 	// Views
 	private DrawerLayout mDrawerLayout;
@@ -160,6 +166,13 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 			// TODO: This should be also called on initial time
 			setDrawerTitle(mController.getActiveConfiguration().getTitle());
 			return true;
+		case MPinController.MESSAGE_INCORRECT_PIN:
+			// TODO: this is not clean
+			PinPadFragment pinPadFragment = getPinPadFragment();
+			if (pinPadFragment != null) {
+				pinPadFragment.showWrongPin();
+			}
+			return true;
 		case MPinController.MESSAGE_SHOW_CONFIGURATIONS_LIST:
 			// TODO: Check if this could be done in the fragment
 			disableDrawer();
@@ -190,12 +203,21 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 			createAndAddFragment(FRAGMENT_CONFIRM_EMAIL,
 					ConfirmEmailFragment.class, false, null);
 			return true;
+		case MPinController.MESSAGE_SHOW_IDENTITY_CREATED:
+			createAndAddFragment(FRAGMENT_IDENTITY_CREATED,
+					IdentityCreatedFragment.class, false, null);
+			return true;
+		case MPinController.MESSAGE_SHOW_LOGGED_IN:
+			createAndAddFragment(FRAGMENT_SUCCESSFUL_LOGIN,
+					SuccessfulLoginFragment.class, false, null);
+			return true;
 		}
 		return false;
 	}
 
 	/** Called to do the initialization of the view */
 	private void initialize() {
+		mActivity = this;
 		initViews();
 		initActionBar();
 		initNavigationDrawer();
@@ -208,6 +230,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 
 	/** Called when activity is being destroyed to free up memory */
 	private void freeResources() {
+		mActivity = null;
 		mController = null;
 		mDrawerSubtitle = null;
 		mDrawerToggle = null;
@@ -306,14 +329,12 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 	}
 
 	private void showLoader() {
-		Log.i(TAG, "SHOW LOADER!");
 		if (mLoader != null) {
 			mLoader.setVisibility(View.VISIBLE);
 		}
 	}
 
 	private void hideLoader() {
-		Log.i(TAG, "HIDE LOADER!");
 		if (mLoader != null) {
 			mLoader.setVisibility(View.GONE);
 		}
@@ -365,8 +386,54 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		super.onBackPressed();
 	}
 
+	// TODO: This is not done right, should be refactored
 	public static String show() {
-		Log.i(TAG, "SHOW CALLED");
-		return "1234";
+		// TODO This seems not thread-safe
+		mActivity.runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				mActivity.addPinPadFragment();
+			}
+		});
+
+		synchronized (MPinActivity.class) {
+			while (mActivity.getPinPadFragment() == null) {
+				try {
+					MPinActivity.class.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		if (mActivity != null && mActivity.getPinPadFragment() != null) {
+			return mActivity.getPinPadFragment().getPin();
+		}
+		return "";
+	}
+
+	// TODO: This is not done right, should be refactored
+	public void addPinPadFragment() {
+		if (getPinPadFragment() == null) {
+			PinPadFragment pinPadFragment = new PinPadFragment();
+			pinPadFragment.setUser(mController.getCurrentUser());
+
+			FragmentTransaction transaction = getFragmentManager()
+					.beginTransaction();
+			transaction.replace(R.id.content, pinPadFragment, FRAGMENT_PINPAD);
+			transaction.commit();
+			getFragmentManager().executePendingTransactions();
+			enableDrawer();
+		}
+
+		synchronized (MPinActivity.class) {
+			MPinActivity.class.notifyAll();
+		}
+	}
+
+	// TODO: This is not done right, should be refactored
+	private PinPadFragment getPinPadFragment() {
+		return (PinPadFragment) getFragmentManager().findFragmentByTag(
+				FRAGMENT_PINPAD);
 	}
 }

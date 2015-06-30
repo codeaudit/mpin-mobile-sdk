@@ -28,7 +28,6 @@ import com.certivox.fragments.OTPFragment;
 import com.certivox.fragments.PinPadFragment;
 import com.certivox.fragments.SuccessfulLoginFragment;
 import com.certivox.fragments.UsersListFragmentOld;
-import com.certivox.interfaces.PinPadController;
 import com.certivox.listeners.OnAddNewUserListener;
 import com.certivox.listeners.OnUserSelectedListener;
 import com.certivox.models.Config;
@@ -39,8 +38,7 @@ import com.certivox.models.User.State;
 import com.certivox.mpinsdk.Mpin;
 import com.example.mpinsdk.R;
 
-public class MPinActivityOld extends BaseMPinActivity implements
-		PinPadController {
+public class MPinActivityOld extends BaseMPinActivity {
 
 	static {
 		System.loadLibrary("AndroidMpinSDK");
@@ -413,7 +411,6 @@ public class MPinActivityOld extends BaseMPinActivity implements
 	public void addIdentityCreatedFragment() {
 		if (getIdentityCreatedFragment() == null) {
 			IdentityCreatedFragment identityCreatedFragment = new IdentityCreatedFragment();
-			identityCreatedFragment.setController(mActivity);
 
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
@@ -440,7 +437,6 @@ public class MPinActivityOld extends BaseMPinActivity implements
 	public void addPinPadFragment() {
 		if (getPinPadFragment() == null) {
 			PinPadFragment pinPadFragment = new PinPadFragment();
-			pinPadFragment.setController(mActivity);
 
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
@@ -526,7 +522,6 @@ public class MPinActivityOld extends BaseMPinActivity implements
 	public void addSuccessfulLoginFragment() {
 		if (getSuccessfulLoginFragment() == null) {
 			SuccessfulLoginFragment successfulLoginFragment = new SuccessfulLoginFragment();
-			successfulLoginFragment.setController(mActivity);
 
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
