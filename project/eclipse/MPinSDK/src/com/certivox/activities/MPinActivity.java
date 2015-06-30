@@ -2,7 +2,6 @@ package com.certivox.activities;
 
 import java.lang.reflect.InvocationTargetException;
 
-import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,8 +11,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
@@ -29,9 +26,11 @@ import com.certivox.fragments.CreateIdentityFragment;
 import com.certivox.fragments.IdentityBlockedFragment;
 import com.certivox.fragments.IdentityCreatedFragment;
 import com.certivox.fragments.MPinFragment;
+import com.certivox.fragments.OTPFragment;
 import com.certivox.fragments.PinPadFragment;
 import com.certivox.fragments.SuccessfulLoginFragment;
 import com.certivox.fragments.UsersListFragment;
+import com.certivox.models.OTP;
 import com.example.mpinsdk.R;
 
 public class MPinActivity extends ActionBarActivity implements OnClickListener,
@@ -195,6 +194,10 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		case MPinController.MESSAGE_SHOW_LOGGED_IN:
 			createAndAddFragment(FRAGMENT_SUCCESSFUL_LOGIN,
 					SuccessfulLoginFragment.class, false, null);
+			return true;
+		case MPinController.MESSAGE_SHOW_OTP:
+			OTP otp = (OTP) msg.obj;
+			createAndAddFragment(FRAGMENT_OTP, OTPFragment.class, false, otp);
 			return true;
 		}
 		return false;

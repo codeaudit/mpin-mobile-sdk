@@ -68,7 +68,7 @@ public class IdentityBlockedFragment extends MPinFragment implements
 			onDeleteIdentity();
 			break;
 		case R.id.reset_pin_button:
-
+			getMPinController().handleMessage(MPinController.MESSAGE_RESET_PIN);
 			break;
 		case R.id.back_button:
 			getMPinController().handleMessage(

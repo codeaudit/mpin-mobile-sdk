@@ -493,8 +493,6 @@ public class MPinActivityOld extends BaseMPinActivity {
 	public void addOTPFragment(OTP otp) {
 		if (getOTPFragment() == null) {
 			OTPFragment otpFragment = new OTPFragment();
-			otpFragment.setController(mActivity);
-			otpFragment.setOTP(otp);
 
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();

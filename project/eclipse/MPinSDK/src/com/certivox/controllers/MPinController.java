@@ -81,6 +81,9 @@ public class MPinController extends Controller {
 	// Receive Messages from Fragment Identity blocked
 	public static final int MESSAGE_ON_DELETE_IDENTITY = 22;
 
+	// Receive Messages from Fragment OTP
+	public static final int MESSAGE_OTP_EXPIRED = 23;
+
 	// Sent Messages
 	public static final int MESSAGE_GO_BACK = 1;
 	public static final int MESSAGE_START_WORK_IN_PROGRESS = 2;
@@ -171,6 +174,9 @@ public class MPinController extends Controller {
 			return true;
 		case MESSAGE_ON_DELETE_IDENTITY:
 			deleteCurrentIdentity();
+			return true;
+		case MESSAGE_OTP_EXPIRED:
+			onSignIn();
 			return true;
 		default:
 			return false;
@@ -536,7 +542,7 @@ public class MPinController extends Controller {
 				case OK: {
 					if (otp.status != null && otp.ttlSeconds > 0) {
 						// TODO: pass the otp
-						notifyOutboxHandlers(MESSAGE_SHOW_OTP, 0, 0, null);
+						notifyOutboxHandlers(MESSAGE_SHOW_OTP, 0, 0, otp);
 					}
 				}
 					break;
