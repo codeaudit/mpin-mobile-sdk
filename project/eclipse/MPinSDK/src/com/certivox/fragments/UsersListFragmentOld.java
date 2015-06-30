@@ -95,7 +95,6 @@ public class UsersListFragmentOld extends ListFragment {
 
 	public void deselectAllUsers() {
 		UsersAdapter adapter = getListAdapter();
-		adapter.deselectAllUsers();
 	}
 
 }

@@ -11,15 +11,23 @@ public abstract class MPinFragment extends Fragment implements Handler.Callback 
 
 	// MPinController
 	private MPinController mMPinController;
+	private Handler mHandler;
 
 	abstract protected void initViews();
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
+		mHandler = new Handler(this);
 		if (mMPinController != null) {
 			getMPinController().addOutboxHandler(new Handler(this));
 		}
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		getMPinController().removeOutboxHandler(mHandler);
 	}
 
 	public void setMPinController(MPinController controller) {

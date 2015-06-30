@@ -80,10 +80,17 @@ public class UsersAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	public void deselectAllUsers() {
+	private void deselectAllUsers() {
 		for (User user : mUsersList) {
 			user.setUserSelected(false);
 		}
+		notifyDataSetChanged();
+	}
+
+	public void setActiveUser(int position) {
+		deselectAllUsers();
+		User user = mUsersList.get(position);
+		user.setUserSelected(true);
 		notifyDataSetChanged();
 	}
 

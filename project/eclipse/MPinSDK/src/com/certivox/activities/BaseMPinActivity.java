@@ -201,12 +201,12 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.select_user:
+		case R.id.select_identity:
 			if (isSelectUserActive) {
 				userChosen();
 			}
 			return true;
-		case R.id.delete_user:
+		case R.id.delete_identity:
 			deleteCurrentUser();
 			return true;
 		case R.id.reset_pin:

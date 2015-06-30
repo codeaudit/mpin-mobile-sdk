@@ -78,6 +78,9 @@ public class MPinController extends Controller {
 	// Receive Messages from Fragment Identity created
 	public static final int MESSAGE_ON_SIGN_IN = 21;
 
+	// Receive Messages from Fragment Identity blocked
+	public static final int MESSAGE_ON_DELETE_IDENTITY = 22;
+
 	// Sent Messages
 	public static final int MESSAGE_GO_BACK = 1;
 	public static final int MESSAGE_START_WORK_IN_PROGRESS = 2;
@@ -105,6 +108,7 @@ public class MPinController extends Controller {
 	public static final int MESSAGE_EMAIL_SENT = 24;
 	public static final int MESSAGE_INCORRECT_ACCESS_NUMBER = 25;
 	public static final int MESSAGE_INCORRECT_PIN = 26;
+	public static final int MESSAGE_IDENTITY_DELETED = 27;
 
 	public MPinController(Context context) {
 		mContext = context;
@@ -164,6 +168,9 @@ public class MPinController extends Controller {
 			return true;
 		case MESSAGE_ON_SIGN_IN:
 			onSignIn();
+			return true;
+		case MESSAGE_ON_DELETE_IDENTITY:
+			deleteCurrentIdentity();
 			return true;
 		default:
 			return false;
@@ -456,8 +463,8 @@ public class MPinController extends Controller {
 	}
 
 	private void onSignIn() {
+		Log.i(TAG, "ON SIGN IN CALLED");
 		mWorkerHandler.post(new Runnable() {
-
 			@Override
 			public void run() {
 				if (mConfigsDao.getActiveConfiguration()
@@ -468,8 +475,6 @@ public class MPinController extends Controller {
 				}
 			}
 		});
-		notifyOutboxHandlers(MESSAGE_SHOW_SIGN_IN, 0, 0, null);
-
 	}
 
 	private void preAuthenticate(final String accessNumber) {
@@ -543,6 +548,7 @@ public class MPinController extends Controller {
 	}
 
 	private void authenticate() {
+		Log.i(TAG, "AUTHENTICATE");
 		mWorkerHandler.post(new Runnable() {
 
 			@Override
@@ -573,6 +579,24 @@ public class MPinController extends Controller {
 		});
 	}
 
+	private void deleteCurrentIdentity() {
+		mWorkerHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				getSdk().DeleteUser(getCurrentUser());
+				mCurrentUser = null;
+				initUsersList();
+				notifyOutboxHandlers(MESSAGE_IDENTITY_DELETED, 0, 0, null);
+			}
+		});
+
+	}
+
+	public void onAccessNumberEntered(String accessNumber) {
+		preAuthenticate(accessNumber);
+	}
+
 	// TODO this should be in model
 	private void setCurrentUser(User user) {
 		mCurrentUser = user;
@@ -600,5 +624,20 @@ public class MPinController extends Controller {
 
 	public Config getConfiguration(int configId) {
 		return mConfigsDao.getConfigurationById(configId);
+	}
+
+	public void onIdentitySelected(User user) {
+		mCurrentUser = user;
+		onSignIn();
+	}
+
+	public void onResetPin(User user) {
+		mCurrentUser = user;
+		resetPin();
+	}
+
+	public void onDeleteIdentity(User user) {
+		mCurrentUser = user;
+		deleteCurrentIdentity();
 	}
 }

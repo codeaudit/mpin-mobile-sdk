@@ -4,12 +4,15 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -23,12 +26,12 @@ public class UsersListFragment extends MPinFragment implements OnClickListener,
 		AdapterView.OnItemClickListener {
 
 	private final String TAG = UsersListFragment.class.getCanonicalName();
-
+	private User mSelectedIdentity;
 	private List<User> mUsersList;
-
+	private boolean mShowOptionsMenu;
 	private View mView;
 	private ListView mListView;
-	private BaseAdapter mAdapter;
+	private UsersAdapter mAdapter;
 	private ImageButton mCreateIdentityFAButton;
 	private Button mCreateIdentityButton;
 
@@ -39,7 +42,9 @@ public class UsersListFragment extends MPinFragment implements OnClickListener,
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		setHasOptionsMenu(true);
 		mView = inflater.inflate(R.layout.users_list_layout, container, false);
+		mShowOptionsMenu = false;
 		initViews();
 		initScreen();
 
@@ -47,12 +52,15 @@ public class UsersListFragment extends MPinFragment implements OnClickListener,
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
-	}
-
-	@Override
 	public boolean handleMessage(Message msg) {
+		switch (msg.what) {
+		case MPinController.MESSAGE_IDENTITY_DELETED:
+			initScreen();
+			break;
+
+		default:
+			break;
+		}
 		return false;
 	}
 
@@ -72,7 +80,10 @@ public class UsersListFragment extends MPinFragment implements OnClickListener,
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-
+		mAdapter.setActiveUser(position);
+		mSelectedIdentity = mAdapter.getItem(position);
+		mShowOptionsMenu = true;
+		getActivity().invalidateOptionsMenu();
 	}
 
 	@Override
@@ -107,6 +118,31 @@ public class UsersListFragment extends MPinFragment implements OnClickListener,
 
 		mListView.setAdapter(mAdapter);
 		mListView.setOnItemClickListener(this);
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		if (mShowOptionsMenu) {
+			inflater.inflate(R.menu.select_user_menu, menu);
+			super.onCreateOptionsMenu(menu, inflater);
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.select_identity:
+			getMPinController().onIdentitySelected(mSelectedIdentity);
+			return true;
+		case R.id.reset_pin:
+			getMPinController().onResetPin(mSelectedIdentity);
+			return true;
+		case R.id.delete_identity:
+			getMPinController().onDeleteIdentity(mSelectedIdentity);
+			return true;
+		default:
+			return false;
+		}
 	}
 
 	private void showIdentitiesList() {

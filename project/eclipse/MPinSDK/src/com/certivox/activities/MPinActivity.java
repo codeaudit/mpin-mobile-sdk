@@ -21,10 +21,12 @@ import android.widget.TextView;
 
 import com.certivox.controllers.MPinController;
 import com.certivox.fragments.AboutFragment;
+import com.certivox.fragments.AccessNumberFragment;
 import com.certivox.fragments.ConfigDetailFragment;
 import com.certivox.fragments.ConfigsListFragment;
 import com.certivox.fragments.ConfirmEmailFragment;
 import com.certivox.fragments.CreateIdentityFragment;
+import com.certivox.fragments.IdentityBlockedFragment;
 import com.certivox.fragments.IdentityCreatedFragment;
 import com.certivox.fragments.MPinFragment;
 import com.certivox.fragments.PinPadFragment;
@@ -91,31 +93,6 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 	protected void onStop() {
 		super.onStop();
 		mController.handleMessage(MPinController.MESSAGE_ON_STOP);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// getMenuInflater().inflate(R.menu.select_user_menu, menu);
-		return false;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.select_user:
-			Log.i(TAG, "Select user pressed");
-			return true;
-		case R.id.delete_user:
-			Log.i(TAG, "Delete user pressed");
-			return true;
-		case R.id.reset_pin:
-			return true;
-		case android.R.id.home:
-			Log.i(TAG, "Home pressed");
-			return true;
-		default:
-			return false;
-		}
 	}
 
 	@Override
@@ -206,6 +183,14 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		case MPinController.MESSAGE_SHOW_IDENTITY_CREATED:
 			createAndAddFragment(FRAGMENT_IDENTITY_CREATED,
 					IdentityCreatedFragment.class, false, null);
+			return true;
+		case MPinController.MESSAGE_SHOW_ACCESS_NUMBER:
+			createAndAddFragment(FRAGMENT_ACCESS_NUMBER,
+					AccessNumberFragment.class, false, null);
+			return true;
+		case MPinController.MESSAGE_SHOW_USER_BLOCKED:
+			createAndAddFragment(FRAGMENT_IDENTITY_BLOCKED,
+					IdentityBlockedFragment.class, false, null);
 			return true;
 		case MPinController.MESSAGE_SHOW_LOGGED_IN:
 			createAndAddFragment(FRAGMENT_SUCCESSFUL_LOGIN,
@@ -388,6 +373,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 
 	// TODO: This is not done right, should be refactored
 	public static String show() {
+		Log.i(TAG, "SHOW PINPAD CALLED");
 		// TODO This seems not thread-safe
 		mActivity.runOnUiThread(new Runnable() {
 

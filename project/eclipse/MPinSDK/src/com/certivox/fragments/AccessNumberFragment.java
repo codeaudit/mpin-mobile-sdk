@@ -1,7 +1,7 @@
 package com.certivox.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +11,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.certivox.interfaces.MPinController;
 import com.example.mpinsdk.R;
 
-public class AccessNumberFragment extends Fragment {
+public class AccessNumberFragment extends MPinFragment {
 
-	private MPinController mMpinController;
 	private View mView;
 
 	private TextView mUserEmail;
@@ -38,12 +36,18 @@ public class AccessNumberFragment extends Fragment {
 	private int mAccessNumberLength = 7;
 	private final StringBuilder mInput = new StringBuilder();
 
-	public void setController(MPinController controller) {
-		mMpinController = controller;
-	}
-
 	public void setAccessNumberLength(int length) {
 		mAccessNumberLength = length;
+	}
+
+	@Override
+	public boolean handleMessage(Message msg) {
+		return false;
+	}
+
+	@Override
+	public void setData(Object data) {
+
 	}
 
 	@Override
@@ -59,13 +63,8 @@ public class AccessNumberFragment extends Fragment {
 	}
 
 	@Override
-	public void onResume() {
-		mMpinController.disableContextToolbar();
-		mMpinController.setTooblarTitle(R.string.access_number_title);
-		super.onResume();
-	}
-
-	private void initViews() {
+	protected void initViews() {
+		setTooblarTitle(R.string.access_number_title);
 		mPinEditText = (EditText) mView.findViewById(R.id.pinpad_input);
 		mPinEditText.setRawInputType(InputType.TYPE_CLASS_TEXT);
 		mPinEditText.setTextIsSelectable(true);
@@ -74,8 +73,8 @@ public class AccessNumberFragment extends Fragment {
 		mPinEditText.requestFocus();
 
 		mUserEmail = (TextView) mView.findViewById(R.id.user_email);
-		if (mMpinController.getCurrentUser() != null) {
-			mUserEmail.setText(mMpinController.getCurrentUser().getId());
+		if (getMPinController().getCurrentUser() != null) {
+			mUserEmail.setText(getMPinController().getCurrentUser().getId());
 		} else {
 			mUserEmail.setText("");
 		}
@@ -153,13 +152,8 @@ public class AccessNumberFragment extends Fragment {
 		mButtonLogin.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				synchronized (this) {
-					this.notifyAll();
-					String accessNumber = parseAccessNumber();
-					if (mMpinController != null) {
-						mMpinController.onAccessNumberEntered(accessNumber);
-					}
-				}
+				String accessNumber = parseAccessNumber();
+				getMPinController().onAccessNumberEntered(accessNumber);
 			}
 		});
 
@@ -199,5 +193,4 @@ public class AccessNumberFragment extends Fragment {
 		mButtonLogin.setEnabled(mInput.length() == mAccessNumberLength);
 		mButtonClear.setEnabled(mInput.length() > 0);
 	}
-
 }

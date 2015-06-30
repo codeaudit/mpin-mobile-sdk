@@ -466,7 +466,6 @@ public class MPinActivityOld extends BaseMPinActivity {
 	public void addAccessNumberFragment() {
 		if (getAccessNumberFragment() == null) {
 			AccessNumberFragment accessNumberFragment = new AccessNumberFragment();
-			accessNumberFragment.setController(mActivity);
 
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
@@ -548,7 +547,6 @@ public class MPinActivityOld extends BaseMPinActivity {
 	public void addIdentityBlockedFragment() {
 		if (getIdentityBlockedFragment() == null) {
 			IdentityBlockedFragment identityBlockedFragment = new IdentityBlockedFragment();
-			identityBlockedFragment.setController(mActivity);
 
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
