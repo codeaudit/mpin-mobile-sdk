@@ -2,7 +2,9 @@ package com.certivox.activities;
 
 import java.lang.reflect.InvocationTargetException;
 
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -150,24 +152,18 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 			}
 			return true;
 		case MPinController.MESSAGE_SHOW_CONFIGURATIONS_LIST:
-			// TODO: Check if this could be done in the fragment
-			disableDrawer();
 			createAndAddFragment(FRAGMENT_CONFIGURATIONS_LIST,
 					ConfigsListFragment.class, false, null);
 			return true;
 		case MPinController.MESSAGE_SHOW_CONFIGURATION_EDIT:
-			createAndAddFragment(FRAGMENT_ABOUT, ConfigDetailFragment.class,
-					false, msg.arg1);
+			createAndAddFragment(FRAGMENT_CONFIGURATION_EDIT,
+					ConfigDetailFragment.class, false, msg.arg1);
 			return true;
 		case MPinController.MESSAGE_SHOW_ABOUT:
-			// TODO: Check if this could be done in the fragment
-			disableDrawer();
 			createAndAddFragment(FRAGMENT_ABOUT, AboutFragment.class, false,
 					null);
 			return true;
 		case MPinController.MESSAGE_SHOW_USERS_LIST:
-			// TODO: Check if this could be done in the fragment
-			enableDrawer();
 			createAndAddFragment(FRAGMENT_USERS_LIST, UsersListFragment.class,
 					false, null);
 			return true;
@@ -198,6 +194,12 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		case MPinController.MESSAGE_SHOW_OTP:
 			OTP otp = (OTP) msg.obj;
 			createAndAddFragment(FRAGMENT_OTP, OTPFragment.class, false, otp);
+			return true;
+		case MPinController.MESSAGE_INCORRECT_PIN_AN:
+			showWrongPinDialog();
+			return true;
+		case MPinController.MESSAGE_AUTH_SUCCESS:
+			showAuthSuccessDialog();
 			return true;
 		}
 		return false;
@@ -264,7 +266,6 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 			}
 		};
 
-		enableDrawer();
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 		initDrawerMenu();
 	}
@@ -338,17 +339,6 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		if (fragment == null) {
 			try {
 				fragment = fragmentClass.getConstructor().newInstance();
-				fragment.setMPinController(mController);
-				fragment.setData(data);
-
-				FragmentTransaction transaction = getFragmentManager()
-						.beginTransaction();
-				transaction.replace(R.id.content, fragment, tag);
-				// TODO: Check when to add to backstack
-				// transaction.addToBackStack(tag);
-				transaction.commit();
-				getFragmentManager().executePendingTransactions();
-
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
@@ -360,13 +350,23 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 			} catch (NoSuchMethodException e) {
 				e.printStackTrace();
 			}
-			// Close the drawer if opened
-			closeDrawer();
 		}
+		fragment.setMPinController(mController);
+		fragment.setData(data);
+
+		FragmentTransaction transaction = getFragmentManager()
+				.beginTransaction();
+		transaction.replace(R.id.content, fragment, tag);
+		if (addToBackStack) {
+			transaction.addToBackStack(tag);
+		}
+		transaction.commit();
+		getFragmentManager().executePendingTransactions();
+
+		closeDrawer();
 	}
 
 	private void goBack() {
-		// TODO: This doesn't update the Toolbar "back" button
 		if (getFragmentManager().getBackStackEntryCount() > 0) {
 			getFragmentManager().popBackStack();
 			return;
@@ -377,6 +377,8 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 	// TODO: This is not done right, should be refactored
 	public static String show() {
 		Log.i(TAG, "SHOW PINPAD CALLED");
+		mActivity.mController
+				.handleMessage(MPinController.MESSAGE_ON_SHOW_PINPAD);
 		// TODO This seems not thread-safe
 		mActivity.runOnUiThread(new Runnable() {
 
@@ -412,7 +414,6 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 			transaction.replace(R.id.content, pinPadFragment, FRAGMENT_PINPAD);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
-			enableDrawer();
 		}
 
 		synchronized (MPinActivity.class) {
@@ -424,5 +425,16 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 	private PinPadFragment getPinPadFragment() {
 		return (PinPadFragment) getFragmentManager().findFragmentByTag(
 				FRAGMENT_PINPAD);
+	}
+
+	private void showAuthSuccessDialog() {
+		new AlertDialog.Builder(mActivity).setTitle("Successful Login")
+				.setMessage("You are now logged in!")
+				.setPositiveButton("OK", null).show();
+	}
+
+	private void showWrongPinDialog() {
+		new AlertDialog.Builder(mActivity).setTitle("Incorrect Pin!")
+				.setMessage("").setPositiveButton("OK", null).show();
 	}
 }

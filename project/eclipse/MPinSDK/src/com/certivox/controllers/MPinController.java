@@ -13,7 +13,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.certivox.dal.ConfigsDao;
-import com.certivox.interfaces.Controller;
 import com.certivox.models.Config;
 import com.certivox.models.OTP;
 import com.certivox.models.Status;
@@ -54,35 +53,36 @@ public class MPinController extends Controller {
 	public static final int MESSAGE_ON_CHANGE_SERVICE = 8;
 	public static final int MESSAGE_ON_ABOUT = 9;
 	public static final int MESSAGE_RESET_PIN = 10;
+	public static final int MESSAGE_ON_SHOW_PINPAD = 11;
 
 	// Receive Messages from Fragment Configurations List
-	public static final int MESSAGE_ON_NEW_CONFIGURATION = 11;
-	public static final int MESSAGE_ON_SELECT_CONFIGURATION = 12;
-	public static final int MESSAGE_ON_EDIT_CONFIGURATION = 13;
-	public static final int MESSAGE_DELETE_CONFIGURATION = 14;
+	public static final int MESSAGE_ON_NEW_CONFIGURATION = 12;
+	public static final int MESSAGE_ON_SELECT_CONFIGURATION = 13;
+	public static final int MESSAGE_ON_EDIT_CONFIGURATION = 14;
+	public static final int MESSAGE_DELETE_CONFIGURATION = 15;
 
 	// Receive Messages from Fragment Configuration Edit
-	public static final int MESSAGE_CHECK_BACKEND_URL = 15;
-	public static final int MESSAGE_SAVE_CONFIG = 16;
+	public static final int MESSAGE_CHECK_BACKEND_URL = 16;
+	public static final int MESSAGE_SAVE_CONFIG = 17;
 
 	// Receive Messages from Fragment Users List
-	public static final int MESSAGE_ON_CREATE_IDENTITY = 17;
+	public static final int MESSAGE_ON_CREATE_IDENTITY = 18;
 
 	// Receive Messages from Fragment Create identity
-	public static final int MESSAGE_CREATE_IDENTITY = 18;
+	public static final int MESSAGE_CREATE_IDENTITY = 19;
 
 	// Receive Messages from Fragment CONFIRM EMAIL
-	public static final int MESSAGE_EMAIL_CONFIRMED = 19;
-	public static final int MESSAGE_RESEND_EMAIL = 20;
+	public static final int MESSAGE_EMAIL_CONFIRMED = 20;
+	public static final int MESSAGE_RESEND_EMAIL = 21;
 
 	// Receive Messages from Fragment Identity created
-	public static final int MESSAGE_ON_SIGN_IN = 21;
+	public static final int MESSAGE_ON_SIGN_IN = 22;
 
 	// Receive Messages from Fragment Identity blocked
-	public static final int MESSAGE_ON_DELETE_IDENTITY = 22;
+	public static final int MESSAGE_ON_DELETE_IDENTITY = 23;
 
 	// Receive Messages from Fragment OTP
-	public static final int MESSAGE_OTP_EXPIRED = 23;
+	public static final int MESSAGE_OTP_EXPIRED = 24;
 
 	// Sent Messages
 	public static final int MESSAGE_GO_BACK = 1;
@@ -111,7 +111,9 @@ public class MPinController extends Controller {
 	public static final int MESSAGE_EMAIL_SENT = 24;
 	public static final int MESSAGE_INCORRECT_ACCESS_NUMBER = 25;
 	public static final int MESSAGE_INCORRECT_PIN = 26;
-	public static final int MESSAGE_IDENTITY_DELETED = 27;
+	public static final int MESSAGE_INCORRECT_PIN_AN = 27;
+	public static final int MESSAGE_IDENTITY_DELETED = 28;
+	public static final int MESSAGE_AUTH_SUCCESS = 29;
 
 	public MPinController(Context context) {
 		mContext = context;
@@ -177,6 +179,9 @@ public class MPinController extends Controller {
 			return true;
 		case MESSAGE_OTP_EXPIRED:
 			onSignIn();
+			return true;
+		case MESSAGE_ON_SHOW_PINPAD:
+			notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
 			return true;
 		default:
 			return false;
@@ -267,10 +272,11 @@ public class MPinController extends Controller {
 					if (status.getStatusCode() == Status.Code.OK) {
 						// TODO: check if could just sent the id
 						mConfigsDao.setActiveConfig(config);
-						notifyOutboxHandlers(MESSAGE_CONFIGURATION_CHANGED, 0,
-								0, null);
 						// TODO: The model should listen for this to update
 						initUsersList();
+
+						notifyOutboxHandlers(MESSAGE_SHOW_USERS_LIST, 0, 0,
+								null);
 					} else {
 						notifyOutboxHandlers(
 								MESSAGE_CONFIGURATION_CHANGE_ERROR, 0, 0, null);
@@ -304,13 +310,15 @@ public class MPinController extends Controller {
 	}
 
 	private void startSDKInitializationThread() {
+		notifyOutboxHandlers(MESSAGE_START_WORK_IN_PROGRESS, 0, 0, null);
 		mWorkerHandler.post(new Runnable() {
 
 			@Override
 			public void run() {
-				notifyOutboxHandlers(MESSAGE_START_WORK_IN_PROGRESS, 0, 0, null);
 				synchronized (mSDKLockObject) {
 					initializeMPin();
+					notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0,
+							null);
 				}
 			}
 		});
@@ -332,7 +340,7 @@ public class MPinController extends Controller {
 	}
 
 	private void startRegistration(final String userId) {
-		Log.i(TAG, "createIdentity " + userId);
+		notifyOutboxHandlers(MESSAGE_START_WORK_IN_PROGRESS, 0, 0, null);
 		mWorkerHandler.post(new Runnable() {
 			@Override
 			public void run() {
@@ -341,6 +349,8 @@ public class MPinController extends Controller {
 						mCurrentUser = user;
 						notifyOutboxHandlers(MESSAGE_IDENTITY_EXISTS, 0, 0,
 								null);
+						notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0,
+								0, null);
 						return;
 					}
 				}
@@ -351,23 +361,25 @@ public class MPinController extends Controller {
 				} else {
 					notifyOutboxHandlers(MESSAGE_SHOW_CONFIRM_EMAIL, 0, 0, null);
 				}
+				notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
 			}
 		});
 	}
 
 	private void restarRegistration() {
-		Log.i(TAG, "Restarting registration " + getCurrentUser().getId());
+		notifyOutboxHandlers(MESSAGE_START_WORK_IN_PROGRESS, 0, 0, null);
 		mWorkerHandler.post(new Runnable() {
 			@Override
 			public void run() {
 				Status status = getSdk().RestartRegistration(getCurrentUser());
 				notifyOutboxHandlers(MESSAGE_EMAIL_SENT, 0, 0, null);
+				notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
 			}
 		});
 	}
 
 	private void finishRegistration() {
-		Log.i(TAG, "finishRegistration ");
+		notifyOutboxHandlers(MESSAGE_START_WORK_IN_PROGRESS, 0, 0, null);
 		mWorkerHandler.post(new Runnable() {
 
 			@Override
@@ -380,11 +392,13 @@ public class MPinController extends Controller {
 					notifyOutboxHandlers(MESSAGE_SHOW_IDENTITY_CREATED, 0, 0,
 							null);
 				}
+				notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
 			}
 		});
 	}
 
 	private void resetPin() {
+		notifyOutboxHandlers(MESSAGE_START_WORK_IN_PROGRESS, 0, 0, null);
 		mWorkerHandler.post(new Runnable() {
 
 			@Override
@@ -469,123 +483,103 @@ public class MPinController extends Controller {
 	}
 
 	private void onSignIn() {
-		Log.i(TAG, "ON SIGN IN CALLED");
+		notifyOutboxHandlers(MESSAGE_START_WORK_IN_PROGRESS, 0, 0, null);
 		mWorkerHandler.post(new Runnable() {
 			@Override
 			public void run() {
 				if (mConfigsDao.getActiveConfiguration()
 						.getRequestAccessNumber()) {
+					if (getCurrentUser().getState().equals(User.State.BLOCKED)) {
+						notifyOutboxHandlers(MESSAGE_SHOW_USER_BLOCKED, 0, 0,
+								null);
+						notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0,
+								0, null);
+						return;
+					}
 					notifyOutboxHandlers(MESSAGE_SHOW_ACCESS_NUMBER, 0, 0, null);
 				} else {
 					preAuthenticate("");
 				}
+				notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
 			}
 		});
 	}
 
 	private void preAuthenticate(final String accessNumber) {
-		mWorkerHandler.post(new Runnable() {
+		if (getCurrentUser().getState().equals(User.State.BLOCKED)) {
+			notifyOutboxHandlers(MESSAGE_SHOW_USER_BLOCKED, 0, 0, null);
+			return;
+		}
 
-			@Override
-			public void run() {
-				OTP otp = mConfigsDao.getActiveConfiguration().getRequestOtp() ? new OTP()
-						: null;
-				if (!accessNumber.equals("")) {
-					authenticateAN(accessNumber);
-				} else if (otp != null) {
-					authenticateOTP(otp);
-				} else {
-					authenticate();
-				}
-			}
-		});
+		OTP otp = mConfigsDao.getActiveConfiguration().getRequestOtp() ? new OTP()
+				: null;
+		if (!accessNumber.equals("")) {
+			authenticateAN(accessNumber);
+		} else if (otp != null) {
+			authenticateOTP(otp);
+		} else {
+			authenticate();
+		}
 	}
 
 	private void authenticateAN(final String accessNumber) {
-		mWorkerHandler.post(new Runnable() {
-
-			@Override
-			public void run() {
-				Status status = getSdk().AuthenticateAN(getCurrentUser(),
-						accessNumber);
-
-				switch (status.getStatusCode()) {
-				case PIN_INPUT_CANCELED:
-					break;
-				case INCORRECT_ACCESS_NUMBER:
-					notifyOutboxHandlers(MESSAGE_INCORRECT_ACCESS_NUMBER, 0, 0,
-							null);
-					break;
-				case INCORRECT_PIN:
-					notifyOutboxHandlers(MESSAGE_INCORRECT_PIN, 0, 0, null);
-					onSignIn();
-					break;
-				case OK:
-					break;
-				default:
-					return;
-				}
-			}
-		});
+		Status status = getSdk().AuthenticateAN(getCurrentUser(), accessNumber);
+		switch (status.getStatusCode()) {
+		case PIN_INPUT_CANCELED:
+			break;
+		case INCORRECT_ACCESS_NUMBER:
+			notifyOutboxHandlers(MESSAGE_INCORRECT_ACCESS_NUMBER, 0, 0, null);
+			break;
+		case INCORRECT_PIN:
+			notifyOutboxHandlers(MESSAGE_SHOW_ACCESS_NUMBER, 0, 0, null);
+			notifyOutboxHandlers(MESSAGE_INCORRECT_PIN_AN, 0, 0, null);
+			break;
+		case OK:
+			notifyOutboxHandlers(MESSAGE_SHOW_USERS_LIST, 0, 0, null);
+			notifyOutboxHandlers(MESSAGE_AUTH_SUCCESS, 0, 0, null);
+			break;
+		default:
+			return;
+		}
 	}
 
 	private void authenticateOTP(final OTP otp) {
-		mWorkerHandler.post(new Runnable() {
+		Status status = getSdk().AuthenticateOTP(getCurrentUser(), otp);
 
-			@Override
-			public void run() {
-				Status status = getSdk().AuthenticateOTP(getCurrentUser(), otp);
-
-				switch (status.getStatusCode()) {
-				case PIN_INPUT_CANCELED:
-					break;
-				case OK: {
-					if (otp.status != null && otp.ttlSeconds > 0) {
-						// TODO: pass the otp
-						notifyOutboxHandlers(MESSAGE_SHOW_OTP, 0, 0, otp);
-					}
-				}
-					break;
-				default:
-					return;
-				}
+		switch (status.getStatusCode()) {
+		case PIN_INPUT_CANCELED:
+			break;
+		case OK: {
+			if (otp.status != null && otp.ttlSeconds > 0) {
+				notifyOutboxHandlers(MESSAGE_SHOW_OTP, 0, 0, otp);
 			}
-		});
+		}
+			break;
+		default:
+			return;
+		}
 	}
 
 	private void authenticate() {
-		Log.i(TAG, "AUTHENTICATE");
-		mWorkerHandler.post(new Runnable() {
-
-			@Override
-			public void run() {
-				final StringBuilder resultData = new StringBuilder();
-				Status status = getSdk().Authenticate(getCurrentUser(),
-						resultData);
-
-				if (getCurrentUser().getState().equals(User.State.BLOCKED)) {
-					notifyOutboxHandlers(MESSAGE_SHOW_USER_BLOCKED, 0, 0, null);
-					return;
-				}
-
-				switch (status.getStatusCode()) {
-				case PIN_INPUT_CANCELED:
-					break;
-				case INCORRECT_PIN:
-					notifyOutboxHandlers(MESSAGE_INCORRECT_PIN, 0, 0, null);
-					onSignIn();
-					break;
-				case OK:
-					notifyOutboxHandlers(MESSAGE_SHOW_LOGGED_IN, 0, 0, null);
-					break;
-				default:
-					return;
-				}
-			}
-		});
+		final StringBuilder resultData = new StringBuilder();
+		Status status = getSdk().Authenticate(getCurrentUser(), resultData);
+		switch (status.getStatusCode()) {
+		case PIN_INPUT_CANCELED:
+			break;
+		case INCORRECT_PIN:
+			notifyOutboxHandlers(MESSAGE_INCORRECT_PIN, 0, 0, null);
+			onSignIn();
+			break;
+		case OK:
+			notifyOutboxHandlers(MESSAGE_SHOW_LOGGED_IN, 0, 0, null);
+			break;
+		default:
+			return;
+		}
 	}
 
 	private void deleteCurrentIdentity() {
+		notifyOutboxHandlers(MESSAGE_START_WORK_IN_PROGRESS, 0, 0, null);
 		mWorkerHandler.post(new Runnable() {
 
 			@Override
@@ -594,13 +588,23 @@ public class MPinController extends Controller {
 				mCurrentUser = null;
 				initUsersList();
 				notifyOutboxHandlers(MESSAGE_IDENTITY_DELETED, 0, 0, null);
+				notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
 			}
 		});
 
 	}
 
-	public void onAccessNumberEntered(String accessNumber) {
-		preAuthenticate(accessNumber);
+	// TODO: this should be message
+	public void onAccessNumberEntered(final String accessNumber) {
+		notifyOutboxHandlers(MESSAGE_START_WORK_IN_PROGRESS, 0, 0, null);
+		mWorkerHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				preAuthenticate(accessNumber);
+				notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
+			}
+		});
 	}
 
 	// TODO this should be in model

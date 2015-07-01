@@ -2,9 +2,10 @@ package com.certivox.fragments;
 
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,7 +45,6 @@ public class UsersListFragment extends MPinFragment implements OnClickListener,
 			Bundle savedInstanceState) {
 		setHasOptionsMenu(true);
 		mView = inflater.inflate(R.layout.users_list_layout, container, false);
-		mShowOptionsMenu = false;
 		initViews();
 		initScreen();
 
@@ -99,6 +99,8 @@ public class UsersListFragment extends MPinFragment implements OnClickListener,
 	}
 
 	private void initScreen() {
+		mShowOptionsMenu = false;
+		getActivity().invalidateOptionsMenu();
 		mUsersList = getMPinController().getUsersList();
 		if (mUsersList.isEmpty()) {
 			setTooblarTitle(R.string.change_identity_title);
@@ -115,6 +117,9 @@ public class UsersListFragment extends MPinFragment implements OnClickListener,
 	private void initAdapter() {
 		mAdapter = new UsersAdapter(getActivity().getApplicationContext(),
 				mUsersList);
+
+		// TODO: Check if this could be done better
+		mAdapter.deselectAllUsers();
 
 		mListView.setAdapter(mAdapter);
 		mListView.setOnItemClickListener(this);
@@ -138,7 +143,7 @@ public class UsersListFragment extends MPinFragment implements OnClickListener,
 			getMPinController().onResetPin(mSelectedIdentity);
 			return true;
 		case R.id.delete_identity:
-			getMPinController().onDeleteIdentity(mSelectedIdentity);
+			showDeleteUserDialog();
 			return true;
 		default:
 			return false;
@@ -159,6 +164,23 @@ public class UsersListFragment extends MPinFragment implements OnClickListener,
 
 	private void hideCreateIdentityButton() {
 		mCreateIdentityButton.setVisibility(View.GONE);
+	}
+
+	private void showDeleteUserDialog() {
+		new AlertDialog.Builder(getActivity())
+				.setTitle("Delete user")
+				.setMessage(
+						"Do you want to delete user "
+								+ mSelectedIdentity.getId() + "?")
+				.setPositiveButton("Delete",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								getMPinController().onDeleteIdentity(
+										mSelectedIdentity);
+							}
+						}).setNegativeButton("Cancel", null).show();
 	}
 
 }

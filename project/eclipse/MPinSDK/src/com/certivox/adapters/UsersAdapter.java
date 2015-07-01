@@ -80,7 +80,7 @@ public class UsersAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	private void deselectAllUsers() {
+	public void deselectAllUsers() {
 		for (User user : mUsersList) {
 			user.setUserSelected(false);
 		}

@@ -1,5 +1,6 @@
 package com.certivox.fragments;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.InputType;
@@ -11,9 +12,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.certivox.controllers.MPinController;
 import com.example.mpinsdk.R;
 
 public class AccessNumberFragment extends MPinFragment {
+
+	private static final String TAG = AccessNumberFragment.class
+			.getCanonicalName();
 
 	private View mView;
 
@@ -42,7 +47,15 @@ public class AccessNumberFragment extends MPinFragment {
 
 	@Override
 	public boolean handleMessage(Message msg) {
-		return false;
+		switch (msg.what) {
+		case MPinController.MESSAGE_INCORRECT_ACCESS_NUMBER:
+			new AlertDialog.Builder(getActivity())
+					.setTitle("Incorrect Access Number!").setMessage("")
+					.setPositiveButton("OK", null).show();
+			return true;
+		default:
+			return true;
+		}
 	}
 
 	@Override
@@ -53,7 +66,6 @@ public class AccessNumberFragment extends MPinFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
 		mView = inflater.inflate(R.layout.access_number_activity, container,
 				false);
 
