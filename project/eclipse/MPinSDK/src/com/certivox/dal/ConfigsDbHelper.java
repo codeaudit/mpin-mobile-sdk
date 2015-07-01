@@ -1,4 +1,4 @@
-package com.certivox.db;
+package com.certivox.dal;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -24,7 +24,7 @@ public final class ConfigsDbHelper extends SQLiteOpenHelper {
 	}
 
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL(DbQueries.deleteConfigsTableQuery());
+		db.execSQL(ConfigsTable.deleteConfigsTableQuery());
 		onCreate(db);
 	}
 

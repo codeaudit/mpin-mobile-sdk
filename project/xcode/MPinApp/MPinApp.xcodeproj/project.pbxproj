@@ -178,6 +178,7 @@
 		9649BCC41AC16D1000B9F41B /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A881A88C0E20068E0F7 /* OpenSans-Regular.ttf */; };
 		9649BCC51AC16D1000B9F41B /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A831A88C0E20068E0F7 /* OpenSans-ExtraBold.ttf */; };
 		964B121D1A93921C00FFB67A /* BackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 964B121C1A93921C00FFB67A /* BackButton.m */; };
+		964F19D11B4130E4000A03A5 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 964F19D01B4130E4000A03A5 /* Main_iPad.storyboard */; };
 		966EB9D41A8CF069004B936A /* ConfirmEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 966EB9D31A8CF069004B936A /* ConfirmEmailViewController.m */; };
 		968591A01AEE53EB00726E63 /* DimensionDataImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 968A180F1ACA8C70000C0DB0 /* DimensionDataImages.xcassets */; };
 		968591A11AEE53EE00726E63 /* CertivoxImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 968A180A1ACA8C58000C0DB0 /* CertivoxImages.xcassets */; };
@@ -213,6 +214,10 @@
 		96E21A551AF8AE6C00490625 /* en_BG.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG.strings */; };
 		96E21A561AF8AE6C00490625 /* en_BG.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG.strings */; };
 		96E21A571AF8AE6C00490625 /* en_BG.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG.strings */; };
+		96E9D36E1B39699B004ADDEA /* AboutDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */; };
+		96E9D36F1B39699B004ADDEA /* AboutDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */; };
+		96E9D3701B39699B004ADDEA /* AboutDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */; };
+		96E9D3711B39699B004ADDEA /* AboutDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */; };
 		96F62A241AC30FAF00B25B53 /* ConfigurationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A211AC30FAF00B25B53 /* ConfigurationManager.m */; };
 		96F62A251AC30FAF00B25B53 /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A231AC30FAF00B25B53 /* SettingsManager.m */; };
 		96F62A281AC311D000B25B53 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A261AC311D000B25B53 /* AboutViewController.m */; };
@@ -316,6 +321,7 @@
 		9649BCCA1AC16D1000B9F41B /* DD MPin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DD MPin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		964B121B1A93921C00FFB67A /* BackButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BackButton.h; path = ../../../../src/ios/MPinApp/BackButton.h; sourceTree = "<group>"; };
 		964B121C1A93921C00FFB67A /* BackButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BackButton.m; path = ../../../../src/ios/MPinApp/BackButton.m; sourceTree = "<group>"; };
+		964F19D01B4130E4000A03A5 /* Main_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main_iPad.storyboard; sourceTree = "<group>"; };
 		966EB9D21A8CF069004B936A /* ConfirmEmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfirmEmailViewController.h; path = ../../../../src/ios/MPinApp/ConfirmEmailViewController.h; sourceTree = "<group>"; };
 		966EB9D31A8CF069004B936A /* ConfirmEmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = ConfirmEmailViewController.m; path = ../../../../src/ios/MPinApp/ConfirmEmailViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		968591AD1AF0BAAF00726E63 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main_iPhone.strings; sourceTree = "<group>"; };
@@ -346,6 +352,8 @@
 		96D3CAD21AEE4D8E004BAC3A /* DDMPin.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = DDMPin.plist; sourceTree = "<group>"; };
 		96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMPinSDK.a; path = "../../../../Library/Developer/Xcode/DerivedData/MPin-fkvltgzbxheajafuhhxznfslxxnp/Build/Products/Release-iphoneos/libMPinSDK.a"; sourceTree = "<group>"; };
 		96E21A531AF8AE6C00490625 /* en_BG.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = en_BG.strings; sourceTree = "<group>"; };
+		96E9D36C1B39699B004ADDEA /* AboutDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutDetailsViewController.h; path = ../../../../src/ios/MPinApp/AboutDetailsViewController.h; sourceTree = "<group>"; };
+		96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutDetailsViewController.m; path = ../../../../src/ios/MPinApp/AboutDetailsViewController.m; sourceTree = "<group>"; };
 		96F62A201AC30FAF00B25B53 /* ConfigurationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfigurationManager.h; path = ../../../../src/ios/MPinApp/ConfigurationManager.h; sourceTree = "<group>"; };
 		96F62A211AC30FAF00B25B53 /* ConfigurationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConfigurationManager.m; path = ../../../../src/ios/MPinApp/ConfigurationManager.m; sourceTree = "<group>"; };
 		96F62A221AC30FAF00B25B53 /* SettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsManager.h; path = ../../../../src/ios/MPinApp/SettingsManager.h; sourceTree = "<group>"; };
@@ -667,6 +675,8 @@
 				96F7EA661B1858CB00A68A03 /* ANAuthenticationSuccessful.m */,
 				FE298B791B3ABBD80071E6B3 /* QRViewController.h */,
 				FE298B7A1B3ABBD80071E6B3 /* QRViewController.m */,
+				96E9D36C1B39699B004ADDEA /* AboutDetailsViewController.h */,
+				96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -675,6 +685,7 @@
 			isa = PBXGroup;
 			children = (
 				FEFFDDF01A1A4268007C7CAA /* Main_iPhone.storyboard */,
+				964F19D01B4130E4000A03A5 /* Main_iPad.storyboard */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1057,6 +1068,7 @@
 				960D6A9D1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				FE4900251A1A3CEB000030A4 /* InfoPlist.strings in Resources */,
 				960D6A9B1A88C0E20068E0F7 /* OpenSans-Regular.ttf in Resources */,
+				964F19D11B4130E4000A03A5 /* Main_iPad.storyboard in Resources */,
 				960D6A961A88C0E20068E0F7 /* OpenSans-ExtraBold.ttf in Resources */,
 				968591A11AEE53EE00726E63 /* CertivoxImages.xcassets in Resources */,
 			);
@@ -1265,6 +1277,7 @@
 				FEF579541B15F0BE00B31A3E /* ApplicationManager.m in Sources */,
 				96130E211AEE4867005D2A86 /* ConfigurationManager.m in Sources */,
 				96130E221AEE4867005D2A86 /* ConfirmEmailViewController.m in Sources */,
+				96E9D3701B39699B004ADDEA /* AboutDetailsViewController.m in Sources */,
 				96F7EA691B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */,
 				96130E231AEE4867005D2A86 /* CycleProgressBar.m in Sources */,
 				96130E241AEE4867005D2A86 /* AccountSummaryViewController.m in Sources */,
@@ -1308,6 +1321,7 @@
 				FEF579551B15F10800B31A3E /* ApplicationManager.m in Sources */,
 				96130E6B1AEE490A005D2A86 /* ConfigurationManager.m in Sources */,
 				96130E6C1AEE490A005D2A86 /* ConfirmEmailViewController.m in Sources */,
+				96E9D3711B39699B004ADDEA /* AboutDetailsViewController.m in Sources */,
 				96F7EA6A1B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */,
 				96130E6D1AEE490A005D2A86 /* CycleProgressBar.m in Sources */,
 				96130E6E1AEE490A005D2A86 /* AccountSummaryViewController.m in Sources */,
@@ -1351,6 +1365,7 @@
 				FEF579511B1494AD00B31A3E /* ApplicationManager.m in Sources */,
 				FEF579501B1493F700B31A3E /* NSString+Helper.m in Sources */,
 				968591B71AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
+				96E9D36F1B39699B004ADDEA /* AboutDetailsViewController.m in Sources */,
 				9649BC8D1AC16D1000B9F41B /* ConfirmEmailViewController.m in Sources */,
 				96F7EA681B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */,
 				9649BC8F1AC16D1000B9F41B /* CycleProgressBar.m in Sources */,
@@ -1394,6 +1409,7 @@
 				96F62A241AC30FAF00B25B53 /* ConfigurationManager.m in Sources */,
 				966EB9D41A8CF069004B936A /* ConfirmEmailViewController.m in Sources */,
 				96F7EA671B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */,
+				96E9D36E1B39699B004ADDEA /* AboutDetailsViewController.m in Sources */,
 				FE4AEB081A443E4C000B3181 /* CycleProgressBar.m in Sources */,
 				9614F8CF1A9E1EC500337080 /* AccountSummaryViewController.m in Sources */,
 				FED7691D1A8B4A30005A3ECA /* UIViewController+Helper.m in Sources */,

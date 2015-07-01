@@ -9,5 +9,6 @@
     <color name="mpinMainColor">#4DB6AC</color>
     <color name="subtitleColor">#878787</color>
     <color name="base_gray_color">#9E9E9E</color>
+    <color name="active_white_button">#E0E0E0</color>
 
 </resources>

@@ -33,9 +33,6 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
 - ( void ) viewDidLoad
 {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
-    sdk = [[MPin alloc] init];
-    sdk.delegate = self;
     BackButton *btnBack = [[BackButton alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:@selector( btnBackTap: )];
     [btnBack setup];
     self.navigationItem.leftBarButtonItem = btnBack;
@@ -44,9 +41,12 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
 -( void ) viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
+    sdk = [[MPin alloc] init];
+    sdk.delegate = self;
+
     [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:kShowPinPadNotification
-                                                  object:nil];
+     name:kShowPinPadNotification
+     object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
     [[ThemeManager sharedManager] beautifyViewController:self];
     _lblEmail.text = _strEmail;
@@ -63,9 +63,7 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
 -( void ) viewWillDisappear:( BOOL )animated
 {
     [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:kShowPinPadNotification
-                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
 }
 
 - ( IBAction )logInAction:( id )sender
@@ -86,7 +84,7 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
     }
 
     [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
-    [sdk AuthenticateAN:_currentUser accessNumber:self.strNumber askForFingerprint:YES];
+    [sdk AuthenticateAN:_currentUser accessNumber:self.strNumber askForFingerprint:NO];
 }
 
 -( IBAction )btnBackTap:( id )sender
@@ -129,22 +127,17 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
 {
     NSLog(@"OnAuthenticateAccessNumberError");
     NSLog(@"%@", error.description);
-    [[ErrorHandler sharedManager] hideMessage];
     MpinStatus *mpinStatus = [error.userInfo objectForKey:kMPinSatus];
-    [[ErrorHandler sharedManager] presentMessageInViewController:self
-     errorString:mpinStatus.errorMessage
-     addActivityIndicator:NO
-     minShowTime:3
-    ];
+    [[ErrorHandler sharedManager] updateMessage:mpinStatus.errorMessage addActivityIndicator:NO hideAfter:3];
     [self clearAction:self];
+    [MPin sendPin:kEmptyStr];
 }
 
 - ( void )showPinPad
 {
     [[ErrorHandler sharedManager] hideMessage];
     PinPadViewController *pinpadViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"pinpad"];
-    pinpadViewController.sdk = sdk;
-    pinpadViewController.sdk.delegate = pinpadViewController;
+
     pinpadViewController.strAccessNumber = self.strNumber;
     pinpadViewController.currentUser = _currentUser;
     pinpadViewController.boolShouldShowBackButton = YES;

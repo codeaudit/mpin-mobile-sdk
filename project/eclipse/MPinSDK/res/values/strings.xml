@@ -61,7 +61,7 @@
 
     <!-- Access number -->
     <string name="access_number_text">Enter the 7-digit Access Number</string>
-    <string name="access_number_info">You can find the Access Number on the Online Banking login page.</string>
+    <string name="access_number_info">You can find the Access Number on the Online login page.</string>
     <!-- Access number end -->
 
 
@@ -105,7 +105,7 @@
     <string name="certivox_logo">Certivox Logo</string>
     <string name="mpin_logo">Mpin Logo</string>
     <string name="about_info_text_1">CertiVox M-Pin</string>
-    <string name="about_info_text_2">Copyright  \u00A9 2015 CertiVox. All rights reserved. </string>
+    <string name="about_info_text_2">Copyright  \u00A9 2015 CertiVox.\n All rights reserved. </string>
     <string name="terms_and_conditions_link"><a href="https://www.certivox.com/about-certivox/terms-and-conditions">CertiVox Terms &amp; Conditions</a></string>
     <!-- About end -->
 

@@ -29,11 +29,10 @@ namespace MPinDemo
             this.InitializeComponent();
             PackageVersion pv = Package.Current.Id.Version;
             Version version = new Version(Package.Current.Id.Version.Major,
-                Package.Current.Id.Version.Minor,
-                Package.Current.Id.Version.Revision,
-                Package.Current.Id.Version.Build);
-
+                Package.Current.Id.Version.Minor);
+            
             VersionTB.Text = ResourceLoader.GetForCurrentView().GetString("AboutVersion") + version.ToString();
+            BuildTB.Text = ResourceLoader.GetForCurrentView().GetString("AboutBuild") + Package.Current.Id.Version.Build.ToString();
             Certivox.Text = string.Format(ResourceLoader.GetForCurrentView().GetString("CertivoxLtd"), Certivox.Text);
         }
 

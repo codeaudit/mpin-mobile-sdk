@@ -5,17 +5,17 @@ import com.certivox.models.User;
 
 public interface MPinController {
 
-	void addUsersFragment();
+	void addEmptyUsersListFragment();
 
-	void removeAddUsersFragment();
+	void removeEmptyUsersListFragment();
 
 	void addUsersListFragment();
 
 	void removeUsersListFragment();
 
-	void addNewUserFragment();
+	void addCreateIdentityFragment();
 
-	void removeNewUserFragment();
+	void removeCreateIdentityFragment();
 
 	void addConfirmEmailFragment();
 
