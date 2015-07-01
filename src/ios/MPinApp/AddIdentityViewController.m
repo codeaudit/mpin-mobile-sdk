@@ -197,11 +197,8 @@ static NSString *const kUser = @"User";
 - ( void )OnRegisterNewUserError:( id )sender error:( NSError * )error
 {
     MpinStatus *mpinStatus = [error.userInfo objectForKey:kMPinSatus];
-    [[ErrorHandler sharedManager] presentMessageInViewController:self
-     errorString:mpinStatus.errorMessage
-     addActivityIndicator:NO
-     minShowTime:3
-    ];
+    [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(mpinStatus.statusCodeAsString, @"SERVER ERROR") addActivityIndicator:NO hideAfter:3];
+    
 }
 
 - ( void )OnFinishRegistrationCompleted:( id )sender user:( const id<IUser>)user
