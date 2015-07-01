@@ -563,6 +563,7 @@ static NSString *const kAN = @"AN";
                 break;
 
             case LOGIN_ONLINE:
+                [[ErrorHandler sharedManager] hideMessage];
                 accessViewController = [storyboard instantiateViewControllerWithIdentifier:@"accessnumber"];
                 accessViewController.delegate = self;
                 accessViewController.strEmail = [currentUser getIdentity];
@@ -625,7 +626,7 @@ static NSString *const kAN = @"AN";
 
     default:
         [[ErrorHandler sharedManager] presentMessageInViewController:self
-         errorString:[NSString stringWithFormat:@"User state is unexpected %ld",                                                                                       [user getState]]
+         errorString:[NSString stringWithFormat:@"User state is unexpected %ld",                                                                                       (long)[user getState]]
          addActivityIndicator:NO
          minShowTime:0];
         break;
