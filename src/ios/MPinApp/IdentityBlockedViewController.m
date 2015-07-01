@@ -92,7 +92,7 @@
 
 - ( IBAction )btnDeleteIdPressed:( id )sender
 {
-    [[[UIAlertView alloc] initWithTitle:@"REMOVE IDENTITY" message:@"This action will remove the identity permanently.  Are you shure?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil] show];
+    [[[UIAlertView alloc] initWithTitle:@"REMOVE IDENTITY" message:@"This action will remove the identity permanently.  Are you sure?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil] show];
 }
 
 #pragma mark - Alert view delegate -

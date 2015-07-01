@@ -577,6 +577,8 @@ static NSString *const kAN = @"AN";
             break;
 
         case BLOCKED:
+
+            [[ErrorHandler sharedManager] hideMessage];
             identityBlockedViewController = [storyboard instantiateViewControllerWithIdentifier:@"IdentityBlockedViewController"];
             identityBlockedViewController.strUserEmail = [iuser getIdentity];
             identityBlockedViewController.iuser = iuser;
