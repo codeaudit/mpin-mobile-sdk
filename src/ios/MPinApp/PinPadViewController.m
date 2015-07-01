@@ -120,6 +120,12 @@ static NSMutableArray *kCircles;
     [super viewWillDisappear:animated];
 }
 
+- (void) viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    self.sdk.delegate = nil;
+}
+
 - ( IBAction )logInAction:( id )sender
 {
     [MPin sendPin:self.strNumber];

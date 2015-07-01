@@ -339,6 +339,7 @@ static NSString *const kAN = @"AN";
     {
     case IDENTITY_NOT_VERIFIED:
     {
+        [[ErrorHandler sharedManager] hideMessage];
         ConfirmEmailViewController *cevc = (ConfirmEmailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ConfirmEmailViewController"];
         cevc.iuser = ( error.userInfo ) [kUSER];
         [self.navigationController pushViewController:cevc animated:YES];
@@ -377,11 +378,6 @@ static NSString *const kAN = @"AN";
      errorString:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR")
      addActivityIndicator:NO
      minShowTime:0];
-}
-
--( void ) onAccessNumber:( NSString * ) an
-{
-    [sdk AuthenticateAN:[self.users objectAtIndex:selectedIndexPath.row] accessNumber:an askForFingerprint:boolShouldAskForFingerprint];
 }
 
 - ( void )OnAuthenticateAccessNumberCompleted:( id )sender user:( id<IUser>)user
@@ -566,6 +562,7 @@ static NSString *const kAN = @"AN";
                 [[ErrorHandler sharedManager] hideMessage];
                 accessViewController = [storyboard instantiateViewControllerWithIdentifier:@"accessnumber"];
                 accessViewController.delegate = self;
+                sdk.delegate = nil;
                 accessViewController.strEmail = [currentUser getIdentity];
                 accessViewController.currentUser = currentUser;
                 [self.navigationController pushViewController:accessViewController animated:YES];
