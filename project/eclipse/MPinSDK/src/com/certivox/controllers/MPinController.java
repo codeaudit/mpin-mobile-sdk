@@ -545,7 +545,6 @@ public class MPinController extends Controller {
 
 	private void authenticateOTP(final OTP otp) {
 		Status status = getSdk().AuthenticateOTP(getCurrentUser(), otp);
-
 		switch (status.getStatusCode()) {
 		case PIN_INPUT_CANCELED:
 			break;
