@@ -36,7 +36,7 @@ public class SuccessfulLoginFragment extends MPinFragment {
 			@Override
 			public void onClick(View v) {
 				getMPinController().handleMessage(
-						MPinController.MESSAGE_GO_BACK_REQUEST);
+						MPinController.MESSAGE_ON_SHOW_IDENTITY_LIST);
 			}
 		});
 

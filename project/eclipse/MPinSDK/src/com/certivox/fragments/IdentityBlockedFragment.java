@@ -72,7 +72,7 @@ public class IdentityBlockedFragment extends MPinFragment implements
 			break;
 		case R.id.back_button:
 			getMPinController().handleMessage(
-					MPinController.MESSAGE_GO_BACK_REQUEST);
+					MPinController.MESSAGE_ON_SHOW_IDENTITY_LIST);
 			break;
 		default:
 			return;

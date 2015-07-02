@@ -3,7 +3,7 @@
 
     <!-- Navigation drawer strings -->
     <string name="drawer_subtitle">Active service:</string>
-    <string name="drawer_title">M-Pin Connect&#8230;</string>
+    <string name="drawer_no_service">No Service</string>
     <string name="drawer_open">Drawer Open</string>
     <string name="drawer_closed">Drawer Closed</string>
     <string name="change_identitiy">Change Identity</string>

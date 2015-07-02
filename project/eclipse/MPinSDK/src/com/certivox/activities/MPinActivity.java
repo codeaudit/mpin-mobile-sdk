@@ -34,6 +34,7 @@ import com.certivox.fragments.OTPFragment;
 import com.certivox.fragments.PinPadFragment;
 import com.certivox.fragments.SuccessfulLoginFragment;
 import com.certivox.fragments.UsersListFragment;
+import com.certivox.models.Config;
 import com.certivox.models.OTP;
 import com.example.mpinsdk.R;
 
@@ -110,7 +111,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		switch (v.getId()) {
 		case R.id.change_identitiy:
 			mController
-					.handleMessage(MPinController.MESSAGE_ON_CHANGE_IDENTITY);
+					.handleMessage(MPinController.MESSAGE_ON_SHOW_IDENTITY_LIST);
 			break;
 		case R.id.change_service:
 			mController.handleMessage(MPinController.MESSAGE_ON_CHANGE_SERVICE);
@@ -150,8 +151,8 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 			goBack();
 			return true;
 		case MPinController.MESSAGE_CONFIGURATION_CHANGED:
-			// TODO: This should be also called on initial time
-			setDrawerTitle(mController.getActiveConfiguration().getTitle());
+		case MPinController.MESSAGE_SDK_INITIALIZED:
+			setDrawerTitle();
 			return true;
 		case MPinController.MESSAGE_INCORRECT_PIN:
 			// TODO: this is not clean
@@ -172,7 +173,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 			createAndAddFragment(FRAGMENT_ABOUT, AboutFragment.class, false,
 					null);
 			return true;
-		case MPinController.MESSAGE_SHOW_USERS_LIST:
+		case MPinController.MESSAGE_SHOW_IDENTITIES_LIST:
 			createAndAddFragment(FRAGMENT_USERS_LIST, UsersListFragment.class,
 					false, null);
 			return true;
@@ -314,9 +315,13 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		}
 	}
 
-	private void setDrawerTitle(String title) {
-		if (mDrawerSubtitle != null) {
-			mDrawerSubtitle.setText(title);
+	private void setDrawerTitle() {
+		Config config = mController.getActiveConfiguration();
+		if (config != null) {
+			String title = config.getTitle();
+			if (mDrawerSubtitle != null) {
+				mDrawerSubtitle.setText(title);
+			}
 		}
 	}
 

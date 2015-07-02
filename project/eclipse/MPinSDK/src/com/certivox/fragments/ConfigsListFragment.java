@@ -72,6 +72,8 @@ public class ConfigsListFragment extends MPinFragment implements
 			Toast.makeText(getActivity(), "Failed to activate configuration",
 					Toast.LENGTH_SHORT).show();
 			return true;
+		case MPinController.MESSAGE_NO_ACTIVE_CONFIGURATION:
+			showNoSelectedConfigurationDialog();
 		default:
 			return false;
 		}

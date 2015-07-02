@@ -49,7 +49,7 @@ public class MPinController extends Controller {
 	public static final int MESSAGE_ON_BACK = 4;
 	public static final int MESSAGE_ON_DRAWER_BACK = 5;
 	public static final int MESSAGE_GO_BACK_REQUEST = 6;
-	public static final int MESSAGE_ON_CHANGE_IDENTITY = 7;
+	public static final int MESSAGE_ON_SHOW_IDENTITY_LIST = 7;
 	public static final int MESSAGE_ON_CHANGE_SERVICE = 8;
 	public static final int MESSAGE_ON_ABOUT = 9;
 	public static final int MESSAGE_RESET_PIN = 10;
@@ -90,30 +90,32 @@ public class MPinController extends Controller {
 	public static final int MESSAGE_STOP_WORK_IN_PROGRESS = 3;
 	public static final int MESSAGE_CONFIGURATION_DELETED = 4;
 	public static final int MESSAGE_CONFIGURATION_CHANGED = 5;
-	public static final int MESSAGE_CONFIGURATION_CHANGE_ERROR = 6;
-	public static final int MESSAGE_VALID_BACKEND = 7;
-	public static final int MESSAGE_INVALID_BACKEND = 8;
-	public static final int MESSAGE_CONFIGURATION_SAVED = 9;
-	public static final int MESSAGE_IDENTITY_EXISTS = 10;
-	public static final int MESSAGE_SHOW_CONFIGURATIONS_LIST = 11;
-	public static final int MESSAGE_SHOW_CONFIGURATION_EDIT = 12;
-	public static final int MESSAGE_SHOW_ABOUT = 13;
-	public static final int MESSAGE_SHOW_USERS_LIST = 14;
-	public static final int MESSAGE_SHOW_CREATE_IDENTITY = 15;
-	public static final int MESSAGE_SHOW_CONFIRM_EMAIL = 16;
-	public static final int MESSAGE_SHOW_IDENTITY_CREATED = 17;
-	public static final int MESSAGE_SHOW_SIGN_IN = 18;
-	public static final int MESSAGE_SHOW_ACCESS_NUMBER = 19;
-	public static final int MESSAGE_SHOW_USER_BLOCKED = 20;
-	public static final int MESSAGE_SHOW_LOGGED_IN = 21;
-	public static final int MESSAGE_SHOW_OTP = 22;
-	public static final int MESSAGE_EMAIL_NOT_CONFIRMED = 23;
-	public static final int MESSAGE_EMAIL_SENT = 24;
-	public static final int MESSAGE_INCORRECT_ACCESS_NUMBER = 25;
-	public static final int MESSAGE_INCORRECT_PIN = 26;
-	public static final int MESSAGE_INCORRECT_PIN_AN = 27;
-	public static final int MESSAGE_IDENTITY_DELETED = 28;
-	public static final int MESSAGE_AUTH_SUCCESS = 29;
+	public static final int MESSAGE_NO_ACTIVE_CONFIGURATION = 6;
+	public static final int MESSAGE_CONFIGURATION_CHANGE_ERROR = 7;
+	public static final int MESSAGE_VALID_BACKEND = 8;
+	public static final int MESSAGE_INVALID_BACKEND = 9;
+	public static final int MESSAGE_CONFIGURATION_SAVED = 10;
+	public static final int MESSAGE_IDENTITY_EXISTS = 11;
+	public static final int MESSAGE_SHOW_CONFIGURATIONS_LIST = 12;
+	public static final int MESSAGE_SHOW_CONFIGURATION_EDIT = 13;
+	public static final int MESSAGE_SHOW_ABOUT = 14;
+	public static final int MESSAGE_SHOW_IDENTITIES_LIST = 15;
+	public static final int MESSAGE_SHOW_CREATE_IDENTITY = 16;
+	public static final int MESSAGE_SHOW_CONFIRM_EMAIL = 17;
+	public static final int MESSAGE_SHOW_IDENTITY_CREATED = 18;
+	public static final int MESSAGE_SHOW_SIGN_IN = 19;
+	public static final int MESSAGE_SHOW_ACCESS_NUMBER = 20;
+	public static final int MESSAGE_SHOW_USER_BLOCKED = 21;
+	public static final int MESSAGE_SHOW_LOGGED_IN = 22;
+	public static final int MESSAGE_SHOW_OTP = 23;
+	public static final int MESSAGE_EMAIL_NOT_CONFIRMED = 24;
+	public static final int MESSAGE_EMAIL_SENT = 25;
+	public static final int MESSAGE_INCORRECT_ACCESS_NUMBER = 26;
+	public static final int MESSAGE_INCORRECT_PIN = 27;
+	public static final int MESSAGE_INCORRECT_PIN_AN = 28;
+	public static final int MESSAGE_IDENTITY_DELETED = 29;
+	public static final int MESSAGE_AUTH_SUCCESS = 30;
+	public static final int MESSAGE_SDK_INITIALIZED = 31;
 
 	public MPinController(Context context) {
 		mContext = context;
@@ -147,8 +149,8 @@ public class MPinController extends Controller {
 		case MESSAGE_ON_NEW_CONFIGURATION:
 			onEditConfiguration(-1);
 			return true;
-		case MESSAGE_ON_CHANGE_IDENTITY:
-			notifyOutboxHandlers(MESSAGE_SHOW_USERS_LIST, 0, 0, null);
+		case MESSAGE_ON_SHOW_IDENTITY_LIST:
+			onChangeIdentity();
 			return true;
 		case MESSAGE_ON_CHANGE_SERVICE:
 			notifyOutboxHandlers(MESSAGE_SHOW_CONFIGURATIONS_LIST, 0, 0, null);
@@ -274,9 +276,10 @@ public class MPinController extends Controller {
 						mConfigsDao.setActiveConfig(config);
 						// TODO: The model should listen for this to update
 						initUsersList();
-
-						notifyOutboxHandlers(MESSAGE_SHOW_USERS_LIST, 0, 0,
-								null);
+						notifyOutboxHandlers(MESSAGE_CONFIGURATION_CHANGED, 0,
+								0, null);
+						notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0,
+								0, null);
 					} else {
 						notifyOutboxHandlers(
 								MESSAGE_CONFIGURATION_CHANGE_ERROR, 0, 0, null);
@@ -333,7 +336,8 @@ public class MPinController extends Controller {
 					notifyOutboxHandlers(MESSAGE_SHOW_CONFIGURATIONS_LIST, 0,
 							0, null);
 				} else {
-					notifyOutboxHandlers(MESSAGE_SHOW_USERS_LIST, 0, 0, null);
+					notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0,
+							null);
 				}
 			}
 		});
@@ -356,6 +360,8 @@ public class MPinController extends Controller {
 				}
 				mCurrentUser = getSdk().MakeNewUser(userId);
 				getSdk().StartRegistration(mCurrentUser);
+				// TODO: This is not the right place for initing the list
+				initUsersList();
 				if (mCurrentUser.getState() == State.ACTIVATED) {
 					finishRegistration();
 				} else {
@@ -447,15 +453,14 @@ public class MPinController extends Controller {
 		// TODO: This should be event catched by model
 		initUsersList();
 		mSDKLockObject.notifyAll();
+		notifyOutboxHandlers(MESSAGE_SDK_INITIALIZED, 0, 0, null);
 		notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
 		Log.i(TAG, "MPin initialization finished");
 	}
 
 	// TODO this should be in model
 	private void initUsersList() {
-		Log.i(TAG, "INIT USERS LIST");
 		mUsersList.clear();
-		mCurrentUser = null;
 		getSdk().ListUsers(mUsersList);
 	}
 
@@ -487,18 +492,31 @@ public class MPinController extends Controller {
 		mWorkerHandler.post(new Runnable() {
 			@Override
 			public void run() {
-				if (mConfigsDao.getActiveConfiguration()
-						.getRequestAccessNumber()) {
-					if (getCurrentUser().getState().equals(User.State.BLOCKED)) {
-						notifyOutboxHandlers(MESSAGE_SHOW_USER_BLOCKED, 0, 0,
+				Log.i(TAG, getCurrentUser().getState().toString());
+				switch (getCurrentUser().getState()) {
+				case INVALID:
+					break;
+				case ACTIVATED:
+					notifyOutboxHandlers(MESSAGE_SHOW_SIGN_IN, 0, 0, null);
+					break;
+				case REGISTERED:
+					if (mConfigsDao.getActiveConfiguration()
+							.getRequestAccessNumber()) {
+						notifyOutboxHandlers(MESSAGE_SHOW_ACCESS_NUMBER, 0, 0,
 								null);
-						notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0,
-								0, null);
-						return;
+					} else {
+						preAuthenticate("");
 					}
-					notifyOutboxHandlers(MESSAGE_SHOW_ACCESS_NUMBER, 0, 0, null);
-				} else {
-					preAuthenticate("");
+					break;
+				case STARTED_REGISTRATION:
+					notifyOutboxHandlers(MESSAGE_SHOW_CONFIRM_EMAIL, 0, 0, null);
+					break;
+				case BLOCKED:
+					notifyOutboxHandlers(MESSAGE_SHOW_USER_BLOCKED, 0, 0, null);
+					notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0,
+							null);
+					break;
+				default:
 				}
 				notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
 			}
@@ -506,11 +524,6 @@ public class MPinController extends Controller {
 	}
 
 	private void preAuthenticate(final String accessNumber) {
-		if (getCurrentUser().getState().equals(User.State.BLOCKED)) {
-			notifyOutboxHandlers(MESSAGE_SHOW_USER_BLOCKED, 0, 0, null);
-			return;
-		}
-
 		OTP otp = mConfigsDao.getActiveConfiguration().getRequestOtp() ? new OTP()
 				: null;
 		if (!accessNumber.equals("")) {
@@ -535,7 +548,7 @@ public class MPinController extends Controller {
 			notifyOutboxHandlers(MESSAGE_INCORRECT_PIN_AN, 0, 0, null);
 			break;
 		case OK:
-			notifyOutboxHandlers(MESSAGE_SHOW_USERS_LIST, 0, 0, null);
+			notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
 			notifyOutboxHandlers(MESSAGE_AUTH_SUCCESS, 0, 0, null);
 			break;
 		default:
@@ -577,6 +590,15 @@ public class MPinController extends Controller {
 		}
 	}
 
+	private void onChangeIdentity() {
+		if (mConfigsDao.getActiveConfiguration() != null) {
+			notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
+		} else {
+			notifyOutboxHandlers(MESSAGE_NO_ACTIVE_CONFIGURATION, 0, 0, null);
+			notifyOutboxHandlers(MESSAGE_SHOW_CONFIGURATIONS_LIST, 0, 0, null);
+		}
+	}
+
 	private void deleteCurrentIdentity() {
 		notifyOutboxHandlers(MESSAGE_START_WORK_IN_PROGRESS, 0, 0, null);
 		mWorkerHandler.post(new Runnable() {
@@ -584,9 +606,10 @@ public class MPinController extends Controller {
 			@Override
 			public void run() {
 				getSdk().DeleteUser(getCurrentUser());
-				mCurrentUser = null;
+				setCurrentUser(null);
 				initUsersList();
 				notifyOutboxHandlers(MESSAGE_IDENTITY_DELETED, 0, 0, null);
+				notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
 				notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
 			}
 		});
