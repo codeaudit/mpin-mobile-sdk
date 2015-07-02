@@ -56,6 +56,7 @@ public abstract class BaseMPinActivity extends ActionBarActivity implements
 
 		// Needed for Hockey App
 		checkForUpdates();
+		checkForCrashes();
 	}
 
 	// Needed for Hockey App
