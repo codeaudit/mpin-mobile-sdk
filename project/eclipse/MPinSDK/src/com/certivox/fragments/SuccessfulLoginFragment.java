@@ -12,7 +12,8 @@ import android.widget.TextView;
 import com.certivox.controllers.MPinController;
 import com.example.mpinsdk.R;
 
-public class SuccessfulLoginFragment extends MPinFragment {
+public class SuccessfulLoginFragment extends MPinFragment implements
+		OnClickListener {
 	private View mView;
 	private ImageButton mLogoutButton;
 	private TextView mUserEmailTextView;
@@ -29,16 +30,8 @@ public class SuccessfulLoginFragment extends MPinFragment {
 			mUserEmailTextView.setText(getMPinController().getCurrentUser()
 					.getId());
 		}
-
 		mLogoutButton = (ImageButton) mView.findViewById(R.id.logout_button);
-		mLogoutButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				getMPinController().handleMessage(
-						MPinController.MESSAGE_ON_SHOW_IDENTITY_LIST);
-			}
-		});
+		mLogoutButton.setOnClickListener(this);
 
 		initViews();
 
@@ -58,5 +51,15 @@ public class SuccessfulLoginFragment extends MPinFragment {
 	@Override
 	public void setData(Object data) {
 
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.logout_button:
+			getMPinController().handleMessage(
+					MPinController.MESSAGE_ON_SHOW_IDENTITY_LIST);
+			return;
+		}
 	}
 }

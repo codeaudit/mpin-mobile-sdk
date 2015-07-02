@@ -116,6 +116,7 @@ public class MPinController extends Controller {
 	public static final int MESSAGE_IDENTITY_DELETED = 29;
 	public static final int MESSAGE_AUTH_SUCCESS = 30;
 	public static final int MESSAGE_SDK_INITIALIZED = 31;
+	public static final int MESSAGE_OTP_NOT_SUPPORTED = 32;
 
 	public MPinController(Context context) {
 		mContext = context;
@@ -561,11 +562,13 @@ public class MPinController extends Controller {
 		switch (status.getStatusCode()) {
 		case PIN_INPUT_CANCELED:
 			break;
-		case OK: {
+		case OK:
 			if (otp.status != null && otp.ttlSeconds > 0) {
 				notifyOutboxHandlers(MESSAGE_SHOW_OTP, 0, 0, otp);
+			} else {
+				notifyOutboxHandlers(MESSAGE_OTP_NOT_SUPPORTED, 0, 0, null);
+				notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
 			}
-		}
 			break;
 		default:
 			return;

@@ -211,6 +211,9 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		case MPinController.MESSAGE_AUTH_SUCCESS:
 			showAuthSuccessDialog();
 			return true;
+		case MPinController.MESSAGE_OTP_NOT_SUPPORTED:
+			showOtpNotSupportedDialog();
+			return true;
 		}
 		return false;
 	}
@@ -459,13 +462,19 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 	}
 
 	private void showAuthSuccessDialog() {
-		new AlertDialog.Builder(mActivity).setTitle("Successful Login")
+		new AlertDialog.Builder(this).setTitle("Successful Login")
 				.setMessage("You are now logged in!")
 				.setPositiveButton("OK", null).show();
 	}
 
 	private void showWrongPinDialog() {
-		new AlertDialog.Builder(mActivity).setTitle("Incorrect Pin!")
-				.setMessage("").setPositiveButton("OK", null).show();
+		new AlertDialog.Builder(this).setTitle("Incorrect Pin!").setMessage("")
+				.setPositiveButton("OK", null).show();
+	}
+
+	private void showOtpNotSupportedDialog() {
+		new AlertDialog.Builder(this).setTitle("OTP not supported")
+				.setMessage("The configuration does not support OTP")
+				.setPositiveButton("OK", null).show();
 	}
 }
