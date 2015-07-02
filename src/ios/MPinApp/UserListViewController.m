@@ -149,8 +149,9 @@ static NSString *const kAN = @"AN";
     }
 }
 
-- ( void )viewDidDisappear:( BOOL )animated
+-(void) viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
 }
 
@@ -722,7 +723,7 @@ static NSString *const kAN = @"AN";
     default:
         break;
     }
-
+    NSLog(@"Calling PinPad from UserList");
     [self.navigationController pushViewController:pinpadViewController animated:YES];
 }
 
