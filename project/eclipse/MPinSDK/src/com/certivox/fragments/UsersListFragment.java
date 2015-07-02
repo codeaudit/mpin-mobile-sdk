@@ -57,7 +57,6 @@ public class UsersListFragment extends MPinFragment implements OnClickListener,
 		case MPinController.MESSAGE_IDENTITY_DELETED:
 			initScreen();
 			break;
-
 		default:
 			break;
 		}

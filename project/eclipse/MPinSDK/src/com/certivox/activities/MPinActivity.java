@@ -2,9 +2,11 @@ package com.certivox.activities;
 
 import java.lang.reflect.InvocationTargetException;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.FeedbackManager;
+import net.hockeyapp.android.UpdateManager;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -39,6 +41,9 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		Handler.Callback {
 
 	private static final String TAG = MPinActivity.class.getSimpleName();
+
+	// Needed for Hockey App
+	private static final String APP_ID = "40dc0524dbc338596640635c8c55dafb";
 
 	// Controller
 	private MPinController mController;
@@ -75,6 +80,10 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		setContentView(R.layout.activity_mpin);
 
 		initialize();
+
+		// Needed for Hockey App
+		checkForUpdates();
+		checkForCrashes();
 	}
 
 	@Override
@@ -372,6 +381,23 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 			return;
 		}
 		super.onBackPressed();
+	}
+
+	// Needed for Hockey App
+	private void checkForUpdates() {
+		// Remove this for store / production builds!
+		UpdateManager.register(this, APP_ID);
+	}
+
+	// Needed for Hockey App
+	private void checkForCrashes() {
+		CrashManager.register(this, APP_ID);
+	}
+
+	// Needed for Hockey App
+	public void showFeedbackActivity() {
+		FeedbackManager.register(this, APP_ID, null);
+		FeedbackManager.showFeedbackActivity(this);
 	}
 
 	// TODO: This is not done right, should be refactored
