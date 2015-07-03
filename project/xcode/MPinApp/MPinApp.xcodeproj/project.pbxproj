@@ -200,6 +200,13 @@
 		968E7A571AA0818F00A276A7 /* MenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E7A561AA0818F00A276A7 /* MenuTableViewCell.m */; };
 		9699B2521AADF7F0008AA313 /* TextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699B2511AADF7F0008AA313 /* TextFieldTableViewCell.m */; };
 		9699B2551AADF812008AA313 /* OptionSelectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699B2541AADF812008AA313 /* OptionSelectTableViewCell.m */; };
+		96AE726E1B440A6900171D05 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA891B1C497400A68A03 /* SystemConfiguration.framework */; };
+		96AE726F1B440A7500171D05 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA871B1C496900A68A03 /* Security.framework */; };
+		96AE72701B440A8100171D05 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA851B1C496000A68A03 /* QuickLook.framework */; };
+		96AE72711B440A8D00171D05 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA831B1C495500A68A03 /* QuartzCore.framework */; };
+		96AE72721B440AC000171D05 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA811B1C494B00A68A03 /* MobileCoreServices.framework */; };
+		96AE72731B440AD100171D05 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA7F1B1C493300A68A03 /* CoreText.framework */; };
+		96AE72741B440ADC00171D05 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA7D1B1C492B00A68A03 /* AssetsLibrary.framework */; };
 		96B27CAC1ACACE92007145C2 /* MPin+AsyncOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = FE8129661ABAB61B008677CE /* MPin+AsyncOperations.m */; };
 		96C88F461AC42B6E00A5F27A /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A261AC311D000B25B53 /* AboutViewController.m */; };
 		96C88F471AC42B7D00A5F27A /* ConfigurationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A211AC30FAF00B25B53 /* ConfigurationManager.m */; };
@@ -244,7 +251,6 @@
 		96F7EA861B1C496000A68A03 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA851B1C496000A68A03 /* QuickLook.framework */; };
 		96F7EA881B1C496900A68A03 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA871B1C496900A68A03 /* Security.framework */; };
 		96F7EA8A1B1C497400A68A03 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA891B1C497400A68A03 /* SystemConfiguration.framework */; };
-		96F7EA8C1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA8B1B1C49F200A68A03 /* HockeySDK.framework */; };
 		96F7EA8D1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA8B1B1C49F200A68A03 /* HockeySDK.framework */; };
 		96F7EA8E1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA8B1B1C49F200A68A03 /* HockeySDK.framework */; };
 		96F7EA8F1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA8B1B1C49F200A68A03 /* HockeySDK.framework */; };
@@ -458,8 +464,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96DA33F81ACD54C300B2CAAB /* libMPinSDK.a in Frameworks */,
+				96AE72741B440ADC00171D05 /* AssetsLibrary.framework in Frameworks */,
+				96AE72731B440AD100171D05 /* CoreText.framework in Frameworks */,
 				9649BCAC1AC16D1000B9F41B /* CoreGraphics.framework in Frameworks */,
+				96AE72721B440AC000171D05 /* MobileCoreServices.framework in Frameworks */,
+				96AE72711B440A8D00171D05 /* QuartzCore.framework in Frameworks */,
+				96AE72701B440A8100171D05 /* QuickLook.framework in Frameworks */,
+				96AE726F1B440A7500171D05 /* Security.framework in Frameworks */,
+				96AE726E1B440A6900171D05 /* SystemConfiguration.framework in Frameworks */,
+				96DA33F81ACD54C300B2CAAB /* libMPinSDK.a in Frameworks */,
 				9649BCAD1AC16D1000B9F41B /* UIKit.framework in Frameworks */,
 				96F7EA8D1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */,
 				9649BCAE1AC16D1000B9F41B /* Foundation.framework in Frameworks */,
@@ -480,7 +493,6 @@
 				FE49001D1A1A3CEB000030A4 /* CoreGraphics.framework in Frameworks */,
 				96F7EA801B1C493300A68A03 /* CoreText.framework in Frameworks */,
 				96F7EA7E1B1C492B00A68A03 /* AssetsLibrary.framework in Frameworks */,
-				96F7EA8C1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */,
 				96DA33F91ACD54D700B2CAAB /* libMPinSDK.a in Frameworks */,
 				FE49001F1A1A3CEB000030A4 /* UIKit.framework in Frameworks */,
 				FE49001B1A1A3CEB000030A4 /* Foundation.framework in Frameworks */,
