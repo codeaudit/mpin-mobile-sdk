@@ -198,6 +198,20 @@
 		968D0A441A7B93C00037841D /* UIColor+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 968D0A431A7B93C00037841D /* UIColor+Helper.m */; };
 		968E7A541AA06CA700A276A7 /* IdentityCreatedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E7A531AA06CA700A276A7 /* IdentityCreatedViewController.m */; };
 		968E7A571AA0818F00A276A7 /* MenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E7A561AA0818F00A276A7 /* MenuTableViewCell.m */; };
+		96925FB21B467EB9000D5AFA /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA7D1B1C492B00A68A03 /* AssetsLibrary.framework */; };
+		96925FB31B467EBF000D5AFA /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA7F1B1C493300A68A03 /* CoreText.framework */; };
+		96925FB41B467ED0000D5AFA /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA811B1C494B00A68A03 /* MobileCoreServices.framework */; };
+		96925FB51B467EDC000D5AFA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA831B1C495500A68A03 /* QuartzCore.framework */; };
+		96925FB61B467EE9000D5AFA /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA851B1C496000A68A03 /* QuickLook.framework */; };
+		96925FB71B467EF3000D5AFA /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA871B1C496900A68A03 /* Security.framework */; };
+		96925FB81B467EFB000D5AFA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA891B1C497400A68A03 /* SystemConfiguration.framework */; };
+		96925FB91B467F79000D5AFA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA891B1C497400A68A03 /* SystemConfiguration.framework */; };
+		96925FBA1B467F7F000D5AFA /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA871B1C496900A68A03 /* Security.framework */; };
+		96925FBB1B467F89000D5AFA /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA851B1C496000A68A03 /* QuickLook.framework */; };
+		96925FBC1B467F8F000D5AFA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA831B1C495500A68A03 /* QuartzCore.framework */; };
+		96925FBD1B467F9B000D5AFA /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA811B1C494B00A68A03 /* MobileCoreServices.framework */; };
+		96925FBE1B467FA0000D5AFA /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA7F1B1C493300A68A03 /* CoreText.framework */; };
+		96925FBF1B467FB3000D5AFA /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA7D1B1C492B00A68A03 /* AssetsLibrary.framework */; };
 		9699B2521AADF7F0008AA313 /* TextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699B2511AADF7F0008AA313 /* TextFieldTableViewCell.m */; };
 		9699B2551AADF812008AA313 /* OptionSelectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699B2541AADF812008AA313 /* OptionSelectTableViewCell.m */; };
 		96AE726E1B440A6900171D05 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA891B1C497400A68A03 /* SystemConfiguration.framework */; };
@@ -436,6 +450,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96925FB81B467EFB000D5AFA /* SystemConfiguration.framework in Frameworks */,
+				96925FB71B467EF3000D5AFA /* Security.framework in Frameworks */,
+				96925FB61B467EE9000D5AFA /* QuickLook.framework in Frameworks */,
+				96925FB51B467EDC000D5AFA /* QuartzCore.framework in Frameworks */,
+				96925FB41B467ED0000D5AFA /* MobileCoreServices.framework in Frameworks */,
+				96925FB31B467EBF000D5AFA /* CoreText.framework in Frameworks */,
+				96925FB21B467EB9000D5AFA /* AssetsLibrary.framework in Frameworks */,
 				96130E421AEE4867005D2A86 /* libMPinSDK.a in Frameworks */,
 				96130E431AEE4867005D2A86 /* CoreGraphics.framework in Frameworks */,
 				96130E441AEE4867005D2A86 /* UIKit.framework in Frameworks */,
@@ -450,8 +471,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96130E8C1AEE490A005D2A86 /* libMPinSDK.a in Frameworks */,
+				96925FBF1B467FB3000D5AFA /* AssetsLibrary.framework in Frameworks */,
 				96130E8D1AEE490A005D2A86 /* CoreGraphics.framework in Frameworks */,
+				96925FBE1B467FA0000D5AFA /* CoreText.framework in Frameworks */,
+				96925FBD1B467F9B000D5AFA /* MobileCoreServices.framework in Frameworks */,
+				96925FBC1B467F8F000D5AFA /* QuartzCore.framework in Frameworks */,
+				96925FBB1B467F89000D5AFA /* QuickLook.framework in Frameworks */,
+				96925FBA1B467F7F000D5AFA /* Security.framework in Frameworks */,
+				96925FB91B467F79000D5AFA /* SystemConfiguration.framework in Frameworks */,
+				96130E8C1AEE490A005D2A86 /* libMPinSDK.a in Frameworks */,
 				96130E8E1AEE490A005D2A86 /* UIKit.framework in Frameworks */,
 				96F7EA8F1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */,
 				96130E8F1AEE490A005D2A86 /* Foundation.framework in Frameworks */,
