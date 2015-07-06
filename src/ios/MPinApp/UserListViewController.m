@@ -149,8 +149,9 @@ static NSString *const kAN = @"AN";
     }
 }
 
-- ( void )viewDidDisappear:( BOOL )animated
+-(void) viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
 }
 
@@ -339,6 +340,7 @@ static NSString *const kAN = @"AN";
     {
     case IDENTITY_NOT_VERIFIED:
     {
+        [[ErrorHandler sharedManager] hideMessage];
         ConfirmEmailViewController *cevc = (ConfirmEmailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ConfirmEmailViewController"];
         cevc.iuser = ( error.userInfo ) [kUSER];
         [self.navigationController pushViewController:cevc animated:YES];
@@ -377,11 +379,6 @@ static NSString *const kAN = @"AN";
      errorString:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR")
      addActivityIndicator:NO
      minShowTime:0];
-}
-
--( void ) onAccessNumber:( NSString * ) an
-{
-    [sdk AuthenticateAN:[self.users objectAtIndex:selectedIndexPath.row] accessNumber:an askForFingerprint:boolShouldAskForFingerprint];
 }
 
 - ( void )OnAuthenticateAccessNumberCompleted:( id )sender user:( id<IUser>)user
@@ -563,8 +560,10 @@ static NSString *const kAN = @"AN";
                 break;
 
             case LOGIN_ONLINE:
+                [[ErrorHandler sharedManager] hideMessage];
                 accessViewController = [storyboard instantiateViewControllerWithIdentifier:@"accessnumber"];
                 accessViewController.delegate = self;
+                sdk.delegate = nil;
                 accessViewController.strEmail = [currentUser getIdentity];
                 accessViewController.currentUser = currentUser;
                 [self.navigationController pushViewController:accessViewController animated:YES];
@@ -625,7 +624,7 @@ static NSString *const kAN = @"AN";
 
     default:
         [[ErrorHandler sharedManager] presentMessageInViewController:self
-         errorString:[NSString stringWithFormat:@"User state is unexpected %ld",                                                                                       [user getState]]
+         errorString:[NSString stringWithFormat:@"User state is unexpected %ld",                                                                                       (long)[user getState]]
          addActivityIndicator:NO
          minShowTime:0];
         break;
@@ -724,7 +723,7 @@ static NSString *const kAN = @"AN";
     default:
         break;
     }
-
+    NSLog(@"Calling PinPad from UserList");
     [self.navigationController pushViewController:pinpadViewController animated:YES];
 }
 

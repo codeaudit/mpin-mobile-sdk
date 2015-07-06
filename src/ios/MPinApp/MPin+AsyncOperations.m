@@ -46,7 +46,7 @@ static NSString *const constStrConnectionTimeoutNotification = @"ConnectionTimeo
 
 - ( void )setDelegate:( id<MPinSDKDelegate>)delegate
 {
-    objc_setAssociatedObject(self, delegateKey, (id)delegate, OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, delegateKey, (id)delegate, OBJC_ASSOCIATION_RETAIN);
 }
 
 - ( void )TestBackend:( const NSString * )url rpsPrefix:( NSString * )rpsPrefix
@@ -348,6 +348,7 @@ static NSString *const constStrConnectionTimeoutNotification = @"ConnectionTimeo
                         dispatch_async(dispatch_get_main_queue(), ^ (void) {
                             if ( self.delegate == nil )
                             {
+                                NSLog(@"####### Delegate is NIL #######\n");
                                 return;
                             }
                             if ( mpinStatus.status == OK )
@@ -391,7 +392,10 @@ static NSString *const constStrConnectionTimeoutNotification = @"ConnectionTimeo
 
                 dispatch_async(dispatch_get_main_queue(), ^ (void) {
                     if ( self.delegate == nil )
+                    {
                         return;
+                    }
+                    
 
                     if ( mpinStatus.status == OK )
                     {

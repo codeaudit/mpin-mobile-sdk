@@ -72,6 +72,7 @@ namespace sdk {
     
     void Context::setPin(const String & mpin) {
         [cLock lock];
+        NSLog(@"is SHOWN %d", isShown);
         if(isShown) {
             pin = mpin;
             [cLock signal];
