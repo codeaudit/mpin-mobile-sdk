@@ -364,10 +364,6 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 	}
 
 	private void goBack() {
-		if (getFragmentManager().getBackStackEntryCount() > 1) {
-			getFragmentManager().popBackStack();
-			return;
-		}
 		super.onBackPressed();
 	}
 
