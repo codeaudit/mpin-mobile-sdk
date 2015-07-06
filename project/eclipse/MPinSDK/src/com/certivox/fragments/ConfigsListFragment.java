@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +20,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.certivox.adapters.ConfigurationListAdapter;
+import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
 import com.certivox.models.Config;
 import com.example.mpinsdk.R;
@@ -39,6 +41,28 @@ public class ConfigsListFragment extends MPinFragment implements
 	}
 
 	@Override
+	protected String getFragmentTag() {
+		return FragmentTags.FRAGMENT_CONFIGURATIONS_LIST;
+	}
+
+	@Override
+	protected OnClickListener getDrawerBackClickListener() {
+		OnClickListener drawerBackClickListener = new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (mSelectedConfiguraionId == -1) {
+					showNoSelectedConfigurationDialog();
+				} else {
+					getMPinController().handleMessage(
+							MPinController.MESSAGE_ON_DRAWER_BACK);
+				}
+			}
+		};
+		return drawerBackClickListener;
+	}
+
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
@@ -51,6 +75,8 @@ public class ConfigsListFragment extends MPinFragment implements
 
 		mView = inflater.inflate(R.layout.fragment_configurations_list,
 				container, false);
+		mSelectedConfiguraionId = -1;
+		disableDrawer();
 		initViews();
 		initAdapter();
 
@@ -61,6 +87,7 @@ public class ConfigsListFragment extends MPinFragment implements
 	public boolean handleMessage(Message msg) {
 		switch (msg.what) {
 		case MPinController.MESSAGE_CONFIGURATION_DELETED:
+			mSelectedConfiguraionId = -1;
 			mAdapter.updateConfigsList(getMPinController()
 					.getConfigurationsList());
 			return true;

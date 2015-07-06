@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
 import com.example.mpinsdk.R;
 
@@ -22,8 +23,18 @@ public class IdentityCreatedFragment extends MPinFragment implements
 	private Button mBackButton;
 
 	@Override
+	protected String getFragmentTag() {
+		return FragmentTags.FRAGMENT_IDENTITY_CREATED;
+	}
+
+	@Override
 	public boolean handleMessage(Message msg) {
 		return false;
+	}
+
+	@Override
+	protected OnClickListener getDrawerBackClickListener() {
+		return null;
 	}
 
 	@Override

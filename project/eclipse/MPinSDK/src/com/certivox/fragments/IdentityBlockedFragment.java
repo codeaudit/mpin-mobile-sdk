@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
 import com.example.mpinsdk.R;
 
@@ -25,6 +26,11 @@ public class IdentityBlockedFragment extends MPinFragment implements
 	private Button mBackButton;
 
 	@Override
+	protected String getFragmentTag() {
+		return FragmentTags.FRAGMENT_IDENTITY_BLOCKED;
+	}
+
+	@Override
 	public boolean handleMessage(Message msg) {
 		return false;
 	}
@@ -32,6 +38,11 @@ public class IdentityBlockedFragment extends MPinFragment implements
 	@Override
 	public void setData(Object data) {
 
+	}
+
+	@Override
+	protected OnClickListener getDrawerBackClickListener() {
+		return null;
 	}
 
 	@Override

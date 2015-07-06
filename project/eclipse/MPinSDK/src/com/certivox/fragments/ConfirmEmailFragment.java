@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
 import com.example.mpinsdk.R;
 
@@ -23,6 +24,16 @@ public class ConfirmEmailFragment extends MPinFragment implements
 	private Button mEmailConfirmedButton;
 	private Button mResendMailButton;
 	private Button mBackButton;
+
+	@Override
+	protected OnClickListener getDrawerBackClickListener() {
+		return null;
+	}
+	
+	@Override
+	protected String getFragmentTag() {
+		return FragmentTags.FRAGMENT_CONFIRM_EMAIL;
+	}
 
 	@Override
 	public boolean handleMessage(Message msg) {

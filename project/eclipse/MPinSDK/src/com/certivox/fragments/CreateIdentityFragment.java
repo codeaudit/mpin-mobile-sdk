@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
 import com.example.mpinsdk.R;
 
@@ -27,6 +28,16 @@ public class CreateIdentityFragment extends MPinFragment implements
 	@Override
 	public void setData(Object data) {
 
+	}
+
+	@Override
+	protected OnClickListener getDrawerBackClickListener() {
+		return null;
+	}
+
+	@Override
+	protected String getFragmentTag() {
+		return FragmentTags.FRAGMENT_CREATE_IDENTITY;
 	}
 
 	@Override

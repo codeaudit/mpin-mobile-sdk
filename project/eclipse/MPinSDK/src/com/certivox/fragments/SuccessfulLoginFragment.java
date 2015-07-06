@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
 import com.example.mpinsdk.R;
 
@@ -36,6 +37,16 @@ public class SuccessfulLoginFragment extends MPinFragment implements
 		initViews();
 
 		return mView;
+	}
+
+	@Override
+	protected OnClickListener getDrawerBackClickListener() {
+		return null;
+	}
+
+	@Override
+	protected String getFragmentTag() {
+		return FragmentTags.FRAGMENT_SUCCESSFUL_LOGIN;
 	}
 
 	@Override

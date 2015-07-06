@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.certivox.adapters.UsersAdapter;
+import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
 import com.certivox.models.User;
 import com.example.mpinsdk.R;
@@ -41,14 +42,25 @@ public class UsersListFragment extends MPinFragment implements OnClickListener,
 	};
 
 	@Override
+	protected OnClickListener getDrawerBackClickListener() {
+		return null;
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		setHasOptionsMenu(true);
+		enableDrawer();
 		mView = inflater.inflate(R.layout.users_list_layout, container, false);
 		initViews();
 		initScreen();
 
 		return mView;
+	}
+
+	@Override
+	protected String getFragmentTag() {
+		return FragmentTags.FRAGMENT_USERS_LIST;
 	}
 
 	@Override

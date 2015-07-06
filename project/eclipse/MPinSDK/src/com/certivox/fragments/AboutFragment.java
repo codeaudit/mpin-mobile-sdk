@@ -7,9 +7,12 @@ import android.os.Message;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.certivox.constants.FragmentTags;
+import com.certivox.controllers.MPinController;
 import com.example.mpinsdk.R;
 
 public class AboutFragment extends MPinFragment {
@@ -24,13 +27,32 @@ public class AboutFragment extends MPinFragment {
 	};
 
 	@Override
+	protected String getFragmentTag() {
+		return FragmentTags.FRAGMENT_ABOUT;
+	}
+
+	@Override
 	public boolean handleMessage(Message msg) {
 		return false;
 	}
 
 	@Override
+	protected OnClickListener getDrawerBackClickListener() {
+		OnClickListener drawerBackClickListener = new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				getMPinController().handleMessage(
+						MPinController.MESSAGE_ON_DRAWER_BACK);
+			}
+		};
+		return drawerBackClickListener;
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		disableDrawer();
 		setTooblarTitle(R.string.about_title);
 		mView = inflater.inflate(R.layout.about_layout, container, false);
 		initViews();

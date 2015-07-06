@@ -5,17 +5,26 @@ import android.app.Fragment;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.View.OnClickListener;
 
+import com.certivox.activities.MPinActivity;
 import com.certivox.controllers.MPinController;
 
 public abstract class MPinFragment extends Fragment implements Handler.Callback {
 
 	private static final String TAG = MPinFragment.class.getCanonicalName();
+
 	// MPinController
 	private MPinController mMPinController;
 	private Handler mHandler;
 
 	abstract protected void initViews();
+
+	abstract public void setData(Object data);
+
+	abstract protected OnClickListener getDrawerBackClickListener();
+
+	abstract protected String getFragmentTag();
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -25,6 +34,8 @@ public abstract class MPinFragment extends Fragment implements Handler.Callback 
 		if (mMPinController != null) {
 			getMPinController().addOutboxHandler(mHandler);
 		}
+
+		mMPinController.setCurrentFragmentTag(getFragmentTag());
 	}
 
 	@Override
@@ -42,11 +53,17 @@ public abstract class MPinFragment extends Fragment implements Handler.Callback 
 		return mMPinController;
 	}
 
-	abstract public void setData(Object data);
-
 	protected void setTooblarTitle(int resId) {
 		((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(
 				resId);
 	}
 
+	protected void enableDrawer() {
+		((MPinActivity) getActivity()).enableDrawer();
+	}
+
+	protected void disableDrawer() {
+		((MPinActivity) getActivity())
+				.disableDrawer(getDrawerBackClickListener());
+	}
 }

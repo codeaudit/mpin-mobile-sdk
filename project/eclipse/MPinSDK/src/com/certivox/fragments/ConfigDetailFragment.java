@@ -15,12 +15,16 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
 import com.certivox.models.Config;
 import com.example.mpinsdk.R;
 
 public class ConfigDetailFragment extends MPinFragment implements
 		OnClickListener {
+
+	private static final String TAG = ConfigDetailFragment.class
+			.getCanonicalName();
 
 	private View mView;
 	private EditText mServiceNameEditText;
@@ -38,6 +42,11 @@ public class ConfigDetailFragment extends MPinFragment implements
 	@Override
 	public void setData(Object data) {
 		mConfigId = ((Integer) data).intValue();
+	}
+
+	@Override
+	protected String getFragmentTag() {
+		return FragmentTags.FRAGMENT_CONFIGURATION_EDIT;
 	}
 
 	@Override
@@ -131,6 +140,7 @@ public class ConfigDetailFragment extends MPinFragment implements
 	}
 
 	private void initScreen() {
+		disableDrawer();
 		if (mConfig.getId() != -1) {
 			setTooblarTitle(R.string.config_detail_toolbar_title);
 			mServiceNameEditText.setText(mConfig.getTitle());
@@ -141,6 +151,19 @@ public class ConfigDetailFragment extends MPinFragment implements
 		} else {
 			setTooblarTitle(R.string.add_service_toolbar_title);
 		}
+	}
+
+	@Override
+	protected OnClickListener getDrawerBackClickListener() {
+		OnClickListener drawerBackClickListener = new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				getMPinController().handleMessage(
+						MPinController.MESSAGE_ON_DRAWER_BACK);
+			}
+		};
+		return drawerBackClickListener;
 	}
 
 	private boolean isEmptyTitle() {

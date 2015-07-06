@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.certivox.constants.FragmentTags;
 import com.certivox.dal.ConfigsDao;
 import com.certivox.models.Config;
 import com.certivox.models.OTP;
@@ -40,6 +41,7 @@ public class MPinController extends Controller {
 	private List<User> mUsersList;
 	private User mCurrentUser;
 	private Config mCurrentConfiguration;
+	private String mCurrentFragmentTag;
 
 	// Receive Messages
 	public static final int MESSAGE_ON_CREATE = 0;
@@ -142,10 +144,10 @@ public class MPinController extends Controller {
 		case MESSAGE_ON_STOP:
 			return true;
 		case MESSAGE_ON_BACK:
+			notifyOutboxHandlers(MESSAGE_GO_BACK, 0, 0, null);
 			return true;
 		case MESSAGE_ON_DRAWER_BACK:
-			// TODO: change the logic according the fragment
-			notifyOutboxHandlers(MESSAGE_GO_BACK, 0, 0, null);
+			onDrawerBack();
 			return true;
 		case MESSAGE_ON_NEW_CONFIGURATION:
 			onEditConfiguration(-1);
@@ -252,9 +254,10 @@ public class MPinController extends Controller {
 
 				if (status.getStatusCode() == Status.Code.OK) {
 					mConfigsDao.saveOrUpdate(config);
-					mConfigsDao.setActiveConfig(config);
 					notifyOutboxHandlers(MESSAGE_CONFIGURATION_SAVED, 0, 0,
 							null);
+					notifyOutboxHandlers(MESSAGE_SHOW_CONFIGURATIONS_LIST, 0,
+							0, null);
 				} else {
 					notifyOutboxHandlers(MESSAGE_INVALID_BACKEND, 0, 0, null);
 				}
@@ -336,6 +339,8 @@ public class MPinController extends Controller {
 				if (mCurrentConfiguration == null) {
 					notifyOutboxHandlers(MESSAGE_SHOW_CONFIGURATIONS_LIST, 0,
 							0, null);
+				} else if (getCurrentUser() != null) {
+					onSignIn();
 				} else {
 					notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0,
 							null);
@@ -359,11 +364,12 @@ public class MPinController extends Controller {
 						return;
 					}
 				}
+
 				mCurrentUser = getSdk().MakeNewUser(userId);
-				getSdk().StartRegistration(mCurrentUser);
+				getSdk().StartRegistration(getCurrentUser());
 				// TODO: This is not the right place for initing the list
 				initUsersList();
-				if (mCurrentUser.getState() == State.ACTIVATED) {
+				if (getCurrentUser().getState() == State.ACTIVATED) {
 					finishRegistration();
 				} else {
 					notifyOutboxHandlers(MESSAGE_SHOW_CONFIRM_EMAIL, 0, 0, null);
@@ -416,7 +422,7 @@ public class MPinController extends Controller {
 				// TODO: This should be separate method
 				getSdk().DeleteUser(getCurrentUser());
 				// TODO: NOT GOOD!
-				setCurrentUser(null);
+				saveCurrentUser(null);
 				initUsersList();
 				startRegistration(userId);
 			}
@@ -549,6 +555,7 @@ public class MPinController extends Controller {
 			notifyOutboxHandlers(MESSAGE_INCORRECT_PIN_AN, 0, 0, null);
 			break;
 		case OK:
+			saveCurrentUser(mCurrentUser);
 			notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
 			notifyOutboxHandlers(MESSAGE_AUTH_SUCCESS, 0, 0, null);
 			break;
@@ -564,6 +571,7 @@ public class MPinController extends Controller {
 			break;
 		case OK:
 			if (otp.status != null && otp.ttlSeconds > 0) {
+				saveCurrentUser(mCurrentUser);
 				notifyOutboxHandlers(MESSAGE_SHOW_OTP, 0, 0, otp);
 			} else {
 				notifyOutboxHandlers(MESSAGE_OTP_NOT_SUPPORTED, 0, 0, null);
@@ -586,6 +594,7 @@ public class MPinController extends Controller {
 			onSignIn();
 			break;
 		case OK:
+			saveCurrentUser(mCurrentUser);
 			notifyOutboxHandlers(MESSAGE_SHOW_LOGGED_IN, 0, 0, null);
 			break;
 		default:
@@ -609,7 +618,7 @@ public class MPinController extends Controller {
 			@Override
 			public void run() {
 				getSdk().DeleteUser(getCurrentUser());
-				setCurrentUser(null);
+				saveCurrentUser(null);
 				initUsersList();
 				notifyOutboxHandlers(MESSAGE_IDENTITY_DELETED, 0, 0, null);
 				notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
@@ -633,8 +642,7 @@ public class MPinController extends Controller {
 	}
 
 	// TODO this should be in model
-	private void setCurrentUser(User user) {
-		mCurrentUser = user;
+	private void saveCurrentUser(User user) {
 		PreferenceManager.getDefaultSharedPreferences(mContext).edit()
 				.putString(PREF_LAST_USER, user != null ? user.getId() : "")
 				.commit();
@@ -674,5 +682,23 @@ public class MPinController extends Controller {
 	public void onDeleteIdentity(User user) {
 		mCurrentUser = user;
 		deleteCurrentIdentity();
+	}
+
+	public void setCurrentFragmentTag(String tag) {
+		mCurrentFragmentTag = tag;
+		Log.i(TAG, "Current fragment is " + tag);
+	}
+
+	private void onDrawerBack() {
+		if (mCurrentFragmentTag.equals(FragmentTags.FRAGMENT_ABOUT)) {
+			notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
+		} else if (mCurrentFragmentTag
+				.equals(FragmentTags.FRAGMENT_CONFIGURATIONS_LIST)) {
+			notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
+
+		} else if (mCurrentFragmentTag
+				.equals(FragmentTags.FRAGMENT_CONFIGURATION_EDIT)) {
+			notifyOutboxHandlers(MESSAGE_SHOW_CONFIGURATIONS_LIST, 0, 0, null);
+		}
 	}
 }

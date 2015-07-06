@@ -20,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
 import com.certivox.fragments.AboutFragment;
 import com.certivox.fragments.AccessNumberFragment;
@@ -60,20 +61,6 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 	private TextView mChangeIdentityButton;
 	private TextView mChangeServiceButton;
 	private TextView mAboutButton;
-
-	// Fragments
-	private static final String FRAGMENT_CONFIGURATIONS_LIST = "FRAGMENT_CONFIGURATIONS_LIST";
-	private static final String FRAGMENT_CONFIGURATION_EDIT = "FRAGMENT_CONFIGURATION_EDIT";
-	private static final String FRAGMENT_PINPAD = "FRAGMENT_PINPAD";
-	private static final String FRAGMENT_ACCESS_NUMBER = "FRAGMENT_ACCESS_NUMBER";
-	private static final String FRAGMENT_USERS_LIST = "FRAGMENT_USERS_LIST";
-	private static final String FRAGMENT_CREATE_IDENTITY = "FRAGMENT_NEW_USER";
-	private static final String FRAGMENT_CONFIRM_EMAIL = "FRAGMENT_CONFIRM_EMAIL";
-	private static final String FRAGMENT_IDENTITY_CREATED = "FRAGMENT_IDENTITY_CREATED";
-	private static final String FRAGMENT_OTP = "FRAGMENT_OTP";
-	private static final String FRAGMENT_SUCCESSFUL_LOGIN = "FRAGMENT_SUCCESSFUL_LOGIN";
-	private static final String FRAGMENT_IDENTITY_BLOCKED = "FRAGMENT_IDENTITY_BLOCKED";
-	private static final String FRAGMENT_ABOUT = "FRAGMENT_ABOUT";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +113,6 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 
 	@Override
 	public void onBackPressed() {
-		Log.i(TAG, "onBackPressed");
 		mController.handleMessage(MPinController.MESSAGE_GO_BACK_REQUEST);
 	}
 
@@ -162,48 +148,49 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 			}
 			return true;
 		case MPinController.MESSAGE_SHOW_CONFIGURATIONS_LIST:
-			createAndAddFragment(FRAGMENT_CONFIGURATIONS_LIST,
+			createAndAddFragment(FragmentTags.FRAGMENT_CONFIGURATIONS_LIST,
 					ConfigsListFragment.class, false, null);
 			return true;
 		case MPinController.MESSAGE_SHOW_CONFIGURATION_EDIT:
-			createAndAddFragment(FRAGMENT_CONFIGURATION_EDIT,
+			createAndAddFragment(FragmentTags.FRAGMENT_CONFIGURATION_EDIT,
 					ConfigDetailFragment.class, false, msg.arg1);
 			return true;
 		case MPinController.MESSAGE_SHOW_ABOUT:
-			createAndAddFragment(FRAGMENT_ABOUT, AboutFragment.class, false,
-					null);
+			createAndAddFragment(FragmentTags.FRAGMENT_ABOUT,
+					AboutFragment.class, false, null);
 			return true;
 		case MPinController.MESSAGE_SHOW_IDENTITIES_LIST:
-			createAndAddFragment(FRAGMENT_USERS_LIST, UsersListFragment.class,
-					false, null);
+			createAndAddFragment(FragmentTags.FRAGMENT_USERS_LIST,
+					UsersListFragment.class, false, null);
 			return true;
 		case MPinController.MESSAGE_SHOW_CREATE_IDENTITY:
-			createAndAddFragment(FRAGMENT_CREATE_IDENTITY,
+			createAndAddFragment(FragmentTags.FRAGMENT_CREATE_IDENTITY,
 					CreateIdentityFragment.class, false, null);
 			return true;
 		case MPinController.MESSAGE_SHOW_CONFIRM_EMAIL:
-			createAndAddFragment(FRAGMENT_CONFIRM_EMAIL,
+			createAndAddFragment(FragmentTags.FRAGMENT_CONFIRM_EMAIL,
 					ConfirmEmailFragment.class, false, null);
 			return true;
 		case MPinController.MESSAGE_SHOW_IDENTITY_CREATED:
-			createAndAddFragment(FRAGMENT_IDENTITY_CREATED,
+			createAndAddFragment(FragmentTags.FRAGMENT_IDENTITY_CREATED,
 					IdentityCreatedFragment.class, false, null);
 			return true;
 		case MPinController.MESSAGE_SHOW_ACCESS_NUMBER:
-			createAndAddFragment(FRAGMENT_ACCESS_NUMBER,
+			createAndAddFragment(FragmentTags.FRAGMENT_ACCESS_NUMBER,
 					AccessNumberFragment.class, false, null);
 			return true;
 		case MPinController.MESSAGE_SHOW_USER_BLOCKED:
-			createAndAddFragment(FRAGMENT_IDENTITY_BLOCKED,
+			createAndAddFragment(FragmentTags.FRAGMENT_IDENTITY_BLOCKED,
 					IdentityBlockedFragment.class, false, null);
 			return true;
 		case MPinController.MESSAGE_SHOW_LOGGED_IN:
-			createAndAddFragment(FRAGMENT_SUCCESSFUL_LOGIN,
+			createAndAddFragment(FragmentTags.FRAGMENT_SUCCESSFUL_LOGIN,
 					SuccessfulLoginFragment.class, false, null);
 			return true;
 		case MPinController.MESSAGE_SHOW_OTP:
 			OTP otp = (OTP) msg.obj;
-			createAndAddFragment(FRAGMENT_OTP, OTPFragment.class, false, otp);
+			createAndAddFragment(FragmentTags.FRAGMENT_OTP, OTPFragment.class,
+					false, otp);
 			return true;
 		case MPinController.MESSAGE_INCORRECT_PIN_AN:
 			showWrongPinDialog();
@@ -259,8 +246,6 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		if (mToolbar != null) {
 			mToolbar.setTitle("");
 			setSupportActionBar(mToolbar);
-			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-			getSupportActionBar().setDisplayShowHomeEnabled(true);
 		}
 	}
 
@@ -283,12 +268,12 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		initDrawerMenu();
 	}
 
-	private void enableDrawer() {
+	public void enableDrawer() {
 		mDrawerToggle.setDrawerIndicatorEnabled(true);
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 	}
 
-	private void disableDrawer() {
+	public void disableDrawer(OnClickListener drawerBackClickListener) {
 		// Disable the drawer from opening via swipe
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		mDrawerToggle.setDrawerIndicatorEnabled(false);
@@ -296,14 +281,8 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		mDrawerToggle
 				.setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
 
-		mDrawerToggle.setToolbarNavigationClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				mController
-						.handleMessage(MPinController.MESSAGE_ON_DRAWER_BACK);
-			}
-		});
+		mDrawerToggle
+				.setToolbarNavigationClickListener(drawerBackClickListener);
 	}
 
 	private void initDrawerMenu() {
@@ -373,6 +352,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 
 		FragmentTransaction transaction = getFragmentManager()
 				.beginTransaction();
+
 		transaction.replace(R.id.content, fragment, tag);
 		if (addToBackStack) {
 			transaction.addToBackStack(tag);
@@ -384,7 +364,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 	}
 
 	private void goBack() {
-		if (getFragmentManager().getBackStackEntryCount() > 0) {
+		if (getFragmentManager().getBackStackEntryCount() > 1) {
 			getFragmentManager().popBackStack();
 			return;
 		}
@@ -445,7 +425,8 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 
 			FragmentTransaction transaction = getFragmentManager()
 					.beginTransaction();
-			transaction.replace(R.id.content, pinPadFragment, FRAGMENT_PINPAD);
+			transaction.replace(R.id.content, pinPadFragment,
+					FragmentTags.FRAGMENT_PINPAD);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
 		}
@@ -458,7 +439,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 	// TODO: This is not done right, should be refactored
 	private PinPadFragment getPinPadFragment() {
 		return (PinPadFragment) getFragmentManager().findFragmentByTag(
-				FRAGMENT_PINPAD);
+				FragmentTags.FRAGMENT_PINPAD);
 	}
 
 	private void showAuthSuccessDialog() {

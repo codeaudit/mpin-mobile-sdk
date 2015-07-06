@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
 import com.example.mpinsdk.R;
 
@@ -43,6 +44,16 @@ public class AccessNumberFragment extends MPinFragment {
 
 	public void setAccessNumberLength(int length) {
 		mAccessNumberLength = length;
+	}
+
+	@Override
+	protected String getFragmentTag() {
+		return FragmentTags.FRAGMENT_ACCESS_NUMBER;
+	}
+
+	@Override
+	protected OnClickListener getDrawerBackClickListener() {
+		return null;
 	}
 
 	@Override

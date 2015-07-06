@@ -5,9 +5,11 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
 import com.certivox.models.OTP;
 import com.example.mpinsdk.R;
@@ -25,6 +27,16 @@ public class OTPFragment extends MPinFragment {
 	public void setData(Object otp) {
 		mOTP = (OTP) otp;
 
+	}
+
+	@Override
+	protected String getFragmentTag() {
+		return FragmentTags.FRAGMENT_OTP;
+	}
+
+	@Override
+	protected OnClickListener getDrawerBackClickListener() {
+		return null;
 	}
 
 	@Override
