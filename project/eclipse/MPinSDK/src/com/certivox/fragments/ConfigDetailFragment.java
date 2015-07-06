@@ -82,7 +82,7 @@ public class ConfigDetailFragment extends MPinFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		mView = inflater.inflate(R.layout.config_details_layout, container,
+		mView = inflater.inflate(R.layout.fragment_config_details, container,
 				false);
 		initViews();
 		initScreen();

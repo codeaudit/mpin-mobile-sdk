@@ -34,7 +34,7 @@ public class MPinController extends Controller {
 	private HandlerThread mWorkerThread;
 	private Handler mWorkerHandler;
 
-	private static final String PREF_LAST_USER = "MPinActivity.PREF_LAST_USER";
+	private static final String PREFERENCE_USER = "PREFERENCE_USER";
 	private Context mContext;
 	private static volatile Mpin sSDK;
 	private ConfigsDao mConfigsDao;
@@ -478,7 +478,7 @@ public class MPinController extends Controller {
 		}
 
 		String id = PreferenceManager.getDefaultSharedPreferences(mContext)
-				.getString(PREF_LAST_USER, "");
+				.getString(PREFERENCE_USER, "");
 
 		if (TextUtils.isEmpty(id)) {
 			return null;
@@ -642,10 +642,18 @@ public class MPinController extends Controller {
 	}
 
 	// TODO this should be in model
-	private void saveCurrentUser(User user) {
-		PreferenceManager.getDefaultSharedPreferences(mContext).edit()
-				.putString(PREF_LAST_USER, user != null ? user.getId() : "")
-				.commit();
+	private void saveCurrentUser(final User user) {
+		mWorkerHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				PreferenceManager
+						.getDefaultSharedPreferences(mContext)
+						.edit()
+						.putString(PREFERENCE_USER,
+								user != null ? user.getId() : "").commit();
+			}
+		});
 	}
 
 	// TODO this should be in model

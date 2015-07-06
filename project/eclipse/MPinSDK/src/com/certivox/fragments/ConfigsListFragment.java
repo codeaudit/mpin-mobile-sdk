@@ -73,7 +73,7 @@ public class ConfigsListFragment extends MPinFragment implements
 			Bundle savedInstanceState) {
 		setTooblarTitle(R.string.select_service_toolbar_title);
 
-		mView = inflater.inflate(R.layout.fragment_configurations_list,
+		mView = inflater.inflate(R.layout.fragment_configs_list,
 				container, false);
 		mSelectedConfiguraionId = -1;
 		disableDrawer();

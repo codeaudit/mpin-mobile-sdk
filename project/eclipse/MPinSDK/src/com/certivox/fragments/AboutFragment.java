@@ -54,7 +54,7 @@ public class AboutFragment extends MPinFragment {
 			Bundle savedInstanceState) {
 		disableDrawer();
 		setTooblarTitle(R.string.about_title);
-		mView = inflater.inflate(R.layout.about_layout, container, false);
+		mView = inflater.inflate(R.layout.fragment_about, container, false);
 		initViews();
 		setVersion();
 		return mView;

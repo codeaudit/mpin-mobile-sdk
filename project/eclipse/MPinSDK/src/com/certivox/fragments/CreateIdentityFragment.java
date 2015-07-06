@@ -57,7 +57,7 @@ public class CreateIdentityFragment extends MPinFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		mView = inflater.inflate(R.layout.create_identity_layout, container,
+		mView = inflater.inflate(R.layout.fragment_create_identity, container,
 				false);
 		initViews();
 		return mView;

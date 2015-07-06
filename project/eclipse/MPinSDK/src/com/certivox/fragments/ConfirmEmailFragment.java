@@ -59,7 +59,7 @@ public class ConfirmEmailFragment extends MPinFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		mView = inflater.inflate(R.layout.confirm_email_layout, container,
+		mView = inflater.inflate(R.layout.fragment_confirm_email, container,
 				false);
 
 		initViews();

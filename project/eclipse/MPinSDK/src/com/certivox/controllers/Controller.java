@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 abstract public class Controller {
 

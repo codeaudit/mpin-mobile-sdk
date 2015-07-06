@@ -23,7 +23,7 @@ public class SuccessfulLoginFragment extends MPinFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		mView = inflater.inflate(R.layout.successful_login_layout, container,
+		mView = inflater.inflate(R.layout.fragment_successful_login, container,
 				false);
 
 		mUserEmailTextView = (TextView) mView.findViewById(R.id.user_email);

@@ -77,7 +77,7 @@ public class AccessNumberFragment extends MPinFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		mView = inflater.inflate(R.layout.access_number_activity, container,
+		mView = inflater.inflate(R.layout.fragment_access_number, container,
 				false);
 
 		initViews();

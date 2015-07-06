@@ -51,7 +51,7 @@ public class UsersListFragment extends MPinFragment implements OnClickListener,
 			Bundle savedInstanceState) {
 		setHasOptionsMenu(true);
 		enableDrawer();
-		mView = inflater.inflate(R.layout.users_list_layout, container, false);
+		mView = inflater.inflate(R.layout.fragment_users_list, container, false);
 		initViews();
 		initScreen();
 

@@ -43,7 +43,7 @@ public class OTPFragment extends MPinFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		mView = inflater.inflate(R.layout.otp_layout, container, false);
+		mView = inflater.inflate(R.layout.fragment_otp, container, false);
 		initViews();
 
 		return mView;

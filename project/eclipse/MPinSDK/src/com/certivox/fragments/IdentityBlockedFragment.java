@@ -49,7 +49,7 @@ public class IdentityBlockedFragment extends MPinFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		mView = inflater.inflate(R.layout.identity_blocked_layout, container,
+		mView = inflater.inflate(R.layout.fragment_identity_blocked, container,
 				false);
 
 		initViews();
