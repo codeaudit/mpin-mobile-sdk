@@ -39,11 +39,11 @@ public class AccessNumberFragment extends MPinFragment {
 	private EditText mPinEditText;
 
 	private OnClickListener mOnDigitClickListener;
-	private int mAccessNumberLength = 7;
+	private int mAccessNumberLength;
 	private final StringBuilder mInput = new StringBuilder();
 
-	public void setAccessNumberLength(int length) {
-		mAccessNumberLength = length;
+	private void setAccessNumberLength() {
+		mAccessNumberLength = getMPinController().getAccessNumberLength();
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class AccessNumberFragment extends MPinFragment {
 			Bundle savedInstanceState) {
 		mView = inflater.inflate(R.layout.fragment_access_number, container,
 				false);
-
+		setAccessNumberLength();
 		initViews();
 		initAccessNumber();
 		return mView;

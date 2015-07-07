@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -53,6 +52,8 @@ public class ConfigsListFragment extends MPinFragment implements
 			public void onClick(View v) {
 				if (mSelectedConfiguraionId == -1) {
 					showNoSelectedConfigurationDialog();
+				} else if (getMPinController().getActiveConfiguration() == null) {
+					showNoActivatedConfigurationDialog();
 				} else {
 					getMPinController().handleMessage(
 							MPinController.MESSAGE_ON_DRAWER_BACK);
@@ -73,8 +74,8 @@ public class ConfigsListFragment extends MPinFragment implements
 			Bundle savedInstanceState) {
 		setTooblarTitle(R.string.select_service_toolbar_title);
 
-		mView = inflater.inflate(R.layout.fragment_configs_list,
-				container, false);
+		mView = inflater.inflate(R.layout.fragment_configs_list, container,
+				false);
 		mSelectedConfiguraionId = -1;
 		disableDrawer();
 		initViews();
@@ -224,6 +225,13 @@ public class ConfigsListFragment extends MPinFragment implements
 		new AlertDialog.Builder(getActivity())
 				.setTitle("No selected configuration")
 				.setMessage("Please, choose a configuration")
+				.setPositiveButton("OK", null).show();
+	}
+
+	private void showNoActivatedConfigurationDialog() {
+		new AlertDialog.Builder(getActivity())
+				.setTitle("No activated configuration")
+				.setMessage("Please, activate a configuration")
 				.setPositiveButton("OK", null).show();
 	}
 }

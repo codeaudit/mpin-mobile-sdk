@@ -43,6 +43,8 @@ public class MPinController extends Controller {
 	private Config mCurrentConfiguration;
 	private String mCurrentFragmentTag;
 
+	private String mAccessNumberLength;
+
 	// Receive Messages
 	public static final int MESSAGE_ON_CREATE = 0;
 	public static final int MESSAGE_ON_DESTROY = 1;
@@ -433,8 +435,9 @@ public class MPinController extends Controller {
 	private Mpin getSdk() {
 		try {
 			synchronized (mSDKLockObject) {
-				while (sSDK == null)
+				while (sSDK == null) {
 					mSDKLockObject.wait();
+				}
 				return sSDK;
 			}
 		} catch (InterruptedException e) {
@@ -707,6 +710,33 @@ public class MPinController extends Controller {
 		} else if (mCurrentFragmentTag
 				.equals(FragmentTags.FRAGMENT_CONFIGURATION_EDIT)) {
 			notifyOutboxHandlers(MESSAGE_SHOW_CONFIGURATIONS_LIST, 0, 0, null);
+		}
+	}
+
+	public int getAccessNumberLength() {
+
+		mWorkerHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				synchronized (mSDKLockObject) {
+					mAccessNumberLength = getSdk().GetClientParam(
+							"accessNumberDigits");
+					mSDKLockObject.notifyAll();
+				}
+			}
+		});
+
+		synchronized (mSDKLockObject) {
+			try {
+				while (mAccessNumberLength == null) {
+					mSDKLockObject.wait();
+				}
+				return Integer.parseInt(mAccessNumberLength);
+			} catch (InterruptedException e) {
+				// 7 is the default value, maybe it should be in constant
+				return 7;
+			}
 		}
 	}
 }
