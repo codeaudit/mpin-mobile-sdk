@@ -30,7 +30,7 @@ public class UsersAdapter extends BaseAdapter {
 		synchronized (mUsersList) {
 			mUsersList.clear();
 			mUsersList.addAll(data);
-			notifyDataSetChanged();
+			this.notifyDataSetChanged();
 		}
 	}
 
@@ -92,14 +92,13 @@ public class UsersAdapter extends BaseAdapter {
 							R.color.selected_item_background));
 			holder.getTextView().setCompoundDrawablesWithIntrinsicBounds(
 					mContext.getResources().getDrawable(
-							R.drawable.ic_avatar_selected), null, null,
-					null);
+							R.drawable.ic_avatar_selected), null, null, null);
 		} else {
 			holder.getTextView().setBackgroundColor(
 					mContext.getResources().getColor(R.color.white));
 			holder.getTextView().setCompoundDrawablesWithIntrinsicBounds(
-					mContext.getResources().getDrawable(
-							R.drawable.ic_avatar), null, null, null);
+					mContext.getResources().getDrawable(R.drawable.ic_avatar),
+					null, null, null);
 		}
 		return convertView;
 	}

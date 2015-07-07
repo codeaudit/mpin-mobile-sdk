@@ -387,6 +387,8 @@ public class MPinActivity extends BaseMPinActivity implements PinPadController {
 					.commit();
 			getFragmentManager().executePendingTransactions();
 			enableDrawer();
+		} else {
+			getUsersListFragment().setListAdapter(usersAdapter);
 		}
 
 	}
