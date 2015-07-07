@@ -200,7 +200,7 @@ public class ConfigDetailFragment extends MPinFragment implements
 		String serviceName = mServiceNameEditText.getText().toString();
 		mConfig.setTitle(serviceName);
 		// Setting service url
-		String backendUrl = mServiceUrlEditText.getText().toString();
+		String backendUrl = mServiceUrlEditText.getText().toString().trim();
 		mConfig.setBackendUrl(backendUrl);
 		String rts = mServiceRTSEditText.getText().toString();
 		// Setting rts
@@ -232,7 +232,8 @@ public class ConfigDetailFragment extends MPinFragment implements
 	}
 
 	private void onCheckConfigClicked() {
-		String backendUrl = mServiceUrlEditText.getText().toString();
+		String backendUrl = mServiceUrlEditText.getText().toString().trim();
+		mServiceUrlEditText.setText(backendUrl);
 		if (!URLUtil.isValidUrl(backendUrl)) {
 			showInvalidURLDialog();
 		} else {
@@ -242,7 +243,8 @@ public class ConfigDetailFragment extends MPinFragment implements
 	}
 
 	private void onSaveConfigClicked() {
-		String backendUrl = mServiceUrlEditText.getText().toString();
+		String backendUrl = mServiceUrlEditText.getText().toString().trim();
+		mServiceUrlEditText.setText(backendUrl);
 		if (isEmptyTitle()) {
 			showEmptyTitleDialog();
 		} else if (mConfigId != -1 && !mConfigURL.equals(backendUrl)) {
