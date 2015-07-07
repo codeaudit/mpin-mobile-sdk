@@ -129,6 +129,8 @@ static NSString *const kUser = @"User";
         return;
     }
 
+    self.txtIdentity.text = [self.txtIdentity.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
     if ( ![self isValidEmail:self.txtIdentity.text] )
     {
         [[ErrorHandler sharedManager] presentMessageInViewController:self

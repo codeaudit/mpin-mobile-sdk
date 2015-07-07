@@ -734,8 +734,7 @@ public class MPinController extends Controller {
 				}
 				return Integer.parseInt(mAccessNumberLength);
 			} catch (InterruptedException e) {
-				// 7 is the default value, maybe it should be in constant
-				return 7;
+				return -1;
 			}
 		}
 	}
