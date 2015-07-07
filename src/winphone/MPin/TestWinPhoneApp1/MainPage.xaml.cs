@@ -59,7 +59,7 @@ namespace MPinDemo
                 // if no param passed - we consider to be the initial load and navigate to a screen depending on the last selected user state
                 if (!MainFrame.Navigate(typeof(BlankPage1), string.IsNullOrEmpty(parameter) ? "InitialLoad" : parameter))
                 {
-                    throw new Exception("Failed to create main screen");
+                    throw new Exception("Failed to create main screen"); 
                 }
             }
         }
