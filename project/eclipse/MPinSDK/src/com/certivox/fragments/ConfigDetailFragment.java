@@ -234,6 +234,7 @@ public class ConfigDetailFragment extends MPinFragment implements
 	private void onCheckConfigClicked() {
 		String backendUrl = mServiceUrlEditText.getText().toString().trim();
 		mServiceUrlEditText.setText(backendUrl);
+		mServiceUrlEditText.setSelection(backendUrl.length());
 		if (!URLUtil.isValidUrl(backendUrl)) {
 			showInvalidURLDialog();
 		} else {
@@ -245,6 +246,7 @@ public class ConfigDetailFragment extends MPinFragment implements
 	private void onSaveConfigClicked() {
 		String backendUrl = mServiceUrlEditText.getText().toString().trim();
 		mServiceUrlEditText.setText(backendUrl);
+		mServiceUrlEditText.setSelection(backendUrl.length());
 		if (isEmptyTitle()) {
 			showEmptyTitleDialog();
 		} else if (mConfigId != -1 && !mConfigURL.equals(backendUrl)) {

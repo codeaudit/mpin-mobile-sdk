@@ -119,6 +119,7 @@ public class CreateIdentityFragment extends MPinFragment implements
 		closeKeyBoard();
 		String email = mEmailEditText.getText().toString().trim();
 		mEmailEditText.setText(email);
+		mEmailEditText.setSelection(email.length());
 		if (validateEmail(email)) {
 			getMPinController().handleMessage(
 					MPinController.MESSAGE_CREATE_IDENTITY, email);
