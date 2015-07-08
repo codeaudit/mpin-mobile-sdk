@@ -197,12 +197,12 @@ public class ConfigDetailFragment extends MPinFragment implements
 
 	private Config getConfig() {
 		// Setting service name
-		String serviceName = mServiceNameEditText.getText().toString();
+		String serviceName = mServiceNameEditText.getText().toString().trim();
 		mConfig.setTitle(serviceName);
 		// Setting service url
 		String backendUrl = mServiceUrlEditText.getText().toString().trim();
 		mConfig.setBackendUrl(backendUrl);
-		String rts = mServiceRTSEditText.getText().toString();
+		String rts = mServiceRTSEditText.getText().toString().trim();
 		// Setting rts
 		mConfig.setRTS(rts);
 		// Set OTP
