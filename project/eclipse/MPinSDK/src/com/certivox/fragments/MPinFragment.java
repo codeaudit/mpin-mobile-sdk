@@ -2,10 +2,13 @@ package com.certivox.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 
 import com.certivox.activities.MPinActivity;
 import com.certivox.controllers.MPinController;
@@ -36,6 +39,7 @@ public abstract class MPinFragment extends Fragment implements Handler.Callback 
 		}
 
 		mMPinController.setCurrentFragmentTag(getFragmentTag());
+		hideKeyboard();
 	}
 
 	@Override
@@ -65,5 +69,9 @@ public abstract class MPinFragment extends Fragment implements Handler.Callback 
 	protected void disableDrawer() {
 		((MPinActivity) getActivity())
 				.disableDrawer(getDrawerBackClickListener());
+	}
+
+	private void hideKeyboard() {
+		((MPinActivity) getActivity()).hideKeyboard();
 	}
 }

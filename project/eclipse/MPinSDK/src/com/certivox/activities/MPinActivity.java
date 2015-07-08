@@ -7,6 +7,7 @@ import net.hockeyapp.android.FeedbackManager;
 import net.hockeyapp.android.UpdateManager;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -260,6 +262,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 
 			/** Called when a drawer has settled in a completely open state. */
 			public void onDrawerOpened(View drawerView) {
+				hideKeyboard();
 				super.onDrawerOpened(drawerView);
 			}
 		};
@@ -453,5 +456,17 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		new AlertDialog.Builder(this).setTitle("OTP not supported")
 				.setMessage("The configuration does not support OTP")
 				.setPositiveButton("OK", null).show();
+	}
+
+	public void hideKeyboard() {
+		// Check if no view has focus:
+		View view = this.getCurrentFocus();
+		if (view != null) {
+			InputMethodManager inputManager = (InputMethodManager) this
+					.getSystemService(Context.INPUT_METHOD_SERVICE);
+			inputManager.hideSoftInputFromWindow(view.getWindowToken(),
+					InputMethodManager.HIDE_NOT_ALWAYS);
+			view.clearFocus();
+		}
 	}
 }
