@@ -68,7 +68,11 @@ namespace MPinDemo
                 {
                     DeviceName.Text = !string.IsNullOrEmpty(this.CachedDeviceName) ? this.CachedDeviceName : DefaultDeviceName;
                 }
-            }            
+            }
+
+            //This code opens up the keyboard when you navigate to the page.
+            this.UserId.UpdateLayout();
+            this.UserId.Focus(FocusState.Keyboard);
         }
 
         public string eMail
@@ -154,7 +158,6 @@ namespace MPinDemo
             if (DeviceName.Text != DefaultDeviceName || (!string.IsNullOrEmpty(this.CachedDeviceName) && !this.CachedDeviceName.Equals(DeviceName.Text)))
             {
                 BlankPage1.SavePropertyState("DeviceName", DeviceName.Text);
-                //ApplicationData.Current.RoamingSettings.Values["DeviceName"].ToString();
             }            
         }
     }
