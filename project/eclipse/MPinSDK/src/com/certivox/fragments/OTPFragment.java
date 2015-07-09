@@ -26,7 +26,6 @@ public class OTPFragment extends MPinFragment {
 	@Override
 	public void setData(Object otp) {
 		mOTP = (OTP) otp;
-
 	}
 
 	@Override
