@@ -22,6 +22,7 @@ public class AccessNumberFragment extends MPinFragment {
 			.getCanonicalName();
 
 	private View mView;
+	private TextView mAccessNumberTitle;
 
 	private TextView mUserEmail;
 	private TextView mDigit0;
@@ -88,6 +89,13 @@ public class AccessNumberFragment extends MPinFragment {
 	@Override
 	protected void initViews() {
 		setTooblarTitle(R.string.access_number_title);
+		mAccessNumberTitle = (TextView) mView
+				.findViewById(R.id.access_number_title);
+
+		mAccessNumberTitle.setText(String.format(
+				getResources().getString(R.string.access_number_text),
+				mAccessNumberLength));
+
 		mPinEditText = (EditText) mView.findViewById(R.id.pinpad_input);
 		mPinEditText.setRawInputType(InputType.TYPE_CLASS_TEXT);
 		mPinEditText.setTextIsSelectable(true);
