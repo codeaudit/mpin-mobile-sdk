@@ -178,6 +178,7 @@
 		9649BCC41AC16D1000B9F41B /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A881A88C0E20068E0F7 /* OpenSans-Regular.ttf */; };
 		9649BCC51AC16D1000B9F41B /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A831A88C0E20068E0F7 /* OpenSans-ExtraBold.ttf */; };
 		964B121D1A93921C00FFB67A /* BackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 964B121C1A93921C00FFB67A /* BackButton.m */; };
+		964F19D11B4130E4000A03A5 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 964F19D01B4130E4000A03A5 /* Main_iPad.storyboard */; };
 		966EB9D41A8CF069004B936A /* ConfirmEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 966EB9D31A8CF069004B936A /* ConfirmEmailViewController.m */; };
 		968591A01AEE53EB00726E63 /* DimensionDataImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 968A180F1ACA8C70000C0DB0 /* DimensionDataImages.xcassets */; };
 		968591A11AEE53EE00726E63 /* CertivoxImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 968A180A1ACA8C58000C0DB0 /* CertivoxImages.xcassets */; };
@@ -197,8 +198,29 @@
 		968D0A441A7B93C00037841D /* UIColor+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 968D0A431A7B93C00037841D /* UIColor+Helper.m */; };
 		968E7A541AA06CA700A276A7 /* IdentityCreatedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E7A531AA06CA700A276A7 /* IdentityCreatedViewController.m */; };
 		968E7A571AA0818F00A276A7 /* MenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E7A561AA0818F00A276A7 /* MenuTableViewCell.m */; };
+		96925FB21B467EB9000D5AFA /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA7D1B1C492B00A68A03 /* AssetsLibrary.framework */; };
+		96925FB31B467EBF000D5AFA /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA7F1B1C493300A68A03 /* CoreText.framework */; };
+		96925FB41B467ED0000D5AFA /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA811B1C494B00A68A03 /* MobileCoreServices.framework */; };
+		96925FB51B467EDC000D5AFA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA831B1C495500A68A03 /* QuartzCore.framework */; };
+		96925FB61B467EE9000D5AFA /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA851B1C496000A68A03 /* QuickLook.framework */; };
+		96925FB71B467EF3000D5AFA /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA871B1C496900A68A03 /* Security.framework */; };
+		96925FB81B467EFB000D5AFA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA891B1C497400A68A03 /* SystemConfiguration.framework */; };
+		96925FB91B467F79000D5AFA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA891B1C497400A68A03 /* SystemConfiguration.framework */; };
+		96925FBA1B467F7F000D5AFA /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA871B1C496900A68A03 /* Security.framework */; };
+		96925FBB1B467F89000D5AFA /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA851B1C496000A68A03 /* QuickLook.framework */; };
+		96925FBC1B467F8F000D5AFA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA831B1C495500A68A03 /* QuartzCore.framework */; };
+		96925FBD1B467F9B000D5AFA /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA811B1C494B00A68A03 /* MobileCoreServices.framework */; };
+		96925FBE1B467FA0000D5AFA /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA7F1B1C493300A68A03 /* CoreText.framework */; };
+		96925FBF1B467FB3000D5AFA /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA7D1B1C492B00A68A03 /* AssetsLibrary.framework */; };
 		9699B2521AADF7F0008AA313 /* TextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699B2511AADF7F0008AA313 /* TextFieldTableViewCell.m */; };
 		9699B2551AADF812008AA313 /* OptionSelectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699B2541AADF812008AA313 /* OptionSelectTableViewCell.m */; };
+		96AE726E1B440A6900171D05 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA891B1C497400A68A03 /* SystemConfiguration.framework */; };
+		96AE726F1B440A7500171D05 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA871B1C496900A68A03 /* Security.framework */; };
+		96AE72701B440A8100171D05 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA851B1C496000A68A03 /* QuickLook.framework */; };
+		96AE72711B440A8D00171D05 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA831B1C495500A68A03 /* QuartzCore.framework */; };
+		96AE72721B440AC000171D05 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA811B1C494B00A68A03 /* MobileCoreServices.framework */; };
+		96AE72731B440AD100171D05 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA7F1B1C493300A68A03 /* CoreText.framework */; };
+		96AE72741B440ADC00171D05 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA7D1B1C492B00A68A03 /* AssetsLibrary.framework */; };
 		96B27CAC1ACACE92007145C2 /* MPin+AsyncOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = FE8129661ABAB61B008677CE /* MPin+AsyncOperations.m */; };
 		96C88F461AC42B6E00A5F27A /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A261AC311D000B25B53 /* AboutViewController.m */; };
 		96C88F471AC42B7D00A5F27A /* ConfigurationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A211AC30FAF00B25B53 /* ConfigurationManager.m */; };
@@ -243,7 +265,6 @@
 		96F7EA861B1C496000A68A03 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA851B1C496000A68A03 /* QuickLook.framework */; };
 		96F7EA881B1C496900A68A03 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA871B1C496900A68A03 /* Security.framework */; };
 		96F7EA8A1B1C497400A68A03 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA891B1C497400A68A03 /* SystemConfiguration.framework */; };
-		96F7EA8C1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA8B1B1C49F200A68A03 /* HockeySDK.framework */; };
 		96F7EA8D1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA8B1B1C49F200A68A03 /* HockeySDK.framework */; };
 		96F7EA8E1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA8B1B1C49F200A68A03 /* HockeySDK.framework */; };
 		96F7EA8F1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA8B1B1C49F200A68A03 /* HockeySDK.framework */; };
@@ -316,6 +337,7 @@
 		9649BCCA1AC16D1000B9F41B /* DD MPin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DD MPin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		964B121B1A93921C00FFB67A /* BackButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BackButton.h; path = ../../../../src/ios/MPinApp/BackButton.h; sourceTree = "<group>"; };
 		964B121C1A93921C00FFB67A /* BackButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BackButton.m; path = ../../../../src/ios/MPinApp/BackButton.m; sourceTree = "<group>"; };
+		964F19D01B4130E4000A03A5 /* Main_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main_iPad.storyboard; sourceTree = "<group>"; };
 		966EB9D21A8CF069004B936A /* ConfirmEmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfirmEmailViewController.h; path = ../../../../src/ios/MPinApp/ConfirmEmailViewController.h; sourceTree = "<group>"; };
 		966EB9D31A8CF069004B936A /* ConfirmEmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = ConfirmEmailViewController.m; path = ../../../../src/ios/MPinApp/ConfirmEmailViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		968591AD1AF0BAAF00726E63 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main_iPhone.strings; sourceTree = "<group>"; };
@@ -428,6 +450,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96925FB81B467EFB000D5AFA /* SystemConfiguration.framework in Frameworks */,
+				96925FB71B467EF3000D5AFA /* Security.framework in Frameworks */,
+				96925FB61B467EE9000D5AFA /* QuickLook.framework in Frameworks */,
+				96925FB51B467EDC000D5AFA /* QuartzCore.framework in Frameworks */,
+				96925FB41B467ED0000D5AFA /* MobileCoreServices.framework in Frameworks */,
+				96925FB31B467EBF000D5AFA /* CoreText.framework in Frameworks */,
+				96925FB21B467EB9000D5AFA /* AssetsLibrary.framework in Frameworks */,
 				96130E421AEE4867005D2A86 /* libMPinSDK.a in Frameworks */,
 				96130E431AEE4867005D2A86 /* CoreGraphics.framework in Frameworks */,
 				96130E441AEE4867005D2A86 /* UIKit.framework in Frameworks */,
@@ -442,8 +471,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96130E8C1AEE490A005D2A86 /* libMPinSDK.a in Frameworks */,
+				96925FBF1B467FB3000D5AFA /* AssetsLibrary.framework in Frameworks */,
 				96130E8D1AEE490A005D2A86 /* CoreGraphics.framework in Frameworks */,
+				96925FBE1B467FA0000D5AFA /* CoreText.framework in Frameworks */,
+				96925FBD1B467F9B000D5AFA /* MobileCoreServices.framework in Frameworks */,
+				96925FBC1B467F8F000D5AFA /* QuartzCore.framework in Frameworks */,
+				96925FBB1B467F89000D5AFA /* QuickLook.framework in Frameworks */,
+				96925FBA1B467F7F000D5AFA /* Security.framework in Frameworks */,
+				96925FB91B467F79000D5AFA /* SystemConfiguration.framework in Frameworks */,
+				96130E8C1AEE490A005D2A86 /* libMPinSDK.a in Frameworks */,
 				96130E8E1AEE490A005D2A86 /* UIKit.framework in Frameworks */,
 				96F7EA8F1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */,
 				96130E8F1AEE490A005D2A86 /* Foundation.framework in Frameworks */,
@@ -456,8 +492,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96DA33F81ACD54C300B2CAAB /* libMPinSDK.a in Frameworks */,
+				96AE72741B440ADC00171D05 /* AssetsLibrary.framework in Frameworks */,
+				96AE72731B440AD100171D05 /* CoreText.framework in Frameworks */,
 				9649BCAC1AC16D1000B9F41B /* CoreGraphics.framework in Frameworks */,
+				96AE72721B440AC000171D05 /* MobileCoreServices.framework in Frameworks */,
+				96AE72711B440A8D00171D05 /* QuartzCore.framework in Frameworks */,
+				96AE72701B440A8100171D05 /* QuickLook.framework in Frameworks */,
+				96AE726F1B440A7500171D05 /* Security.framework in Frameworks */,
+				96AE726E1B440A6900171D05 /* SystemConfiguration.framework in Frameworks */,
+				96DA33F81ACD54C300B2CAAB /* libMPinSDK.a in Frameworks */,
 				9649BCAD1AC16D1000B9F41B /* UIKit.framework in Frameworks */,
 				96F7EA8D1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */,
 				9649BCAE1AC16D1000B9F41B /* Foundation.framework in Frameworks */,
@@ -478,7 +521,6 @@
 				FE49001D1A1A3CEB000030A4 /* CoreGraphics.framework in Frameworks */,
 				96F7EA801B1C493300A68A03 /* CoreText.framework in Frameworks */,
 				96F7EA7E1B1C492B00A68A03 /* AssetsLibrary.framework in Frameworks */,
-				96F7EA8C1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */,
 				96DA33F91ACD54D700B2CAAB /* libMPinSDK.a in Frameworks */,
 				FE49001F1A1A3CEB000030A4 /* UIKit.framework in Frameworks */,
 				FE49001B1A1A3CEB000030A4 /* Foundation.framework in Frameworks */,
@@ -675,6 +717,7 @@
 			isa = PBXGroup;
 			children = (
 				FEFFDDF01A1A4268007C7CAA /* Main_iPhone.storyboard */,
+				964F19D01B4130E4000A03A5 /* Main_iPad.storyboard */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1057,6 +1100,7 @@
 				960D6A9D1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				FE4900251A1A3CEB000030A4 /* InfoPlist.strings in Resources */,
 				960D6A9B1A88C0E20068E0F7 /* OpenSans-Regular.ttf in Resources */,
+				964F19D11B4130E4000A03A5 /* Main_iPad.storyboard in Resources */,
 				960D6A961A88C0E20068E0F7 /* OpenSans-ExtraBold.ttf in Resources */,
 				968591A11AEE53EE00726E63 /* CertivoxImages.xcassets in Resources */,
 			);

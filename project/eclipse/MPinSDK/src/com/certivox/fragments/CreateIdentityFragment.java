@@ -31,7 +31,8 @@ public class CreateIdentityFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		mView = inflater.inflate(R.layout.create_identity_layout, container, false);
+		mView = inflater.inflate(R.layout.create_identity_layout, container,
+				false);
 		initViews();
 		return mView;
 	}
@@ -45,7 +46,8 @@ public class CreateIdentityFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				closeKeyBoard();
-				String email = mEmailEditText.getText().toString();
+				String email = mEmailEditText.getText().toString().trim();
+				mEmailEditText.setText(email);
 				if (validateEmail(email)) {
 					mMpinController.createNewUser(email);
 				} else {

@@ -61,6 +61,19 @@
 			<key>CONFIG_NAME</key>
 			<string>Online banking login</string>
 		</dict>
-	</array>
+	</array>	<key>HOCKEYAPP_ID</key>
+	<string>0333b64530b6e80617d820942540baeb</string>
+	<key>URL_MOBILE_GUIDE</key>
+	<string>http://www.certivox.com/mobile-app</string>
+	<key>URL_SDK</key>
+	<string>https://github.com/CertiVox</string>
+	<key>URL_HOMEPAGE</key>
+	<string>https://www.certivox.com/</string>
+	<key>URL_SUPPORT</key>
+	<string>https://www.certivox.com/support</string>
+	<key>URL_TERMS</key>
+	<string>https://www.certivox.com/about-certivox/terms-and-conditions</string>
+	<key>URL_VALUES</key>
+	<string>https://www.certivox.com/about-certivox/security-privacy/</string>
 </dict>
 </plist>

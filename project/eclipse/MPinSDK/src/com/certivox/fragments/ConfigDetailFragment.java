@@ -233,7 +233,9 @@ public class ConfigDetailFragment extends Fragment {
 
 	private int checkBackend() {
 		controller.showLoader();
-		final String backendUrl = mServiceUrlEditText.getText().toString();
+		final String backendUrl = mServiceUrlEditText.getText().toString()
+				.trim();
+		mServiceUrlEditText.setText(backendUrl);
 		if (!URLUtil.isValidUrl(backendUrl)) {
 			controller.hideLoader();
 			return INVALID_URL;
@@ -264,7 +266,9 @@ public class ConfigDetailFragment extends Fragment {
 	}
 
 	private void preSaveConfiguration() {
-		final String backendUrl = mServiceUrlEditText.getText().toString();
+		final String backendUrl = mServiceUrlEditText.getText().toString()
+				.trim();
+		mServiceUrlEditText.setText(backendUrl);
 		if (mConfigId != -1 && !mConfigURL.equals(backendUrl)) {
 			new AlertDialog.Builder(getActivity())
 					.setTitle("Updating configuration")
