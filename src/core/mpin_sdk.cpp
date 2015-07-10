@@ -368,6 +368,10 @@ void MPinSDK::HttpResponse::SetHttpError(int httpStatus)
     {
         m_mpinStatus.SetStatusCode(Status::HTTP_REQUEST_ERROR);
     }
+    else if(httpStatus >= 300)
+    {
+        m_mpinStatus.SetStatusCode(Status::NETWORK_ERROR);
+    }
     else
     {
         // TODO: What to do if server returns 2xx (but not 200) or 3xx?

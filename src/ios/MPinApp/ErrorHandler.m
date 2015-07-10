@@ -51,6 +51,7 @@
     if (self)
     {
         self.hud = [[CVXATMHud alloc] initWithDelegate:self];
+       
     }
     return self;
 }
