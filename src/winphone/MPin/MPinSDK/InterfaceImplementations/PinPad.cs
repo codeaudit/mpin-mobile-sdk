@@ -42,41 +42,34 @@ namespace MPinSDK
             UIDispatcher.Initialize(dispatcher);
         }
 
-        public string Show(Mode mode)
+        public string Show(UserWrapper user, Mode mode)
         {
             this.Pin = string.Empty;
             lock (LockObject)
             {
                 countDownEvent = new CountdownEvent(1);
-                Task.Run(async () => { await DoAll(mode); }).Wait();
+                Task.Run(async () => { await DoAll(user, mode); }).Wait();
             }
 
             return this.Pin;
         }
 
-        private async Task DoAll(Mode mode)
+        private async Task DoAll(UserWrapper user, Mode mode)
         {
-            await DisplayPinPadAsync(mode);
+            await DisplayPinPadAsync(user, mode);
             Task.WaitAll();
             await Task.Delay(2000);
             await TakePinPad();
             countDownEvent.Wait();
         }
 
-        public async Task DisplayPinPadAsync(Mode mode)
+        public async Task DisplayPinPadAsync(UserWrapper user, Mode mode)
         {
             UIDispatcher.Initialize(this.Dispatcher);
             await ThreadPool.RunAsync(operation => UIDispatcher.Execute(() =>
             {
-                Frame rootFrame = Window.Current.Content as Frame;
-                string userId = string.Empty;
-                IUser userScreen = rootFrame.Content as IUser;
-                if (userScreen != null)
-                {
-                    userId = userScreen.GetUserId();
-                }
-
-                rootFrame.Navigate(typeof(PinPadPage), new List<object> { this, mode == Mode.AUTHENTICATE, userId });
+                Frame rootFrame = Window.Current.Content as Frame;                
+                rootFrame.Navigate(typeof(PinPadPage), new List<object> { this, mode == Mode.AUTHENTICATE, user.GetId() });
                 Window.Current.Activate();
             }));
         }

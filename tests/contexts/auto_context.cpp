@@ -12,6 +12,7 @@ typedef MPinSDK::String String;
 typedef MPinSDK::IHttpRequest IHttpRequest;
 typedef MPinSDK::IPinPad IPinPad;
 typedef MPinSDK::CryptoType CryptoType;
+typedef MPinSDK::UserPtr UserPtr;
 
 /*
  * Storage class impl
@@ -56,7 +57,7 @@ public:
         m_pin = pin;
     }
 
-    virtual String Show(Mode mode)
+    virtual String Show(UserPtr user, Mode mode)
     {
         return m_pin;
     }
