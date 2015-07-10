@@ -4,7 +4,7 @@
     android:layout_height="match_parent" >
 
     <Button
-        android:id="@+id/add_identity"
+        android:id="@+id/create_identity_button"
         style="@style/RaisedButtonWhite"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -22,10 +22,19 @@
         android:text="@string/add_identity_button"
         android:textAllCaps="false"
         android:textColor="@color/base_text_color"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+    <ListView
+        android:id="@id/android:list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:visibility="gone" >
+    </ListView>
 
     <ImageButton
-        android:id="@+id/add_user_button"
+        android:id="@+id/create_identity_fa_button"
         style="@style/FloatingActionButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"

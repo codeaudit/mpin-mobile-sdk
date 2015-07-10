@@ -2,6 +2,7 @@ package com.certivox.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +12,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.certivox.interfaces.PinPadController;
 import com.certivox.models.User;
 import com.certivox.mpin.R;
 
 public class PinPadFragment extends Fragment {
 
-	private PinPadController mMpinController;
+	private User mUser;
 
 	private View mView;
 	private TextView mUserEmail;
@@ -41,8 +41,8 @@ public class PinPadFragment extends Fragment {
 	private final StringBuilder mInput = new StringBuilder();
 	private volatile boolean mIsPinSet;
 
-	public void setController(PinPadController controller) {
-		mMpinController = controller;
+	public void setUser(User user) {
+		mUser = user;
 	}
 
 	public void setPinLength(int length) {
@@ -70,19 +70,19 @@ public class PinPadFragment extends Fragment {
 
 	@Override
 	public void onResume() {
-		mMpinController.disableContextToolbar();
-		if (mMpinController.getCurrentUser().getState()
-				.equals(User.State.REGISTERED)) {
-			mMpinController.setTooblarTitle(R.string.enter_pin_title);
+		if (mUser.getState().equals(User.State.REGISTERED)) {
+			((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(
+					R.string.enter_pin_title);
 		} else {
-			mMpinController.setTooblarTitle(R.string.setup_pin_title);
+			((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(
+					R.string.setup_pin_title);
 		}
 		super.onResume();
 	}
 
 	private void initViews() {
 		mUserEmail = (TextView) mView.findViewById(R.id.user_email);
-		mUserEmail.setText(mMpinController.getCurrentUser().getId());
+		mUserEmail.setText(mUser.getId());
 
 		mPinEditText = (EditText) mView.findViewById(R.id.pinpad_input);
 		mPinEditText.setRawInputType(InputType.TYPE_CLASS_TEXT);
@@ -132,12 +132,8 @@ public class PinPadFragment extends Fragment {
 				synchronized (PinPadFragment.this) {
 					if (!mIsPinSet) {
 						mIsPinSet = true;
-						if (mMpinController != null) {
-							mMpinController.onPinEntered(parsePin());
-						}
 						PinPadFragment.this.notifyAll();
 					}
-
 				}
 			}
 		});
