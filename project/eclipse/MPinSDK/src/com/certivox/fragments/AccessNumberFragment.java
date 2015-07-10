@@ -1,6 +1,5 @@
 package com.certivox.fragments;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.InputType;
@@ -8,12 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.certivox.constants.FragmentTags;
-import com.certivox.controllers.MPinController;
 import com.example.mpinsdk.R;
 
 public class AccessNumberFragment extends MPinFragment {
@@ -22,6 +21,7 @@ public class AccessNumberFragment extends MPinFragment {
 			.getCanonicalName();
 
 	private View mView;
+	private TextView mAccessNumberTitle;
 
 	private TextView mUserEmail;
 	private TextView mDigit0;
@@ -36,7 +36,7 @@ public class AccessNumberFragment extends MPinFragment {
 	private TextView mDigit9;
 	private ImageButton mButtonLogin;
 	private ImageButton mButtonClear;
-	private EditText mPinEditText;
+	private EditText mAccessNumberEditText;
 
 	private OnClickListener mOnDigitClickListener;
 	private int mAccessNumberLength;
@@ -58,15 +58,7 @@ public class AccessNumberFragment extends MPinFragment {
 
 	@Override
 	public boolean handleMessage(Message msg) {
-		switch (msg.what) {
-		case MPinController.MESSAGE_INCORRECT_ACCESS_NUMBER:
-			new AlertDialog.Builder(getActivity())
-					.setTitle("Incorrect Access Number!").setMessage("")
-					.setPositiveButton("OK", null).show();
-			return true;
-		default:
-			return true;
-		}
+		return true;
 	}
 
 	@Override
@@ -86,14 +78,31 @@ public class AccessNumberFragment extends MPinFragment {
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		// This is needed because when restarting the fragment the keyboard
+		// appears automatically on some devices
+		getActivity().getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+	}
+
+	@Override
 	protected void initViews() {
 		setTooblarTitle(R.string.access_number_title);
-		mPinEditText = (EditText) mView.findViewById(R.id.pinpad_input);
-		mPinEditText.setRawInputType(InputType.TYPE_CLASS_TEXT);
-		mPinEditText.setTextIsSelectable(true);
-		mPinEditText.setLongClickable(false);
-		mPinEditText.setClickable(false);
-		mPinEditText.requestFocus();
+		mAccessNumberTitle = (TextView) mView
+				.findViewById(R.id.access_number_title);
+
+		mAccessNumberTitle.setText(String.format(
+				getResources().getString(R.string.access_number_text),
+				mAccessNumberLength));
+
+		mAccessNumberEditText = (EditText) mView
+				.findViewById(R.id.pinpad_input);
+		mAccessNumberEditText.setRawInputType(InputType.TYPE_CLASS_TEXT);
+		mAccessNumberEditText.setTextIsSelectable(true);
+		mAccessNumberEditText.setLongClickable(false);
+		mAccessNumberEditText.setClickable(false);
+		mAccessNumberEditText.requestFocus();
 
 		mUserEmail = (TextView) mView.findViewById(R.id.user_email);
 		if (getMPinController().getCurrentUser() != null) {
@@ -161,8 +170,9 @@ public class AccessNumberFragment extends MPinFragment {
 	}
 
 	private void setAccessNumberInput(String title) {
-		mPinEditText.setText(title);
-		mPinEditText.setSelection(mPinEditText.getText().length());
+		mAccessNumberEditText.setText(title);
+		mAccessNumberEditText.setSelection(mAccessNumberEditText.getText()
+				.length());
 	}
 
 	private String parseAccessNumber() {

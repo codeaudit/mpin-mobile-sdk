@@ -547,11 +547,13 @@ public class MPinController extends Controller {
 
 	private void authenticateAN(final String accessNumber) {
 		Status status = getSdk().AuthenticateAN(getCurrentUser(), accessNumber);
+		Log.i(TAG, "AUTHENTICATION STATUS " + status.getStatusCode());
 		switch (status.getStatusCode()) {
 		case PIN_INPUT_CANCELED:
 			break;
 		case INCORRECT_ACCESS_NUMBER:
 			notifyOutboxHandlers(MESSAGE_INCORRECT_ACCESS_NUMBER, 0, 0, null);
+			notifyOutboxHandlers(MESSAGE_SHOW_ACCESS_NUMBER, 0, 0, null);
 			break;
 		case INCORRECT_PIN:
 			notifyOutboxHandlers(MESSAGE_SHOW_ACCESS_NUMBER, 0, 0, null);
