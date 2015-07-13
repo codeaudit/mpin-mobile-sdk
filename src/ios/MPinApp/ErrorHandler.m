@@ -93,7 +93,7 @@
                          minShowTime:(NSInteger) seconds
 {
     NSLog(@"%f",_hud.minShowTime);
-
+    _hud.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, [[UIScreen mainScreen] bounds].size.height / 4);
     _hud.minShowTime = seconds;
     [_hud setCaption:strError];
     
