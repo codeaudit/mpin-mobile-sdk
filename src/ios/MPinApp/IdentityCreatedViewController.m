@@ -31,8 +31,7 @@
 {
     [super viewDidLoad];
 
-    sdk = [[MPin alloc] init];
-    sdk.delegate = self;
+
     [[ThemeManager sharedManager] beautifyViewController:self];
 
     self.title = NSLocalizedString(@"ID_CREATED_TITLE", @"");
@@ -42,6 +41,10 @@
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
+
+    sdk = [[MPin alloc] init];
+    sdk.delegate = self;
+
     _lblEmail.text = _strEmail;
     _lblMessage.text = [NSString stringWithFormat:NSLocalizedString(@"ID_CREATED_MESSAGE", @""), _strEmail];
 }
@@ -87,7 +90,7 @@
 
 -( void ) onAccessNumber:( NSString * ) an
 {
-    [sdk AuthenticateAN:self.user accessNumber:an askForFingerprint:YES];
+    [sdk AuthenticateAN:self.user accessNumber:an askForFingerprint:NO];
 }
 
 - ( void )OnAuthenticateAccessNumberCompleted:( id )sender user:( id<IUser>)user
@@ -158,7 +161,7 @@
     switch ( service )
     {
     case LOGIN_ON_MOBILE:
-        [sdk Authenticate:self.user askForFingerprint:YES];
+        [sdk Authenticate:self.user askForFingerprint:NO];
         break;
 
     case LOGIN_ONLINE:
@@ -172,7 +175,7 @@
     } break;
 
     case LOGIN_WITH_OTP:
-        [sdk AuthenticateOTP:self.user askForFingerprint:YES];
+        [sdk AuthenticateOTP:self.user askForFingerprint:NO];
         break;
     }
 }

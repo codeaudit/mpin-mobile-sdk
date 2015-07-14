@@ -95,10 +95,9 @@ static NSString *const kAN = @"AN";
 - ( void )viewDidLoad
 {
     [super viewDidLoad];
-    sdk = [[MPin alloc] init];
-    sdk.delegate = self;
+
     boolFirstTime = YES;
-    boolShouldAskForFingerprint = YES;
+    boolShouldAskForFingerprint = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
     storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     [self hideBottomBar:NO];
@@ -108,7 +107,12 @@ static NSString *const kAN = @"AN";
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
+
+
+    sdk = [[MPin alloc] init];
+
     sdk.delegate = self;
+
     [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
     [[ThemeManager sharedManager] beautifyViewController:self];
     self.users = [MPin listUsers];
@@ -145,8 +149,9 @@ static NSString *const kAN = @"AN";
     }
 }
 
-- ( void )viewDidDisappear:( BOOL )animated
+-(void) viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
 }
 
@@ -335,6 +340,7 @@ static NSString *const kAN = @"AN";
     {
     case IDENTITY_NOT_VERIFIED:
     {
+        [[ErrorHandler sharedManager] hideMessage];
         ConfirmEmailViewController *cevc = (ConfirmEmailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ConfirmEmailViewController"];
         cevc.iuser = ( error.userInfo ) [kUSER];
         [self.navigationController pushViewController:cevc animated:YES];
@@ -347,21 +353,6 @@ static NSString *const kAN = @"AN";
     default:
         break;
     }
-
-//     PIN_INPUT_CANCELED, // Local error, returned when user cancels pin entering
-//     CRYPTO_ERROR /* = MPinSDK::Status::CRYPTO_ERROR*/, // Local error in crypto functions
-//    STORAGE_ERROR, // Local storage related error
-//    NETWORK_ERROR, // Local error - cannot connect to remote server (no internet, or invalid server/port)
-//    RESPONSE_PARSE_ERROR, // Local error - cannot parse json response from remote server (invalid json or unexpected json structure)
-//    FLOW_ERROR, // Local error - unproper MPinSDK class usage
-//    IDENTITY_NOT_AUTHORIZED, // Remote error - the remote server refuses user registration
-//    IDENTITY_NOT_VERIFIED, // Remote error - the remote server refuses user registration because identity is not verified
-//    REQUEST_EXPIRED, // Remote error - the register/authentication request expired
-//    REVOKED, // Remote error - cannot get time permit (propably the user is temporary suspended)
-//    INCORRECT_PIN, // Remote error - user entered wrong pin
-//    INCORRECT_ACCESS_NUMBER, // Remote/local error - wrong access number (checksum failed or RPS returned 412)
-//    HTTP_SERVER_ERROR, // Remote error, that was not reduced to one of the above - the remote server returned internal server error status (5xx)
-//    HTTP_REQUEST_ERROR // Remote error, that was not reduced to one of the above - invalid data sent to server, the remote server returned 4xx error status
 }
 
 - ( void )OnAuthenticateOTPCompleted:( id )sender user:( id<IUser>)user otp:( OTP * )otp
@@ -390,11 +381,6 @@ static NSString *const kAN = @"AN";
      minShowTime:0];
 }
 
--( void ) onAccessNumber:( NSString * ) an
-{
-    [sdk AuthenticateAN:[self.users objectAtIndex:selectedIndexPath.row] accessNumber:an askForFingerprint:boolShouldAskForFingerprint];
-}
-
 - ( void )OnAuthenticateAccessNumberCompleted:( id )sender user:( id<IUser>)user
 {
     [[ErrorHandler sharedManager] presentMessageInViewController:self
@@ -411,13 +397,13 @@ static NSString *const kAN = @"AN";
         [[ErrorHandler sharedManager] presentMessageInViewController:self
          errorString:@"Wrong MPIN or Access Number!"
          addActivityIndicator:NO
-         minShowTime:0];
+         minShowTime:3];
         break;
 
     case HTTP_REQUEST_ERROR:
         [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Wrong MPIN or Access Number!"
          addActivityIndicator:NO
-         minShowTime:0];
+         minShowTime:3];
         break;
 
     default:
@@ -531,6 +517,7 @@ static NSString *const kAN = @"AN";
 
 - ( IBAction )btnAuthTap:( id )sender
 {
+    [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
     [[ConfigurationManager sharedManager] setSelectedUserForCurrentConfiguration:selectedIndexPath.row];
     [self startAuthenticationFlow];
 }
@@ -549,10 +536,7 @@ static NSString *const kAN = @"AN";
         switch ( [iuser getState] )
         {
         case INVALID:
-            [[ErrorHandler sharedManager] presentMessageInViewController:self
-             errorString:NSLocalizedString(@"HUD_REACTIVATE_USER", @"")
-             addActivityIndicator:NO
-             minShowTime:0];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"HUD_REACTIVATE_USER", @"") addActivityIndicator:NO hideAfter:3];
             break;
 
         case STARTED_REGISTRATION:
@@ -566,15 +550,12 @@ static NSString *const kAN = @"AN";
         case REGISTERED:
             config = [[ConfigurationManager sharedManager] getSelectedConfiguration];
             s = [config [kSERVICE_TYPE] intValue];
-            [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
+
+
+
             switch ( s )
             {
             case LOGIN_ON_MOBILE:
-                if ( !boolShouldAskForFingerprint )
-                {
-                    [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
-                }
-
                 [sdk Authenticate:iuser askForFingerprint:boolShouldAskForFingerprint];
                 break;
 
@@ -582,20 +563,21 @@ static NSString *const kAN = @"AN";
                 [[ErrorHandler sharedManager] hideMessage];
                 accessViewController = [storyboard instantiateViewControllerWithIdentifier:@"accessnumber"];
                 accessViewController.delegate = self;
+                sdk.delegate = nil;
                 accessViewController.strEmail = [currentUser getIdentity];
                 accessViewController.currentUser = currentUser;
                 [self.navigationController pushViewController:accessViewController animated:YES];
                 break;
 
             case LOGIN_WITH_OTP:
-                [[ErrorHandler sharedManager] hideMessage];
-                [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
                 [sdk AuthenticateOTP:iuser askForFingerprint:boolShouldAskForFingerprint];
                 break;
             }
             break;
 
         case BLOCKED:
+
+            [[ErrorHandler sharedManager] hideMessage];
             identityBlockedViewController = [storyboard instantiateViewControllerWithIdentifier:@"IdentityBlockedViewController"];
             identityBlockedViewController.strUserEmail = [iuser getIdentity];
             identityBlockedViewController.iuser = iuser;
@@ -642,7 +624,7 @@ static NSString *const kAN = @"AN";
 
     default:
         [[ErrorHandler sharedManager] presentMessageInViewController:self
-         errorString:[NSString stringWithFormat:@"User state is unexpected %ld",                                                                                       [user getState]]
+         errorString:[NSString stringWithFormat:@"User state is unexpected %ld",                                                                                       (long)[user getState]]
          addActivityIndicator:NO
          minShowTime:0];
         break;
@@ -741,7 +723,7 @@ static NSString *const kAN = @"AN";
     default:
         break;
     }
-
+    NSLog(@"Calling PinPad from UserList");
     [self.navigationController pushViewController:pinpadViewController animated:YES];
 }
 

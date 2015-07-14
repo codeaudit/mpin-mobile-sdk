@@ -1,51 +1,72 @@
 package com.certivox.fragments;
 
-import android.app.Fragment;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.certivox.interfaces.MPinController;
+import com.certivox.constants.FragmentTags;
+import com.certivox.controllers.MPinController;
 import com.example.mpinsdk.R;
 
-public class AboutFragment extends Fragment {
+public class AboutFragment extends MPinFragment {
 
-	private MPinController mMpinController;
 	private View mView;
 	private TextView mLinkTextView;
 	private TextView mVersionTextView;
 	private TextView mBuildTextView;
 
-	public void setController(MPinController controller) {
-		mMpinController = controller;
+	@Override
+	public void setData(Object data) {
+	};
+
+	@Override
+	protected String getFragmentTag() {
+		return FragmentTags.FRAGMENT_ABOUT;
+	}
+
+	@Override
+	public boolean handleMessage(Message msg) {
+		return false;
+	}
+
+	@Override
+	protected OnClickListener getDrawerBackClickListener() {
+		OnClickListener drawerBackClickListener = new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				getMPinController().handleMessage(
+						MPinController.MESSAGE_ON_DRAWER_BACK);
+			}
+		};
+		return drawerBackClickListener;
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		disableDrawer();
+		setTooblarTitle(R.string.about_title);
+		mView = inflater.inflate(R.layout.fragment_about, container, false);
+		initViews();
+		setVersion();
+		return mView;
+	}
 
-		mView = inflater.inflate(R.layout.about_layout, container, false);
+	@Override
+	protected void initViews() {
 		mLinkTextView = (TextView) mView
 				.findViewById(R.id.terms_and_conditions_link);
 		mLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
 		mVersionTextView = (TextView) mView.findViewById(R.id.about_version);
 		mBuildTextView = (TextView) mView.findViewById(R.id.about_build);
-		setVersion();
-
-		return mView;
-
-	}
-
-	@Override
-	public void onResume() {
-		mMpinController.disableContextToolbar();
-		mMpinController.setTooblarTitle(R.string.about_title);
-		super.onResume();
 	}
 
 	private void setVersion() {
@@ -61,7 +82,6 @@ public class AboutFragment extends Fragment {
 			mBuildTextView.setText(versionCode + "");
 
 		} catch (NameNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

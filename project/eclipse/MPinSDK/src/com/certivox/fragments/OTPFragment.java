@@ -1,20 +1,20 @@
 package com.certivox.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.certivox.interfaces.MPinController;
+import com.certivox.constants.FragmentTags;
+import com.certivox.controllers.MPinController;
 import com.certivox.models.OTP;
 import com.example.mpinsdk.R;
 
-public class OTPFragment extends Fragment {
-
-	private MPinController mMpinController;
+public class OTPFragment extends MPinFragment {
 
 	private View mView;
 	private TextView mUserEmailTextView;
@@ -23,47 +23,29 @@ public class OTPFragment extends Fragment {
 	private TextView mTimeLeftTextView;
 	private static OTP mOTP;
 
-	public void setOTP(OTP otp) {
-		mOTP = otp;
+	@Override
+	public void setData(Object otp) {
+		mOTP = (OTP) otp;
 	}
 
-	public void setController(MPinController controller) {
-		mMpinController = controller;
+	@Override
+	protected String getFragmentTag() {
+		return FragmentTags.FRAGMENT_OTP;
+	}
+
+	@Override
+	protected OnClickListener getDrawerBackClickListener() {
+		return null;
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		mView = inflater.inflate(R.layout.otp_layout, container, false);
+		mView = inflater.inflate(R.layout.fragment_otp, container, false);
 		initViews();
 
 		return mView;
-	}
-
-	@Override
-	public void onResume() {
-		mMpinController.setTooblarTitle(R.string.otp_title);
-		super.onResume();
-	}
-
-	private void initViews() {
-		mUserEmailTextView = (TextView) mView.findViewById(R.id.user_email);
-		if (mMpinController.getCurrentUser() != null) {
-			mUserEmailTextView
-					.setText(mMpinController.getCurrentUser().getId());
-		}
-
-		mOTPTextView = (TextView) mView.findViewById(R.id.otp);
-		String otp = "";
-		for (int i = 0; i < mOTP.otp.length(); i++) {
-			otp += mOTP.otp.charAt(i) + " ";
-		}
-		mOTPTextView.setText(otp);
-		mOTPProgressBar = (ProgressBar) mView.findViewById(R.id.otp_progress);
-		mTimeLeftTextView = (TextView) mView.findViewById(R.id.otp_time_left);
-
-		initProgressBar();
 	}
 
 	private void initProgressBar() {
@@ -83,10 +65,38 @@ public class OTPFragment extends Fragment {
 					mOTPProgressBar.setProgress((int) (mOTPProgressBar.getMax() * prog));
 					mOTPProgressBar.postDelayed(this, 100);
 				} else {
-					mMpinController.onOTPExpired();
+					getMPinController().handleMessage(
+							MPinController.MESSAGE_OTP_EXPIRED);
 				}
 			}
 		});
 	}
 
+	@Override
+	public boolean handleMessage(Message msg) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected void initViews() {
+		setTooblarTitle(R.string.otp_title);
+		mUserEmailTextView = (TextView) mView.findViewById(R.id.user_email);
+		if (getMPinController().getCurrentUser() != null) {
+			mUserEmailTextView.setText(getMPinController().getCurrentUser()
+					.getId());
+		}
+
+		mOTPTextView = (TextView) mView.findViewById(R.id.otp);
+		String otp = "";
+		for (int i = 0; i < mOTP.otp.length(); i++) {
+			otp += mOTP.otp.charAt(i) + " ";
+		}
+		mOTPTextView.setText(otp);
+		mOTPProgressBar = (ProgressBar) mView.findViewById(R.id.otp_progress);
+		mTimeLeftTextView = (TextView) mView.findViewById(R.id.otp_time_left);
+
+		initProgressBar();
+
+	}
 }

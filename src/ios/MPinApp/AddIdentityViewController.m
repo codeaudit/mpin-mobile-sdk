@@ -45,9 +45,6 @@ static NSString *const kUser = @"User";
 
     [[ThemeManager sharedManager] beautifyViewController:self];
 
-    sdk = [[MPin alloc] init];
-    sdk.delegate = self;
-
     ConfigurationManager *cfm = [ConfigurationManager sharedManager];
     self.txtDevName.text = [cfm getDeviceName];
 
@@ -66,6 +63,12 @@ static NSString *const kUser = @"User";
     self.title                  = NSLocalizedString(@"ADDIDVC_TITLE", @"");
 }
 
+-(void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    sdk = [[MPin alloc] init];
+    sdk.delegate = self;
+}
 - ( void )viewDidAppear:( BOOL )animated
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -126,6 +129,8 @@ static NSString *const kUser = @"User";
         return;
     }
 
+    self.txtIdentity.text = [self.txtIdentity.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
     if ( ![self isValidEmail:self.txtIdentity.text] )
     {
         [[ErrorHandler sharedManager] presentMessageInViewController:self
@@ -194,11 +199,8 @@ static NSString *const kUser = @"User";
 - ( void )OnRegisterNewUserError:( id )sender error:( NSError * )error
 {
     MpinStatus *mpinStatus = [error.userInfo objectForKey:kMPinSatus];
-    [[ErrorHandler sharedManager] presentMessageInViewController:self
-     errorString:mpinStatus.errorMessage
-     addActivityIndicator:NO
-     minShowTime:3
-    ];
+    [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(mpinStatus.statusCodeAsString, @"SERVER ERROR") addActivityIndicator:NO hideAfter:3];
+    
 }
 
 - ( void )OnFinishRegistrationCompleted:( id )sender user:( const id<IUser>)user

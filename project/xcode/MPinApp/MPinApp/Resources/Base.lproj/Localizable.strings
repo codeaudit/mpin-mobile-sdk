@@ -34,6 +34,13 @@
 "ID_CREATED_MESSAGE" = "Congratulations!\n Your identity: %@ \nhad been set up successfully.";
 "ID_CREATED_BTN_SIGN_IN" = "SIGN IN WITH THIS IDENTITY";
 
+/* ID Blocked */
+"BLOCKED_ID_TITLE" = "Identity Blocked";
+"BLOCKED_ID_MESSAGE" = "Wrong PIN entered too many times. Your identity has been blocked. You can either select a different identity, reset your PIN or remove your blocked identity.";
+"BLOCKED_ID_BACK_TO_ID_LIST" = "BACK TO IDENTITY LIST";
+"BLOCKED_ID_RESET_PIN" = "RESET PIN";
+"BLOCKED_ID_REMOVE_ID" = "REMOVE THIS IDENTITY";
+"BLOCKED_ID_RESET_PIN_CONFIRM" = "Are you sure that you would like to reset pin of \"%@\" ?";
 
 /*CONFIRM ID VC */
 "CONFIRM_EMAIL_VC_TITLE" = "Confirm Email";
@@ -47,13 +54,13 @@
 
 "OTPVC_TITLE" = "One Time Password";
 
-"OTPVC_LBL_MESSAGE"        = "You can now use this password to log in to your VPN service.";
+"OTPVC_LBL_MESSAGE"        = "You can now use this password to log in to your RADIUS service";
 "OTPVC_LBL_YOUR_PASSWORD" = "YOUR PASSWORD";
 
 /* ACCESS NUMBER */
 "ACCESSNUMBERVC_TITLE" = "Enter Access Number";
 
-"ACCESSNUMBERVC_NOTE"   = "ENTER %d DIGITS ACCESS NUMBER";
+"ACCESSNUMBERVC_NOTE"   = "ENTER %d DIGIT ACCESS NUMBER";
 
 
 /* Configuration list */
@@ -68,6 +75,7 @@
 "ADDCONFIGVC_PREFIX" = "RPS PREFIX";
 "ADDCONFIGVC_BTN_TEST_CONFIG" = "TEST CONFIGURATION";
 "ADDCONFIGVC_ERROR_EMPTY_URL" = "M-PIN SERVER URL is empty";
+"ADDCONFIGVC_ERROR_EMPTY_NAME" = "M-PIN SERVER Name is empty";
 "ADDCONFIGVC_ERROR_INVALID_URL" = "M-PIN SERVER URL is not valid";
 "ADDCONFIGVC_MESSAGE_CONFIG_OK" = "Configuration is valid";
 "ADDCONFIGVC_INVALID_CONFIG" = "Invalid configuration";
@@ -78,6 +86,14 @@
 
 /* About */
 "ABOUTVC_TITLE"         = "About";
+
+"ABOUTVC_BTN_MOB_GUIDE" =   "M-Pin Mobile Guide";
+"ABOUTVC_BTN_SDK_URL"   =   "Built on the M-Pin Mobile SDK";
+"ABOUTVC_BTN_HOMEPAGE"  =   "CertiVox Homepage";
+"ABOUTVC_BTN_SUPPORT"   =   "Product Support";
+"ABOUTVC_BTN_TERMS"     =   "CertiVox Terms & Conditions";
+"ABOUTVC_BTN_VALUES"    =   "Values / Security / Privacy";
+
 "ABOUTVC_BUILD_NUMBER"  = "Build: %@";
 "ABOUTVC_VER_NUMBER"    = "Ver. %@";
 "ABOUTVC_COPYRIGHT"     = "Copyright (c) %@ Certivox. all rights reserved.";
@@ -88,7 +104,7 @@
 
 /* HUD Messages */
 "HUD_CHANGE_CONFIGURATION"  = "Changing configuration. Please wait.";
-"HUD_AUTH_SUCCESS"          = "Authentication Successful!";
+"HUD_AUTH_SUCCESS"          = "You have successfully been \n authenticated";
 "HUD_LOGOUT"                = "Logging OUT";
 "HUD_LOGOUT_OK"             = "Logout Successful";
 "HUD_LOGOUT_NOT_OK"         = "Logout Unsuccessful";
@@ -144,7 +160,7 @@
 
 /* OTHER SHARED STRINGS */
 "LOGIN_MOBILE_APP" = "Mobile application login";
-"LOGIN_ONLINE_SESSION" = "Web login";
+"LOGIN_ONLINE_SESSION" = "Login to Online Session";
 "LOGIN_OTP" = "OTP Login";
 
 /* MPIN STATUS ERROR MESSAGES */
