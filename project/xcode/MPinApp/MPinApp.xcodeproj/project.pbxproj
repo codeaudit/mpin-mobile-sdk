@@ -292,6 +292,12 @@
 		FE72C3451A6E519D0082F14D /* SettingsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE72C3441A6E519D0082F14D /* SettingsViewCell.m */; };
 		FE72C3481A6EA6960082F14D /* AddSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE72C3471A6EA6960082F14D /* AddSettingViewController.m */; };
 		FE8129671ABAB61B008677CE /* MPin+AsyncOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = FE8129661ABAB61B008677CE /* MPin+AsyncOperations.m */; };
+		FEA769BF1B53B843005557FE /* Certivox_MPin_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA769BE1B53B843005557FE /* Certivox_MPin_Tests.m */; };
+		FEA769CB1B53C2DD005557FE /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA769CA1B53C2DD005557FE /* Utilities.m */; };
+		FEA769CC1B53C2DD005557FE /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA769CA1B53C2DD005557FE /* Utilities.m */; };
+		FEA769CD1B53C2DD005557FE /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA769CA1B53C2DD005557FE /* Utilities.m */; };
+		FEA769CE1B53C2DD005557FE /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA769CA1B53C2DD005557FE /* Utilities.m */; };
+		FEA769CF1B53C2DD005557FE /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA769CA1B53C2DD005557FE /* Utilities.m */; };
 		FEAA2CCE1ACEBCB700EED79F /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FEAA2CCD1ACEBCB700EED79F /* NSString+Helper.m */; };
 		FEB901681A6D28550053DE92 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB901671A6D28550053DE92 /* SettingsViewController.m */; };
 		FED7691D1A8B4A30005A3ECA /* UIViewController+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FED7691C1A8B4A30005A3ECA /* UIViewController+Helper.m */; };
@@ -304,6 +310,16 @@
 		FEFA50111A7148E5002D6E24 /* DigitPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFA50101A7148E5002D6E24 /* DigitPadViewController.m */; };
 		FEFFDDF21A1A4268007C7CAA /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEFFDDF01A1A4268007C7CAA /* Main_iPhone.storyboard */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FEA769C01B53B843005557FE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FE49000F1A1A3CEB000030A4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FE4900161A1A3CEB000030A4;
+			remoteInfo = "Certivox MPin";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		05E7AD758BE70B1A9530DEA4 /* Pods.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.qa.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.qa.xcconfig"; sourceTree = "<group>"; };
@@ -434,6 +450,11 @@
 		FE72C3471A6EA6960082F14D /* AddSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = AddSettingViewController.m; path = ../../../../src/ios/MPinApp/AddSettingViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FE8129651ABAB61B008677CE /* MPin+AsyncOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MPin+AsyncOperations.h"; path = "../../../../src/ios/MPinApp/MPin+AsyncOperations.h"; sourceTree = "<group>"; };
 		FE8129661ABAB61B008677CE /* MPin+AsyncOperations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MPin+AsyncOperations.m"; path = "../../../../src/ios/MPinApp/MPin+AsyncOperations.m"; sourceTree = "<group>"; };
+		FEA769BA1B53B842005557FE /* Certivox MPin Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Certivox MPin Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FEA769BD1B53B843005557FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FEA769BE1B53B843005557FE /* Certivox_MPin_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Certivox_MPin_Tests.m; sourceTree = "<group>"; };
+		FEA769C91B53C2DD005557FE /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utilities.h; path = ../../../../../src/ios/MPinApp/Utilities.h; sourceTree = "<group>"; };
+		FEA769CA1B53C2DD005557FE /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utilities.m; path = ../../../../../src/ios/MPinApp/Utilities.m; sourceTree = "<group>"; };
 		FEAA2CCC1ACEBCB700EED79F /* NSString+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Helper.h"; path = "../../../../../src/ios/MPinApp/NSString+Helper.h"; sourceTree = "<group>"; };
 		FEAA2CCD1ACEBCB700EED79F /* NSString+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Helper.m"; path = "../../../../../src/ios/MPinApp/NSString+Helper.m"; sourceTree = "<group>"; };
 		FEB901661A6D28550053DE92 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewController.h; path = ../../../../src/ios/MPinApp/SettingsViewController.h; sourceTree = "<group>"; };
@@ -535,6 +556,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FEA769B71B53B842005557FE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -624,6 +652,8 @@
 		9672E30C1A89FAD300C0658A /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				FEA769C91B53C2DD005557FE /* Utilities.h */,
+				FEA769CA1B53C2DD005557FE /* Utilities.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -781,6 +811,7 @@
 				FE148D3E1A2F0FB7007E83EF /* MpinStatus.h */,
 				FE4900201A1A3CEB000030A4 /* MPinApp */,
 				FE4900421A1A3CEB000030A4 /* MPinAppTests */,
+				FEA769BB1B53B843005557FE /* Certivox MPin Tests */,
 				FE4900191A1A3CEB000030A4 /* Frameworks */,
 				FE4900181A1A3CEB000030A4 /* Products */,
 				6C3E0DED7B61B739D72246B2 /* Pods */,
@@ -794,6 +825,7 @@
 				9649BCCA1AC16D1000B9F41B /* DD MPin.app */,
 				96130E651AEE4867005D2A86 /* NTTComSecurity MPin.app */,
 				96130EAF1AEE490A005D2A86 /* Olswang MPin.app */,
+				FEA769BA1B53B842005557FE /* Certivox MPin Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -866,6 +898,23 @@
 			children = (
 				FE4900441A1A3CEB000030A4 /* MPinAppTests-Info.plist */,
 				FE4900451A1A3CEB000030A4 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FEA769BB1B53B843005557FE /* Certivox MPin Tests */ = {
+			isa = PBXGroup;
+			children = (
+				FEA769BE1B53B843005557FE /* Certivox_MPin_Tests.m */,
+				FEA769BC1B53B843005557FE /* Supporting Files */,
+			);
+			path = "Certivox MPin Tests";
+			sourceTree = "<group>";
+		};
+		FEA769BC1B53B843005557FE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FEA769BD1B53B843005557FE /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -954,6 +1003,24 @@
 			productReference = FE4900171A1A3CEB000030A4 /* CertiVox M-Pin.app */;
 			productType = "com.apple.product-type.application";
 		};
+		FEA769B91B53B842005557FE /* Certivox MPin Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FEA769C21B53B843005557FE /* Build configuration list for PBXNativeTarget "Certivox MPin Tests" */;
+			buildPhases = (
+				FEA769B61B53B842005557FE /* Sources */,
+				FEA769B71B53B842005557FE /* Frameworks */,
+				FEA769B81B53B842005557FE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FEA769C11B53B843005557FE /* PBXTargetDependency */,
+			);
+			name = "Certivox MPin Tests";
+			productName = "Certivox MPin Tests";
+			productReference = FEA769BA1B53B842005557FE /* Certivox MPin Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -968,6 +1035,10 @@
 					};
 					FE4900161A1A3CEB000030A4 = {
 						DevelopmentTeam = WF6XYF7P2L;
+					};
+					FEA769B91B53B842005557FE = {
+						CreatedOnToolsVersion = 6.3;
+						TestTargetID = FE4900161A1A3CEB000030A4;
 					};
 				};
 			};
@@ -988,6 +1059,7 @@
 				9649BC891AC16D1000B9F41B /* DD MPin */,
 				96130E1D1AEE4867005D2A86 /* NTTComSecurity */,
 				96130E671AEE490A005D2A86 /* Olswang */,
+				FEA769B91B53B842005557FE /* Certivox MPin Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -1111,6 +1183,13 @@
 				964F19D11B4130E4000A03A5 /* Main_iPad.storyboard in Resources */,
 				960D6A961A88C0E20068E0F7 /* OpenSans-ExtraBold.ttf in Resources */,
 				968591A11AEE53EE00726E63 /* CertivoxImages.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FEA769B81B53B842005557FE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1318,6 +1397,7 @@
 				96130E211AEE4867005D2A86 /* ConfigurationManager.m in Sources */,
 				96130E221AEE4867005D2A86 /* ConfirmEmailViewController.m in Sources */,
 				96E9D3701B39699B004ADDEA /* AboutDetailsViewController.m in Sources */,
+				FEA769CD1B53C2DD005557FE /* Utilities.m in Sources */,
 				96F7EA691B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */,
 				96130E231AEE4867005D2A86 /* CycleProgressBar.m in Sources */,
 				96130E241AEE4867005D2A86 /* AccountSummaryViewController.m in Sources */,
@@ -1362,6 +1442,7 @@
 				96130E6B1AEE490A005D2A86 /* ConfigurationManager.m in Sources */,
 				96130E6C1AEE490A005D2A86 /* ConfirmEmailViewController.m in Sources */,
 				96E9D3711B39699B004ADDEA /* AboutDetailsViewController.m in Sources */,
+				FEA769CE1B53C2DD005557FE /* Utilities.m in Sources */,
 				96F7EA6A1B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */,
 				96130E6D1AEE490A005D2A86 /* CycleProgressBar.m in Sources */,
 				96130E6E1AEE490A005D2A86 /* AccountSummaryViewController.m in Sources */,
@@ -1406,6 +1487,7 @@
 				FEF579501B1493F700B31A3E /* NSString+Helper.m in Sources */,
 				968591B71AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
 				96E9D36F1B39699B004ADDEA /* AboutDetailsViewController.m in Sources */,
+				FEA769CC1B53C2DD005557FE /* Utilities.m in Sources */,
 				9649BC8D1AC16D1000B9F41B /* ConfirmEmailViewController.m in Sources */,
 				96F7EA681B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */,
 				9649BC8F1AC16D1000B9F41B /* CycleProgressBar.m in Sources */,
@@ -1450,6 +1532,7 @@
 				966EB9D41A8CF069004B936A /* ConfirmEmailViewController.m in Sources */,
 				96F7EA671B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */,
 				96E9D36E1B39699B004ADDEA /* AboutDetailsViewController.m in Sources */,
+				FEA769CB1B53C2DD005557FE /* Utilities.m in Sources */,
 				FE4AEB081A443E4C000B3181 /* CycleProgressBar.m in Sources */,
 				9614F8CF1A9E1EC500337080 /* AccountSummaryViewController.m in Sources */,
 				FED7691D1A8B4A30005A3ECA /* UIViewController+Helper.m in Sources */,
@@ -1486,7 +1569,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FEA769B61B53B842005557FE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FEA769CF1B53C2DD005557FE /* Utilities.m in Sources */,
+				FEA769BF1B53B843005557FE /* Certivox_MPin_Tests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FEA769C11B53B843005557FE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FE4900161A1A3CEB000030A4 /* Certivox MPin */;
+			targetProxy = FEA769C01B53B843005557FE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		968591CF1AF0C7E200726E63 /* Localizable.strings */ = {
@@ -2251,6 +2351,119 @@
 			};
 			name = Debug;
 		};
+		FEA769C31B53B843005557FE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Certivox MPin Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CertiVox M-Pin.app/CertiVox M-Pin";
+			};
+			name = Debug;
+		};
+		FEA769C41B53B843005557FE /* QA */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Certivox MPin Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CertiVox M-Pin.app/CertiVox M-Pin";
+			};
+			name = QA;
+		};
+		FEA769C51B53B843005557FE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Certivox MPin Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CertiVox M-Pin.app/CertiVox M-Pin";
+			};
+			name = Release;
+		};
+		FEA769C61B53B843005557FE /* AppStore */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Certivox MPin Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CertiVox M-Pin.app/CertiVox M-Pin";
+			};
+			name = AppStore;
+		};
+		FEA769C71B53B843005557FE /* AdHoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Certivox MPin Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CertiVox M-Pin.app/CertiVox M-Pin";
+			};
+			name = AdHoc;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2313,6 +2526,17 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = QA;
+		};
+		FEA769C21B53B843005557FE /* Build configuration list for PBXNativeTarget "Certivox MPin Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FEA769C31B53B843005557FE /* Debug */,
+				FEA769C41B53B843005557FE /* QA */,
+				FEA769C51B53B843005557FE /* Release */,
+				FEA769C61B53B843005557FE /* AppStore */,
+				FEA769C71B53B843005557FE /* AdHoc */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

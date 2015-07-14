@@ -158,9 +158,16 @@
 - ( IBAction )add:( id )sender
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    UIViewController *vcQR = [storyboard instantiateViewControllerWithIdentifier:@"QRController"];
+    [self.navigationController pushViewController:vcQR animated:YES];
+    
+    /// TODO : add suppport for BOTH
+    /*
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     AddSettingViewController *addViewController = [storyboard instantiateViewControllerWithIdentifier:@"AddConfig"];
     addViewController.isEdit = NO;
     [self.navigationController pushViewController:addViewController animated:YES];
+     */
 }
 
 - ( IBAction )edit:( id )sender

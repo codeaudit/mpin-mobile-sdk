@@ -8,6 +8,12 @@
 
 #import "QRViewController.h"
 #import "MFSideMenu.h"
+#import "NSString+Helper.h"
+#import "Constants.h"
+#import "ConfigurationManager.h"
+#import "Utilities.h"
+
+static NSInteger constIntTimeoutInterval = 30;
 
 
 
@@ -20,6 +26,7 @@
 -(void)loadBeepSound;
 -(BOOL) startReading;
 -(void) stopReading;
+- (void) loadConfigurations:(NSString *) url;
 @end
 
 @implementation QRViewController
@@ -105,6 +112,76 @@
     }
 }
 
+
+- (void) loadConfigurations:(NSString *) url {
+    if(![NSString isValidURL:url]) {
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                         errorString:@"Invalid URL!"
+                                                addActivityIndicator:NO
+                                                         minShowTime:3];
+        return;
+    }
+    
+    // TODO: show some loading functionality !!!
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+       // TODO :: replace this with the URL input parameter
+        // NSURL * theUrl = [NSURL URLWithString:@"http://192.168.10.75:8080/config.json"];
+        NSURL * theUrl = [NSURL URLWithString:url];
+        NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:theUrl cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:constIntTimeoutInterval];
+        [request setTimeoutInterval:constIntTimeoutInterval];
+        request.HTTPMethod = @"GET";
+        
+        NSHTTPURLResponse * response = nil;
+        NSError * error = nil;
+        NSData * ConfigJSONdata = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        
+        // parse json data
+        if(ConfigJSONdata != nil) {
+            NSArray *configs = [NSJSONSerialization JSONObjectWithData:ConfigJSONdata options:kNilOptions error:&error];
+            if (error == nil) {
+                for (int i = 0; i<[configs count]; i++) {
+                    [[ConfigurationManager sharedManager] addConfiguration:[[configs objectAtIndex:i] valueForKey:kJSON_URL]
+                                                               serviceType:[Utilities ServerJSONConfigTypeToService_type:[[configs objectAtIndex:i] valueForKey:kJSON_TYPE]]
+                                                                      name:[[configs objectAtIndex:i] valueForKey:kJSON_NAME]
+                                                                prefixName:[[configs objectAtIndex:i] valueForKey:kJSON_PREFIX]
+                     ];
+                }
+                [[ConfigurationManager sharedManager] saveConfigurations];
+            }
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^ (void) {
+            // TODO: hide loading functionality
+
+            
+            if(error != nil) {
+                NSString * errorMessage = @"";
+                switch (error.code) {
+                    case -1001: //Connection timeout
+                        errorMessage = @"Connection timeout!";
+                        break;
+                    case -1012:
+                        errorMessage = @"Unauthorized Access! Please check your e-mail and confirm the activation link!";
+                        break;
+                    default:
+                        errorMessage = error.localizedDescription;
+                        break;
+                }
+                
+                [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                                 errorString:errorMessage
+                                                        addActivityIndicator:NO
+                                                                 minShowTime:3];
+                
+            } else {
+                [self.navigationController popViewControllerAnimated:NO];
+            }
+        });
+    });
+
+}
+
 -(void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection{
     if (metadataObjects != nil && [metadataObjects count] > 0) {
         AVMetadataMachineReadableCodeObject *metadataObj = [metadataObjects objectAtIndex:0];
@@ -114,6 +191,8 @@
             [self performSelectorOnMainThread:@selector(stopReading) withObject:nil waitUntilDone:NO];
             [_bbItemStart performSelectorOnMainThread:@selector(setTitle:) withObject:@"Start!" waitUntilDone:NO];
             _isReading = NO;
+            
+            [self performSelectorOnMainThread:@selector(loadConfigurations:) withObject:[metadataObj stringValue] waitUntilDone:NO];
             
             if (_audioPlayer) {
                 [_audioPlayer play];
