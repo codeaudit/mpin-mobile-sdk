@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -66,6 +67,13 @@ public class PinPadFragment extends Fragment {
 		initViews();
 		initPinPad();
 		return mView;
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		getActivity().getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 	}
 
 	@Override

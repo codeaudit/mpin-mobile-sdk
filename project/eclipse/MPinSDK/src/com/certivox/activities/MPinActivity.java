@@ -203,6 +203,9 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		case MPinController.MESSAGE_OTP_NOT_SUPPORTED:
 			showOtpNotSupportedDialog();
 			return true;
+		case MPinController.MESSAGE_INCORRECT_ACCESS_NUMBER:
+			showIncorrectANDialog();
+			return true;
 		}
 		return false;
 	}
@@ -456,6 +459,11 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		new AlertDialog.Builder(this).setTitle("OTP not supported")
 				.setMessage("The configuration does not support OTP")
 				.setPositiveButton("OK", null).show();
+	}
+
+	private void showIncorrectANDialog() {
+		new AlertDialog.Builder(this).setTitle("Incorrect Access Number!")
+				.setMessage("").setPositiveButton("OK", null).show();
 	}
 
 	public void hideKeyboard() {

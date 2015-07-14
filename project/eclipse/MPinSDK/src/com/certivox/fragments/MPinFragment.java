@@ -71,7 +71,7 @@ public abstract class MPinFragment extends Fragment implements Handler.Callback 
 				.disableDrawer(getDrawerBackClickListener());
 	}
 
-	private void hideKeyboard() {
+	protected void hideKeyboard() {
 		((MPinActivity) getActivity()).hideKeyboard();
 	}
 }
