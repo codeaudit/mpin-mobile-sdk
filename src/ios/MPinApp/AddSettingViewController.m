@@ -422,7 +422,13 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 {
     _txtMPINServiceURL.text = [_txtMPINServiceURL.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
+    
     NSString *message = NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR");
+    
+    if ([NSString isNotBlank:mpinStatus.errorMessage]) {
+        message = [NSString stringWithFormat:@"%@\n%@", message, mpinStatus.errorMessage];
+    }
+    
 
     [[ErrorHandler sharedManager] updateMessage:[NSString stringWithFormat:@"%@", message]
      addActivityIndicator:NO
