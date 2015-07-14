@@ -72,13 +72,14 @@ namespace sdk {
     
     void Context::setPin(const String & mpin) {
         [cLock lock];
+        NSLog(@"is SHOWN %d", isShown);
         if(isShown) {
             pin = mpin;
             [cLock signal];
         }
         [cLock unlock];
     }
-
+    
 String Context::Show(MPinSDK::UserPtr user, Mode mode) {
     dispatch_async(dispatch_get_main_queue(),^{
         [[NSNotificationCenter defaultCenter] postNotificationName:kShowPinPadNotification object:nil];

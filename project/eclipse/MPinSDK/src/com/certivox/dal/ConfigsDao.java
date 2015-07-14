@@ -1,5 +1,8 @@
 package com.certivox.dal;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -42,8 +45,7 @@ public class ConfigsDao {
 					ConfigEntry._ID + " LIKE ?",
 					new String[] { String.valueOf(id) }, null, null, null);
 			if (cursor.moveToFirst()) {
-				Config config = new Config();
-				config = getByCursor(cursor);
+				Config config = getByCursor(cursor);
 				return config;
 			}
 		} finally {
@@ -112,10 +114,12 @@ public class ConfigsDao {
 	}
 
 	public Config getActiveConfiguration() {
-		long id = PreferenceManager.getDefaultSharedPreferences(mContext)
-				.getLong(KEY_ACTIVE_CONFIG, -1);
+		return getConfigurationById(getActiveConfigurationId());
+	}
 
-		return getConfigurationById(id);
+	public long getActiveConfigurationId() {
+		return PreferenceManager.getDefaultSharedPreferences(mContext).getLong(
+				KEY_ACTIVE_CONFIG, -1);
 	}
 
 	public void setActiveConfig(Config config) {
@@ -126,4 +130,15 @@ public class ConfigsDao {
 				.putLong(KEY_ACTIVE_CONFIG, id).commit();
 	}
 
+	public List<Config> getListConfigs() {
+		ArrayList<Config> configurations = new ArrayList<Config>();
+		Cursor cursor = getConfigs();
+		while (cursor.moveToNext()) {
+			configurations.add(getByCursor(cursor));
+		}
+
+		cursor.close();
+
+		return configurations;
+	}
 }

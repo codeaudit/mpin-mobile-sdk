@@ -184,7 +184,7 @@ public class HTTPConnector implements IHTTPRequest {
 			fullUrl = uri.buildUpon().scheme("https").build().toString();
 
 		try {
-			responseData = this.sendRequest(fullUrl, HttpMethodMapper(method),
+			responseData = sendRequest(fullUrl, HttpMethodMapper(method),
 					requestBody, requestHeaders);
 		} catch (FileNotFoundException e) {
 			// No data in response
