@@ -47,7 +47,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 	private static final String TAG = MPinActivity.class.getSimpleName();
 
 	// Needed for Hockey App
-	private static final String APP_ID = "40dc0524dbc338596640635c8c55dafb";
+	private static final String APP_ID = "08b0417545be2304b7ce45ef43e30daf";
 
 	// Controller
 	private MPinController mController;
