@@ -17,7 +17,8 @@ typedef MPinSDK::String String;
 static AutoContext context;
 static MPinSDK sdk;
 static MPinSDK::StringMap config;
-static const char *backend = "http://ec2-54-77-232-113.eu-west-1.compute.amazonaws.com";
+//static const char *backend = "http://ec2-54-77-232-113.eu-west-1.compute.amazonaws.com";
+static const char *backend = "http://ec2-52-28-120-46.eu-central-1.compute.amazonaws.com";
 
 using namespace boost::unit_test;
 

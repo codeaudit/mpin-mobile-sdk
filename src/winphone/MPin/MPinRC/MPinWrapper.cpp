@@ -339,13 +339,14 @@ void PinPadProxy::SetPinPad(MPinRC::IPinPad^ pinPad)
 		this->managedPinPad = pinPad;
 }
 
-MPinSDK::String PinPadProxy::Show(MPinSDK::IPinPad::Mode mode)
+MPinSDK::String PinPadProxy::Show(MPinSDK::UserPtr user, MPinSDK::IPinPad::Mode mode)
 {
 	MPinRC::Mode managedMode = mode == MPinSDK::IPinPad::Mode::AUTHENTICATE
 		? MPinRC::Mode::AUTHENTICATE
 		: MPinRC::Mode::REGISTER;
+	MPinRC::UserWrapper^ managedUser = nullptr;
 
-	Platform::String^ pin = this->managedPinPad->Show(managedMode);
+	Platform::String^ pin = this->managedPinPad->Show(managedUser, managedMode);
 	return MPinWrapper::ToNativeString(pin);
 }
 

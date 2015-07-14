@@ -80,11 +80,11 @@ namespace sdk {
         [cLock unlock];
     }
     
-    String Context::Show(Mode mode) {
-        dispatch_async(dispatch_get_main_queue(),^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:kShowPinPadNotification object:nil];
-        });
-        
+String Context::Show(MPinSDK::UserPtr user, Mode mode) {
+    dispatch_async(dispatch_get_main_queue(),^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:kShowPinPadNotification object:nil];
+    });
+    
         [cLock lock];
         isShown = true;
         while ( pin.compare(kNegativeString) == 0) {
