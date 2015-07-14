@@ -27,6 +27,7 @@
     MPin *sdk;
 }
 - ( IBAction )gotoIdentityList:( id )sender;
+- ( IBAction )addQR:( id )sender;
 
 @end
 
@@ -39,6 +40,10 @@
     [super viewDidLoad];
 
     [[ThemeManager sharedManager] beautifyViewController:self];
+    
+    UIBarButtonItem * addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
+    UIBarButtonItem * qrItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(addQR:)];
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:addItem,qrItem, nil];
 }
 
 - ( void )viewWillAppear:( BOOL )animated
@@ -158,17 +163,19 @@
 - ( IBAction )add:( id )sender
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-    UIViewController *vcQR = [storyboard instantiateViewControllerWithIdentifier:@"QRController"];
-    [self.navigationController pushViewController:vcQR animated:YES];
-    
-    /// TODO : add suppport for BOTH
-    /*
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     AddSettingViewController *addViewController = [storyboard instantiateViewControllerWithIdentifier:@"AddConfig"];
     addViewController.isEdit = NO;
     [self.navigationController pushViewController:addViewController animated:YES];
-     */
 }
+
+
+- ( IBAction )addQR:( id )sender
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    UIViewController *vcQR = [storyboard instantiateViewControllerWithIdentifier:@"QRController"];
+    [self presentViewController:vcQR animated:NO completion:nil];
+}
+
 
 - ( IBAction )edit:( id )sender
 {

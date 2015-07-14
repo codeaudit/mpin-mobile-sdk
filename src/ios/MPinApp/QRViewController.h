@@ -12,10 +12,9 @@
 @interface QRViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView * viewPreview;
-@property (weak, nonatomic) IBOutlet UILabel * lblStatus;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem * bbItemStart;
 
-- (IBAction)startStopReading:(id)sender;
-- (IBAction) back:(id)sender;
+- (IBAction) startStopReading:(id)sender;
+- (IBAction) close:(id)sender;
 
 @end

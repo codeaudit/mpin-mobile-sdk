@@ -15,18 +15,16 @@
 #import "MenuTableViewCell.h"
 #import "ThemeManager.h"
 #import "ConfigurationManager.h"
-#import "QRViewController.h"
 
 #define USER_LIST 0
 #define SETTINGS 1
 #define ABOUT 2
-#define QR 3
 
 @interface MenuViewController () {
     AboutViewController* vcAbout;
     SettingsViewController* vcSettings;
     UserListViewController* vcUserList;
-    QRViewController * vcQR;
+
 }
 
 @end
@@ -45,7 +43,6 @@
     vcAbout = [self.storyboard instantiateViewControllerWithIdentifier:@"AboutViewController"];
     vcUserList = appDelegate.vcUserList;
     vcSettings = [self.storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
-    vcQR = [self.storyboard instantiateViewControllerWithIdentifier:@"QRController"];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -74,7 +71,7 @@
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return 3;
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
@@ -102,9 +99,6 @@
     case ABOUT:
         ((MenuTableViewCell*)cell).lblMenuID.text = NSLocalizedString(@"MENUVC_OPTION_2",@"");
         break;
-    case QR:
-        ((MenuTableViewCell*)cell).lblMenuID.text = @"QR Code Reader";
-        break;
     }
 }
 
@@ -125,9 +119,6 @@
 
     case ABOUT:
         vc = vcAbout;
-        break;
-    case QR:
-        vc = vcQR;
         break;
     }
 
@@ -151,9 +142,6 @@
 
     case ABOUT:
         vc = vcAbout;
-        break;
-    case QR:
-        vc = vcQR;
         break;
     }
 

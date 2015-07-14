@@ -15,8 +15,6 @@
 
 static NSInteger constIntTimeoutInterval = 30;
 
-
-
 @interface QRViewController ()
 @property(nonatomic) BOOL isReading;
 @property (nonatomic, strong) AVCaptureSession *captureSession;
@@ -39,10 +37,22 @@ static NSInteger constIntTimeoutInterval = 30;
     [self loadBeepSound];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    if(!(_isReading = [self startReading])) {
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                         errorString:@"Uanble to load camera and scan QR code!"
+                                                addActivityIndicator:NO
+                                                         minShowTime:3];
+    }
 }
+
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if (_isReading) [self stopReading];
+}
+
 
 -(BOOL) startReading {
     NSError *error;
@@ -51,7 +61,10 @@ static NSInteger constIntTimeoutInterval = 30;
     
     AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:captureDevice error:&error];
     if (!input) {
-        NSLog(@"%@", [error localizedDescription]);
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                         errorString:[error localizedDescription]
+                                                addActivityIndicator:NO
+                                                         minShowTime:3];
         return NO;
     }
     
@@ -81,13 +94,13 @@ static NSInteger constIntTimeoutInterval = 30;
     _captureSession = nil;
     
     [_videoPreviewLayer removeFromSuperlayer];
+    _isReading = NO;
 }
 
 - (IBAction)startStopReading:(id)sender {
     if (!_isReading) {
         if ([self startReading]) {
             [_bbItemStart setTitle:@"Stop"];
-            [_lblStatus setText:@"Scanning for QR Code..."];
         }
     }
     else{
@@ -125,8 +138,6 @@ static NSInteger constIntTimeoutInterval = 30;
     // TODO: show some loading functionality !!!
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-       // TODO :: replace this with the URL input parameter
-        // NSURL * theUrl = [NSURL URLWithString:@"http://192.168.10.75:8080/config.json"];
         NSURL * theUrl = [NSURL URLWithString:url];
         NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:theUrl cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:constIntTimeoutInterval];
         [request setTimeoutInterval:constIntTimeoutInterval];
@@ -154,7 +165,6 @@ static NSInteger constIntTimeoutInterval = 30;
         dispatch_async(dispatch_get_main_queue(), ^ (void) {
             // TODO: hide loading functionality
 
-            
             if(error != nil) {
                 NSString * errorMessage = @"";
                 switch (error.code) {
@@ -175,7 +185,7 @@ static NSInteger constIntTimeoutInterval = 30;
                                                                  minShowTime:3];
                 
             } else {
-                [self.navigationController popViewControllerAnimated:NO];
+                [self close:nil];
             }
         });
     });
@@ -186,12 +196,7 @@ static NSInteger constIntTimeoutInterval = 30;
     if (metadataObjects != nil && [metadataObjects count] > 0) {
         AVMetadataMachineReadableCodeObject *metadataObj = [metadataObjects objectAtIndex:0];
         if ([[metadataObj type] isEqualToString:AVMetadataObjectTypeQRCode]) {
-            [_lblStatus performSelectorOnMainThread:@selector(setText:) withObject:[metadataObj stringValue] waitUntilDone:NO];
-            
             [self performSelectorOnMainThread:@selector(stopReading) withObject:nil waitUntilDone:NO];
-            [_bbItemStart performSelectorOnMainThread:@selector(setTitle:) withObject:@"Start!" waitUntilDone:NO];
-            _isReading = NO;
-            
             [self performSelectorOnMainThread:@selector(loadConfigurations:) withObject:[metadataObj stringValue] waitUntilDone:NO];
             
             if (_audioPlayer) {
@@ -201,8 +206,8 @@ static NSInteger constIntTimeoutInterval = 30;
     }
 }
 
-- (IBAction) back:(id)sender {
-    [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
+-(IBAction)close:(id)sender {
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 @end
