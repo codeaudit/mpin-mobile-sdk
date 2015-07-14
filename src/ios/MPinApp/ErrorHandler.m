@@ -19,7 +19,7 @@
 {
     if ( ( self = [super init] ) )
     {}
-
+    
     return self;
 }
 
@@ -39,7 +39,7 @@
     dispatch_once(&onceToken, ^ {
         sharedManager = [[self alloc] init];
     });
-
+    
     return sharedManager;
 }
 
@@ -49,9 +49,8 @@
     if ( self )
     {
         self.hud = [[CVXATMHud alloc] initWithDelegate:self];
-       
     }
-
+    
     return self;
 }
 
@@ -69,7 +68,7 @@
 
 - ( void ) updateMessage:( NSString * ) strMessage
     addActivityIndicator:( BOOL )addActivityIndicator
-    hideAfter:( NSInteger ) hideAfter
+               hideAfter:( NSInteger ) hideAfter
 {
     NSLog(@"%f",_hud.minShowTime);
     _hud.minShowTime = hideAfter;
@@ -90,15 +89,15 @@
 }
 
 -( void ) presentMessageInViewController:( UIViewController * )viewController
-    errorString:( NSString * )strError
-    addActivityIndicator:( BOOL )addActivityIndicator
-    minShowTime:( NSInteger ) seconds
+                             errorString:( NSString * )strError
+                    addActivityIndicator:( BOOL )addActivityIndicator
+                             minShowTime:( NSInteger ) seconds
 {
     NSLog(@"%f",_hud.minShowTime);
     _hud.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, [[UIScreen mainScreen] bounds].size.height / 4);
     _hud.minShowTime = seconds;
     [_hud setCaption:strError];
-
+    
     if ( addActivityIndicator )
     {
         [_hud setActivity:YES];
@@ -107,9 +106,9 @@
     {
         [_hud setActivity:NO];
     }
-
+    
     [_hud showInView:viewController.view];
-
+    
     if ( seconds > 0 )
     {
         [_hud hide];
