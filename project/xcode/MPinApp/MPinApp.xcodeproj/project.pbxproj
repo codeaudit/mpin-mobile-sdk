@@ -424,9 +424,6 @@
 		FE4900261A1A3CEB000030A4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		FE4900281A1A3CEB000030A4 /* MPinApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MPinApp-Prefix.pch"; sourceTree = "<group>"; };
 		FE49003C1A1A3CEB000030A4 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		FE4900441A1A3CEB000030A4 /* MPinAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MPinAppTests-Info.plist"; sourceTree = "<group>"; };
-		FE4900461A1A3CEB000030A4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		FE4900481A1A3CEB000030A4 /* MPinAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPinAppTests.m; sourceTree = "<group>"; };
 		FE4900521A1A3EB3000030A4 /* libMPinSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMPinSDK.a; path = "../../Library/Developer/Xcode/DerivedData/MPin-dstiydtverhohyftwkvqxrutvrzp/Build/Products/Debug-iphoneos/libMPinSDK.a"; sourceTree = "<group>"; };
 		FE4AEB031A443137000B3181 /* OTPViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTPViewController.h; path = ../../../../src/ios/MPinApp/OTPViewController.h; sourceTree = "<group>"; };
 		FE4AEB041A443137000B3181 /* OTPViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTPViewController.m; path = ../../../../src/ios/MPinApp/OTPViewController.m; sourceTree = "<group>"; };
@@ -788,7 +785,6 @@
 				FE148D3D1A2F0FB7007E83EF /* MPin.h */,
 				FE148D3E1A2F0FB7007E83EF /* MpinStatus.h */,
 				FE4900201A1A3CEB000030A4 /* MPinApp */,
-				FE4900421A1A3CEB000030A4 /* MPinAppTests */,
 				FE4900191A1A3CEB000030A4 /* Frameworks */,
 				FE4900181A1A3CEB000030A4 /* Products */,
 				6C3E0DED7B61B739D72246B2 /* Pods */,
@@ -856,24 +852,6 @@
 				FE4900231A1A3CEB000030A4 /* InfoPlist.strings */,
 				FE4900261A1A3CEB000030A4 /* main.m */,
 				FE4900281A1A3CEB000030A4 /* MPinApp-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		FE4900421A1A3CEB000030A4 /* MPinAppTests */ = {
-			isa = PBXGroup;
-			children = (
-				FE4900481A1A3CEB000030A4 /* MPinAppTests.m */,
-				FE4900431A1A3CEB000030A4 /* Supporting Files */,
-			);
-			path = MPinAppTests;
-			sourceTree = "<group>";
-		};
-		FE4900431A1A3CEB000030A4 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				FE4900441A1A3CEB000030A4 /* MPinAppTests-Info.plist */,
-				FE4900451A1A3CEB000030A4 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1514,14 +1492,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				FE4900241A1A3CEB000030A4 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		FE4900451A1A3CEB000030A4 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FE4900461A1A3CEB000030A4 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
