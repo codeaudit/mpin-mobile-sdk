@@ -2,28 +2,28 @@
 #ifndef _DLLDEFINES_H_
 #define _DLLDEFINES_H_
 
-/* Cmake will define sakke_EXPORTS on Windows when it
+/* Cmake will define sok_EXPORTS and mpin_EXPORTS on Windows when it
 configures to build a shared library. If you are going to use
 another build system on windows or create the visual studio
-projects by hand you need to define sakke_EXPORTS when
+projects by hand you need to define sok_EXPORTS and mpin_EXPORTS when
 building a DLL on windows. */
-#define sakke_EXPORTS
-#define aesgcm_EXPORTS
-#define eccsi_EXPORTS
-#define mpin_EXPORTS
+/* #define sok_EXPORTS */
+/* #define mpin_EXPORTS */
 
 
-#if defined (_WIN32) 
+#if defined (_MSC_VER) 
 
-  #if defined(sakke_EXPORTS) || defined(eccsi_EXPORTS) || defined(aesGcm_EXPORTS) || defined(mpin_EXPORTS)
-    #define  DLL_EXPORT __declspec(dllexport)
-  #else
-    #define  DLL_EXPORT __declspec(dllimport)
-  #endif /* sakke_EXPORTS || eccsi_EXPORTS || aesgcm_EXPORTS || mpin_EXPORTS */
+ #define DLL_EXPORT extern
+/* This code does not work with cl */
+/*  #if defined(sok_EXPORTS) || defined(mpin_EXPORTS) */
+/*    #define  DLL_EXPORT __declspec(dllexport) */
+/*  #else */
+/*    #define  DLL_EXPORT __declspec(dllimport) */
+/*  #endif /\* sok_EXPORTS || mpin_EXPORTS *\/ */
 
 #else /* defined (_WIN32) */
 
- #define DLL_EXPORT
+ #define DLL_EXPORT extern
 
 #endif
 

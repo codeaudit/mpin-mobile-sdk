@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9649BC891AC16D1000B9F41B"
-               BuildableName = "DD MPin.app"
-               BlueprintName = "DD MPin"
+               BlueprintIdentifier = "96130E1D1AEE4867005D2A86"
+               BuildableName = "NTTComSecurity MPin.app"
+               BlueprintName = "NTTComSecurity"
                ReferencedContainer = "container:MPinApp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -71,9 +71,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9649BC891AC16D1000B9F41B"
-            BuildableName = "DD MPin.app"
-            BlueprintName = "DD MPin"
+            BlueprintIdentifier = "96130E1D1AEE4867005D2A86"
+            BuildableName = "NTTComSecurity MPin.app"
+            BlueprintName = "NTTComSecurity"
             ReferencedContainer = "container:MPinApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Button
+        android:id="@+id/create_identity_button"
+        style="@style/RaisedButtonWhite"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/ic_add"
+        android:drawablePadding="10dp"
+        android:drawableStart="@drawable/ic_add"
+        android:gravity="center_vertical"
+        android:paddingEnd="0dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="0dp"
+        android:paddingStart="10dp"
+        android:text="@string/add_identity_button"
+        android:textAllCaps="false"
+        android:textColor="@color/base_text_color"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+    <ListView
+        android:id="@id/android:list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:visibility="gone" >
+    </ListView>
+
+    <ImageButton
+        android:id="@+id/create_identity_fa_button"
+        style="@style/FloatingActionButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:contentDescription="@string/add_identitiy"
+        android:src="@drawable/ic_action_add" />
+
+</RelativeLayout>

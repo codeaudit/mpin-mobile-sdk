@@ -24,6 +24,8 @@ class MPinSDK
 public:
     typedef util::String String;
     typedef util::StringMap StringMap;
+    class User;
+    typedef shared_ptr<User> UserPtr;
 
     enum CryptoType
     {
@@ -86,7 +88,7 @@ public:
         };
 
         virtual ~IPinPad() {}
-        virtual String Show(Mode mode) = 0;
+        virtual String Show(UserPtr user, Mode mode) = 0;
     };
 
     class IContext
@@ -166,13 +168,13 @@ public:
         };
 
         const String& GetId() const;
+        const String& GetMPinId() const;
         State GetState() const;
 
     private:
         friend class MPinSDK;
         User(const String& id, const String& deviceName);
         const String& GetDeviceName() const;
-        const String& GetMPinId() const;
         const String& GetMPinIdHex() const;
         const String& GetRegOTT() const;
         const TimePermitCache& GetTimePermitCache() const;
@@ -196,8 +198,6 @@ public:
         String m_regOTT;
         TimePermitCache m_timePermitCache;
     };
-
-    typedef shared_ptr<User> UserPtr;
 
 	class OTP
 	{

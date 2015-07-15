@@ -93,7 +93,6 @@
     <Compile Include="InterfaceImplementations\HTTPConnector.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InterfaceImplementations\IUser.cs" />
     <Compile Include="InterfaceImplementations\PinPad.cs" />
     <Compile Include="InterfaceImplementations\Storage.cs">
       <SubType>Code</SubType>

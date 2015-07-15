@@ -3,7 +3,7 @@
 
     <!-- Navigation drawer strings -->
     <string name="drawer_subtitle">Active service:</string>
-    <string name="drawer_title">M-Pin Connect&#8230;</string>
+    <string name="drawer_no_service">No Service</string>
     <string name="drawer_open">Drawer Open</string>
     <string name="drawer_closed">Drawer Closed</string>
     <string name="change_identitiy">Change Identity</string>
@@ -27,9 +27,9 @@
 
 
     <!-- Menu titles -->
-    <string name="select_user">Select User</string>
+    <string name="select_identity">Select User</string>
     <string name="reset_pin">Reset Pin</string>
-    <string name="delete_user">Delete</string>
+    <string name="delete_identity">Delete</string>
     <string name="select_config">Select Configuration</string>
     <!-- Menu titles end -->
 
@@ -60,7 +60,7 @@
 
 
     <!-- Access number -->
-    <string name="access_number_text">Enter the 7-digit Access Number</string>
+    <string name="access_number_text">Enter the %1$s-digit Access Number</string>
     <string name="access_number_info">You can find the Access Number on the Online login page.</string>
     <!-- Access number end -->
 
@@ -83,7 +83,7 @@
     <!-- Configuration Edit -->
     <string name="select_service_toolbar_title">Select Service</string>
     <string name="add_service_toolbar_title">Add Service</string>
-    <string name="edit_service_toolbar_title">Edit Service</string>
+    <string name="config_detail_toolbar_title">Edit Service</string>
     <string name="enter_service_name_title">Enter Service Name</string>
     <string name="enter_service_name_hint">Service Name</string>
     <string name="enter_server_url_hint">M-Pin Server URL</string>
@@ -94,7 +94,6 @@
     <string name="check_service">Check Service URL</string>
     <string name="save_configuration">Save Configuration</string>
     <string name="add_service">Add Service</string>
-    <string name="no_configurations">No configurations</string>
     <!-- Configuration Edit end -->
 
 
