@@ -16,8 +16,10 @@
 
 @property (nonatomic) NSInteger intSelectedConfiguration;
 
+- (void)addConfiguration:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName prefixName:(NSString *) prefixName;
 - (void)addConfigurationWithURL:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName;
 - (void)addConfigurationWithURL:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName prefixName:(NSString *) prefixName;
+- (void)saveConfigurations;
 - (BOOL)saveConfigurationAtIndex:(NSInteger)index url:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName;
 - (BOOL)saveConfigurationAtIndex:(NSInteger)index url:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName prefixName:(NSString *) prefixName;
 - (BOOL)deleteConfigurationAtIndex:(NSInteger)index;

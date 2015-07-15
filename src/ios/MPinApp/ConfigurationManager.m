@@ -135,20 +135,24 @@ static NSString *const kSettings = @"settings";
     return false;
 }
 
-- ( void )addConfigurationWithURL:( NSString * )url serviceType:( int )serviceType name:( NSString * )configurationName
-{
-    [self addConfigurationWithURL:url serviceType:serviceType name:configurationName prefixName:nil];
-}
-
-- (void)addConfigurationWithURL:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName prefixName:(NSString *) prefixName {
+- (void)addConfiguration:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName prefixName:(NSString *) prefixName   {
+    
     NSDictionary *data = @{ kRPSURL : url,
                             kSERVICE_TYPE : @( serviceType ),
                             kCONFIG_NAME : configurationName,
                             kRPSPrefix : (prefixName == nil)?(@""):(prefixName) };
     
     [_arrConfigrations addObject:data];
-    [self saveConfigurations];
+}
 
+- ( void )addConfigurationWithURL:( NSString * )url serviceType:( int )serviceType name:( NSString * )configurationName
+{
+    [self addConfigurationWithURL:url serviceType:serviceType name:configurationName prefixName:nil];
+}
+
+- (void)addConfigurationWithURL:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName prefixName:(NSString *) prefixName {
+    [self addConfiguration:url serviceType:serviceType name:configurationName prefixName:prefixName];
+    [self saveConfigurations];
 }
 
 - ( BOOL )saveConfigurationAtIndex:( NSInteger )index url:( NSString * )url serviceType:( int )serviceType name:( NSString * )configurationName

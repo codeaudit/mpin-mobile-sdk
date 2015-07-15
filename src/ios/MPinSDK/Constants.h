@@ -32,6 +32,16 @@ static NSString *const kConfigHashValue = @"hashValue";
 static NSString *const kDefConfigThreshold = @"DefConfigThreshold";
 static NSString *const kSelectedConfiguration = @"SelectedConfiguration";
 
+/// BEGIN JSON CONFIG FROM SERVER
+static NSString *const kJSON_URL = @"url";
+static NSString *const kJSON_NAME = @"name";
+static NSString *const kJSON_TYPE = @"type";
+static NSString *const kJSON_PREFIX = @"prefix";
+
+static NSString *const kJSON_TYPE_OTP = @"otp";
+static NSString *const kJSON_TYPE_MOBILE= @"mobile";
+static NSString *const kJSON_TYPE_ONLINE = @"online";
+//// END
 
 
 static NSString *const kDeviceName = @"setDeviceName";
