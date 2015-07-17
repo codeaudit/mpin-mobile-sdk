@@ -12,34 +12,35 @@
 
 @interface ConfigurationManager : NSObject
 
-+ (ConfigurationManager*)sharedManager;
++ ( ConfigurationManager * )sharedManager;
 
-@property (nonatomic) NSInteger intSelectedConfiguration;
+@property ( nonatomic ) NSInteger intSelectedConfiguration;
+@property ( NS_NONATOMIC_IOSONLY, getter = getSelectedUserIndexforSelectedConfiguration, readonly ) NSInteger selectedUserIndexforSelectedConfiguration;
+@property ( NS_NONATOMIC_IOSONLY, getter = getSelectedConfigurationIndex, readonly ) NSInteger selectedConfigurationIndex;
+@property ( NS_NONATOMIC_IOSONLY, getter = getConfigurationsCount, readonly ) NSInteger configurationsCount;
 
-- (void)addConfiguration:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName prefixName:(NSString *) prefixName;
-- (void)addConfigurationWithURL:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName;
-- (void)addConfigurationWithURL:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName prefixName:(NSString *) prefixName;
-- (void)saveConfigurations;
-- (BOOL)saveConfigurationAtIndex:(NSInteger)index url:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName;
-- (BOOL)saveConfigurationAtIndex:(NSInteger)index url:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName prefixName:(NSString *) prefixName;
-- (BOOL)deleteConfigurationAtIndex:(NSInteger)index;
-- (BOOL)setSelectedConfiguration:(NSInteger)index;
-- (BOOL)setSelectedUserForCurrentConfiguration:(NSInteger)userIndex;
-- (BOOL)isEmpty;
-- (NSInteger) defaultConfigCount;
 
-@property (NS_NONATOMIC_IOSONLY, getter=getSelectedConfigurationIndex, readonly) NSInteger selectedConfigurationIndex;
-@property (NS_NONATOMIC_IOSONLY, getter=getConfigurationsCount, readonly) NSInteger configurationsCount;
-- (NSString*)getURLAtIndex:(NSInteger)index;
-- (NSString*)getNameAtIndex:(NSInteger)index;
-- (NSString*)getPrefixAtIndex:(NSInteger)index;
-- (BOOL)getIsDeviceName:(NSInteger)index;
-- (NSInteger)getConfigurationTypeAtIndex:(NSInteger)index;
-- (NSDictionary*)getSelectedConfiguration;
-- (NSDictionary*)getConfigurationAtIndex:(NSInteger) index;
-@property (NS_NONATOMIC_IOSONLY, getter=getSelectedUserIndexforSelectedConfiguration, readonly) NSInteger selectedUserIndexforSelectedConfiguration;
+- ( void )addConfiguration:( NSString * )url serviceType:( int )serviceType name:( NSString * )configurationName prefixName:( NSString * ) prefixName;
+- ( void )addConfigurationWithURL:( NSString * )url serviceType:( int )serviceType name:( NSString * )configurationName;
+- ( void )addConfigurationWithURL:( NSString * )url serviceType:( int )serviceType name:( NSString * )configurationName prefixName:( NSString * ) prefixName;
+- ( void )saveConfigurations;
+- ( BOOL )saveConfigurationAtIndex:( NSInteger )index url:( NSString * )url serviceType:( int )serviceType name:( NSString * )configurationName;
+- ( BOOL )saveConfigurationAtIndex:( NSInteger )index url:( NSString * )url serviceType:( int )serviceType name:( NSString * )configurationName prefixName:( NSString * ) prefixName;
+- ( BOOL )deleteConfigurationAtIndex:( NSInteger )index;
+- ( BOOL )setSelectedConfiguration:( NSInteger )index;
+- ( BOOL )setSelectedUserForCurrentConfiguration:( NSInteger )userIndex;
+- ( BOOL )isEmpty;
+- ( NSInteger ) defaultConfigCount;
 
--(NSString *) getDeviceName;
--(void) setDeviceName:(NSString *) devName;
+- ( NSString * )getURLAtIndex:( NSInteger )index;
+- ( NSString * )getNameAtIndex:( NSInteger )index;
+- ( NSString * )getPrefixAtIndex:( NSInteger )index;
+- ( BOOL )getIsDeviceName:( NSInteger )index;
+- ( NSInteger )getConfigurationTypeAtIndex:( NSInteger )index;
+- ( NSDictionary * )getSelectedConfiguration;
+- ( NSDictionary * )getConfigurationAtIndex:( NSInteger ) index;
+
+-( NSString * ) getDeviceName;
+-( void ) setDeviceName:( NSString * ) devName;
 
 @end
