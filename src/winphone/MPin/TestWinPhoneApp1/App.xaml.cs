@@ -16,6 +16,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using HockeyApp;
+using Windows.Storage;
+using Windows.Phone.UI.Input;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
@@ -27,6 +29,14 @@ namespace MPinDemo
     public sealed partial class App : Application
     {
         private TransitionCollection transitions;
+        public event Action<IReadOnlyList<StorageFile>> FilesPicked;
+
+        /// <summary>
+        /// This event wraps HardwareButtons.BackPressed to ensure that any pages that
+        /// want to override the default behavior can subscribe to this event to potentially
+        /// handle the back button press a different way (e.g. dismissing dialogs).
+        /// </summary>
+        public event EventHandler<BackPressedEventArgs> BackPressed;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -36,9 +46,26 @@ namespace MPinDemo
         {
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
-            HockeyClient.Current.Configure("584408f872a0f7e10991ddb9954b3eb3");            
+            HockeyClient.Current.Configure("584408f872a0f7e10991ddb9954b3eb3");
+            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
         }
 
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            var fopArgs = args as FileOpenPickerContinuationEventArgs;
+            if (fopArgs != null)
+            {
+                // Pass the picked files to the subscribed event handlers
+                // In a real world app you could also use a Messenger, Listener or any other subscriber-based model
+                if (fopArgs.Files.Any() && FilesPicked != null)
+                {
+                    FilesPicked(fopArgs.Files);
+                }
+            }
+
+            base.OnActivated(args);
+        }
+        
         //internal static Frame RootFrame;
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -121,6 +148,32 @@ namespace MPinDemo
             var rootFrame = sender as Frame;
             rootFrame.ContentTransitions = this.transitions ?? new TransitionCollection() { new NavigationThemeTransition() };
             rootFrame.Navigated -= this.RootFrame_FirstNavigated;
+        }
+
+        /// <summary>
+        /// Handles the back button press and navigates through the history of the root frame.
+        /// </summary>
+        /// <param name="sender">The source of the event. <see cref="HardwareButtons"/></param>
+        /// <param name="e">Details about the back button press.</param>
+        private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
+        {
+            Frame frame = Window.Current.Content as Frame;
+            if (frame == null)
+            {
+                return;
+            }
+
+            var handler = this.BackPressed;
+            if (handler != null)
+            {
+                handler(sender, e);
+            }
+
+            if (frame.CanGoBack && !e.Handled)
+            {
+                frame.GoBack();
+                e.Handled = true;
+            }
         }
 
         /// <summary>

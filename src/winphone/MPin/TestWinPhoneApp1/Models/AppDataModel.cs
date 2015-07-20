@@ -16,21 +16,25 @@ namespace MPinDemo.Models
     public class AppDataModel : INotifyPropertyChanged
     {
         #region Members
-        private const string FilePath = 
+        
+        private const string FileName =
 #if DEBUG
-            "ms-appx:///Resources/SampleData_Debug.json";
+            "SampleData_Debug.json";
 #elif MPinConnect
-            "ms-appx:///Resources/SampleData_MPinConnect.json";
+            "SampleData_MPinConnect.json";
 #else
-            "ms-appx:///Resources/SampleData.json";
+            "SampleData.json";
 #endif
 
+        private const string FilePath = "ms-appx:///Resources/" + FileName;
+
+        private StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
         private const string backendsKey = "Backends";
         private static AppDataModel _appDataModel = new AppDataModel();
 
         public AppDataModel()
         {
-            //CreateBackends();
+                    //CreateBackends();
         }
 
 
@@ -218,45 +222,136 @@ namespace MPinDemo.Models
 
             if (this.BackendsList.Count != 0)
                 return;
+                        
+            StorageFile file = null;
+            try
+            {
+                file = await GetConfigurationFile();
+            }
+            catch (Exception sewe)
+            {
+                System.Diagnostics.Debug.WriteLine(sewe.Message);
+                return;
+            }
 
-            Uri dataUri = new Uri(FilePath);
+            await LoadBackendsFromFile(file);
+        }
 
-            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(dataUri);
+        internal async Task LoadBackendsFromFile(StorageFile file)
+        {
             string jsonText = await FileIO.ReadTextAsync(file);
-            
-            
-            
-            JsonObject jsonObject = JsonObject.Parse(jsonText);
-            JsonArray jsonArray = jsonObject[backendsKey].GetArray();
+            if (string.IsNullOrEmpty(jsonText))
+            {
+                System.Diagnostics.Debug.WriteLine("Empty json file!");
+                return;
+            }
 
+            LoadBackendsFromDataString(jsonText);
+        }
 
+        internal void LoadBackendsFromDataString(string jsonText, bool readFromQR = false)
+        {
+            if (string.IsNullOrEmpty(jsonText))
+            {
+                System.Diagnostics.Debug.WriteLine("Empty json text!");
+                return;
+            }
+
+            JsonArray jsonArray;
+            try
+            {
+                 jsonArray = JsonArray.Parse(jsonText);
+            }
+            catch
+            {
+                System.Diagnostics.Debug.WriteLine("Invalid json!");
+                return;
+            }
 
             foreach (JsonValue groupValue in jsonArray)
             {
                 JsonObject groupObject = groupValue.GetObject();
-                Backend backend = new Backend(groupObject);                
+                Backend backend = new Backend(groupObject);
                 this.BackendsList.Add(backend);
             }
         }
 
-
         internal async Task SaveServices()
         {
-            Uri dataUri = new Uri(FilePath);
-            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(dataUri);
-
             JsonArray jsonArray = new JsonArray();
             foreach (Backend backend in BackendsList)
             {
                 jsonArray.Add(backend.ToJsonObject());
             }
 
-            JsonObject jsonObject = new JsonObject();            
-            jsonObject[backendsKey] = jsonArray;
+            StorageFile file = await GetConfigurationFile(true);
 
+            try
+            {
+                CachedFileManager.DeferUpdates(file);
 
-            await FileIO.WriteTextAsync(file, jsonObject.Stringify());
+                string data = jsonArray.Stringify();
+
+                await FileIO.WriteTextAsync(file, data);
+                
+                Windows.Storage.Provider.FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
+
+                if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
+                {
+                    // File was saved
+                }
+                else
+                {
+                    // File was not saved
+                }
+            }
+            catch(Exception wer)
+            {
+                System.Diagnostics.Debug.WriteLine(wer.Message);
+            }
         }
+
+
+        /// <summary>
+        /// Gets the configuration file. The InstalledLocation storage folder is readonly, which is why 
+        /// when modify the predefined configuration we should use the LocalStorage.
+        /// /// </summary>
+        /// <param name="forceGetFromLocal">if set to <c>true</c> [force get from local].</param>
+        /// <returns></returns>
+        private async Task<StorageFile> GetConfigurationFile(bool forceGetFromLocal = false)
+        {     
+            bool isPresent = await IsFilePresentInLocalStorage(FileName);
+            if (isPresent)
+            {
+                // if the file is present in the LocalFolder -> the predefined configuration have been changed and save in the local storage
+                return await localFolder.GetFileAsync(FileName);
+            }
+            else if (forceGetFromLocal)
+            {
+                return await localFolder.CreateFileAsync(FileName, CreationCollisionOption.ReplaceExisting);
+            }
+            else
+            {
+                // the configurations have not been modified -> get the predefined configuration from the local installed location
+                Uri dataUri = new Uri(FilePath, UriKind.Absolute);
+                return await StorageFile.GetFileFromApplicationUriAsync(dataUri);                
+            }
+        }
+
+        private async Task<bool> IsFilePresentInLocalStorage(string fileName)
+        {
+            var allfiles = await localFolder.GetFilesAsync();
+            foreach (var storageFile in allfiles)
+            {
+                if (storageFile.Name == fileName)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         #endregion
 
         #region INotifyPropertyChanged

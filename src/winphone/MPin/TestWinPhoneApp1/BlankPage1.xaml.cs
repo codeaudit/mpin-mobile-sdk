@@ -13,6 +13,15 @@ using Windows.UI.Xaml.Navigation;
 using System.Linq;
 using Windows.UI.Xaml.Data;
 using HockeyApp;
+using ZXing;
+using ZXing.Common;
+using System.Threading.Tasks;
+using System.Threading;
+using Windows.Web.Http;
+using System.IO;
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.Storage.Streams;
+using Windows.Storage.Pickers;
 
 namespace MPinDemo
 {
@@ -34,6 +43,9 @@ namespace MPinDemo
         private static Controller controller = null;
         private static bool showUsers = true;
         private static int selectedServiceIndex;
+        private BarcodeReader _barcodeReader;
+        private static readonly IEnumerable<string> SupportedImageFileTypes = new List<string> { ".jpeg", ".jpg", ".png" };
+        
         #endregion // members
 
         #region constructors
@@ -50,6 +62,20 @@ namespace MPinDemo
             this.DataContext = controller.DataModel;
             RoamingSettings = ApplicationData.Current.RoamingSettings;
             controller.PropertyChanged += controller_PropertyChanged;
+
+            // Attach event which will return the picked files
+            var app = Application.Current as App;
+            if (app != null)
+            {
+                app.FilesPicked += OnFilesPicked;
+            }
+
+            _barcodeReader = new BarcodeReader
+            {
+                Options = new DecodingOptions() { TryHarder = true },
+                PossibleFormats = new BarcodeFormat[] { BarcodeFormat.QR_CODE },
+                AutoRotate = true
+            };
         }
 
         #endregion // constructors
@@ -87,6 +113,13 @@ namespace MPinDemo
             }
 
             LoadSettings();
+        }
+
+        protected async override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            if (controller != null)
+                await controller.Dispose();
         }
 
         #endregion
@@ -267,6 +300,7 @@ namespace MPinDemo
             AddAppBarButton.Icon = new SymbolIcon(this.MainPivot.SelectedIndex == 0 ? Symbol.Add : Symbol.AddFriend);
 
             EditButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
+            ScanAppBarButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private async void Delete_Click(object sender, RoutedEventArgs e)
@@ -344,6 +378,124 @@ namespace MPinDemo
                 selectedServiceIndex = -1;
             }
         }
+
+        private void ScanAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            TriggerPicker(SupportedImageFileTypes);
+        }
+
+        private static void TriggerPicker(IEnumerable<string> fileTypeFilers, bool shouldPickMultiple = false)
+        {
+            var fop = new FileOpenPicker();
+            foreach (var fileType in fileTypeFilers)
+            {
+                fop.FileTypeFilter.Add(fileType);
+            }
+
+            if (shouldPickMultiple)
+            {
+                fop.PickMultipleFilesAndContinue();
+            }
+            else
+            {
+                fop.PickSingleFileAndContinue();
+            }
+        }
+
+        private async void OnFilesPicked(IReadOnlyList<StorageFile> files)
+        {
+            if (files == null || files.Count != 1)
+            {
+                rootPage.NotifyUser(files == null ? ResourceLoader.GetForCurrentView().GetString("NoImage") : ResourceLoader.GetForCurrentView().GetString("NoQRInImage"), MainPage.NotifyType.ErrorMessage);
+                return;
+            }
+
+            var data = await FileIO.ReadBufferAsync(files[0]);
+            // create a stream from the file
+            var ms = new InMemoryRandomAccessStream();
+            var dw = new Windows.Storage.Streams.DataWriter(ms);
+            dw.WriteBuffer(data);
+            await dw.StoreAsync();
+            ms.Seek(0);
+
+            // find out how big the image is
+            var bm = new BitmapImage();
+            await bm.SetSourceAsync(ms);
+
+            // create a writable bitmap of the right size
+            var wb = new WriteableBitmap(bm.PixelWidth, bm.PixelHeight);
+            ms.Seek(0);
+
+            // load the writable bitmap from the stream
+            await wb.SetSourceAsync(ms);
+
+            Result result = _barcodeReader.Decode(wb);
+            if (result != null)
+            {
+                if (string.IsNullOrEmpty(result.Text))
+                {
+                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("EmptyURL"), MainPage.NotifyType.ErrorMessage);
+                    return;
+                }
+
+                System.Uri uri;
+                if (!System.Uri.TryCreate(System.Uri.EscapeUriString(result.Text), UriKind.Absolute, out uri))
+                {
+                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("InvalidURL"), MainPage.NotifyType.ErrorMessage);
+                    return;
+                }
+
+                try
+                {
+                    await SendRequest(result.Text, HttpMethod.Get, string.Empty, null);                                    
+                }
+                catch (FileNotFoundException ex)
+                {
+                    rootPage.NotifyUser("Error while creating file: " + ex.Message, MPinDemo.MainPage.NotifyType.ErrorMessage);
+                    return;
+                }
+                catch (Exception werwe)
+                {                    
+                    System.Diagnostics.Debug.WriteLine(werwe.Message);
+                    if (werwe.Message.Contains("0x80072EFD"))
+                        rootPage.NotifyUser("Network problem! Cannot download the configuration file! ", MPinDemo.MainPage.NotifyType.ErrorMessage);                    
+                }
+            }
+        }
+
+        private async Task SendRequest(String serviceURL, Windows.Web.Http.HttpMethod http_method, String requestBody, IDictionary<String, String> requestProperties)
+        {
+            // TODO: check if the response is empty, if an exception is thrown
+            // empty resonse returned on unsuccessful authentication
+            HttpClient httpClient = new HttpClient();
+            CancellationTokenSource cts = new CancellationTokenSource();
+            try
+            {
+                System.Uri resourceAddress = new System.Uri(serviceURL);
+                HttpRequestMessage request = new HttpRequestMessage(http_method, resourceAddress);
+
+                HttpResponseMessage response = await httpClient.SendRequestAsync(
+                    request,
+                    HttpCompletionOption.ResponseHeadersRead).AsTask(cts.Token);
+
+                string responseData = await response.Content.ReadAsStringAsync();
+                //this.statusCode = (int)response.StatusCode;
+                if (!string.IsNullOrEmpty(responseData))
+                {
+                    controller.DataModel.LoadBackendsFromDataString(responseData);
+                }
+            }
+            catch (TaskCanceledException tce)
+            {
+                System.Diagnostics.Debug.WriteLine("Request canceled!");
+                throw tce;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error: " + ex.Message);
+                throw ex;
+            }
+        }
         #endregion // handlers
     }
 
@@ -355,10 +507,10 @@ namespace MPinDemo
             if (backend == null)
                 return string.Empty;
 
-            if (backend.RequestAccessNumber)
+            if (backend.Type == ConfigurationType.Online)
                 return ResourceLoader.GetForCurrentView().GetString("OnlineLogin");
 
-            if (backend.RequestOtp)
+            if (backend.Type == ConfigurationType.OTP)
                 return ResourceLoader.GetForCurrentView().GetString("OTPLogin");
 
             return ResourceLoader.GetForCurrentView().GetString("MobileLogin");

@@ -67,7 +67,7 @@
                                     <CheckBox IsChecked="{Binding IsSet}" IsEnabled="False" />
 
                                     <StackPanel Margin="0,0,0,9.5" Grid.Column="1">
-                                        <TextBlock Text="{Binding Title}"  
+                                        <TextBlock Text="{Binding Name}"  
                                            TextWrapping="Wrap"
                                             Pivot.SlideInAnimationGroup="1"
                                             CommonNavigationTransitionInfo.IsStaggerElement="True"
@@ -131,6 +131,11 @@
 
     <Page.BottomAppBar>
         <CommandBar>
+            <AppBarButton x:Uid="ScanAppBarButton" 
+                          x:Name="ScanAppBarButton" 
+                          Icon="Download"                          
+                          Click="ScanAppBarButton_Click" />
+            
             <AppBarButton x:Uid="AddAppBarButton" 
                           x:Name="AddAppBarButton" 
                           Icon="Add" 

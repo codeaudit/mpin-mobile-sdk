@@ -357,4 +357,19 @@
   <data name="AboutTitle.Text" xml:space="preserve">
     <value>CertiVox M-Pin</value>
   </data>
+  <data name="EmptyURL" xml:space="preserve">
+    <value>Адресът на сървъра е празен!</value>
+  </data>
+  <data name="InvalidURL" xml:space="preserve">
+    <value>Невалиден адрес за прочитане!</value>
+  </data>
+  <data name="NoImage" xml:space="preserve">
+    <value>Не е избрано изображение!</value>
+  </data>
+  <data name="NoQRInImage" xml:space="preserve">
+    <value>Няма намерен QRCode в избраното изображение!</value>
+  </data>
+  <data name="ScanAppBarButton.Label" xml:space="preserve">
+    <value>прочети qrcode</value>
+  </data>
 </root>

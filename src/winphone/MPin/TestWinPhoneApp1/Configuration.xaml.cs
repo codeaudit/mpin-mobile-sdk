@@ -73,7 +73,7 @@ namespace MPinDemo
             this.Backend = isAdding ? new Backend() : e.Parameter as Backend;
             this.backend.PropertyChanged += backend_PropertyChanged;
 
-            if (this.Backend == null || (!this.Backend.RequestAccessNumber && !this.Backend.RequestOtp))
+            if (this.Backend == null || this.Backend.Type == ConfigurationType.Mobile)
             {
                 MobileLoginRadioButton.IsChecked = true;
             }
@@ -91,7 +91,7 @@ namespace MPinDemo
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(this.Backend.Title) && Uri.IsWellFormedUriString(this.Backend.BackendUrl, UriKind.Absolute))
+            if (!string.IsNullOrEmpty(this.Backend.Name) && Uri.IsWellFormedUriString(this.Backend.BackendUrl, UriKind.Absolute))
             {
                 if (!isAdding && isUrlChanged)
                 {
@@ -112,7 +112,7 @@ namespace MPinDemo
             }
             else
             {
-                rootPage.NotifyUser(string.IsNullOrEmpty(this.Backend.Title) ? ResourceLoader.GetForCurrentView().GetString("EmptyTitle") : ResourceLoader.GetForCurrentView().GetString("WrongURL"), MainPage.NotifyType.ErrorMessage);
+                rootPage.NotifyUser(string.IsNullOrEmpty(this.Backend.Name) ? ResourceLoader.GetForCurrentView().GetString("EmptyTitle") : ResourceLoader.GetForCurrentView().GetString("WrongURL"), MainPage.NotifyType.ErrorMessage);
             }
         }
 

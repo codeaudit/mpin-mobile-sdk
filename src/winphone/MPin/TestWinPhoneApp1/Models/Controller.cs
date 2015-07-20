@@ -27,6 +27,11 @@ namespace MPinDemo.Models
 
         private static MPin sdk;
 
+        // After a collection change operation we want to suspend save operations for a short period
+        // of time (based on how many items have been changed) to avoid costly operation,
+        // so make it once after the change has finished.
+        internal DispatcherTimer isChangingTimer;
+
         #endregion // Fields
 
         #region C'tors
@@ -43,9 +48,9 @@ namespace MPinDemo.Models
             DataModel = new AppDataModel();
             DataModel.PropertyChanged += DataModel_PropertyChanged;
         }
-
+        
         #endregion // C'tor
-
+        
         #region Members
         string DeviceName { get; set; }
 
@@ -131,11 +136,16 @@ namespace MPinDemo.Models
 
                 case "BackendsList":
                     if (this.DataModel.BackendsList != null)
+                    {
                         this.DataModel.BackendsList.CollectionChanged += BackendsList_CollectionChanged;
+                        this.isChangingTimer = new DispatcherTimer();
+                        this.isChangingTimer.Interval = TimeSpan.FromMilliseconds(200);
+                        this.isChangingTimer.Tick += isChangingTimer_Tick;                                                
+                    }
                     break;
             }
         }
-
+        
         private void UpdateServices(bool isSet)
         {
             foreach (var service in DataModel.BackendsList)
@@ -152,6 +162,13 @@ namespace MPinDemo.Models
         #endregion // handlers
 
         #region Methods
+
+        public async Task Dispose()
+        {
+            if (this.isChangingTimer != null)
+                await ProcessSaveChanges();
+        }
+
         #region services
 
         private Status InitService()
@@ -193,8 +210,22 @@ namespace MPinDemo.Models
             return status;
         }
         
-        async void BackendsList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        void BackendsList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
+            Debug.WriteLine("BackendsList_CollectionChanged -> start ticker");
+            isChangingTimer.Start();
+        }
+        
+        async void isChangingTimer_Tick(object sender, object e)
+        {
+            Debug.WriteLine("isChangingTimer_Tick");
+            await ProcessSaveChanges();            
+        }
+
+        private async Task ProcessSaveChanges()
+        {
+            Debug.WriteLine("ProcessSaveChanges stop ticker; save changes");
+            isChangingTimer.Stop();
             await this.DataModel.SaveServices();
         }
 
@@ -232,7 +263,7 @@ namespace MPinDemo.Models
                     return;
                 }
 
-                var confirmation = new MessageDialog(string.Format(ResourceLoader.GetForCurrentView().GetString("DeleteServiceConfirmation"), backend.Title));
+                var confirmation = new MessageDialog(string.Format(ResourceLoader.GetForCurrentView().GetString("DeleteServiceConfirmation"), backend.Name));
                 confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("YesCommand")));
                 confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("NoCommand")));
                 confirmation.DefaultCommandIndex = 1;
@@ -313,9 +344,8 @@ namespace MPinDemo.Models
             if (editBackend != null && selectedServicesIndex > 0 && selectedServicesIndex < this.DataModel.BackendsList.Count)
             {
                 this.DataModel.BackendsList[selectedServicesIndex].BackendUrl = editBackend.BackendUrl;
-                this.DataModel.BackendsList[selectedServicesIndex].Title = editBackend.Title;
-                this.DataModel.BackendsList[selectedServicesIndex].RequestAccessNumber = editBackend.RequestAccessNumber;
-                this.DataModel.BackendsList[selectedServicesIndex].RequestOtp = editBackend.RequestOtp;
+                this.DataModel.BackendsList[selectedServicesIndex].Name = editBackend.Name;
+                this.DataModel.BackendsList[selectedServicesIndex].Type = editBackend.Type;
                 this.DataModel.BackendsList[selectedServicesIndex].RpsPrefix = editBackend.RpsPrefix;
             }
 
@@ -368,7 +398,7 @@ namespace MPinDemo.Models
                     break;
 
                 case User.State.Registered:
-                    if (this.DataModel.CurrentService.RequestAccessNumber)
+                    if (this.DataModel.CurrentService.Type == ConfigurationType.Online)
                     {
                         mainFrame.Navigate(typeof(AccessNumberScreen), new List<string> { this.DataModel.CurrentUser.Id, sdk.GetClientParam("accessNumberDigits") });
                     }
@@ -592,7 +622,7 @@ namespace MPinDemo.Models
         {
             Debug.WriteLine(" ShowAuthenticate ");
             Status status = null;
-            OTP otp = this.DataModel.CurrentService.RequestOtp ? new OTP() : null;
+            OTP otp = this.DataModel.CurrentService.Type == ConfigurationType.OTP ? new OTP() : null;
             User user = this.DataModel.CurrentUser;
             await Task.Factory.StartNew(() =>
             {
