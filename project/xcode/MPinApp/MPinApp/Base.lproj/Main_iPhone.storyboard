@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="w4v-me-Wqj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="w4v-me-Wqj">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -10,6 +10,7 @@
             <string>OpenSans-Bold</string>
         </mutableArray>
         <mutableArray key="OpenSans-Regular.ttf">
+            <string>OpenSans</string>
             <string>OpenSans</string>
             <string>OpenSans</string>
             <string>OpenSans</string>
@@ -1884,10 +1885,10 @@
             </objects>
             <point key="canvasLocation" x="1131" y="-1410"/>
         </scene>
-        <!--View Controller-->
+        <!--QR View Controller-->
         <scene sceneID="cFX-tW-0mv">
             <objects>
-                <viewController storyboardIdentifier="QRController" id="lga-rj-VE7" customClass="QRViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="QRController" id="lga-rj-VE7" userLabel="QR View Controller" customClass="QRViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="UGW-nE-v3V"/>
                         <viewControllerLayoutGuide type="bottom" id="K6c-es-NFI"/>
@@ -1898,7 +1899,32 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QIV-oa-aQx">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="QRBG" translatesAutoresizingMaskIntoConstraints="NO" id="NYB-21-Vhi">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Place  the code int the centre of the square. It will be scanned automatically." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J3E-Xg-r9W">
+                                        <rect key="frame" x="8" y="57" width="584" height="45"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="45" id="VpV-qU-gbm"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                        <color key="shadowColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                    </label>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="J3E-Xg-r9W" secondAttribute="trailing" constant="8" id="HHG-iJ-x3K"/>
+                                    <constraint firstAttribute="bottom" secondItem="NYB-21-Vhi" secondAttribute="bottom" id="Orz-Kp-PPH"/>
+                                    <constraint firstItem="J3E-Xg-r9W" firstAttribute="leading" secondItem="QIV-oa-aQx" secondAttribute="leading" constant="8" id="aba-uB-FDc"/>
+                                    <constraint firstItem="NYB-21-Vhi" firstAttribute="top" secondItem="J3E-Xg-r9W" secondAttribute="bottom" constant="-102" id="cyW-6A-7bP"/>
+                                    <constraint firstAttribute="trailing" secondItem="NYB-21-Vhi" secondAttribute="trailing" id="gQA-wz-IdG"/>
+                                    <constraint firstItem="NYB-21-Vhi" firstAttribute="top" secondItem="QIV-oa-aQx" secondAttribute="top" id="sdY-3u-efZ"/>
+                                    <constraint firstItem="NYB-21-Vhi" firstAttribute="leading" secondItem="QIV-oa-aQx" secondAttribute="leading" id="xJE-Pf-kA0"/>
+                                </constraints>
                             </view>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vTY-yP-qwy">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
@@ -2634,6 +2660,7 @@
         <image name="LoginOK" width="146" height="146"/>
         <image name="Logout" width="27" height="35"/>
         <image name="MenuIcon" width="22" height="17"/>
+        <image name="QRBG" width="360" height="640"/>
         <image name="arrow-left-blue" width="28" height="23"/>
         <image name="arrow-right-white" width="30" height="26"/>
         <image name="avatar-single" width="95" height="95"/>

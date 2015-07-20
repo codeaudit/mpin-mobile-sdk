@@ -42,7 +42,7 @@
     [[ThemeManager sharedManager] beautifyViewController:self];
 
     UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector( add: )];
-    UIBarButtonItem *qrItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"QR"] style:UIBarButtonItemStylePlain target:self action:@selector(addQR:)];
+    UIBarButtonItem *qrItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"QR"] style:UIBarButtonItemStylePlain target:self action:@selector( addQR: )];
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:addItem,qrItem, nil];
 }
 
@@ -172,7 +172,7 @@
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     UIViewController *vcQR = [storyboard instantiateViewControllerWithIdentifier:@"QRController"];
-    [self presentViewController:vcQR animated:NO completion:nil];
+    [self.navigationController pushViewController:vcQR animated:YES];
 }
 
 - ( IBAction )edit:( id )sender

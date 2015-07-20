@@ -89,8 +89,7 @@ static NSInteger constIntTimeoutInterval = 30;
     _videoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:_captureSession];
     [_videoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
     [_videoPreviewLayer setFrame:_viewPreview.layer.bounds];
-    [_viewPreview.layer addSublayer:_videoPreviewLayer];
-
+    [_viewPreview.layer insertSublayer:_videoPreviewLayer atIndex:0];
     [_captureSession startRunning];
 
     return YES;
@@ -103,23 +102,6 @@ static NSInteger constIntTimeoutInterval = 30;
 
     [_videoPreviewLayer removeFromSuperlayer];
     _isReading = NO;
-}
-
-- ( IBAction )startStopReading:( id )sender
-{
-    if ( !_isReading )
-    {
-        if ( [self startReading] )
-        {
-            [_bbItemStart setTitle:@"Stop"];
-        }
-    }
-    else
-    {
-        [self stopReading];
-        [_bbItemStart setTitle:@"Start!"];
-    }
-    _isReading = !_isReading;
 }
 
 -( void )loadBeepSound
@@ -151,9 +133,7 @@ static NSInteger constIntTimeoutInterval = 30;
 
         return;
     }
-
-    // TODO: show some loading functionality !!!
-
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
         NSURL *theUrl = [NSURL URLWithString:url];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:theUrl cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:constIntTimeoutInterval];
@@ -258,7 +238,7 @@ static NSInteger constIntTimeoutInterval = 30;
 
 -( IBAction )close:( id )sender
 {
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end
