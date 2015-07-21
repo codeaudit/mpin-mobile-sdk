@@ -271,7 +271,6 @@ namespace MPinDemo.Models
                 if (result.Equals(confirmation.Commands[0]))
                 {
                     this.DataModel.BackendsList.Remove(backend);
-                    await this.DataModel.SaveServices();
                 }
             }
         }

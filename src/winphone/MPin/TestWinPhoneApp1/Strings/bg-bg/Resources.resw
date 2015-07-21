@@ -372,4 +372,22 @@
   <data name="ScanAppBarButton.Label" xml:space="preserve">
     <value>прочети qrcode</value>
   </data>
+  <data name="CanceledRequest" xml:space="preserve">
+    <value>Заявката беше прекратена! Операцията не може да бъде довършена!</value>
+  </data>
+  <data name="EmptyJSON" xml:space="preserve">
+    <value>Празен файл! Операцията е прекратена!</value>
+  </data>
+  <data name="InvalidJSON" xml:space="preserve">
+    <value>Невалиден формат на файла! Операцията е прекратена!</value>
+  </data>
+  <data name="NetworkProblem" xml:space="preserve">
+    <value>Възникна проблем с връзката! Файлът с конфигурации не може да бъде изтеглен!</value>
+  </data>
+  <data name="NotFoundConfiguration" xml:space="preserve">
+    <value>Файл с конфигурации не е открит!</value>
+  </data>
+  <data name="RequestError" xml:space="preserve">
+    <value>Възникна грешка по време на изпълнение на заявката! Операцията е прекратена!</value>
+  </data>
 </root>

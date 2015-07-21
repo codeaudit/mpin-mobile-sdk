@@ -372,4 +372,22 @@
   <data name="ScanAppBarButton.Label" xml:space="preserve">
     <value>scan qrcode</value>
   </data>
+  <data name="CanceledRequest" xml:space="preserve">
+    <value>The request has been canceled! The operation cannot be proceeded!</value>
+  </data>
+  <data name="EmptyJSON" xml:space="preserve">
+    <value>Empty json text! Operation canceled!</value>
+  </data>
+  <data name="InvalidJSON" xml:space="preserve">
+    <value>Invalid json! Operation canceled!</value>
+  </data>
+  <data name="NetworkProblem" xml:space="preserve">
+    <value>Network problem! Cannot download the configuration file!</value>
+  </data>
+  <data name="NotFoundConfiguration" xml:space="preserve">
+    <value>The configuration file is not found!</value>
+  </data>
+  <data name="RequestError" xml:space="preserve">
+    <value>An error occurs during the download request! Operation canceled!</value>
+  </data>
 </root>

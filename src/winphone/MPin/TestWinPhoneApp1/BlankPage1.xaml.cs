@@ -45,7 +45,7 @@ namespace MPinDemo
         private static int selectedServiceIndex;
         private BarcodeReader _barcodeReader;
         private static readonly IEnumerable<string> SupportedImageFileTypes = new List<string> { ".jpeg", ".jpg", ".png" };
-        
+
         #endregion // members
 
         #region constructors
@@ -165,7 +165,7 @@ namespace MPinDemo
                 this.MainPivot.SelectedItem = this.UsersPivotItem;
             }
         }
-        
+
         #region State
 
         internal static void SavePropertyState(string key, object value)
@@ -290,7 +290,7 @@ namespace MPinDemo
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             selectedServiceIndex = this.ServicesList.SelectedIndex;
-            controller.EditService(this.ServicesList.SelectedIndex, this.ServicesList.SelectedIndex > 2);
+            controller.EditService(this.ServicesList.SelectedIndex, this.ServicesList.SelectedIndex > AppDataModel.PredefinedServicesCount);
         }
 
         private void MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -311,7 +311,7 @@ namespace MPinDemo
                     Backend backend = ServicesList.SelectedItem as Backend;
                     if (backend != null && !string.IsNullOrEmpty(backend.BackendUrl))
                     {
-                        await controller.DeleteService(backend, this.ServicesList.SelectedIndex > 2);
+                        await controller.DeleteService(backend, this.ServicesList.SelectedIndex > AppDataModel.PredefinedServicesCount);
                     }
                     break;
 
@@ -348,7 +348,7 @@ namespace MPinDemo
             {
                 throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
             }
-        }   
+        }
 
         private void FeedbackButton_Click(object sender, RoutedEventArgs e)
         {
@@ -374,7 +374,7 @@ namespace MPinDemo
             {
                 // select a service after being edited/added
                 this.ServicesList.SelectedItem = controller.DataModel.BackendsList[selectedServiceIndex];
-                
+
                 selectedServiceIndex = -1;
             }
         }
@@ -447,18 +447,22 @@ namespace MPinDemo
 
                 try
                 {
-                    await SendRequest(result.Text, HttpMethod.Get, string.Empty, null);                                    
+                    await SendRequest(result.Text, HttpMethod.Get, string.Empty, null);
                 }
-                catch (FileNotFoundException ex)
+                catch (FileNotFoundException)
                 {
-                    rootPage.NotifyUser("Error while creating file: " + ex.Message, MPinDemo.MainPage.NotifyType.ErrorMessage);
-                    return;
+                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NotFoundConfiguration"), MPinDemo.MainPage.NotifyType.ErrorMessage);
                 }
-                catch (Exception werwe)
-                {                    
-                    System.Diagnostics.Debug.WriteLine(werwe.Message);
-                    if (werwe.Message.Contains("0x80072EFD"))
-                        rootPage.NotifyUser("Network problem! Cannot download the configuration file! ", MPinDemo.MainPage.NotifyType.ErrorMessage);                    
+                catch (ArgumentException ae)
+                {
+                    rootPage.NotifyUser(ae.Message, MPinDemo.MainPage.NotifyType.ErrorMessage);
+                }
+                catch (Exception exc)
+                {
+                    rootPage.NotifyUser(exc.Message.Contains("0x80072EFD")
+                                           ? ResourceLoader.GetForCurrentView().GetString("NetworkProblem")
+                                           : ResourceLoader.GetForCurrentView().GetString("RequestError"),
+                                           MPinDemo.MainPage.NotifyType.ErrorMessage);
                 }
             }
         }
@@ -479,21 +483,15 @@ namespace MPinDemo
                     HttpCompletionOption.ResponseHeadersRead).AsTask(cts.Token);
 
                 string responseData = await response.Content.ReadAsStringAsync();
-                //this.statusCode = (int)response.StatusCode;
-                if (!string.IsNullOrEmpty(responseData))
+                if (!string.IsNullOrEmpty(responseData) && response.StatusCode.Equals(HttpStatusCode.Ok))
                 {
                     controller.DataModel.LoadBackendsFromDataString(responseData);
                 }
             }
             catch (TaskCanceledException tce)
             {
-                System.Diagnostics.Debug.WriteLine("Request canceled!");
+                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("CanceledRequest"), MPinDemo.MainPage.NotifyType.ErrorMessage);
                 throw tce;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Error: " + ex.Message);
-                throw ex;
             }
         }
         #endregion // handlers

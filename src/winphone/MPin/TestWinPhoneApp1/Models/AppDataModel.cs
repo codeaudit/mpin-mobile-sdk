@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 using Windows.Data.Json;
 using Windows.Storage;
 
@@ -28,6 +29,7 @@ namespace MPinDemo.Models
 
         private const string FilePath = "ms-appx:///Resources/" + FileName;
 
+        private bool setPredefinedConfigurationCount = false;
         private StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
         private const string backendsKey = "Backends";
         private static AppDataModel _appDataModel = new AppDataModel();
@@ -36,8 +38,7 @@ namespace MPinDemo.Models
         {
                     //CreateBackends();
         }
-
-
+        
         private ObservableCollection<Backend> services;
         public ObservableCollection<Backend> BackendsList
         {
@@ -104,6 +105,12 @@ namespace MPinDemo.Models
         }
 
         #endregion // CurrentService
+
+        public static int PredefinedServicesCount 
+        { 
+            get; 
+            private set; 
+        }
 
         #endregion
 
@@ -253,8 +260,7 @@ namespace MPinDemo.Models
         {
             if (string.IsNullOrEmpty(jsonText))
             {
-                System.Diagnostics.Debug.WriteLine("Empty json text!");
-                return;
+                throw new ArgumentNullException(ResourceLoader.GetForCurrentView().GetString("EmptyJSON"));                
             }
 
             JsonArray jsonArray;
@@ -264,16 +270,30 @@ namespace MPinDemo.Models
             }
             catch
             {
-                System.Diagnostics.Debug.WriteLine("Invalid json!");
-                return;
+                throw new ArgumentException(ResourceLoader.GetForCurrentView().GetString("InvalidJSON"));                
             }
 
+            List<Backend> existingOnes = new List<Backend>();
             foreach (JsonValue groupValue in jsonArray)
             {
                 JsonObject groupObject = groupValue.GetObject();
                 Backend backend = new Backend(groupObject);
-                this.BackendsList.Add(backend);
+                var currentBackend = this.BackendsList.FirstOrDefault(item => item.Name.Equals(backend.Name));
+
+                if (currentBackend != null)
+                {
+                    existingOnes.Add(backend);
+                    // loaded configurations overwrite the existing ones with matching names.
+                    this.BackendsList[this.BackendsList.IndexOf(currentBackend)] = backend;
+                }
+                else
+                {
+                    this.BackendsList.Add(backend);
+                }
             }
+
+            if (setPredefinedConfigurationCount)
+                AppDataModel.PredefinedServicesCount = this.BackendsList.Count;
         }
 
         internal async Task SaveServices()
@@ -319,7 +339,8 @@ namespace MPinDemo.Models
         /// <param name="forceGetFromLocal">if set to <c>true</c> [force get from local].</param>
         /// <returns></returns>
         private async Task<StorageFile> GetConfigurationFile(bool forceGetFromLocal = false)
-        {     
+        {
+            this.setPredefinedConfigurationCount = false;
             bool isPresent = await IsFilePresentInLocalStorage(FileName);
             if (isPresent)
             {
@@ -334,6 +355,7 @@ namespace MPinDemo.Models
             {
                 // the configurations have not been modified -> get the predefined configuration from the local installed location
                 Uri dataUri = new Uri(FilePath, UriKind.Absolute);
+                this.setPredefinedConfigurationCount = true;
                 return await StorageFile.GetFileFromApplicationUriAsync(dataUri);                
             }
         }
@@ -365,5 +387,6 @@ namespace MPinDemo.Models
             }
         }
         #endregion // INotifyPropertyChanged
+
     }
 }
