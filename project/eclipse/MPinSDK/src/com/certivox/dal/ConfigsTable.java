@@ -57,9 +57,9 @@ public class ConfigsTable {
 		Config configurationMPinConnect = new Config("M-Pin Connect",
 				"https://m-pin.my.id", false, true);
 
-		 insertConfig(configurationMobileBanking);
-		 insertConfig(configurationOnlineBanking);
-		 insertConfig(configurationVPNLogin);
+		// insertConfig(configurationMobileBanking);
+		// insertConfig(configurationOnlineBanking);
+		// insertConfig(configurationVPNLogin);
 
 		insertConfig(configurationMPinConnect);
 	}
