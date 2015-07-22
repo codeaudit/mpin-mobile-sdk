@@ -363,7 +363,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		if (addToBackStack) {
 			transaction.addToBackStack(tag);
 		}
-		transaction.commit();
+		transaction.commitAllowingStateLoss();
 		getFragmentManager().executePendingTransactions();
 
 		closeDrawer();
