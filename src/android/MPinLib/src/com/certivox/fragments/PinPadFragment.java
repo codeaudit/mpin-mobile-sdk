@@ -1,5 +1,6 @@
 package com.certivox.fragments;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -64,8 +65,12 @@ public class PinPadFragment extends Fragment {
 			Bundle savedInstanceState) {
 
 		mView = inflater.inflate(R.layout.pinpad_layout, container, false);
-		initViews();
-		initPinPad();
+		if (mUser == null) {
+			showErrorDialog();
+		} else {
+			initViews();
+			initPinPad();
+		}
 		return mView;
 	}
 
@@ -255,5 +260,11 @@ public class PinPadFragment extends Fragment {
 
 		mButtonLogin.setEnabled(mInput.length() == mPinLength);
 		mButtonClear.setEnabled(mInput.length() > 0);
+	}
+
+	private void showErrorDialog() {
+		new AlertDialog.Builder(getActivity()).setTitle("Error")
+				.setMessage("Unexpected error occurred!")
+				.setPositiveButton("OK", null).show();
 	}
 }

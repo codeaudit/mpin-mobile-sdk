@@ -88,6 +88,9 @@ public class MPinController extends Controller {
 	// Receive Messages from Fragment OTP
 	public static final int MESSAGE_OTP_EXPIRED = 24;
 
+	// Receive Messages from MPinActivity
+	public static final int MESSAGE_AUTHENTICATION_STARTED = 25;
+
 	// Sent Messages
 	public static final int MESSAGE_GO_BACK = 1;
 	public static final int MESSAGE_START_WORK_IN_PROGRESS = 2;
@@ -144,6 +147,7 @@ public class MPinController extends Controller {
 		case MESSAGE_ON_START:
 			return true;
 		case MESSAGE_ON_STOP:
+			mWorkerThread.interrupt();
 			return true;
 		case MESSAGE_ON_BACK:
 			notifyOutboxHandlers(MESSAGE_GO_BACK, 0, 0, null);
@@ -190,6 +194,8 @@ public class MPinController extends Controller {
 		case MESSAGE_ON_SHOW_PINPAD:
 			notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
 			return true;
+		case MESSAGE_AUTHENTICATION_STARTED:
+			notifyOutboxHandlers(MESSAGE_START_WORK_IN_PROGRESS, 0, 0, null);
 		default:
 			return false;
 		}

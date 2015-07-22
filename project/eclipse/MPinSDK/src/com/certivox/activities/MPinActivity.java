@@ -414,7 +414,10 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 			}
 		}
 		if (mActivity != null && mActivity.getPinPadFragment() != null) {
-			return mActivity.getPinPadFragment().getPin();
+			String pin = mActivity.getPinPadFragment().getPin();
+			mActivity.mController
+					.handleMessage(MPinController.MESSAGE_AUTHENTICATION_STARTED);
+			return pin;
 		}
 		return "";
 	}
