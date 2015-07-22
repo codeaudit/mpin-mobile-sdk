@@ -60,6 +60,7 @@ static NSString *const kAN = @"AN";
     BOOL boolFirstTime;
     BOOL boolShouldAskForFingerprint;
     UIStoryboard *storyboard;
+    NSString *storedBackendURL;
 }
 @property ( nonatomic, weak ) IBOutlet NSLayoutConstraint *constraintMenuHeight;
 
@@ -102,17 +103,24 @@ static NSString *const kAN = @"AN";
     storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     [self hideBottomBar:NO];
     [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Initializing" addActivityIndicator:YES minShowTime:0];
+    storedBackendURL = [[ConfigurationManager sharedManager] getSelectedConfiguration][@"backend"];
 }
 
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
 
-
     sdk = [[MPin alloc] init];
-
     sdk.delegate = self;
-
+    NSString *config = [[ConfigurationManager sharedManager] getSelectedConfiguration][@"backend"];
+    
+    // Executed if for some reason backend url is changed in other controllers
+    // For example - QR Scanned backends can overwrite the selected backend and the url maybe will be different
+    if (![storedBackendURL isEqualToString:config])
+    {
+        [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
+    }
+    
     [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
     [[ThemeManager sharedManager] beautifyViewController:self];
     self.users = [MPin listUsers];

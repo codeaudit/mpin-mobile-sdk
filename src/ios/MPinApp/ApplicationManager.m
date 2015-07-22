@@ -98,6 +98,13 @@ static NSString *constStrConnectionTimeoutNotification = @"ConnectionTimeoutNoti
     [alert show];
 }
 
+-(void) setBackend
+{
+    if ( ![MPin isConfigLoadSuccessfully] )
+    {
+        [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
+    }
+}
 @end
 
 

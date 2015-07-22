@@ -25,6 +25,8 @@ static NSInteger constIntTimeoutInterval = 30;
 @property ( nonatomic, strong ) AVCaptureSession *captureSession;
 @property ( nonatomic, strong ) AVCaptureVideoPreviewLayer *videoPreviewLayer;
 @property ( nonatomic, weak ) IBOutlet UIImageView *imgViewRectangle;
+@property ( nonatomic, weak ) IBOutlet UILabel *lblMessage;
+@property ( nonatomic, weak ) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 -( BOOL ) startReading;
 -( void ) stopReading;
@@ -40,14 +42,20 @@ static NSInteger constIntTimeoutInterval = 30;
     _captureSession = nil;
 
     NSURL *fileURL = [NSURL URLWithString:@"/System/Library/Audio/UISounds/sms-received2.caf"];
-    AudioServicesCreateSystemSoundID((__bridge_retained CFURLRef)fileURL,&soundID);
-
+    AudioServicesCreateSystemSoundID( (__bridge_retained CFURLRef)fileURL,&soundID );
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    _imgViewRectangle.hidden = YES;
+    _lblMessage.hidden = YES;
+
+}
 - ( void ) viewDidAppear:( BOOL )animated
 {
     [super viewDidAppear:animated];
-
+ 
     if ( !( _isReading = [self startReading] ) )
     {
         [[ErrorHandler sharedManager] presentMessageInViewController:self
@@ -64,68 +72,83 @@ static NSInteger constIntTimeoutInterval = 30;
 
 -( BOOL ) startReading
 {
-    NSError *error;
+    dispatch_async(dispatch_get_main_queue(), ^ (void) {
+        NSError *error;
 
-    AVCaptureDevice *captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        AVCaptureDevice *captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
 
-    AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:captureDevice error:&error];
-    if ( !input )
-    {
-        [[ErrorHandler sharedManager] presentMessageInViewController:self
-         errorString:[error localizedDescription]
-         addActivityIndicator:NO
-         minShowTime:3];
+        AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:captureDevice error:&error];
+        if ( !input )
+        {
+            [[ErrorHandler sharedManager] presentMessageInViewController:self
+             errorString:[error localizedDescription]
+             addActivityIndicator:NO
+             minShowTime:3];
+        }
 
-        return NO;
-    }
+        _captureSession = [[AVCaptureSession alloc] init];
+        [_captureSession addInput:input];
 
-    _captureSession = [[AVCaptureSession alloc] init];
-    [_captureSession addInput:input];
+        AVCaptureMetadataOutput *captureMetadataOutput = [[AVCaptureMetadataOutput alloc] init];
+        [_captureSession addOutput:captureMetadataOutput];
 
-    AVCaptureMetadataOutput *captureMetadataOutput = [[AVCaptureMetadataOutput alloc] init];
-    [_captureSession addOutput:captureMetadataOutput];
+        dispatch_queue_t dispatchQueue;
+        dispatchQueue = dispatch_queue_create("myQueue", NULL);
+        [captureMetadataOutput setMetadataObjectsDelegate:self queue:dispatchQueue];
+        [captureMetadataOutput setMetadataObjectTypes:[NSArray arrayWithObject:AVMetadataObjectTypeQRCode]];
 
-    dispatch_queue_t dispatchQueue;
-    dispatchQueue = dispatch_queue_create("myQueue", NULL);
-    [captureMetadataOutput setMetadataObjectsDelegate:self queue:dispatchQueue];
-    [captureMetadataOutput setMetadataObjectTypes:[NSArray arrayWithObject:AVMetadataObjectTypeQRCode]];
+        _videoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:_captureSession];
+        [_videoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+        [_videoPreviewLayer setFrame:_viewPreview.layer.bounds];
+        [_viewPreview.layer insertSublayer:_videoPreviewLayer atIndex:0];
+        [_captureSession startRunning];
+        _imgViewRectangle.hidden = NO;
+        _lblMessage.hidden = NO;
+    });
 
-    _videoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:_captureSession];
-    [_videoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-    [_videoPreviewLayer setFrame:_viewPreview.layer.bounds];
-    [_viewPreview.layer insertSublayer:_videoPreviewLayer atIndex:0];
-    [_captureSession startRunning];
+
 
     return YES;
 }
 
 -( void ) stopReading
 {
-    [_captureSession stopRunning];
-    _captureSession = nil;
+    dispatch_async(dispatch_get_main_queue(), ^ (void) {
+        _imgViewRectangle.hidden = YES;
+        _lblMessage.hidden = YES;
+        [_captureSession stopRunning];
+        _captureSession = nil;
 
-    [_videoPreviewLayer removeFromSuperlayer];
-    _isReading = NO;
+        [_videoPreviewLayer removeFromSuperlayer];
+        _isReading = NO;
+    });
 }
-
 
 - ( void ) loadConfigurations:( NSString * ) url
 {
     if ( ![NSString isValidURL:url] )
     {
-        [[ErrorHandler sharedManager] presentMessageInViewController:self
-         errorString:@"Invalid URL!"
-         addActivityIndicator:NO
-         minShowTime:3];
+        dispatch_async(dispatch_get_main_queue(), ^ (void) {
+            [[ErrorHandler sharedManager] presentMessageInViewController:self
+             errorString:@"Invalid URL!"
+             addActivityIndicator:NO
+             minShowTime:3];
+            [self stopReading];
+            double delayInSeconds = 3.0;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+            dispatch_after(popTime, dispatch_get_main_queue(), ^ (void){
+                [self performSelectorOnMainThread:@selector( startReading ) withObject:nil waitUntilDone:NO];
+            });
+        });
 
         return;
     }
 
     [[ErrorHandler sharedManager] presentMessageInViewController:self
-                                                     errorString:@"Loading URL"
-                                            addActivityIndicator:YES
-                                                     minShowTime:0];
-    
+     errorString:@"Loading URL"
+     addActivityIndicator:YES
+     minShowTime:0];
+
     [self performSelectorOnMainThread:@selector( stopReading ) withObject:nil waitUntilDone:NO];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
@@ -141,13 +164,25 @@ static NSInteger constIntTimeoutInterval = 30;
         // parse json data
         if ( ConfigJSONdata != nil )
         {
-            [[ErrorHandler sharedManager] hideMessage];
             NSArray *configs = [NSJSONSerialization JSONObjectWithData:ConfigJSONdata options:kNilOptions error:&error];
             dispatch_async(dispatch_get_main_queue(), ^ (void) {
                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
                 QREditorViewController *vcQREditor = [storyboard instantiateViewControllerWithIdentifier:@"QREditorViewController"];
                 vcQREditor.arrQRConfigs = [configs copy];
-                [self.navigationController pushViewController:vcQREditor animated:YES];
+                if ( configs.count )
+                {
+                    [[ErrorHandler sharedManager] hideMessage];
+                    [self.navigationController pushViewController:vcQREditor animated:YES];
+                }
+                else
+                {
+                    [[ErrorHandler sharedManager] updateMessage:@"Cannot parse the response" addActivityIndicator:NO hideAfter:3];
+                    double delayInSeconds = 3.0;
+                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                    dispatch_after(popTime, dispatch_get_main_queue(), ^ (void){
+                        [self performSelectorOnMainThread:@selector( startReading ) withObject:nil waitUntilDone:NO];
+                    });
+                }
             });
         }
         else
@@ -174,7 +209,7 @@ static NSInteger constIntTimeoutInterval = 30;
                     [[ErrorHandler sharedManager] updateMessage:errorMessage addActivityIndicator:NO hideAfter:3];
                     double delayInSeconds = 3.0;
                     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                    dispatch_after(popTime, dispatch_get_main_queue(), ^ (void){
                         [self performSelectorOnMainThread:@selector( startReading ) withObject:nil waitUntilDone:NO];
                     });
                 }
