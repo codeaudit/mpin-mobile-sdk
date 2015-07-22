@@ -556,7 +556,7 @@ public class MPinController extends Controller {
 			notifyOutboxHandlers(MESSAGE_SHOW_ACCESS_NUMBER, 0, 0, null);
 			break;
 		case INCORRECT_PIN:
-			notifyOutboxHandlers(MESSAGE_SHOW_ACCESS_NUMBER, 0, 0, null);
+			onSignIn();
 			notifyOutboxHandlers(MESSAGE_INCORRECT_PIN_AN, 0, 0, null);
 			break;
 		case OK:
