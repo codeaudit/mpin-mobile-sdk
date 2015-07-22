@@ -88,6 +88,9 @@ public class MPinController extends Controller {
 	// Receive Messages from Fragment OTP
 	public static final int MESSAGE_OTP_EXPIRED = 24;
 
+	// Receive Messages from MPinActivity
+	public static final int MESSAGE_AUTHENTICATION_STARTED = 25;
+
 	// Sent Messages
 	public static final int MESSAGE_GO_BACK = 1;
 	public static final int MESSAGE_START_WORK_IN_PROGRESS = 2;
@@ -117,10 +120,11 @@ public class MPinController extends Controller {
 	public static final int MESSAGE_INCORRECT_ACCESS_NUMBER = 26;
 	public static final int MESSAGE_INCORRECT_PIN = 27;
 	public static final int MESSAGE_INCORRECT_PIN_AN = 28;
-	public static final int MESSAGE_IDENTITY_DELETED = 29;
-	public static final int MESSAGE_AUTH_SUCCESS = 30;
-	public static final int MESSAGE_SDK_INITIALIZED = 31;
-	public static final int MESSAGE_OTP_NOT_SUPPORTED = 32;
+	public static final int MESSAGE_NETWORK_ERROR = 29;
+	public static final int MESSAGE_IDENTITY_DELETED = 30;
+	public static final int MESSAGE_AUTH_SUCCESS = 31;
+	public static final int MESSAGE_SDK_INITIALIZED = 32;
+	public static final int MESSAGE_OTP_NOT_SUPPORTED = 33;
 
 	public MPinController(Context context) {
 		mContext = context;
@@ -144,6 +148,7 @@ public class MPinController extends Controller {
 		case MESSAGE_ON_START:
 			return true;
 		case MESSAGE_ON_STOP:
+			mWorkerThread.interrupt();
 			return true;
 		case MESSAGE_ON_BACK:
 			notifyOutboxHandlers(MESSAGE_GO_BACK, 0, 0, null);
@@ -190,6 +195,8 @@ public class MPinController extends Controller {
 		case MESSAGE_ON_SHOW_PINPAD:
 			notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
 			return true;
+		case MESSAGE_AUTHENTICATION_STARTED:
+			notifyOutboxHandlers(MESSAGE_START_WORK_IN_PROGRESS, 0, 0, null);
 		default:
 			return false;
 		}
@@ -551,13 +558,16 @@ public class MPinController extends Controller {
 		switch (status.getStatusCode()) {
 		case PIN_INPUT_CANCELED:
 			break;
+		case NETWORK_ERROR:
+			onNetworkError();
+			break;
 		case INCORRECT_ACCESS_NUMBER:
 			notifyOutboxHandlers(MESSAGE_INCORRECT_ACCESS_NUMBER, 0, 0, null);
-			notifyOutboxHandlers(MESSAGE_SHOW_ACCESS_NUMBER, 0, 0, null);
+			onSignIn();
 			break;
 		case INCORRECT_PIN:
-			notifyOutboxHandlers(MESSAGE_SHOW_ACCESS_NUMBER, 0, 0, null);
 			notifyOutboxHandlers(MESSAGE_INCORRECT_PIN_AN, 0, 0, null);
+			onSignIn();
 			break;
 		case OK:
 			saveCurrentUser(mCurrentUser);
@@ -586,6 +596,10 @@ public class MPinController extends Controller {
 		case INCORRECT_PIN:
 			notifyOutboxHandlers(MESSAGE_INCORRECT_PIN, 0, 0, null);
 			onSignIn();
+			break;
+		case NETWORK_ERROR:
+			onNetworkError();
+			break;
 		default:
 			return;
 		}
@@ -605,9 +619,17 @@ public class MPinController extends Controller {
 			saveCurrentUser(mCurrentUser);
 			notifyOutboxHandlers(MESSAGE_SHOW_LOGGED_IN, 0, 0, null);
 			break;
+		case NETWORK_ERROR:
+			onNetworkError();
+			break;
 		default:
 			return;
 		}
+	}
+
+	private void onNetworkError() {
+		notifyOutboxHandlers(MESSAGE_NETWORK_ERROR, 0, 0, null);
+		notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
 	}
 
 	private void onChangeIdentity() {

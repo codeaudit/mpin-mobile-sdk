@@ -22,50 +22,33 @@ public class ConfigsDao {
 		mContext = context;
 	}
 
-	public Cursor getConfigs() {
-		Cursor cursor = null;
-
-		cursor = new ConfigsDbHelper(mContext).getReadableDatabase().query(
-				ConfigEntry.TABLE_NAME, ConfigEntry.getFullProjection(), null,
-				null, null, null, null);
-
-		return cursor;
-	}
-
 	public Config getConfigurationById(long id) {
 		Log.i("DEBUG", "getConfigurationById id = " + id);
 		if (id == -1) {
 			return null;
 		}
 
-		Cursor cursor = null;
-		try {
-			cursor = new ConfigsDbHelper(mContext).getReadableDatabase().query(
-					ConfigEntry.TABLE_NAME, ConfigEntry.getFullProjection(),
-					ConfigEntry._ID + " LIKE ?",
-					new String[] { String.valueOf(id) }, null, null, null);
-			if (cursor.moveToFirst()) {
-				Config config = getByCursor(cursor);
-				return config;
-			}
-		} finally {
-			if (cursor != null)
-				cursor.close();
+		SQLiteDatabase db = new ConfigsDbHelper(mContext).getReadableDatabase();
+		Cursor cursor = db.query(ConfigEntry.TABLE_NAME,
+				ConfigEntry.getFullProjection(), ConfigEntry._ID + " LIKE ?",
+				new String[] { String.valueOf(id) }, null, null, null);
+
+		Config config = null;
+		if (cursor.moveToFirst()) {
+			config = getByCursor(cursor);
 		}
-		return null;
+
+		cursor.close();
+		db.close();
+		return config;
 	}
 
-	public Cursor deleteConfigurationById(long configId) {
+	public void deleteConfigurationById(long configId) {
 
-		new ConfigsDbHelper(mContext).getReadableDatabase().delete(
-				ConfigEntry.TABLE_NAME, ConfigEntry._ID + " LIKE ?",
+		SQLiteDatabase db = new ConfigsDbHelper(mContext).getReadableDatabase();
+		db.delete(ConfigEntry.TABLE_NAME, ConfigEntry._ID + " LIKE ?",
 				new String[] { String.valueOf(configId) });
-
-		Cursor cursor = new ConfigsDbHelper(mContext).getReadableDatabase()
-				.query(ConfigEntry.TABLE_NAME, ConfigEntry.getFullProjection(),
-						null, null, null, null, null);
-
-		return cursor;
+		db.close();
 	}
 
 	public Config saveOrUpdate(Config config) {
@@ -131,8 +114,11 @@ public class ConfigsDao {
 	}
 
 	public List<Config> getListConfigs() {
+		Cursor cursor = new ConfigsDbHelper(mContext).getReadableDatabase()
+				.query(ConfigEntry.TABLE_NAME, ConfigEntry.getFullProjection(),
+						null, null, null, null, null);
+
 		ArrayList<Config> configurations = new ArrayList<Config>();
-		Cursor cursor = getConfigs();
 		while (cursor.moveToNext()) {
 			configurations.add(getByCursor(cursor));
 		}

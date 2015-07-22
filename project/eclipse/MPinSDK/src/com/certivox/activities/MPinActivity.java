@@ -206,6 +206,9 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		case MPinController.MESSAGE_INCORRECT_ACCESS_NUMBER:
 			showIncorrectANDialog();
 			return true;
+		case MPinController.MESSAGE_NETWORK_ERROR:
+			showNetworkErrorDialog();
+			return true;
 		}
 		return false;
 	}
@@ -363,7 +366,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		if (addToBackStack) {
 			transaction.addToBackStack(tag);
 		}
-		transaction.commit();
+		transaction.commitAllowingStateLoss();
 		getFragmentManager().executePendingTransactions();
 
 		closeDrawer();
@@ -414,7 +417,10 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 			}
 		}
 		if (mActivity != null && mActivity.getPinPadFragment() != null) {
-			return mActivity.getPinPadFragment().getPin();
+			String pin = mActivity.getPinPadFragment().getPin();
+			mActivity.mController
+					.handleMessage(MPinController.MESSAGE_AUTHENTICATION_STARTED);
+			return pin;
 		}
 		return "";
 	}
@@ -464,6 +470,11 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 	private void showIncorrectANDialog() {
 		new AlertDialog.Builder(this).setTitle("Incorrect Access Number!")
 				.setMessage("").setPositiveButton("OK", null).show();
+	}
+
+	private void showNetworkErrorDialog() {
+		new AlertDialog.Builder(this).setTitle("Network error!")
+				.setMessage("Try again").setPositiveButton("OK", null).show();
 	}
 
 	public void hideKeyboard() {
