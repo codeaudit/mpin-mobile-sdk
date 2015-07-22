@@ -43,4 +43,5 @@
 -( NSString * ) getDeviceName;
 -( void ) setDeviceName:( NSString * ) devName;
 
+-( NSInteger ) configurationExists: ( NSDictionary * ) configuration;
 @end

@@ -149,7 +149,7 @@ static NSString *const kAN = @"AN";
     }
 }
 
--(void) viewWillDisappear:(BOOL)animated
+-( void ) viewWillDisappear:( BOOL )animated
 {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
@@ -324,6 +324,11 @@ static NSString *const kAN = @"AN";
     [self showBottomBar:YES];
     cell.imgViewSelected.image = [UIImage imageNamed:@"checked"];
 }
+
+#pragma mark - AN Delegate -
+
+-( void ) onAccessNumber:( NSString * ) an
+{}
 
 #pragma mark - SDK Handlers -
 - ( void )OnFinishRegistrationCompleted:( id )sender user:( const id<IUser>)user

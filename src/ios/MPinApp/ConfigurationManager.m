@@ -79,7 +79,7 @@ static NSString *const kSettings = @"settings";
 
         defaultConfigCount = [configs count];
 
-        
+
         if ( hashValue != configHash )
         {
             NSMutableArray *tmpArray = [NSMutableArray array];
@@ -105,7 +105,7 @@ static NSString *const kSettings = @"settings";
 
             [[NSUserDefaults standardUserDefaults] setInteger:configHash forKey:kConfigHashValue];
             [[NSUserDefaults standardUserDefaults] setInteger:[configs count] forKey:kDefConfigThreshold];
-           
+
             [self saveConfigurations];
         }
     }
@@ -118,7 +118,8 @@ static NSString *const kSettings = @"settings";
     return [_arrConfigrations count] == 0;
 }
 
-- (NSInteger) defaultConfigCount {
+- ( NSInteger ) defaultConfigCount
+{
     return defaultConfigCount;
 }
 
@@ -135,13 +136,13 @@ static NSString *const kSettings = @"settings";
     return false;
 }
 
-- (void)addConfiguration:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName prefixName:(NSString *) prefixName   {
-    
+- ( void )addConfiguration:( NSString * )url serviceType:( int )serviceType name:( NSString * )configurationName prefixName:( NSString * ) prefixName
+{
     NSDictionary *data = @{ kRPSURL : url,
                             kSERVICE_TYPE : @( serviceType ),
                             kCONFIG_NAME : configurationName,
-                            kRPSPrefix : (prefixName == nil)?(@""):(prefixName) };
-    
+                            kRPSPrefix : ( prefixName == nil ) ? ( @"" ) : ( prefixName ) };
+
     [_arrConfigrations addObject:data];
 }
 
@@ -150,7 +151,8 @@ static NSString *const kSettings = @"settings";
     [self addConfigurationWithURL:url serviceType:serviceType name:configurationName prefixName:nil];
 }
 
-- (void)addConfigurationWithURL:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName prefixName:(NSString *) prefixName {
+- ( void )addConfigurationWithURL:( NSString * )url serviceType:( int )serviceType name:( NSString * )configurationName prefixName:( NSString * ) prefixName
+{
     [self addConfiguration:url serviceType:serviceType name:configurationName prefixName:prefixName];
     [self saveConfigurations];
 }
@@ -160,23 +162,22 @@ static NSString *const kSettings = @"settings";
     return [self saveConfigurationAtIndex:index url:url serviceType:serviceType name:configurationName prefixName:nil];
 }
 
-- (BOOL)saveConfigurationAtIndex:(NSInteger)index url:(NSString*)url serviceType:(int)serviceType name:(NSString*)configurationName prefixName:(NSString *) prefixName {
-    
+- ( BOOL )saveConfigurationAtIndex:( NSInteger )index url:( NSString * )url serviceType:( int )serviceType name:( NSString * )configurationName prefixName:( NSString * ) prefixName
+{
     if ( index < [_arrConfigrations count] )
     {
         NSDictionary *data = @{ kRPSURL : url,
                                 kSERVICE_TYPE : @( serviceType ),
                                 kCONFIG_NAME : configurationName,
-                                kRPSPrefix : (prefixName == nil)?(@""):(prefixName) };
-        
+                                kRPSPrefix : ( prefixName == nil ) ? ( @"" ) : ( prefixName ) };
+
         _arrConfigrations [index] = data;
         [self saveConfigurations];
-        
+
         return YES;
     }
-    
-    return false;
 
+    return false;
 }
 
 - ( BOOL )deleteConfigurationAtIndex:( NSInteger )index
@@ -345,6 +346,21 @@ static NSString *const kSettings = @"settings";
 
     [[NSUserDefaults standardUserDefaults] setObject:devName forKey:kDeviceName];
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+-( NSInteger ) configurationExists: ( NSDictionary * ) configuration
+{
+    NSInteger intAtIndex = -1;
+    for ( int j = 0; j < [ConfigurationManager sharedManager].configurationsCount; j++ )
+    {
+        if ( [[[ConfigurationManager sharedManager] getNameAtIndex:j] isEqualToString:[configuration valueForKey:kJSON_NAME]] )
+        {
+            intAtIndex = j;
+            NSLog(@"Configuratoin exists at index: %d", j);
+            break;
+        }
+    }
+    return intAtIndex;
 }
 
 @end

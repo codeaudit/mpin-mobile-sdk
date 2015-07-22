@@ -12,16 +12,20 @@
 #import "Constants.h"
 #import "ConfigurationManager.h"
 #import "Utilities.h"
+#import "QREditorViewController.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 static NSInteger constIntTimeoutInterval = 30;
 
 @interface QRViewController ( )
+{
+    SystemSoundID soundID;
+}
 @property( nonatomic ) BOOL isReading;
 @property ( nonatomic, strong ) AVCaptureSession *captureSession;
 @property ( nonatomic, strong ) AVCaptureVideoPreviewLayer *videoPreviewLayer;
-@property ( nonatomic, strong ) AVAudioPlayer *audioPlayer;
+@property ( nonatomic, weak ) IBOutlet UIImageView *imgViewRectangle;
 
--( void )loadBeepSound;
 -( BOOL ) startReading;
 -( void ) stopReading;
 - ( void ) loadConfigurations:( NSString * ) url;
@@ -35,7 +39,9 @@ static NSInteger constIntTimeoutInterval = 30;
     _isReading = NO;
     _captureSession = nil;
 
-    [self loadBeepSound];
+    NSURL *fileURL = [NSURL URLWithString:@"/System/Library/Audio/UISounds/sms-received2.caf"];
+    AudioServicesCreateSystemSoundID((__bridge_retained CFURLRef)fileURL,&soundID);
+
 }
 
 - ( void ) viewDidAppear:( BOOL )animated
@@ -54,8 +60,6 @@ static NSInteger constIntTimeoutInterval = 30;
 - ( void ) viewWillDisappear:( BOOL )animated
 {
     [super viewWillDisappear:animated];
-    if ( _isReading )
-        [self stopReading];
 }
 
 -( BOOL ) startReading
@@ -104,23 +108,6 @@ static NSInteger constIntTimeoutInterval = 30;
     _isReading = NO;
 }
 
--( void )loadBeepSound
-{
-    NSString *beepFilePath = [[NSBundle mainBundle] pathForResource:@"beep" ofType:@"mp3"];
-    NSURL *beepURL = [NSURL URLWithString:beepFilePath];
-    NSError *error;
-
-    _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:beepURL error:&error];
-    if ( error )
-    {
-        NSLog(@"Could not play beep file.");
-        NSLog(@"%@", [error localizedDescription]);
-    }
-    else
-    {
-        [_audioPlayer prepareToPlay];
-    }
-}
 
 - ( void ) loadConfigurations:( NSString * ) url
 {
@@ -133,10 +120,17 @@ static NSInteger constIntTimeoutInterval = 30;
 
         return;
     }
+
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                     errorString:@"Loading URL"
+                                            addActivityIndicator:YES
+                                                     minShowTime:0];
     
+    [self performSelectorOnMainThread:@selector( stopReading ) withObject:nil waitUntilDone:NO];
+
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
         NSURL *theUrl = [NSURL URLWithString:url];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:theUrl cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:constIntTimeoutInterval];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:theUrl cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:constIntTimeoutInterval];
         [request setTimeoutInterval:constIntTimeoutInterval];
         request.HTTPMethod = @"GET";
 
@@ -147,74 +141,45 @@ static NSInteger constIntTimeoutInterval = 30;
         // parse json data
         if ( ConfigJSONdata != nil )
         {
+            [[ErrorHandler sharedManager] hideMessage];
             NSArray *configs = [NSJSONSerialization JSONObjectWithData:ConfigJSONdata options:kNilOptions error:&error];
-            if ( error == nil )
-            {
-                for ( int i = 0; i < [configs count]; i++ )
-                {
-                    BOOL isExisting = NO;
-                    int indexOfExisting = -1;
-                    for ( int j = 0; j < [ConfigurationManager sharedManager].configurationsCount; j++ )
-                    {
-                        if ( [[[ConfigurationManager sharedManager] getNameAtIndex:j] isEqualToString:[[configs objectAtIndex:i] valueForKey:kJSON_NAME]] )
-                        {
-                            isExisting = YES;
-                            indexOfExisting = j;
-                            NSLog(@"Configuratoin exists at index: %d", j);
-                            break;
-                        }
-                    }
-                    if (isExisting)
-                    {
-                        [[ConfigurationManager sharedManager] saveConfigurationAtIndex:indexOfExisting
-                                                                                   url:[[configs objectAtIndex:i] valueForKey:kJSON_URL]
-                                                                           serviceType:[Utilities ServerJSONConfigTypeToService_type:[[configs objectAtIndex:i] valueForKey:kJSON_TYPE]]
-                                                                                  name:[[configs objectAtIndex:i] valueForKey:kJSON_NAME]];
-                    }
-                    else
-                    {
-                        [[ConfigurationManager sharedManager] addConfiguration:[[configs objectAtIndex:i] valueForKey:kJSON_URL]
-                                                                   serviceType:[Utilities ServerJSONConfigTypeToService_type:[[configs objectAtIndex:i] valueForKey:kJSON_TYPE]]
-                                                                          name:[[configs objectAtIndex:i] valueForKey:kJSON_NAME]
-                                                                    prefixName:[[configs objectAtIndex:i] valueForKey:kJSON_PREFIX]
-                         ];
-                    }
-                }
-                [[ConfigurationManager sharedManager] saveConfigurations];
-            }
+            dispatch_async(dispatch_get_main_queue(), ^ (void) {
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+                QREditorViewController *vcQREditor = [storyboard instantiateViewControllerWithIdentifier:@"QREditorViewController"];
+                vcQREditor.arrQRConfigs = [configs copy];
+                [self.navigationController pushViewController:vcQREditor animated:YES];
+            });
         }
-
-        dispatch_async(dispatch_get_main_queue(), ^ (void) {
-            // TODO: hide loading functionality
-
-            if ( error != nil )
+        else
+        {
+            dispatch_async(dispatch_get_main_queue(), ^ (void)
             {
-                NSString *errorMessage = @"";
-                switch ( error.code )
+                if ( error != nil )
                 {
-                case -1001:     //Connection timeout
-                    errorMessage = @"Connection timeout!";
-                    break;
+                    NSString *errorMessage = @"";
+                    switch ( error.code )
+                    {
+                    case -1001:         //Connection timeout
+                        errorMessage = @"Connection timeout!";
+                        break;
 
-                case -1012:
-                    errorMessage = @"Unauthorized Access! Please check your e-mail and confirm the activation link!";
-                    break;
+                    case -1012:
+                        errorMessage = @"Unauthorized Access! Please check your e-mail and confirm the activation link!";
+                        break;
 
-                default:
-                    errorMessage = error.localizedDescription;
-                    break;
+                    default:
+                        errorMessage = error.localizedDescription;
+                        break;
+                    }
+                    [[ErrorHandler sharedManager] updateMessage:errorMessage addActivityIndicator:NO hideAfter:3];
+                    double delayInSeconds = 3.0;
+                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                        [self performSelectorOnMainThread:@selector( startReading ) withObject:nil waitUntilDone:NO];
+                    });
                 }
-
-                [[ErrorHandler sharedManager] presentMessageInViewController:self
-                 errorString:errorMessage
-                 addActivityIndicator:NO
-                 minShowTime:3];
-            }
-            else
-            {
-                [self close:nil];
-            }
-        });
+            });
+        }
     });
 }
 
@@ -225,13 +190,8 @@ static NSInteger constIntTimeoutInterval = 30;
         AVMetadataMachineReadableCodeObject *metadataObj = [metadataObjects objectAtIndex:0];
         if ( [[metadataObj type] isEqualToString:AVMetadataObjectTypeQRCode] )
         {
-            [self performSelectorOnMainThread:@selector( stopReading ) withObject:nil waitUntilDone:NO];
             [self performSelectorOnMainThread:@selector( loadConfigurations: ) withObject:[metadataObj stringValue] waitUntilDone:NO];
-
-            if ( _audioPlayer )
-            {
-                [_audioPlayer play];
-            }
+            AudioServicesPlaySystemSound(soundID);
         }
     }
 }
