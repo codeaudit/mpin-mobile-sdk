@@ -124,6 +124,7 @@ public class MPinController extends Controller {
 	public static final int MESSAGE_AUTH_SUCCESS = 31;
 	public static final int MESSAGE_SDK_INITIALIZED = 32;
 	public static final int MESSAGE_OTP_NOT_SUPPORTED = 33;
+	public static final int MESSAGE_IDENTITY_NOT_AUTHORIZED = 34;
 
 	public MPinController(Context context) {
 		mContext = context;
@@ -371,13 +372,25 @@ public class MPinController extends Controller {
 				}
 
 				mCurrentUser = getSdk().MakeNewUser(userId);
-				getSdk().StartRegistration(getCurrentUser());
+				Status status = getSdk().StartRegistration(getCurrentUser());
 				// TODO: This is not the right place for initing the list
 				initUsersList();
-				if (getCurrentUser().getState() == State.ACTIVATED) {
-					finishRegistration();
-				} else {
-					notifyOutboxHandlers(MESSAGE_SHOW_CONFIRM_EMAIL, 0, 0, null);
+
+				switch (status.getStatusCode()) {
+				case OK:
+					if (mCurrentUser.getState().equals(State.ACTIVATED)) {
+						finishRegistration();
+					} else {
+						notifyOutboxHandlers(MESSAGE_SHOW_CONFIRM_EMAIL, 0, 0,
+								null);
+					}
+					break;
+				case IDENTITY_NOT_AUTHORIZED:
+					notifyOutboxHandlers(MESSAGE_IDENTITY_NOT_AUTHORIZED, 0, 0,
+							null);
+					break;
+				default:
+					break;
 				}
 				notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
 			}
