@@ -133,7 +133,6 @@ static NSInteger constIntTimeoutInterval = 30;
              errorString:@"Invalid URL!"
              addActivityIndicator:NO
              minShowTime:3];
-            [self stopReading];
             double delayInSeconds = 3.0;
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
             dispatch_after(popTime, dispatch_get_main_queue(), ^ (void){
@@ -148,8 +147,6 @@ static NSInteger constIntTimeoutInterval = 30;
      errorString:@"Loading URL"
      addActivityIndicator:YES
      minShowTime:0];
-
-    [self performSelectorOnMainThread:@selector( stopReading ) withObject:nil waitUntilDone:NO];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
         NSURL *theUrl = [NSURL URLWithString:url];
@@ -225,7 +222,8 @@ static NSInteger constIntTimeoutInterval = 30;
         AVMetadataMachineReadableCodeObject *metadataObj = [metadataObjects objectAtIndex:0];
         if ( [[metadataObj type] isEqualToString:AVMetadataObjectTypeQRCode] )
         {
-            [self performSelectorOnMainThread:@selector( loadConfigurations: ) withObject:[metadataObj stringValue] waitUntilDone:NO];
+            [self performSelectorOnMainThread:@selector(stopReading) withObject:nil waitUntilDone:YES];
+            [self performSelectorOnMainThread:@selector( loadConfigurations: ) withObject:[metadataObj stringValue] waitUntilDone:YES];
             AudioServicesPlaySystemSound(soundID);
         }
     }
