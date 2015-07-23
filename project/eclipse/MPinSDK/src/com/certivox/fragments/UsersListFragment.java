@@ -199,7 +199,7 @@ public class UsersListFragment extends MPinFragment implements OnClickListener,
 		new AlertDialog.Builder(getActivity())
 				.setTitle("Reset Pin")
 				.setMessage(
-						"Are you sure you would would to reset the PIN for "
+						"Are you sure you would like to reset the PIN for "
 								+ mSelectedIdentity.getId() + "?")
 				.setPositiveButton("Reset",
 						new DialogInterface.OnClickListener() {

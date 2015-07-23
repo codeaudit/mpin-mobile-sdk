@@ -110,4 +110,18 @@
 
     <string name="logout">Logout</string>
 
+    <!-- Dialogs -->
+    <string name="error_dialog_title">Error</string>
+    <string name="network_error_title">Network error</string>
+    <string name="incorrect_access_number_title">Incorrect Access Number</string>
+    <string name="incorrect_pin_title">Incorrect Pin</string>
+    <string name="otp_not_supported_title">OTP not supported</string>
+    <string name="successful_login_title">Successful Login</string>
+    <string name="otp_not_supported_text">The configuration does not support OTP</string>
+    <string name="successful_login_text">You are now logged in!</string>
+    <string name="try_again">Try again</string>
+    <string name="user_not_authorized">You are not authorized! Please contact the service administrator or try again later.</string>
+    <string name="button_ok">OK</string>
+    <!-- Dialogs end -->
+
 </resources>

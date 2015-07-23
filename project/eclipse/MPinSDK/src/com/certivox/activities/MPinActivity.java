@@ -209,6 +209,9 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 		case MPinController.MESSAGE_NETWORK_ERROR:
 			showNetworkErrorDialog();
 			return true;
+		case MPinController.MESSAGE_IDENTITY_NOT_AUTHORIZED:
+			showInvalidUserDialog();
+			return true;
 		}
 		return false;
 	}
@@ -452,30 +455,68 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 	}
 
 	private void showAuthSuccessDialog() {
-		new AlertDialog.Builder(this).setTitle("Successful Login")
-				.setMessage("You are now logged in!")
-				.setPositiveButton("OK", null).show();
+		new AlertDialog.Builder(this)
+				.setTitle(
+						getResources().getString(
+								R.string.successful_login_title))
+				.setMessage(
+						getResources()
+								.getString(R.string.successful_login_text))
+				.setPositiveButton(
+						getResources().getString(R.string.button_ok), null)
+				.show();
 	}
 
 	private void showWrongPinDialog() {
-		new AlertDialog.Builder(this).setTitle("Incorrect Pin!").setMessage("")
-				.setPositiveButton("OK", null).show();
+		new AlertDialog.Builder(this)
+				.setTitle(
+						getResources().getString(R.string.incorrect_pin_title))
+				.setPositiveButton(
+						getResources().getString(R.string.button_ok), null)
+				.show();
 	}
 
 	private void showOtpNotSupportedDialog() {
-		new AlertDialog.Builder(this).setTitle("OTP not supported")
-				.setMessage("The configuration does not support OTP")
-				.setPositiveButton("OK", null).show();
+		new AlertDialog.Builder(this)
+				.setTitle(
+						getResources().getString(
+								R.string.otp_not_supported_title))
+				.setMessage(
+						getResources().getString(
+								R.string.otp_not_supported_text))
+				.setPositiveButton(
+						getResources().getString(R.string.button_ok), null)
+				.show();
 	}
 
 	private void showIncorrectANDialog() {
-		new AlertDialog.Builder(this).setTitle("Incorrect Access Number!")
-				.setMessage("").setPositiveButton("OK", null).show();
+		new AlertDialog.Builder(this)
+				.setTitle(
+						getResources().getString(
+								R.string.incorrect_access_number_title))
+				.setPositiveButton(
+						getResources().getString(R.string.button_ok), null)
+				.show();
 	}
 
 	private void showNetworkErrorDialog() {
-		new AlertDialog.Builder(this).setTitle("Network error!")
-				.setMessage("Try again").setPositiveButton("OK", null).show();
+		new AlertDialog.Builder(this)
+				.setTitle(
+						getResources().getString(R.string.network_error_title))
+				.setMessage(getResources().getString(R.string.try_again))
+				.setPositiveButton(
+						getResources().getString(R.string.button_ok), null)
+				.show();
+	}
+
+	private void showInvalidUserDialog() {
+		new AlertDialog.Builder(this)
+				.setTitle(getResources().getString(R.string.error_dialog_title))
+				.setMessage(
+						getResources().getString(R.string.user_not_authorized))
+				.setPositiveButton(
+						getResources().getString(R.string.button_ok), null)
+				.show();
 	}
 
 	public void hideKeyboard() {
