@@ -125,15 +125,23 @@ namespace MPinDemo
         #endregion
 
         #region methods
-
-        private void SetControlsIsEnabled(string param)
+        
+        private void SetControlsIsEnabled(string param, bool force = false, bool isInProgress = true)
         {
             // the process has been canceled
             if (!string.IsNullOrEmpty(param) && param.Equals("HardwareBack"))
                 controller.IsUserInProcessing = false;
 
-            Progress.Visibility = controller.IsUserInProcessing ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
+            if (force)
+            {
+                Progress.Visibility = isInProgress ? Visibility.Visible : Visibility.Collapsed;
+            }
+            else
+            {
+                Progress.Visibility = controller.IsUserInProcessing ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
+            }
         }
+
 
         private string GetAllPossiblePassedParams(object param)
         {
@@ -212,6 +220,142 @@ namespace MPinDemo
             }
         }
         #endregion
+
+        #region QRCode scanning
+        private static void TriggerPicker(IEnumerable<string> fileTypeFilers, bool shouldPickMultiple = false)
+        {
+            var fop = new FileOpenPicker();
+            foreach (var fileType in fileTypeFilers)
+            {
+                fop.FileTypeFilter.Add(fileType);
+            }
+
+            if (shouldPickMultiple)
+            {
+                fop.PickMultipleFilesAndContinue();
+            }
+            else
+            {
+                fop.PickSingleFileAndContinue();
+            }
+        }
+
+        private async void OnFilesPicked(IReadOnlyList<StorageFile> files)
+        {
+            if (files == null || files.Count != 1)
+            {
+                rootPage.NotifyUser(files == null ? ResourceLoader.GetForCurrentView().GetString("NoImage") : ResourceLoader.GetForCurrentView().GetString("NoQRInImage"), MainPage.NotifyType.ErrorMessage);
+                return;
+            }
+
+            SetControlsIsEnabled(null, true);
+            
+            var data = await FileIO.ReadBufferAsync(files[0]);
+            // create a stream from the file
+            var ms = new InMemoryRandomAccessStream();
+            var dw = new Windows.Storage.Streams.DataWriter(ms);
+            dw.WriteBuffer(data);
+            await dw.StoreAsync();
+            ms.Seek(0);
+
+            // find out how big the image is
+            var bm = new BitmapImage();
+            await bm.SetSourceAsync(ms);
+
+            // create a writable bitmap of the right size
+            var wb = new WriteableBitmap(bm.PixelWidth, bm.PixelHeight);
+            ms.Seek(0);
+
+            // load the writable bitmap from the stream
+            await wb.SetSourceAsync(ms);
+
+            Result result = _barcodeReader.Decode(wb);
+            if (result != null)
+            {
+                if (string.IsNullOrEmpty(result.Text))
+                {
+                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("EmptyURL"), MainPage.NotifyType.ErrorMessage);
+                    return;
+                }
+
+                System.Uri uri;
+                if (!System.Uri.TryCreate(System.Uri.EscapeUriString(result.Text), UriKind.Absolute, out uri))
+                {
+                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("InvalidURL"), MainPage.NotifyType.ErrorMessage);
+                    return;
+                }
+
+                try
+                {
+                    await SendRequest(result.Text, HttpMethod.Get, string.Empty, null);
+                }
+                catch (FileNotFoundException)
+                {
+                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NotFoundConfiguration"), MPinDemo.MainPage.NotifyType.ErrorMessage);
+                }
+                catch (ArgumentException ae)
+                {
+                    rootPage.NotifyUser(ae.Message, MPinDemo.MainPage.NotifyType.ErrorMessage);
+                }
+                catch (Exception exc)
+                {
+                    rootPage.NotifyUser(exc.Message.Contains("0x80072EFD")
+                                           ? ResourceLoader.GetForCurrentView().GetString("NetworkProblem")
+                                           : ResourceLoader.GetForCurrentView().GetString("RequestError"),
+                                           MPinDemo.MainPage.NotifyType.ErrorMessage);
+                }
+            }
+
+            SetControlsIsEnabled(null, true, false);
+
+        }
+
+        private async Task SendRequest(String serviceURL, Windows.Web.Http.HttpMethod http_method, String requestBody, IDictionary<String, String> requestProperties)
+        {
+            // TODO: check if the response is empty, if an exception is thrown
+            // empty resonse returned on unsuccessful authentication
+            HttpClient httpClient = new HttpClient();
+            CancellationTokenSource cts = new CancellationTokenSource();
+            try
+            {
+                System.Uri resourceAddress = new System.Uri(serviceURL);
+                HttpRequestMessage request = new HttpRequestMessage(http_method, resourceAddress);
+
+                HttpResponseMessage response = await httpClient.SendRequestAsync(
+                    request,
+                    HttpCompletionOption.ResponseHeadersRead).AsTask(cts.Token);
+
+                string responseData = await response.Content.ReadAsStringAsync();
+                if (!string.IsNullOrEmpty(responseData) && response.StatusCode.Equals(HttpStatusCode.Ok))
+                {
+                    List<Backend> backends = controller.DataModel.GetBackendsFromJson(responseData);
+                    if (!Frame.Navigate(typeof(ReadConfiguration), new List<object> { backends, GetExistentsIndexes(backends) }))
+                    {
+                        throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
+                    }
+                }
+            }
+            catch (TaskCanceledException tce)
+            {
+                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("CanceledRequest"), MPinDemo.MainPage.NotifyType.ErrorMessage);
+                throw tce;
+            }
+        }
+
+        private List<int> GetExistentsIndexes(List<Backend> newBackends)
+        {
+            List<int> duplicatesIndexes = new List<int>();
+            foreach (var backend in newBackends)
+            {
+                if (controller.DataModel.BackendsList.Any((item) => item.Name.Equals(backend.Name)))
+                {
+                    duplicatesIndexes.Add(newBackends.IndexOf(backend));
+                }
+            }
+
+            return duplicatesIndexes;
+        }
+        #endregion // QRCode scanning
 
         #endregion // Methods
 
@@ -382,137 +526,6 @@ namespace MPinDemo
         private void ScanAppBarButton_Click(object sender, RoutedEventArgs e)
         {
             TriggerPicker(SupportedImageFileTypes);
-        }
-
-        private static void TriggerPicker(IEnumerable<string> fileTypeFilers, bool shouldPickMultiple = false)
-        {
-            var fop = new FileOpenPicker();
-            foreach (var fileType in fileTypeFilers)
-            {
-                fop.FileTypeFilter.Add(fileType);
-            }
-
-            if (shouldPickMultiple)
-            {
-                fop.PickMultipleFilesAndContinue();
-            }
-            else
-            {
-                fop.PickSingleFileAndContinue();
-            }
-        }
-
-        private async void OnFilesPicked(IReadOnlyList<StorageFile> files)
-        {
-            if (files == null || files.Count != 1)
-            {
-                rootPage.NotifyUser(files == null ? ResourceLoader.GetForCurrentView().GetString("NoImage") : ResourceLoader.GetForCurrentView().GetString("NoQRInImage"), MainPage.NotifyType.ErrorMessage);
-                return;
-            }
-
-            var data = await FileIO.ReadBufferAsync(files[0]);
-            // create a stream from the file
-            var ms = new InMemoryRandomAccessStream();
-            var dw = new Windows.Storage.Streams.DataWriter(ms);
-            dw.WriteBuffer(data);
-            await dw.StoreAsync();
-            ms.Seek(0);
-
-            // find out how big the image is
-            var bm = new BitmapImage();
-            await bm.SetSourceAsync(ms);
-
-            // create a writable bitmap of the right size
-            var wb = new WriteableBitmap(bm.PixelWidth, bm.PixelHeight);
-            ms.Seek(0);
-
-            // load the writable bitmap from the stream
-            await wb.SetSourceAsync(ms);
-
-            Result result = _barcodeReader.Decode(wb);
-            if (result != null)
-            {
-                if (string.IsNullOrEmpty(result.Text))
-                {
-                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("EmptyURL"), MainPage.NotifyType.ErrorMessage);
-                    return;
-                }
-
-                System.Uri uri;
-                if (!System.Uri.TryCreate(System.Uri.EscapeUriString(result.Text), UriKind.Absolute, out uri))
-                {
-                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("InvalidURL"), MainPage.NotifyType.ErrorMessage);
-                    return;
-                }
-
-                try
-                {
-                    await SendRequest(result.Text, HttpMethod.Get, string.Empty, null);
-                }
-                catch (FileNotFoundException)
-                {
-                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NotFoundConfiguration"), MPinDemo.MainPage.NotifyType.ErrorMessage);
-                }
-                catch (ArgumentException ae)
-                {
-                    rootPage.NotifyUser(ae.Message, MPinDemo.MainPage.NotifyType.ErrorMessage);
-                }
-                catch (Exception exc)
-                {
-                    rootPage.NotifyUser(exc.Message.Contains("0x80072EFD")
-                                           ? ResourceLoader.GetForCurrentView().GetString("NetworkProblem")
-                                           : ResourceLoader.GetForCurrentView().GetString("RequestError"),
-                                           MPinDemo.MainPage.NotifyType.ErrorMessage);
-                }
-            }
-        }
-
-        private async Task SendRequest(String serviceURL, Windows.Web.Http.HttpMethod http_method, String requestBody, IDictionary<String, String> requestProperties)
-        {
-            // TODO: check if the response is empty, if an exception is thrown
-            // empty resonse returned on unsuccessful authentication
-            HttpClient httpClient = new HttpClient();
-            CancellationTokenSource cts = new CancellationTokenSource();
-            try
-            {
-                System.Uri resourceAddress = new System.Uri(serviceURL);
-                HttpRequestMessage request = new HttpRequestMessage(http_method, resourceAddress);
-
-                HttpResponseMessage response = await httpClient.SendRequestAsync(
-                    request,
-                    HttpCompletionOption.ResponseHeadersRead).AsTask(cts.Token);
-
-                string responseData = await response.Content.ReadAsStringAsync();
-                if (!string.IsNullOrEmpty(responseData) && response.StatusCode.Equals(HttpStatusCode.Ok))
-                {
-                    List<Backend> backends = controller.DataModel.GetBackendsFromJson(responseData);
-                    if (!Frame.Navigate(typeof(ReadConfiguration), new List<object> { backends, GetExistentsIndexes(backends)}))
-                    {
-                        throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
-                    }                    
-                }
-            }
-            catch (TaskCanceledException tce)
-            {
-                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("CanceledRequest"), MPinDemo.MainPage.NotifyType.ErrorMessage);
-                throw tce;
-            }
-        }
-
-        private List<int> GetExistentsIndexes(List<Backend> newBackends)
-        {
-            List<int> indexes = new List<int>();
-            foreach(var backend in newBackends)
-            {
-                var current = controller.DataModel.BackendsList.Any((item) => item.Name.Equals(backend.Name));
-                if (current != null)                
-                {
-                    //indexes.Add(controller.DataModel.BackendsList.IndexOf(current));
-                    indexes.Add(newBackends.IndexOf(backend));
-                }
-            }
-
-            return indexes;
         }
         #endregion // handlers
     }

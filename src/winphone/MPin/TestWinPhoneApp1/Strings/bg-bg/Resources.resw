@@ -391,19 +391,18 @@
     <value>Възникна грешка по време на изпълнение на заявката! Операцията е прекратена!</value>
   </data>
   <data name="InvalidConfigurationList" xml:space="preserve">
-    <value>The configuration list is not valid!</value>
-    <comment>translate</comment>
+    <value>Подаден е невалитен списък от конфигурации!</value>
   </data>
   <data name="ReadConfigurationText.Text" xml:space="preserve">
-    <value>Please, select the configurations to import.</value>
-    <comment>translate</comment>
+    <value>Моля, изберете кои конфигурации да се запишат.</value>
   </data>
   <data name="ReadConfigurationWarning.Text" xml:space="preserve">
-    <value>The configurations marked in red are duplicates.</value>
-    <comment>translate</comment>
+    <value>Конфигурациите, отбелязани с червено, същиствуват вече!</value>
   </data>
   <data name="SaveConfigurationBarButton.Label" xml:space="preserve">
-    <value>save</value>
-    <comment>translate</comment>
+    <value>запази</value>
+  </data>
+  <data name="OverideDiplicates" xml:space="preserve">
+    <value>Сигурен ли си, че искаш да презапишеш конфигурациите със съвпадащи имена?</value>
   </data>
 </root>

@@ -9,6 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <local:ConfigurationConverter x:Key="configurationConverter"/>
+        <local:ExistenceSelector x:Key="ExistenceSelector" />
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -20,40 +21,80 @@
         <TextBlock x:Uid="ReadConfigurationText" TextWrapping="WrapWholeWords" />
         <TextBlock x:Uid="ReadConfigurationWarning" Grid.Row="1" TextWrapping="WrapWholeWords"/>
         
-        <ListBox x:Name="ConfigurationsListBox" ItemsSource="{Binding ConfigurationList, Mode=TwoWay}" Grid.Row="2" Loaded="ListBox_Loaded" ItemTemplateSelector="{Binding ExistencySelector}" >
+        <ListBox x:Name="ConfigurationsListBox" ItemsSource="{Binding Configurations, Mode=TwoWay}" Grid.Row="2" ItemTemplateSelector="{Binding ExistenceSelector}" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="40" />
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
- 
-                        <CheckBox IsChecked="{Binding IsSet, Mode=TwoWay}" />
+                    <local:ExistenceSelector Content="{Binding}">
+                        <local:ExistenceSelector.UniqueTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="40" />
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
 
-                        <StackPanel Margin="0,0,0,9.5" Grid.Column="1">
-                            <TextBlock Text="{Binding Name}"  
+                                    <CheckBox IsChecked="{Binding IsSet, Mode=TwoWay}" />
+
+                                    <StackPanel Margin="0,0,0,9.5" Grid.Column="1">
+                                        <TextBlock Text="{Binding Name}"  
                                            TextWrapping="Wrap"
                                             Pivot.SlideInAnimationGroup="1"
                                             CommonNavigationTransitionInfo.IsStaggerElement="True"
                                             Style="{ThemeResource ListViewItemTextBlockStyle}"
                                             Margin="0,0,19,0"/>
-                            <TextBlock Text="{Binding BackendUrl}"
+                                        <TextBlock Text="{Binding BackendUrl}"
                                            TextWrapping="WrapWholeWords"
                                             Pivot.SlideInAnimationGroup="2" 
                                             CommonNavigationTransitionInfo.IsStaggerElement="True" 
                                             Style="{ThemeResource ListViewItemContentTextBlockStyle}"
                                             Margin="0,0,19,0"/>
-                            <TextBlock Text="{Binding Converter={StaticResource configurationConverter}}" Margin="0,0,19,0" 
+                                        <TextBlock Text="{Binding Converter={StaticResource configurationConverter}}" Margin="0,0,19,0" 
                                                    TextWrapping="WrapWholeWords"
                                                    Pivot.SlideInAnimationGroup="2" 
                                                    CommonNavigationTransitionInfo.IsStaggerElement="True" 
                                                    FontWeight="Bold"
                                                    Style="{ThemeResource ListViewItemContentTextBlockStyle}"/>
-                        </StackPanel>
+                                    </StackPanel>
 
-                    </Grid>
-                </DataTemplate>
+                                </Grid>
+                            </DataTemplate>
+                        </local:ExistenceSelector.UniqueTemplate>
+                        <local:ExistenceSelector.DuplicateTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="40" />
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <CheckBox IsChecked="{Binding IsSet, Mode=TwoWay}" />
+
+                                    <StackPanel Margin="0,0,0,9.5" Grid.Column="1">
+                                        <TextBlock Text="{Binding Name}"  
+                                           TextWrapping="Wrap" Foreground="Red" FontStyle="Italic"
+                                            Pivot.SlideInAnimationGroup="1"
+                                            CommonNavigationTransitionInfo.IsStaggerElement="True"
+                                            Style="{ThemeResource ListViewItemTextBlockStyle}"
+                                            Margin="0,0,19,0"/>
+                                        <TextBlock Text="{Binding BackendUrl}"
+                                           TextWrapping="WrapWholeWords"
+                                            Pivot.SlideInAnimationGroup="2" 
+                                            CommonNavigationTransitionInfo.IsStaggerElement="True" 
+                                            Style="{ThemeResource ListViewItemContentTextBlockStyle}"
+                                            Margin="0,0,19,0"/>
+                                        <TextBlock Text="{Binding Converter={StaticResource configurationConverter}}" Margin="0,0,19,0" 
+                                                   TextWrapping="WrapWholeWords"
+                                                   Pivot.SlideInAnimationGroup="2" 
+                                                   CommonNavigationTransitionInfo.IsStaggerElement="True" 
+                                                   FontWeight="Bold"
+                                                   Style="{ThemeResource ListViewItemContentTextBlockStyle}"/>
+                                    </StackPanel>
+
+                                </Grid>
+                            </DataTemplate>
+                        </local:ExistenceSelector.DuplicateTemplate>
+                    </local:ExistenceSelector>
+                </DataTemplate>                
             </ListBox.ItemTemplate>
         </ListBox>
     </Grid>

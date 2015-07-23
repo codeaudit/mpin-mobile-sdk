@@ -30,7 +30,7 @@ namespace MPinDemo
     public sealed partial class ReadConfiguration : Page, INotifyPropertyChanged
     {
         MainPage rootPage = null;
-        private List<int> existentsIndexes;
+        private static List<int> ExistentsIndexes;
 
         public ReadConfiguration()
         {
@@ -38,16 +38,16 @@ namespace MPinDemo
             this.DataContext = this;
         }
 
-        private List<Backend> configurationList;
-        public List<Backend> ConfigurationList
+        private static List<Backend> ConfigurationList;
+        public List<Backend> Configurations
         {
             get
             {
-                return this.configurationList;
+                return ConfigurationList;
             }
             set
             {
-                this.configurationList = value;
+                ConfigurationList = value;
                 OnPropertyChanged();
             }
         }
@@ -60,31 +60,27 @@ namespace MPinDemo
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             rootPage = MainPage.Current;
-            List<object> data = e.Parameter as List<object>;            
+            List<object> data = e.Parameter as List<object>;
             if (data == null || data.Count != 2 || !data[0].GetType().Equals(typeof(List<Backend>)) || !data[1].GetType().Equals(typeof(List<int>)))
             {
                 rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("InvalidConfigurationList"), MainPage.NotifyType.ErrorMessage);
+                if (ConfigurationList != null)                
+                    Configurations.Clear();                
+                if (ExistentsIndexes != null)
+                    ExistentsIndexes.Clear();
                 return;
             }
 
-            this.ConfigurationList = data[0] as List<Backend>;
-            this.existentsIndexes = data[1] as List<int>;
+            this.Configurations = data[0] as List<Backend>;
+            ExistentsIndexes = data[1] as List<int>;
 
-            CheckAllConfigurations(true);
-            MarkExistents();
+            CheckAllConfigurations(true);            
         }
-
-        private void MarkExistents()
-        {
-            //foreach(var i in existentsIndexes)
-            //{
-            //    this.ConfigurationList[i].
-            //}
-        }
+        
 
         private void CheckAllConfigurations(bool isCheck)
         {
-            foreach(var backend in this.ConfigurationList)
+            foreach (var backend in this.Configurations)
             {
                 backend.IsSet = isCheck;
             }
@@ -106,10 +102,7 @@ namespace MPinDemo
         private async void SaveAppBarButton_Click(object sender, RoutedEventArgs e)
         {
             bool areDuplicatesSelected = AreDuplicatesSelected();
-            this.ConfigurationList.RemoveAll((item) => item.IsSet == false);
-            CheckAllConfigurations(false);
-            Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-
+            
             if (areDuplicatesSelected)
             {
                 var confirmation = new MessageDialog(ResourceLoader.GetForCurrentView().GetString("OverideDiplicates"));
@@ -120,29 +113,73 @@ namespace MPinDemo
                 if (result.Equals(confirmation.Commands[1]))
                 {
                     // if no set, back to the configurations list to select
-                    //mainFrame.GoBack(new List<object>() { "NewConfigurations", this.ConfigurationList });   
                     return;
                 }
             }
 
-            mainFrame.GoBack(new List<object>() { "NewConfigurations", this.ConfigurationList });
+            this.Configurations.RemoveAll((item) => item.IsSet == false);
+            CheckAllConfigurations(false);
+            Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
+            mainFrame.GoBack(new List<object>() { "NewConfigurations", this.Configurations });
         }
 
         private bool AreDuplicatesSelected()
         {
-            return this.ConfigurationList.Any(item => item.IsSet == true && this.existentsIndexes.Contains(this.ConfigurationList.IndexOf(item)));
+            return Configurations.Any(item => item.IsSet == true && ExistentsIndexes.Contains(this.Configurations.IndexOf(item)));
         }
-
-        private void ListBox_Loaded(object sender, RoutedEventArgs e)
+               
+        public static bool IsDuplicate(Backend item)
         {
-            if (this.ConfigurationsListBox.Items == null || this.ConfigurationsListBox.Items.Count == 0)
-                return;
-
-            foreach(var i in existentsIndexes)
-            {
-                (this.ConfigurationsListBox.Items[i] as ListBoxItem).Foreground = new SolidColorBrush(Colors.Red);
-            }
+            return ExistentsIndexes.Contains(ConfigurationList.IndexOf(item));
         }
 
+    }
+
+
+    public abstract class DataTemplateSelector : ContentControl
+    {
+        public virtual DataTemplate SelectTemplate(object item, DependencyObject container)
+        {
+            return null;
+        }
+
+        protected override void OnContentChanged(object oldContent, object newContent)
+        {
+            base.OnContentChanged(oldContent, newContent);
+
+            ContentTemplate = SelectTemplate(newContent, this);
+        }
+    }
+
+    public class ExistenceSelector : DataTemplateSelector
+    {
+        public DataTemplate UniqueTemplate
+        {
+            get;
+            set;
+        }
+        public DataTemplate DuplicateTemplate
+        {
+            get;
+            set;
+        }
+
+        public override DataTemplate SelectTemplate(object item, DependencyObject container)
+        {
+            Backend backendItem = item as Backend;
+            if (backendItem != null)
+            {
+                if (ReadConfiguration.IsDuplicate(backendItem))
+                {
+                    return DuplicateTemplate;
+                }
+                else
+                {
+                    return UniqueTemplate;
+                }
+            }
+
+            return base.SelectTemplate(item, container);
+        }
     }
 }
