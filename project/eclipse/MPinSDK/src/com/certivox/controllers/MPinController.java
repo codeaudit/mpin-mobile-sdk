@@ -146,9 +146,10 @@ public class MPinController extends Controller {
 			onDestroy();
 			return true;
 		case MESSAGE_ON_START:
+			onStart();
 			return true;
 		case MESSAGE_ON_STOP:
-			mWorkerThread.interrupt();
+			onStop();
 			return true;
 		case MESSAGE_ON_BACK:
 			onBack();
@@ -193,6 +194,7 @@ public class MPinController extends Controller {
 			notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
 			return true;
 		case MESSAGE_AUTHENTICATION_STARTED:
+			Log.i(TAG, "MESSAGE_AUTHENTICATION_STARTED");
 			notifyOutboxHandlers(MESSAGE_START_WORK_IN_PROGRESS, 0, 0, null);
 		default:
 			return false;
@@ -563,9 +565,9 @@ public class MPinController extends Controller {
 
 	private void authenticateAN(final String accessNumber) {
 		Status status = getSdk().AuthenticateAN(getCurrentUser(), accessNumber);
-		Log.i(TAG, "AUTHENTICATION STATUS " + status.getStatusCode());
 		switch (status.getStatusCode()) {
 		case PIN_INPUT_CANCELED:
+			notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
 			break;
 		case NETWORK_ERROR:
 			onNetworkError();
@@ -590,8 +592,10 @@ public class MPinController extends Controller {
 
 	private void authenticateOTP(final OTP otp) {
 		Status status = getSdk().AuthenticateOTP(getCurrentUser(), otp);
+		Log.i(TAG, "STATUS " + status);
 		switch (status.getStatusCode()) {
 		case PIN_INPUT_CANCELED:
+			notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
 			break;
 		case OK:
 			if (otp.status != null && otp.ttlSeconds > 0) {
@@ -619,6 +623,7 @@ public class MPinController extends Controller {
 		Status status = getSdk().Authenticate(getCurrentUser(), resultData);
 		switch (status.getStatusCode()) {
 		case PIN_INPUT_CANCELED:
+			notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
 			break;
 		case INCORRECT_PIN:
 			notifyOutboxHandlers(MESSAGE_INCORRECT_PIN, 0, 0, null);
@@ -736,9 +741,22 @@ public class MPinController extends Controller {
 		Log.i(TAG, "Current fragment is " + tag);
 	}
 
+	private void onStart() {
+		if (!mWorkerThread.isAlive()) {
+			initWorkerThread();
+		}
+	}
+
+	private void onStop() {
+		mWorkerThread.interrupt();
+	}
+
 	private void onDestroy() {
 		if (mWorkerThread != null && mWorkerThread.getLooper() != null) {
+			mWorkerThread.interrupt();
 			mWorkerThread.getLooper().quit();
+			mWorkerThread = null;
+			mWorkerHandler = null;
 		}
 	}
 

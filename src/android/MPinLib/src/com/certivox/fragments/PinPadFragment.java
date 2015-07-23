@@ -7,9 +7,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -240,6 +240,7 @@ public class PinPadFragment extends Fragment {
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+				return "";
 			}
 		}
 		String pin = parsePin();
