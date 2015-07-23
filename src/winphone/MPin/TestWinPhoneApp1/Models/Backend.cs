@@ -160,8 +160,6 @@ namespace MPinDemo.Models
         {
             this.BackendUrl = string.Empty;
             this.name = string.Empty;
-            //this.RequestAccessNumber = false;
-            //this.RequestOtp = false;            
             this.IsSet = false;            
         }
 
@@ -170,8 +168,6 @@ namespace MPinDemo.Models
             if (jsonObject != null)
             {
                 this.BackendUrl = jsonObject.GetNamedString(urlKey, "");
-                //this.RequestAccessNumber = jsonObject.GetNamedBoolean(requestANKey, false);
-                //this.RequestOtp = jsonObject.GetNamedBoolean(requestOtpKey, false);
                 this.Name = jsonObject.GetNamedString(nameKey, "");
                 this.Type = ParseType(jsonObject.GetNamedString(typeKey, ""));
                 this.RpsPrefix = jsonObject.GetNamedString(rpsKey, "");                
@@ -198,8 +194,6 @@ namespace MPinDemo.Models
         {
             JsonObject backendObject = new JsonObject();
             backendObject.SetNamedValue(urlKey, JsonValue.CreateStringValue(BackendUrl));
-            //backendObject.SetNamedValue(requestANKey, JsonValue.CreateBooleanValue(RequestAccessNumber));
-            //backendObject.SetNamedValue(requestOtpKey, JsonValue.CreateBooleanValue(RequestOtp));
             backendObject.SetNamedValue(typeKey, JsonValue.CreateStringValue(Type.ToString()));
             backendObject.SetNamedValue(nameKey, JsonValue.CreateStringValue(Name));
             backendObject.GetNamedValue(rpsKey, JsonValue.CreateStringValue(RpsPrefix));

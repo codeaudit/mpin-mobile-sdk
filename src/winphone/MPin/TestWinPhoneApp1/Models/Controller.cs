@@ -474,13 +474,13 @@ namespace MPinDemo.Models
                     });
                 }
             }
-            else
-            {
-                await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    rootPage.NotifyUser(string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblem"), user.Id, user.UserState), MainPage.NotifyType.ErrorMessage);
-                });
-            }
+            //else
+            //{
+            //    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //    {
+            //        rootPage.NotifyUser(string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblem"), user.Id, user.UserState), MainPage.NotifyType.ErrorMessage);
+            //    });
+            //}
         }
 
         private async Task<User> AddAndRegisterUser(List<string> data)
@@ -728,6 +728,20 @@ namespace MPinDemo.Models
                     }
 
                     break;
+                    
+                case "NewConfigurations":
+                    List<Backend> newBackends = parameter as List<Backend>;
+                    if (newBackends == null)
+                    {
+                        await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                        {
+                            rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("InvalidConfigurationList"), MainPage.NotifyType.ErrorMessage);
+                        });
+                        return;
+                    }
+
+                    this.DataModel.MergeConfigurations(newBackends);
+                    break; 
 
                 default:
                     break;

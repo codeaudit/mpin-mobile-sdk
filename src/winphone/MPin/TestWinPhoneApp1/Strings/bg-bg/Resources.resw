@@ -390,4 +390,20 @@
   <data name="RequestError" xml:space="preserve">
     <value>Възникна грешка по време на изпълнение на заявката! Операцията е прекратена!</value>
   </data>
+  <data name="InvalidConfigurationList" xml:space="preserve">
+    <value>The configuration list is not valid!</value>
+    <comment>translate</comment>
+  </data>
+  <data name="ReadConfigurationText.Text" xml:space="preserve">
+    <value>Please, select the configurations to import.</value>
+    <comment>translate</comment>
+  </data>
+  <data name="ReadConfigurationWarning.Text" xml:space="preserve">
+    <value>The configurations marked in red are duplicates.</value>
+    <comment>translate</comment>
+  </data>
+  <data name="SaveConfigurationBarButton.Label" xml:space="preserve">
+    <value>save</value>
+    <comment>translate</comment>
+  </data>
 </root>

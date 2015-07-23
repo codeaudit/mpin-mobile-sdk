@@ -56,21 +56,18 @@ namespace MPinDemo
 
         private void GoIdentities_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine(" BlockedUser -> Identities");
             Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
             mainFrame.GoBack(new List<object>() { "BlockedUser", string.Empty });
         }
 
         private void RemoveUserButton_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine(" BlockedUser -> Remove User");
             Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
             mainFrame.GoBack(new List<object>() { "BlockedUser", "Remove" });
         }
 
         private void ResetPinButton_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine(" BlockedUser -> Reset PIN");
             Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
             mainFrame.GoBack(new List<object>() { "BlockedUser", "ResetPIN" });                 
         }

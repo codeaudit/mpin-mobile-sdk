@@ -485,7 +485,11 @@ namespace MPinDemo
                 string responseData = await response.Content.ReadAsStringAsync();
                 if (!string.IsNullOrEmpty(responseData) && response.StatusCode.Equals(HttpStatusCode.Ok))
                 {
-                    controller.DataModel.LoadBackendsFromDataString(responseData);
+                    List<Backend> backends = controller.DataModel.GetBackendsFromJson(responseData);
+                    if (!Frame.Navigate(typeof(ReadConfiguration), new List<object> { backends, GetExistentsIndexes(backends)}))
+                    {
+                        throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
+                    }                    
                 }
             }
             catch (TaskCanceledException tce)
@@ -493,6 +497,22 @@ namespace MPinDemo
                 rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("CanceledRequest"), MPinDemo.MainPage.NotifyType.ErrorMessage);
                 throw tce;
             }
+        }
+
+        private List<int> GetExistentsIndexes(List<Backend> newBackends)
+        {
+            List<int> indexes = new List<int>();
+            foreach(var backend in newBackends)
+            {
+                var current = controller.DataModel.BackendsList.Any((item) => item.Name.Equals(backend.Name));
+                if (current != null)                
+                {
+                    //indexes.Add(controller.DataModel.BackendsList.IndexOf(current));
+                    indexes.Add(newBackends.IndexOf(backend));
+                }
+            }
+
+            return indexes;
         }
         #endregion // handlers
     }

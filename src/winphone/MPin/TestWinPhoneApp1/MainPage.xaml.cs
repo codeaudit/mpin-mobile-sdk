@@ -112,7 +112,7 @@ namespace MPinDemo
                 {
                     //StatusBorder.Visibility = Windows.UI.Xaml.Visibility.Visible;
                     StatusBorder.Opacity = 1;
-                    StartTimer();
+                    StartTimer(type == NotifyType.StatusMessage ? 2 : 4);
                 }
                 else
                 {
@@ -122,13 +122,13 @@ namespace MPinDemo
             }
         }
 
-        private void StartTimer()
+        private void StartTimer(int seconds)
         {
             if (timer == null)
             {
                 timer = new DispatcherTimer();
                 timer.Tick += timer_Tick;
-                timer.Interval = new TimeSpan(0, 0, 2);
+                timer.Interval = new TimeSpan(0, 0, seconds);
             }
 
             timer.Start();

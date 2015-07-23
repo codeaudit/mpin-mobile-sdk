@@ -25,7 +25,7 @@ using Windows.UI.Popups;
 namespace MPinDemo
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// The page used to add a configuration to the app.
     /// </summary>
     public sealed partial class Configuration : Page, INotifyPropertyChanged
     {

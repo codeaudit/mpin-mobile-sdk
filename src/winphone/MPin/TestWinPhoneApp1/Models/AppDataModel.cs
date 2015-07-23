@@ -17,14 +17,14 @@ namespace MPinDemo.Models
     public class AppDataModel : INotifyPropertyChanged
     {
         #region Members
-        
+
         private const string FileName =
 #if DEBUG
             "SampleData_Debug.json";
 #elif MPinConnect
             "SampleData_MPinConnect.json";
 #else
-            "SampleData.json";
+ "SampleData.json";
 #endif
 
         private const string FilePath = "ms-appx:///Resources/" + FileName;
@@ -36,9 +36,9 @@ namespace MPinDemo.Models
 
         public AppDataModel()
         {
-                    //CreateBackends();
+            //CreateBackends();
         }
-        
+
         private ObservableCollection<Backend> services;
         public ObservableCollection<Backend> BackendsList
         {
@@ -106,10 +106,10 @@ namespace MPinDemo.Models
 
         #endregion // CurrentService
 
-        public static int PredefinedServicesCount 
-        { 
-            get; 
-            private set; 
+        public static int PredefinedServicesCount
+        {
+            get;
+            private set;
         }
 
         #endregion
@@ -229,7 +229,7 @@ namespace MPinDemo.Models
 
             if (this.BackendsList.Count != 0)
                 return;
-                        
+
             StorageFile file = null;
             try
             {
@@ -253,47 +253,41 @@ namespace MPinDemo.Models
                 return;
             }
 
-            LoadBackendsFromDataString(jsonText);
+            List<Backend> newBackends = GetBackendsFromJson(jsonText);
+            foreach (Backend backend in newBackends)
+            {
+                this.BackendsList.Add(backend);
+            }
+
+            if (setPredefinedConfigurationCount)
+                AppDataModel.PredefinedServicesCount = this.BackendsList.Count;
         }
 
-        internal void LoadBackendsFromDataString(string jsonText, bool readFromQR = false)
+        internal List<Backend> GetBackendsFromJson(string jsonText)
         {
             if (string.IsNullOrEmpty(jsonText))
             {
-                throw new ArgumentNullException(ResourceLoader.GetForCurrentView().GetString("EmptyJSON"));                
+                throw new ArgumentNullException(ResourceLoader.GetForCurrentView().GetString("EmptyJSON"));
             }
 
             JsonArray jsonArray;
             try
             {
-                 jsonArray = JsonArray.Parse(jsonText);
+                jsonArray = JsonArray.Parse(jsonText);
             }
             catch
             {
-                throw new ArgumentException(ResourceLoader.GetForCurrentView().GetString("InvalidJSON"));                
+                throw new ArgumentException(ResourceLoader.GetForCurrentView().GetString("InvalidJSON"));
             }
 
-            List<Backend> existingOnes = new List<Backend>();
+            List<Backend> backendsList = new List<Backend>();
             foreach (JsonValue groupValue in jsonArray)
             {
                 JsonObject groupObject = groupValue.GetObject();
-                Backend backend = new Backend(groupObject);
-                var currentBackend = this.BackendsList.FirstOrDefault(item => item.Name.Equals(backend.Name));
-
-                if (currentBackend != null)
-                {
-                    existingOnes.Add(backend);
-                    // loaded configurations overwrite the existing ones with matching names.
-                    this.BackendsList[this.BackendsList.IndexOf(currentBackend)] = backend;
-                }
-                else
-                {
-                    this.BackendsList.Add(backend);
-                }
+                backendsList.Add(new Backend(groupObject));
             }
 
-            if (setPredefinedConfigurationCount)
-                AppDataModel.PredefinedServicesCount = this.BackendsList.Count;
+            return backendsList;
         }
 
         internal async Task SaveServices()
@@ -313,7 +307,7 @@ namespace MPinDemo.Models
                 string data = jsonArray.Stringify();
 
                 await FileIO.WriteTextAsync(file, data);
-                
+
                 Windows.Storage.Provider.FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
 
                 if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
@@ -325,7 +319,7 @@ namespace MPinDemo.Models
                     // File was not saved
                 }
             }
-            catch(Exception wer)
+            catch (Exception wer)
             {
                 System.Diagnostics.Debug.WriteLine(wer.Message);
             }
@@ -356,7 +350,7 @@ namespace MPinDemo.Models
                 // the configurations have not been modified -> get the predefined configuration from the local installed location
                 Uri dataUri = new Uri(FilePath, UriKind.Absolute);
                 this.setPredefinedConfigurationCount = true;
-                return await StorageFile.GetFileFromApplicationUriAsync(dataUri);                
+                return await StorageFile.GetFileFromApplicationUriAsync(dataUri);
             }
         }
 
@@ -374,6 +368,22 @@ namespace MPinDemo.Models
             return false;
         }
 
+        internal void MergeConfigurations(List<Backend> newBackends)
+        {
+            foreach (Backend backend in newBackends)
+            {
+                var currentBackend = this.BackendsList.FirstOrDefault(item => item.Name.Equals(backend.Name));
+                if (currentBackend != null)
+                {
+                    // loaded configurations overwrite the existing ones with matching names.
+                    this.BackendsList[this.BackendsList.IndexOf(currentBackend)] = backend;
+                }
+                else
+                {
+                    this.BackendsList.Add(backend);
+                }
+            }
+        }
         #endregion
 
         #region INotifyPropertyChanged
@@ -387,6 +397,6 @@ namespace MPinDemo.Models
             }
         }
         #endregion // INotifyPropertyChanged
-
+        
     }
 }
