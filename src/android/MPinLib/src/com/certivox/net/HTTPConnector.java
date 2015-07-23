@@ -79,6 +79,7 @@ public class HTTPConnector implements IHTTPRequest {
 		try {
 			connection = getConnection(serviceURL,
 					!TextUtils.isEmpty(requestBody));
+
 			connection.setRequestMethod(http_method);
 			connection.setConnectTimeout(timeout);
 
@@ -97,10 +98,19 @@ public class HTTPConnector implements IHTTPRequest {
 				dos = new DataOutputStream(connection.getOutputStream());
 				dos.writeBytes(requestBody);
 			}
+
 			// Starts the query
 			connection.connect();
 
-			statusCode = connection.getResponseCode();
+			try {
+				statusCode = connection.getResponseCode();
+			} catch (IOException e) {
+				statusCode = connection.getResponseCode();
+				if (statusCode != 401) {
+					throw e;
+				}
+			}
+
 			responseHeaders = new Hashtable<String, String>();
 			Map<String, List<String>> map = connection.getHeaderFields();
 			for (Map.Entry<String, List<String>> entry : map.entrySet()) {
@@ -114,8 +124,8 @@ public class HTTPConnector implements IHTTPRequest {
 					continue;
 				responseHeaders.put(entry.getKey(), properties);
 			}
-
 			response = toString(connection.getInputStream());
+
 		} finally {
 			if (dos != null) {
 				dos.close();
