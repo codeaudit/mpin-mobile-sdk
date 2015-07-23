@@ -52,44 +52,43 @@ public class MPinController extends Controller {
 	public static final int MESSAGE_ON_STOP = 3;
 	public static final int MESSAGE_ON_BACK = 4;
 	public static final int MESSAGE_ON_DRAWER_BACK = 5;
-	public static final int MESSAGE_GO_BACK_REQUEST = 6;
-	public static final int MESSAGE_ON_SHOW_IDENTITY_LIST = 7;
-	public static final int MESSAGE_ON_CHANGE_SERVICE = 8;
-	public static final int MESSAGE_ON_ABOUT = 9;
-	public static final int MESSAGE_RESET_PIN = 10;
-	public static final int MESSAGE_ON_SHOW_PINPAD = 11;
+	public static final int MESSAGE_ON_SHOW_IDENTITY_LIST = 6;
+	public static final int MESSAGE_ON_CHANGE_SERVICE = 7;
+	public static final int MESSAGE_ON_ABOUT = 8;
+	public static final int MESSAGE_RESET_PIN = 9;
+	public static final int MESSAGE_ON_SHOW_PINPAD = 10;
 
 	// Receive Messages from Fragment Configurations List
-	public static final int MESSAGE_ON_NEW_CONFIGURATION = 12;
-	public static final int MESSAGE_ON_SELECT_CONFIGURATION = 13;
-	public static final int MESSAGE_ON_EDIT_CONFIGURATION = 14;
-	public static final int MESSAGE_DELETE_CONFIGURATION = 15;
+	public static final int MESSAGE_ON_NEW_CONFIGURATION = 11;
+	public static final int MESSAGE_ON_SELECT_CONFIGURATION = 12;
+	public static final int MESSAGE_ON_EDIT_CONFIGURATION = 13;
+	public static final int MESSAGE_DELETE_CONFIGURATION = 14;
 
 	// Receive Messages from Fragment Configuration Edit
-	public static final int MESSAGE_CHECK_BACKEND_URL = 16;
-	public static final int MESSAGE_SAVE_CONFIG = 17;
+	public static final int MESSAGE_CHECK_BACKEND_URL = 15;
+	public static final int MESSAGE_SAVE_CONFIG = 16;
 
 	// Receive Messages from Fragment Users List
-	public static final int MESSAGE_ON_CREATE_IDENTITY = 18;
+	public static final int MESSAGE_ON_CREATE_IDENTITY = 17;
 
 	// Receive Messages from Fragment Create identity
-	public static final int MESSAGE_CREATE_IDENTITY = 19;
+	public static final int MESSAGE_CREATE_IDENTITY = 18;
 
 	// Receive Messages from Fragment CONFIRM EMAIL
-	public static final int MESSAGE_EMAIL_CONFIRMED = 20;
-	public static final int MESSAGE_RESEND_EMAIL = 21;
+	public static final int MESSAGE_EMAIL_CONFIRMED = 19;
+	public static final int MESSAGE_RESEND_EMAIL = 20;
 
 	// Receive Messages from Fragment Identity created
-	public static final int MESSAGE_ON_SIGN_IN = 22;
+	public static final int MESSAGE_ON_SIGN_IN = 21;
 
 	// Receive Messages from Fragment Identity blocked
-	public static final int MESSAGE_ON_DELETE_IDENTITY = 23;
+	public static final int MESSAGE_ON_DELETE_IDENTITY = 22;
 
 	// Receive Messages from Fragment OTP
-	public static final int MESSAGE_OTP_EXPIRED = 24;
+	public static final int MESSAGE_OTP_EXPIRED = 23;
 
 	// Receive Messages from MPinActivity
-	public static final int MESSAGE_AUTHENTICATION_STARTED = 25;
+	public static final int MESSAGE_AUTHENTICATION_STARTED = 24;
 
 	// Sent Messages
 	public static final int MESSAGE_GO_BACK = 1;
@@ -143,7 +142,7 @@ public class MPinController extends Controller {
 		case MESSAGE_ON_CREATE:
 			return true;
 		case MESSAGE_ON_DESTROY:
-			mWorkerThread.getLooper().quit();
+			onDestroy();
 			return true;
 		case MESSAGE_ON_START:
 			return true;
@@ -151,10 +150,10 @@ public class MPinController extends Controller {
 			mWorkerThread.interrupt();
 			return true;
 		case MESSAGE_ON_BACK:
-			notifyOutboxHandlers(MESSAGE_GO_BACK, 0, 0, null);
+			onBack();
 			return true;
 		case MESSAGE_ON_DRAWER_BACK:
-			onDrawerBack();
+			onBack();
 			return true;
 		case MESSAGE_ON_NEW_CONFIGURATION:
 			onEditConfiguration(-1);
@@ -167,9 +166,6 @@ public class MPinController extends Controller {
 			return true;
 		case MESSAGE_ON_ABOUT:
 			notifyOutboxHandlers(MESSAGE_SHOW_ABOUT, 0, 0, null);
-			return true;
-		case MESSAGE_GO_BACK_REQUEST:
-			notifyOutboxHandlers(MESSAGE_GO_BACK, 0, 0, null);
 			return true;
 		case MESSAGE_ON_CREATE_IDENTITY:
 			notifyOutboxHandlers(MESSAGE_SHOW_CREATE_IDENTITY, 0, 0, null);
@@ -727,21 +723,41 @@ public class MPinController extends Controller {
 		Log.i(TAG, "Current fragment is " + tag);
 	}
 
-	private void onDrawerBack() {
-		if (mCurrentFragmentTag.equals(FragmentTags.FRAGMENT_ABOUT)) {
-			notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
-		} else if (mCurrentFragmentTag
-				.equals(FragmentTags.FRAGMENT_CONFIGURATIONS_LIST)) {
-			notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
+	private void onDestroy() {
+		if (mWorkerThread != null && mWorkerThread.getLooper() != null) {
+			mWorkerThread.getLooper().quit();
+		}
+	}
 
-		} else if (mCurrentFragmentTag
-				.equals(FragmentTags.FRAGMENT_CONFIGURATION_EDIT)) {
-			notifyOutboxHandlers(MESSAGE_SHOW_CONFIGURATIONS_LIST, 0, 0, null);
+	private void onBack() {
+		if (mCurrentFragmentTag != null) {
+			if (mCurrentFragmentTag.equals(FragmentTags.FRAGMENT_ABOUT)) {
+				notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
+			} else if (mCurrentFragmentTag
+					.equals(FragmentTags.FRAGMENT_CONFIGURATIONS_LIST)) {
+				if (mCurrentConfiguration == null) {
+					notifyOutboxHandlers(MESSAGE_GO_BACK, 0, 0, null);
+				} else {
+					notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0,
+							null);
+				}
+
+			} else if (mCurrentFragmentTag
+					.equals(FragmentTags.FRAGMENT_CONFIGURATION_EDIT)) {
+				notifyOutboxHandlers(MESSAGE_SHOW_CONFIGURATIONS_LIST, 0, 0,
+						null);
+			} else if (mCurrentFragmentTag
+					.equals(FragmentTags.FRAGMENT_USERS_LIST)) {
+				notifyOutboxHandlers(MESSAGE_GO_BACK, 0, 0, null);
+			} else {
+				notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
+			}
+		} else {
+			notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
 		}
 	}
 
 	public int getAccessNumberLength() {
-
 		mWorkerHandler.post(new Runnable() {
 
 			@Override
