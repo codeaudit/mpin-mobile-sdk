@@ -115,7 +115,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 
 	@Override
 	public void onBackPressed() {
-		mController.handleMessage(MPinController.MESSAGE_GO_BACK_REQUEST);
+		mController.handleMessage(MPinController.MESSAGE_ON_BACK);
 	}
 
 	@Override
@@ -437,6 +437,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener,
 					FragmentTags.FRAGMENT_PINPAD);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
+			mController.setCurrentFragmentTag(FragmentTags.FRAGMENT_PINPAD);
 		}
 
 		synchronized (MPinActivity.class) {

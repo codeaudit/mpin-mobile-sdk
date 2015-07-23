@@ -51,7 +51,8 @@ public class UsersListFragment extends MPinFragment implements OnClickListener,
 			Bundle savedInstanceState) {
 		setHasOptionsMenu(true);
 		enableDrawer();
-		mView = inflater.inflate(R.layout.fragment_users_list, container, false);
+		mView = inflater
+				.inflate(R.layout.fragment_users_list, container, false);
 		initViews();
 		initScreen();
 
@@ -151,7 +152,7 @@ public class UsersListFragment extends MPinFragment implements OnClickListener,
 			getMPinController().onIdentitySelected(mSelectedIdentity);
 			return true;
 		case R.id.reset_pin:
-			getMPinController().onResetPin(mSelectedIdentity);
+			showResetPinDialog();
 			return true;
 		case R.id.delete_identity:
 			showDeleteUserDialog();
@@ -189,6 +190,23 @@ public class UsersListFragment extends MPinFragment implements OnClickListener,
 							public void onClick(DialogInterface dialog,
 									int which) {
 								getMPinController().onDeleteIdentity(
+										mSelectedIdentity);
+							}
+						}).setNegativeButton("Cancel", null).show();
+	}
+
+	private void showResetPinDialog() {
+		new AlertDialog.Builder(getActivity())
+				.setTitle("Reset Pin")
+				.setMessage(
+						"Are you sure you would would to reset the PIN for "
+								+ mSelectedIdentity.getId() + "?")
+				.setPositiveButton("Reset",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								getMPinController().onResetPin(
 										mSelectedIdentity);
 							}
 						}).setNegativeButton("Cancel", null).show();
