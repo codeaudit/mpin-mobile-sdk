@@ -120,7 +120,7 @@ namespace MPinDemo
             this.Configurations.RemoveAll((item) => item.IsSet == false);
             CheckAllConfigurations(false);
             Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-            mainFrame.GoBack(new List<object>() { "NewConfigurations", this.Configurations });
+            mainFrame.GoBack(new List<object>() { "NewServices", this.Configurations });
         }
 
         private bool AreDuplicatesSelected()

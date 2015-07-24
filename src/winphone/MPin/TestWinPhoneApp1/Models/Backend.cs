@@ -28,45 +28,11 @@ namespace MPinDemo.Models
             {
                 if (this.backendUrl != value)
                 {
-                    this.backendUrl = value;
+                    this.backendUrl = value.Trim();
                     OnPropertyChanged();
                 }
             }
         }
-
-        //private bool requestAN;
-        //public bool RequestAccessNumber
-        //{
-        //    get
-        //    {
-        //        return this.requestAN;
-        //    }
-        //    set
-        //    {
-        //        if (this.requestAN != value)
-        //        {
-        //            this.requestAN = value;
-        //            OnPropertyChanged();
-        //        }
-        //    }
-        //}
-
-        //private bool requestOTP;
-        //public bool RequestOtp
-        //{
-        //    get
-        //    {
-        //        return requestOTP;
-        //    }
-        //    set
-        //    {
-        //        if (this.requestOTP != value)
-        //        {
-        //            this.requestOTP = value;
-        //            OnPropertyChanged();
-        //        }
-        //    }
-        //}
 
         private string name;
         public string Name
@@ -79,7 +45,7 @@ namespace MPinDemo.Models
             {
                 if (this.name != value)
                 {
-                    this.name = value;
+                    this.name = value.Trim();
                     OnPropertyChanged();
                 }
             }

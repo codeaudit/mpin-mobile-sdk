@@ -57,6 +57,7 @@ namespace MPinDemo
         public BlankPage1()
         {
             this.InitializeComponent();
+            NavigationCacheMode = NavigationCacheMode.Required;
 
             _dispatcher = Window.Current.Dispatcher;
             this.DataContext = controller.DataModel;
@@ -215,7 +216,11 @@ namespace MPinDemo
                 if (controller.DataModel.CurrentService != (Backend)this.ServicesList.Items[selectedIndex.Value])
                     controller.DataModel.CurrentService = (Backend)this.ServicesList.Items[selectedIndex.Value];
 
-                this.ServicesList.SelectedIndex = selectedIndex.Value;
+                this.ServicesList.SelectedIndex = selectedIndex.Value;                
+            }
+
+            if (this.MainPivot.SelectedIndex == 0)
+            {
                 this.ServicesList.ScrollIntoView(this.ServicesList.SelectedItem);
             }
         }
@@ -305,9 +310,12 @@ namespace MPinDemo
                                            MPinDemo.MainPage.NotifyType.ErrorMessage);
                 }
             }
+            else
+            {
+                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoQRCode"), MPinDemo.MainPage.NotifyType.ErrorMessage);
+            }
 
             SetControlsIsEnabled(null, true, false);
-
         }
 
         private async Task SendRequest(String serviceURL, Windows.Web.Http.HttpMethod http_method, String requestBody, IDictionary<String, String> requestProperties)
@@ -423,6 +431,7 @@ namespace MPinDemo
             switch (this.MainPivot.SelectedIndex)
             {
                 case 0:
+                    showUsers = false;
                     controller.AddService();
                     break;
                 case 1:
@@ -477,7 +486,7 @@ namespace MPinDemo
         private void UsersListBox_Loaded(object sender, RoutedEventArgs e)
         {
             // reset the pivot item header to properly display it on initial load 
-            UsersPivotItem.Header = " " + UsersPivotItem.Header;
+            UsersPivotItem.Header = " " + UsersPivotItem.Header.ToString().Trim();
 
             if (UsersListBox != null && UsersListBox.ItemsSource != null)
             {
@@ -492,11 +501,6 @@ namespace MPinDemo
             {
                 throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
             }
-        }
-
-        private void FeedbackButton_Click(object sender, RoutedEventArgs e)
-        {
-            HockeyClient.Current.ShowFeedback();
         }
 
         private async void CheckForUpdate_Click(object sender, RoutedEventArgs e)
@@ -525,6 +529,7 @@ namespace MPinDemo
 
         private void ScanAppBarButton_Click(object sender, RoutedEventArgs e)
         {
+            showUsers = false;
             TriggerPicker(SupportedImageFileTypes);
         }
         #endregion // handlers

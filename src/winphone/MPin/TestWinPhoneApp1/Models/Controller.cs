@@ -728,8 +728,8 @@ namespace MPinDemo.Models
                     }
 
                     break;
-                    
-                case "NewConfigurations":
+
+                case "NewServices":
                     List<Backend> newBackends = parameter as List<Backend>;
                     if (newBackends == null)
                     {

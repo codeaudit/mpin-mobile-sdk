@@ -405,4 +405,7 @@
   <data name="OverideDiplicates" xml:space="preserve">
     <value>Are you sure you want to override the configurations with duplicates name?</value>
   </data>
+  <data name="NoQRCode" xml:space="preserve">
+    <value>No QRCode symbol is found!</value>
+  </data>
 </root>

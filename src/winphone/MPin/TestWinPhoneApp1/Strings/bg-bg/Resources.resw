@@ -405,4 +405,7 @@
   <data name="OverideDiplicates" xml:space="preserve">
     <value>Сигурен ли си, че искаш да презапишеш конфигурациите със съвпадащи имена?</value>
   </data>
+  <data name="NoQRCode" xml:space="preserve">
+    <value>Не е открит QRCode символ!</value>
+  </data>
 </root>

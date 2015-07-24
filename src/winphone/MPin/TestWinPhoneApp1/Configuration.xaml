@@ -26,7 +26,7 @@
         </Grid.RowDefinitions>
 
         <TextBlock x:Uid="ServiceName" Grid.ColumnSpan="2" />
-        <TextBox x:Name="NameTB" Text="{Binding Title, Mode=TwoWay}" Grid.Row="1" Grid.ColumnSpan="2" KeyUp="TextBox_KeyUp"/>
+        <TextBox x:Name="NameTB" Text="{Binding Name, Mode=TwoWay}" Grid.Row="1" Grid.ColumnSpan="2" KeyUp="TextBox_KeyUp"/>
 
         <TextBlock x:Uid="SeviceURLText" Grid.Row="2" Grid.ColumnSpan="2" />
         <TextBox x:Name="UrlTB" Text="{Binding BackendUrl, Mode=TwoWay}" Grid.Row="3" Grid.ColumnSpan="2" KeyUp="TextBox_KeyUp"/>
