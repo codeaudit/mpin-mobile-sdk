@@ -8,12 +8,15 @@
 
 @interface MenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, weak) IBOutlet UITableView* tblMenu;
-@property (nonatomic, weak) IBOutlet UILabel* lblAppVersion;
-@property (nonatomic, weak) IBOutlet UILabel* lblConfigurationName;
-@property (nonatomic, weak) IBOutlet UILabel* lblConfigurationURL;
+@property ( nonatomic, weak ) IBOutlet UITableView *tblMenu;
+@property ( nonatomic, weak ) IBOutlet UILabel *lblAppVersion;
+@property ( nonatomic, weak ) IBOutlet UILabel *lblConfigurationName;
+@property ( nonatomic, weak ) IBOutlet UILabel *lblConfigurationURL;
+@property ( nonatomic, weak ) IBOutlet UITextField *backend;
 
--(void) setCenterWithID: (int)vcId;
-- (void) setConfiguration;
+
+-( void ) setCenterWithID: ( int )vcId;
+- ( void ) setConfiguration;
+- ( IBAction )sendToken:( id )sender;
 
 @end

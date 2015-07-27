@@ -18,6 +18,8 @@
 }
 
 - ( IBAction )saveConfigs:( id )sender;
+-( IBAction )close:( id )sender;
+
 @end
 
 @implementation QREditorViewController
@@ -187,17 +189,24 @@
 
 #pragma mark - Alert view delegate -
 
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+- ( void )alertView:( UIAlertView * )alertView didDismissWithButtonIndex:( NSInteger )buttonIndex
 {
-    switch (buttonIndex) {
-        case 0:
-            NSLog(@"0");
-            break;
-        default:
-            [self save];
+    switch ( buttonIndex )
+    {
+    case 0:
+        NSLog(@"0");
+        break;
 
-            break;
+    default:
+        [self save];
+
+        break;
     }
+}
+
+-( IBAction )close:( id )sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

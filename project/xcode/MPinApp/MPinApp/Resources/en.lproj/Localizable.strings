@@ -111,22 +111,22 @@
 "ERROR_PLEASE_ENTER_VALID_EMAIL"        = "Please enter a valid email address!";
 "ERROR_PLEASE_ENTER_VALID_USER_ID"      = "Please enter a valid user id in the text field!";
 "ERROR_UNEXPECTED_USER_STATE"           = "User state is unexpected %ld";
-"ERROR_WRONG_AN"                        = "Wrong Access Number";
+"ERROR_WRONG_AN"                        = "INCORRECT ACCESS NUMBER.  PLEASE TRY AGAIN.";
 
-"PIN_INPUT_CANCELED"                    = "PIN Input canceled";
-"CRYPTO_ERROR"                          = "Crypto error";
-"STORAGE_ERROR"                         = "Error in local storage";
-"NETWORK_ERROR"                         = "Network error";
-"RESPONSE_PARSE_ERROR"                  = "Invalid response from server";
-"FLOW_ERROR"                            = "FLOW ERROR";
-"IDENTITY_NOT_AUTHORIZED"               = "Registratin denied";
-"IDENTITY_NOT_VERIFIED"                 = "Acount needs verification";
-"REQUEST_EXPIRED"                       = "Expired request";
-"REVOKED"                               = "User account disabled from the server";
-"INCORRECT_PIN"                         = "Invalid PIN";
-"INCORRECT_ACCESS_NUMBER"               = "Invalid Access Number";
-"HTTP_SERVER_ERROR"                     = "Server error";
-"HTTP_REQUEST_ERROR"                    = "Invalid request";
+"PIN_INPUT_CANCELED"                    = "PIN INPUT CANCELLED";
+"CRYPTO_ERROR"                          = "INTERNAL ERROR.  PLEASE TRY AGAIN AND IF THE PROBLEM PERSISTS, CONTACT YOUR SYSTEM ADMINISTRATOR.";
+"STORAGE_ERROR"                         = "INTERNAL ERROR.  PLEASE TRY AGAIN AND IF THE PROBLEM PERSISTS, CONTACT YOUR SYSTEM ADMINISTRATOR.";
+"NETWORK_ERROR"                         = "NETWORK ERROR. PLEASE TRY AGAIN AND IF THE PROBLEM PERSISTS, CONTACT YOUR SYSTEM ADMINISTRATOR.";
+"RESPONSE_PARSE_ERROR"                  = "INTERNAL ERROR.  PLEASE TRY AGAIN AND IF THE PROBLEM PERSISTS, CONTACT YOUR SYSTEM ADMINISTRATOR.";
+"FLOW_ERROR"                            = "INTERNAL ERROR.  PLEASE TRY AGAIN AND IF THE PROBLEM PERSISTS, CONTACT YOUR SYSTEM ADMINISTRATOR.";
+"IDENTITY_NOT_AUTHORIZED"               = "YOUR IDENTITY IS NOT AUTHORIZED.  PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR.";
+"IDENTITY_NOT_VERIFIED"                 = "IDENTITY NOT VERIFIED. PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR.";
+"REQUEST_EXPIRED"                       = "REQUEST EXPIRED.  PLEASE REREGISTER.  IF THE PROBLEM PERSISTS, PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR.";
+"REVOKED"                               = "YOUR ACCOUNT HAS BEEN REVOKED.  PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR.";
+"INCORRECT_PIN"                         = "INCORRECT PIN.  PLEASE TRY AGAIN.";
+"INCORRECT_ACCESS_NUMBER"               = "INCORRECT ACCESS NUMBER.  PLEASE TRY AGAIN.";
+"HTTP_SERVER_ERROR"                     = "SERVER ERROR.  PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR";
+"HTTP_REQUEST_ERROR"                    = "SERVER ERROR.  PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR";
 
 
 /* WARNINGS */

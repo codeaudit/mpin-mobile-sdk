@@ -735,10 +735,10 @@
 				96F7EA661B1858CB00A68A03 /* ANAuthenticationSuccessful.m */,
 				FE298B791B3ABBD80071E6B3 /* QRViewController.h */,
 				FE298B7A1B3ABBD80071E6B3 /* QRViewController.m */,
-				96E9D36C1B39699B004ADDEA /* AboutDetailsViewController.h */,
-				96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */,
 				963485CF1B5E1EDB001F2C71 /* QREditorViewController.h */,
 				963485D01B5E1EDB001F2C71 /* QREditorViewController.m */,
+				96E9D36C1B39699B004ADDEA /* AboutDetailsViewController.h */,
+				96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
