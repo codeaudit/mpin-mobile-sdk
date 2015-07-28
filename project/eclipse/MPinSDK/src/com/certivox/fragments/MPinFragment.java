@@ -40,9 +40,9 @@ public abstract class MPinFragment extends Fragment implements Handler.Callback 
         mHandler = new Handler(this);
         if (mMPinController != null) {
             getMPinController().addOutboxHandler(mHandler);
+            mMPinController.setCurrentFragmentTag(getFragmentTag());
         }
 
-        mMPinController.setCurrentFragmentTag(getFragmentTag());
         hideKeyboard();
     }
 
