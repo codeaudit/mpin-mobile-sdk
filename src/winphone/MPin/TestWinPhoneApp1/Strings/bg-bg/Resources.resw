@@ -345,9 +345,6 @@
   <data name="WrongURL" xml:space="preserve">
     <value>Некоректен формат на адреса на конфигурацията!</value>
   </data>
-  <data name="FeedbackButton.Label" xml:space="preserve">
-    <value>Обратна връзка</value>
-  </data>
   <data name="UpdateCheckButton.Label" xml:space="preserve">
     <value>Проверка за нова версия</value>
   </data>

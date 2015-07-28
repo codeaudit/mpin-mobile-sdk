@@ -132,20 +132,24 @@
     <Page.BottomAppBar>
         <CommandBar>
             <AppBarButton x:Uid="ScanAppBarButton" 
-                          x:Name="ScanAppBarButton" 
-                          Icon="Download"                          
-                          Click="ScanAppBarButton_Click" />
-            
+                          x:Name="ScanAppBarButton"          
+                          Click="ScanAppBarButton_Click" >
+                <AppBarButton.Icon>
+                    <BitmapIcon UriSource="ms-appx:///Assets/qr_scan.png" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+
             <AppBarButton x:Uid="AddAppBarButton" 
                           x:Name="AddAppBarButton" 
-                          Icon="Add" 
                           Click="AddAppBarButton_Click" />
 
             <AppBarButton x:Uid="SelectAppBarButton" 
                           x:Name="SelectAppBarButton" 
-                          Icon="Go" 
-                          Click="Select_Click" 
-                          />
+                          Click="Select_Click" >
+                <AppBarButton.Icon>
+                    <BitmapIcon UriSource="ms-appx:///Assets/select.png" />
+                </AppBarButton.Icon>
+            </AppBarButton>
 
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Uid="DeleteButton" x:Name="DeleteButton" Icon="Delete" Click="Delete_Click" />

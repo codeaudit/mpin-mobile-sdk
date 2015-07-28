@@ -110,7 +110,7 @@ namespace MPinDemo.Models
         {
             get;
             private set;
-        }
+        } 
 
         #endregion
 

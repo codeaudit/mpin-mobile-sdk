@@ -39,7 +39,7 @@ namespace MPinDemo
         private MainPage rootPage = null;
         private CoreDispatcher _dispatcher;
 
-        internal static ApplicationDataContainer RoamingSettings = null;
+        internal static ApplicationDataContainer RoamingSettings = ApplicationData.Current.RoamingSettings;
         private static Controller controller = null;
         private static bool showUsers = true;
         private static int selectedServiceIndex;
@@ -60,8 +60,7 @@ namespace MPinDemo
             NavigationCacheMode = NavigationCacheMode.Required;
 
             _dispatcher = Window.Current.Dispatcher;
-            this.DataContext = controller.DataModel;
-            RoamingSettings = ApplicationData.Current.RoamingSettings;
+            this.DataContext = controller.DataModel;            
             controller.PropertyChanged += controller_PropertyChanged;
 
             // Attach event which will return the picked files
@@ -88,7 +87,7 @@ namespace MPinDemo
         /// <param name="e">Event data that describes how this page was reached.
         /// This parameter is typically used to configure the page.</param>
         protected async override void OnNavigatedTo(NavigationEventArgs e)
-        {
+        {            
             rootPage = MainPage.Current;
 
             SetControlsIsEnabled(e.Parameter.ToString());
@@ -204,13 +203,13 @@ namespace MPinDemo
         {
             int? selectedIndex = RoamingSettings.Values[SelectedService] as int?;
 
-            if (isInitialLoad && (selectedIndex == null || selectedIndex < 0 || selectedIndex >= ServicesList.Items.Count))
+            if (isInitialLoad && ServicesList != null && ServicesList.Items != null && (selectedIndex == null || selectedIndex < 0 || selectedIndex >= ServicesList.Items.Count))
             {
                 // if the selected service in the list is different from the currentService -> reset it
                 selectedIndex = 0;
             }
 
-            if (selectedIndex != null && selectedIndex >= 0 && selectedIndex < ServicesList.Items.Count && showUsers)
+            if (selectedIndex != null && selectedIndex >= 0 && ServicesList != null && ServicesList.Items != null && selectedIndex < ServicesList.Items.Count && showUsers)
             {
                 // do not change the current service if already set as it clears and initializes the Users which makes the currentUser invalid pointer
                 if (controller.DataModel.CurrentService != (Backend)this.ServicesList.Items[selectedIndex.Value])
@@ -219,7 +218,7 @@ namespace MPinDemo
                 this.ServicesList.SelectedIndex = selectedIndex.Value;                
             }
 
-            if (this.MainPivot.SelectedIndex == 0)
+            if (this.ServicesList != null && this.ServicesList.SelectedItem != null && controller.DataModel.CurrentService != null && this.ServicesList.SelectedItem.Equals(controller.DataModel.CurrentService))
             {
                 this.ServicesList.ScrollIntoView(this.ServicesList.SelectedItem);
             }
@@ -443,17 +442,18 @@ namespace MPinDemo
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             selectedServiceIndex = this.ServicesList.SelectedIndex;
-            controller.EditService(this.ServicesList.SelectedIndex, this.ServicesList.SelectedIndex > AppDataModel.PredefinedServicesCount);
+            controller.EditService(this.ServicesList.SelectedIndex, this.ServicesList.SelectedIndex >= AppDataModel.PredefinedServicesCount);
         }
 
         private void MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectAppBarButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? ServicesList.SelectedItem != null : UsersListBox.SelectedItem != null;
+            DeleteButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? ServicesList.Items.Count > 0 : UsersListBox.Items.Count > 0;
             ResetPinButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Collapsed : Visibility.Visible;
             AddAppBarButton.Icon = new SymbolIcon(this.MainPivot.SelectedIndex == 0 ? Symbol.Add : Symbol.AddFriend);
 
             EditButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
-            ScanAppBarButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
+            ScanAppBarButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;            
         }
 
         private async void Delete_Click(object sender, RoutedEventArgs e)
@@ -464,7 +464,7 @@ namespace MPinDemo
                     Backend backend = ServicesList.SelectedItem as Backend;
                     if (backend != null && !string.IsNullOrEmpty(backend.BackendUrl))
                     {
-                        await controller.DeleteService(backend, this.ServicesList.SelectedIndex > AppDataModel.PredefinedServicesCount);
+                        await controller.DeleteService(backend, this.ServicesList.SelectedIndex >= AppDataModel.PredefinedServicesCount);
                     }
                     break;
 
