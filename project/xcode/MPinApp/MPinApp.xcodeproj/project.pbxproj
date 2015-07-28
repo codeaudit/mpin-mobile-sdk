@@ -243,10 +243,10 @@
 		96D3CAD51AEE5328004BAC3A /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96130EBA1AEE4979005D2A86 /* Settings.plist */; };
 		96DA33F81ACD54C300B2CAAB /* libMPinSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */; };
 		96DA33F91ACD54D700B2CAAB /* libMPinSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */; };
-		96E21A541AF8AE6C00490625 /* en_BG.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG.strings */; };
-		96E21A551AF8AE6C00490625 /* en_BG.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG.strings */; };
-		96E21A561AF8AE6C00490625 /* en_BG.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG.strings */; };
-		96E21A571AF8AE6C00490625 /* en_BG.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG.strings */; };
+		96E21A541AF8AE6C00490625 /* en_BG1.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG1.strings */; };
+		96E21A551AF8AE6C00490625 /* en_BG1.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG1.strings */; };
+		96E21A561AF8AE6C00490625 /* en_BG1.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG1.strings */; };
+		96E21A571AF8AE6C00490625 /* en_BG1.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG1.strings */; };
 		96E9D36E1B39699B004ADDEA /* AboutDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */; };
 		96E9D36F1B39699B004ADDEA /* AboutDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */; };
 		96E9D3701B39699B004ADDEA /* AboutDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */; };
@@ -388,7 +388,7 @@
 		96D3CAD11AEE4D7B004BAC3A /* CertivoxMPin.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CertivoxMPin.plist; sourceTree = "<group>"; };
 		96D3CAD21AEE4D8E004BAC3A /* DDMPin.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = DDMPin.plist; sourceTree = "<group>"; };
 		96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMPinSDK.a; path = "../../../../Library/Developer/Xcode/DerivedData/MPin-fkvltgzbxheajafuhhxznfslxxnp/Build/Products/Release-iphoneos/libMPinSDK.a"; sourceTree = "<group>"; };
-		96E21A531AF8AE6C00490625 /* en_BG.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = en_BG.strings; sourceTree = "<group>"; };
+		96E21A531AF8AE6C00490625 /* en_BG1.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = en_BG1.strings; sourceTree = "<group>"; };
 		96E9D36C1B39699B004ADDEA /* AboutDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutDetailsViewController.h; path = ../../../../src/ios/MPinApp/AboutDetailsViewController.h; sourceTree = "<group>"; };
 		96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutDetailsViewController.m; path = ../../../../src/ios/MPinApp/AboutDetailsViewController.m; sourceTree = "<group>"; };
 		96F62A201AC30FAF00B25B53 /* ConfigurationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfigurationManager.h; path = ../../../../src/ios/MPinApp/ConfigurationManager.h; sourceTree = "<group>"; };
@@ -578,7 +578,7 @@
 				960D6A7F1A88C0E20068E0F7 /* Fonts */,
 				960D6A901A88C0E20068E0F7 /* Settings.bundle */,
 				968591CF1AF0C7E200726E63 /* Localizable.strings */,
-				96E21A531AF8AE6C00490625 /* en_BG.strings */,
+				96E21A531AF8AE6C00490625 /* en_BG1.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1017,7 +1017,7 @@
 				96D3CAD41AEE5324004BAC3A /* Settings.plist in Resources */,
 				96130E561AEE4867005D2A86 /* OpenSans-Light.ttf in Resources */,
 				96130E571AEE4867005D2A86 /* MpinStatus.h in Resources */,
-				96E21A561AF8AE6C00490625 /* en_BG.strings in Resources */,
+				96E21A561AF8AE6C00490625 /* en_BG1.strings in Resources */,
 				96130E581AEE4867005D2A86 /* Main_iPhone.storyboard in Resources */,
 				968591A31AEE53F500726E63 /* NTTComSecurityImages.xcassets in Resources */,
 				96130E5A1AEE4867005D2A86 /* OpenSans-SemiboldItalic.ttf in Resources */,
@@ -1047,7 +1047,7 @@
 				96D3CAD51AEE5328004BAC3A /* Settings.plist in Resources */,
 				96130EA01AEE490A005D2A86 /* OpenSans-Light.ttf in Resources */,
 				96130EA11AEE490A005D2A86 /* MpinStatus.h in Resources */,
-				96E21A571AF8AE6C00490625 /* en_BG.strings in Resources */,
+				96E21A571AF8AE6C00490625 /* en_BG1.strings in Resources */,
 				96130EA21AEE490A005D2A86 /* Main_iPhone.storyboard in Resources */,
 				968591A21AEE53F200726E63 /* OlswangImages.xcassets in Resources */,
 				96130EA41AEE490A005D2A86 /* OpenSans-SemiboldItalic.ttf in Resources */,
@@ -1070,7 +1070,7 @@
 				9649BCB61AC16D1000B9F41B /* LaunchScreen.xib in Resources */,
 				9649BCB71AC16D1000B9F41B /* Constants.h in Resources */,
 				9649BCB81AC16D1000B9F41B /* OpenSans-LightItalic.ttf in Resources */,
-				96E21A551AF8AE6C00490625 /* en_BG.strings in Resources */,
+				96E21A551AF8AE6C00490625 /* en_BG1.strings in Resources */,
 				9649BCB91AC16D1000B9F41B /* OpenSans-BoldItalic.ttf in Resources */,
 				9649BCBB1AC16D1000B9F41B /* MPin.h in Resources */,
 				9649BCBC1AC16D1000B9F41B /* OpenSans-Semibold.ttf in Resources */,
@@ -1107,7 +1107,7 @@
 				960D6A9C1A88C0E20068E0F7 /* OpenSans-Semibold.ttf in Resources */,
 				960D6A991A88C0E20068E0F7 /* OpenSans-Light.ttf in Resources */,
 				FE148D411A2F0FB7007E83EF /* MpinStatus.h in Resources */,
-				96E21A541AF8AE6C00490625 /* en_BG.strings in Resources */,
+				96E21A541AF8AE6C00490625 /* en_BG1.strings in Resources */,
 				FEFFDDF21A1A4268007C7CAA /* Main_iPhone.storyboard in Resources */,
 				960D6A9D1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				FE4900251A1A3CEB000030A4 /* InfoPlist.strings in Resources */,

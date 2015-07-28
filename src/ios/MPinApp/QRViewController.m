@@ -45,21 +45,21 @@ static NSInteger constIntTimeoutInterval = 30;
     AudioServicesCreateSystemSoundID( (__bridge_retained CFURLRef)fileURL,&soundID );
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
     _imgViewRectangle.hidden = YES;
     _lblMessage.hidden = YES;
-
 }
+
 - ( void ) viewDidAppear:( BOOL )animated
 {
     [super viewDidAppear:animated];
- 
+
     if ( !( _isReading = [self startReading] ) )
     {
         [[ErrorHandler sharedManager] presentMessageInViewController:self
-         errorString:@"Uanble to load camera and scan QR code!"
+         errorString:NSLocalizedString(@"ERROR_UNABLE_TO_SCAN_QR", @"Unable to scan QR code!")
          addActivityIndicator:NO
          minShowTime:3];
     }
@@ -72,10 +72,16 @@ static NSInteger constIntTimeoutInterval = 30;
 
 -( BOOL ) startReading
 {
+    AVCaptureDevice *captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    if ( captureDevice == nil )
+    {
+        return NO;
+    }
+
     dispatch_async(dispatch_get_main_queue(), ^ (void) {
         NSError *error;
 
-        AVCaptureDevice *captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+
 
         AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:captureDevice error:&error];
         if ( !input )
@@ -192,11 +198,11 @@ static NSInteger constIntTimeoutInterval = 30;
                     switch ( error.code )
                     {
                     case -1001:         //Connection timeout
-                        errorMessage = @"Connection timeout!";
+                        errorMessage = NSLocalizedString(@"ERROR_CONNECTION_TIMEOUT", @"Connection timeout!");
                         break;
 
                     case -1012:
-                        errorMessage = @"Unauthorized Access! Please check your e-mail and confirm the activation link!";
+                            errorMessage = NSLocalizedString(@"ERROR_QR_UNAUTHORIZED_ACCESS", @"Unauthorized Access! Please check your e-mail and confirm the activation link!");
                         break;
 
                     default:
@@ -222,7 +228,7 @@ static NSInteger constIntTimeoutInterval = 30;
         AVMetadataMachineReadableCodeObject *metadataObj = [metadataObjects objectAtIndex:0];
         if ( [[metadataObj type] isEqualToString:AVMetadataObjectTypeQRCode] )
         {
-            [self performSelectorOnMainThread:@selector(stopReading) withObject:nil waitUntilDone:YES];
+            [self performSelectorOnMainThread:@selector( stopReading ) withObject:nil waitUntilDone:YES];
             [self performSelectorOnMainThread:@selector( loadConfigurations: ) withObject:[metadataObj stringValue] waitUntilDone:YES];
             AudioServicesPlaySystemSound(soundID);
         }
