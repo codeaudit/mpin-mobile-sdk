@@ -33,6 +33,7 @@
 - ( void ) viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
+    
     [_tblView reloadData];
 }
 
@@ -140,11 +141,11 @@
 
     if ( boolShouldConfirm )
     {
-        [[[UIAlertView alloc] initWithTitle:@"Warning"
-          message:@"Some of the configurations will be overwritten. Please confirm."
+        [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"WARNING",@"Warning")
+          message:NSLocalizedString(@"WARNING_OVERWRITING_CONFIGURATIONS", @"Some of the configurations will be overwritten. Please confirm.")
           delegate:self
-          cancelButtonTitle:@"Cancel"
-          otherButtonTitles:@"OK", nil]
+          cancelButtonTitle:NSLocalizedString(@"KEY_CANCEL", @"Cancel")
+          otherButtonTitles:NSLocalizedString(@"KEY_OK",  @"OK"), nil]
          show];
     }
     else
@@ -194,7 +195,7 @@
     switch ( buttonIndex )
     {
     case 0:
-        NSLog(@"0");
+
         break;
 
     default:

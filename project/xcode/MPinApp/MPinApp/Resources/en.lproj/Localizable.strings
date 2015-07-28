@@ -68,6 +68,12 @@
 /* Account summary */
 "ACCOUNTSUMMARYVC_TITLE" = "Account Summary";
 
+/* Configurations */
+"CONFIGURATIONS_CONFIG_CHANGED" = "Configuration changed";
+
+/* Add configuration */
+
+"TESTING_CONFIGURATION" = "Testing configuration";
 /* About */
 "ABOUTVC_TITLE"         = "About";
 "ABOUTVC_BUILD_NUMBER"  = "Build: %@";
@@ -76,6 +82,10 @@
 
 /* PinPad VC */
 "PINPAD_VC_TITLE" = "Enter Your PIN";
+
+/* QR SCAN */
+
+"QR_MESSAGE"   = "Place  the QR code in the centre of the screen. It will be scanned automatically.";
 
 /* HUD Messages */
 "HUD_CHANGE_CONFIGURATION"  = "Changing configuration. Please wait.";
@@ -91,11 +101,12 @@
 
 
 /* WARNINGS */
-"WARNING_USER_WILL_BE_DELETED"          = "User \"%@\" will be deleted!";
-"WARNING_CANNOT_EDIT_PREDEFINED_CONFIG" = "Predefined configurations cannot be edited.";
-"WARNING_CANNOT_DELETE_PREDEFINED_CONFIG" = "Predefined configurations cannot be deleted.";
-"WARNING_THIS_WILL_DELETE_ALL_IDS"      = "This action will also delete all identities, associated with this configuration.";
-"WARNING_VERIFY_FINGER" =  "Verify fingerprint";
+"WARNING_USER_WILL_BE_DELETED"              = "User \"%@\" will be deleted!";
+"WARNING_CANNOT_EDIT_PREDEFINED_CONFIG"     = "Predefined configurations cannot be edited.";
+"WARNING_CANNOT_DELETE_PREDEFINED_CONFIG"   = "Predefined configurations cannot be deleted.";
+"WARNING_THIS_WILL_DELETE_ALL_IDS"          = "This action will also delete all identities, associated with this configuration.";
+"WARNING_VERIFY_FINGER"                     = "Verify fingerprint";
+"WARNING_OVERWRITING_CONFIGURATIONS"        = "Some of the configurations will be overwritten. Please confirm.";
 
 /* BASIC THINGS */
 "KEY_RESET" = "RESET PIN";
@@ -109,16 +120,10 @@
 "KEY_DONE" = "DONE";
 "KEY_SETUP_PIN" = "Create PIN";
 "KEY_ENTER_PIN" = "Enter PIN";
-
-/* OTHER SHARED STRINGS */
-"LOGIN_MOBILE_APP" = "Mobile application login";
-"LOGIN_ONLINE_SESSION" = "Login to Online Session";
-"LOGIN_OTP" = "OTP Login";
-
-
 "KEY_BTNOK" = "KEY NOT OK";
 
 /* ALL ERRORS */
+"ERROR_NO_INTERNET_CONNECTION"          = "NO INTERNET CONNECTION.";
 
 "ERROR_PLEASE_ENTER_VALID_EMAIL"        = "Please enter a valid email address!";
 "ERROR_PLEASE_ENTER_VALID_USER_ID"      = "Please enter a valid user id in the text field!";
@@ -137,10 +142,20 @@
 "REVOKED"                               = "YOUR ACCOUNT HAS BEEN REVOKED.  PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR.";
 "INCORRECT_PIN"                         = "INCORRECT PIN.  PLEASE TRY AGAIN.";
 "INCORRECT_ACCESS_NUMBER"               = "INCORRECT ACCESS NUMBER.  PLEASE TRY AGAIN.";
-"HTTP_SERVER_ERROR"                     = "SERVER ERROR.  PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR";
-"HTTP_REQUEST_ERROR"                    = "SERVER ERROR.  PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR";
+"HTTP_SERVER_ERROR"                     = "SERVER ERROR.  PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR.";
+"HTTP_REQUEST_ERROR"                    = "SERVER ERROR.  PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR.";
 
 "ERROR_UNABLE_TO_SCAN_QR"               = "Unable to load camera and scan QR code!";
 "ERROR_QR_UNAUTHORIZED_ACCESS"          = "Unauthorized Access! Please check your e-mail and confirm the activation link!";
 "ERROR_CONNECTION_TIMEOUT"              = "Connection timeout!";
 
+"ERROR_INVALID_URL"                     = "Invalid URL";
+"ERROR_OTP_NOT_SUPPORTED"               = "OTP is not supported.";
+"ERROR_WRONG_MPIN_OR_AN"                = "Wrong MPIN or Access Number.";
+
+
+/* OTHER SHARED STRINGS */
+"LOGIN_MOBILE_APP"                      = "Mobile application login";
+"LOGIN_ONLINE_SESSION"                  = "Login to Online Session";
+"LOGIN_OTP"                             = "OTP Login";
+"LOADING"                               = "LOADING";

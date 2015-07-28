@@ -150,7 +150,9 @@
 
 - ( void )OnSetBackendCompleted:( id )sender
 {
-    [[ErrorHandler sharedManager] updateMessage:@"Configuration changed" addActivityIndicator:NO hideAfter:2];
+    [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"CONFIGURATIONS_CONFIG_CHANGED",@"Configuration changed")
+     addActivityIndicator:NO
+     hideAfter:2];
 }
 
 - ( void )OnSetBackendError:( id )sender error:( NSError * )error

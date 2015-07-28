@@ -50,6 +50,7 @@ static NSInteger constIntTimeoutInterval = 30;
     [super viewWillAppear:animated];
     _imgViewRectangle.hidden = YES;
     _lblMessage.hidden = YES;
+    _lblMessage.text = NSLocalizedString(@"QR_MESSAGE", @"Place  the QR code in the centre of the screen. It will be scanned automatically.");
 }
 
 - ( void ) viewDidAppear:( BOOL )animated
@@ -136,7 +137,7 @@ static NSInteger constIntTimeoutInterval = 30;
     {
         dispatch_async(dispatch_get_main_queue(), ^ (void) {
             [[ErrorHandler sharedManager] presentMessageInViewController:self
-             errorString:@"Invalid URL!"
+             errorString:NSLocalizedString(@"ERROR_INVALID_URL", @"Invalid URL!")
              addActivityIndicator:NO
              minShowTime:3];
             double delayInSeconds = 3.0;
@@ -150,7 +151,7 @@ static NSInteger constIntTimeoutInterval = 30;
     }
 
     [[ErrorHandler sharedManager] presentMessageInViewController:self
-     errorString:@"Loading URL"
+     errorString:NSLocalizedString(@"LOADING", @"Loading URL")
      addActivityIndicator:YES
      minShowTime:0];
 

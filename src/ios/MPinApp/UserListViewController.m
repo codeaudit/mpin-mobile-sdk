@@ -361,7 +361,7 @@ static NSString *const kAN = @"AN";
     break;
 
     case HTTP_SERVER_ERROR:
-        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Server error" addActivityIndicator:NO minShowTime:3];
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:NSLocalizedString(@"HTTP_SERVER_ERROR", @"SERVER ERROR.  PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR.") addActivityIndicator:NO minShowTime:3];
 
     default:
         break;
@@ -373,7 +373,7 @@ static NSString *const kAN = @"AN";
     if ( otp.status.status != OK )
     {
         [[ErrorHandler sharedManager] presentMessageInViewController:self
-         errorString:@"OTP is not supported!"
+         errorString:NSLocalizedString(@"ERROR_OTP_NOT_SUPPORTED",  @"OTP is not supported!")
          addActivityIndicator:NO
          minShowTime:0];
 
@@ -408,13 +408,13 @@ static NSString *const kAN = @"AN";
     {
     case INCORRECT_PIN:
         [[ErrorHandler sharedManager] presentMessageInViewController:self
-         errorString:@"Wrong MPIN or Access Number!"
+         errorString:NSLocalizedString(@"INCORRECT_PIN",  @"Wrong MPIN or Access Number!")
          addActivityIndicator:NO
          minShowTime:3];
         break;
 
     case HTTP_REQUEST_ERROR:
-        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Wrong MPIN or Access Number!"
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:NSLocalizedString(@"HTTP_SERVER_ERROR", @"SERVER ERROR.  PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR.")
          addActivityIndicator:NO
          minShowTime:3];
         break;
@@ -462,7 +462,7 @@ static NSString *const kAN = @"AN";
         {
         case INCORRECT_PIN:
             [[ErrorHandler sharedManager] presentMessageInViewController:self
-             errorString:@"Wrong MPIN"
+             errorString:NSLocalizedString(@"INCORRECT_PIN",  @"Wrong MPIN or Access Number!")
              addActivityIndicator:NO
              minShowTime:0];
             break;
@@ -518,11 +518,11 @@ static NSString *const kAN = @"AN";
 -( IBAction )onResetPinButtonClicked:( id )sender
 {
     id<IUser> iuser = ( self.users ) [selectedIndexPath.row];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"RESET_PIN"
-                          message:[NSString stringWithFormat:@"Are you sure that you would like to reset pin of \"%@\" ?", [iuser getIdentity]]
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"KEY_RESET",  @"RESET PIN")
+                          message:[NSString stringWithFormat:NSLocalizedString(@"BLOCKED_ID_RESET_PIN_CONFIRM",@"Are you sure that you would like to reset pin of \"%@\" ?" ) , [iuser getIdentity]]
                           delegate:self
-                          cancelButtonTitle:@"CANCEL"
-                          otherButtonTitles:@"RESET",
+                          cancelButtonTitle:NSLocalizedString(@"KEY_CANCEL",  @"CANCEL")
+                          otherButtonTitles:NSLocalizedString(@"KEY_RESET",  @"RESET PIN"),
                           nil];
     alert.tag = RESETPIN_TAG;
     [alert show];

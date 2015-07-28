@@ -10,7 +10,8 @@
 
 @interface QREditorViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 
-@property ( nonatomic, strong, setter=setArrConfigs: ) NSArray *arrQRConfigs;
+@property ( nonatomic, strong, setter = setArrConfigs : ) NSArray *arrQRConfigs;
 @property ( nonatomic, weak ) IBOutlet UITableView *tblView;
+@property ( nonatomic, weak ) IBOutlet UILabel *lblMessage;
 
 @end

@@ -68,7 +68,6 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))handler
 {
-    [[[UIAlertView alloc] initWithTitle:@":)" message:userInfo.description delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
     NSLog(@"%@", userInfo[@"aps"][@"token"]);
 }
 - (void)applicationDidEnterBackground:(UIApplication *)application
