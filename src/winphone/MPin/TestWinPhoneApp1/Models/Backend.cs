@@ -160,7 +160,7 @@ namespace MPinDemo.Models
         {
             JsonObject backendObject = new JsonObject();
             backendObject.SetNamedValue(urlKey, JsonValue.CreateStringValue(BackendUrl));
-            backendObject.SetNamedValue(typeKey, JsonValue.CreateStringValue(Type.ToString()));
+            backendObject.SetNamedValue(typeKey, JsonValue.CreateStringValue(Type.ToString().ToLower()));
             backendObject.SetNamedValue(nameKey, JsonValue.CreateStringValue(Name));
             backendObject.GetNamedValue(rpsKey, JsonValue.CreateStringValue(RpsPrefix));
 

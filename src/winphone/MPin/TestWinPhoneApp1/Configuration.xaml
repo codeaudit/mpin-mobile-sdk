@@ -8,7 +8,9 @@
     DataContext="{Binding Backend, Mode=TwoWay, RelativeSource={RelativeSource Self}}"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <Page.Resources>
+        <local:ConfigurationTypeEnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+    </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -35,9 +37,9 @@
         <TextBox x:Name="RpsTB" Text="{Binding RpsPrefix, Mode=TwoWay}" Grid.Row="5" Grid.ColumnSpan="2" KeyUp="TextBox_KeyUp"/>
 
         <StackPanel Grid.Row="6" Grid.ColumnSpan="2">
-            <RadioButton x:Uid="MobileLoginRadioButton" x:Name="MobileLoginRadioButton" GroupName="Login"/>
-            <RadioButton x:Uid="OnlineLoginRadioButton" IsChecked="{Binding RequestAccessNumber, Mode=TwoWay}" GroupName="Login"/>
-            <RadioButton x:Uid="OTPLoginRadioButton" IsChecked="{Binding RequestOtp, Mode=TwoWay}" GroupName="Login"/>
+            <RadioButton x:Uid="MobileLoginRadioButton" x:Name="MobileLoginRadioButton" GroupName="Login" IsChecked="{Binding Path=Type, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Mobile, Mode=TwoWay}"/>
+            <RadioButton x:Uid="OnlineLoginRadioButton" x:Name="OnlineLoginRadioButton" GroupName="Login" IsChecked="{Binding Path=Type, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Online, Mode=TwoWay}"/>
+            <RadioButton x:Uid="OTPLoginRadioButton" x:Name="OTPLoginRadioButton" GroupName="Login"  IsChecked="{Binding Path=Type, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=OTP, Mode=TwoWay}"/>
         </StackPanel>
 
         <Button x:Name="TestBackendButton" x:Uid="TestBackendButton" Grid.Row="7" Click="Test_Click" />

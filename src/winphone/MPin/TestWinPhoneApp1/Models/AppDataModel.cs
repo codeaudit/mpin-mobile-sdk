@@ -28,6 +28,7 @@ namespace MPinDemo.Models
 #endif
 
         private const string FilePath = "ms-appx:///Resources/" + FileName;
+        private const string PredefinedServicesCountString = "PredefinedServicesCount";
 
         private bool setPredefinedConfigurationCount = false;
         private StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
@@ -108,8 +109,10 @@ namespace MPinDemo.Models
 
         public static int PredefinedServicesCount
         {
-            get;
-            private set;
+            get
+            {
+                return BlankPage1.RoamingSettings.Values[PredefinedServicesCountString] == null ? 0 : int.Parse(BlankPage1.RoamingSettings.Values[PredefinedServicesCountString].ToString());
+            }
         } 
 
         #endregion
@@ -260,7 +263,7 @@ namespace MPinDemo.Models
             }
 
             if (setPredefinedConfigurationCount)
-                AppDataModel.PredefinedServicesCount = this.BackendsList.Count;
+                BlankPage1.RoamingSettings.Values[PredefinedServicesCountString] = this.BackendsList.Count;
         }
 
         internal List<Backend> GetBackendsFromJson(string jsonText)

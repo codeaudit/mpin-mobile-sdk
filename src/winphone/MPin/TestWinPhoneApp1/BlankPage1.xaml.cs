@@ -60,7 +60,7 @@ namespace MPinDemo
             NavigationCacheMode = NavigationCacheMode.Required;
 
             _dispatcher = Window.Current.Dispatcher;
-            this.DataContext = controller.DataModel;            
+            this.DataContext = controller.DataModel;                        
             controller.PropertyChanged += controller_PropertyChanged;
 
             // Attach event which will return the picked files
@@ -89,7 +89,7 @@ namespace MPinDemo
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {            
             rootPage = MainPage.Current;
-
+            
             SetControlsIsEnabled(e.Parameter.ToString());
 
             List<object> data = (Window.Current.Content as Frame).GetNavigationData() as List<object>;
@@ -533,28 +533,6 @@ namespace MPinDemo
             TriggerPicker(SupportedImageFileTypes);
         }
         #endregion // handlers
-    }
 
-    public class ConfigurationConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            Backend backend = value as Backend;
-            if (backend == null)
-                return string.Empty;
-
-            if (backend.Type == ConfigurationType.Online)
-                return ResourceLoader.GetForCurrentView().GetString("OnlineLogin");
-
-            if (backend.Type == ConfigurationType.OTP)
-                return ResourceLoader.GetForCurrentView().GetString("OTPLogin");
-
-            return ResourceLoader.GetForCurrentView().GetString("MobileLogin");
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            return value;
-        }
     }
 }

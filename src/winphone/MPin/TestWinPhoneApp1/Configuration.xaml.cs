@@ -89,6 +89,7 @@ namespace MPinDemo
             }
         }
 
+        #region handlers
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrEmpty(this.Backend.Name) && Uri.IsWellFormedUriString(this.Backend.BackendUrl, UriKind.Absolute))
@@ -115,18 +116,6 @@ namespace MPinDemo
                 rootPage.NotifyUser(string.IsNullOrEmpty(this.Backend.Name) ? ResourceLoader.GetForCurrentView().GetString("EmptyTitle") : ResourceLoader.GetForCurrentView().GetString("WrongURL"), MainPage.NotifyType.ErrorMessage);
             }
         }
-
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-        void OnPropertyChanged([CallerMemberName]string name = "")
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(name));
-            }
-        }
-        #endregion // INotifyPropertyChanged
 
         private async void Test_Click(object sender, RoutedEventArgs e)
         {
@@ -155,5 +144,19 @@ namespace MPinDemo
                 }
             }
         }
+
+        #endregion // handlers
+
+        #region INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+        void OnPropertyChanged([CallerMemberName]string name = "")
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
+        #endregion // INotifyPropertyChanged
     }
 }
