@@ -315,13 +315,18 @@ static NSMutableArray *kCircles;
         MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
         switch ( error.code )
         {
-        case INCORRECT_ACCESS_NUMBER:
-            [_sdk AuthenticateAN:_currentUser accessNumber:_strAccessNumber askForFingerprint:NO];
-            [[ErrorHandler sharedManager] updateMessage:@"Wrong Access Number"
-             addActivityIndicator:NO
-             hideAfter:3];
-            [self clearAction:self];
-            break;
+            case INCORRECT_ACCESS_NUMBER:{
+//                [_sdk AuthenticateAN:_currentUser accessNumber:_strAccessNumber askForFingerprint:NO];
+                [[ErrorHandler sharedManager] updateMessage:@"Wrong Access Number"
+                                       addActivityIndicator:NO
+                                                  hideAfter:3];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [self.navigationController popViewControllerAnimated:YES];
+                });
+                [self clearAction:self];
+                break;
+            }
+            
 
         case INCORRECT_PIN:
             [[ErrorHandler sharedManager] hideMessage];

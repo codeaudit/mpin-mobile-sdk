@@ -43,7 +43,7 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
     [super viewWillAppear:animated];
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
-
+    [self clearAction:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self
      name:kShowPinPadNotification
      object:nil];
