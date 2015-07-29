@@ -103,7 +103,7 @@ static NSString *const kAN = @"AN";
     storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     [self hideBottomBar:NO];
     [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Initializing" addActivityIndicator:YES minShowTime:0];
-    storedBackendURL = [[ConfigurationManager sharedManager] getSelectedConfiguration][@"backend"];
+    storedBackendURL = [[ConfigurationManager sharedManager] getSelectedConfiguration] [@"backend"];
 }
 
 - ( void )viewWillAppear:( BOOL )animated
@@ -112,15 +112,15 @@ static NSString *const kAN = @"AN";
 
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
-    NSString *config = [[ConfigurationManager sharedManager] getSelectedConfiguration][@"backend"];
-    
+    NSString *config = [[ConfigurationManager sharedManager] getSelectedConfiguration] [@"backend"];
+
     // Executed if for some reason backend url is changed in other controllers
     // For example - QR Scanned backends can overwrite the selected backend and the url maybe will be different
-    if (![storedBackendURL isEqualToString:config])
+    if ( ![storedBackendURL isEqualToString:config] )
     {
         [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
     }
-    
+
     [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
     [[ThemeManager sharedManager] beautifyViewController:self];
     self.users = [MPin listUsers];
@@ -519,7 +519,7 @@ static NSString *const kAN = @"AN";
 {
     id<IUser> iuser = ( self.users ) [selectedIndexPath.row];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"KEY_RESET",  @"RESET PIN")
-                          message:[NSString stringWithFormat:NSLocalizedString(@"BLOCKED_ID_RESET_PIN_CONFIRM",@"Are you sure that you would like to reset pin of \"%@\" ?" ) , [iuser getIdentity]]
+                          message:[NSString stringWithFormat:NSLocalizedString(@"BLOCKED_ID_RESET_PIN_CONFIRM",@"Are you sure that you would like to reset pin of \"%@\" ?" ), [iuser getIdentity]]
                           delegate:self
                           cancelButtonTitle:NSLocalizedString(@"KEY_CANCEL",  @"CANCEL")
                           otherButtonTitles:NSLocalizedString(@"KEY_RESET",  @"RESET PIN"),
@@ -679,19 +679,19 @@ static NSString *const kAN = @"AN";
          minShowTime:0];
 
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
+        {
             BOOL isSuccessful = [MPin Logout:( self.users ) [selectedIndexPath.row]];
-            dispatch_async(dispatch_get_main_queue(), ^ (void) {
+            dispatch_async(dispatch_get_main_queue(), ^ (void)
+            {
                 [[ErrorHandler sharedManager] hideMessage];
                 NSString *descritpion = ( isSuccessful ) ? NSLocalizedString(@"HUD_LOGOUT_OK", @"") : NSLocalizedString(@"HUD_LOGOUT_NOT_OK", @"");
                 [[ErrorHandler sharedManager] presentMessageInViewController:self
                  errorString:descritpion
                  addActivityIndicator:NO
                  minShowTime:0];
-            }
-                           );
-        }
-                       );
+            });
+        });
 
         return;
     }
