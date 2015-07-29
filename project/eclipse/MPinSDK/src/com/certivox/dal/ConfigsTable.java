@@ -49,9 +49,9 @@ public class ConfigsTable {
 
 
     private void populateTable() {
-        Config configurationMobileBanking = new Config("Mobile banking login", "http://tcb.certivox.org", false, false);
-        Config configurationOnlineBanking = new Config("Online banking login", "http://tcb.certivox.org", false, true);
-        Config configurationVPNLogin = new Config("VPN login", "http://otp.m-pin.id", true, false);
+//        Config configurationMobileBanking = new Config("Mobile banking login", "http://tcb.certivox.org", false, false);
+//        Config configurationOnlineBanking = new Config("Online banking login", "http://tcb.certivox.org", false, true);
+//        Config configurationVPNLogin = new Config("VPN login", "http://otp.m-pin.id", true, false);
 
         Config configurationMPinConnect = new Config("M-Pin Connect", "https://m-pin.my.id", false, true);
 

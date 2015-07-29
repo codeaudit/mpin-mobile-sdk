@@ -23,7 +23,7 @@ public class OTPFragment extends MPinFragment {
     private TextView    mOTPTextView;
     private ProgressBar mOTPProgressBar;
     private TextView    mTimeLeftTextView;
-    private static OTP  mOTP;
+    private OTP         mOTP;
 
 
     @Override
