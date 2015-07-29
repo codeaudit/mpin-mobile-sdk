@@ -247,7 +247,7 @@ public class MPinController extends Controller {
             @Override
             public void run() {
                 Status status = getSdk().TestBackend(backendUrl);
-
+                Log.i(TAG, "TEST BACKEND STATUS = " + status);
                 notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
 
                 if (status.getStatusCode() == Status.Code.OK) {
@@ -815,6 +815,7 @@ public class MPinController extends Controller {
 
 
     public int getAccessNumberLength() {
+        mAccessNumberLength = null;
         mWorkerHandler.post(new Runnable() {
 
             @Override

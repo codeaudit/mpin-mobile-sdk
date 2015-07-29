@@ -1,5 +1,6 @@
 package com.certivox.fragments;
 
+
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -17,255 +18,282 @@ import android.widget.TextView;
 import com.certivox.models.User;
 import com.certivox.mpin.R;
 
+
 public class PinPadFragment extends Fragment {
 
-	private User mUser;
+    private User                mUser;
 
-	private View mView;
-	private TextView mUserEmail;
-	private TextView mDigit0;
-	private TextView mDigit1;
-	private TextView mDigit2;
-	private TextView mDigit3;
-	private TextView mDigit4;
-	private TextView mDigit5;
-	private TextView mDigit6;
-	private TextView mDigit7;
-	private TextView mDigit8;
-	private TextView mDigit9;
-	private ImageButton mButtonLogin;
-	private ImageButton mButtonClear;
-	private EditText mPinEditText;
-	private TextView mWrongPinTextView;
+    private View                mView;
+    private TextView            mUserEmail;
+    private TextView            mDigit0;
+    private TextView            mDigit1;
+    private TextView            mDigit2;
+    private TextView            mDigit3;
+    private TextView            mDigit4;
+    private TextView            mDigit5;
+    private TextView            mDigit6;
+    private TextView            mDigit7;
+    private TextView            mDigit8;
+    private TextView            mDigit9;
+    private ImageButton         mButtonLogin;
+    private ImageButton         mButtonClear;
+    private EditText            mPinEditText;
+    private TextView            mWrongPinTextView;
 
-	private OnClickListener mOnDigitClickListener;
-	private int mPinLength = 4;
-	private final StringBuilder mInput = new StringBuilder();
-	private volatile boolean mIsPinSet;
+    private OnClickListener     mOnDigitClickListener;
+    private int                 mPinLength = 4;
+    private final StringBuilder mInput     = new StringBuilder();
+    private volatile boolean    mIsPinSet;
 
-	public void setUser(User user) {
-		mUser = user;
-	}
 
-	public void setPinLength(int length) {
-		mPinLength = length;
-	}
+    public void setUser(User user) {
+        mUser = user;
+    }
 
-	public TextView getTitle() {
-		return mPinEditText;
-	}
 
-	private void setPinInput(String input) {
-		mPinEditText.setText(input);
-		mPinEditText.setSelection(mPinEditText.getText().length());
-	}
+    public void setPinLength(int length) {
+        mPinLength = length;
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
 
-		mView = inflater.inflate(R.layout.pinpad_layout, container, false);
-		if (mUser == null) {
-			showErrorDialog();
-		} else {
-			initViews();
-			initPinPad();
-		}
-		return mView;
-	}
+    public TextView getTitle() {
+        return mPinEditText;
+    }
 
-	@Override
-	public void onStart() {
-		super.onStart();
-		getActivity().getWindow().setSoftInputMode(
-				WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-	}
 
-	@Override
-	public void onResume() {
-		if (mUser.getState().equals(User.State.REGISTERED)) {
-			((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(
-					R.string.enter_pin_title);
-		} else {
-			((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(
-					R.string.setup_pin_title);
-		}
-		super.onResume();
-	}
+    private void setPinInput(String input) {
+        mPinEditText.setText(input);
+        mPinEditText.setSelection(mPinEditText.getText().length());
+    }
 
-	private void initViews() {
-		mUserEmail = (TextView) mView.findViewById(R.id.user_email);
-		mUserEmail.setText(mUser.getId());
 
-		mPinEditText = (EditText) mView.findViewById(R.id.pinpad_input);
-		mPinEditText.setRawInputType(InputType.TYPE_CLASS_TEXT);
-		mPinEditText.setTextIsSelectable(true);
-		mPinEditText.setLongClickable(false);
-		mPinEditText.setClickable(false);
-		mPinEditText.requestFocus();
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		mWrongPinTextView = (TextView) mView.findViewById(R.id.wrong_pin);
-		mDigit0 = (TextView) mView.findViewById(R.id.pinpad_key_0);
-		mDigit1 = (TextView) mView.findViewById(R.id.pinpad_key_1);
-		mDigit2 = (TextView) mView.findViewById(R.id.pinpad_key_2);
-		mDigit3 = (TextView) mView.findViewById(R.id.pinpad_key_3);
-		mDigit4 = (TextView) mView.findViewById(R.id.pinpad_key_4);
-		mDigit5 = (TextView) mView.findViewById(R.id.pinpad_key_5);
-		mDigit6 = (TextView) mView.findViewById(R.id.pinpad_key_6);
-		mDigit7 = (TextView) mView.findViewById(R.id.pinpad_key_7);
-		mDigit8 = (TextView) mView.findViewById(R.id.pinpad_key_8);
-		mDigit9 = (TextView) mView.findViewById(R.id.pinpad_key_9);
+        mView = inflater.inflate(R.layout.pinpad_layout, container, false);
+        if (mUser == null) {
+            showErrorDialog();
+        } else {
+            initViews();
+            initPinPad();
+        }
+        return mView;
+    }
 
-		mButtonLogin = (ImageButton) mView.findViewById(R.id.pinpad_key_login);
-		mButtonClear = (ImageButton) mView.findViewById(R.id.pinpad_key_clear);
-	}
 
-	public void showWrongPin() {
-		mIsPinSet = false;
-		mInput.setLength(0);
-		updateInput();
-		mWrongPinTextView.setVisibility(View.VISIBLE);
-	}
+    @Override
+    public void onStart() {
+        super.onStart();
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+    }
 
-	public void hideWrongPin() {
-		mWrongPinTextView.setVisibility(View.INVISIBLE);
-	}
 
-	private void setEmptyPin() {
-		mIsPinSet = false;
-		mInput.setLength(0);
-		updateInput();
-	}
+    @Override
+    public void onResume() {
+        if (mUser.getState().equals(User.State.REGISTERED)) {
+            ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.enter_pin_title);
+        } else {
+            ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.setup_pin_title);
+        }
+        super.onResume();
+    }
 
-	private void initPinPad() {
-		setEmptyPin();
-		mButtonLogin.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				synchronized (PinPadFragment.this) {
-					if (!mIsPinSet) {
-						mIsPinSet = true;
-						PinPadFragment.this.notifyAll();
-					}
-				}
-			}
-		});
 
-		mButtonClear.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (mInput.length() > 0) {
-					mInput.setLength(mInput.length() - 1);
-					updateInput();
-				}
-			}
-		});
+    private void initViews() {
+        mUserEmail = (TextView) mView.findViewById(R.id.user_email);
+        mUserEmail.setText(mUser.getId());
 
-		mDigit0.setOnClickListener(getOnDigitClickListener());
-		mDigit1.setOnClickListener(getOnDigitClickListener());
-		mDigit2.setOnClickListener(getOnDigitClickListener());
-		mDigit3.setOnClickListener(getOnDigitClickListener());
-		mDigit4.setOnClickListener(getOnDigitClickListener());
-		mDigit5.setOnClickListener(getOnDigitClickListener());
-		mDigit6.setOnClickListener(getOnDigitClickListener());
-		mDigit7.setOnClickListener(getOnDigitClickListener());
-		mDigit8.setOnClickListener(getOnDigitClickListener());
-		mDigit9.setOnClickListener(getOnDigitClickListener());
+        mPinEditText = (EditText) mView.findViewById(R.id.pinpad_input);
+        mPinEditText.setRawInputType(InputType.TYPE_CLASS_TEXT);
+        mPinEditText.setTextIsSelectable(true);
+        mPinEditText.setLongClickable(false);
+        mPinEditText.setClickable(false);
+        mPinEditText.requestFocus();
 
-	}
+        mWrongPinTextView = (TextView) mView.findViewById(R.id.wrong_pin);
+        mDigit0 = (TextView) mView.findViewById(R.id.pinpad_key_0);
+        mDigit1 = (TextView) mView.findViewById(R.id.pinpad_key_1);
+        mDigit2 = (TextView) mView.findViewById(R.id.pinpad_key_2);
+        mDigit3 = (TextView) mView.findViewById(R.id.pinpad_key_3);
+        mDigit4 = (TextView) mView.findViewById(R.id.pinpad_key_4);
+        mDigit5 = (TextView) mView.findViewById(R.id.pinpad_key_5);
+        mDigit6 = (TextView) mView.findViewById(R.id.pinpad_key_6);
+        mDigit7 = (TextView) mView.findViewById(R.id.pinpad_key_7);
+        mDigit8 = (TextView) mView.findViewById(R.id.pinpad_key_8);
+        mDigit9 = (TextView) mView.findViewById(R.id.pinpad_key_9);
 
-	private OnClickListener getOnDigitClickListener() {
-		if (mOnDigitClickListener == null) {
-			initOnDigitClickListener();
-		}
+        mButtonLogin = (ImageButton) mView.findViewById(R.id.pinpad_key_login);
+        mButtonClear = (ImageButton) mView.findViewById(R.id.pinpad_key_clear);
+    }
 
-		return mOnDigitClickListener;
-	}
 
-	private void initOnDigitClickListener() {
-		mOnDigitClickListener = new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				if (mInput.length() >= mPinLength) {
-					return;
-				}
-				final int id = view.getId();
-				if (id == R.id.pinpad_key_0) {
-					mInput.append('0');
-				} else if (id == R.id.pinpad_key_1) {
-					mInput.append('1');
-				} else if (id == R.id.pinpad_key_2) {
-					mInput.append('2');
-				} else if (id == R.id.pinpad_key_3) {
-					mInput.append('3');
-				} else if (id == R.id.pinpad_key_4) {
-					mInput.append('4');
-				} else if (id == R.id.pinpad_key_5) {
-					mInput.append('5');
-				} else if (id == R.id.pinpad_key_6) {
-					mInput.append('6');
-				} else if (id == R.id.pinpad_key_7) {
-					mInput.append('7');
-				} else if (id == R.id.pinpad_key_8) {
-					mInput.append('8');
-				} else if (id == R.id.pinpad_key_9) {
-					mInput.append('9');
-				}
-				updateInput();
-			}
-		};
+    public void showWrongPin() {
+        mIsPinSet = false;
+        mInput.setLength(0);
+        updateInput();
+        mWrongPinTextView.setVisibility(View.VISIBLE);
+    }
 
-	}
 
-	private String parsePin() {
-		return mInput.toString();
-	}
+    public void hideWrongPin() {
+        mWrongPinTextView.setVisibility(View.INVISIBLE);
+    }
 
-	@Override
-	public void onDetach() {
-		synchronized (this) {
-			mInput.setLength(0);
-			mIsPinSet = true;
-			notifyAll();
-		}
 
-		super.onDetach();
-	}
+    private void setEmptyPin() {
+        mIsPinSet = false;
+        mInput.setLength(0);
+        updateInput();
+    }
 
-	public String getPin() {
-		synchronized (this) {
-			try {
-				while (!mIsPinSet) {
-					wait();
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				return "";
-			}
-		}
-		String pin = parsePin();
-		return pin;
-	}
 
-	private void updateInput() {
-		if (mInput.length() < 1) {
-			setPinInput("");
-		} else {
-			hideWrongPin();
-			String pin = "";
-			for (int i = 0; i < mInput.length(); ++i) {
-				pin += '*';
-			}
-			setPinInput(pin);
-		}
+    private void initPinPad() {
+        setEmptyPin();
+        mButtonLogin.setOnClickListener(new View.OnClickListener() {
 
-		mButtonLogin.setEnabled(mInput.length() == mPinLength);
-		mButtonClear.setEnabled(mInput.length() > 0);
-	}
+            @Override
+            public void onClick(View v) {
+                synchronized (PinPadFragment.this) {
+                    if (!mIsPinSet) {
+                        mIsPinSet = true;
+                        PinPadFragment.this.notifyAll();
+                    }
+                }
+            }
+        });
 
-	private void showErrorDialog() {
-		new AlertDialog.Builder(getActivity()).setTitle("Error")
-				.setMessage("Unexpected error occurred!")
-				.setPositiveButton("OK", null).show();
-	}
+        mButtonClear.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (mInput.length() > 0) {
+                    mInput.setLength(mInput.length() - 1);
+                    updateInput();
+                }
+            }
+        });
+
+        mDigit0.setOnClickListener(getOnDigitClickListener());
+        mDigit1.setOnClickListener(getOnDigitClickListener());
+        mDigit2.setOnClickListener(getOnDigitClickListener());
+        mDigit3.setOnClickListener(getOnDigitClickListener());
+        mDigit4.setOnClickListener(getOnDigitClickListener());
+        mDigit5.setOnClickListener(getOnDigitClickListener());
+        mDigit6.setOnClickListener(getOnDigitClickListener());
+        mDigit7.setOnClickListener(getOnDigitClickListener());
+        mDigit8.setOnClickListener(getOnDigitClickListener());
+        mDigit9.setOnClickListener(getOnDigitClickListener());
+
+    }
+
+
+    private OnClickListener getOnDigitClickListener() {
+        if (mOnDigitClickListener == null) {
+            initOnDigitClickListener();
+        }
+
+        return mOnDigitClickListener;
+    }
+
+
+    private void initOnDigitClickListener() {
+        mOnDigitClickListener = new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                if (mInput.length() >= mPinLength) {
+                    return;
+                }
+                final int id = view.getId();
+                if (id == R.id.pinpad_key_0) {
+                    mInput.append('0');
+                } else
+                    if (id == R.id.pinpad_key_1) {
+                        mInput.append('1');
+                    } else
+                        if (id == R.id.pinpad_key_2) {
+                            mInput.append('2');
+                        } else
+                            if (id == R.id.pinpad_key_3) {
+                                mInput.append('3');
+                            } else
+                                if (id == R.id.pinpad_key_4) {
+                                    mInput.append('4');
+                                } else
+                                    if (id == R.id.pinpad_key_5) {
+                                        mInput.append('5');
+                                    } else
+                                        if (id == R.id.pinpad_key_6) {
+                                            mInput.append('6');
+                                        } else
+                                            if (id == R.id.pinpad_key_7) {
+                                                mInput.append('7');
+                                            } else
+                                                if (id == R.id.pinpad_key_8) {
+                                                    mInput.append('8');
+                                                } else
+                                                    if (id == R.id.pinpad_key_9) {
+                                                        mInput.append('9');
+                                                    }
+                updateInput();
+            }
+        };
+
+    }
+
+
+    private String parsePin() {
+        return mInput.toString();
+    }
+
+
+    @Override
+    public void onDetach() {
+        synchronized (this) {
+            mInput.setLength(0);
+            mIsPinSet = true;
+            notifyAll();
+        }
+
+        super.onDetach();
+    }
+
+
+    public String getPin() {
+        synchronized (this) {
+            try {
+                while (!mIsPinSet) {
+                    wait();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                return "";
+            }
+        }
+        String pin = parsePin();
+        return pin;
+    }
+
+
+    private void updateInput() {
+        if (mInput.length() < 1) {
+            setPinInput("");
+        } else {
+            hideWrongPin();
+            String pin = "";
+            for (int i = 0; i < mInput.length(); ++i) {
+                pin += '*';
+            }
+            setPinInput(pin);
+        }
+
+        mButtonLogin.setEnabled(mInput.length() == mPinLength);
+        mButtonClear.setEnabled(mInput.length() > 0);
+    }
+
+
+    private void showErrorDialog() {
+        new AlertDialog.Builder(getActivity()).setTitle("Error").setMessage("Unexpected error occurred!")
+                .setPositiveButton("OK", null).show();
+    }
 }
