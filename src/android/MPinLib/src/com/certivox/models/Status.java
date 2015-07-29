@@ -1,10 +1,10 @@
 package com.certivox.models;
 
+
 public class Status {
 
-	public static enum Code {
-		OK,
-        PIN_INPUT_CANCELED, // Local error, returned when user cancels pin entering
+    public static enum Code {
+        OK, PIN_INPUT_CANCELED, // Local error, returned when user cancels pin entering
         CRYPTO_ERROR, // Local error in crypto functions
         STORAGE_ERROR, // Local storage related error
         NETWORK_ERROR, // Local error - cannot connect to remote server (no internet, or invalid server/port)
@@ -18,27 +18,31 @@ public class Status {
         INCORRECT_ACCESS_NUMBER, // Remote/local error - wrong access number (checksum failed or RPS returned 412)
         HTTP_SERVER_ERROR, // Remote error, that was not reduced to one of the above - the remote server returned internal server error status (5xx)
         HTTP_REQUEST_ERROR // Remote error, that was not reduced to one of the above - invalid data sent to server, the remote server returned 4xx error status
-	}
-	
-	public Status(int statusCode, String error) {
-		mStatusCode = Code.values()[statusCode];
-		mErrorMessage = error;
-	}
-	
-	public Code getStatusCode() {
-		return mStatusCode;
-	}
-	
-	public String getErrorMessage() {
-		return mErrorMessage;
-	}
+    }
 
-	@Override
-	public String toString() {
-		return "Status [StatusCode=" + mStatusCode + ", ErrorMessage='" + mErrorMessage + "']";
-	}
 
-	private final Code mStatusCode;
-	private final String mErrorMessage;
-	
+    public Status(int statusCode, String error) {
+        mStatusCode = Code.values()[statusCode];
+        mErrorMessage = error;
+    }
+
+
+    public Code getStatusCode() {
+        return mStatusCode;
+    }
+
+
+    public String getErrorMessage() {
+        return mErrorMessage;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Status [StatusCode=" + mStatusCode + ", ErrorMessage='" + mErrorMessage + "']";
+    }
+
+    private final Code   mStatusCode;
+    private final String mErrorMessage;
+
 }
