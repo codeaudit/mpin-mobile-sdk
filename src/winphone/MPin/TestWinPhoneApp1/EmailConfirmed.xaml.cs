@@ -81,7 +81,7 @@ namespace MPinDemo
         private void Resend_Click(object sender, RoutedEventArgs e)
         {
             if (this.User != null)
-                lock (Window.Current.Content)   // TODO: check if its the proper lock
+                lock (Window.Current.Content)  
                 {
                     Status st = Controller.RestartRegistration(this.User);
                     if (st.StatusCode != Status.Code.OK)

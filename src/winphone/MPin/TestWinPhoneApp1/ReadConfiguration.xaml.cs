@@ -3,21 +3,12 @@ using MPinSDK.Common; // navigation extensions
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel.Resources;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
@@ -29,7 +20,7 @@ namespace MPinDemo
     /// </summary>
     public sealed partial class ReadConfiguration : Page, INotifyPropertyChanged
     {
-        MainPage rootPage = null;
+        private MainPage rootPage = null;
         private static List<int> ExistentsIndexes;
 
         public ReadConfiguration()
@@ -77,7 +68,6 @@ namespace MPinDemo
             CheckAllConfigurations(true);            
         }
         
-
         private void CheckAllConfigurations(bool isCheck)
         {
             foreach (var backend in this.Configurations)
@@ -85,20 +75,7 @@ namespace MPinDemo
                 backend.IsSet = isCheck;
             }
         }
-
-
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-        void OnPropertyChanged([CallerMemberName]string name = "")
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(name));
-            }
-        }
-        #endregion // INotifyPropertyChanged
-
+        
         private async void SaveAppBarButton_Click(object sender, RoutedEventArgs e)
         {
             bool areDuplicatesSelected = AreDuplicatesSelected();
@@ -133,53 +110,17 @@ namespace MPinDemo
             return ExistentsIndexes.Contains(ConfigurationList.IndexOf(item));
         }
 
-    }
-
-
-    public abstract class DataTemplateSelector : ContentControl
-    {
-        public virtual DataTemplate SelectTemplate(object item, DependencyObject container)
+        #region INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+        void OnPropertyChanged([CallerMemberName]string name = "")
         {
-            return null;
-        }
-
-        protected override void OnContentChanged(object oldContent, object newContent)
-        {
-            base.OnContentChanged(oldContent, newContent);
-
-            ContentTemplate = SelectTemplate(newContent, this);
-        }
-    }
-
-    public class ExistenceSelector : DataTemplateSelector
-    {
-        public DataTemplate UniqueTemplate
-        {
-            get;
-            set;
-        }
-        public DataTemplate DuplicateTemplate
-        {
-            get;
-            set;
-        }
-
-        public override DataTemplate SelectTemplate(object item, DependencyObject container)
-        {
-            Backend backendItem = item as Backend;
-            if (backendItem != null)
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
             {
-                if (ReadConfiguration.IsDuplicate(backendItem))
-                {
-                    return DuplicateTemplate;
-                }
-                else
-                {
-                    return UniqueTemplate;
-                }
+                handler(this, new PropertyChangedEventArgs(name));
             }
-
-            return base.SelectTemplate(item, container);
         }
-    }
+        #endregion // INotifyPropertyChanged
+
+    }    
 }
