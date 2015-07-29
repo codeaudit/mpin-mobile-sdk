@@ -61,22 +61,21 @@ public class HTTPConnector implements IHTTPRequest {
 
 
     protected String HttpMethodMapper(int method) {
-        if (GET == method)
+        switch (method) {
+        case GET:
             return HTTP_GET;
-        else
-            if (POST == method)
-                return HTTP_POST;
-            else
-                if (PUT == method)
-                    return HTTP_PUT;
-                else
-                    if (DELETE == method)
-                        return HTTP_DELETE;
-                    else
-                        if (OPTIONS == method)
-                            return HTTP_OPTIONS;
-                        else
-                            return HTTP_PATCH;
+        case POST:
+            return HTTP_POST;
+        case PUT:
+            return HTTP_PUT;
+        case DELETE:
+            return HTTP_DELETE;
+        case OPTIONS:
+            return HTTP_OPTIONS;
+        default:
+            return HTTP_PATCH;
+
+        }
     }
 
 
