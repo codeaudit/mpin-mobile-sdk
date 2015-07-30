@@ -40,7 +40,7 @@
     <!-- Add Identity -->
     <string name="enter_mail_title">Email address:</string>
     <string name="device_name_title">Device name:</string>
-    <string name="create_identity">Done</string>
+    <string name="create_identity">Create Identity</string>
     <!-- Add Identity end -->
 
 
@@ -121,6 +121,12 @@
     <string name="try_again">Try again</string>
     <string name="user_not_authorized">You are not authorized! Please contact the service administrator or try again later.</string>
     <string name="button_ok">OK</string>
+    <string name="invalid_url_address_title">Invalid URL address</string>
+    <string name="invalid_backend_title">Invalid URL</string>
+    <string name="invalid_backend_content">M-PIN Server URL is not valid</string>
+    <string name="correct_url_title">Success</string>
+    <string name="correct_url_content">The backend URL is correct!</string>
+    <string name="empty_title_content">Service name field is empty</string>
     <!-- Dialogs end -->
 
 </resources>

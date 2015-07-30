@@ -177,26 +177,30 @@ public class ConfigDetailFragment extends MPinFragment implements OnClickListene
 
 
     private void showInvalidURLDialog() {
-        new AlertDialog.Builder(getActivity()).setTitle("Invalid URL address").setMessage("Try Again")
-                .setPositiveButton("OK", null).show();
+        new AlertDialog.Builder(getActivity()).setTitle(getResources().getString(R.string.invalid_url_address_title))
+                .setMessage(getResources().getString(R.string.try_again))
+                .setPositiveButton(getResources().getString(R.string.button_ok), null).show();
     }
 
 
     private void showInvalidBackednURL() {
-        new AlertDialog.Builder(getActivity()).setTitle("Invalid backend URL").setMessage("Try Again")
-                .setPositiveButton("OK", null).show();
+        new AlertDialog.Builder(getActivity()).setTitle(getResources().getString(R.string.invalid_backend_title))
+                .setMessage(R.string.invalid_backend_content)
+                .setPositiveButton(getResources().getString(R.string.button_ok), null).show();
     }
 
 
     private void showValidBackendDialog() {
-        new AlertDialog.Builder(getActivity()).setTitle("Success").setMessage("The backend URL is correct!")
-                .setPositiveButton("OK", null).show();
+        new AlertDialog.Builder(getActivity()).setTitle(getResources().getString(R.string.correct_url_title))
+                .setMessage(getResources().getString(R.string.correct_url_content))
+                .setPositiveButton(getResources().getString(R.string.button_ok), null).show();
     }
 
 
     private void showEmptyTitleDialog() {
-        new AlertDialog.Builder(getActivity()).setTitle("Error").setMessage("Service name field is empty")
-                .setPositiveButton("OK", null).show();
+        new AlertDialog.Builder(getActivity()).setTitle(getResources().getString(R.string.error_dialog_title))
+                .setMessage(getResources().getString(R.string.empty_title_content))
+                .setPositiveButton(getResources().getString(R.string.button_ok), null).show();
     }
 
 
