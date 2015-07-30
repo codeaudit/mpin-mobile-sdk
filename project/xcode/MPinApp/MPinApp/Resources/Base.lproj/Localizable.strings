@@ -127,22 +127,22 @@
 
 /* ALL ERRORS */
 
-"ERROR_WRONG_AN"                        = "INCORRECT ACCESS NUMBER.  PLEASE TRY AGAIN.";
-"PIN_INPUT_CANCELED"                    = "PIN INPUT CANCELLED";
+"ERROR_WRONG_AN"                        = "Incorrect access number.  Please try again.";
+"PIN_INPUT_CANCELED"                    = "PIN input cancelled";
 
-"CRYPTO_ERROR"                          = "INTERNAL ERROR.  PLEASE TRY AGAIN AND IF THE PROBLEM PERSISTS, CONTACT YOUR SYSTEM ADMINISTRATOR. \n ERROR CODE 1001.";
-"STORAGE_ERROR"                         = "INTERNAL ERROR.  PLEASE TRY AGAIN AND IF THE PROBLEM PERSISTS, CONTACT YOUR SYSTEM ADMINISTRATOR. \n ERROR CODE 1002.";
-"NETWORK_ERROR"                         = "NETWORK ERROR. PLEASE TRY AGAIN AND IF THE PROBLEM PERSISTS, CONTACT YOUR SYSTEM ADMINISTRATOR. \n ERROR CODE 1003.";
-"RESPONSE_PARSE_ERROR"                  = "INTERNAL ERROR.  PLEASE TRY AGAIN AND IF THE PROBLEM PERSISTS, CONTACT YOUR SYSTEM ADMINISTRATOR. \n ERROR CODE 1004.";
-"FLOW_ERROR"                            = "INTERNAL ERROR.  PLEASE TRY AGAIN AND IF THE PROBLEM PERSISTS, CONTACT YOUR SYSTEM ADMINISTRATOR. \n ERROR CODE 1005.";
-"IDENTITY_NOT_AUTHORIZED"               = "YOUR IDENTITY IS NOT AUTHORIZED.  PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR. \n ERROR CODE 1006.";
-"IDENTITY_NOT_VERIFIED"                 = "IDENTITY NOT VERIFIED. PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR. \n ERROR CODE 1007.";
-"REQUEST_EXPIRED"                       = "REQUEST EXPIRED.  PLEASE REREGISTER.  IF THE PROBLEM PERSISTS, PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR. \n ERROR CODE 1008.";
-"REVOKED"                               = "YOUR ACCOUNT HAS BEEN REVOKED.  PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR. \n ERROR CODE 1009.";
-"INCORRECT_PIN"                         = "INCORRECT PIN.  PLEASE TRY AGAIN. \n ERROR CODE 1010.";
-"INCORRECT_ACCESS_NUMBER"               = "INCORRECT ACCESS NUMBER.  PLEASE TRY AGAIN. \n ERROR CODE 1013.";
-"HTTP_SERVER_ERROR"                     = "SERVER ERROR.  PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR. \n ERROR CODE 1011.";
-"HTTP_REQUEST_ERROR"                    = "SERVER ERROR.  PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR. \n ERROR CODE 1012.";
+"CRYPTO_ERROR"                          = "Internal error.  Please try again and if the problem persists, contact your system administrator. \n Error code 1001.";
+"STORAGE_ERROR"                         = "Internal error.  Please try again and if the problem persists, contact your system administrator. \n Error code  1002.";
+"NETWORK_ERROR"                         = "Network error. Please try again and if the problem persists, contact your system administrator. \n error code 1003.";
+"RESPONSE_PARSE_ERROR"                  = "Internal error.  Please try again and if the problem persists, contact your system administrator. \n Error code 1004.";
+"FLOW_ERROR"                            = "Internal error.  Please try again and if the problem persists, contact your system administrator. \n Error code 1005.";
+"IDENTITY_NOT_AUTHORIZED"               = "Your identity is not authorized.  Please contact your system administrator. \n Error code 1006.";
+"IDENTITY_NOT_VERIFIED"                 = "Identity not verified. Please contact your system administrator. \n Error code 1007.";
+"REQUEST_EXPIRED"                       = "Request expired.  Please reregister.  If the problem persists, please contact your system administrator. \n Error code 1008.";
+"REVOKED"                               = "Your account has been revoked.  Please contact your system administrator. \n Error code 1009.";
+"INCORRECT_PIN"                         = "Incorrect PIN.  Please try again. \n Error code 1010.";
+"INCORRECT_ACCESS_NUMBER"               = "Incorrect access number.  Please try again. \n Error code 1013.";
+"HTTP_SERVER_ERROR"                     = "Server error.  Please contact your system administrator. \n Error code 1011.";
+"HTTP_REQUEST_ERROR"                    = "Server error.  Please contact your system administrator. \n Error code 1012.";
 
 "ERROR_UNABLE_TO_SCAN_QR"               = "Unable to load camera and scan QR code!";
 "ERROR_QR_UNAUTHORIZED_ACCESS"          = "Unauthorized Access! Please check your e-mail and confirm the activation link!";
