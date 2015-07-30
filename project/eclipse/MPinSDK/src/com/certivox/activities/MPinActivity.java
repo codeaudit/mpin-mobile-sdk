@@ -457,7 +457,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
 
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.content, pinPadFragment, FragmentTags.FRAGMENT_PINPAD);
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
             getFragmentManager().executePendingTransactions();
             mController.setCurrentFragmentTag(FragmentTags.FRAGMENT_PINPAD);
         }
