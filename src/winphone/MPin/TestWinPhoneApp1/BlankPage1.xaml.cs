@@ -62,7 +62,7 @@ namespace MPinDemo
             _dispatcher = Window.Current.Dispatcher;
             this.DataContext = controller.DataModel;                        
             controller.PropertyChanged += controller_PropertyChanged;
-
+            controller.ScannedServicesLoaded += ServicesLoaded;    
             // Attach event which will return the picked files
             var app = Application.Current as App;
             if (app != null)
@@ -132,14 +132,9 @@ namespace MPinDemo
             if (!string.IsNullOrEmpty(param) && param.Equals("HardwareBack"))
                 controller.IsUserInProcessing = false;
 
-            if (force)
-            {
-                Progress.Visibility = isInProgress ? Visibility.Visible : Visibility.Collapsed;
-            }
-            else
-            {
-                Progress.Visibility = controller.IsUserInProcessing ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
-            }
+            bool deactivateAll = force ? isInProgress : controller.IsUserInProcessing;         
+            Progress.Visibility = deactivateAll ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
+            BottomCommandBar.IsEnabled = !deactivateAll;
         }
 
 
@@ -218,10 +213,16 @@ namespace MPinDemo
                 this.ServicesList.SelectedIndex = selectedIndex.Value;                
             }
 
-            if (this.ServicesList != null && this.ServicesList.SelectedItem != null && controller.DataModel.CurrentService != null && this.ServicesList.SelectedItem.Equals(controller.DataModel.CurrentService))
-            {
-                this.ServicesList.ScrollIntoView(this.ServicesList.SelectedItem);
-            }
+            //if (this.ServicesList != null && this.ServicesList.SelectedItem != null && controller.DataModel.CurrentService != null && this.ServicesList.SelectedItem.Equals(controller.DataModel.CurrentService))
+            //{
+            //    this.ServicesList.ScrollIntoView(this.ServicesList.SelectedItem);
+            //}
+
+            //if (this.ServicesList != null && this.ServicesList.SelectedItem != null && controller.DataModel.CurrentService != null && !this.ServicesList.SelectedItem.Equals(controller.DataModel.CurrentService))
+            //{
+            //    ServicesList.SelectedItem = controller.DataModel.CurrentService;
+            //    //this.ServicesList.ScrollIntoView(this.ServicesList.SelectedItem);
+            //}
         }
         #endregion
 
@@ -404,6 +405,12 @@ namespace MPinDemo
             SavePropertyState(SelectedService, ServicesList.SelectedIndex);
         }
 
+        private void ServicesLoaded(object sender, EventArgs e)
+        {            
+            // there is an annoying behavior after loading items from scanning with the first tap when the listbox is being scrolled down before scan
+            ServicesList.ScrollIntoView(ServicesList.Items[0]); 
+        }
+
         private void ServicesList_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
             if (isInitialLoad)
@@ -522,9 +529,9 @@ namespace MPinDemo
             {
                 // select a service after being edited/added
                 this.ServicesList.SelectedItem = controller.DataModel.BackendsList[selectedServiceIndex];
-
-                selectedServiceIndex = -1;
             }
+
+            selectedServiceIndex = -1;
         }
 
         private void ScanAppBarButton_Click(object sender, RoutedEventArgs e)

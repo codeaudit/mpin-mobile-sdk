@@ -24,14 +24,9 @@ namespace MPinDemo.Models
         private CoreDispatcher dispatcher;
         private MainPage rootPage = null;
         private int selectedServicesIndex = -1;
+        public EventHandler<EventArgs> ScannedServicesLoaded;
 
         private static MPin sdk;
-
-        // After a collection change operation we want to suspend save operations for a short period
-        // of time (based on how many items have been changed) to avoid costly operation,
-        // so make it once after the change has finished.
-        internal DispatcherTimer isChangingTimer;
-
         #endregion // Fields
 
         #region C'tors
@@ -48,9 +43,9 @@ namespace MPinDemo.Models
             DataModel = new AppDataModel();
             DataModel.PropertyChanged += DataModel_PropertyChanged;
         }
-        
+
         #endregion // C'tor
-        
+
         #region Members
         string DeviceName { get; set; }
 
@@ -90,10 +85,10 @@ namespace MPinDemo.Models
                 OnPropertyChanged();
             }
         }
-        
+
         #endregion
 
-        #region handlers        
+        #region handlers
         /// <summary>
         /// Handles the PropertyChanged event of the DataModel control.
         /// </summary>
@@ -135,17 +130,10 @@ namespace MPinDemo.Models
                     break;
 
                 case "BackendsList":
-                    if (this.DataModel.BackendsList != null)
-                    {
-                        this.DataModel.BackendsList.CollectionChanged += BackendsList_CollectionChanged;
-                        this.isChangingTimer = new DispatcherTimer();
-                        this.isChangingTimer.Interval = TimeSpan.FromMilliseconds(200);
-                        this.isChangingTimer.Tick += isChangingTimer_Tick;                                                
-                    }
                     break;
             }
         }
-        
+
         private void UpdateServices(bool isSet)
         {
             foreach (var service in DataModel.BackendsList)
@@ -165,8 +153,7 @@ namespace MPinDemo.Models
 
         public async Task Dispose()
         {
-            if (this.isChangingTimer != null)
-                await ProcessSaveChanges();
+            await ProcessSaveChanges();
         }
 
         #region services
@@ -209,23 +196,9 @@ namespace MPinDemo.Models
 
             return status;
         }
-        
-        void BackendsList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            Debug.WriteLine("BackendsList_CollectionChanged -> start ticker");
-            isChangingTimer.Start();
-        }
-        
-        async void isChangingTimer_Tick(object sender, object e)
-        {
-            Debug.WriteLine("isChangingTimer_Tick");
-            await ProcessSaveChanges();            
-        }
 
         private async Task ProcessSaveChanges()
         {
-            Debug.WriteLine("ProcessSaveChanges stop ticker; save changes");
-            isChangingTimer.Stop();
             await this.DataModel.SaveServices();
         }
 
@@ -619,7 +592,6 @@ namespace MPinDemo.Models
 
         public async Task ShowAuthenticate(string accessNumber = "")
         {
-            Debug.WriteLine(" ShowAuthenticate ");
             Status status = null;
             OTP otp = this.DataModel.CurrentService.Type == ConfigurationType.OTP ? new OTP() : null;
             User user = this.DataModel.CurrentUser;
@@ -740,8 +712,10 @@ namespace MPinDemo.Models
                         return;
                     }
 
-                    this.DataModel.MergeConfigurations(newBackends);
-                    break; 
+                    await this.DataModel.MergeConfigurations(newBackends);
+                    if (ScannedServicesLoaded != null)
+                        ScannedServicesLoaded(this, null);
+                    break;
 
                 default:
                     break;

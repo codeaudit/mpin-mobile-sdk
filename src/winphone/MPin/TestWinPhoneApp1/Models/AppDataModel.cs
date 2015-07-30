@@ -371,7 +371,7 @@ namespace MPinDemo.Models
             return false;
         }
 
-        internal void MergeConfigurations(List<Backend> newBackends)
+        internal async Task MergeConfigurations(List<Backend> newBackends)
         {
             foreach (Backend backend in newBackends)
             {
@@ -379,13 +379,18 @@ namespace MPinDemo.Models
                 if (currentBackend != null)
                 {
                     // loaded configurations overwrite the existing ones with matching names.
-                    this.BackendsList[this.BackendsList.IndexOf(currentBackend)] = backend;
+                    this.BackendsList[this.BackendsList.IndexOf(currentBackend)].BackendUrl = backend.BackendUrl;
+                    this.BackendsList[this.BackendsList.IndexOf(currentBackend)].Type = backend.Type;
+                    this.BackendsList[this.BackendsList.IndexOf(currentBackend)].RpsPrefix = backend.RpsPrefix;
+                    this.BackendsList[this.BackendsList.IndexOf(currentBackend)].Name = backend.Name;
                 }
                 else
                 {
                     this.BackendsList.Add(backend);
                 }
             }
+
+            await SaveServices();
         }
         #endregion
 

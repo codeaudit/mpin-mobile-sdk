@@ -105,6 +105,7 @@
       <DependentUpon>BlockedScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\Converters.cs" />
+    <Compile Include="Common\TemplateSelector.cs" />
     <Compile Include="Configuration.xaml.cs">
       <DependentUpon>Configuration.xaml</DependentUpon>
     </Compile>
