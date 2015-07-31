@@ -1,8 +1,12 @@
 package com.certivox.fragments;
 
 
+import com.certivox.models.User;
+import com.certivox.mpin.R;
+
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
@@ -15,14 +19,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.certivox.models.User;
-import com.certivox.mpin.R;
-
 
 public class PinPadFragment extends Fragment {
 
     private User                mUser;
-
     private View                mView;
     private TextView            mUserEmail;
     private TextView            mDigit0;
@@ -39,7 +39,6 @@ public class PinPadFragment extends Fragment {
     private ImageButton         mButtonClear;
     private EditText            mPinEditText;
     private TextView            mWrongPinTextView;
-
     private OnClickListener     mOnDigitClickListener;
     private int                 mPinLength = 4;
     private final StringBuilder mInput     = new StringBuilder();
@@ -132,11 +131,14 @@ public class PinPadFragment extends Fragment {
         mInput.setLength(0);
         updateInput();
         mWrongPinTextView.setVisibility(View.VISIBLE);
+        mPinEditText.getBackground().setColorFilter(getResources().getColor(R.color.orange), PorterDuff.Mode.SRC_ATOP);
     }
 
 
     public void hideWrongPin() {
         mWrongPinTextView.setVisibility(View.INVISIBLE);
+        mPinEditText.getBackground().setColorFilter(getResources().getColor(R.color.primaryColor),
+                PorterDuff.Mode.SRC_ATOP);
     }
 
 
