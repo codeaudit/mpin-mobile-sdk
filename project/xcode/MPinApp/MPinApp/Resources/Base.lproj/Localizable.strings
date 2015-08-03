@@ -100,7 +100,7 @@
 "HUD_UNSUPPORTED_ACTION"    = "Unsupported State and Action!";
 "HUD_SAVE_CONFIG"           = "Saving configuration. Please wait.";
 "HUD_SAVE_CONFIG_AND_DEL"   = "Saving configuration. Please wait. All associated identities will be deleted.";
-"HUD_REACTIVATE_USER"       = "Please wait";
+"HUD_REACTIVATE_USER"       = "Please reactivate user.";
 
 
 /* WARNINGS */
