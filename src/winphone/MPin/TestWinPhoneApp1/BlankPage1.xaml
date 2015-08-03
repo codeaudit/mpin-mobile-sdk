@@ -36,6 +36,11 @@
             <TextBlock Grid.Row="2" Text="Getting data from server..." FontSize="17" Foreground="White" HorizontalAlignment="Center"/>
         </Grid>
 
+        <Grid x:Name="PhotoContainer" Visibility="Collapsed">            
+            <CaptureElement x:Name="capturePreview" Stretch="Uniform" />
+            <AppBarButton Icon="Camera" Click="AppBarButton_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+        </Grid>
+        
         <Pivot x:Name="MainPivot" CommonNavigationTransitionInfo.IsStaggerElement="True" 
                SelectionChanged="MainPivot_SelectionChanged">
 
