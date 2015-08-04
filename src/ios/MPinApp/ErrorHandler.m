@@ -9,70 +9,70 @@
 #import "ErrorHandler.h"
 #import "ATMHud.h"
 
-@interface CVXATMHud()
+@interface CVXATMHud ( )
 
 @end
 
 @implementation CVXATMHud
 
-- (instancetype)init
+- ( instancetype )init
 {
-    if ((self = [super init]))
-    {
-
-    }
+    if ( ( self = [super init] ) )
+    {}
+    
     return self;
 }
 
 @end
 
 
-@interface ErrorHandler(){
-    
-}
+@interface ErrorHandler ( ) {}
 
 @end
 
 @implementation ErrorHandler
 
-+ (ErrorHandler*)sharedManager
++ ( ErrorHandler * )sharedManager
 {
-    static ErrorHandler* sharedManager = nil;
+    static ErrorHandler *sharedManager = nil;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^ {
         sharedManager = [[self alloc] init];
     });
+    
     return sharedManager;
 }
 
-- (instancetype)init
+- ( instancetype )init
 {
     self = [super init];
-    if (self)
+    if ( self )
     {
         self.hud = [[CVXATMHud alloc] initWithDelegate:self];
     }
+    
     return self;
 }
--(void) startLoadingInController:(UIViewController *)viewController message:(NSString *)message
+
+-( void ) startLoadingInController:( UIViewController * )viewController message:( NSString * )message
 {
     [_hud setActivity:YES];
     [_hud setCaption:message];
     [_hud showInView:viewController.view];
 }
 
--(void) stopLoading
+-( void ) stopLoading
 {
     [self hideMessage];
 }
 
-- (void) updateMessage:(NSString *) strMessage
-  addActivityIndicator:(BOOL)addActivityIndicator
-             hideAfter:(NSInteger) hideAfter
+- ( void ) updateMessage:( NSString * ) strMessage
+    addActivityIndicator:( BOOL )addActivityIndicator
+               hideAfter:( NSInteger ) hideAfter
 {
     NSLog(@"%f",_hud.minShowTime);
     _hud.minShowTime = hideAfter;
-    if (addActivityIndicator)
+    if ( addActivityIndicator )
     {
         [_hud setActivity:YES];
     }
@@ -82,22 +82,23 @@
     }
     [_hud setCaption:strMessage];
     [_hud update];
-    if (hideAfter > 0)
+    if ( hideAfter > 0 )
     {
-        [self performSelector:@selector(hideMessage) withObject:nil afterDelay:hideAfter];
+        [self performSelector:@selector( hideMessage ) withObject:nil afterDelay:hideAfter];
     }
 }
--(void) presentMessageInViewController:(UIViewController *)viewController
-                         errorString:(NSString *)strError
-                addActivityIndicator:(BOOL)addActivityIndicator
-                         minShowTime:(NSInteger) seconds
+
+-( void ) presentMessageInViewController:( UIViewController * )viewController
+                             errorString:( NSString * )strError
+                    addActivityIndicator:( BOOL )addActivityIndicator
+                             minShowTime:( NSInteger ) seconds
 {
     NSLog(@"%f",_hud.minShowTime);
-
+    _hud.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, [[UIScreen mainScreen] bounds].size.height / 4);
     _hud.minShowTime = seconds;
     [_hud setCaption:strError];
     
-    if (addActivityIndicator)
+    if ( addActivityIndicator )
     {
         [_hud setActivity:YES];
     }
@@ -108,13 +109,13 @@
     
     [_hud showInView:viewController.view];
     
-    if (seconds > 0)
+    if ( seconds > 0 )
     {
         [_hud hide];
     }
 }
 
--(void) hideMessage
+-( void ) hideMessage
 {
     [_hud hide];
     NSLog(@"Hiding hud");

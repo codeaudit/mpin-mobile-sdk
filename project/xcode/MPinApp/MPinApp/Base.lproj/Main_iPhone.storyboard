@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="w4v-me-Wqj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="w4v-me-Wqj">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -950,16 +950,10 @@
                                 <action selector="showLeftMenuPressed:" destination="Syw-hA-6aX" id="dhz-GB-c0o"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="plus-white" id="8qd-4z-Diy">
-                            <connections>
-                                <action selector="add:" destination="Syw-hA-6aX" id="tnz-7f-Zdd"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="btnAddConfiguration" destination="8qd-4z-Diy" id="lL0-EA-unH"/>
                         <outlet property="btnDeleteConfiguration" destination="GgA-WD-ZaE" id="UaI-Md-5Qh"/>
                         <outlet property="btnEditConfiguration" destination="Dra-v2-pvB" id="kSA-jh-q1R"/>
                         <outlet property="btnSignIn" destination="d0w-pn-7iL" id="Rne-qZ-Gg9"/>
@@ -1146,7 +1140,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="About" id="91F-pM-DvF">
-                        <barButtonItem key="leftBarButtonItem" image="MenuIcon" id="fQq-V8-tpe">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="MenuIcon" id="fQq-V8-tpe">
                             <connections>
                                 <action selector="showLeftMenuPressed:" destination="Yd9-6T-AhG" id="d6J-AT-Q2S"/>
                             </connections>
@@ -1519,11 +1513,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="UcR-db-Qwx">
-                                <rect key="frame" x="0.0" y="68" width="300" height="180"/>
+                                <rect key="frame" x="0.0" y="68" width="300" height="240"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="6sH-4H-Vqt"/>
-                                    <constraint firstAttribute="height" constant="180" id="cD2-x8-2kk"/>
+                                    <constraint firstAttribute="height" constant="240" id="cD2-x8-2kk"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MenuTableViewCell" rowHeight="60" id="a98-yl-LOR" customClass="MenuTableViewCell">
@@ -1889,6 +1883,55 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cg9-Pm-Csf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1131" y="-1410"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="cFX-tW-0mv">
+            <objects>
+                <viewController storyboardIdentifier="QRController" id="lga-rj-VE7" customClass="QRViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="UGW-nE-v3V"/>
+                        <viewControllerLayoutGuide type="bottom" id="K6c-es-NFI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1tE-eS-4e6">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QIV-oa-aQx">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vTY-yP-qwy">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="CdX-XJ-oFb"/>
+                                    <barButtonItem title="Close" id="77k-ND-OkN">
+                                        <connections>
+                                            <action selector="close:" destination="lga-rj-VE7" id="Dqz-k2-ayE"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="cDr-5j-o4C"/>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="QIV-oa-aQx" firstAttribute="top" secondItem="1tE-eS-4e6" secondAttribute="top" id="1Iz-og-H8g"/>
+                            <constraint firstItem="vTY-yP-qwy" firstAttribute="leading" secondItem="1tE-eS-4e6" secondAttribute="leading" id="7Qg-5X-wJi"/>
+                            <constraint firstItem="vTY-yP-qwy" firstAttribute="top" secondItem="QIV-oa-aQx" secondAttribute="bottom" id="Kuv-l1-8yH"/>
+                            <constraint firstAttribute="trailing" secondItem="QIV-oa-aQx" secondAttribute="trailing" id="MaF-1e-jwh"/>
+                            <constraint firstAttribute="trailing" secondItem="vTY-yP-qwy" secondAttribute="trailing" id="SoZ-iU-dUF"/>
+                            <constraint firstItem="QIV-oa-aQx" firstAttribute="leading" secondItem="1tE-eS-4e6" secondAttribute="leading" id="m7B-fe-fK2"/>
+                            <constraint firstItem="K6c-es-NFI" firstAttribute="top" secondItem="vTY-yP-qwy" secondAttribute="bottom" id="uqF-1I-UGP"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="bbItemStart" destination="77k-ND-OkN" id="Bce-LL-0Wp"/>
+                        <outlet property="viewPreview" destination="QIV-oa-aQx" id="8Ec-ZJ-7N1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sWu-Mp-o4s" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1281" y="-603"/>
         </scene>
         <!--PinPad-->
         <scene sceneID="wR9-Ur-68X">

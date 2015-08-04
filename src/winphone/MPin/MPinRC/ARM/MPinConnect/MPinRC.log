@@ -1,0 +1,69 @@
+﻿  CvString.cpp
+  CvXcode.cpp
+  mpin_crypto_non_tee.cpp
+  mpin_sdk.cpp
+  utils.cpp
+  HttpRequest.cpp
+  MPinWrapper.cpp
+  Storage.cpp
+c:\work\cvxnew\mpin-mobile-sdk\src\winphone\mpin\mpinrc\MPinWrapper.h(170): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data (HttpRequest.cpp)
+c:\work\cvxnew\mpin-mobile-sdk\src\winphone\mpin\mpinrc\MPinWrapper.h(182): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data (HttpRequest.cpp)
+c:\work\cvxnew\mpin-mobile-sdk\src\winphone\mpin\mpinrc\MPinWrapper.h(170): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data (MPinWrapper.cpp)
+c:\work\cvxnew\mpin-mobile-sdk\src\winphone\mpin\mpinrc\MPinWrapper.h(182): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data (MPinWrapper.cpp)
+c:\work\cvxnew\mpin-mobile-sdk\src\winphone\mpin\mpinrc\MPinWrapper.h(170): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data (Storage.cpp)
+c:\work\cvxnew\mpin-mobile-sdk\src\winphone\mpin\mpinrc\MPinWrapper.h(182): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data (Storage.cpp)
+  aes.c
+  big.c
+  ecp.c
+  ecp2.c
+  ff.c
+..\..\..\core\crypto\big.c(427): warning C4101: 'carry' : unreferenced local variable
+..\..\..\core\crypto\big.c(502): warning C4101: 'carry' : unreferenced local variable
+..\..\..\core\crypto\ecp.c(489): warning C4101: 'i' : unreferenced local variable
+..\..\..\core\crypto\ecp.c(490): warning C4101: 's2' : unreferenced local variable
+..\..\..\core\crypto\ecp.c(490): warning C4101: 's1' : unreferenced local variable
+..\..\..\core\crypto\ecp.c(812): warning C4101: 'nb' : unreferenced local variable
+..\..\..\core\crypto\ecp.c(870): warning C4101: 'b' : unreferenced local variable
+..\..\..\core\crypto\ecp.c(870): warning C4101: 'm' : unreferenced local variable
+..\..\..\core\crypto\ff.c(28): warning C4101: 'i' : unreferenced local variable
+..\..\..\core\crypto\ff.c(28): warning C4101: 'm' : unreferenced local variable
+..\..\..\core\crypto\ecp2.c(144): warning C4101: 'y' : unreferenced local variable
+..\..\..\core\crypto\ecp2.c(144): warning C4101: 'x' : unreferenced local variable
+..\..\..\core\crypto\ecp2.c(144): warning C4101: 'z' : unreferenced local variable
+..\..\..\core\crypto\ff.c(438): warning C4101: 'i' : unreferenced local variable
+  fp.c
+..\..\..\core\crypto\ecp2.c(450): warning C4101: 'b' : unreferenced local variable
+..\..\..\core\crypto\ecp2.c(451): warning C4101: 'r' : unreferenced local variable
+..\..\..\core\crypto\ecp2.c(450): warning C4101: 'm' : unreferenced local variable
+..\..\..\core\crypto\ff.c(543): warning C4101: 'len' : unreferenced local variable
+..\..\..\core\crypto\ff.c(825): warning C4101: 'i' : unreferenced local variable
+..\..\..\core\crypto\ff.c(825): warning C4101: 'b' : unreferenced local variable
+  fp12.c
+..\..\..\core\crypto\fp.c(121): warning C4101: 'carry' : unreferenced local variable
+..\..\..\core\crypto\fp.c(121): warning C4101: 'm' : unreferenced local variable
+..\..\..\core\crypto\fp.c(344): warning C4101: 't' : unreferenced local variable
+  fp2.c
+  gcm.c
+  hash.c
+  mpin.c
+..\..\..\core\crypto\fp2.c(11): warning C4101: 'm' : unreferenced local variable
+  oct.c
+  pair.c
+..\..\..\core\crypto\gcm.c(102): warning C4101: 'B' : unreferenced local variable
+..\..\..\core\crypto\gcm.c(101): warning C4101: 'counter' : unreferenced local variable
+..\..\..\core\crypto\mpin.c(128): warning C4101: 'px' : unreferenced local variable
+..\..\..\core\crypto\mpin.c(277): warning C4101: 'plen' : unreferenced local variable
+..\..\..\core\crypto\mpin.c(367): warning C4101: 'plen' : unreferenced local variable
+..\..\..\core\crypto\mpin.c(503): warning C4101: 'a' : unreferenced local variable
+..\..\..\core\crypto\mpin.c(785): warning C4101: 'qy' : unreferenced local variable
+..\..\..\core\crypto\mpin.c(785): warning C4101: 'qx' : unreferenced local variable
+  rand.c
+  rom.c
+  version.c
+..\..\..\core\crypto\pair.c(386): warning C4101: 'i' : unreferenced local variable
+  fp4.c
+..\..\..\core\crypto\fp4.c(389): warning C4101: 'nb' : unreferenced local variable
+     Creating library C:\Work\CVXnew\mpin-mobile-sdk\src\winphone\MPin\ARM\MPinConnect\MPinRC\MPinRC.lib and object C:\Work\CVXnew\mpin-mobile-sdk\src\winphone\MPin\ARM\MPinConnect\MPinRC\MPinRC.exp
+  Generating code
+  Finished generating code
+  MPinRC.vcxproj -> C:\Work\CVXnew\mpin-mobile-sdk\src\winphone\MPin\ARM\MPinConnect\MPinRC\MPinRC.dll

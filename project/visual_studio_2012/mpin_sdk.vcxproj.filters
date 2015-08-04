@@ -57,6 +57,7 @@
     <ClCompile Include="..\..\src\core\crypto\mralloc.c">
       <Filter>src\core\crypto</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="..\..\src\core\crypto\mrarth0.c">
       <Filter>src\core\crypto</Filter>
     </ClCompile>
@@ -64,6 +65,9 @@
       <Filter>src\core\crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\core\crypto\mrarth2.c">
+=======
+    <ClCompile Include="..\..\src\core\crypto\ecp.c">
+>>>>>>> refs/remotes/origin/georgi_dev
       <Filter>src\core\crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\core\crypto\mrarth3.c">
@@ -108,6 +112,7 @@
     <ClCompile Include="..\..\src\core\crypto\mrpower.c">
       <Filter>src\core\crypto</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="..\..\src\core\crypto\mrprime.c">
       <Filter>src\core\crypto</Filter>
     </ClCompile>
@@ -115,6 +120,9 @@
       <Filter>src\core\crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\core\crypto\mrshs.c">
+=======
+    <ClCompile Include="..\..\src\core\crypto\version.c">
+>>>>>>> refs/remotes/origin/georgi_dev
       <Filter>src\core\crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\core\crypto\mrshs256.c">
@@ -281,6 +289,7 @@
     <ClInclude Include="..\..\ext\cvshared\cpp\include\CvThread.h">
       <Filter>ext\cvshared</Filter>
     </ClInclude>
+<<<<<<< HEAD
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\core\crypto\mirdef.gcc">
@@ -293,6 +302,18 @@
       <Filter>src\core\crypto</Filter>
     </None>
     <None Include="..\..\src\core\crypto\mirdef.wc32">
+=======
+    <ClInclude Include="..\..\src\core\crypto\clint.h">
+      <Filter>src\core\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\crypto\DLLDefines.h">
+      <Filter>src\core\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\crypto\mpin.h">
+      <Filter>src\core\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\crypto\version.h">
+>>>>>>> refs/remotes/origin/georgi_dev
       <Filter>src\core\crypto</Filter>
     </None>
     <None Include="..\..\src\core\crypto\mirdef.wc64">

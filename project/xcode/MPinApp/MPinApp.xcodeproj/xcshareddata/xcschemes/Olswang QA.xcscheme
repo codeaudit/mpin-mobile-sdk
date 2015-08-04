@@ -5,22 +5,6 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
-      <BuildActionEntries>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9649BC891AC16D1000B9F41B"
-               BuildableName = "DD MPin.app"
-               BlueprintName = "DD MPin"
-               ReferencedContainer = "container:MPinApp.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-      </BuildActionEntries>
    </BuildAction>
    <TestAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -71,9 +55,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9649BC891AC16D1000B9F41B"
-            BuildableName = "DD MPin.app"
-            BlueprintName = "DD MPin"
+            BlueprintIdentifier = "96130E671AEE490A005D2A86"
+            BuildableName = "Olswang MPin.app"
+            BlueprintName = "Olswang"
             ReferencedContainer = "container:MPinApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

@@ -73,6 +73,7 @@
     <ClCompile Include="..\..\ext\cvshared\cpp\windows\CvLogger.cpp" />
     <ClCompile Include="..\..\ext\cvshared\cpp\windows\CvMutex.cpp" />
     <ClCompile Include="..\..\ext\cvshared\cpp\windows\CvThread.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="..\..\src\core\crypto\aesGcmWrapper.c" />
     <ClCompile Include="..\..\src\core\crypto\certivox.c" />
     <ClCompile Include="..\..\src\core\crypto\eccsiWrapper.c" />
@@ -112,6 +113,26 @@
     <ClCompile Include="..\..\src\core\crypto\octet.c" />
     <ClCompile Include="..\..\src\core\crypto\sakkeWrapper.c" />
     <ClCompile Include="..\..\src\core\crypto\sakke_bn_c.c" />
+=======
+    <ClCompile Include="..\..\src\core\crypto\aes.c" />
+    <ClCompile Include="..\..\src\core\crypto\big.c" />
+    <ClCompile Include="..\..\src\core\crypto\ecp.c" />
+    <ClCompile Include="..\..\src\core\crypto\ecp2.c" />
+    <ClCompile Include="..\..\src\core\crypto\ff.c" />
+    <ClCompile Include="..\..\src\core\crypto\fp.c" />
+    <ClCompile Include="..\..\src\core\crypto\fp12.c" />
+    <ClCompile Include="..\..\src\core\crypto\fp2.c" />
+    <ClCompile Include="..\..\src\core\crypto\fp4.c" />
+    <ClCompile Include="..\..\src\core\crypto\gcm.c" />
+    <ClCompile Include="..\..\src\core\crypto\hash.c" />
+    <ClCompile Include="..\..\src\core\crypto\maxstack.c" />
+    <ClCompile Include="..\..\src\core\crypto\mpin.c" />
+    <ClCompile Include="..\..\src\core\crypto\oct.c" />
+    <ClCompile Include="..\..\src\core\crypto\pair.c" />
+    <ClCompile Include="..\..\src\core\crypto\rand.c" />
+    <ClCompile Include="..\..\src\core\crypto\rom.c" />
+    <ClCompile Include="..\..\src\core\crypto\version.c" />
+>>>>>>> refs/remotes/origin/georgi_dev
     <ClCompile Include="..\..\src\core\mpin_crypto_non_tee.cpp" />
     <ClCompile Include="..\..\src\core\mpin_sdk.cpp" />
     <ClCompile Include="..\..\src\core\utils.cpp" />
@@ -129,6 +150,7 @@
     <ClInclude Include="..\..\src\core\crypto\aesGcmWrapper.h" />
     <ClInclude Include="..\..\src\core\crypto\certivox.h" />
     <ClInclude Include="..\..\src\core\crypto\DLLDefines.h" />
+<<<<<<< HEAD
     <ClInclude Include="..\..\src\core\crypto\eccsiWrapper.h" />
     <ClInclude Include="..\..\src\core\crypto\eccsi_c.h" />
     <ClInclude Include="..\..\src\core\crypto\miracl.h" />
@@ -139,6 +161,11 @@
     <ClInclude Include="..\..\src\core\crypto\octet.h" />
     <ClInclude Include="..\..\src\core\crypto\sakkeWrapper.h" />
     <ClInclude Include="..\..\src\core\crypto\sakke_bn_c.h" />
+=======
+    <ClInclude Include="..\..\src\core\crypto\mpin.h" />
+    <ClInclude Include="..\..\src\core\crypto\platform.h" />
+    <ClInclude Include="..\..\src\core\crypto\version.h" />
+>>>>>>> refs/remotes/origin/georgi_dev
     <ClInclude Include="..\..\src\core\cv_shared_ptr.h" />
     <ClInclude Include="..\..\src\core\json\elements.h" />
     <ClInclude Include="..\..\src\core\json\reader.h" />

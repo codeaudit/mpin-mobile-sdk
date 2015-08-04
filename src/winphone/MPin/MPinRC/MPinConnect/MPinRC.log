@@ -1,0 +1,65 @@
+﻿  CvString.cpp
+  CvXcode.cpp
+  mpin_crypto_non_tee.cpp
+  mpin_sdk.cpp
+  utils.cpp
+  HttpRequest.cpp
+  MPinWrapper.cpp
+  Storage.cpp
+c:\work\cvxnew\mpin-mobile-sdk\src\winphone\mpin\mpinrc\MPinWrapper.h(170): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data (HttpRequest.cpp)
+c:\work\cvxnew\mpin-mobile-sdk\src\winphone\mpin\mpinrc\MPinWrapper.h(182): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data (HttpRequest.cpp)
+c:\work\cvxnew\mpin-mobile-sdk\src\winphone\mpin\mpinrc\MPinWrapper.h(170): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data (MPinWrapper.cpp)
+c:\work\cvxnew\mpin-mobile-sdk\src\winphone\mpin\mpinrc\MPinWrapper.h(182): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data (MPinWrapper.cpp)
+c:\work\cvxnew\mpin-mobile-sdk\src\winphone\mpin\mpinrc\MPinWrapper.h(170): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data (Storage.cpp)
+c:\work\cvxnew\mpin-mobile-sdk\src\winphone\mpin\mpinrc\MPinWrapper.h(182): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data (Storage.cpp)
+  aes.c
+  big.c
+  ecp.c
+  ecp2.c
+  ff.c
+..\..\..\core\crypto\ff.c(28): warning C4101: 'i' : unreferenced local variable
+..\..\..\core\crypto\ff.c(28): warning C4101: 'm' : unreferenced local variable
+..\..\..\core\crypto\ff.c(438): warning C4101: 'i' : unreferenced local variable
+..\..\..\core\crypto\ff.c(543): warning C4101: 'len' : unreferenced local variable
+..\..\..\core\crypto\ecp.c(489): warning C4101: 'i' : unreferenced local variable
+..\..\..\core\crypto\ecp.c(490): warning C4101: 's2' : unreferenced local variable
+..\..\..\core\crypto\ecp.c(490): warning C4101: 's1' : unreferenced local variable
+..\..\..\core\crypto\ecp.c(812): warning C4101: 'nb' : unreferenced local variable
+..\..\..\core\crypto\ecp.c(870): warning C4101: 'b' : unreferenced local variable
+..\..\..\core\crypto\ecp.c(870): warning C4101: 'm' : unreferenced local variable
+..\..\..\core\crypto\ff.c(825): warning C4101: 'i' : unreferenced local variable
+..\..\..\core\crypto\ff.c(825): warning C4101: 'b' : unreferenced local variable
+..\..\..\core\crypto\big.c(427): warning C4101: 'carry' : unreferenced local variable
+..\..\..\core\crypto\big.c(502): warning C4101: 'carry' : unreferenced local variable
+  fp.c
+  fp12.c
+  fp2.c
+..\..\..\core\crypto\ecp2.c(144): warning C4101: 'y' : unreferenced local variable
+..\..\..\core\crypto\ecp2.c(144): warning C4101: 'x' : unreferenced local variable
+..\..\..\core\crypto\ecp2.c(144): warning C4101: 'z' : unreferenced local variable
+..\..\..\core\crypto\ecp2.c(450): warning C4101: 'b' : unreferenced local variable
+..\..\..\core\crypto\ecp2.c(451): warning C4101: 'r' : unreferenced local variable
+..\..\..\core\crypto\ecp2.c(450): warning C4101: 'm' : unreferenced local variable
+..\..\..\core\crypto\fp.c(121): warning C4101: 'carry' : unreferenced local variable
+..\..\..\core\crypto\fp.c(121): warning C4101: 'm' : unreferenced local variable
+..\..\..\core\crypto\fp.c(344): warning C4101: 't' : unreferenced local variable
+  gcm.c
+  hash.c
+  mpin.c
+..\..\..\core\crypto\fp2.c(11): warning C4101: 'm' : unreferenced local variable
+  oct.c
+..\..\..\core\crypto\gcm.c(102): warning C4101: 'B' : unreferenced local variable
+..\..\..\core\crypto\gcm.c(101): warning C4101: 'counter' : unreferenced local variable
+  pair.c
+  rand.c
+..\..\..\core\crypto\mpin.c(128): warning C4101: 'px' : unreferenced local variable
+..\..\..\core\crypto\mpin.c(277): warning C4101: 'plen' : unreferenced local variable
+..\..\..\core\crypto\mpin.c(367): warning C4101: 'plen' : unreferenced local variable
+..\..\..\core\crypto\mpin.c(503): warning C4101: 'a' : unreferenced local variable
+..\..\..\core\crypto\mpin.c(785): warning C4101: 'qy' : unreferenced local variable
+..\..\..\core\crypto\mpin.c(785): warning C4101: 'qx' : unreferenced local variable
+..\..\..\core\crypto\pair.c(386): warning C4101: 'i' : unreferenced local variable
+  rom.c
+  version.c
+..\..\..\core\crypto\version.c(11): error C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(356) : see declaration of 'sprintf'

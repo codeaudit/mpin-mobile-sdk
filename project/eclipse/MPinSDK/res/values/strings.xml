@@ -6,14 +6,14 @@
     <string name="drawer_no_service">No Service</string>
     <string name="drawer_open">Drawer Open</string>
     <string name="drawer_closed">Drawer Closed</string>
-    <string name="change_identitiy">Change Identity</string>
-    <string name="change_service">Change Service</string>
+    <string name="change_identitiy">Identity List</string>
+    <string name="change_service">Configuration List</string>
     <string name="about">About</string>
     <!-- Navigation drawer strings end -->
 
 
     <!-- Toobar titles -->
-    <string name="select_identity_title">Select Identity</string>
+    <string name="select_identity_title">Identity List</string>
     <string name="change_identity_title">Change Identity</string>
     <string name="identity_created_title">Identity Created</string>
     <string name="add_identity_title">Add Identity</string>
@@ -35,7 +35,6 @@
 
     <string name="add_identity_button">Add an identity</string>
     <string name="app_name">CertiVox M-Pin</string>
-    <string name="action_settings">Settings</string>
     <string name="loading">Loading</string>
 
     <!-- Add Identity -->
@@ -89,9 +88,9 @@
     <string name="enter_server_url_hint">M-Pin Server URL</string>
     <string name="enter_rps_prefix_hint">RPS Prefix</string>
     <string name="request_mobile_title">Login to Mobile App</string>
-    <string name="request_otp_title">Login with OTP</string>
-    <string name="request_an_title">Login to Online Session</string>
-    <string name="check_service">Check Service URL</string>
+    <string name="request_otp_title">OTP Login</string>
+    <string name="request_an_title">Web Login</string>
+    <string name="check_service">Test Configuration</string>
     <string name="save_configuration">Save Configuration</string>
     <string name="add_service">Add Service</string>
     <!-- Configuration Edit end -->
@@ -109,5 +108,25 @@
     <!-- About end -->
 
     <string name="logout">Logout</string>
+
+    <!-- Dialogs -->
+    <string name="error_dialog_title">Error</string>
+    <string name="network_error_title">Network error</string>
+    <string name="incorrect_access_number_title">Incorrect Access Number</string>
+    <string name="incorrect_pin_title">Wrong PIN, try again!</string>
+    <string name="otp_not_supported_title">OTP not supported</string>
+    <string name="successful_login_title">Successful Login</string>
+    <string name="otp_not_supported_text">The configuration does not support OTP</string>
+    <string name="successful_login_text">You are now logged in!</string>
+    <string name="try_again">Try again</string>
+    <string name="user_not_authorized">You are not authorized! Please contact the service administrator or try again later.</string>
+    <string name="button_ok">OK</string>
+    <string name="invalid_url_address_title">Invalid URL address</string>
+    <string name="invalid_backend_title">Invalid URL</string>
+    <string name="invalid_backend_content">M-PIN Server URL is not valid</string>
+    <string name="correct_url_title">Success</string>
+    <string name="correct_url_content">The backend URL is correct!</string>
+    <string name="empty_title_content">Service name field is empty</string>
+    <!-- Dialogs end -->
 
 </resources>

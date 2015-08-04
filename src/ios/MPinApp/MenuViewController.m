@@ -19,10 +19,12 @@
 #define USER_LIST 0
 #define SETTINGS 1
 #define ABOUT 2
+
 @interface MenuViewController () {
     AboutViewController* vcAbout;
     SettingsViewController* vcSettings;
     UserListViewController* vcUserList;
+
 }
 
 @end
@@ -41,7 +43,6 @@
     vcAbout = [self.storyboard instantiateViewControllerWithIdentifier:@"AboutViewController"];
     vcUserList = appDelegate.vcUserList;
     vcSettings = [self.storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
