@@ -1,3 +1,34 @@
+/*******************************************************************************
+ * Copyright (c) 2012-2015, Certivox All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+ * following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following
+ * disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
+ * following disclaimer in the documentation and/or other materials provided with the distribution.
+ * 
+ * 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote
+ * products derived from this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * 
+ * For full details regarding our CertiVox terms of service please refer to the following links:
+ * 
+ * * Our Terms and Conditions - http://www.certivox.com/about-certivox/terms-and-conditions/
+ * 
+ * * Our Security and Privacy - http://www.certivox.com/about-certivox/security-privacy/
+ * 
+ * * Our Statement of Position and Our Promise on Software Patents - http://www.certivox.com/about-certivox/patents/
+ ******************************************************************************/
 package com.certivox.controllers;
 
 
@@ -25,18 +56,19 @@ import com.certivox.mpinsdk.Mpin;
 
 public class MPinController extends Controller {
 
-    private static final String  TAG                                = MPinController.class.getSimpleName();
+    private static final String TAG = MPinController.class.getSimpleName();
+
 
     static {
         System.loadLibrary("AndroidMpinSDK");
     }
 
-    private Object               mSDKLockObject                     = new Object();
+    private Object mSDKLockObject = new Object();
 
-    private HandlerThread        mWorkerThread;
-    private Handler              mWorkerHandler;
+    private HandlerThread mWorkerThread;
+    private Handler       mWorkerHandler;
 
-    private static final String  PREFERENCE_USER                    = "PREFERENCE_USER";
+    private static final String  PREFERENCE_USER = "PREFERENCE_USER";
     private Context              mContext;
     private static volatile Mpin sSDK;
     private ConfigsDao           mConfigsDao;
@@ -45,88 +77,88 @@ public class MPinController extends Controller {
     private Config               mCurrentConfiguration;
     private String               mCurrentFragmentTag;
 
-    private String               mAccessNumberLength;
+    private String mAccessNumberLength;
 
     // Receive Messages
-    public static final int      MESSAGE_ON_CREATE                  = 0;
-    public static final int      MESSAGE_ON_DESTROY                 = 1;
-    public static final int      MESSAGE_ON_START                   = 2;
-    public static final int      MESSAGE_ON_STOP                    = 3;
-    public static final int      MESSAGE_ON_BACK                    = 4;
-    public static final int      MESSAGE_ON_DRAWER_BACK             = 5;
-    public static final int      MESSAGE_ON_SHOW_IDENTITY_LIST      = 6;
-    public static final int      MESSAGE_ON_CHANGE_SERVICE          = 7;
-    public static final int      MESSAGE_ON_ABOUT                   = 8;
-    public static final int      MESSAGE_RESET_PIN                  = 9;
-    public static final int      MESSAGE_ON_SHOW_PINPAD             = 10;
+    public static final int MESSAGE_ON_CREATE             = 0;
+    public static final int MESSAGE_ON_DESTROY            = 1;
+    public static final int MESSAGE_ON_START              = 2;
+    public static final int MESSAGE_ON_STOP               = 3;
+    public static final int MESSAGE_ON_BACK               = 4;
+    public static final int MESSAGE_ON_DRAWER_BACK        = 5;
+    public static final int MESSAGE_ON_SHOW_IDENTITY_LIST = 6;
+    public static final int MESSAGE_ON_CHANGE_SERVICE     = 7;
+    public static final int MESSAGE_ON_ABOUT              = 8;
+    public static final int MESSAGE_RESET_PIN             = 9;
+    public static final int MESSAGE_ON_SHOW_PINPAD        = 10;
 
     // Receive Messages from Fragment Configurations List
-    public static final int      MESSAGE_ON_NEW_CONFIGURATION       = 11;
-    public static final int      MESSAGE_ON_SELECT_CONFIGURATION    = 12;
-    public static final int      MESSAGE_ON_EDIT_CONFIGURATION      = 13;
-    public static final int      MESSAGE_DELETE_CONFIGURATION       = 14;
+    public static final int MESSAGE_ON_NEW_CONFIGURATION    = 11;
+    public static final int MESSAGE_ON_SELECT_CONFIGURATION = 12;
+    public static final int MESSAGE_ON_EDIT_CONFIGURATION   = 13;
+    public static final int MESSAGE_DELETE_CONFIGURATION    = 14;
 
     // Receive Messages from Fragment Configuration Edit
-    public static final int      MESSAGE_CHECK_BACKEND_URL          = 15;
-    public static final int      MESSAGE_SAVE_CONFIG                = 16;
+    public static final int MESSAGE_CHECK_BACKEND_URL = 15;
+    public static final int MESSAGE_SAVE_CONFIG       = 16;
 
     // Receive Messages from Fragment Users List
-    public static final int      MESSAGE_ON_CREATE_IDENTITY         = 17;
+    public static final int MESSAGE_ON_CREATE_IDENTITY = 17;
 
     // Receive Messages from Fragment Create identity
-    public static final int      MESSAGE_CREATE_IDENTITY            = 18;
+    public static final int MESSAGE_CREATE_IDENTITY = 18;
 
     // Receive Messages from Fragment CONFIRM EMAIL
-    public static final int      MESSAGE_EMAIL_CONFIRMED            = 19;
-    public static final int      MESSAGE_RESEND_EMAIL               = 20;
+    public static final int MESSAGE_EMAIL_CONFIRMED = 19;
+    public static final int MESSAGE_RESEND_EMAIL    = 20;
 
     // Receive Messages from Fragment Identity created
-    public static final int      MESSAGE_ON_SIGN_IN                 = 21;
+    public static final int MESSAGE_ON_SIGN_IN = 21;
 
     // Receive Messages from Fragment Identity blocked
-    public static final int      MESSAGE_ON_DELETE_IDENTITY         = 22;
+    public static final int MESSAGE_ON_DELETE_IDENTITY = 22;
 
     // Receive Messages from Fragment OTP
-    public static final int      MESSAGE_OTP_EXPIRED                = 23;
+    public static final int MESSAGE_OTP_EXPIRED = 23;
 
     // Receive Messages from MPinActivity
-    public static final int      MESSAGE_AUTHENTICATION_STARTED     = 24;
+    public static final int MESSAGE_AUTHENTICATION_STARTED = 24;
 
     // Sent Messages
-    public static final int      MESSAGE_GO_BACK                    = 1;
-    public static final int      MESSAGE_START_WORK_IN_PROGRESS     = 2;
-    public static final int      MESSAGE_STOP_WORK_IN_PROGRESS      = 3;
-    public static final int      MESSAGE_CONFIGURATION_DELETED      = 4;
-    public static final int      MESSAGE_CONFIGURATION_CHANGED      = 5;
-    public static final int      MESSAGE_NO_ACTIVE_CONFIGURATION    = 6;
-    public static final int      MESSAGE_CONFIGURATION_CHANGE_ERROR = 7;
-    public static final int      MESSAGE_VALID_BACKEND              = 8;
-    public static final int      MESSAGE_INVALID_BACKEND            = 9;
-    public static final int      MESSAGE_CONFIGURATION_SAVED        = 10;
-    public static final int      MESSAGE_IDENTITY_EXISTS            = 11;
-    public static final int      MESSAGE_SHOW_CONFIGURATIONS_LIST   = 12;
-    public static final int      MESSAGE_SHOW_CONFIGURATION_EDIT    = 13;
-    public static final int      MESSAGE_SHOW_ABOUT                 = 14;
-    public static final int      MESSAGE_SHOW_IDENTITIES_LIST       = 15;
-    public static final int      MESSAGE_SHOW_CREATE_IDENTITY       = 16;
-    public static final int      MESSAGE_SHOW_CONFIRM_EMAIL         = 17;
-    public static final int      MESSAGE_SHOW_IDENTITY_CREATED      = 18;
-    public static final int      MESSAGE_SHOW_SIGN_IN               = 19;
-    public static final int      MESSAGE_SHOW_ACCESS_NUMBER         = 20;
-    public static final int      MESSAGE_SHOW_USER_BLOCKED          = 21;
-    public static final int      MESSAGE_SHOW_LOGGED_IN             = 22;
-    public static final int      MESSAGE_SHOW_OTP                   = 23;
-    public static final int      MESSAGE_EMAIL_NOT_CONFIRMED        = 24;
-    public static final int      MESSAGE_EMAIL_SENT                 = 25;
-    public static final int      MESSAGE_INCORRECT_ACCESS_NUMBER    = 26;
-    public static final int      MESSAGE_INCORRECT_PIN              = 27;
-    public static final int      MESSAGE_INCORRECT_PIN_AN           = 28;
-    public static final int      MESSAGE_NETWORK_ERROR              = 29;
-    public static final int      MESSAGE_IDENTITY_DELETED           = 30;
-    public static final int      MESSAGE_AUTH_SUCCESS               = 31;
-    public static final int      MESSAGE_SDK_INITIALIZED            = 32;
-    public static final int      MESSAGE_OTP_NOT_SUPPORTED          = 33;
-    public static final int      MESSAGE_IDENTITY_NOT_AUTHORIZED    = 34;
+    public static final int MESSAGE_GO_BACK                    = 1;
+    public static final int MESSAGE_START_WORK_IN_PROGRESS     = 2;
+    public static final int MESSAGE_STOP_WORK_IN_PROGRESS      = 3;
+    public static final int MESSAGE_CONFIGURATION_DELETED      = 4;
+    public static final int MESSAGE_CONFIGURATION_CHANGED      = 5;
+    public static final int MESSAGE_NO_ACTIVE_CONFIGURATION    = 6;
+    public static final int MESSAGE_CONFIGURATION_CHANGE_ERROR = 7;
+    public static final int MESSAGE_VALID_BACKEND              = 8;
+    public static final int MESSAGE_INVALID_BACKEND            = 9;
+    public static final int MESSAGE_CONFIGURATION_SAVED        = 10;
+    public static final int MESSAGE_IDENTITY_EXISTS            = 11;
+    public static final int MESSAGE_SHOW_CONFIGURATIONS_LIST   = 12;
+    public static final int MESSAGE_SHOW_CONFIGURATION_EDIT    = 13;
+    public static final int MESSAGE_SHOW_ABOUT                 = 14;
+    public static final int MESSAGE_SHOW_IDENTITIES_LIST       = 15;
+    public static final int MESSAGE_SHOW_CREATE_IDENTITY       = 16;
+    public static final int MESSAGE_SHOW_CONFIRM_EMAIL         = 17;
+    public static final int MESSAGE_SHOW_IDENTITY_CREATED      = 18;
+    public static final int MESSAGE_SHOW_SIGN_IN               = 19;
+    public static final int MESSAGE_SHOW_ACCESS_NUMBER         = 20;
+    public static final int MESSAGE_SHOW_USER_BLOCKED          = 21;
+    public static final int MESSAGE_SHOW_LOGGED_IN             = 22;
+    public static final int MESSAGE_SHOW_OTP                   = 23;
+    public static final int MESSAGE_EMAIL_NOT_CONFIRMED        = 24;
+    public static final int MESSAGE_EMAIL_SENT                 = 25;
+    public static final int MESSAGE_INCORRECT_ACCESS_NUMBER    = 26;
+    public static final int MESSAGE_INCORRECT_PIN              = 27;
+    public static final int MESSAGE_INCORRECT_PIN_AN           = 28;
+    public static final int MESSAGE_NETWORK_ERROR              = 29;
+    public static final int MESSAGE_IDENTITY_DELETED           = 30;
+    public static final int MESSAGE_AUTH_SUCCESS               = 31;
+    public static final int MESSAGE_SDK_INITIALIZED            = 32;
+    public static final int MESSAGE_OTP_NOT_SUPPORTED          = 33;
+    public static final int MESSAGE_IDENTITY_NOT_AUTHORIZED    = 34;
 
 
     public MPinController(Context context) {
