@@ -49,7 +49,7 @@ namespace MPinDemo
         private BarcodeReader _barcodeReader;
         private static readonly IEnumerable<string> SupportedImageFileTypes = new List<string> { ".jpeg", ".jpg", ".png" };
         private CoreApplicationView view;
-        MediaCapture captureManager;
+        private MediaCapture captureManager;
 
         #endregion // members
 
@@ -63,16 +63,19 @@ namespace MPinDemo
         {
             this.InitializeComponent();
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
-                        
+
             view = CoreApplication.GetCurrentView();
             dispatcher = Window.Current.Dispatcher;
             this.DataContext = controller.DataModel;
             controller.PropertyChanged += controller_PropertyChanged;
-            
+
             _barcodeReader = new BarcodeReader
             {
-                Options = new DecodingOptions() { TryHarder = true },
-                PossibleFormats = new BarcodeFormat[] { BarcodeFormat.QR_CODE },
+                Options = new DecodingOptions() 
+                { 
+                    TryHarder = true, 
+                    PossibleFormats =  new BarcodeFormat[] {BarcodeFormat.QR_CODE} 
+                },
                 AutoRotate = true
             };
         }
@@ -117,7 +120,7 @@ namespace MPinDemo
 
         protected async override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            await Clear();
+            Clear();
             base.OnNavigatedFrom(e);
             if (controller != null)
                 await controller.Dispose();
@@ -219,10 +222,10 @@ namespace MPinDemo
 
                 this.ServicesList.SelectedIndex = selectedIndex.Value;
             }
- 
-            if (this.ServicesList != null) 
+
+            if (this.ServicesList != null)
             {
-                if (this.ServicesList.SelectedItem != null) 
+                if (this.ServicesList.SelectedItem != null)
                 {
                     if (controller.DataModel.CurrentService != null && this.ServicesList.SelectedItem.Equals(controller.DataModel.CurrentService))
                         this.ServicesList.ScrollIntoView(this.ServicesList.SelectedItem);
@@ -264,7 +267,7 @@ namespace MPinDemo
             else throw new Exception(string.Format("Camera of type {0} doesn't exist.", desiredCamera));
         }
 
-        internal async Task Clear()
+        internal void Clear()
         {
             if (captureManager != null)
             {
@@ -281,8 +284,7 @@ namespace MPinDemo
             await captureManager.CapturePhotoToStorageFileAsync(ImageEncodingProperties.CreateJpeg(), photoFile);
 
             await captureManager.StopPreviewAsync();
-
-
+            
             var data = await FileIO.ReadBufferAsync(photoFile);
             // create a stream from the file
             var ms = new InMemoryRandomAccessStream();
@@ -486,7 +488,8 @@ namespace MPinDemo
 
         private void AboutButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!Frame.Navigate(typeof(About)))
+            Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
+            if (!mainFrame.Navigate(typeof(About), this.MainPivot.SelectedIndex == 0))
             {
                 throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
             }
@@ -529,7 +532,7 @@ namespace MPinDemo
         private async void ScanAppBarButton_Click(object sender, RoutedEventArgs e)
         {
             showUsers = false;
-         
+
             SetControlsVisibility(true);
 
             // rotate to see preview vertically
@@ -589,6 +592,5 @@ namespace MPinDemo
         }
 
         #endregion // handlers
-
     }
 }

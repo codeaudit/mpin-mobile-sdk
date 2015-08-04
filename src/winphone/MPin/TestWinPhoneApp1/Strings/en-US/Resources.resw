@@ -394,7 +394,7 @@
     <value>Please, select the configurations to import.</value>
   </data>
   <data name="ReadConfigurationWarning.Text" xml:space="preserve">
-    <value>The configurations marked in red are duplicates.</value>
+    <value>The duplicated configurations will be overwritten!</value>
   </data>
   <data name="SaveConfigurationBarButton.Label" xml:space="preserve">
     <value>save</value>

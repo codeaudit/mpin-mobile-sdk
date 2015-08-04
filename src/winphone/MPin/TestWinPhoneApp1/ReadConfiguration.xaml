@@ -71,7 +71,7 @@
 
                                     <StackPanel Margin="0,0,0,9.5" Grid.Column="1">
                                         <TextBlock Text="{Binding Name}"  
-                                           TextWrapping="Wrap" Foreground="Red" FontStyle="Italic"
+                                           TextWrapping="Wrap" 
                                             Pivot.SlideInAnimationGroup="1"
                                             CommonNavigationTransitionInfo.IsStaggerElement="True"
                                             Style="{ThemeResource ListViewItemTextBlockStyle}"
@@ -88,6 +88,7 @@
                                                    CommonNavigationTransitionInfo.IsStaggerElement="True" 
                                                    FontWeight="Bold"
                                                    Style="{ThemeResource ListViewItemContentTextBlockStyle}"/>
+                                        <TextBlock Text="(duplicated)" Foreground="Red" Style="{ThemeResource ListViewItemContentTextBlockStyle}"/>
                                     </StackPanel>
 
                                 </Grid>

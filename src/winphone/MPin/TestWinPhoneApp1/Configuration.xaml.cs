@@ -1,37 +1,32 @@
-﻿using MPinSDK.Common; // navigation extensions
-using MPinDemo.Models;
+﻿using MPinDemo.Models;
+using MPinSDK.Common; // navigation extensions
+using MPinSDK.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
-using MPinSDK.Models;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Popups;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
 namespace MPinDemo
 {
     /// <summary>
-    /// The page used to add a configuration to the app.
+    /// The page used to add or edit a configuration to the app.
     /// </summary>
     public sealed partial class Configuration : Page, INotifyPropertyChanged
     {
+        #region Fields
         bool isAdding, isUrlChanged;
         MainPage rootPage = null;
+        #endregion // Fields
 
+        #region C'tor
         public Configuration()
         {
             this.InitializeComponent();
@@ -43,8 +38,16 @@ namespace MPinDemo
 
             this.UrlTB.InputScope = scope;
         }
+        #endregion // C'tor
 
+        #region Members
         private Backend backend;
+        /// <summary>
+        /// Gets or sets the backend being edited/added.
+        /// </summary>
+        /// <value>
+        /// The backend.
+        /// </value>
         public Backend Backend
         {
             get
@@ -60,7 +63,9 @@ namespace MPinDemo
                 }
             }
         }
+        #endregion // Members
 
+        #region Overrides
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
         /// </summary>
@@ -80,7 +85,9 @@ namespace MPinDemo
 
             RegisterService.Content = ResourceLoader.GetForCurrentView().GetString(isAdding ? "AddService" : "EditService");
         }
+        #endregion // Overrides
 
+        #region Methods
         void backend_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "BackendUrl")
@@ -158,5 +165,7 @@ namespace MPinDemo
             }
         }
         #endregion // INotifyPropertyChanged
+
+        #endregion Methods
     }
 }

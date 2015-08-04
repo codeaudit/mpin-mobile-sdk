@@ -1,37 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using MPinSDK.Common; // navigation extensions
+using System;
+using System.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using MPinSDK;
-using System.Runtime.InteropServices;
-using MPinRC;
-using System.Threading.Tasks;
-using MPinSDK.Common; // navigation extensions
-using System.Diagnostics;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
-
 namespace MPinDemo
 {
 
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// The main page used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private DispatcherTimer timer;
+        #region Fields
         public static MainPage Current;
-        
+        private DispatcherTimer timer;
+        #endregion // Fields
+
+        #region C'tor
         public MainPage()
         {
             this.InitializeComponent();
@@ -41,7 +30,9 @@ namespace MPinDemo
             // in order to call methods that are in this class.
             Current = this;
         }
+        #endregion // C'tor
 
+        #region Methods
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
         /// </summary>
@@ -109,13 +100,11 @@ namespace MPinDemo
                 // Collapse the StatusBlock if it has no text to conserve real estate.
                 if (StatusBlock.Text != String.Empty)
                 {
-                    //StatusBorder.Visibility = Windows.UI.Xaml.Visibility.Visible;
                     StatusBorder.Opacity = 1;
                     StartTimer(type == NotifyType.StatusMessage ? 2 : 4);
                 }
                 else
                 {
-                    //StatusBorder.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                     StatusBorder.Opacity = 0;
                 }
             }
@@ -146,5 +135,6 @@ namespace MPinDemo
         };
 
         #endregion // notification
+        #endregion // Methods
     }
 }

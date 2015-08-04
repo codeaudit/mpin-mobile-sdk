@@ -1,23 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+﻿using HockeyApp;
+using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using HockeyApp;
-using Windows.Storage;
-using Windows.Phone.UI.Input;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
@@ -38,7 +26,7 @@ namespace MPinDemo
         {
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
-            this.Resuming += App_Resuming;
+            this.Resuming += this.OnResuming;
             HockeyClient.Current.Configure("584408f872a0f7e10991ddb9954b3eb3");
         }
                 
@@ -125,32 +113,6 @@ namespace MPinDemo
             rootFrame.Navigated -= this.RootFrame_FirstNavigated;
         }
 
-        ///// <summary>
-        ///// Handles the back button press and navigates through the history of the root frame.
-        ///// </summary>
-        ///// <param name="sender">The source of the event. <see cref="HardwareButtons"/></param>
-        ///// <param name="e">Details about the back button press.</param>
-        //private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
-        //{
-        //    Frame frame = Window.Current.Content as Frame;
-        //    if (frame == null)
-        //    {
-        //        return;
-        //    }
-
-        //    var handler = this.BackPressed;
-        //    if (handler != null)
-        //    {
-        //        handler(sender, e);
-        //    }
-
-        //    if (frame.CanGoBack && !e.Handled)
-        //    {
-        //        frame.GoBack();
-        //        e.Handled = true;
-        //    }
-        //}
-
         /// <summary>
         /// Invoked when application execution is being suspended.  Application state is saved
         /// without knowing whether the application will be terminated or resumed with the contents
@@ -158,7 +120,7 @@ namespace MPinDemo
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private async void OnSuspending(object sender, SuspendingEventArgs e)
+        private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
 
@@ -166,14 +128,14 @@ namespace MPinDemo
             if (currentFrame.SourcePageType.Equals(typeof(BlankPage1)))
             {
                 BlankPage1 page = currentFrame.Content as BlankPage1;
-                await page.Clear();
+                page.Clear();
             }
 
             // TODO: Save application state and stop any background activity
             deferral.Complete();
         }
         
-        async void App_Resuming(object sender, object e)
+        async void OnResuming(object sender, object e)
         {
             Frame currentFrame = Window.Current.Content as Frame;
             if (currentFrame.SourcePageType.Equals(typeof(BlankPage1)))

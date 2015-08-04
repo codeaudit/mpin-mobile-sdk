@@ -20,15 +20,20 @@ namespace MPinDemo
     /// </summary>
     public sealed partial class ReadConfiguration : Page, INotifyPropertyChanged
     {
+        #region Fields
         private MainPage rootPage = null;
         private static List<int> ExistentsIndexes;
+        #endregion // Fields
 
+        #region C'tor
         public ReadConfiguration()
         {
             this.InitializeComponent();
             this.DataContext = this;
         }
+        #endregion // C'tor
 
+        #region Members
         private static List<Backend> ConfigurationList;
         public List<Backend> Configurations
         {
@@ -42,7 +47,9 @@ namespace MPinDemo
                 OnPropertyChanged();
             }
         }
+        #endregion // Members
 
+        #region Methods
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
         /// </summary>
@@ -121,6 +128,6 @@ namespace MPinDemo
             }
         }
         #endregion // INotifyPropertyChanged
-
+        #endregion // Methods
     }    
 }

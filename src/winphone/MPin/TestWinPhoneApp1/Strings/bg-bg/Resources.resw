@@ -394,7 +394,7 @@
     <value>Моля, изберете кои конфигурации да се запишат.</value>
   </data>
   <data name="ReadConfigurationWarning.Text" xml:space="preserve">
-    <value>Конфигурациите, отбелязани с червено, същиствуват вече!</value>
+    <value>Съществуващите конфигурации ще бъдат презаписани при импортване!</value>
   </data>
   <data name="SaveConfigurationBarButton.Label" xml:space="preserve">
     <value>запази</value>
