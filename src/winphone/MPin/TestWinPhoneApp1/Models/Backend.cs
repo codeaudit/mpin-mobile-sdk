@@ -12,11 +12,10 @@ namespace MPinDemo.Models
     public class Backend: INotifyPropertyChanged
     {
         public const string DEFAULT_RPS_PREFIX = "rps";
-        private const string urlKey = "BackendUrl";
-        private const string requestANKey = "RequestAccessNumber";
-        private const string requestOtpKey = "RequestOtp";
-        private const string titleKey = "Title";
+        private const string urlKey = "url";
+        private const string nameKey = "name";
         private const string rpsKey = "rps";
+        private const string typeKey = "type";
 
         private string backendUrl;
         public string BackendUrl
@@ -29,58 +28,24 @@ namespace MPinDemo.Models
             {
                 if (this.backendUrl != value)
                 {
-                    this.backendUrl = value;
+                    this.backendUrl = value.Trim();
                     OnPropertyChanged();
                 }
             }
         }
 
-        private bool requestAN;
-        public bool RequestAccessNumber
+        private string name;
+        public string Name
         {
             get
             {
-                return this.requestAN;
+                return this.name;
             }
             set
             {
-                if (this.requestAN != value)
+                if (this.name != value)
                 {
-                    this.requestAN = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private bool requestOTP;
-        public bool RequestOtp
-        {
-            get
-            {
-                return requestOTP;
-            }
-            set
-            {
-                if (this.requestOTP != value)
-                {
-                    this.requestOTP = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private string title;
-        public string Title
-        {
-            get
-            {
-                return this.title;
-            }
-            set
-            {
-                if (this.title != value)
-                {
-                    this.title = value;
+                    this.name = value.Trim();
                     OnPropertyChanged();
                 }
             }
@@ -101,6 +66,23 @@ namespace MPinDemo.Models
                 if (this.rpsPrefix != value)
                 {
                     this.rpsPrefix = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private ConfigurationType type;
+        public ConfigurationType Type
+        {
+            get
+            {
+                return this.type;
+            }
+            set
+            {
+                if (value != this.type)
+                {
+                    this.type = value;
                     OnPropertyChanged();
                 }
             }
@@ -131,10 +113,8 @@ namespace MPinDemo.Models
 
             return !string.IsNullOrEmpty(this.BackendUrl) &&
                 this.BackendUrl.Equals(b.BackendUrl) &&
-                this.RequestAccessNumber.Equals(b.RequestAccessNumber) &&
-                this.RequestOtp.Equals(b.RequestOtp) &&
-                this.RpsPrefix.Equals(b.RpsPrefix) &&
-                this.Title.Equals(b.Title);
+                this.Type.Equals(b.Type) &&
+                this.Name.Equals(b.Name);
         }
 
         public override int GetHashCode()
@@ -145,9 +125,7 @@ namespace MPinDemo.Models
         public Backend()
         {
             this.BackendUrl = string.Empty;
-            this.title = string.Empty;
-            this.RequestAccessNumber = false;
-            this.RequestOtp = false;
+            this.name = string.Empty;
             this.IsSet = false;            
         }
 
@@ -156,10 +134,25 @@ namespace MPinDemo.Models
             if (jsonObject != null)
             {
                 this.BackendUrl = jsonObject.GetNamedString(urlKey, "");
-                this.RequestAccessNumber = jsonObject.GetNamedBoolean(requestANKey, false);
-                this.RequestOtp = jsonObject.GetNamedBoolean(requestOtpKey, false);
-                this.Title = jsonObject.GetNamedString(titleKey, "");
-                this.RpsPrefix = jsonObject.GetNamedString(rpsKey, "");
+                this.Name = jsonObject.GetNamedString(nameKey, "");
+                this.Type = ParseType(jsonObject.GetNamedString(typeKey, ""));
+                this.RpsPrefix = jsonObject.GetNamedString(rpsKey, "");                
+            }
+        }
+
+        private ConfigurationType ParseType(string typeString)
+        {
+            if (string.IsNullOrEmpty(typeString))
+                return ConfigurationType.Mobile;
+
+            switch (typeString)
+            {
+                case "online":
+                    return ConfigurationType.Online;
+                case "otp":
+                    return ConfigurationType.OTP;
+                default:
+                    return ConfigurationType.Mobile;
             }
         }
 
@@ -167,9 +160,8 @@ namespace MPinDemo.Models
         {
             JsonObject backendObject = new JsonObject();
             backendObject.SetNamedValue(urlKey, JsonValue.CreateStringValue(BackendUrl));
-            backendObject.SetNamedValue(requestANKey, JsonValue.CreateBooleanValue(RequestAccessNumber));
-            backendObject.SetNamedValue(requestOtpKey, JsonValue.CreateBooleanValue(RequestOtp));
-            backendObject.SetNamedValue(titleKey, JsonValue.CreateStringValue(Title));
+            backendObject.SetNamedValue(typeKey, JsonValue.CreateStringValue(Type.ToString().ToLower()));
+            backendObject.SetNamedValue(nameKey, JsonValue.CreateStringValue(Name));
             backendObject.GetNamedValue(rpsKey, JsonValue.CreateStringValue(RpsPrefix));
 
             return backendObject;
@@ -187,5 +179,12 @@ namespace MPinDemo.Models
         }
         #endregion // INotifyPropertyChanged
 
+    }
+
+    public enum ConfigurationType
+    {
+        Mobile,
+        Online,
+        OTP
     }
 }

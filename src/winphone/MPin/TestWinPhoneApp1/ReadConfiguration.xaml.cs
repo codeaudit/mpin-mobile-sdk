@@ -1,0 +1,133 @@
+﻿using MPinDemo.Models;
+using MPinSDK.Common; // navigation extensions
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using Windows.ApplicationModel.Resources;
+using Windows.UI.Popups;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
+
+// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
+
+namespace MPinDemo
+{
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class ReadConfiguration : Page, INotifyPropertyChanged
+    {
+        #region Fields
+        private MainPage rootPage = null;
+        private static List<int> ExistentsIndexes;
+        #endregion // Fields
+
+        #region C'tor
+        public ReadConfiguration()
+        {
+            this.InitializeComponent();
+            this.DataContext = this;
+        }
+        #endregion // C'tor
+
+        #region Members
+        private static List<Backend> ConfigurationList;
+        public List<Backend> Configurations
+        {
+            get
+            {
+                return ConfigurationList;
+            }
+            set
+            {
+                ConfigurationList = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion // Members
+
+        #region Methods
+        /// <summary>
+        /// Invoked when this page is about to be displayed in a Frame.
+        /// </summary>
+        /// <param name="e">Event data that describes how this page was reached.
+        /// This parameter is typically used to configure the page.</param>
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            rootPage = MainPage.Current;
+            List<object> data = e.Parameter as List<object>;
+            if (data == null || data.Count != 2 || !data[0].GetType().Equals(typeof(List<Backend>)) || !data[1].GetType().Equals(typeof(List<int>)))
+            {
+                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("InvalidConfigurationList"), MainPage.NotifyType.ErrorMessage);
+                if (ConfigurationList != null)                
+                    Configurations.Clear();                
+                if (ExistentsIndexes != null)
+                    ExistentsIndexes.Clear();
+                return;
+            }
+
+            this.Configurations = data[0] as List<Backend>;
+            ExistentsIndexes = data[1] as List<int>;
+
+            CheckAllConfigurations(true);            
+        }
+        
+        private void CheckAllConfigurations(bool isCheck)
+        {
+            foreach (var backend in this.Configurations)
+            {
+                backend.IsSet = isCheck;
+            }
+        }
+        
+        private async void SaveAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            bool areDuplicatesSelected = AreDuplicatesSelected();
+            
+            if (areDuplicatesSelected)
+            {
+                var confirmation = new MessageDialog(ResourceLoader.GetForCurrentView().GetString("OverideDiplicates"));
+                confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("YesCommand")));
+                confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("NoCommand")));
+                confirmation.DefaultCommandIndex = 1;
+                var result = await confirmation.ShowAsync();
+                if (result.Equals(confirmation.Commands[1]))
+                {
+                    // if no set, back to the configurations list to select
+                    return;
+                }
+            }
+
+            this.Configurations.RemoveAll((item) => item.IsSet == false);
+            CheckAllConfigurations(false);
+            Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
+            mainFrame.GoBack(new List<object>() { "NewServices", this.Configurations });
+        }
+
+        private bool AreDuplicatesSelected()
+        {
+            return Configurations.Any(item => item.IsSet == true && ExistentsIndexes.Contains(this.Configurations.IndexOf(item)));
+        }
+               
+        public static bool IsDuplicate(Backend item)
+        {
+            return ExistentsIndexes.Contains(ConfigurationList.IndexOf(item));
+        }
+
+        #region INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+        void OnPropertyChanged([CallerMemberName]string name = "")
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
+        #endregion // INotifyPropertyChanged
+        #endregion // Methods
+    }    
+}

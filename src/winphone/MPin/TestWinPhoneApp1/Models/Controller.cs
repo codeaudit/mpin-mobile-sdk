@@ -24,9 +24,9 @@ namespace MPinDemo.Models
         private CoreDispatcher dispatcher;
         private MainPage rootPage = null;
         private int selectedServicesIndex = -1;
+        public EventHandler<EventArgs> ScannedServicesLoaded;
 
         private static MPin sdk;
-
         #endregion // Fields
 
         #region C'tors
@@ -85,10 +85,10 @@ namespace MPinDemo.Models
                 OnPropertyChanged();
             }
         }
-        
+
         #endregion
 
-        #region handlers        
+        #region handlers
         /// <summary>
         /// Handles the PropertyChanged event of the DataModel control.
         /// </summary>
@@ -130,8 +130,6 @@ namespace MPinDemo.Models
                     break;
 
                 case "BackendsList":
-                    if (this.DataModel.BackendsList != null)
-                        this.DataModel.BackendsList.CollectionChanged += BackendsList_CollectionChanged;
                     break;
             }
         }
@@ -152,6 +150,12 @@ namespace MPinDemo.Models
         #endregion // handlers
 
         #region Methods
+
+        public async Task Dispose()
+        {
+            await ProcessSaveChanges();
+        }
+
         #region services
 
         private Status InitService()
@@ -192,8 +196,8 @@ namespace MPinDemo.Models
 
             return status;
         }
-        
-        async void BackendsList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+
+        private async Task ProcessSaveChanges()
         {
             await this.DataModel.SaveServices();
         }
@@ -232,7 +236,7 @@ namespace MPinDemo.Models
                     return;
                 }
 
-                var confirmation = new MessageDialog(string.Format(ResourceLoader.GetForCurrentView().GetString("DeleteServiceConfirmation"), backend.Title));
+                var confirmation = new MessageDialog(string.Format(ResourceLoader.GetForCurrentView().GetString("DeleteServiceConfirmation"), backend.Name));
                 confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("YesCommand")));
                 confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("NoCommand")));
                 confirmation.DefaultCommandIndex = 1;
@@ -240,7 +244,6 @@ namespace MPinDemo.Models
                 if (result.Equals(confirmation.Commands[0]))
                 {
                     this.DataModel.BackendsList.Remove(backend);
-                    await this.DataModel.SaveServices();
                 }
             }
         }
@@ -313,9 +316,8 @@ namespace MPinDemo.Models
             if (editBackend != null && selectedServicesIndex > 0 && selectedServicesIndex < this.DataModel.BackendsList.Count)
             {
                 this.DataModel.BackendsList[selectedServicesIndex].BackendUrl = editBackend.BackendUrl;
-                this.DataModel.BackendsList[selectedServicesIndex].Title = editBackend.Title;
-                this.DataModel.BackendsList[selectedServicesIndex].RequestAccessNumber = editBackend.RequestAccessNumber;
-                this.DataModel.BackendsList[selectedServicesIndex].RequestOtp = editBackend.RequestOtp;
+                this.DataModel.BackendsList[selectedServicesIndex].Name = editBackend.Name;
+                this.DataModel.BackendsList[selectedServicesIndex].Type = editBackend.Type;
                 this.DataModel.BackendsList[selectedServicesIndex].RpsPrefix = editBackend.RpsPrefix;
             }
 
@@ -368,7 +370,7 @@ namespace MPinDemo.Models
                     break;
 
                 case User.State.Registered:
-                    if (this.DataModel.CurrentService.RequestAccessNumber)
+                    if (this.DataModel.CurrentService.Type == ConfigurationType.Online)
                     {
                         mainFrame.Navigate(typeof(AccessNumberScreen), new List<string> { this.DataModel.CurrentUser.Id, sdk.GetClientParam("accessNumberDigits") });
                     }
@@ -445,13 +447,13 @@ namespace MPinDemo.Models
                     });
                 }
             }
-            else
-            {
-                await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    rootPage.NotifyUser(string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblem"), user.Id, user.UserState), MainPage.NotifyType.ErrorMessage);
-                });
-            }
+            //else
+            //{
+            //    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //    {
+            //        rootPage.NotifyUser(string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblem"), user.Id, user.UserState), MainPage.NotifyType.ErrorMessage);
+            //    });
+            //}
         }
 
         private async Task<User> AddAndRegisterUser(List<string> data)
@@ -590,9 +592,8 @@ namespace MPinDemo.Models
 
         public async Task ShowAuthenticate(string accessNumber = "")
         {
-            Debug.WriteLine(" ShowAuthenticate ");
             Status status = null;
-            OTP otp = this.DataModel.CurrentService.RequestOtp ? new OTP() : null;
+            OTP otp = this.DataModel.CurrentService.Type == ConfigurationType.OTP ? new OTP() : null;
             User user = this.DataModel.CurrentUser;
             await Task.Factory.StartNew(() =>
             {
@@ -698,6 +699,22 @@ namespace MPinDemo.Models
                         await ResetPIN(this.DataModel.CurrentUser);
                     }
 
+                    break;
+
+                case "NewServices":
+                    List<Backend> newBackends = parameter as List<Backend>;
+                    if (newBackends == null)
+                    {
+                        await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                        {
+                            rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("InvalidConfigurationList"), MainPage.NotifyType.ErrorMessage);
+                        });
+                        return;
+                    }
+
+                    await this.DataModel.MergeConfigurations(newBackends);
+                    if (ScannedServicesLoaded != null)
+                        ScannedServicesLoaded(this, null);
                     break;
 
                 default:

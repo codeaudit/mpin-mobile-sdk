@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+﻿using HockeyApp;
+using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using HockeyApp;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
@@ -27,7 +17,7 @@ namespace MPinDemo
     public sealed partial class App : Application
     {
         private TransitionCollection transitions;
-
+        
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -36,9 +26,10 @@ namespace MPinDemo
         {
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
-            HockeyClient.Current.Configure("584408f872a0f7e10991ddb9954b3eb3");            
+            this.Resuming += this.OnResuming;
+            HockeyClient.Current.Configure("584408f872a0f7e10991ddb9954b3eb3");
         }
-
+                
         //internal static Frame RootFrame;
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -95,7 +86,6 @@ namespace MPinDemo
                 // configuring the new page by passing required information as a navigation
                 // parameter
                 if (!rootFrame.Navigate(typeof(MainPage), e.Arguments))
-                //if (!rootFrame.Navigate(typeof(BlankPage1), e.Arguments))
                 {
                     throw new Exception("Failed to create initial page");
                 }
@@ -134,8 +124,25 @@ namespace MPinDemo
         {
             var deferral = e.SuspendingOperation.GetDeferral();
 
+            Frame currentFrame = Window.Current.Content as Frame;
+            if (currentFrame.SourcePageType.Equals(typeof(BlankPage1)))
+            {
+                BlankPage1 page = currentFrame.Content as BlankPage1;
+                page.Clear();
+            }
+
             // TODO: Save application state and stop any background activity
             deferral.Complete();
-        }        
+        }
+        
+        async void OnResuming(object sender, object e)
+        {
+            Frame currentFrame = Window.Current.Content as Frame;
+            if (currentFrame.SourcePageType.Equals(typeof(BlankPage1)))
+            {
+                BlankPage1 page = currentFrame.Content as BlankPage1;
+                await page.InitCamera();
+            }
+        }
     }
 }

@@ -1,23 +1,35 @@
-﻿using MPinDemo.Models;
+﻿using HockeyApp;
+using MPinDemo.Models;
 using MPinSDK.Common; // navigation extensions
 using MPinSDK.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources;
+using Windows.Devices.Enumeration;
+using Windows.Media.Capture;
+using Windows.Media.MediaProperties;
+using Windows.Phone.UI.Input;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-using System.Linq;
-using Windows.UI.Xaml.Data;
-using HockeyApp;
+using Windows.Web.Http;
+using ZXing;
+using ZXing.Common;
 
 namespace MPinDemo
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// The page containing the main app data.
     /// </summary>
     public sealed partial class BlankPage1 : Page
     {
@@ -28,12 +40,17 @@ namespace MPinDemo
         private bool isInitialLoad = false;
         private bool isServiceAdding = false;
         private MainPage rootPage = null;
-        private CoreDispatcher _dispatcher;
+        private CoreDispatcher dispatcher;
 
-        internal static ApplicationDataContainer RoamingSettings = null;
+        internal static ApplicationDataContainer RoamingSettings = ApplicationData.Current.RoamingSettings;
         private static Controller controller = null;
         private static bool showUsers = true;
         private static int selectedServiceIndex;
+        private BarcodeReader _barcodeReader;
+        private static readonly IEnumerable<string> SupportedImageFileTypes = new List<string> { ".jpeg", ".jpg", ".png" };
+        private CoreApplicationView view;
+        private MediaCapture captureManager;
+
         #endregion // members
 
         #region constructors
@@ -45,11 +62,22 @@ namespace MPinDemo
         public BlankPage1()
         {
             this.InitializeComponent();
+            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
 
-            _dispatcher = Window.Current.Dispatcher;
+            view = CoreApplication.GetCurrentView();
+            dispatcher = Window.Current.Dispatcher;
             this.DataContext = controller.DataModel;
-            RoamingSettings = ApplicationData.Current.RoamingSettings;
             controller.PropertyChanged += controller_PropertyChanged;
+
+            _barcodeReader = new BarcodeReader
+            {
+                Options = new DecodingOptions() 
+                { 
+                    TryHarder = true, 
+                    PossibleFormats =  new BarcodeFormat[] {BarcodeFormat.QR_CODE} 
+                },
+                AutoRotate = true
+            };
         }
 
         #endregion // constructors
@@ -63,6 +91,7 @@ namespace MPinDemo
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             rootPage = MainPage.Current;
+            await InitCamera();
 
             SetControlsIsEnabled(e.Parameter.ToString());
 
@@ -89,17 +118,34 @@ namespace MPinDemo
             LoadSettings();
         }
 
+        protected async override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            Clear();
+            base.OnNavigatedFrom(e);
+            if (controller != null)
+                await controller.Dispose();
+        }
+
         #endregion
 
         #region methods
 
-        private void SetControlsIsEnabled(string param)
+        private void SetControlsIsEnabled(string param, bool force = false, bool isInProgress = true)
         {
             // the process has been canceled
             if (!string.IsNullOrEmpty(param) && param.Equals("HardwareBack"))
                 controller.IsUserInProcessing = false;
 
-            Progress.Visibility = controller.IsUserInProcessing ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
+            bool deactivateAll = force ? isInProgress : controller.IsUserInProcessing;
+            Progress.Visibility = deactivateAll ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
+            BottomCommandBar.IsEnabled = !deactivateAll;
+        }
+
+        private void SetControlsVisibility(bool takePicture)
+        {
+            MainPivot.Visibility = takePicture ? Visibility.Collapsed : Visibility.Visible;
+            BottomAppBar.Visibility = takePicture ? Visibility.Collapsed : Visibility.Visible;
+            PhotoContainer.Visibility = takePicture ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private string GetAllPossiblePassedParams(object param)
@@ -132,7 +178,7 @@ namespace MPinDemo
                 this.MainPivot.SelectedItem = this.UsersPivotItem;
             }
         }
-        
+
         #region State
 
         internal static void SavePropertyState(string key, object value)
@@ -162,20 +208,152 @@ namespace MPinDemo
         {
             int? selectedIndex = RoamingSettings.Values[SelectedService] as int?;
 
-            if (isInitialLoad && (selectedIndex == null || selectedIndex < 0 || selectedIndex >= ServicesList.Items.Count))
+            if (isInitialLoad && ServicesList != null && ServicesList.Items != null && (selectedIndex == null || selectedIndex < 0 || selectedIndex >= ServicesList.Items.Count))
             {
                 // if the selected service in the list is different from the currentService -> reset it
                 selectedIndex = 0;
             }
 
-            if (selectedIndex != null && selectedIndex >= 0 && selectedIndex < ServicesList.Items.Count && showUsers)
+            if (selectedIndex != null && selectedIndex >= 0 && ServicesList != null && ServicesList.Items != null && selectedIndex < ServicesList.Items.Count && showUsers)
             {
-                controller.DataModel.CurrentService = (Backend)this.ServicesList.Items[selectedIndex.Value];
+                // do not change the current service if already set as it clears and initializes the Users which makes the currentUser invalid pointer
+                if (controller.DataModel.CurrentService != (Backend)this.ServicesList.Items[selectedIndex.Value])
+                    controller.DataModel.CurrentService = (Backend)this.ServicesList.Items[selectedIndex.Value];
+
                 this.ServicesList.SelectedIndex = selectedIndex.Value;
-                this.ServicesList.ScrollIntoView(this.ServicesList.SelectedItem);
+            }
+
+            if (this.ServicesList != null)
+            {
+                if (this.ServicesList.SelectedItem != null)
+                {
+                    if (controller.DataModel.CurrentService != null && this.ServicesList.SelectedItem.Equals(controller.DataModel.CurrentService))
+                        this.ServicesList.ScrollIntoView(this.ServicesList.SelectedItem);
+                }
+                else if (controller.DataModel.CurrentService != null)
+                {
+                    ServicesList.SelectedItem = controller.DataModel.CurrentService;
+                }
             }
         }
         #endregion
+
+        #region QRCode scanning
+
+        internal async Task InitCamera()
+        {
+            var cameraID = await GetCameraID(Windows.Devices.Enumeration.Panel.Back);
+            captureManager = new MediaCapture();
+
+            await captureManager.InitializeAsync(new MediaCaptureInitializationSettings
+            {
+                StreamingCaptureMode = StreamingCaptureMode.Video,
+                PhotoCaptureSource = PhotoCaptureSource.VideoPreview,
+                AudioDeviceId = string.Empty,
+                VideoDeviceId = cameraID.Id
+            });
+
+            var maxResolution = captureManager.VideoDeviceController.GetAvailableMediaStreamProperties(MediaStreamType.Photo).Aggregate((i1, i2) => (i1 as VideoEncodingProperties).Width > (i2 as VideoEncodingProperties).Width ? i1 : i2);
+            await captureManager.VideoDeviceController.SetMediaStreamPropertiesAsync(MediaStreamType.Photo, maxResolution);
+        }
+
+        private static async Task<DeviceInformation> GetCameraID(Windows.Devices.Enumeration.Panel desiredCamera)
+        {
+            // get available devices for capturing pictures
+            DeviceInformation deviceID = (await DeviceInformation.FindAllAsync(DeviceClass.VideoCapture))
+                .FirstOrDefault(x => x.EnclosureLocation != null && x.EnclosureLocation.Panel == desiredCamera);
+
+            if (deviceID != null) return deviceID;
+            else throw new Exception(string.Format("Camera of type {0} doesn't exist.", desiredCamera));
+        }
+
+        internal void Clear()
+        {
+            if (captureManager != null)
+            {
+                captureManager.Dispose();
+                captureManager = null;
+            }
+        }
+
+        private async Task<WriteableBitmap> GetImage()
+        {
+            StorageFile photoFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("qrCode.jpg", CreationCollisionOption.ReplaceExisting);
+
+            // take a photo with choosen Encoding
+            await captureManager.CapturePhotoToStorageFileAsync(ImageEncodingProperties.CreateJpeg(), photoFile);
+
+            await captureManager.StopPreviewAsync();
+            
+            var data = await FileIO.ReadBufferAsync(photoFile);
+            // create a stream from the file
+            var ms = new InMemoryRandomAccessStream();
+            var dw = new Windows.Storage.Streams.DataWriter(ms);
+            dw.WriteBuffer(data);
+            await dw.StoreAsync();
+            ms.Seek(0);
+
+            // find out how big the image is
+            var bm = new BitmapImage();
+            await bm.SetSourceAsync(ms);
+
+            // create a writable bitmap of the right size
+            var wb = new WriteableBitmap(bm.PixelWidth, bm.PixelHeight);
+            ms.Seek(0);
+
+            // load the writable bitmap from the stream
+            await wb.SetSourceAsync(ms);
+
+            return wb;
+        }
+
+        private async Task SendRequest(String serviceURL, Windows.Web.Http.HttpMethod http_method)
+        {
+            HttpClient httpClient = new HttpClient();
+            CancellationTokenSource cts = new CancellationTokenSource();
+            try
+            {
+                System.Uri resourceAddress = new System.Uri(serviceURL);
+                HttpRequestMessage request = new HttpRequestMessage(http_method, resourceAddress);
+
+                HttpResponseMessage response = await httpClient.SendRequestAsync(
+                    request,
+                    HttpCompletionOption.ResponseHeadersRead).AsTask(cts.Token);
+
+                string responseData = await response.Content.ReadAsStringAsync();
+                if (!string.IsNullOrEmpty(responseData) && response.StatusCode.Equals(HttpStatusCode.Ok))
+                {
+                    List<Backend> backends = controller.DataModel.GetBackendsFromJson(responseData);
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        if (!Frame.Navigate(typeof(ReadConfiguration), new List<object> { backends, GetExistentsIndexes(backends) }))
+                        {
+                            throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
+                        }
+                    });
+                }
+            }
+            catch (TaskCanceledException tce)
+            {
+                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("CanceledRequest"), MPinDemo.MainPage.NotifyType.ErrorMessage);
+                throw tce;
+            }
+        }
+
+        private List<int> GetExistentsIndexes(List<Backend> newBackends)
+        {
+            List<int> duplicatesIndexes = new List<int>();
+            foreach (var backend in newBackends)
+            {
+                if (controller.DataModel.BackendsList.Any((item) => item.Name.Equals(backend.Name)))
+                {
+                    duplicatesIndexes.Add(newBackends.IndexOf(backend));
+                }
+            }
+
+            return duplicatesIndexes;
+        }
+        #endregion // QRCode scanning
 
         #endregion // Methods
 
@@ -243,6 +421,7 @@ namespace MPinDemo
             switch (this.MainPivot.SelectedIndex)
             {
                 case 0:
+                    showUsers = false;
                     controller.AddService();
                     break;
                 case 1:
@@ -254,16 +433,18 @@ namespace MPinDemo
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             selectedServiceIndex = this.ServicesList.SelectedIndex;
-            controller.EditService(this.ServicesList.SelectedIndex, this.ServicesList.SelectedIndex > 2);
+            controller.EditService(this.ServicesList.SelectedIndex, this.ServicesList.SelectedIndex >= AppDataModel.PredefinedServicesCount);
         }
 
         private void MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectAppBarButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? ServicesList.SelectedItem != null : UsersListBox.SelectedItem != null;
+            DeleteButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? ServicesList.Items.Count > 0 : UsersListBox.Items.Count > 0;
             ResetPinButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Collapsed : Visibility.Visible;
             AddAppBarButton.Icon = new SymbolIcon(this.MainPivot.SelectedIndex == 0 ? Symbol.Add : Symbol.AddFriend);
 
             EditButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
+            ScanAppBarButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private async void Delete_Click(object sender, RoutedEventArgs e)
@@ -274,7 +455,7 @@ namespace MPinDemo
                     Backend backend = ServicesList.SelectedItem as Backend;
                     if (backend != null && !string.IsNullOrEmpty(backend.BackendUrl))
                     {
-                        await controller.DeleteService(backend, this.ServicesList.SelectedIndex > 2);
+                        await controller.DeleteService(backend, this.ServicesList.SelectedIndex >= AppDataModel.PredefinedServicesCount);
                     }
                     break;
 
@@ -296,7 +477,7 @@ namespace MPinDemo
         private void UsersListBox_Loaded(object sender, RoutedEventArgs e)
         {
             // reset the pivot item header to properly display it on initial load 
-            UsersPivotItem.Header = " " + UsersPivotItem.Header;
+            UsersPivotItem.Header = " " + UsersPivotItem.Header.ToString().Trim();
 
             if (UsersListBox != null && UsersListBox.ItemsSource != null)
             {
@@ -307,15 +488,11 @@ namespace MPinDemo
 
         private void AboutButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!Frame.Navigate(typeof(About)))
+            Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
+            if (!mainFrame.Navigate(typeof(About), this.MainPivot.SelectedIndex == 0))
             {
                 throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
             }
-        }   
-
-        private void FeedbackButton_Click(object sender, RoutedEventArgs e)
-        {
-            HockeyClient.Current.ShowFeedback();
         }
 
         private async void CheckForUpdate_Click(object sender, RoutedEventArgs e)
@@ -337,33 +514,83 @@ namespace MPinDemo
             {
                 // select a service after being edited/added
                 this.ServicesList.SelectedItem = controller.DataModel.BackendsList[selectedServiceIndex];
-                
-                selectedServiceIndex = -1;
+            }
+
+            selectedServiceIndex = -1;
+        }
+
+        private async void HardwareButtons_BackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
+        {
+            if (PhotoContainer.Visibility == Windows.UI.Xaml.Visibility.Visible)
+            {
+                await captureManager.StopPreviewAsync();
+                SetControlsVisibility(false);
+                e.Handled = true;
             }
         }
+
+        private async void ScanAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            showUsers = false;
+
+            SetControlsVisibility(true);
+
+            // rotate to see preview vertically
+            captureManager.SetPreviewRotation(VideoRotation.Clockwise90Degrees);
+            capturePreview.Source = captureManager;
+            await captureManager.StartPreviewAsync();
+        }
+
+        private async void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            SetControlsVisibility(false);
+            SetControlsIsEnabled(null, true);
+
+            var wb = await GetImage();
+            Result result = _barcodeReader.Decode(wb);
+            if (result != null)
+            {
+                if (string.IsNullOrEmpty(result.Text))
+                {
+                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("EmptyURL"), MainPage.NotifyType.ErrorMessage);
+                    return;
+                }
+
+                System.Uri uri;
+                if (!System.Uri.TryCreate(System.Uri.EscapeUriString(result.Text), UriKind.Absolute, out uri))
+                {
+                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("InvalidURL"), MainPage.NotifyType.ErrorMessage);
+                    return;
+                }
+
+                try
+                {
+                    await SendRequest(result.Text, HttpMethod.Get);
+                }
+                catch (FileNotFoundException)
+                {
+                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NotFoundConfiguration"), MPinDemo.MainPage.NotifyType.ErrorMessage);
+                }
+                catch (ArgumentException ae)
+                {
+                    rootPage.NotifyUser(ae.Message, MPinDemo.MainPage.NotifyType.ErrorMessage);
+                }
+                catch (Exception exc)
+                {
+                    rootPage.NotifyUser(exc.Message.Contains("0x80072EFD")
+                                           ? ResourceLoader.GetForCurrentView().GetString("NetworkProblem")
+                                           : ResourceLoader.GetForCurrentView().GetString("RequestError"),
+                                           MPinDemo.MainPage.NotifyType.ErrorMessage);
+                }
+            }
+            else
+            {
+                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoQRCode"), MPinDemo.MainPage.NotifyType.ErrorMessage);
+            }
+
+            SetControlsIsEnabled(null, true, false);
+        }
+
         #endregion // handlers
-    }
-
-    public class ConfigurationConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            Backend backend = value as Backend;
-            if (backend == null)
-                return string.Empty;
-
-            if (backend.RequestAccessNumber)
-                return ResourceLoader.GetForCurrentView().GetString("OnlineLogin");
-
-            if (backend.RequestOtp)
-                return ResourceLoader.GetForCurrentView().GetString("OTPLogin");
-
-            return ResourceLoader.GetForCurrentView().GetString("MobileLogin");
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            return value;
-        }
     }
 }

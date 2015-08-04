@@ -69,7 +69,7 @@ namespace MPinSDK
             await ThreadPool.RunAsync(operation => UIDispatcher.Execute(() =>
             {
                 Frame rootFrame = Window.Current.Content as Frame;                
-                rootFrame.Navigate(typeof(PinPadPage), new List<object> { this, mode == Mode.AUTHENTICATE, user.GetId() });
+                rootFrame.Navigate(typeof(PinPadPage), new List<object> { this, mode == Mode.AUTHENTICATE, user == null ? string.Empty : user.GetId() });
                 Window.Current.Activate();
             }));
         }

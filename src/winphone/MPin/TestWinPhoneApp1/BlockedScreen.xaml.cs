@@ -1,41 +1,39 @@
-﻿using System;
+﻿using MPinSDK.Common;
+using MPinSDK.Models;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using MPinSDK.Common;
-using MPinSDK.Models;
-using Windows.ApplicationModel.Resources;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
 namespace MPinDemo
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// An page to display that a user is in a Blocked state.
     /// </summary>
     public sealed partial class BlockedScreen : Page
     {
+        #region C'tor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BlockedScreen"/> class.
+        /// </summary>
         public BlockedScreen()
         {
             this.InitializeComponent();
         }
+        #endregion // C'tor
 
-        User User
+        #region Members
+        private User User
         {
             get;
             set;
         }
+        #endregion // Members
 
+        #region Overrides
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
         /// </summary>
@@ -53,26 +51,26 @@ namespace MPinDemo
                 }
             }
         }
+        #endregion // Overrides
 
+        #region Methods
         private void GoIdentities_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine(" BlockedUser -> Identities");
             Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
             mainFrame.GoBack(new List<object>() { "BlockedUser", string.Empty });
         }
 
         private void RemoveUserButton_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine(" BlockedUser -> Remove User");
             Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
             mainFrame.GoBack(new List<object>() { "BlockedUser", "Remove" });
         }
 
         private void ResetPinButton_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine(" BlockedUser -> Reset PIN");
             Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-            mainFrame.GoBack(new List<object>() { "BlockedUser", "ResetPIN" });                 
+            mainFrame.GoBack(new List<object>() { "BlockedUser", "ResetPIN" });
         }
+        #endregion // Methods
     }
 }

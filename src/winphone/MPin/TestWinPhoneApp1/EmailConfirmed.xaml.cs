@@ -1,32 +1,30 @@
-﻿using MPinSDK.Models;
+﻿using MPinDemo.Models;
 using MPinSDK.Common;
-using System;
+using MPinSDK.Models;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using MPinDemo.Models;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
 namespace MPinDemo
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// An page displayed after adding a user to ask for confirmation.
     /// </summary>
     public sealed partial class EmailConfirmed : Page, INotifyPropertyChanged
     {
+        #region C'tor
+        public EmailConfirmed()
+        {
+            this.InitializeComponent();
+            this.DataContext = this;
+        }
+        #endregion // C'tor
+
         #region Members
         private User _user;
         public User User
@@ -45,12 +43,6 @@ namespace MPinDemo
             }
         }
         #endregion 
-
-        public EmailConfirmed()
-        {
-            this.InitializeComponent();
-            this.DataContext = this;
-        }
 
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
@@ -81,7 +73,7 @@ namespace MPinDemo
         private void Resend_Click(object sender, RoutedEventArgs e)
         {
             if (this.User != null)
-                lock (Window.Current.Content)   // TODO: check if its the proper lock
+                lock (Window.Current.Content)  
                 {
                     Status st = Controller.RestartRegistration(this.User);
                     if (st.StatusCode != Status.Code.OK)

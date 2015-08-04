@@ -345,9 +345,6 @@
   <data name="WrongURL" xml:space="preserve">
     <value>Некоректен формат на адреса на конфигурацията!</value>
   </data>
-  <data name="FeedbackButton.Label" xml:space="preserve">
-    <value>Обратна връзка</value>
-  </data>
   <data name="UpdateCheckButton.Label" xml:space="preserve">
     <value>Проверка за нова версия</value>
   </data>
@@ -356,5 +353,56 @@
   </data>
   <data name="AboutTitle.Text" xml:space="preserve">
     <value>CertiVox M-Pin</value>
+  </data>
+  <data name="EmptyURL" xml:space="preserve">
+    <value>Адресът на сървъра е празен!</value>
+  </data>
+  <data name="InvalidURL" xml:space="preserve">
+    <value>Невалиден адрес за прочитане!</value>
+  </data>
+  <data name="NoImage" xml:space="preserve">
+    <value>Не е избрано изображение!</value>
+  </data>
+  <data name="NoQRInImage" xml:space="preserve">
+    <value>Няма намерен QRCode в избраното изображение!</value>
+  </data>
+  <data name="ScanAppBarButton.Label" xml:space="preserve">
+    <value>прочети qrcode</value>
+  </data>
+  <data name="CanceledRequest" xml:space="preserve">
+    <value>Заявката беше прекратена! Операцията не може да бъде довършена!</value>
+  </data>
+  <data name="EmptyJSON" xml:space="preserve">
+    <value>Празен файл! Операцията е прекратена!</value>
+  </data>
+  <data name="InvalidJSON" xml:space="preserve">
+    <value>Невалиден формат на файла! Операцията е прекратена!</value>
+  </data>
+  <data name="NetworkProblem" xml:space="preserve">
+    <value>Възникна проблем с връзката! Файлът с конфигурации не може да бъде изтеглен!</value>
+  </data>
+  <data name="NotFoundConfiguration" xml:space="preserve">
+    <value>Файл с конфигурации не е открит!</value>
+  </data>
+  <data name="RequestError" xml:space="preserve">
+    <value>Възникна грешка по време на изпълнение на заявката! Операцията е прекратена!</value>
+  </data>
+  <data name="InvalidConfigurationList" xml:space="preserve">
+    <value>Подаден е невалитен списък от конфигурации!</value>
+  </data>
+  <data name="ReadConfigurationText.Text" xml:space="preserve">
+    <value>Моля, изберете кои конфигурации да се запишат.</value>
+  </data>
+  <data name="ReadConfigurationWarning.Text" xml:space="preserve">
+    <value>Съществуващите конфигурации ще бъдат презаписани при импортване!</value>
+  </data>
+  <data name="SaveConfigurationBarButton.Label" xml:space="preserve">
+    <value>запази</value>
+  </data>
+  <data name="OverideDiplicates" xml:space="preserve">
+    <value>Сигурен ли си, че искаш да презапишеш конфигурациите със съвпадащи имена?</value>
+  </data>
+  <data name="NoQRCode" xml:space="preserve">
+    <value>Не е открит QRCode символ!</value>
   </data>
 </root>

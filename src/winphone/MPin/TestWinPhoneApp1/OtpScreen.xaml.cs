@@ -1,24 +1,14 @@
-﻿using System;
+﻿using MPinSDK.Common;
+using MPinSDK.Models;
+using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using MPinSDK.Common;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using MPinSDK.Models;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
@@ -26,11 +16,11 @@ using Windows.UI.Core;
 namespace MPinDemo
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// An page used when login with OTP used.
     /// </summary>
     public sealed partial class OtpScreen : Page, INotifyPropertyChanged
     {
-        #region Members
+        #region Fields & Members
         private MainPage rootPage = null;
         private CoreDispatcher _dispatcher;
 
@@ -95,6 +85,7 @@ namespace MPinDemo
         }
         #endregion
 
+        #region Methods
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
         /// </summary>
@@ -154,8 +145,7 @@ namespace MPinDemo
                 ExpiredTB.Visibility = Visibility.Visible;
             }
         }
-
-
+        
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         void OnPropertyChanged([CallerMemberName]string name = "")
@@ -167,5 +157,6 @@ namespace MPinDemo
             }
         }
         #endregion // INotifyPropertyChanged
+        #endregion // Methods
     }
 }
