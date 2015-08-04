@@ -72,7 +72,6 @@
         MenuViewController *myVc = (MenuViewController *)vc;
 
         myVc.tblMenu.backgroundColor = [[SettingsManager sharedManager] color6];
-        myVc.lblAppVersion.font = [UIFont fontWithName:@"OpenSans-Bold" size:12.f];
         myVc.view.backgroundColor = [[SettingsManager sharedManager] color6];
 
         myVc.lblConfigurationName.font = [UIFont fontWithName:@"OpenSans-Bold" size:14.f];

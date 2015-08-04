@@ -15,43 +15,44 @@
 #import "MenuTableViewCell.h"
 #import "ThemeManager.h"
 #import "ConfigurationManager.h"
+#import "AFHTTPRequestOperationManager.h"
+
 
 #define USER_LIST 0
 #define SETTINGS 1
 #define ABOUT 2
 
-@interface MenuViewController () {
-    AboutViewController* vcAbout;
-    SettingsViewController* vcSettings;
-    UserListViewController* vcUserList;
-
+@interface MenuViewController ( ) {
+    AboutViewController *vcAbout;
+    SettingsViewController *vcSettings;
+    UserListViewController *vcUserList;
 }
 
 @end
 
 @implementation MenuViewController
 
-- (void)viewDidLoad
+- ( void )viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [[ThemeManager sharedManager] beautifyViewController:self];
     vcAbout = [self.storyboard instantiateViewControllerWithIdentifier:@"AboutViewController"];
 
-    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
 
     vcAbout = [self.storyboard instantiateViewControllerWithIdentifier:@"AboutViewController"];
     vcUserList = appDelegate.vcUserList;
     vcSettings = [self.storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
     [self setConfiguration];
 }
 
-- (void)didReceiveMemoryWarning
+- ( void )didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -59,56 +60,58 @@
 
 #pragma mark - UITableViewDataSource -
 
-- (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath
+- ( CGFloat )tableView:( UITableView * )tableView heightForRowAtIndexPath:( NSIndexPath * )indexPath
 {
     return 60.f;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView
+- ( NSInteger )numberOfSectionsInTableView:( UITableView * )tableView
 {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section
+- ( NSInteger )tableView:( UITableView * )tableView numberOfRowsInSection:( NSInteger )section
 {
     return 3;
 }
 
-- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
+- ( UITableViewCell * )tableView:( UITableView * )tableView cellForRowAtIndexPath:( NSIndexPath * )indexPath
 {
-
-    static NSString* userListTableIdentifier = @"MenuTableViewCell";
-    MenuTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:userListTableIdentifier];
-    if (cell == nil)
+    static NSString *userListTableIdentifier = @"MenuTableViewCell";
+    MenuTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:userListTableIdentifier];
+    if ( cell == nil )
         cell = [[MenuTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:userListTableIdentifier];
     [[ThemeManager sharedManager] customiseMenuCell:cell];
+
     return cell;
 }
 
-- (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath
+- ( void )tableView:( UITableView * )tableView willDisplayCell:( UITableViewCell * )cell forRowAtIndexPath:( NSIndexPath * )indexPath
 {
-    switch (indexPath.row) {
+    switch ( indexPath.row )
+    {
     case USER_LIST:
-        ((MenuTableViewCell*)cell).lblMenuID.text = NSLocalizedString(@"MENUVC_OPTION_0",@"");
+        ( (MenuTableViewCell *)cell ).lblMenuID.text = NSLocalizedString(@"MENUVC_OPTION_0",@"");
         break;
 
     case SETTINGS:
-        ((MenuTableViewCell*)cell).lblMenuID.text = NSLocalizedString(@"MENUVC_OPTION_1",@"");
+        ( (MenuTableViewCell *)cell ).lblMenuID.text = NSLocalizedString(@"MENUVC_OPTION_1",@"");
         break;
 
     case ABOUT:
-        ((MenuTableViewCell*)cell).lblMenuID.text = NSLocalizedString(@"MENUVC_OPTION_2",@"");
+        ( (MenuTableViewCell *)cell ).lblMenuID.text = NSLocalizedString(@"MENUVC_OPTION_2",@"");
         break;
     }
 }
 
-- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath
+- ( void )tableView:( UITableView * )tableView didSelectRowAtIndexPath:( NSIndexPath * )indexPath
 {
-    UIViewController* vc = vcUserList;
+    UIViewController *vc = vcUserList;
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-    switch (indexPath.row) {
+    switch ( indexPath.row )
+    {
     case USER_LIST:
         vc = vcUserList;
         break;
@@ -122,16 +125,17 @@
         break;
     }
 
-    UINavigationController* navigationController = self.menuContainerViewController.centerViewController;
-    NSArray* controllers = @[ vc ];
+    UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+    NSArray *controllers = @ [vc];
     navigationController.viewControllers = controllers;
     [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
 }
 
-- (void)setCenterWithID:(int)vcId
+- ( void )setCenterWithID:( int )vcId
 {
-    UIViewController* vc = vcUserList;
-    switch (vcId) {
+    UIViewController *vc = vcUserList;
+    switch ( vcId )
+    {
     case USER_LIST:
         vc = vcUserList;
         break;
@@ -145,21 +149,23 @@
         break;
     }
 
-    UINavigationController* navigationController = self.menuContainerViewController.centerViewController;
-    NSArray* controllers = @[ vc ];
+    UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+    NSArray *controllers = @ [vc];
     navigationController.viewControllers = controllers;
     [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
 }
 
-- (void)setConfiguration
+- ( void )setConfiguration
 {
-    if (![[ConfigurationManager sharedManager] isEmpty]) {
-        NSArray* settings = [[NSUserDefaults standardUserDefaults] objectForKey:@"settings"];
+    if ( ![[ConfigurationManager sharedManager] isEmpty] )
+    {
+        NSArray *settings = [[NSUserDefaults standardUserDefaults] objectForKey:@"settings"];
         NSInteger intSelectedConfiguration = [[NSUserDefaults standardUserDefaults] integerForKey:@"currentSelectionIndex"];
-        NSDictionary* dictConfiguration = settings[intSelectedConfiguration];
-        _lblConfigurationName.text = dictConfiguration[@"CONFIG_NAME"];
-        _lblConfigurationURL.text = dictConfiguration[@"backend"];
+        NSDictionary *dictConfiguration = settings [intSelectedConfiguration];
+        _lblConfigurationName.text = dictConfiguration [@"CONFIG_NAME"];
+        _lblConfigurationURL.text = dictConfiguration [@"backend"];
     }
 }
+
 
 @end

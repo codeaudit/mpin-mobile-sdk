@@ -36,7 +36,7 @@
 		</dict>
 	</array>
 	<key>HOCKEYAPP_ID</key>
-	<string>e6619598d07be548f8c260efd8feb9df</string>
+	<string>f3c55423f1c83a616762aaaee6716364</string>
 	<key>COLORS</key>
 	<dict>
 		<key>color0</key>
@@ -62,8 +62,6 @@
 		<key>color10</key>
 		<string>69BE28</string>
 	</dict>
-		<key>HOCKEYAPP_ID</key>
-	<string>0333b64530b6e80617d820942540baeb</string>
 	<key>URL_MOBILE_GUIDE</key>
 	<string>http://www.certivox.com/mobile-app</string>
 	<key>URL_SDK</key>

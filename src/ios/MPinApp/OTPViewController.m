@@ -30,9 +30,6 @@
 {
     [super viewDidLoad];
     [[ThemeManager sharedManager] beautifyViewController:self];
-
-
-    self.title = @"One time password";
     NSMutableString *strOtp = [NSMutableString stringWithString:@""];
     for ( int i = 0; i < [self.otpData.otp length]; i++ )
     {
@@ -50,12 +47,10 @@
 - ( void ) viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
+
     [self.cpb startAnimation:self.otpData.ttlSeconds];
-
     _lblEmail.text = _strEmail;
-
     [btnBack setup];
-
     self.navigationItem.leftBarButtonItem = btnBack;
     self.title = NSLocalizedString(@"OTPVC_TITLE", @"");
     self.lblMessage.text = NSLocalizedString(@"OTPVC_LBL_MESSAGE", @"");
