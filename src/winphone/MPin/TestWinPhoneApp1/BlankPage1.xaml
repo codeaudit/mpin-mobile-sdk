@@ -33,12 +33,11 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <ProgressBar Grid.Row="1" IsIndeterminate="True"/>
-            <TextBlock Grid.Row="2" Text="Getting data from server..." FontSize="17" Foreground="White" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Row="2" x:Uid="BusyText" FontSize="17" Foreground="White" HorizontalAlignment="Center"/>
         </Grid>
 
         <Grid x:Name="PhotoContainer" Visibility="Collapsed">            
-            <CaptureElement x:Name="capturePreview" Stretch="Uniform" />
-            <AppBarButton Icon="Camera" Click="AppBarButton_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+            <CaptureElement x:Name="capturePreview" Stretch="UniformToFill"  />
         </Grid>
         
         <Pivot x:Name="MainPivot" CommonNavigationTransitionInfo.IsStaggerElement="True" 
@@ -133,9 +132,16 @@
         </Pivot>
 
     </Grid>
+   
 
-    <Page.BottomAppBar>
+    <Page.BottomAppBar>        
         <CommandBar x:Name="BottomCommandBar">
+            <AppBarButton x:Uid="TakePictureButton"
+                          x:Name="TakePictureButton" 
+                          Icon="Camera" 
+                          Click="AppBarButton_Click" 
+                          Visibility="Collapsed" />
+            
             <AppBarButton x:Uid="ScanAppBarButton" 
                           x:Name="ScanAppBarButton"          
                           Click="ScanAppBarButton_Click" >
@@ -158,8 +164,8 @@
                 <AppBarButton x:Uid="DeleteButton" x:Name="DeleteButton" Icon="Delete" Click="Delete_Click" />
                 <AppBarButton x:Uid="EditButton" x:Name="EditButton" Click="EditButton_Click" IsEnabled="False" />
                 <AppBarButton x:Uid="ResetPinButton" x:Name="ResetPinButton" Click="ResetPinButton_Click" Visibility="Collapsed" />
-                <AppBarButton x:Uid="AboutButton" Click="AboutButton_Click" />
-                <AppBarButton x:Uid="UpdateCheckButton" Click="CheckForUpdate_Click" />
+                <AppBarButton x:Uid="AboutButton" x:Name="AboutButton" Click="AboutButton_Click" />
+                <AppBarButton x:Uid="UpdateCheckButton" x:Name="UpdateCheckButton" Click="CheckForUpdate_Click" />
             </CommandBar.SecondaryCommands>
 
         </CommandBar>

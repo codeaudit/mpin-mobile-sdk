@@ -164,7 +164,16 @@ namespace MPinDemo
         private void SetControlsVisibility(bool takePicture)
         {
             MainPivot.Visibility = takePicture ? Visibility.Collapsed : Visibility.Visible;
-            BottomAppBar.Visibility = takePicture ? Visibility.Collapsed : Visibility.Visible;
+            ScanAppBarButton.Visibility = takePicture ? Visibility.Collapsed : Visibility.Visible;
+            AddAppBarButton.Visibility = takePicture ? Visibility.Collapsed : Visibility.Visible;
+            SelectAppBarButton.Visibility = takePicture ? Visibility.Collapsed : Visibility.Visible;
+            DeleteButton.Visibility = takePicture ? Visibility.Collapsed : Visibility.Visible;
+            EditButton.Visibility = takePicture ? Visibility.Collapsed : Visibility.Visible;
+            ResetPinButton.Visibility = takePicture ? Visibility.Collapsed : Visibility.Visible;
+            AboutButton.Visibility = takePicture ? Visibility.Collapsed : Visibility.Visible;
+            UpdateCheckButton.Visibility = takePicture ? Visibility.Collapsed : Visibility.Visible;
+
+            TakePictureButton.Visibility = takePicture ? Visibility.Visible : Visibility.Collapsed;
             PhotoContainer.Visibility = takePicture ? Visibility.Visible : Visibility.Collapsed;
         }
 
