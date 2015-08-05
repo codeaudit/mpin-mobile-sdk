@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.preference.PreferenceManager;
@@ -127,6 +128,7 @@ public class MPinController extends Controller {
     public static final int      MESSAGE_SDK_INITIALIZED            = 32;
     public static final int      MESSAGE_OTP_NOT_SUPPORTED          = 33;
     public static final int      MESSAGE_IDENTITY_NOT_AUTHORIZED    = 34;
+    public static final int      MESSAGE_NO_INTERNET_ACCESS         = 35;
 
 
     public MPinController(Context context) {
@@ -246,15 +248,19 @@ public class MPinController extends Controller {
 
             @Override
             public void run() {
-                Status status = getSdk().TestBackend(backendUrl);
-                Log.i(TAG, "TEST BACKEND STATUS = " + status);
-                notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
+                if (isNetworkAvailable()) {
+                    Status status = getSdk().TestBackend(backendUrl);
+                    Log.i(TAG, "TEST BACKEND STATUS = " + status);
 
-                if (status.getStatusCode() == Status.Code.OK) {
-                    notifyOutboxHandlers(MESSAGE_VALID_BACKEND, 0, 0, null);
+                    if (status.getStatusCode() == Status.Code.OK) {
+                        notifyOutboxHandlers(MESSAGE_VALID_BACKEND, 0, 0, null);
+                    } else {
+                        notifyOutboxHandlers(MESSAGE_INVALID_BACKEND, 0, 0, null);
+                    }
                 } else {
-                    notifyOutboxHandlers(MESSAGE_INVALID_BACKEND, 0, 0, null);
+                    notifyOutboxHandlers(MESSAGE_NO_INTERNET_ACCESS, 0, 0, null);
                 }
+                notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
             }
         });
     }
@@ -266,17 +272,20 @@ public class MPinController extends Controller {
 
             @Override
             public void run() {
-                Status status = getSdk().TestBackend(config.getBackendUrl());
+                if (isNetworkAvailable()) {
+                    Status status = getSdk().TestBackend(config.getBackendUrl());
 
-                notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
-
-                if (status.getStatusCode() == Status.Code.OK) {
-                    mConfigsDao.saveOrUpdate(config);
-                    notifyOutboxHandlers(MESSAGE_CONFIGURATION_SAVED, 0, 0, null);
-                    notifyOutboxHandlers(MESSAGE_SHOW_CONFIGURATIONS_LIST, 0, 0, null);
+                    if (status.getStatusCode() == Status.Code.OK) {
+                        mConfigsDao.saveOrUpdate(config);
+                        notifyOutboxHandlers(MESSAGE_CONFIGURATION_SAVED, 0, 0, null);
+                        notifyOutboxHandlers(MESSAGE_SHOW_CONFIGURATIONS_LIST, 0, 0, null);
+                    } else {
+                        notifyOutboxHandlers(MESSAGE_INVALID_BACKEND, 0, 0, null);
+                    }
                 } else {
-                    notifyOutboxHandlers(MESSAGE_INVALID_BACKEND, 0, 0, null);
+                    notifyOutboxHandlers(MESSAGE_NO_INTERNET_ACCESS, 0, 0, null);
                 }
+                notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
             }
         });
     }
@@ -290,16 +299,20 @@ public class MPinController extends Controller {
 
                 @Override
                 public void run() {
-                    final Status status = getSdk().SetBackend(config.getBackendUrl());
-                    if (status.getStatusCode() == Status.Code.OK) {
-                        // TODO: check if could just sent the id
-                        mConfigsDao.setActiveConfig(config);
-                        // TODO: The model should listen for this to update
-                        initUsersList();
-                        notifyOutboxHandlers(MESSAGE_CONFIGURATION_CHANGED, 0, 0, null);
-                        notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
+                    if (isNetworkAvailable()) {
+                        final Status status = getSdk().SetBackend(config.getBackendUrl());
+                        if (status.getStatusCode() == Status.Code.OK) {
+                            // TODO: check if could just sent the id
+                            mConfigsDao.setActiveConfig(config);
+                            // TODO: The model should listen for this to update
+                            initUsersList();
+                            notifyOutboxHandlers(MESSAGE_CONFIGURATION_CHANGED, 0, 0, null);
+                            notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
+                        } else {
+                            notifyOutboxHandlers(MESSAGE_CONFIGURATION_CHANGE_ERROR, 0, 0, null);
+                        }
                     } else {
-                        notifyOutboxHandlers(MESSAGE_CONFIGURATION_CHANGE_ERROR, 0, 0, null);
+                        notifyOutboxHandlers(MESSAGE_NO_INTERNET_ACCESS, 0, 0, null);
                     }
                     notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
                 }
@@ -376,25 +389,28 @@ public class MPinController extends Controller {
                         return;
                     }
                 }
+                if (isNetworkAvailable()) {
+                    mCurrentUser = getSdk().MakeNewUser(userId);
+                    Status status = getSdk().StartRegistration(getCurrentUser());
+                    // TODO: This is not the right place for initing the list
+                    initUsersList();
 
-                mCurrentUser = getSdk().MakeNewUser(userId);
-                Status status = getSdk().StartRegistration(getCurrentUser());
-                // TODO: This is not the right place for initing the list
-                initUsersList();
-
-                switch (status.getStatusCode()) {
-                case OK:
-                    if (mCurrentUser.getState().equals(State.ACTIVATED)) {
-                        finishRegistration();
-                    } else {
-                        notifyOutboxHandlers(MESSAGE_SHOW_CONFIRM_EMAIL, 0, 0, null);
+                    switch (status.getStatusCode()) {
+                    case OK:
+                        if (mCurrentUser.getState().equals(State.ACTIVATED)) {
+                            finishRegistration();
+                        } else {
+                            notifyOutboxHandlers(MESSAGE_SHOW_CONFIRM_EMAIL, 0, 0, null);
+                        }
+                        break;
+                    case IDENTITY_NOT_AUTHORIZED:
+                        notifyOutboxHandlers(MESSAGE_IDENTITY_NOT_AUTHORIZED, 0, 0, null);
+                        break;
+                    default:
+                        break;
                     }
-                    break;
-                case IDENTITY_NOT_AUTHORIZED:
-                    notifyOutboxHandlers(MESSAGE_IDENTITY_NOT_AUTHORIZED, 0, 0, null);
-                    break;
-                default:
-                    break;
+                } else {
+                    notifyOutboxHandlers(MESSAGE_NO_INTERNET_ACCESS, 0, 0, null);
                 }
                 notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
             }
@@ -408,8 +424,12 @@ public class MPinController extends Controller {
 
             @Override
             public void run() {
-                Status status = getSdk().RestartRegistration(getCurrentUser());
-                notifyOutboxHandlers(MESSAGE_EMAIL_SENT, 0, 0, null);
+                if (isNetworkAvailable()) {
+                    Status status = getSdk().RestartRegistration(getCurrentUser());
+                    notifyOutboxHandlers(MESSAGE_EMAIL_SENT, 0, 0, null);
+                } else {
+                    notifyOutboxHandlers(MESSAGE_NO_INTERNET_ACCESS, 0, 0, null);
+                }
                 notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
             }
         });
@@ -422,11 +442,15 @@ public class MPinController extends Controller {
 
             @Override
             public void run() {
-                Status status = getSdk().FinishRegistration(getCurrentUser());
-                if (status.getStatusCode() != Status.Code.OK) {
-                    notifyOutboxHandlers(MESSAGE_EMAIL_NOT_CONFIRMED, 0, 0, null);
+                if (isNetworkAvailable()) {
+                    Status status = getSdk().FinishRegistration(getCurrentUser());
+                    if (status.getStatusCode() != Status.Code.OK) {
+                        notifyOutboxHandlers(MESSAGE_EMAIL_NOT_CONFIRMED, 0, 0, null);
+                    } else {
+                        notifyOutboxHandlers(MESSAGE_SHOW_IDENTITY_CREATED, 0, 0, null);
+                    }
                 } else {
-                    notifyOutboxHandlers(MESSAGE_SHOW_IDENTITY_CREATED, 0, 0, null);
+                    notifyOutboxHandlers(MESSAGE_NO_INTERNET_ACCESS, 0, 0, null);
                 }
                 notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
             }
@@ -440,15 +464,19 @@ public class MPinController extends Controller {
 
             @Override
             public void run() {
-                Log.i(TAG, "RESETING PIN");
-                // TODO: This should be called from model
-                String userId = getCurrentUser().getId();
-                // TODO: This should be separate method
-                getSdk().DeleteUser(getCurrentUser());
-                // TODO: NOT GOOD!
-                saveCurrentUser(null);
-                initUsersList();
-                startRegistration(userId);
+                if (isNetworkAvailable()) {
+                    Log.i(TAG, "RESETING PIN");
+                    // TODO: This should be called from model
+                    String userId = getCurrentUser().getId();
+                    // TODO: This should be separate method
+                    getSdk().DeleteUser(getCurrentUser());
+                    // TODO: NOT GOOD!
+                    saveCurrentUser(null);
+                    initUsersList();
+                    startRegistration(userId);
+                } else {
+                    notifyOutboxHandlers(MESSAGE_NO_INTERNET_ACCESS, 0, 0, null);
+                }
             }
         });
     }
@@ -553,6 +581,7 @@ public class MPinController extends Controller {
                     notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
                     break;
                 default:
+                    break;
                 }
                 notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
             }
@@ -561,15 +590,19 @@ public class MPinController extends Controller {
 
 
     private void preAuthenticate(final String accessNumber) {
-        OTP otp = mConfigsDao.getActiveConfiguration().getRequestOtp() ? new OTP() : null;
-        if (!accessNumber.equals("")) {
-            authenticateAN(accessNumber);
-        } else
-            if (otp != null) {
-                authenticateOTP(otp);
-            } else {
-                authenticate();
-            }
+        if (isNetworkAvailable()) {
+            OTP otp = mConfigsDao.getActiveConfiguration().getRequestOtp() ? new OTP() : null;
+            if (!accessNumber.equals("")) {
+                authenticateAN(accessNumber);
+            } else
+                if (otp != null) {
+                    authenticateOTP(otp);
+                } else {
+                    authenticate();
+                }
+        } else {
+            notifyOutboxHandlers(MESSAGE_NO_INTERNET_ACCESS, 0, 0, null);
+        }
     }
 
 
@@ -761,8 +794,8 @@ public class MPinController extends Controller {
 
 
     public void setCurrentFragmentTag(String tag) {
-        mCurrentFragmentTag = tag;
         Log.i(TAG, "Current fragment is " + tag);
+        mCurrentFragmentTag = tag;
     }
 
 
@@ -838,5 +871,13 @@ public class MPinController extends Controller {
                 return -1;
             }
         }
+    }
+
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = ((ConnectivityManager) mContext
+                .getSystemService(Context.CONNECTIVITY_SERVICE));
+        return connectivityManager.getActiveNetworkInfo() != null
+                && connectivityManager.getActiveNetworkInfo().isConnected();
     }
 }

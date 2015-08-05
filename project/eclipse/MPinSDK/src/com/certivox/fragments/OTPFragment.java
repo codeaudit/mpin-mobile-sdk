@@ -3,10 +3,11 @@ package com.certivox.fragments;
 
 import android.os.Bundle;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -24,11 +25,19 @@ public class OTPFragment extends MPinFragment {
     private ProgressBar mOTPProgressBar;
     private TextView    mTimeLeftTextView;
     private OTP         mOTP;
+    private boolean     mIsFragmentDestroyed;
 
 
     @Override
     public void setData(Object otp) {
         mOTP = (OTP) otp;
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mIsFragmentDestroyed = true;
     }
 
 
@@ -46,8 +55,8 @@ public class OTPFragment extends MPinFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         mView = inflater.inflate(R.layout.fragment_otp, container, false);
+        mIsFragmentDestroyed = false;
         initViews();
 
         return mView;
@@ -60,17 +69,16 @@ public class OTPFragment extends MPinFragment {
 
             @Override
             public void run() {
-                int remaining = mOTP.ttlSeconds - (int) ((System.currentTimeMillis() - start) / 1000L);
-                if (remaining < 0) {
-                    remaining = 0;
-                }
-                if (remaining > 0) {
-                    mTimeLeftTextView.setText(remaining + " sec");
-                    double prog = 1 - (System.currentTimeMillis() - start) / (mOTP.ttlSeconds * 1000.0);
-                    mOTPProgressBar.setProgress((int) (mOTPProgressBar.getMax() * prog));
-                    mOTPProgressBar.postDelayed(this, 100);
-                } else {
-                    getMPinController().handleMessage(MPinController.MESSAGE_OTP_EXPIRED);
+                if (!mIsFragmentDestroyed) {
+                    int remaining = mOTP.ttlSeconds - (int) ((System.currentTimeMillis() - start) / 1000L);
+                    if (remaining > 0) {
+                        mTimeLeftTextView.setText(remaining + " sec");
+                        double prog = 1 - (System.currentTimeMillis() - start) / (mOTP.ttlSeconds * 1000.0);
+                        mOTPProgressBar.setProgress((int) (mOTPProgressBar.getMax() * prog));
+                        mOTPProgressBar.postDelayed(this, 100);
+                    } else {
+                        getMPinController().handleMessage(MPinController.MESSAGE_OTP_EXPIRED);
+                    }
                 }
             }
         });
