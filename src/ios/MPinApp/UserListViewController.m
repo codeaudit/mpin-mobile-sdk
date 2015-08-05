@@ -27,6 +27,7 @@
 #import "SettingsManager.h"
 #import "ConfigurationManager.h"
 #import "SettingsManager.h"
+#import "NetworkMonitor.h"
 
 @import LocalAuthentication;
 
@@ -102,7 +103,6 @@ static NSString *const kAN = @"AN";
     self.automaticallyAdjustsScrollViewInsets = NO;
     storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     [self hideBottomBar:NO];
-    [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Initializing" addActivityIndicator:YES minShowTime:0];
     storedBackendURL = [[ConfigurationManager sharedManager] getSelectedConfiguration] [@"backend"];
 }
 
@@ -110,6 +110,8 @@ static NSString *const kAN = @"AN";
 {
     [super viewWillAppear:animated];
 
+    
+    
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
     NSString *config = [[ConfigurationManager sharedManager] getSelectedConfiguration] [@"backend"];
@@ -128,11 +130,19 @@ static NSString *const kAN = @"AN";
     [[NSNotificationCenter defaultCenter] removeObserver:self
      name:kShowPinPadNotification
      object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
+    
 }
 
 - ( void )viewDidAppear:( BOOL )animated
 {
+    [super viewDidAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
+    if ( ![NetworkMonitor sharedManager].networkStatusUp )
+    {
+        //[[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"NETWORK IS DOWN" addActivityIndicator:NO minShowTime:0];
+    }
+    
     if ( [self.users count] == 0 )
     {
         [self hideBottomBar:NO];
@@ -537,6 +547,7 @@ static NSString *const kAN = @"AN";
 
 - ( void )startAuthenticationFlow
 {
+    
     NSIndexPath *path = selectedIndexPath;
     if ( [path row] < [self.users count] )
     {

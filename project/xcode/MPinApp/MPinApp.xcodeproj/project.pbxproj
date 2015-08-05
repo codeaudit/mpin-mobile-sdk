@@ -224,6 +224,10 @@
 		96925FBD1B467F9B000D5AFA /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA811B1C494B00A68A03 /* MobileCoreServices.framework */; };
 		96925FBE1B467FA0000D5AFA /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA7F1B1C493300A68A03 /* CoreText.framework */; };
 		96925FBF1B467FB3000D5AFA /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA7D1B1C492B00A68A03 /* AssetsLibrary.framework */; };
+		969316D21B70AEB30003B6C9 /* NetworkMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 969316D11B70AEB30003B6C9 /* NetworkMonitor.m */; };
+		969316D31B70AEB30003B6C9 /* NetworkMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 969316D11B70AEB30003B6C9 /* NetworkMonitor.m */; };
+		969316D41B70AEB30003B6C9 /* NetworkMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 969316D11B70AEB30003B6C9 /* NetworkMonitor.m */; };
+		969316D51B70AEB30003B6C9 /* NetworkMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 969316D11B70AEB30003B6C9 /* NetworkMonitor.m */; };
 		9699B2521AADF7F0008AA313 /* TextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699B2511AADF7F0008AA313 /* TextFieldTableViewCell.m */; };
 		9699B2551AADF812008AA313 /* OptionSelectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699B2541AADF812008AA313 /* OptionSelectTableViewCell.m */; };
 		96AE726E1B440A6900171D05 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA891B1C497400A68A03 /* SystemConfiguration.framework */; };
@@ -377,6 +381,8 @@
 		968E7A531AA06CA700A276A7 /* IdentityCreatedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = IdentityCreatedViewController.m; path = ../../../../src/ios/MPinApp/IdentityCreatedViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		968E7A551AA0818F00A276A7 /* MenuTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuTableViewCell.h; path = ../../../../src/ios/MPinApp/MenuTableViewCell.h; sourceTree = "<group>"; };
 		968E7A561AA0818F00A276A7 /* MenuTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuTableViewCell.m; path = ../../../../src/ios/MPinApp/MenuTableViewCell.m; sourceTree = "<group>"; };
+		969316D01B70AEB30003B6C9 /* NetworkMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkMonitor.h; path = ../../../../src/ios/MPinApp/NetworkMonitor.h; sourceTree = "<group>"; };
+		969316D11B70AEB30003B6C9 /* NetworkMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkMonitor.m; path = ../../../../src/ios/MPinApp/NetworkMonitor.m; sourceTree = "<group>"; };
 		9699B2501AADF7F0008AA313 /* TextFieldTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextFieldTableViewCell.h; path = ../../../../src/ios/MPinApp/TextFieldTableViewCell.h; sourceTree = "<group>"; };
 		9699B2511AADF7F0008AA313 /* TextFieldTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TextFieldTableViewCell.m; path = ../../../../src/ios/MPinApp/TextFieldTableViewCell.m; sourceTree = "<group>"; };
 		9699B2531AADF812008AA313 /* OptionSelectTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionSelectTableViewCell.h; path = ../../../../src/ios/MPinApp/OptionSelectTableViewCell.h; sourceTree = "<group>"; };
@@ -769,6 +775,8 @@
 				96F78E1B1B05E5B8005C2C7D /* ErrorHandler.m */,
 				FE8129651ABAB61B008677CE /* MPin+AsyncOperations.h */,
 				FE8129661ABAB61B008677CE /* MPin+AsyncOperations.m */,
+				969316D01B70AEB30003B6C9 /* NetworkMonitor.h */,
+				969316D11B70AEB30003B6C9 /* NetworkMonitor.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -1339,6 +1347,7 @@
 				96130E2E1AEE4867005D2A86 /* AddSettingViewController.m in Sources */,
 				96130E2F1AEE4867005D2A86 /* DigitPadViewController.m in Sources */,
 				96130E301AEE4867005D2A86 /* main.m in Sources */,
+				969316D41B70AEB30003B6C9 /* NetworkMonitor.m in Sources */,
 				96130E311AEE4867005D2A86 /* OTPViewController.m in Sources */,
 				96130E321AEE4867005D2A86 /* TextFieldTableViewCell.m in Sources */,
 				96130E331AEE4867005D2A86 /* AccessNumberViewController.m in Sources */,
@@ -1385,6 +1394,7 @@
 				96130E781AEE490A005D2A86 /* AddSettingViewController.m in Sources */,
 				96130E791AEE490A005D2A86 /* DigitPadViewController.m in Sources */,
 				96130E7A1AEE490A005D2A86 /* main.m in Sources */,
+				969316D51B70AEB30003B6C9 /* NetworkMonitor.m in Sources */,
 				96130E7B1AEE490A005D2A86 /* OTPViewController.m in Sources */,
 				96130E7C1AEE490A005D2A86 /* TextFieldTableViewCell.m in Sources */,
 				96130E7D1AEE490A005D2A86 /* AccessNumberViewController.m in Sources */,
@@ -1431,6 +1441,7 @@
 				9649BC991AC16D1000B9F41B /* ThemeManager.m in Sources */,
 				9649BC9A1AC16D1000B9F41B /* AddSettingViewController.m in Sources */,
 				9649BC9B1AC16D1000B9F41B /* DigitPadViewController.m in Sources */,
+				969316D31B70AEB30003B6C9 /* NetworkMonitor.m in Sources */,
 				9649BC9C1AC16D1000B9F41B /* main.m in Sources */,
 				9649BC9E1AC16D1000B9F41B /* OTPViewController.m in Sources */,
 				96F78E1D1B05E5B8005C2C7D /* ErrorHandler.m in Sources */,
@@ -1477,6 +1488,7 @@
 				FEFA50111A7148E5002D6E24 /* DigitPadViewController.m in Sources */,
 				FE4900271A1A3CEB000030A4 /* main.m in Sources */,
 				FE4AEB051A443137000B3181 /* OTPViewController.m in Sources */,
+				969316D21B70AEB30003B6C9 /* NetworkMonitor.m in Sources */,
 				9699B2521AADF7F0008AA313 /* TextFieldTableViewCell.m in Sources */,
 				FEFA500E1A7143DB002D6E24 /* AccessNumberViewController.m in Sources */,
 				968D0A441A7B93C00037841D /* UIColor+Helper.m in Sources */,

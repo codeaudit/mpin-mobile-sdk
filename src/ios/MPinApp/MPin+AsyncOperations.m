@@ -160,7 +160,7 @@ static NSString *const constStrConnectionTimeoutNotification = @"ConnectionTimeo
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
         MpinStatus *mpinStatus = [MPin RestartRegistration:user userData:userData];
-
+        NSLog(@"Status code: %@", mpinStatus.statusCodeAsString);
         dispatch_async(dispatch_get_main_queue(), ^ (void) {
             if ( self.delegate == nil )
                 return;

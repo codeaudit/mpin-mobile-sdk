@@ -14,6 +14,7 @@
 #import "AFNetworkReachabilityManager.h"
 #import "ApplicationManager.h"
 #import <HockeySDK/HockeySDK.h>
+#import "NetworkMonitor.h"
 
 @interface AppDelegate ()
 @end
@@ -22,6 +23,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     UIUserNotificationType types = UIUserNotificationTypeBadge |
     UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
@@ -52,7 +54,7 @@
 	self.window.rootViewController = container;
     
     [ApplicationManager sharedManager];
-    
+    [NetworkMonitor sharedManager];
 	return YES;
 }
 

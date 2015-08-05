@@ -220,19 +220,24 @@ static NSMutableArray *kCircles;
 {
     NSLog(@"OnAuthenticateOTPCompleted");
     [self clearAction:self];
-    [[ErrorHandler sharedManager] hideMessage];
     if ( otp.status.status != OK )
     {
-        [_sdk AuthenticateOTP:_currentUser askForFingerprint:NO];
         [[ErrorHandler sharedManager] updateMessage:@"OTP is not supported!" addActivityIndicator:NO hideAfter:3];
-        [self clearAction:self];
+        dispatch_after(dispatch_time( DISPATCH_TIME_NOW, (int64_t)( 2.0 * NSEC_PER_SEC ) ), dispatch_get_main_queue(), ^ {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            
+        });
 
-        return;
     }
-    OTPViewController *otpViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"OTP"];
-    otpViewController.otpData = otp;
-    otpViewController.strEmail = [user getIdentity];
-    [self.navigationController pushViewController:otpViewController animated:YES];
+    else
+    {
+        [[ErrorHandler sharedManager] hideMessage];
+        OTPViewController *otpViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"OTP"];
+        otpViewController.otpData = otp;
+        otpViewController.strEmail = [user getIdentity];
+        [self.navigationController pushViewController:otpViewController animated:YES];
+
+    }
 }
 
 - ( void )OnAuthenticateOTPError:( id )sender error:( NSError * )error

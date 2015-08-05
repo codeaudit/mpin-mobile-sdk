@@ -25,6 +25,7 @@
 
 @interface SettingsViewController ( ) {
     MPin *sdk;
+    NSUInteger intNextConfiguration;
 }
 - ( IBAction )gotoIdentityList:( id )sender;
 - ( IBAction )addQR:( id )sender;
@@ -110,37 +111,35 @@
     default:
         break;
     }
-    [customCell setIsSelectedImage:( [[ConfigurationManager sharedManager] getSelectedConfigurationIndex] == indexPath.row )];
+    if ([[ConfigurationManager sharedManager] getSelectedConfigurationIndex] == indexPath.row)
+    {
+        [customCell setIsSelectedImage:YES];
+    }
+    else
+    {
+        [customCell setIsSelectedImage:NO];
+    }
+    
     [[ThemeManager sharedManager] customiseConfigurationListCell:customCell];
 }
 
 - ( void )tableView:( UITableView * )tableView didSelectRowAtIndexPath:( NSIndexPath * )indexPath
 {
+    ConfigListTableViewCell *curentCell = (ConfigListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+   
     if ( [[ConfigurationManager sharedManager] getSelectedConfigurationIndex] == indexPath.row )
     {
         return;
     }
-    NSInteger intSelectedConfiguration = indexPath.row;
-
-    [[ErrorHandler sharedManager] presentMessageInViewController:self
-     errorString:NSLocalizedString(@"HUD_CHANGE_CONFIGURATION", @"")
-     addActivityIndicator:YES
-     minShowTime:0];
-
-
-    NSString *rpsPrefix = [[ConfigurationManager sharedManager] getPrefixAtIndex:intSelectedConfiguration];
-    NSString *url = [[ConfigurationManager sharedManager] getURLAtIndex:intSelectedConfiguration];
-    if ( [rpsPrefix isEqualToString:@""] )
+    else
     {
-        rpsPrefix = nil;
+        if (curentCell)
+        {
+            curentCell.imgViewSelected.image = [UIImage imageNamed:@"pin-dot-incorrect"];
+        }
+        intNextConfiguration = indexPath.row;
+        [self changeConfiguration:indexPath.row];
     }
-
-    [sdk SetBackend:url rpsPrefix:rpsPrefix];
-
-
-    [[ConfigurationManager sharedManager] setSelectedConfiguration:indexPath.row];
-    [tableView reloadData];
-    [(MenuViewController *)self.menuContainerViewController.leftMenuViewController setConfiguration];
 }
 
 - ( BOOL )tableView:( UITableView * )tableView canEditRowAtIndexPath:( NSIndexPath * )indexPath
@@ -150,18 +149,41 @@
 
 - ( void )OnSetBackendCompleted:( id )sender
 {
+    [[ConfigurationManager sharedManager] setSelectedConfiguration:intNextConfiguration];
+    [(MenuViewController *)self.menuContainerViewController.leftMenuViewController setConfiguration];
     [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"CONFIGURATIONS_CONFIG_CHANGED",@"Configuration changed")
      addActivityIndicator:NO
      hideAfter:2];
+    [_tableView reloadData];
 }
 
 - ( void )OnSetBackendError:( id )sender error:( NSError * )error
 {
     MpinStatus *status = ( error.userInfo ) [kMPinSatus];
     [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(status.statusCodeAsString, @"UNKNOWN ERROR") addActivityIndicator:NO hideAfter:2];
+    [_tableView reloadData];
 }
 
 #pragma mark - Custom actions -
+
+-(void) changeConfiguration: (NSUInteger) index
+{
+    
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                     errorString:NSLocalizedString(@"HUD_CHANGE_CONFIGURATION", @"")
+                                            addActivityIndicator:YES
+                                                     minShowTime:0];
+    
+    NSString *rpsPrefix = [[ConfigurationManager sharedManager] getPrefixAtIndex:index];
+    NSString *url = [[ConfigurationManager sharedManager] getURLAtIndex:index];
+    if ( [rpsPrefix isEqualToString:@""] )
+    {
+        rpsPrefix = nil;
+    }
+    
+    [sdk SetBackend:url rpsPrefix:rpsPrefix];
+}
+
 - ( IBAction )add:( id )sender
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
