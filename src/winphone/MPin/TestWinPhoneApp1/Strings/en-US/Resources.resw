@@ -328,7 +328,7 @@
     <value>Are you sure you want to delete configuration "{0}"?</value>
   </data>
   <data name="EmptyTitle" xml:space="preserve">
-    <value>The service's name cannot be empty!</value>
+    <value>The service name cannot be empty!</value>
   </data>
   <data name="LostUsers" xml:space="preserve">
     <value>All previously registered users for this Service will be lost as the url is changed. Are you sure you want to do it?</value>
@@ -410,5 +410,8 @@
   </data>
   <data name="TakePictureButton.Label" xml:space="preserve">
     <value>take picture</value>
+  </data>
+  <data name="DuplicateName" xml:space="preserve">
+    <value>The service name already exists!</value>
   </data>
 </root>

@@ -222,6 +222,11 @@ namespace MPinDemo
                 this.MainPivot.SelectedItem = this.UsersPivotItem;
             }
         }
+        
+        internal static bool IsServiceNameExists(string name)
+        {
+            return controller.DataModel.BackendsList.Any(item => item.Name.Equals(name));            
+        }
 
         #region State
 
