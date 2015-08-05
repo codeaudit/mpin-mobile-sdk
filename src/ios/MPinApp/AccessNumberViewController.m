@@ -43,7 +43,7 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
     [super viewWillAppear:animated];
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
-
+    [self clearAction:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self
      name:kShowPinPadNotification
      object:nil];
@@ -128,7 +128,7 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
     NSLog(@"OnAuthenticateAccessNumberError");
     NSLog(@"%@", error.description);
     MpinStatus *mpinStatus = [error.userInfo objectForKey:kMPinSatus];
-    [[ErrorHandler sharedManager] updateMessage:mpinStatus.errorMessage addActivityIndicator:NO hideAfter:3];
+    [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(mpinStatus.statusCodeAsString, mpinStatus.errorMessage) addActivityIndicator:NO hideAfter:3];
     [self clearAction:self];
     [MPin sendPin:kEmptyStr];
 }

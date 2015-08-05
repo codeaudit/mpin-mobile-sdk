@@ -14,7 +14,6 @@
 @property (weak, nonatomic) IBOutlet UIView * viewPreview;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem * bbItemStart;
 
-- (IBAction) startStopReading:(id)sender;
 - (IBAction) close:(id)sender;
 
 @end

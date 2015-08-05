@@ -11,4 +11,6 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UserListViewController *vcUserList;
+@property (strong, nonatomic) NSData *devToken;
+
 @end

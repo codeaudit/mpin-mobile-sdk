@@ -10,6 +10,8 @@
 #import "ThemeManager.h"
 #import "MFSideMenu.h"
 #import "SettingsManager.h"
+#import "AppDelegate.h"
+#import "AFHTTPRequestOperationManager.h"
 
 @interface AboutViewController ( ) {}
 
@@ -107,6 +109,26 @@
 -( IBAction )btnValuesTap:( id )sender
 {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[SettingsManager sharedManager].strUrlValues]];
+}
+
+- ( IBAction )sendToken:( id )sender
+{
+    AFHTTPRequestOperationManager *operationManager = [AFHTTPRequestOperationManager manager];
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    NSString *deviceTokenString = [[appDelegate.devToken description] stringByTrimmingCharactersInSet: [NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    deviceTokenString = [deviceTokenString stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSLog(@"%@", deviceTokenString);
+    [operationManager POST:_backend.text parameters:deviceTokenString success:^(AFHTTPRequestOperation *operation, id responseObject){
+        
+        [[[UIAlertView alloc] initWithTitle:@"" message:@"Operation completed" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+        
+    }failure:^(AFHTTPRequestOperation *operation, NSError *error){
+        
+        [[[UIAlertView alloc] initWithTitle:@"" message:@"Operation completed" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+        
+        
+    }];
+    
 }
 
 @end

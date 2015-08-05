@@ -56,21 +56,23 @@ static NSString *constStrConnectionTimeoutNotification = @"ConnectionTimeoutNoti
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock: ^ (AFNetworkReachabilityStatus status) {
         switch ( status )
         {
-        ///case AFNetworkReachabilityStatusNotReachable:
         case AFNetworkReachabilityStatusReachableViaWiFi:
         case AFNetworkReachabilityStatusReachableViaWWAN:
             if ( ![MPin isConfigLoadSuccessfully] )
             {
                 [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
             }
-            //TODO: hide netowrk indicator
+                [[ErrorHandler sharedManager] hideMessage];
             break;
 
         default:
             {
                 //TODO: show netowrk indicator
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"ERROR" message:@"No Internet Connection!" delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
-                [alert show];
+                
+                UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+
+                
+                [[ErrorHandler sharedManager] presentMessageInViewController:window.rootViewController errorString:NSLocalizedString(@"ERROR_NO_INTERNET_CONNECTION", @"No Internet Connection!") addActivityIndicator:YES minShowTime:0];
             }
             break;
         }
@@ -96,6 +98,14 @@ static NSString *constStrConnectionTimeoutNotification = @"ConnectionTimeoutNoti
     MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[mpinStatus getStatusCodeAsString] message:mpinStatus.errorMessage delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
     [alert show];
+}
+
+-( void ) setBackend
+{
+    if ( ![MPin isConfigLoadSuccessfully] )
+    {
+        [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
+    }
 }
 
 @end

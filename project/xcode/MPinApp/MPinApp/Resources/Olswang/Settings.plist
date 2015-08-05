@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>HOCKEYAPP_ID</key>
-	<string>e6619598d07be548f8c260efd8feb9df</string>
+	<string>cf0d118a962f796907faa94e74315d1b</string>
 	<key>COLORS</key>
 	<dict>
 		<key>color0</key>
@@ -61,8 +61,7 @@
 			<key>CONFIG_NAME</key>
 			<string>Online banking login</string>
 		</dict>
-	</array>	<key>HOCKEYAPP_ID</key>
-	<string>0333b64530b6e80617d820942540baeb</string>
+	</array>
 	<key>URL_MOBILE_GUIDE</key>
 	<string>http://www.certivox.com/mobile-app</string>
 	<key>URL_SDK</key>

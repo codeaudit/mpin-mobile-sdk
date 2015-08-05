@@ -100,20 +100,20 @@
 - ( void )OnFinishRegistrationError:( id )sender error:( NSError * )error
 {
     MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
-    [[ErrorHandler sharedManager] updateMessage:[NSString stringWithFormat:@"%@ Please check your e-mail and follow the activation link!", mpinStatus.errorMessage]
+    [[ErrorHandler sharedManager] updateMessage:[NSString stringWithFormat:NSLocalizedString(@"CONFIRM_EMAIL_ACTIVATE", @"%@ Please check your e-mail and follow the activation link!" ), mpinStatus.errorMessage]
      addActivityIndicator:NO hideAfter:3];
 }
 
 - ( IBAction )OnResendEmail:( id )sender
 {
-    //TODO: localize this
-    [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Resending email" addActivityIndicator:YES minShowTime:0];
+    //TODO: localize this   
+    [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:NSLocalizedString(@"CONFIRM_EMAIL_RESEND", @"Resending email") addActivityIndicator:YES minShowTime:0];
     [sdk RestartRegistration:self.iuser];
 }
 
 - ( void )OnRestartRegistrationCompleted:( id )sender user:( const id<IUser>)user
 {
-    [[ErrorHandler sharedManager] updateMessage:[NSString stringWithFormat:@"%@ Please check your e-mail and follow the activation link!", [user getIdentity]]
+    [[ErrorHandler sharedManager] updateMessage:[NSString stringWithFormat:NSLocalizedString(@"CONFIRM_EMAIL_ACTIVATE", @"%@ Please check your e-mail and follow the activation link!" ), [user getIdentity]]
      addActivityIndicator:NO hideAfter:3];
 }
 

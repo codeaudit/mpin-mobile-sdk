@@ -1,4 +1,26 @@
-﻿using MPinSDK.Models;
+﻿// Copyright (c) 2012-2015, Certivox
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+//
+// 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//
+// 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//
+// 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+// For full details regarding our CertiVox terms of service please refer to
+// the following links:
+//  * Our Terms and Conditions -
+//    http://www.certivox.com/about-certivox/terms-and-conditions/
+//  * Our Security and Privacy -
+//    http://www.certivox.com/about-certivox/security-privacy/
+//  * Our Statement of Position and Our Promise on Software Patents -
+//    http://www.certivox.com/about-certivox/patents/
+
+using MPinSDK.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,6 +29,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 using Windows.Data.Json;
 using Windows.Storage;
 
@@ -15,16 +38,22 @@ namespace MPinDemo.Models
 {
     public class AppDataModel : INotifyPropertyChanged
     {
-        #region Members
-        private const string FilePath = 
+        #region Fields & Members
+
+        private const string FileName =
 #if DEBUG
-            "ms-appx:///Resources/SampleData_Debug.json";
+            "SampleData_Debug.json";
 #elif MPinConnect
-            "ms-appx:///Resources/SampleData_MPinConnect.json";
+            "SampleData_MPinConnect.json";
 #else
-            "ms-appx:///Resources/SampleData.json";
+ "SampleData.json";
 #endif
 
+        private const string FilePath = "ms-appx:///Resources/" + FileName;
+        private const string PredefinedServicesCountString = "PredefinedServicesCount";
+
+        private bool setPredefinedConfigurationCount = false;
+        private StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
         private const string backendsKey = "Backends";
         private static AppDataModel _appDataModel = new AppDataModel();
 
@@ -32,7 +61,6 @@ namespace MPinDemo.Models
         {
             //CreateBackends();
         }
-
 
         private ObservableCollection<Backend> services;
         public ObservableCollection<Backend> BackendsList
@@ -101,100 +129,17 @@ namespace MPinDemo.Models
 
         #endregion // CurrentService
 
+        public static int PredefinedServicesCount
+        {
+            get
+            {
+                return BlankPage1.RoamingSettings.Values[PredefinedServicesCountString] == null ? 0 : int.Parse(BlankPage1.RoamingSettings.Values[PredefinedServicesCountString].ToString());
+            }
+        } 
+
         #endregion
 
         #region Methods
-
-        //private void CreateBackends()
-        //{
-        //    //Backend backends[] = 
-        //    //{
-        //    //    {"https://m-pindemo.certivox.org"},
-        //    //    {"http://ec2-54-77-232-113.eu-west-1.compute.amazonaws.com", "/rps/"},
-        //    //    {"https://mpindemo-qa-v3.certivox.org", "rps"},
-        //    //};
-        //    //TODO:: leave only the last three services
-        //    BackendsList = new ObservableCollection<Backend>();
-        //    BackendsList.Add(new Backend()
-        //    {
-        //        BackendUrl = "https://m-pindemo.certivox.org",
-        //        RequestAccessNumber = false,
-        //        RequestOtp = false,
-        //        Title = "Basic"
-        //    });
-
-        //    //BackendsList.Add(new Backend()
-        //    //{
-        //    //    BackendUrl = "http://ec2-54-77-232-113.eu-west-1.compute.amazonaws.com",
-        //    //    RequestAccessNumber = false,
-        //    //    RequestOtp = false,
-        //    //    Title = "M-Pin Connect"
-        //    //});
-
-        //    BackendsList.Add(new Backend()
-        //    {
-        //        BackendUrl = "http://ec2-52-28-120-46.eu-central-1.compute.amazonaws.com",
-        //        RequestAccessNumber = false,
-        //        RequestOtp = false,
-        //        Title = "Force Activation"
-        //    });
-
-        //    BackendsList.Add(new Backend()
-        //    {
-        //        BackendUrl = "https://mpindemo-qa-v3.certivox.org",
-        //        RequestAccessNumber = true,
-        //        RequestOtp = false,
-        //        Title = "Bank service"
-        //    });
-
-        //    BackendsList.Add(new Backend()
-        //    {
-        //        BackendUrl = "http://otp.m-pin.id/rps",
-        //        RequestAccessNumber = false,
-        //        RequestOtp = true,
-        //        Title = "Longest Journey Service"
-        //    });
-
-        //    BackendsList.Add(new Backend()
-        //    {
-        //        BackendUrl = "http://risso.certivox.org/",
-        //        RequestAccessNumber = false,
-        //        RequestOtp = true,
-        //        Title = "OTP login"
-        //    });
-
-        //    BackendsList.Add(new Backend()
-        //    {
-        //        BackendUrl = "http://ntt-vpn.certivox.org",
-        //        RequestAccessNumber = false,
-        //        RequestOtp = true,
-        //        Title = "OTP NTT login"
-        //    });
-
-        //    BackendsList.Add(new Backend()
-        //    {
-        //        BackendUrl = "http://tcb.certivox.org",
-        //        RequestAccessNumber = false,
-        //        RequestOtp = false,
-        //        Title = "Mobile banking login"
-        //    });
-
-        //    BackendsList.Add(new Backend()
-        //    {
-        //        BackendUrl = "http://tcb.certivox.org",
-        //        RequestAccessNumber = true,
-        //        RequestOtp = false,
-        //        Title = "Online banking login"
-        //    });
-
-        //    BackendsList.Add(new Backend()
-        //    {
-        //        BackendUrl = "http://otp.m-pin.id",
-        //        RequestAccessNumber = false,
-        //        RequestOtp = true,
-        //        Title = "VPN login"
-        //    });
-        //}
 
         public static async Task<ObservableCollection<Backend>> GetBackendsAsync()
         {
@@ -219,43 +164,163 @@ namespace MPinDemo.Models
             if (this.BackendsList.Count != 0)
                 return;
 
-            Uri dataUri = new Uri(FilePath);
+            StorageFile file = null;
+            try
+            {
+                file = await GetConfigurationFile();
+            }
+            catch (Exception sewe)
+            {
+                System.Diagnostics.Debug.WriteLine(sewe.Message);
+                return;
+            }
 
-            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(dataUri);
+            await LoadBackendsFromFile(file);
+        }
+
+        internal async Task LoadBackendsFromFile(StorageFile file)
+        {
             string jsonText = await FileIO.ReadTextAsync(file);
-            
-            
-            
-            JsonObject jsonObject = JsonObject.Parse(jsonText);
-            JsonArray jsonArray = jsonObject[backendsKey].GetArray();
+            if (string.IsNullOrEmpty(jsonText))
+            {
+                System.Diagnostics.Debug.WriteLine("Empty json file!");
+                return;
+            }
 
+            List<Backend> newBackends = GetBackendsFromJson(jsonText);
+            foreach (Backend backend in newBackends)
+            {
+                this.BackendsList.Add(backend);
+            }
 
+            if (setPredefinedConfigurationCount)
+                BlankPage1.RoamingSettings.Values[PredefinedServicesCountString] = this.BackendsList.Count;
+        }
 
+        internal List<Backend> GetBackendsFromJson(string jsonText)
+        {
+            if (string.IsNullOrEmpty(jsonText))
+            {
+                throw new ArgumentNullException(ResourceLoader.GetForCurrentView().GetString("EmptyJSON"));
+            }
+
+            JsonArray jsonArray;
+            try
+            {
+                jsonArray = JsonArray.Parse(jsonText);
+            }
+            catch
+            {
+                throw new ArgumentException(ResourceLoader.GetForCurrentView().GetString("InvalidJSON"));
+            }
+
+            List<Backend> backendsList = new List<Backend>();
             foreach (JsonValue groupValue in jsonArray)
             {
                 JsonObject groupObject = groupValue.GetObject();
-                Backend backend = new Backend(groupObject);                
-                this.BackendsList.Add(backend);
+                backendsList.Add(new Backend(groupObject));
             }
-        }
 
+            return backendsList;
+        }
 
         internal async Task SaveServices()
         {
-            Uri dataUri = new Uri(FilePath);
-            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(dataUri);
-
             JsonArray jsonArray = new JsonArray();
             foreach (Backend backend in BackendsList)
             {
                 jsonArray.Add(backend.ToJsonObject());
             }
 
-            JsonObject jsonObject = new JsonObject();            
-            jsonObject[backendsKey] = jsonArray;
+            StorageFile file = await GetConfigurationFile(true);
 
+            try
+            {
+                CachedFileManager.DeferUpdates(file);
 
-            await FileIO.WriteTextAsync(file, jsonObject.Stringify());
+                string data = jsonArray.Stringify();
+
+                await FileIO.WriteTextAsync(file, data);
+
+                Windows.Storage.Provider.FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
+
+                if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
+                {
+                    // File was saved
+                }
+                else
+                {
+                    // File was not saved
+                }
+            }
+            catch (Exception wer)
+            {
+                System.Diagnostics.Debug.WriteLine(wer.Message);
+            }
+        }
+
+        /// <summary>
+        /// Gets the configuration file. The InstalledLocation storage folder is readonly, which is why 
+        /// when modify the predefined configuration we should use the LocalStorage.
+        /// /// </summary>
+        /// <param name="forceGetFromLocal">if set to <c>true</c> [force get from local].</param>
+        /// <returns></returns>
+        private async Task<StorageFile> GetConfigurationFile(bool forceGetFromLocal = false)
+        {
+            this.setPredefinedConfigurationCount = false;
+            bool isPresent = await IsFilePresentInLocalStorage(FileName);
+            if (isPresent)
+            {
+                // if the file is present in the LocalFolder -> the predefined configuration have been changed and save in the local storage
+                return await localFolder.GetFileAsync(FileName);
+            }
+            else if (forceGetFromLocal)
+            {
+                return await localFolder.CreateFileAsync(FileName, CreationCollisionOption.ReplaceExisting);
+            }
+            else
+            {
+                // the configurations have not been modified -> get the predefined configuration from the local installed location
+                Uri dataUri = new Uri(FilePath, UriKind.Absolute);
+                this.setPredefinedConfigurationCount = true;
+                return await StorageFile.GetFileFromApplicationUriAsync(dataUri);
+            }
+        }
+
+        private async Task<bool> IsFilePresentInLocalStorage(string fileName)
+        {
+            var allfiles = await localFolder.GetFilesAsync();
+            foreach (var storageFile in allfiles)
+            {
+                if (storageFile.Name == fileName)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        internal async Task MergeConfigurations(List<Backend> newBackends)
+        {
+            foreach (Backend backend in newBackends)
+            {
+                var currentBackend = this.BackendsList.FirstOrDefault(item => item.Name.Equals(backend.Name));
+                if (currentBackend != null)
+                {
+                    // loaded configurations overwrite the existing ones with matching names.
+                    this.BackendsList[this.BackendsList.IndexOf(currentBackend)].BackendUrl = backend.BackendUrl;
+                    this.BackendsList[this.BackendsList.IndexOf(currentBackend)].Type = backend.Type;
+                    this.BackendsList[this.BackendsList.IndexOf(currentBackend)].RpsPrefix = backend.RpsPrefix;
+                    this.BackendsList[this.BackendsList.IndexOf(currentBackend)].Name = backend.Name;
+                }
+                else
+                {
+                    this.BackendsList.Add(backend);
+                }
+            }
+
+            await SaveServices();
         }
         #endregion
 
@@ -270,5 +335,6 @@ namespace MPinDemo.Models
             }
         }
         #endregion // INotifyPropertyChanged
+        
     }
 }

@@ -461,7 +461,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     if ( [NSString isValidURL:_txtMPINServiceURL.text] )
     {
         [[ErrorHandler sharedManager] presentMessageInViewController:self
-         errorString:@"Testing configuration"
+         errorString:NSLocalizedString(@"TESTING_CONFIGURATION", @"Testing configuration")
          addActivityIndicator:YES
          minShowTime:0];
         if ( [_txtMPINServiceRPSPrefix.text isEqualToString:@""] )

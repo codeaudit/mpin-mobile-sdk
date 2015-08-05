@@ -129,6 +129,18 @@
 		9614F8CF1A9E1EC500337080 /* AccountSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9614F8CE1A9E1EC500337080 /* AccountSummaryViewController.m */; };
 		961957461A960E9900C93604 /* ThemeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 961957451A960E9900C93604 /* ThemeManager.m */; };
 		961957491A97276100C93604 /* ConfigListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 961957481A97276100C93604 /* ConfigListTableViewCell.m */; };
+		963485D11B5E1EDB001F2C71 /* QREditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 963485D01B5E1EDB001F2C71 /* QREditorViewController.m */; };
+		963485D21B5E1EDB001F2C71 /* QREditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 963485D01B5E1EDB001F2C71 /* QREditorViewController.m */; };
+		963485D31B5E1EDB001F2C71 /* QREditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 963485D01B5E1EDB001F2C71 /* QREditorViewController.m */; };
+		963485D41B5E1EDB001F2C71 /* QREditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 963485D01B5E1EDB001F2C71 /* QREditorViewController.m */; };
+		963485E91B5E755C001F2C71 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 963485E81B5E755C001F2C71 /* Utilities.m */; };
+		963485EA1B5E755C001F2C71 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 963485E81B5E755C001F2C71 /* Utilities.m */; };
+		963485EB1B5E755C001F2C71 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 963485E81B5E755C001F2C71 /* Utilities.m */; };
+		963485EC1B5E755C001F2C71 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 963485E81B5E755C001F2C71 /* Utilities.m */; };
+		963485EF1B5F811F001F2C71 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 963485EE1B5F811F001F2C71 /* AVFoundation.framework */; };
+		963485F01B5F8127001F2C71 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 963485EE1B5F811F001F2C71 /* AVFoundation.framework */; };
+		963485F11B5F812C001F2C71 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 963485EE1B5F811F001F2C71 /* AVFoundation.framework */; };
+		963485F21B5F8131001F2C71 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 963485EE1B5F811F001F2C71 /* AVFoundation.framework */; };
 		9649BC841AC045E900B9F41B /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9649BC821AC045E900B9F41B /* MenuViewController.m */; };
 		9649BC8D1AC16D1000B9F41B /* ConfirmEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 966EB9D31A8CF069004B936A /* ConfirmEmailViewController.m */; };
 		9649BC8F1AC16D1000B9F41B /* CycleProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4AEB071A443E4C000B3181 /* CycleProgressBar.m */; };
@@ -231,10 +243,10 @@
 		96D3CAD51AEE5328004BAC3A /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96130EBA1AEE4979005D2A86 /* Settings.plist */; };
 		96DA33F81ACD54C300B2CAAB /* libMPinSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */; };
 		96DA33F91ACD54D700B2CAAB /* libMPinSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */; };
-		96E21A541AF8AE6C00490625 /* en_BG.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG.strings */; };
-		96E21A551AF8AE6C00490625 /* en_BG.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG.strings */; };
-		96E21A561AF8AE6C00490625 /* en_BG.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG.strings */; };
-		96E21A571AF8AE6C00490625 /* en_BG.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG.strings */; };
+		96E21A541AF8AE6C00490625 /* en_BG1.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG1.strings */; };
+		96E21A551AF8AE6C00490625 /* en_BG1.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG1.strings */; };
+		96E21A561AF8AE6C00490625 /* en_BG1.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG1.strings */; };
+		96E21A571AF8AE6C00490625 /* en_BG1.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG1.strings */; };
 		96E9D36E1B39699B004ADDEA /* AboutDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */; };
 		96E9D36F1B39699B004ADDEA /* AboutDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */; };
 		96E9D3701B39699B004ADDEA /* AboutDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */; };
@@ -292,10 +304,6 @@
 		FE72C3451A6E519D0082F14D /* SettingsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE72C3441A6E519D0082F14D /* SettingsViewCell.m */; };
 		FE72C3481A6EA6960082F14D /* AddSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE72C3471A6EA6960082F14D /* AddSettingViewController.m */; };
 		FE8129671ABAB61B008677CE /* MPin+AsyncOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = FE8129661ABAB61B008677CE /* MPin+AsyncOperations.m */; };
-		FEA769CB1B53C2DD005557FE /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA769CA1B53C2DD005557FE /* Utilities.m */; };
-		FEA769CC1B53C2DD005557FE /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA769CA1B53C2DD005557FE /* Utilities.m */; };
-		FEA769CD1B53C2DD005557FE /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA769CA1B53C2DD005557FE /* Utilities.m */; };
-		FEA769CE1B53C2DD005557FE /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA769CA1B53C2DD005557FE /* Utilities.m */; };
 		FEAA2CCE1ACEBCB700EED79F /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FEAA2CCD1ACEBCB700EED79F /* NSString+Helper.m */; };
 		FEB901681A6D28550053DE92 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB901671A6D28550053DE92 /* SettingsViewController.m */; };
 		FED7691D1A8B4A30005A3ECA /* UIViewController+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = FED7691C1A8B4A30005A3ECA /* UIViewController+Helper.m */; };
@@ -338,6 +346,11 @@
 		961957451A960E9900C93604 /* ThemeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThemeManager.m; path = ../../../../src/ios/MPinApp/ThemeManager.m; sourceTree = "<group>"; };
 		961957471A97276100C93604 /* ConfigListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfigListTableViewCell.h; path = ../../../../src/ios/MPinApp/ConfigListTableViewCell.h; sourceTree = "<group>"; };
 		961957481A97276100C93604 /* ConfigListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConfigListTableViewCell.m; path = ../../../../src/ios/MPinApp/ConfigListTableViewCell.m; sourceTree = "<group>"; };
+		963485CF1B5E1EDB001F2C71 /* QREditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QREditorViewController.h; path = ../../../../src/ios/MPinApp/QREditorViewController.h; sourceTree = "<group>"; };
+		963485D01B5E1EDB001F2C71 /* QREditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QREditorViewController.m; path = ../../../../src/ios/MPinApp/QREditorViewController.m; sourceTree = "<group>"; };
+		963485E71B5E755C001F2C71 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utilities.h; path = ../../../../src/ios/MPinApp/Utilities.h; sourceTree = "<group>"; };
+		963485E81B5E755C001F2C71 /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utilities.m; path = ../../../../src/ios/MPinApp/Utilities.m; sourceTree = "<group>"; };
+		963485EE1B5F811F001F2C71 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		9644B2201AD3AF400047E9CA /* libPods-SplunkMint-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-SplunkMint-iOS.a"; path = "../Pods/build/Debug-iphoneos/libPods-SplunkMint-iOS.a"; sourceTree = "<group>"; };
 		9644B2221AD3AF5C0047E9CA /* libPods-SplunkMint-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-SplunkMint-iOS.a"; path = "../Pods/build/Debug-iphoneos/libPods-SplunkMint-iOS.a"; sourceTree = "<group>"; };
 		9649BC821AC045E900B9F41B /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuViewController.m; path = ../../../../src/ios/MPinApp/MenuViewController.m; sourceTree = "<group>"; };
@@ -375,7 +388,7 @@
 		96D3CAD11AEE4D7B004BAC3A /* CertivoxMPin.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CertivoxMPin.plist; sourceTree = "<group>"; };
 		96D3CAD21AEE4D8E004BAC3A /* DDMPin.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = DDMPin.plist; sourceTree = "<group>"; };
 		96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMPinSDK.a; path = "../../../../Library/Developer/Xcode/DerivedData/MPin-fkvltgzbxheajafuhhxznfslxxnp/Build/Products/Release-iphoneos/libMPinSDK.a"; sourceTree = "<group>"; };
-		96E21A531AF8AE6C00490625 /* en_BG.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = en_BG.strings; sourceTree = "<group>"; };
+		96E21A531AF8AE6C00490625 /* en_BG1.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = en_BG1.strings; sourceTree = "<group>"; };
 		96E9D36C1B39699B004ADDEA /* AboutDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutDetailsViewController.h; path = ../../../../src/ios/MPinApp/AboutDetailsViewController.h; sourceTree = "<group>"; };
 		96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutDetailsViewController.m; path = ../../../../src/ios/MPinApp/AboutDetailsViewController.m; sourceTree = "<group>"; };
 		96F62A201AC30FAF00B25B53 /* ConfigurationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfigurationManager.h; path = ../../../../src/ios/MPinApp/ConfigurationManager.h; sourceTree = "<group>"; };
@@ -435,8 +448,6 @@
 		FE72C3471A6EA6960082F14D /* AddSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = AddSettingViewController.m; path = ../../../../src/ios/MPinApp/AddSettingViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FE8129651ABAB61B008677CE /* MPin+AsyncOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MPin+AsyncOperations.h"; path = "../../../../src/ios/MPinApp/MPin+AsyncOperations.h"; sourceTree = "<group>"; };
 		FE8129661ABAB61B008677CE /* MPin+AsyncOperations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MPin+AsyncOperations.m"; path = "../../../../src/ios/MPinApp/MPin+AsyncOperations.m"; sourceTree = "<group>"; };
-		FEA769C91B53C2DD005557FE /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utilities.h; path = ../../../../../src/ios/MPinApp/Utilities.h; sourceTree = "<group>"; };
-		FEA769CA1B53C2DD005557FE /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utilities.m; path = ../../../../../src/ios/MPinApp/Utilities.m; sourceTree = "<group>"; };
 		FEAA2CCC1ACEBCB700EED79F /* NSString+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Helper.h"; path = "../../../../../src/ios/MPinApp/NSString+Helper.h"; sourceTree = "<group>"; };
 		FEAA2CCD1ACEBCB700EED79F /* NSString+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Helper.m"; path = "../../../../../src/ios/MPinApp/NSString+Helper.m"; sourceTree = "<group>"; };
 		FEB901661A6D28550053DE92 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewController.h; path = ../../../../src/ios/MPinApp/SettingsViewController.h; sourceTree = "<group>"; };
@@ -459,6 +470,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				963485F11B5F812C001F2C71 /* AVFoundation.framework in Frameworks */,
 				96925FB81B467EFB000D5AFA /* SystemConfiguration.framework in Frameworks */,
 				96925FB71B467EF3000D5AFA /* Security.framework in Frameworks */,
 				96925FB61B467EE9000D5AFA /* QuickLook.framework in Frameworks */,
@@ -480,6 +492,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				963485F21B5F8131001F2C71 /* AVFoundation.framework in Frameworks */,
 				96925FBF1B467FB3000D5AFA /* AssetsLibrary.framework in Frameworks */,
 				96130E8D1AEE490A005D2A86 /* CoreGraphics.framework in Frameworks */,
 				96925FBE1B467FA0000D5AFA /* CoreText.framework in Frameworks */,
@@ -501,6 +514,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				963485F01B5F8127001F2C71 /* AVFoundation.framework in Frameworks */,
 				96AE72741B440ADC00171D05 /* AssetsLibrary.framework in Frameworks */,
 				96AE72731B440AD100171D05 /* CoreText.framework in Frameworks */,
 				9649BCAC1AC16D1000B9F41B /* CoreGraphics.framework in Frameworks */,
@@ -522,6 +536,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				963485EF1B5F811F001F2C71 /* AVFoundation.framework in Frameworks */,
 				96F7EA8A1B1C497400A68A03 /* SystemConfiguration.framework in Frameworks */,
 				96F7EA881B1C496900A68A03 /* Security.framework in Frameworks */,
 				96F7EA861B1C496000A68A03 /* QuickLook.framework in Frameworks */,
@@ -563,7 +578,7 @@
 				960D6A7F1A88C0E20068E0F7 /* Fonts */,
 				960D6A901A88C0E20068E0F7 /* Settings.bundle */,
 				968591CF1AF0C7E200726E63 /* Localizable.strings */,
-				96E21A531AF8AE6C00490625 /* en_BG.strings */,
+				96E21A531AF8AE6C00490625 /* en_BG1.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -613,6 +628,15 @@
 			path = Olswang;
 			sourceTree = "<group>";
 		};
+		963485ED1B5E7560001F2C71 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				963485E71B5E755C001F2C71 /* Utilities.h */,
+				963485E81B5E755C001F2C71 /* Utilities.m */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
 		9649BC881AC0472D00B9F41B /* CustomComponents */ = {
 			isa = PBXGroup;
 			children = (
@@ -622,15 +646,6 @@
 				964B121C1A93921C00FFB67A /* BackButton.m */,
 			);
 			name = CustomComponents;
-			sourceTree = "<group>";
-		};
-		9672E30C1A89FAD300C0658A /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				FEA769C91B53C2DD005557FE /* Utilities.h */,
-				FEA769CA1B53C2DD005557FE /* Utilities.m */,
-			);
-			path = Utils;
 			sourceTree = "<group>";
 		};
 		968A18081ACA8C58000C0DB0 /* Certivox */ = {
@@ -720,6 +735,8 @@
 				96F7EA661B1858CB00A68A03 /* ANAuthenticationSuccessful.m */,
 				FE298B791B3ABBD80071E6B3 /* QRViewController.h */,
 				FE298B7A1B3ABBD80071E6B3 /* QRViewController.m */,
+				963485CF1B5E1EDB001F2C71 /* QREditorViewController.h */,
+				963485D01B5E1EDB001F2C71 /* QREditorViewController.m */,
 				96E9D36C1B39699B004ADDEA /* AboutDetailsViewController.h */,
 				96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */,
 			);
@@ -805,6 +822,7 @@
 		FE4900191A1A3CEB000030A4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				963485EE1B5F811F001F2C71 /* AVFoundation.framework */,
 				96F7EA8B1B1C49F200A68A03 /* HockeySDK.framework */,
 				96F7EA891B1C497400A68A03 /* SystemConfiguration.framework */,
 				96F7EA871B1C496900A68A03 /* Security.framework */,
@@ -831,12 +849,12 @@
 		FE4900201A1A3CEB000030A4 /* MPinApp */ = {
 			isa = PBXGroup;
 			children = (
+				963485ED1B5E7560001F2C71 /* Utils */,
 				9649BC881AC0472D00B9F41B /* CustomComponents */,
 				9699B25A1AADF8F7008AA313 /* Managers */,
 				9699B2581AADF8DD008AA313 /* View */,
 				9699B2571AADF8C6008AA313 /* ViewControllers */,
 				9699B2561AADF81F008AA313 /* Cells */,
-				9672E30C1A89FAD300C0658A /* Utils */,
 				960D6A7C1A88C0E20068E0F7 /* Resources */,
 				968D0A411A7B93C00037841D /* Tools */,
 				FE4900211A1A3CEB000030A4 /* Supporting Files */,
@@ -999,7 +1017,7 @@
 				96D3CAD41AEE5324004BAC3A /* Settings.plist in Resources */,
 				96130E561AEE4867005D2A86 /* OpenSans-Light.ttf in Resources */,
 				96130E571AEE4867005D2A86 /* MpinStatus.h in Resources */,
-				96E21A561AF8AE6C00490625 /* en_BG.strings in Resources */,
+				96E21A561AF8AE6C00490625 /* en_BG1.strings in Resources */,
 				96130E581AEE4867005D2A86 /* Main_iPhone.storyboard in Resources */,
 				968591A31AEE53F500726E63 /* NTTComSecurityImages.xcassets in Resources */,
 				96130E5A1AEE4867005D2A86 /* OpenSans-SemiboldItalic.ttf in Resources */,
@@ -1029,7 +1047,7 @@
 				96D3CAD51AEE5328004BAC3A /* Settings.plist in Resources */,
 				96130EA01AEE490A005D2A86 /* OpenSans-Light.ttf in Resources */,
 				96130EA11AEE490A005D2A86 /* MpinStatus.h in Resources */,
-				96E21A571AF8AE6C00490625 /* en_BG.strings in Resources */,
+				96E21A571AF8AE6C00490625 /* en_BG1.strings in Resources */,
 				96130EA21AEE490A005D2A86 /* Main_iPhone.storyboard in Resources */,
 				968591A21AEE53F200726E63 /* OlswangImages.xcassets in Resources */,
 				96130EA41AEE490A005D2A86 /* OpenSans-SemiboldItalic.ttf in Resources */,
@@ -1052,7 +1070,7 @@
 				9649BCB61AC16D1000B9F41B /* LaunchScreen.xib in Resources */,
 				9649BCB71AC16D1000B9F41B /* Constants.h in Resources */,
 				9649BCB81AC16D1000B9F41B /* OpenSans-LightItalic.ttf in Resources */,
-				96E21A551AF8AE6C00490625 /* en_BG.strings in Resources */,
+				96E21A551AF8AE6C00490625 /* en_BG1.strings in Resources */,
 				9649BCB91AC16D1000B9F41B /* OpenSans-BoldItalic.ttf in Resources */,
 				9649BCBB1AC16D1000B9F41B /* MPin.h in Resources */,
 				9649BCBC1AC16D1000B9F41B /* OpenSans-Semibold.ttf in Resources */,
@@ -1089,7 +1107,7 @@
 				960D6A9C1A88C0E20068E0F7 /* OpenSans-Semibold.ttf in Resources */,
 				960D6A991A88C0E20068E0F7 /* OpenSans-Light.ttf in Resources */,
 				FE148D411A2F0FB7007E83EF /* MpinStatus.h in Resources */,
-				96E21A541AF8AE6C00490625 /* en_BG.strings in Resources */,
+				96E21A541AF8AE6C00490625 /* en_BG1.strings in Resources */,
 				FEFFDDF21A1A4268007C7CAA /* Main_iPhone.storyboard in Resources */,
 				960D6A9D1A88C0E20068E0F7 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				FE4900251A1A3CEB000030A4 /* InfoPlist.strings in Resources */,
@@ -1304,11 +1322,11 @@
 				96130E211AEE4867005D2A86 /* ConfigurationManager.m in Sources */,
 				96130E221AEE4867005D2A86 /* ConfirmEmailViewController.m in Sources */,
 				96E9D3701B39699B004ADDEA /* AboutDetailsViewController.m in Sources */,
-				FEA769CD1B53C2DD005557FE /* Utilities.m in Sources */,
 				96F7EA691B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */,
 				96130E231AEE4867005D2A86 /* CycleProgressBar.m in Sources */,
 				96130E241AEE4867005D2A86 /* AccountSummaryViewController.m in Sources */,
 				96130E251AEE4867005D2A86 /* UIViewController+Helper.m in Sources */,
+				963485D31B5E1EDB001F2C71 /* QREditorViewController.m in Sources */,
 				96130E261AEE4867005D2A86 /* NSString+Helper.m in Sources */,
 				96130E271AEE4867005D2A86 /* AddIdentityViewController.m in Sources */,
 				96130E281AEE4867005D2A86 /* BackButton.m in Sources */,
@@ -1324,6 +1342,7 @@
 				96130E311AEE4867005D2A86 /* OTPViewController.m in Sources */,
 				96130E321AEE4867005D2A86 /* TextFieldTableViewCell.m in Sources */,
 				96130E331AEE4867005D2A86 /* AccessNumberViewController.m in Sources */,
+				963485EB1B5E755C001F2C71 /* Utilities.m in Sources */,
 				96130E341AEE4867005D2A86 /* UIColor+Helper.m in Sources */,
 				968591B81AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
 				96130E351AEE4867005D2A86 /* ConfigListTableViewCell.m in Sources */,
@@ -1349,11 +1368,11 @@
 				96130E6B1AEE490A005D2A86 /* ConfigurationManager.m in Sources */,
 				96130E6C1AEE490A005D2A86 /* ConfirmEmailViewController.m in Sources */,
 				96E9D3711B39699B004ADDEA /* AboutDetailsViewController.m in Sources */,
-				FEA769CE1B53C2DD005557FE /* Utilities.m in Sources */,
 				96F7EA6A1B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */,
 				96130E6D1AEE490A005D2A86 /* CycleProgressBar.m in Sources */,
 				96130E6E1AEE490A005D2A86 /* AccountSummaryViewController.m in Sources */,
 				96130E6F1AEE490A005D2A86 /* UIViewController+Helper.m in Sources */,
+				963485D41B5E1EDB001F2C71 /* QREditorViewController.m in Sources */,
 				96130E701AEE490A005D2A86 /* NSString+Helper.m in Sources */,
 				96130E711AEE490A005D2A86 /* AddIdentityViewController.m in Sources */,
 				96130E721AEE490A005D2A86 /* BackButton.m in Sources */,
@@ -1369,6 +1388,7 @@
 				96130E7B1AEE490A005D2A86 /* OTPViewController.m in Sources */,
 				96130E7C1AEE490A005D2A86 /* TextFieldTableViewCell.m in Sources */,
 				96130E7D1AEE490A005D2A86 /* AccessNumberViewController.m in Sources */,
+				963485EC1B5E755C001F2C71 /* Utilities.m in Sources */,
 				96130E7E1AEE490A005D2A86 /* UIColor+Helper.m in Sources */,
 				968591B91AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
 				96130E7F1AEE490A005D2A86 /* ConfigListTableViewCell.m in Sources */,
@@ -1394,11 +1414,11 @@
 				FEF579501B1493F700B31A3E /* NSString+Helper.m in Sources */,
 				968591B71AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
 				96E9D36F1B39699B004ADDEA /* AboutDetailsViewController.m in Sources */,
-				FEA769CC1B53C2DD005557FE /* Utilities.m in Sources */,
 				9649BC8D1AC16D1000B9F41B /* ConfirmEmailViewController.m in Sources */,
 				96F7EA681B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */,
 				9649BC8F1AC16D1000B9F41B /* CycleProgressBar.m in Sources */,
 				9649BC901AC16D1000B9F41B /* AccountSummaryViewController.m in Sources */,
+				963485D21B5E1EDB001F2C71 /* QREditorViewController.m in Sources */,
 				9649BC911AC16D1000B9F41B /* UIViewController+Helper.m in Sources */,
 				9649BC921AC16D1000B9F41B /* AddIdentityViewController.m in Sources */,
 				96B27CAC1ACACE92007145C2 /* MPin+AsyncOperations.m in Sources */,
@@ -1414,6 +1434,7 @@
 				9649BC9C1AC16D1000B9F41B /* main.m in Sources */,
 				9649BC9E1AC16D1000B9F41B /* OTPViewController.m in Sources */,
 				96F78E1D1B05E5B8005C2C7D /* ErrorHandler.m in Sources */,
+				963485EA1B5E755C001F2C71 /* Utilities.m in Sources */,
 				9649BC9F1AC16D1000B9F41B /* TextFieldTableViewCell.m in Sources */,
 				9649BCA01AC16D1000B9F41B /* AccessNumberViewController.m in Sources */,
 				9649BCA11AC16D1000B9F41B /* UIColor+Helper.m in Sources */,
@@ -1439,11 +1460,11 @@
 				966EB9D41A8CF069004B936A /* ConfirmEmailViewController.m in Sources */,
 				96F7EA671B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */,
 				96E9D36E1B39699B004ADDEA /* AboutDetailsViewController.m in Sources */,
-				FEA769CB1B53C2DD005557FE /* Utilities.m in Sources */,
 				FE4AEB081A443E4C000B3181 /* CycleProgressBar.m in Sources */,
 				9614F8CF1A9E1EC500337080 /* AccountSummaryViewController.m in Sources */,
 				FED7691D1A8B4A30005A3ECA /* UIViewController+Helper.m in Sources */,
 				FEAA2CCE1ACEBCB700EED79F /* NSString+Helper.m in Sources */,
+				963485D11B5E1EDB001F2C71 /* QREditorViewController.m in Sources */,
 				FE148D6B1A2F13D0007E83EF /* AddIdentityViewController.m in Sources */,
 				964B121D1A93921C00FFB67A /* BackButton.m in Sources */,
 				FE148D6F1A2F13D0007E83EF /* PinPadViewController.m in Sources */,
@@ -1459,6 +1480,7 @@
 				9699B2521AADF7F0008AA313 /* TextFieldTableViewCell.m in Sources */,
 				FEFA500E1A7143DB002D6E24 /* AccessNumberViewController.m in Sources */,
 				968D0A441A7B93C00037841D /* UIColor+Helper.m in Sources */,
+				963485E91B5E755C001F2C71 /* Utilities.m in Sources */,
 				968591B61AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
 				961957491A97276100C93604 /* ConfigListTableViewCell.m in Sources */,
 				FE8129671ABAB61B008677CE /* MPin+AsyncOperations.m in Sources */,

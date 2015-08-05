@@ -199,13 +199,9 @@ static NSString *const kUser = @"User";
 - ( void )OnRegisterNewUserError:( id )sender error:( NSError * )error
 {
     MpinStatus *mpinStatus = [error.userInfo objectForKey:kMPinSatus];
-    if (mpinStatus.status == FLOW_ERROR) {
-        [[ErrorHandler sharedManager] updateMessage:mpinStatus.errorMessage addActivityIndicator:NO hideAfter:3];
-    } else if (mpinStatus.status == NETWORK_ERROR) {
-        [[ErrorHandler sharedManager] updateMessage:@"This M-Pin service is currently unavailable." addActivityIndicator:NO hideAfter:3];
-    } else {
-        [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(mpinStatus.statusCodeAsString, @"SERVER ERROR") addActivityIndicator:NO hideAfter:3];
-    }
+    [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(mpinStatus.statusCodeAsString, @"SERVER ERROR") addActivityIndicator:NO hideAfter:3];
+    
+    
 }
 
 - ( void )OnFinishRegistrationCompleted:( id )sender user:( const id<IUser>)user
