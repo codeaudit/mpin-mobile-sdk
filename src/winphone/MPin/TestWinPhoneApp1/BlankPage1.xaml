@@ -58,6 +58,7 @@
                              ItemsSource="{Binding BackendsList, Mode=TwoWay}"                              
                              SelectionChanged="Services_SelectionChanged" 
                              DataContextChanged="ServicesList_DataContextChanged" 
+                             DoubleTapped="ServicesList_DoubleTapped"
                              ContinuumNavigationTransitionInfo.IsExitElement="True" 
                              ContinuumNavigationTransitionInfo.IsEntranceElement="True">
                         <ListBox.ItemTemplate>

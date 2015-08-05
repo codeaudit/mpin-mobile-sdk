@@ -150,6 +150,21 @@ namespace MPinDemo
 
         #region methods
 
+        private void Select()
+        {
+            switch (this.MainPivot.SelectedIndex)
+            {
+                case 0:
+                    controller.DataModel.CurrentService = (Backend)this.ServicesList.SelectedItem;
+                    break;
+
+                case 1:
+                    controller.DataModel.CurrentUser = UsersListBox.SelectedItem as User;
+                    break;
+            }
+        }
+        
+
         private void SetControlsIsEnabled(string param, bool force = false, bool isInProgress = true)
         {
             // the process has been canceled
@@ -390,16 +405,13 @@ namespace MPinDemo
         #region handlers
         private void Select_Click(object sender, RoutedEventArgs e)
         {
-            switch (this.MainPivot.SelectedIndex)
-            {
-                case 0:
-                    controller.DataModel.CurrentService = (Backend)this.ServicesList.SelectedItem;
-                    break;
 
-                case 1:
-                    controller.DataModel.CurrentUser = UsersListBox.SelectedItem as User;
-                    break;
-            }
+            Select();
+        }
+
+        private void ServicesList_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
+        {
+            Select();
         }
 
         private void UsersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
