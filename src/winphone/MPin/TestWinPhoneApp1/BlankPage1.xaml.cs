@@ -113,8 +113,6 @@ namespace MPinDemo
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             rootPage = MainPage.Current;
-            await InitCamera();
-
             SetControlsIsEnabled(e.Parameter.ToString());
 
             List<object> data = (Window.Current.Content as Frame).GetNavigationData() as List<object>;
@@ -265,6 +263,7 @@ namespace MPinDemo
         internal async Task InitCamera()
         {
             var cameraID = await GetCameraID(Windows.Devices.Enumeration.Panel.Back);
+            captureManager = null;
             captureManager = new MediaCapture();
 
             await captureManager.InitializeAsync(new MediaCaptureInitializationSettings
@@ -553,6 +552,9 @@ namespace MPinDemo
 
         private async void ScanAppBarButton_Click(object sender, RoutedEventArgs e)
         {
+            if (captureManager == null)
+                await InitCamera();
+
             showUsers = false;
 
             SetControlsVisibility(true);
