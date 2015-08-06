@@ -65,10 +65,6 @@ namespace MPinSDK.Controls
             this.Loaded += PinPadControl_Loaded;
         }
 
-        void PinPadControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            IsEntered = false;
-        }
         #endregion // Constructor
 
         #region Overrides
@@ -76,7 +72,7 @@ namespace MPinSDK.Controls
         {
             base.OnApplyTemplate();
             this.Pass = this.GetTemplateChild("pass") as PinPadPassword;
-
+           
             RegisterButton(ref this.One, "one", One_Click);
             RegisterButton(ref this.Two, "two", Two_Click);
             RegisterButton(ref this.Three, "three", Three_Click);
@@ -94,6 +90,10 @@ namespace MPinSDK.Controls
         #endregion // Overrides
 
         #region handlers
+        void PinPadControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            IsEntered = false;
+        }
         void One_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             AddDigitToPin("1");
@@ -136,9 +136,9 @@ namespace MPinSDK.Controls
         }
         void Clear_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            if (this.Pass.Data.Length > 0)
-                this.Pass.Data = this.Pass.Data.Substring(0, this.Pass.Data.Length - 1);
-
+            //if (this.Pass.Data.Length > 0)
+            //    this.Pass.Data = this.Pass.Data.Substring(0, this.Pass.Data.Length - 1);
+            this.Pass.Data = string.Empty;
             ValidateSignButton();
         }
         void Sign_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -188,6 +188,8 @@ namespace MPinSDK.Controls
         private void ValidateSignButton()
         {
             this.Sign.IsEnabled = this.Pass.Data.Length == MPinLength;
+            if (this.Sign.IsEnabled)                
+                this.Sign.Focus(FocusState.Pointer);
         }
 
         #region INotifyPropertyChanged
