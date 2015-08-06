@@ -12,10 +12,21 @@
 
 @implementation Utilities
 
-+(enum SERVICES) ServerJSONConfigTypeToService_type:(NSString*) jsonTypeName {
-    if ([kJSON_TYPE_MOBILE isEqualToString:jsonTypeName])   return LOGIN_ON_MOBILE;
-    else if ([kJSON_TYPE_ONLINE isEqualToString:jsonTypeName]) return LOGIN_ONLINE;
-    else return LOGIN_WITH_OTP;
++( enum SERVICES ) ServerJSONConfigTypeToService_type:( NSString * ) jsonTypeName
+{
+    if ( [kJSON_TYPE_MOBILE isEqualToString:jsonTypeName] )
+    {
+        return LOGIN_ON_MOBILE;
+    }
+    else
+    if ( [kJSON_TYPE_ONLINE isEqualToString:jsonTypeName] )
+    {
+        return LOGIN_ONLINE;
+    }
+    else
+    {
+        return LOGIN_WITH_OTP;
+    }
 }
 
 @end

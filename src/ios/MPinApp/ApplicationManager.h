@@ -10,6 +10,8 @@
 #import "MPin+AsyncOperations.h"
 
 @interface ApplicationManager : NSObject <MPinSDKDelegate>
+
 + (ApplicationManager*)sharedManager;
 
+-(void) setBackend;
 @end

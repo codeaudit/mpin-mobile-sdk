@@ -344,9 +344,9 @@ MPinSDK::String PinPadProxy::Show(MPinSDK::UserPtr user, MPinSDK::IPinPad::Mode 
 	MPinRC::Mode managedMode = mode == MPinSDK::IPinPad::Mode::AUTHENTICATE
 		? MPinRC::Mode::AUTHENTICATE
 		: MPinRC::Mode::REGISTER;
-	MPinRC::UserWrapper^ managedUser = nullptr;
+	MPinRC::UserWrapper^ managedUser = ref new MPinRC::UserWrapper(user);  
 
-	Platform::String^ pin = this->managedPinPad->Show(managedUser, managedMode);
+	Platform::String^ pin = this->managedPinPad->Show(managedUser, managedMode);	
 	return MPinWrapper::ToNativeString(pin);
 }
 

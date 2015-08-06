@@ -23,8 +23,7 @@
 static NSMutableArray *kCircles;
 
 @interface PinPadViewController ( )
-{
-}
+{}
 
 @property ( nonatomic, weak ) IBOutlet UIImageView *imgViewDigit0;
 @property ( nonatomic, weak ) IBOutlet UIImageView *imgViewDigit1;
@@ -121,7 +120,7 @@ static NSMutableArray *kCircles;
     [super viewWillDisappear:animated];
 }
 
-- (void) viewDidDisappear:(BOOL)animated
+- ( void ) viewDidDisappear:( BOOL )animated
 {
     [super viewDidDisappear:animated];
     self.sdk.delegate = nil;
@@ -166,7 +165,8 @@ static NSMutableArray *kCircles;
 
 - ( IBAction )numberSelectedAction:( id )sender
 {
-    if ([self.strNumber length] >= 4) {
+    if ( [self.strNumber length] >= 4 )
+    {
         return;
     }
     NSLog(@"Number: %@", self.strNumber);
@@ -226,6 +226,7 @@ static NSMutableArray *kCircles;
         [_sdk AuthenticateOTP:_currentUser askForFingerprint:NO];
         [[ErrorHandler sharedManager] updateMessage:@"OTP is not supported!" addActivityIndicator:NO hideAfter:3];
         [self clearAction:self];
+
         return;
     }
     OTPViewController *otpViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"OTP"];
@@ -258,14 +259,15 @@ static NSMutableArray *kCircles;
              addActivityIndicator:NO
              minShowTime:3];
             break;
-                
+
         case       PIN_INPUT_CANCELED:
-                NSLog(@"PIN_INPUT_CANCELED");
-                [self clearAction:self];
-                [[ErrorHandler sharedManager] hideMessage];
-                break;
+            NSLog(@"PIN_INPUT_CANCELED");
+            [self clearAction:self];
+            [[ErrorHandler sharedManager] hideMessage];
+            break;
+
         case       CRYPTO_ERROR:
-                break;
+            break;
 //                CRYPTO_ERROR /* = MPinSDK::Status::CRYPTO_ERROR*/, // Local error in crypto functions
 //                STORAGE_ERROR, // Local storage related error
 //                NETWORK_ERROR, // Local error - cannot connect to remote server (no internet, or invalid server/port)
@@ -280,11 +282,11 @@ static NSMutableArray *kCircles;
 //                HTTP_SERVER_ERROR, // Remote error, that was not reduced to one of the above - the remote server returned internal server error status (5xx)
 //                HTTP_REQUEST_ERROR // Remote error, that was not reduced to one of the above - invalid data sent to server, the remote server returned 4xx error status
 
-            default:
+        default:
             [self clearAction:self];
             [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"UNKNOWN ERROR"
-                                                        addActivityIndicator:NO
-                                                                 minShowTime:3];
+             addActivityIndicator:NO
+             minShowTime:3];
             break;
         }
     }
@@ -316,12 +318,18 @@ static NSMutableArray *kCircles;
         switch ( error.code )
         {
         case INCORRECT_ACCESS_NUMBER:
-            [_sdk AuthenticateAN:_currentUser accessNumber:_strAccessNumber askForFingerprint:NO];
-            [[ErrorHandler sharedManager] updateMessage:@"Wrong Access Number"
+        {
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(mpinStatus.statusCodeAsString, mpinStatus.errorMessage)
              addActivityIndicator:NO
              hideAfter:3];
+
+            dispatch_after(dispatch_time( DISPATCH_TIME_NOW, (int64_t)( 2.0 * NSEC_PER_SEC ) ), dispatch_get_main_queue(), ^ {
+                    [self.navigationController popViewControllerAnimated:YES];
+                });
             [self clearAction:self];
             break;
+        }
+
 
         case INCORRECT_PIN:
             [[ErrorHandler sharedManager] hideMessage];

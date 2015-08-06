@@ -40,9 +40,9 @@
     [super viewDidLoad];
 
     [[ThemeManager sharedManager] beautifyViewController:self];
-    
-    UIBarButtonItem * addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
-    UIBarButtonItem * qrItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(addQR:)];
+
+    UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"QR"] style:UIBarButtonItemStylePlain target:self action:@selector( addQR: )];
+    UIBarButtonItem *qrItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus-white"] style:UIBarButtonItemStylePlain target:self action:@selector( add: )];
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:addItem,qrItem, nil];
 }
 
@@ -150,7 +150,9 @@
 
 - ( void )OnSetBackendCompleted:( id )sender
 {
-    [[ErrorHandler sharedManager] updateMessage:@"Configuration changed" addActivityIndicator:NO hideAfter:2];
+    [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"CONFIGURATIONS_CONFIG_CHANGED",@"Configuration changed")
+     addActivityIndicator:NO
+     hideAfter:2];
 }
 
 - ( void )OnSetBackendError:( id )sender error:( NSError * )error
@@ -168,14 +170,12 @@
     [self.navigationController pushViewController:addViewController animated:YES];
 }
 
-
 - ( IBAction )addQR:( id )sender
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     UIViewController *vcQR = [storyboard instantiateViewControllerWithIdentifier:@"QRController"];
-    [self presentViewController:vcQR animated:NO completion:nil];
+    [self.navigationController pushViewController:vcQR animated:YES];
 }
-
 
 - ( IBAction )edit:( id )sender
 {

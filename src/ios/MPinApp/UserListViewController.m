@@ -60,6 +60,7 @@ static NSString *const kAN = @"AN";
     BOOL boolFirstTime;
     BOOL boolShouldAskForFingerprint;
     UIStoryboard *storyboard;
+    NSString *storedBackendURL;
 }
 @property ( nonatomic, weak ) IBOutlet NSLayoutConstraint *constraintMenuHeight;
 
@@ -102,16 +103,23 @@ static NSString *const kAN = @"AN";
     storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     [self hideBottomBar:NO];
     [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Initializing" addActivityIndicator:YES minShowTime:0];
+    storedBackendURL = [[ConfigurationManager sharedManager] getSelectedConfiguration] [@"backend"];
 }
 
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
 
-
     sdk = [[MPin alloc] init];
-
     sdk.delegate = self;
+    NSString *config = [[ConfigurationManager sharedManager] getSelectedConfiguration] [@"backend"];
+
+    // Executed if for some reason backend url is changed in other controllers
+    // For example - QR Scanned backends can overwrite the selected backend and the url maybe will be different
+    if ( ![storedBackendURL isEqualToString:config] )
+    {
+        [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
+    }
 
     [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
     [[ThemeManager sharedManager] beautifyViewController:self];
@@ -149,7 +157,7 @@ static NSString *const kAN = @"AN";
     }
 }
 
--(void) viewWillDisappear:(BOOL)animated
+-( void ) viewWillDisappear:( BOOL )animated
 {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
@@ -325,6 +333,11 @@ static NSString *const kAN = @"AN";
     cell.imgViewSelected.image = [UIImage imageNamed:@"checked"];
 }
 
+#pragma mark - AN Delegate -
+
+-( void ) onAccessNumber:( NSString * ) an
+{}
+
 #pragma mark - SDK Handlers -
 - ( void )OnFinishRegistrationCompleted:( id )sender user:( const id<IUser>)user
 {
@@ -348,7 +361,7 @@ static NSString *const kAN = @"AN";
     break;
 
     case HTTP_SERVER_ERROR:
-        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Server error" addActivityIndicator:NO minShowTime:3];
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:NSLocalizedString(@"HTTP_SERVER_ERROR", @"SERVER ERROR.  PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR.") addActivityIndicator:NO minShowTime:3];
 
     default:
         break;
@@ -360,7 +373,7 @@ static NSString *const kAN = @"AN";
     if ( otp.status.status != OK )
     {
         [[ErrorHandler sharedManager] presentMessageInViewController:self
-         errorString:@"OTP is not supported!"
+         errorString:NSLocalizedString(@"ERROR_OTP_NOT_SUPPORTED",  @"OTP is not supported!")
          addActivityIndicator:NO
          minShowTime:0];
 
@@ -395,13 +408,13 @@ static NSString *const kAN = @"AN";
     {
     case INCORRECT_PIN:
         [[ErrorHandler sharedManager] presentMessageInViewController:self
-         errorString:@"Wrong MPIN or Access Number!"
+         errorString:NSLocalizedString(@"INCORRECT_PIN",  @"Wrong MPIN or Access Number!")
          addActivityIndicator:NO
          minShowTime:3];
         break;
 
     case HTTP_REQUEST_ERROR:
-        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Wrong MPIN or Access Number!"
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:NSLocalizedString(@"HTTP_SERVER_ERROR", @"SERVER ERROR.  PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR.")
          addActivityIndicator:NO
          minShowTime:3];
         break;
@@ -449,7 +462,7 @@ static NSString *const kAN = @"AN";
         {
         case INCORRECT_PIN:
             [[ErrorHandler sharedManager] presentMessageInViewController:self
-             errorString:@"Wrong MPIN"
+             errorString:NSLocalizedString(@"INCORRECT_PIN",  @"Wrong MPIN or Access Number!")
              addActivityIndicator:NO
              minShowTime:0];
             break;
@@ -505,11 +518,11 @@ static NSString *const kAN = @"AN";
 -( IBAction )onResetPinButtonClicked:( id )sender
 {
     id<IUser> iuser = ( self.users ) [selectedIndexPath.row];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"RESET_PIN"
-                          message:[NSString stringWithFormat:@"Are you sure that you would like to reset pin of \"%@\" ?", [iuser getIdentity]]
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"KEY_RESET",  @"RESET PIN")
+                          message:[NSString stringWithFormat:NSLocalizedString(@"BLOCKED_ID_RESET_PIN_CONFIRM",@"Are you sure that you would like to reset pin of \"%@\" ?" ), [iuser getIdentity]]
                           delegate:self
-                          cancelButtonTitle:@"CANCEL"
-                          otherButtonTitles:@"RESET",
+                          cancelButtonTitle:NSLocalizedString(@"KEY_CANCEL",  @"CANCEL")
+                          otherButtonTitles:NSLocalizedString(@"KEY_RESET",  @"RESET PIN"),
                           nil];
     alert.tag = RESETPIN_TAG;
     [alert show];
@@ -666,19 +679,19 @@ static NSString *const kAN = @"AN";
          minShowTime:0];
 
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
+        {
             BOOL isSuccessful = [MPin Logout:( self.users ) [selectedIndexPath.row]];
-            dispatch_async(dispatch_get_main_queue(), ^ (void) {
+            dispatch_async(dispatch_get_main_queue(), ^ (void)
+            {
                 [[ErrorHandler sharedManager] hideMessage];
                 NSString *descritpion = ( isSuccessful ) ? NSLocalizedString(@"HUD_LOGOUT_OK", @"") : NSLocalizedString(@"HUD_LOGOUT_NOT_OK", @"");
                 [[ErrorHandler sharedManager] presentMessageInViewController:self
                  errorString:descritpion
                  addActivityIndicator:NO
                  minShowTime:0];
-            }
-                           );
-        }
-                       );
+            });
+        });
 
         return;
     }
