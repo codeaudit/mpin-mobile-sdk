@@ -37,21 +37,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.certivox.constants.FragmentTags;
+import com.certivox.dal.ConfigsDao;
+import com.certivox.models.Config;
+import com.certivox.models.CreateIdentityConfig;
+import com.certivox.models.MakeNewUserInfo;
+import com.certivox.models.OTP;
+import com.certivox.models.Status;
+import com.certivox.models.User;
+import com.certivox.models.User.State;
+import com.certivox.mpinsdk.Mpin;
+import com.example.mpinsdk.R;
+
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
-
-import com.certivox.constants.FragmentTags;
-import com.certivox.dal.ConfigsDao;
-import com.certivox.models.Config;
-import com.certivox.models.OTP;
-import com.certivox.models.Status;
-import com.certivox.models.User;
-import com.certivox.models.User.State;
-import com.certivox.mpinsdk.Mpin;
 
 
 public class MPinController extends Controller {
@@ -68,7 +72,8 @@ public class MPinController extends Controller {
     private HandlerThread mWorkerThread;
     private Handler       mWorkerHandler;
 
-    private static final String  PREFERENCE_USER = "PREFERENCE_USER";
+    private static final String  PREFERENCE_USER                = "PREFERENCE_USER";
+    private static final String  PREFERENCE_DEFAULT_DEVICE_NAME = "DEFAULT_DEVICE_NAME";
     private Context              mContext;
     private static volatile Mpin sSDK;
     private ConfigsDao           mConfigsDao;
@@ -78,6 +83,7 @@ public class MPinController extends Controller {
     private String               mCurrentFragmentTag;
 
     private String mAccessNumberLength;
+    private String mIsDeviceNameNeeded;
 
     // Receive Messages
     public static final int MESSAGE_ON_CREATE             = 0;
@@ -206,7 +212,10 @@ public class MPinController extends Controller {
             notifyOutboxHandlers(MESSAGE_SHOW_ABOUT, 0, 0, null);
             return true;
         case MESSAGE_ON_CREATE_IDENTITY:
-            notifyOutboxHandlers(MESSAGE_SHOW_CREATE_IDENTITY, 0, 0, null);
+            CreateIdentityConfig config = new CreateIdentityConfig();
+            config.isDeviceNameNeeded = isDeviceNameNeeded();
+            config.defaultDeviceName = getDefaultDeviceName();
+            notifyOutboxHandlers(MESSAGE_SHOW_CREATE_IDENTITY, 0, 0, config);
             return true;
         case MESSAGE_EMAIL_CONFIRMED:
             finishRegistration();
@@ -257,7 +266,7 @@ public class MPinController extends Controller {
             saveConfig((Config) data);
             return true;
         case MESSAGE_CREATE_IDENTITY:
-            startRegistration((String) data);
+            startRegistration((MakeNewUserInfo) data);
             return true;
         default:
             return false;
@@ -394,22 +403,26 @@ public class MPinController extends Controller {
     }
 
 
-    private void startRegistration(final String userId) {
+    private void startRegistration(final MakeNewUserInfo userInfo) {
         notifyOutboxHandlers(MESSAGE_START_WORK_IN_PROGRESS, 0, 0, null);
         mWorkerHandler.post(new Runnable() {
 
             @Override
             public void run() {
                 for (User user : getUsersList()) {
-                    if (user.getId().equals(userId)) {
+                    if (user.getId().equals(userInfo.email)) {
                         mCurrentUser = user;
                         notifyOutboxHandlers(MESSAGE_IDENTITY_EXISTS, 0, 0, null);
                         notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
                         return;
                     }
                 }
-
-                mCurrentUser = getSdk().MakeNewUser(userId);
+                if (userInfo.deviceName == null || userInfo.deviceName.isEmpty()) {
+                    mCurrentUser = getSdk().MakeNewUser(userInfo.email);
+                } else {
+                    saveDefaultDeviceName(userInfo.deviceName);
+                    mCurrentUser = getSdk().MakeNewUser(userInfo.email, userInfo.deviceName);
+                }
                 Status status = getSdk().StartRegistration(getCurrentUser());
                 // TODO: This is not the right place for initing the list
                 initUsersList();
@@ -480,7 +493,7 @@ public class MPinController extends Controller {
                 // TODO: NOT GOOD!
                 saveCurrentUser(null);
                 initUsersList();
-                startRegistration(userId);
+                startRegistration(new MakeNewUserInfo(userId, ""));
             }
         });
     }
@@ -871,4 +884,57 @@ public class MPinController extends Controller {
             }
         }
     }
+
+
+    private boolean isDeviceNameNeeded() {
+        mIsDeviceNameNeeded = null;
+        mWorkerHandler.post(new Runnable() {
+
+            @Override
+            public void run() {
+                synchronized (mSDKLockObject) {
+                    mIsDeviceNameNeeded = getSdk().GetClientParam("setDeviceName");
+                    mSDKLockObject.notifyAll();
+                }
+            }
+        });
+
+        synchronized (mSDKLockObject) {
+            try {
+                while (mIsDeviceNameNeeded == null) {
+                    mSDKLockObject.wait();
+                }
+                return Boolean.parseBoolean(mIsDeviceNameNeeded);
+            } catch (InterruptedException e) {
+                return false;
+            }
+        }
+    }
+
+
+    private String getDefaultDeviceName() {
+        String defaultDeviceName = PreferenceManager.getDefaultSharedPreferences(mContext)
+                .getString(PREFERENCE_DEFAULT_DEVICE_NAME, "");
+
+        if (defaultDeviceName.isEmpty()) {
+            BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+            // if the device does not support Bluetooth use the preconfigured default name
+            if (bluetoothAdapter == null) {
+                return mContext.getString(R.string.default_device_name);
+            } else {
+                defaultDeviceName = bluetoothAdapter.getName();
+            }
+        }
+        return defaultDeviceName;
+    }
+
+
+    private void saveDefaultDeviceName(String deviceName) {
+        if (deviceName != null) {
+            PreferenceManager.getDefaultSharedPreferences(mContext).edit()
+                    .putString(PREFERENCE_DEFAULT_DEVICE_NAME, deviceName).apply();
+        }
+    }
+
 }

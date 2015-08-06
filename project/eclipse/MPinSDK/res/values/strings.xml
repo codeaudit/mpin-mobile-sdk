@@ -40,6 +40,7 @@
     <!-- Add Identity -->
     <string name="enter_mail_title">Email address:</string>
     <string name="device_name_title">Device name:</string>
+    <string name="default_device_name">Sample App (Android)</string>
     <string name="create_identity">Create Identity</string>
     <!-- Add Identity end -->
 

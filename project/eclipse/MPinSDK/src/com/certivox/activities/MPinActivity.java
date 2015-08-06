@@ -201,7 +201,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
             createAndAddFragment(FragmentTags.FRAGMENT_USERS_LIST, UsersListFragment.class, false, null);
             return true;
         case MPinController.MESSAGE_SHOW_CREATE_IDENTITY:
-            createAndAddFragment(FragmentTags.FRAGMENT_CREATE_IDENTITY, CreateIdentityFragment.class, false, null);
+            createAndAddFragment(FragmentTags.FRAGMENT_CREATE_IDENTITY, CreateIdentityFragment.class, false, msg.obj);
             return true;
         case MPinController.MESSAGE_SHOW_CONFIRM_EMAIL:
             createAndAddFragment(FragmentTags.FRAGMENT_CONFIRM_EMAIL, ConfirmEmailFragment.class, false, null);
