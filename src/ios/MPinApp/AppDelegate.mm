@@ -15,15 +15,20 @@
 #import "ApplicationManager.h"
 #import <HockeySDK/HockeySDK.h>
 #import "NetworkMonitor.h"
+#import "NetworkDownViewController.h"
 
 @interface AppDelegate ()
+{
+    MFSideMenuContainerViewController *container;
+    NetworkDownViewController *vcNetworkDown;
+}
+
 @end
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     UIUserNotificationType types = UIUserNotificationTypeBadge |
     UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
@@ -41,11 +46,15 @@
     [[BITHockeyManager sharedHockeyManager] startManager];
     [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
     
+	
+
+	container = (MFSideMenuContainerViewController *)self.window.rootViewController;
+    
 	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:[NSBundle mainBundle]];
-
-	MFSideMenuContainerViewController *container = (MFSideMenuContainerViewController *)self.window.rootViewController;
-	_vcUserList = [storyboard instantiateViewControllerWithIdentifier:@"UserListViewController"];
-
+    _vcUserList = [storyboard instantiateViewControllerWithIdentifier:@"UserListViewController"];
+    
+    vcNetworkDown = [storyboard instantiateViewControllerWithIdentifier:@"NetworkDownViewController"];
+    
 	UIViewController *leftSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"MenuViewController"];
 
 	[container setLeftMenuViewController:leftSideMenuViewController];
@@ -85,8 +94,8 @@
     return NO;
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application {
-    
+- (void)applicationWillResignActive:(UIApplication *)application
+{
     // fill screen with our own colour
     UIView *protectionView = [[UIView alloc]initWithFrame:self.window.frame];
     protectionView.backgroundColor = [UIColor whiteColor];
@@ -106,8 +115,9 @@
     }];
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+
     // grab a reference to our coloured view
     UIView *colourView = [self.window viewWithTag:1234];
     
@@ -119,5 +129,20 @@
         [colourView removeFromSuperview];
     }];
 }
+
+-( void) connectionDown
+{
+    NSLog(@"Appdelegate : Connection Down");
+    [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:vcNetworkDown]];
+    container.panMode = MFSideMenuPanModeNone;
+}
+
+-( void) connectionUp
+{
+    NSLog(@"Appdelegate : Connection Up");
+    [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
+    container.panMode = MFSideMenuPanModeDefault;
+}
+
 
 @end

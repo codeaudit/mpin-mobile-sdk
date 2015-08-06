@@ -1304,6 +1304,60 @@
             </objects>
             <point key="canvasLocation" x="463" y="-660"/>
         </scene>
+        <!--Network Down View Controller-->
+        <scene sceneID="cdK-q3-oU8">
+            <objects>
+                <viewController storyboardIdentifier="NetworkDownViewController" id="TKE-y8-yNl" customClass="NetworkDownViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="K74-oc-3qa"/>
+                        <viewControllerLayoutGuide type="bottom" id="zmv-CF-2Zj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="fLi-EX-qWP">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Network is down" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FQN-8d-Q1q">
+                                <rect key="frame" x="16" y="180" width="568" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MPIN_LOGO_DARK" translatesAutoresizingMaskIntoConstraints="NO" id="nel-ng-XYc">
+                                <rect key="frame" x="240" y="60" width="121" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="UIg-m5-aDI"/>
+                                    <constraint firstAttribute="width" constant="121" id="ofY-3M-0Ml"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="certivox-logo" translatesAutoresizingMaskIntoConstraints="NO" id="YTb-Hh-RGB">
+                                <rect key="frame" x="228" y="530" width="144" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Uzb-9V-fCD"/>
+                                    <constraint firstAttribute="width" constant="144" id="rlh-k3-9eN"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="FQN-8d-Q1q" firstAttribute="leading" secondItem="fLi-EX-qWP" secondAttribute="leadingMargin" id="FD0-Mu-zAj"/>
+                            <constraint firstAttribute="centerX" secondItem="YTb-Hh-RGB" secondAttribute="centerX" id="MEQ-Fl-RTc"/>
+                            <constraint firstAttribute="centerX" secondItem="nel-ng-XYc" secondAttribute="centerX" constant="-0.5" id="NFS-Ee-hkW"/>
+                            <constraint firstAttribute="centerX" secondItem="FQN-8d-Q1q" secondAttribute="centerX" constant="-0.5" id="R2h-lq-Aam"/>
+                            <constraint firstItem="FQN-8d-Q1q" firstAttribute="trailing" secondItem="fLi-EX-qWP" secondAttribute="trailingMargin" id="YA4-Sb-2Jx"/>
+                            <constraint firstItem="nel-ng-XYc" firstAttribute="top" secondItem="K74-oc-3qa" secondAttribute="bottom" constant="40" id="YpK-iv-0c2"/>
+                            <constraint firstItem="zmv-CF-2Zj" firstAttribute="top" secondItem="YTb-Hh-RGB" secondAttribute="bottom" constant="20" id="ZGn-O0-V0V"/>
+                            <constraint firstItem="FQN-8d-Q1q" firstAttribute="top" secondItem="nel-ng-XYc" secondAttribute="bottom" constant="60" id="bpO-t2-3es"/>
+                            <constraint firstAttribute="centerY" secondItem="FQN-8d-Q1q" secondAttribute="centerY" constant="109.5" id="x57-m8-xk5"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="lblMessage" destination="FQN-8d-Q1q" id="2hg-Lb-xmq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="s8U-J6-b3G" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2522" y="-2048"/>
+        </scene>
         <!--Identity Blocked View Controller-->
         <scene sceneID="cAv-fw-OTl">
             <objects>
@@ -2781,6 +2835,7 @@
         <image name="arrow-right-white" width="30" height="26"/>
         <image name="avatar-single" width="95" height="95"/>
         <image name="avatar-single-success" width="111" height="95"/>
+        <image name="certivox-logo" width="179" height="57"/>
         <image name="identity-blocked" width="111" height="96"/>
         <image name="pin-dot-empty" width="22" height="22"/>
         <image name="plus-white" width="17" height="17"/>

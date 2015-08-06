@@ -16,6 +16,7 @@
 #import "ConfigurationManager.h"
 #import "MPin.h"
 #import "ThemeManager.h"
+#import "AFNetworkReachabilityManager.h"
 
 static NSString *const kEmpty = @"";
 static NSString *const kMpinStatus = @"MpinStatus";
@@ -63,12 +64,15 @@ static NSString *const kUser = @"User";
     self.title                  = NSLocalizedString(@"ADDIDVC_TITLE", @"");
 }
 
--(void) viewWillAppear:(BOOL)animated
+-( void ) viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
+    if ( ![AFNetworkReachabilityManager sharedManager].reachable )
+    {}
 }
+
 - ( void )viewDidAppear:( BOOL )animated
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -84,7 +88,6 @@ static NSString *const kUser = @"User";
     [[NSNotificationCenter defaultCenter] removeObserver:self
      name:kShowPinPadNotification
      object:nil];
-    
 }
 
 - ( void )showPinPad
@@ -130,7 +133,7 @@ static NSString *const kUser = @"User";
     }
 
     self.txtIdentity.text = [self.txtIdentity.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    
+
     if ( ![self isValidEmail:self.txtIdentity.text] )
     {
         [[ErrorHandler sharedManager] presentMessageInViewController:self
@@ -200,8 +203,6 @@ static NSString *const kUser = @"User";
 {
     MpinStatus *mpinStatus = [error.userInfo objectForKey:kMPinSatus];
     [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(mpinStatus.statusCodeAsString, @"SERVER ERROR") addActivityIndicator:NO hideAfter:3];
-    
-    
 }
 
 - ( void )OnFinishRegistrationCompleted:( id )sender user:( const id<IUser>)user

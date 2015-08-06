@@ -245,6 +245,10 @@
 		96C9BF2A1AE6407D00FAC454 /* IdentityBlockedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C9BF281AE6407D00FAC454 /* IdentityBlockedViewController.m */; };
 		96D3CAD41AEE5324004BAC3A /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96130EB61AEE4979005D2A86 /* Settings.plist */; };
 		96D3CAD51AEE5328004BAC3A /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96130EBA1AEE4979005D2A86 /* Settings.plist */; };
+		96D9C0AC1B7341260035F3BB /* NetworkDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D9C0AB1B7341260035F3BB /* NetworkDownViewController.m */; };
+		96D9C0AD1B7341260035F3BB /* NetworkDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D9C0AB1B7341260035F3BB /* NetworkDownViewController.m */; };
+		96D9C0AE1B7341260035F3BB /* NetworkDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D9C0AB1B7341260035F3BB /* NetworkDownViewController.m */; };
+		96D9C0AF1B7341260035F3BB /* NetworkDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D9C0AB1B7341260035F3BB /* NetworkDownViewController.m */; };
 		96DA33F81ACD54C300B2CAAB /* libMPinSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */; };
 		96DA33F91ACD54D700B2CAAB /* libMPinSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */; };
 		96E21A541AF8AE6C00490625 /* en_BG1.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E21A531AF8AE6C00490625 /* en_BG1.strings */; };
@@ -393,6 +397,8 @@
 		96D3CAD01AEE4D6D004BAC3A /* OlswangMPin.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = OlswangMPin.plist; sourceTree = "<group>"; };
 		96D3CAD11AEE4D7B004BAC3A /* CertivoxMPin.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CertivoxMPin.plist; sourceTree = "<group>"; };
 		96D3CAD21AEE4D8E004BAC3A /* DDMPin.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = DDMPin.plist; sourceTree = "<group>"; };
+		96D9C0AA1B7341260035F3BB /* NetworkDownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkDownViewController.h; path = ../../../../src/ios/MPinApp/NetworkDownViewController.h; sourceTree = "<group>"; };
+		96D9C0AB1B7341260035F3BB /* NetworkDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkDownViewController.m; path = ../../../../src/ios/MPinApp/NetworkDownViewController.m; sourceTree = "<group>"; };
 		96DA33F71ACD54C300B2CAAB /* libMPinSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMPinSDK.a; path = "../../../../Library/Developer/Xcode/DerivedData/MPin-fkvltgzbxheajafuhhxznfslxxnp/Build/Products/Release-iphoneos/libMPinSDK.a"; sourceTree = "<group>"; };
 		96E21A531AF8AE6C00490625 /* en_BG1.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = en_BG1.strings; sourceTree = "<group>"; };
 		96E9D36C1B39699B004ADDEA /* AboutDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutDetailsViewController.h; path = ../../../../src/ios/MPinApp/AboutDetailsViewController.h; sourceTree = "<group>"; };
@@ -745,6 +751,8 @@
 				963485D01B5E1EDB001F2C71 /* QREditorViewController.m */,
 				96E9D36C1B39699B004ADDEA /* AboutDetailsViewController.h */,
 				96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */,
+				96D9C0AA1B7341260035F3BB /* NetworkDownViewController.h */,
+				96D9C0AB1B7341260035F3BB /* NetworkDownViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -1359,6 +1367,7 @@
 				96130E371AEE4867005D2A86 /* SettingsManager.m in Sources */,
 				96F78E1E1B05E5B8005C2C7D /* ErrorHandler.m in Sources */,
 				96130E381AEE4867005D2A86 /* UIView+Helper.m in Sources */,
+				96D9C0AE1B7341260035F3BB /* NetworkDownViewController.m in Sources */,
 				96130E391AEE4867005D2A86 /* IdentityCreatedViewController.m in Sources */,
 				96130E3A1AEE4867005D2A86 /* IdentityBlockedViewController.m in Sources */,
 				96130E3B1AEE4867005D2A86 /* SettingsViewController.m in Sources */,
@@ -1406,6 +1415,7 @@
 				96130E811AEE490A005D2A86 /* SettingsManager.m in Sources */,
 				96F78E1F1B05E5B8005C2C7D /* ErrorHandler.m in Sources */,
 				96130E821AEE490A005D2A86 /* UIView+Helper.m in Sources */,
+				96D9C0AF1B7341260035F3BB /* NetworkDownViewController.m in Sources */,
 				96130E831AEE490A005D2A86 /* IdentityCreatedViewController.m in Sources */,
 				96130E841AEE490A005D2A86 /* IdentityBlockedViewController.m in Sources */,
 				96130E851AEE490A005D2A86 /* SettingsViewController.m in Sources */,
@@ -1453,6 +1463,7 @@
 				9649BCA31AC16D1000B9F41B /* UIView+Helper.m in Sources */,
 				96C88F481AC42B7D00A5F27A /* SettingsManager.m in Sources */,
 				9649BCA41AC16D1000B9F41B /* IdentityCreatedViewController.m in Sources */,
+				96D9C0AD1B7341260035F3BB /* NetworkDownViewController.m in Sources */,
 				96C9BF2A1AE6407D00FAC454 /* IdentityBlockedViewController.m in Sources */,
 				9649BCA51AC16D1000B9F41B /* SettingsViewController.m in Sources */,
 				9649BCA61AC16D1000B9F41B /* AppDelegate.mm in Sources */,
@@ -1500,6 +1511,7 @@
 				96F78E1C1B05E5B8005C2C7D /* ErrorHandler.m in Sources */,
 				FEDDDE311A89F93E00E2068C /* UIView+Helper.m in Sources */,
 				968E7A541AA06CA700A276A7 /* IdentityCreatedViewController.m in Sources */,
+				96D9C0AC1B7341260035F3BB /* NetworkDownViewController.m in Sources */,
 				FE36B3B51B04E195000ACD70 /* ApplicationManager.m in Sources */,
 				96C9BF291AE6407D00FAC454 /* IdentityBlockedViewController.m in Sources */,
 				FEB901681A6D28550053DE92 /* SettingsViewController.m in Sources */,

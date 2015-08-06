@@ -8,10 +8,12 @@
 
 #import "NetworkMonitor.h"
 #import "ApplicationManager.h"
+#import "AppDelegate.h"
 
-@interface NetworkMonitor()
+@interface NetworkMonitor ( )
 {
     BOOL boolWasDown;
+    AppDelegate *appDelegate;
 }
 @end
 
@@ -23,7 +25,6 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^ {
         sharedManager = [[self alloc] init];
-        
     });
 
     return sharedManager;
@@ -35,6 +36,7 @@
     if ( self )
     {
         boolWasDown = YES;
+        appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         [self runNetowrkMonitoring];
     }
 
@@ -44,24 +46,24 @@
 - ( void ) runNetowrkMonitoring
 {
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock: ^ (AFNetworkReachabilityStatus status) {
-        
         switch ( status )
         {
         case AFNetworkReachabilityStatusReachableViaWiFi:
         case AFNetworkReachabilityStatusReachableViaWWAN:
             NSLog(@"!!! NETWORK UP");
-                if (boolWasDown)
-                {
-                    NSLog(@"Setting up backend");
-                    [[ApplicationManager sharedManager] setBackend];
-                }
-                boolWasDown = NO;
-                self.networkStatusUp = YES;
+            if ( boolWasDown )
+            {
+                [appDelegate connectionUp];
+                [[ApplicationManager sharedManager] setBackend];
+            }
+            boolWasDown = NO;
+            self.networkStatusUp = YES;
             break;
 
         default:
             {
                 NSLog(@"!!! NETWORK DOWN");
+                [appDelegate connectionDown];
                 boolWasDown = YES;
                 self.networkStatusUp = NO;
             }

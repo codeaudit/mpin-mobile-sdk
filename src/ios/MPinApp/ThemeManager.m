@@ -23,6 +23,7 @@
 #import "MenuTableViewCell.h"
 #import "IdentityBlockedViewController.h"
 #import "ANAuthenticationSuccessful.h"
+#import "NetworkDownViewController.h"
 
 @interface ThemeManager ( )
 
@@ -65,6 +66,13 @@
         ANAuthenticationSuccessful *myVc = (ANAuthenticationSuccessful *)vc;
         myVc.lblMessage.textColor = [[SettingsManager sharedManager] color7];
         myVc.lblMessage.font = [UIFont fontWithName:@"OpenSans-Semibold" size:22.f];
+    }
+    else
+    if ( [vc isMemberOfClass:[NetworkDownViewController class]] )
+    {
+        NetworkDownViewController *myVc = (NetworkDownViewController *)vc;
+        myVc.lblMessage.font = [UIFont fontWithName:@"OpenSans-Bold" size:20.f];
+        myVc.lblMessage.textColor = [[SettingsManager sharedManager] color10];
     }
     else
     if ( [vc isMemberOfClass:[MenuViewController class]] )
