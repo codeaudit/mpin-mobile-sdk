@@ -102,6 +102,8 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     private TextView              mChangeServiceButton;
     private TextView              mAboutButton;
 
+    private Toast                 mNoInternetToast;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -584,7 +586,9 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
 
 
     private void showNoInternetAccessToast() {
-        Toast toast = Toast.makeText(this, getString(R.string.no_internet_toast), Toast.LENGTH_LONG);
-        toast.show();
+        if (mNoInternetToast == null) {
+            mNoInternetToast = Toast.makeText(this, getString(R.string.no_internet_toast), Toast.LENGTH_LONG);
+        }
+        mNoInternetToast.show();
     }
 }

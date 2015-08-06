@@ -131,7 +131,7 @@
 
 
     <!-- Toasts -->
-    <string name="no_internet_toast">No Internet Access</string>
+    <string name="no_internet_toast">No Internet Connection. Please check you connection and try again.</string>
     <!-- Toasts end -->
 
 </resources>
