@@ -437,6 +437,11 @@ Status MPinSDK::HttpResponse::TranslateToMPinStatus(Context context)
             m_mpinStatus.SetStatusCode(Status::INCORRECT_ACCESS_NUMBER);
             m_mpinStatus.SetErrorMessage("Invalid access number");
         }
+        else if(m_httpStatus == HTTP_FORBIDDEN)
+        {
+            m_mpinStatus.SetStatusCode(Status::IDENTITY_NOT_AUTHORIZED);
+            m_mpinStatus.SetErrorMessage("Identity not authorized");
+        }
         break;
     }
 
