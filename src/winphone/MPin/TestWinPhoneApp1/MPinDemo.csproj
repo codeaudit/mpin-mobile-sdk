@@ -112,6 +112,9 @@
     <Compile Include="EmailConfirmed.xaml.cs">
       <DependentUpon>EmailConfirmed.xaml</DependentUpon>
     </Compile>
+    <Compile Include="IdentityCreated.xaml.cs">
+      <DependentUpon>IdentityCreated.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -176,6 +179,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="EmailConfirmed.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="IdentityCreated.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

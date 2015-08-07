@@ -127,7 +127,7 @@
     <value>Add</value>
   </data>
   <data name="AuthTB.Text" xml:space="preserve">
-    <value>User:</value>
+    <value>AUTHENTICATION STATUS</value>
   </data>
   <data name="BlockedUser" xml:space="preserve">
     <value>User {0} is BLOCKED! Too many unsuccessful authentications!</value>
@@ -145,13 +145,13 @@
     <value>delete</value>
   </data>
   <data name="EmailTB.Text" xml:space="preserve">
-    <value>We have sent you an email to:</value>
+    <value>CONFIRM EMAIL</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Error: </value>
   </data>
   <data name="ErrorAuth" xml:space="preserve">
-    <value>is NOT authenticated! Error: </value>
+    <value>Unsuccessful authentication! Error: </value>
   </data>
   <data name="ExistingUser" xml:space="preserve">
     <value>User already exists for the specified service!</value>
@@ -160,13 +160,15 @@
     <value>Expired!</value>
   </data>
   <data name="IdsButton.Content" xml:space="preserve">
-    <value>Go to identities list</value>
+    <value>Back to identity list</value>
   </data>
   <data name="IncorrectAccessNumber" xml:space="preserve">
-    <value>is NOT successfully authenticated due to incorrect access number!</value>
+    <value>Incorrect Access Number! 
+Unsuccessfull authenitecation!</value>
   </data>
   <data name="IncorrectPin" xml:space="preserve">
-    <value>is NOT authenticated due to an incorrect entered pin!</value>
+    <value>Incorrect PIN! 
+Unsuccessfull authentication!</value>
   </data>
   <data name="InitializationFailed" xml:space="preserve">
     <value>Failed to initialize MPinSDK: status code = {0}. Try again!</value>
@@ -178,7 +180,7 @@
     <value>Create Identity</value>
   </data>
   <data name="NewUserIdTB.Text" xml:space="preserve">
-    <value>Email address:</value>
+    <value>Enter your email</value>
   </data>
   <data name="NoSelectedUser" xml:space="preserve">
     <value>No selected user!</value>
@@ -217,7 +219,7 @@
     <value>Backend status: </value>
   </data>
   <data name="SuccessfulAuth" xml:space="preserve">
-    <value>is successfully authenticated!</value>
+    <value>Successfully authenticated!</value>
   </data>
   <data name="TimeLeftTB.Text" xml:space="preserve">
     <value>Time left:</value>
@@ -276,14 +278,14 @@
   <data name="AllRightsReserved.Text" xml:space="preserve">
     <value>All rights reserved.</value>
   </data>
-  <data name="ANUser" xml:space="preserve">
-    <value>Hi, {0}!</value>
+  <data name="ANTitle.Text" xml:space="preserve">
+    <value>ENTER ACCESS NUMBER</value>
   </data>
   <data name="CertivoxLtd" xml:space="preserve">
     <value>Copyright {0} 2015, CertiVox UK Ltd</value>
   </data>
   <data name="DeviceNameTB.Text" xml:space="preserve">
-    <value>Device name:</value>
+    <value>Device Name</value>
   </data>
   <data name="SuccessfulRegistration" xml:space="preserve">
     <value>Successfully registered user {0}!</value>
@@ -413,5 +415,20 @@
   </data>
   <data name="DuplicateName" xml:space="preserve">
     <value>The service name already exists!</value>
+  </data>
+  <data name="AddUserTitle.Text" xml:space="preserve">
+    <value>ADD IDENTITY</value>
+  </data>
+  <data name="IdentityCreatedNotification.Text" xml:space="preserve">
+    <value>Identity successfully created. You can now use this identity to authenticate.</value>
+  </data>
+  <data name="IdentityCreatedTitle.Text" xml:space="preserve">
+    <value>IDENTITY CREATED</value>
+  </data>
+  <data name="IdentityListButton.Content" xml:space="preserve">
+    <value>Back to identity list</value>
+  </data>
+  <data name="SignInButton.Content" xml:space="preserve">
+    <value>Sign in with this identity</value>
   </data>
 </root>

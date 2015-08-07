@@ -5,10 +5,25 @@
 
     <SolidColorBrush x:Key="ProgressBarIndeterminateForegroundThemeBrush" Color="Red" />
     
-    <Style TargetType="TextBlock">
-        <Setter Property="FontSize" Value="20" />
+    <Style TargetType="Page" x:Key="PageStyle">
+        <Setter Property="Margin" Value="12"/>
     </Style>
     
+    <Style TargetType="TextBlock">
+        <Setter Property="FontSize" Value="20" />        
+    </Style>
+    
+    <Style x:Key="MainTextBlock" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Margin" Value="0,12,0,12" />
+    </Style>
+
+    <Style x:Key="TitleStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Margin" Value="0,12,0,12" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+                
     <Style TargetType="ListBox">
         <Setter Property="Background" Value="Transparent"/>
     </Style>

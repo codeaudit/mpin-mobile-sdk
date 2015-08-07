@@ -459,13 +459,18 @@ namespace MPinDemo.Models
                 {
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
-                        rootPage.NotifyUser(
-                            st.StatusCode == Status.Code.OK
-                                ? string.Format(ResourceLoader.GetForCurrentView().GetString("SuccessfulRegistration"), user.Id)
-                                : string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblemReason"), user.Id, st.ErrorMessage),
-                            st.StatusCode == Status.Code.OK
-                                ? MainPage.NotifyType.StatusMessage
-                                : MainPage.NotifyType.ErrorMessage);
+                        if (st.StatusCode == Status.Code.OK)
+                        {
+                            // successful registration
+                            Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
+                            mainFrame.Navigate(typeof(IdentityCreated), user);
+                        }
+                        else
+                        {
+                            rootPage.NotifyUser(
+                                string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblemReason"), user.Id, st.ErrorMessage),
+                                MainPage.NotifyType.ErrorMessage);
+                        }
                     });
                 }
             }
@@ -669,7 +674,11 @@ namespace MPinDemo.Models
                     await EditServiceInfo(parameter as Backend);
                     break;
 
-                case "InitialLoad":
+                case "SignIn":
+                    this.DataModel.CurrentUser = parameter as User;
+                    break;
+
+                case "InitialLoad":                
                     await ProcessUser();
                     break;
 

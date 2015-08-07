@@ -121,6 +121,7 @@ namespace MPinDemo
                 string command = data[0].ToString();
                 showUsers = !command.Contains("Service");
                 isServiceAdding = command == "AddService";
+                ProcessControlsOperations(command);
                 await controller.ProcessNavigation(command, data[1]);
             }
             else
@@ -163,15 +164,21 @@ namespace MPinDemo
                     break;
             }
         }
-        
 
-        private void SetControlsIsEnabled(string param, bool force = false, bool isInProgress = true)
+        private void ProcessControlsOperations(string command)
+        {
+            List<string> commandsToDisableScreen = new List<string>() { "AddUser", "SignIn" };
+            if (commandsToDisableScreen.Contains(command))
+                SetControlsIsEnabled(null, true);
+        }
+
+        private void SetControlsIsEnabled(string param, bool forceDisable = false, bool isInProgress = true)
         {
             // the process has been canceled
             if (!string.IsNullOrEmpty(param) && param.Equals("HardwareBack"))
                 controller.IsUserInProcessing = false;
 
-            bool deactivateAll = force ? isInProgress : controller.IsUserInProcessing;
+            bool deactivateAll = forceDisable ? isInProgress : controller.IsUserInProcessing;
             Progress.Visibility = deactivateAll ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
             BottomCommandBar.IsEnabled = !deactivateAll;
         }

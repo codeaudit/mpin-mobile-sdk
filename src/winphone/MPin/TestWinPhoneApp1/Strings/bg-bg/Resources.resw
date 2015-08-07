@@ -127,7 +127,7 @@
     <value>Добави</value>
   </data>
   <data name="AuthTB.Text" xml:space="preserve">
-    <value>Потребител:</value>
+    <value>СТАТУС ПРИ АУТЕНТИЦАКИЯТА</value>
   </data>
   <data name="BlockedUser" xml:space="preserve">
     <value>Потребителят {0} е в статус БЛОКИРАН! Твърде много неуспешни опити за аутентикация!</value>
@@ -142,13 +142,13 @@
     <value>Изберете връзката от пощата си за да потвърдите самоличността си и да продължите напред. </value>
   </data>
   <data name="EmailTB.Text" xml:space="preserve">
-    <value>Изпратихме ви поща на:</value>
+    <value>ПОТВЪРЖДЕНИЕ НА РЕГИСТРАЦИЯТА</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Грешка: </value>
   </data>
   <data name="ErrorAuth" xml:space="preserve">
-    <value>НЕ е аутентикиран! Грешка: </value>
+    <value>Неуспешна аутентикация! Грешка: </value>
   </data>
   <data name="ExistingUser" xml:space="preserve">
     <value>Избраният потребител вече съществува за избраната конфигурация!</value>
@@ -160,10 +160,12 @@
     <value>Върни се към списъка с потребители</value>
   </data>
   <data name="IncorrectAccessNumber" xml:space="preserve">
-    <value>НЕ е аутентикиран поради грешен входен номер. </value>
+    <value>Невалиден входен номер!
+Неуспешна аутентикация!</value>
   </data>
   <data name="IncorrectPin" xml:space="preserve">
-    <value>НЕ е аутентикиран поради неправилно въведен ПИН!</value>
+    <value>Неправилен ПИН!
+Неуспешна аутентикация!</value>
   </data>
   <data name="InitializationFailed" xml:space="preserve">
     <value>Грешка при стартирането на MPinSDK: статус = {0}. Моля, опитайте отново!</value>
@@ -175,7 +177,7 @@
     <value>Съзадай акаунт</value>
   </data>
   <data name="NewUserIdTB.Text" xml:space="preserve">
-    <value>Адрес на поща:</value>
+    <value>Въведете адрес на поща</value>
   </data>
   <data name="NoSelectedUser" xml:space="preserve">
     <value>Няма избран потребител!</value>
@@ -214,7 +216,7 @@
     <value>Статус на конфигурацията: </value>
   </data>
   <data name="SuccessfulAuth" xml:space="preserve">
-    <value>е успешно аутентикиран!</value>
+    <value>Успешна аутентикация!</value>
   </data>
   <data name="TimeLeftTB.Text" xml:space="preserve">
     <value>Оставащо време:</value>
@@ -276,14 +278,11 @@
   <data name="AllRightsReserved.Text" xml:space="preserve">
     <value>Всички права запазени.</value>
   </data>
-  <data name="ANUser" xml:space="preserve">
-    <value>Здравей, {0}!</value>
-  </data>
   <data name="CertivoxLtd" xml:space="preserve">
     <value>Copyright {0} 2015, CertiVox UK Ltd</value>
   </data>
   <data name="DeviceNameTB.Text" xml:space="preserve">
-    <value>Име на устройство:</value>
+    <value>Име на устройство</value>
   </data>
   <data name="SuccessfulRegistration" xml:space="preserve">
     <value>Успешно регистриран потребител {0}!</value>
@@ -413,5 +412,23 @@
   </data>
   <data name="DuplicateName" xml:space="preserve">
     <value>Конфигурация с такова име вече съществува!</value>
+  </data>
+  <data name="AddUserTitle.Text" xml:space="preserve">
+    <value>ДОБАВЕТЕ ПОТРЕБИТЕЛ</value>
+  </data>
+  <data name="ANTitle.Text" xml:space="preserve">
+    <value>ВЪВЕДЕТЕ ВХОДЕН НОМЕР</value>
+  </data>
+  <data name="IdentityCreatedNotification.Text" xml:space="preserve">
+    <value>Успешно добавен потребител! Вече може да се аутентикирате посредством този потребител.</value>
+  </data>
+  <data name="IdentityCreatedTitle.Text" xml:space="preserve">
+    <value>СЪЗДАДЕН ПОТРЕБИТЕЛ</value>
+  </data>
+  <data name="IdentityListButton.Content" xml:space="preserve">
+    <value>Върни се към списъка с потребители</value>
+  </data>
+  <data name="SignInButton.Content" xml:space="preserve">
+    <value>Вход с този потребител</value>
   </data>
 </root>
