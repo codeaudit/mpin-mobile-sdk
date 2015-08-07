@@ -53,6 +53,7 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
@@ -76,15 +77,20 @@ import com.example.mpinsdk.R;
 
 public class MPinActivity extends ActionBarActivity implements OnClickListener, Handler.Callback {
 
-    private static final String TAG = MPinActivity.class.getSimpleName();
+    private static final String TAG    = MPinActivity.class.getSimpleName();
 
     // Needed for Hockey App
     private static final String APP_ID = "08b0417545be2304b7ce45ef43e30daf";
 
     // Controller
-    private MPinController mController;
-
+    private MPinController      mController;
     private static MPinActivity mActivity;
+
+    private enum ActivityStates {
+        ON_CREATE, ON_STOP, ON_POST_RESUME, ON_DESTROY;
+    };
+
+    private ActivityStates        mActivityLifecycleState;
 
     // Views
     private DrawerLayout          mDrawerLayout;
@@ -96,11 +102,14 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     private TextView              mChangeServiceButton;
     private TextView              mAboutButton;
 
+    private Toast                 mNoInternetToast;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mpin);
+        mActivityLifecycleState = ActivityStates.ON_CREATE;
 
         initialize();
 
@@ -111,8 +120,16 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
 
 
     @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        mActivityLifecycleState = ActivityStates.ON_POST_RESUME;
+    }
+
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        mActivityLifecycleState = ActivityStates.ON_DESTROY;
         mController.handleMessage(MPinController.MESSAGE_ON_DESTROY);
         freeResources();
     }
@@ -128,6 +145,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     @Override
     protected void onStop() {
         super.onStop();
+        mActivityLifecycleState = ActivityStates.ON_STOP;
         mController.handleMessage(MPinController.MESSAGE_ON_STOP);
     }
 
@@ -239,6 +257,9 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
             return true;
         case MPinController.MESSAGE_IDENTITY_NOT_AUTHORIZED:
             showInvalidUserDialog();
+            return true;
+        case MPinController.MESSAGE_NO_INTERNET_ACCESS:
+            showNoInternetAccessToast();
             return true;
         }
         return false;
@@ -380,27 +401,35 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     private void createAndAddFragment(String tag, Class<? extends MPinFragment> fragmentClass, boolean addToBackStack,
             Object data) {
 
-        MPinFragment fragment = (MPinFragment) getFragmentManager().findFragmentByTag(tag);
+        //Need to check if the activity is in proper state for switching fragments, otherwise exception is thrown
+        switch (mActivityLifecycleState) {
+        case ON_CREATE:
+        case ON_POST_RESUME:
+        case ON_STOP:
+            MPinFragment fragment = (MPinFragment) getFragmentManager().findFragmentByTag(tag);
 
-        if (fragment == null) {
-            fragment = getFragmentByClass(fragmentClass);
-        }
-
-        if (fragment != null && !fragment.isVisible()) {
-            fragment.setMPinController(mController);
-            fragment.setData(data);
-
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-            transaction.replace(R.id.content, fragment, tag);
-            if (addToBackStack) {
-                transaction.addToBackStack(tag);
+            if (fragment == null) {
+                fragment = getFragmentByClass(fragmentClass);
             }
-            transaction.commitAllowingStateLoss();
-            getFragmentManager().executePendingTransactions();
-        }
 
-        closeDrawer();
+            if (fragment != null && !fragment.isVisible()) {
+                fragment.setMPinController(mController);
+                fragment.setData(data);
+
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                transaction.replace(R.id.content, fragment, tag);
+                if (addToBackStack) {
+                    transaction.addToBackStack(tag);
+                }
+                transaction.commitAllowingStateLoss();
+                getFragmentManager().executePendingTransactions();
+            }
+            closeDrawer();
+            break;
+        default:
+            return;
+        }
     }
 
 
@@ -506,42 +535,42 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
 
 
     private void showAuthSuccessDialog() {
-        new AlertDialog.Builder(this).setTitle(getResources().getString(R.string.successful_login_title))
-                .setMessage(getResources().getString(R.string.successful_login_text))
-                .setPositiveButton(getResources().getString(R.string.button_ok), null).show();
+        new AlertDialog.Builder(this).setTitle(getString(R.string.successful_login_title))
+                .setMessage(getString(R.string.successful_login_text))
+                .setPositiveButton(getString(R.string.button_ok), null).show();
     }
 
 
     private void showWrongPinDialog() {
-        new AlertDialog.Builder(this).setTitle(getResources().getString(R.string.incorrect_pin_title))
-                .setPositiveButton(getResources().getString(R.string.button_ok), null).show();
+        new AlertDialog.Builder(this).setTitle(getString(R.string.incorrect_pin_title))
+                .setPositiveButton(getString(R.string.button_ok), null).show();
     }
 
 
     private void showOtpNotSupportedDialog() {
-        new AlertDialog.Builder(this).setTitle(getResources().getString(R.string.otp_not_supported_title))
-                .setMessage(getResources().getString(R.string.otp_not_supported_text))
-                .setPositiveButton(getResources().getString(R.string.button_ok), null).show();
+        new AlertDialog.Builder(this).setTitle(getString(R.string.otp_not_supported_title))
+                .setMessage(getString(R.string.otp_not_supported_text))
+                .setPositiveButton(getString(R.string.button_ok), null).show();
     }
 
 
     private void showIncorrectANDialog() {
-        new AlertDialog.Builder(this).setTitle(getResources().getString(R.string.incorrect_access_number_title))
-                .setPositiveButton(getResources().getString(R.string.button_ok), null).show();
+        new AlertDialog.Builder(this).setTitle(getString(R.string.incorrect_access_number_title))
+                .setPositiveButton(getString(R.string.button_ok), null).show();
     }
 
 
     private void showNetworkErrorDialog() {
-        new AlertDialog.Builder(this).setTitle(getResources().getString(R.string.network_error_title))
-                .setMessage(getResources().getString(R.string.try_again))
-                .setPositiveButton(getResources().getString(R.string.button_ok), null).show();
+        new AlertDialog.Builder(this).setTitle(getString(R.string.network_error_title))
+                .setMessage(getString(R.string.try_again)).setPositiveButton(getString(R.string.button_ok), null)
+                .show();
     }
 
 
     private void showInvalidUserDialog() {
-        new AlertDialog.Builder(this).setTitle(getResources().getString(R.string.error_dialog_title))
-                .setMessage(getResources().getString(R.string.user_not_authorized))
-                .setPositiveButton(getResources().getString(R.string.button_ok), null).show();
+        new AlertDialog.Builder(this).setTitle(getString(R.string.error_dialog_title))
+                .setMessage(getString(R.string.user_not_authorized))
+                .setPositiveButton(getString(R.string.button_ok), null).show();
     }
 
 
@@ -553,5 +582,13 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
             inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             view.clearFocus();
         }
+    }
+
+
+    private void showNoInternetAccessToast() {
+        if (mNoInternetToast == null) {
+            mNoInternetToast = Toast.makeText(this, getString(R.string.no_internet_toast), Toast.LENGTH_LONG);
+        }
+        mNoInternetToast.show();
     }
 }

@@ -114,7 +114,7 @@ public:
             NETWORK_ERROR, // Local error - cannot connect to remote server (no internet, or invalid server/port)
             RESPONSE_PARSE_ERROR, // Local error - cannot parse json response from remote server (invalid json or unexpected json structure)
             FLOW_ERROR, // Local error - unproper MPinSDK class usage
-            IDENTITY_NOT_AUTHORIZED, // Remote error - the remote server refuses user registration
+            IDENTITY_NOT_AUTHORIZED, // Remote error - the remote server refuses user registration or authentication
             IDENTITY_NOT_VERIFIED, // Remote error - the remote server refuses user registration because identity is not verified
             REQUEST_EXPIRED, // Remote error - the register/authentication request expired
             REVOKED, // Remote error - cannot get time permit (propably the user is temporary suspended)
