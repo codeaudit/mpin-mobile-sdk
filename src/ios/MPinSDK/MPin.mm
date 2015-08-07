@@ -181,9 +181,9 @@ typedef sdk::Context Context;
 }
 
 +(NSMutableArray *) listUsers {
-    NSMutableArray * users = [NSMutableArray array];
     std::vector<UserPtr> vUsers;
     mpin.ListUsers(vUsers);
+    NSMutableArray * users = [[NSMutableArray alloc] initWithCapacity:vUsers.size()];
     for (int i = 0; i<vUsers.size(); i++) {
         [users addObject:[[User alloc] initWith:vUsers[i]]];
     }

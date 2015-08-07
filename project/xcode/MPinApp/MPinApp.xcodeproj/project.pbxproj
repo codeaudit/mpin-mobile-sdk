@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9604B77E1B73935B00FF6D6A /* Certivox_MPin_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9604B77D1B73935B00FF6D6A /* Certivox_MPin_Tests.m */; };
 		960D6A941A88C0E20068E0F7 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A811A88C0E20068E0F7 /* OpenSans-Bold.ttf */; };
 		960D6A951A88C0E20068E0F7 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A821A88C0E20068E0F7 /* OpenSans-BoldItalic.ttf */; };
 		960D6A961A88C0E20068E0F7 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 960D6A831A88C0E20068E0F7 /* OpenSans-ExtraBold.ttf */; };
@@ -325,12 +326,25 @@
 		FEFFDDF21A1A4268007C7CAA /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEFFDDF01A1A4268007C7CAA /* Main_iPhone.storyboard */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		9604B77F1B73935B00FF6D6A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FE49000F1A1A3CEB000030A4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FE4900161A1A3CEB000030A4;
+			remoteInfo = "Certivox MPin";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		05E7AD758BE70B1A9530DEA4 /* Pods.qa.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.qa.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.qa.xcconfig"; sourceTree = "<group>"; };
 		424F5ACA40BA9B3F96DAFF57 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		4A273B391E35D7265DFB7EB0 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		4B8967D6B49D70B9963207D4 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E028F143C41C1BDD98336EC /* Pods.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.adhoc.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.adhoc.xcconfig"; sourceTree = "<group>"; };
+		9604B7791B73935B00FF6D6A /* Certivox MPin Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Certivox MPin Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9604B77C1B73935B00FF6D6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9604B77D1B73935B00FF6D6A /* Certivox_MPin_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Certivox_MPin_Tests.m; sourceTree = "<group>"; };
 		960D6A811A88C0E20068E0F7 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		960D6A821A88C0E20068E0F7 /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
 		960D6A831A88C0E20068E0F7 /* OpenSans-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -478,6 +492,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		9604B7761B73935B00FF6D6A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		96130E401AEE4867005D2A86 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -578,6 +599,23 @@
 				6E028F143C41C1BDD98336EC /* Pods.adhoc.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		9604B77A1B73935B00FF6D6A /* Certivox MPin Tests */ = {
+			isa = PBXGroup;
+			children = (
+				9604B77D1B73935B00FF6D6A /* Certivox_MPin_Tests.m */,
+				9604B77B1B73935B00FF6D6A /* Supporting Files */,
+			);
+			path = "Certivox MPin Tests";
+			sourceTree = "<group>";
+		};
+		9604B77B1B73935B00FF6D6A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9604B77C1B73935B00FF6D6A /* Info.plist */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		960D6A7C1A88C0E20068E0F7 /* Resources */ = {
@@ -818,6 +856,7 @@
 				FE148D3D1A2F0FB7007E83EF /* MPin.h */,
 				FE148D3E1A2F0FB7007E83EF /* MpinStatus.h */,
 				FE4900201A1A3CEB000030A4 /* MPinApp */,
+				9604B77A1B73935B00FF6D6A /* Certivox MPin Tests */,
 				FE4900191A1A3CEB000030A4 /* Frameworks */,
 				FE4900181A1A3CEB000030A4 /* Products */,
 				6C3E0DED7B61B739D72246B2 /* Pods */,
@@ -831,6 +870,7 @@
 				9649BCCA1AC16D1000B9F41B /* DD MPin.app */,
 				96130E651AEE4867005D2A86 /* NTTComSecurity MPin.app */,
 				96130EAF1AEE490A005D2A86 /* Olswang MPin.app */,
+				9604B7791B73935B00FF6D6A /* Certivox MPin Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -893,6 +933,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		9604B7781B73935B00FF6D6A /* Certivox MPin Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9604B7861B73935B00FF6D6A /* Build configuration list for PBXNativeTarget "Certivox MPin Tests" */;
+			buildPhases = (
+				9604B7751B73935B00FF6D6A /* Sources */,
+				9604B7761B73935B00FF6D6A /* Frameworks */,
+				9604B7771B73935B00FF6D6A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9604B7801B73935B00FF6D6A /* PBXTargetDependency */,
+			);
+			name = "Certivox MPin Tests";
+			productName = "Certivox MPin Tests";
+			productReference = 9604B7791B73935B00FF6D6A /* Certivox MPin Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		96130E1D1AEE4867005D2A86 /* NTTComSecurity */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 96130E5F1AEE4867005D2A86 /* Build configuration list for PBXNativeTarget "NTTComSecurity" */;
@@ -983,6 +1041,10 @@
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = Certivox;
 				TargetAttributes = {
+					9604B7781B73935B00FF6D6A = {
+						CreatedOnToolsVersion = 6.4;
+						TestTargetID = FE4900161A1A3CEB000030A4;
+					};
 					9649BC891AC16D1000B9F41B = {
 						DevelopmentTeam = WF6XYF7P2L;
 					};
@@ -1008,11 +1070,19 @@
 				9649BC891AC16D1000B9F41B /* DD MPin */,
 				96130E1D1AEE4867005D2A86 /* NTTComSecurity */,
 				96130E671AEE490A005D2A86 /* Olswang */,
+				9604B7781B73935B00FF6D6A /* Certivox MPin Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		9604B7771B73935B00FF6D6A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		96130E481AEE4867005D2A86 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1330,6 +1400,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		9604B7751B73935B00FF6D6A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9604B77E1B73935B00FF6D6A /* Certivox_MPin_Tests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		96130E201AEE4867005D2A86 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1524,6 +1602,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		9604B7801B73935B00FF6D6A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FE4900161A1A3CEB000030A4 /* Certivox MPin */;
+			targetProxy = 9604B77F1B73935B00FF6D6A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		968591CF1AF0C7E200726E63 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
@@ -1554,6 +1640,119 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		9604B7811B73935B00FF6D6A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Certivox MPin Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CertiVox M-Pin.app/CertiVox M-Pin";
+			};
+			name = Debug;
+		};
+		9604B7821B73935B00FF6D6A /* QA */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Certivox MPin Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CertiVox M-Pin.app/CertiVox M-Pin";
+			};
+			name = QA;
+		};
+		9604B7831B73935B00FF6D6A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Certivox MPin Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CertiVox M-Pin.app/CertiVox M-Pin";
+			};
+			name = Release;
+		};
+		9604B7841B73935B00FF6D6A /* AppStore */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Certivox MPin Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CertiVox M-Pin.app/CertiVox M-Pin";
+			};
+			name = AppStore;
+		};
+		9604B7851B73935B00FF6D6A /* AdHoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Certivox MPin Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CertiVox M-Pin.app/CertiVox M-Pin";
+			};
+			name = AdHoc;
+		};
 		96130E601AEE4867005D2A86 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 424F5ACA40BA9B3F96DAFF57 /* Pods.debug.xcconfig */;
@@ -2287,6 +2486,17 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		9604B7861B73935B00FF6D6A /* Build configuration list for PBXNativeTarget "Certivox MPin Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9604B7811B73935B00FF6D6A /* Debug */,
+				9604B7821B73935B00FF6D6A /* QA */,
+				9604B7831B73935B00FF6D6A /* Release */,
+				9604B7841B73935B00FF6D6A /* AppStore */,
+				9604B7851B73935B00FF6D6A /* AdHoc */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		96130E5F1AEE4867005D2A86 /* Build configuration list for PBXNativeTarget "NTTComSecurity" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

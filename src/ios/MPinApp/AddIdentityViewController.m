@@ -75,6 +75,7 @@ static NSString *const kUser = @"User";
 
 - ( void )viewDidAppear:( BOOL )animated
 {
+    [super viewDidAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self
      selector:@selector( showPinPad )
      name:kShowPinPadNotification

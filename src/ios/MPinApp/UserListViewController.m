@@ -110,19 +110,17 @@ static NSString *const kAN = @"AN";
 {
     [super viewWillAppear:animated];
 
-    
-    
-    sdk = [[MPin alloc] init];
-    sdk.delegate = self;
+
+
+
     NSString *config = [[ConfigurationManager sharedManager] getSelectedConfiguration] [@"backend"];
 
-    // Executed if for some reason backend url is changed in other controllers
-    // For example - QR Scanned backends can overwrite the selected backend and the url maybe will be different
     if ( ![storedBackendURL isEqualToString:config] )
     {
         [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
     }
-
+    
+    sdk.delegate = self;
     [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
     [[ThemeManager sharedManager] beautifyViewController:self];
     self.users = [MPin listUsers];
@@ -130,19 +128,18 @@ static NSString *const kAN = @"AN";
     [[NSNotificationCenter defaultCenter] removeObserver:self
      name:kShowPinPadNotification
      object:nil];
-    
 }
 
 - ( void )viewDidAppear:( BOOL )animated
 {
     [super viewDidAppear:animated];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
     if ( ![NetworkMonitor sharedManager].networkStatusUp )
     {
         //[[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"NETWORK IS DOWN" addActivityIndicator:NO minShowTime:0];
     }
-    
+
     if ( [self.users count] == 0 )
     {
         [self hideBottomBar:NO];
@@ -547,7 +544,6 @@ static NSString *const kAN = @"AN";
 
 - ( void )startAuthenticationFlow
 {
-    
     NSIndexPath *path = selectedIndexPath;
     if ( [path row] < [self.users count] )
     {

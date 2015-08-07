@@ -19,8 +19,9 @@ static NSInteger constIntTimeoutInterval = 30;
 
 @interface QRViewController ( )
 {
-    SystemSoundID soundID;
+    
 }
+@property SystemSoundID soundID;
 @property( nonatomic ) BOOL isReading;
 @property ( nonatomic, strong ) AVCaptureSession *captureSession;
 @property ( nonatomic, strong ) AVCaptureVideoPreviewLayer *videoPreviewLayer;
@@ -40,14 +41,28 @@ static NSInteger constIntTimeoutInterval = 30;
     [super viewDidLoad];
     _isReading = NO;
     _captureSession = nil;
+    NSURL *url = [NSURL URLWithString:@"/System/Library/Audio/UISounds/sms-received2.caf"];
+    CFURLRef u = (__bridge_retained CFURLRef)(url);
+    AudioServicesCreateSystemSoundID(u,&_soundID );
+    CFRelease(u);
+    
+}
 
-    NSURL *fileURL = [NSURL URLWithString:@"/System/Library/Audio/UISounds/sms-received2.caf"];
-    AudioServicesCreateSystemSoundID( (__bridge_retained CFURLRef)fileURL,&soundID );
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+}
+
+- (void) dealloc
+{
+    AudioServicesDisposeSystemSoundID ( _soundID );
 }
 
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
+    
     _imgViewRectangle.hidden = YES;
     _lblMessage.hidden = YES;
     _lblMessage.text = NSLocalizedString(@"QR_MESSAGE", @"Place  the QR code in the centre of the screen. It will be scanned automatically.");
@@ -64,11 +79,6 @@ static NSInteger constIntTimeoutInterval = 30;
          addActivityIndicator:NO
          minShowTime:3];
     }
-}
-
-- ( void ) viewWillDisappear:( BOOL )animated
-{
-    [super viewWillDisappear:animated];
 }
 
 -( BOOL ) startReading
@@ -231,7 +241,7 @@ static NSInteger constIntTimeoutInterval = 30;
         {
             [self performSelectorOnMainThread:@selector( stopReading ) withObject:nil waitUntilDone:YES];
             [self performSelectorOnMainThread:@selector( loadConfigurations: ) withObject:[metadataObj stringValue] waitUntilDone:YES];
-            AudioServicesPlaySystemSound(soundID);
+            AudioServicesPlaySystemSound(_soundID);
         }
     }
 }

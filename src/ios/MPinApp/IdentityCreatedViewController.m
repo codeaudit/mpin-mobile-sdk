@@ -51,11 +51,13 @@
 
 - ( void )viewDidAppear:( BOOL )animated
 {
+    [super viewDidAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
 }
 
 - ( void )viewDidDisappear:( BOOL )animated
 {
+    [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
 }
 
