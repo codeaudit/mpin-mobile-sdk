@@ -437,6 +437,11 @@ Status MPinSDK::HttpResponse::TranslateToMPinStatus(Context context)
             m_mpinStatus.SetStatusCode(Status::INCORRECT_ACCESS_NUMBER);
             m_mpinStatus.SetErrorMessage("Invalid access number");
         }
+        else if(m_httpStatus == HTTP_FORBIDDEN)
+        {
+            m_mpinStatus.SetStatusCode(Status::IDENTITY_NOT_AUTHORIZED);
+            m_mpinStatus.SetErrorMessage("Identity not authorized");
+        }
         break;
     }
 
@@ -795,12 +800,19 @@ Status MPinSDK::RequestRegistration(UserPtr user, const String& userData)
 
     bool writeUsersToStorage = false;
 
-    if(user->GetState() == User::INVALID)
+    bool userIsNew = (user->GetState() == User::INVALID);
+    if(userIsNew)
     {
-        String mpinIdHex = response.GetJsonData().GetStringParam("mpinId");
-        String regOTT = response.GetJsonData().GetStringParam("regOTT");
-	    user->SetStartedRegistration(mpinIdHex, regOTT);
         AddUser(user);
+    }
+
+    String mpinIdHex = response.GetJsonData().GetStringParam("mpinId");
+    String regOTT = response.GetJsonData().GetStringParam("regOTT");
+    bool userDataChanged = (regOTT != user->GetRegOTT() || mpinIdHex != user->GetMPinIdHex());
+
+    if(userIsNew || userDataChanged)
+    {
+    	user->SetStartedRegistration(mpinIdHex, regOTT);
         writeUsersToStorage = true;
     }
 
