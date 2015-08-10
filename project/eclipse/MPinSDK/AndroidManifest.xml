@@ -30,6 +30,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
         </activity>
         <!-- Hockey app activities -->
         <activity android:name="net.hockeyapp.android.UpdateActivity" />

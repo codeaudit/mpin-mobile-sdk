@@ -39,7 +39,10 @@ import net.hockeyapp.android.FeedbackManager;
 import net.hockeyapp.android.UpdateManager;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -103,6 +106,8 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     private TextView              mAboutButton;
 
     private Toast                 mNoInternetToast;
+    private BroadcastReceiver     mNetworkConectivityReceiver;
+    private static final String   CONNECTIVITY_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE";
 
 
     @Override
@@ -112,10 +117,30 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         mActivityLifecycleState = ActivityStates.ON_CREATE;
 
         initialize();
+        registerNetworkConectivityReceiver();
 
         // Needed for Hockey App
         checkForUpdates();
         checkForCrashes();
+    }
+
+
+    private void registerNetworkConectivityReceiver() {
+        mNetworkConectivityReceiver = new BroadcastReceiver() {
+
+            public void onReceive(Context context, Intent intent) {
+                mController.handleMessage(MPinController.MESSAGE_NETWORK_CONNECTION_CHANGE);
+            }
+        };
+
+        registerReceiver(mNetworkConectivityReceiver, new IntentFilter(CONNECTIVITY_CHANGE));
+    }
+
+
+    private void unregisterNetworkConectivityReceiver() {
+        if (mNetworkConectivityReceiver != null) {
+            unregisterReceiver(mNetworkConectivityReceiver);
+        }
     }
 
 
@@ -131,6 +156,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         super.onDestroy();
         mActivityLifecycleState = ActivityStates.ON_DESTROY;
         mController.handleMessage(MPinController.MESSAGE_ON_DESTROY);
+        unregisterNetworkConectivityReceiver();
         freeResources();
     }
 
@@ -191,6 +217,12 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
             return true;
         case MPinController.MESSAGE_STOP_WORK_IN_PROGRESS:
             hideLoader();
+            return true;
+        case MPinController.MESSAGE_INTERNET_CONNECTION_AVAILABLE:
+            onInternetConnectionAvailable();
+            return true;
+        case MPinController.MESSAGE_NO_INTERNET_CONNECTION_AVAILABLE:
+            onNoInternetConnectionAvailable();
             return true;
         case MPinController.MESSAGE_GO_BACK:
             goBack();
@@ -395,6 +427,16 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         if (mLoader != null) {
             mLoader.setVisibility(View.GONE);
         }
+    }
+
+
+    private void onNoInternetConnectionAvailable() {
+        Log.i(TAG, "NO INTERNET CONNECTION AVAILABLE");
+    }
+
+
+    private void onInternetConnectionAvailable() {
+        Log.i(TAG, "INTERNET CONNECTION AVAILABLE");
     }
 
 
