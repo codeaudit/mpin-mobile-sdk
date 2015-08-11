@@ -1,4 +1,26 @@
-﻿using System;
+﻿// Copyright (c) 2012-2015, Certivox
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+//
+// 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//
+// 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//
+// 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+// For full details regarding our CertiVox terms of service please refer to
+// the following links:
+//  * Our Terms and Conditions -
+//    http://www.certivox.com/about-certivox/terms-and-conditions/
+//  * Our Security and Privacy -
+//    http://www.certivox.com/about-certivox/security-privacy/
+//  * Our Statement of Position and Our Promise on Software Patents -
+//    http://www.certivox.com/about-certivox/patents/
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -12,11 +34,10 @@ namespace MPinDemo.Models
     public class Backend: INotifyPropertyChanged
     {
         public const string DEFAULT_RPS_PREFIX = "rps";
-        private const string urlKey = "BackendUrl";
-        private const string requestANKey = "RequestAccessNumber";
-        private const string requestOtpKey = "RequestOtp";
-        private const string titleKey = "Title";
+        private const string urlKey = "url";
+        private const string nameKey = "name";
         private const string rpsKey = "rps";
+        private const string typeKey = "type";
 
         private string backendUrl;
         public string BackendUrl
@@ -29,58 +50,24 @@ namespace MPinDemo.Models
             {
                 if (this.backendUrl != value)
                 {
-                    this.backendUrl = value;
+                    this.backendUrl = value.Trim();
                     OnPropertyChanged();
                 }
             }
         }
 
-        private bool requestAN;
-        public bool RequestAccessNumber
+        private string name;
+        public string Name
         {
             get
             {
-                return this.requestAN;
+                return this.name;
             }
             set
             {
-                if (this.requestAN != value)
+                if (this.name != value)
                 {
-                    this.requestAN = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private bool requestOTP;
-        public bool RequestOtp
-        {
-            get
-            {
-                return requestOTP;
-            }
-            set
-            {
-                if (this.requestOTP != value)
-                {
-                    this.requestOTP = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private string title;
-        public string Title
-        {
-            get
-            {
-                return this.title;
-            }
-            set
-            {
-                if (this.title != value)
-                {
-                    this.title = value;
+                    this.name = value.Trim();
                     OnPropertyChanged();
                 }
             }
@@ -101,6 +88,23 @@ namespace MPinDemo.Models
                 if (this.rpsPrefix != value)
                 {
                     this.rpsPrefix = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private ConfigurationType type;
+        public ConfigurationType Type
+        {
+            get
+            {
+                return this.type;
+            }
+            set
+            {
+                if (value != this.type)
+                {
+                    this.type = value;
                     OnPropertyChanged();
                 }
             }
@@ -131,10 +135,8 @@ namespace MPinDemo.Models
 
             return !string.IsNullOrEmpty(this.BackendUrl) &&
                 this.BackendUrl.Equals(b.BackendUrl) &&
-                this.RequestAccessNumber.Equals(b.RequestAccessNumber) &&
-                this.RequestOtp.Equals(b.RequestOtp) &&
-                this.RpsPrefix.Equals(b.RpsPrefix) &&
-                this.Title.Equals(b.Title);
+                this.Type.Equals(b.Type) &&
+                this.Name.Equals(b.Name);
         }
 
         public override int GetHashCode()
@@ -145,9 +147,7 @@ namespace MPinDemo.Models
         public Backend()
         {
             this.BackendUrl = string.Empty;
-            this.title = string.Empty;
-            this.RequestAccessNumber = false;
-            this.RequestOtp = false;
+            this.name = string.Empty;
             this.IsSet = false;            
         }
 
@@ -156,10 +156,25 @@ namespace MPinDemo.Models
             if (jsonObject != null)
             {
                 this.BackendUrl = jsonObject.GetNamedString(urlKey, "");
-                this.RequestAccessNumber = jsonObject.GetNamedBoolean(requestANKey, false);
-                this.RequestOtp = jsonObject.GetNamedBoolean(requestOtpKey, false);
-                this.Title = jsonObject.GetNamedString(titleKey, "");
-                this.RpsPrefix = jsonObject.GetNamedString(rpsKey, "");
+                this.Name = jsonObject.GetNamedString(nameKey, "");
+                this.Type = ParseType(jsonObject.GetNamedString(typeKey, ""));
+                this.RpsPrefix = jsonObject.GetNamedString(rpsKey, "");                
+            }
+        }
+
+        private ConfigurationType ParseType(string typeString)
+        {
+            if (string.IsNullOrEmpty(typeString))
+                return ConfigurationType.Mobile;
+
+            switch (typeString)
+            {
+                case "online":
+                    return ConfigurationType.Online;
+                case "otp":
+                    return ConfigurationType.OTP;
+                default:
+                    return ConfigurationType.Mobile;
             }
         }
 
@@ -167,9 +182,8 @@ namespace MPinDemo.Models
         {
             JsonObject backendObject = new JsonObject();
             backendObject.SetNamedValue(urlKey, JsonValue.CreateStringValue(BackendUrl));
-            backendObject.SetNamedValue(requestANKey, JsonValue.CreateBooleanValue(RequestAccessNumber));
-            backendObject.SetNamedValue(requestOtpKey, JsonValue.CreateBooleanValue(RequestOtp));
-            backendObject.SetNamedValue(titleKey, JsonValue.CreateStringValue(Title));
+            backendObject.SetNamedValue(typeKey, JsonValue.CreateStringValue(Type.ToString().ToLower()));
+            backendObject.SetNamedValue(nameKey, JsonValue.CreateStringValue(Name));
             backendObject.GetNamedValue(rpsKey, JsonValue.CreateStringValue(RpsPrefix));
 
             return backendObject;
@@ -187,5 +201,12 @@ namespace MPinDemo.Models
         }
         #endregion // INotifyPropertyChanged
 
+    }
+
+    public enum ConfigurationType
+    {
+        Mobile,
+        Online,
+        OTP
     }
 }

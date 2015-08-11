@@ -35,6 +35,11 @@
             <ProgressBar Grid.Row="1" IsIndeterminate="True"/>
             <TextBlock Grid.Row="2" Text="Getting data from server..." FontSize="17" Foreground="White" HorizontalAlignment="Center"/>
         </Grid>
+
+        <Grid x:Name="PhotoContainer" Visibility="Collapsed">            
+            <CaptureElement x:Name="capturePreview" Stretch="Uniform" />
+            <AppBarButton Icon="Camera" Click="AppBarButton_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+        </Grid>
         
         <Pivot x:Name="MainPivot" CommonNavigationTransitionInfo.IsStaggerElement="True" 
                SelectionChanged="MainPivot_SelectionChanged">
@@ -67,7 +72,7 @@
                                     <CheckBox IsChecked="{Binding IsSet}" IsEnabled="False" />
 
                                     <StackPanel Margin="0,0,0,9.5" Grid.Column="1">
-                                        <TextBlock Text="{Binding Title}"  
+                                        <TextBlock Text="{Binding Name}"  
                                            TextWrapping="Wrap"
                                             Pivot.SlideInAnimationGroup="1"
                                             CommonNavigationTransitionInfo.IsStaggerElement="True"
@@ -79,7 +84,7 @@
                                             CommonNavigationTransitionInfo.IsStaggerElement="True" 
                                             Style="{ThemeResource ListViewItemContentTextBlockStyle}"
                                             Margin="0,0,19,0"/>
-                                        <TextBlock Text="{Binding Converter={StaticResource configurationConverter}}" Margin="0,0,19,0" 
+                                        <TextBlock Text="{Binding Type, Converter={StaticResource configurationConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,19,0" 
                                                    TextWrapping="WrapWholeWords"
                                                    Pivot.SlideInAnimationGroup="2" 
                                                    CommonNavigationTransitionInfo.IsStaggerElement="True" 
@@ -130,24 +135,30 @@
     </Grid>
 
     <Page.BottomAppBar>
-        <CommandBar>
+        <CommandBar x:Name="BottomCommandBar">
+            <AppBarButton x:Uid="ScanAppBarButton" 
+                          x:Name="ScanAppBarButton"          
+                          Click="ScanAppBarButton_Click" >
+                <AppBarButton.Icon>
+                    <BitmapIcon UriSource="ms-appx:///Assets/qr_scan.png" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+
             <AppBarButton x:Uid="AddAppBarButton" 
                           x:Name="AddAppBarButton" 
-                          Icon="Add" 
                           Click="AddAppBarButton_Click" />
 
             <AppBarButton x:Uid="SelectAppBarButton" 
                           x:Name="SelectAppBarButton" 
-                          Icon="Go" 
-                          Click="Select_Click" 
-                          />
+                          Icon="Accept"
+                          Click="Select_Click" >
+            </AppBarButton>
 
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Uid="DeleteButton" x:Name="DeleteButton" Icon="Delete" Click="Delete_Click" />
                 <AppBarButton x:Uid="EditButton" x:Name="EditButton" Click="EditButton_Click" IsEnabled="False" />
                 <AppBarButton x:Uid="ResetPinButton" x:Name="ResetPinButton" Click="ResetPinButton_Click" Visibility="Collapsed" />
                 <AppBarButton x:Uid="AboutButton" Click="AboutButton_Click" />
-                <AppBarButton x:Uid="FeedbackButton" Click="FeedbackButton_Click"/>
                 <AppBarButton x:Uid="UpdateCheckButton" Click="CheckForUpdate_Click" />
             </CommandBar.SecondaryCommands>
 

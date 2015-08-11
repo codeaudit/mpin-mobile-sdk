@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="eb7b958c-231e-4c18-aa35-96fbdd495f50" Publisher="CN=petya.koleva" Version="1.0.2.9" />
-  <mp:PhoneIdentity PhoneProductId="eb7b958c-231e-4c18-aa35-96fbdd495f50" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="CertiVoxUKLtd.CertiVoxM-Pin" Publisher="CN=94C8C817-E551-49D6-8A1B-CF690E8EBABE" Version="1.1.2.5" />
+  <mp:PhoneIdentity PhoneProductId="347ee223-1a77-442c-a34f-086f1b616230" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>MPin Demo</DisplayName>
-    <PublisherDisplayName>petya.koleva</PublisherDisplayName>
+    <DisplayName>CertiVox M-Pin</DisplayName>
+    <PublisherDisplayName>CertiVox UK Ltd</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Prerequisites>
@@ -16,7 +16,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="MPinDemo.App">
-      <m3:VisualElements DisplayName="MPin Demo" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\SmallLogo.png" Description="MPinDemo" ForegroundText="light" BackgroundColor="transparent">
+      <m3:VisualElements DisplayName="CertiVox M-Pin" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\SmallLogo.png" Description="MPinDemo" ForegroundText="light" BackgroundColor="transparent">
         <m3:DefaultTile Wide310x150Logo="Assets\WideLogo.png" Square71x71Logo="Assets\Square71x71Logo.png">
         </m3:DefaultTile>
         <m3:SplashScreen Image="Assets\SplashScreen.png" />
@@ -25,5 +25,8 @@
   </Applications>
   <Capabilities>
     <Capability Name="internetClientServer" />
+    <Capability Name="picturesLibrary" />
+    <DeviceCapability Name="webcam" />
+    <DeviceCapability Name="microphone" />
   </Capabilities>
 </Package>
