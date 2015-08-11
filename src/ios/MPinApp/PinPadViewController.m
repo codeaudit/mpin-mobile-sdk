@@ -153,6 +153,7 @@ static NSMutableArray *kCircles;
 - ( void ) showWrongPIN
 {
     [self.pinView setBottomBorder:[UIColor redColor] width:2.f alpha:.5f];
+    _lblWrongPIN.text = NSLocalizedString(@"INCORRECT_PIN", @"Incorrect PIN.  Please try again.");
     [self clearAction:self];
     _lblWrongPIN.hidden = NO;
     [[ErrorHandler sharedManager] hideMessage];
@@ -225,9 +226,7 @@ static NSMutableArray *kCircles;
         [[ErrorHandler sharedManager] updateMessage:@"OTP is not supported!" addActivityIndicator:NO hideAfter:3];
         dispatch_after(dispatch_time( DISPATCH_TIME_NOW, (int64_t)( 2.0 * NSEC_PER_SEC ) ), dispatch_get_main_queue(), ^ {
             [self.navigationController popToRootViewControllerAnimated:YES];
-            
         });
-
     }
     else
     {
@@ -236,7 +235,6 @@ static NSMutableArray *kCircles;
         otpViewController.otpData = otp;
         otpViewController.strEmail = [user getIdentity];
         [self.navigationController pushViewController:otpViewController animated:YES];
-
     }
 }
 
@@ -259,10 +257,48 @@ static NSMutableArray *kCircles;
 
             break;
 
+        case CRYPTO_ERROR:
+                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"CRYPTO_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
+            break;
+
+        case STORAGE_ERROR:
+                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"STORAGE_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
+            break;
+
+        case NETWORK_ERROR:
+                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"NETWORK_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
+            break;
+
+        case RESPONSE_PARSE_ERROR:
+                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"RESPONSE_PARSE_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
+            break;
+
+        case FLOW_ERROR:
+                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"FLOW_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
+            break;
+
+        case IDENTITY_NOT_AUTHORIZED:
+                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"IDENTITY_NOT_AUTHORIZED", @"Request error") addActivityIndicator:NO hideAfter:6];
+            break;
+
+        case IDENTITY_NOT_VERIFIED:
+                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"IDENTITY_NOT_VERIFIED", @"Request error") addActivityIndicator:NO hideAfter:6];
+            break;
+
+        case REQUEST_EXPIRED:
+                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"REQUEST_EXPIRED", @"Request error") addActivityIndicator:NO hideAfter:6];
+            break;
+
+        case REVOKED:
+                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"REVOKED", @"Request error") addActivityIndicator:NO hideAfter:6];
+            break;
+
+        case HTTP_SERVER_ERROR:
+                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"HTTP_SERVER_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
+            break;
+
         case HTTP_REQUEST_ERROR:
-            [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"HTTP REQUEST ERROR"
-             addActivityIndicator:NO
-             minShowTime:3];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"HTTP_REQUEST_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
             break;
 
         case       PIN_INPUT_CANCELED:
@@ -270,22 +306,6 @@ static NSMutableArray *kCircles;
             [self clearAction:self];
             [[ErrorHandler sharedManager] hideMessage];
             break;
-
-        case       CRYPTO_ERROR:
-            break;
-//                CRYPTO_ERROR /* = MPinSDK::Status::CRYPTO_ERROR*/, // Local error in crypto functions
-//                STORAGE_ERROR, // Local storage related error
-//                NETWORK_ERROR, // Local error - cannot connect to remote server (no internet, or invalid server/port)
-//                RESPONSE_PARSE_ERROR, // Local error - cannot parse json response from remote server (invalid json or unexpected json structure)
-//                FLOW_ERROR, // Local error - unproper MPinSDK class usage
-//                IDENTITY_NOT_AUTHORIZED, // Remote error - the remote server refuses user registration
-//                IDENTITY_NOT_VERIFIED, // Remote error - the remote server refuses user registration because identity is not verified
-//                REQUEST_EXPIRED, // Remote error - the register/authentication request expired
-//                REVOKED, // Remote error - cannot get time permit (propably the user is temporary suspended)
-//                INCORRECT_PIN, // Remote error - user entered wrong pin
-//                INCORRECT_ACCESS_NUMBER, // Remote/local error - wrong access number (checksum failed or RPS returned 412)
-//                HTTP_SERVER_ERROR, // Remote error, that was not reduced to one of the above - the remote server returned internal server error status (5xx)
-//                HTTP_REQUEST_ERROR // Remote error, that was not reduced to one of the above - invalid data sent to server, the remote server returned 4xx error status
 
         default:
             [self clearAction:self];
@@ -326,7 +346,7 @@ static NSMutableArray *kCircles;
         {
             [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(mpinStatus.statusCodeAsString, mpinStatus.errorMessage)
              addActivityIndicator:NO
-             hideAfter:3];
+             hideAfter:6];
 
             dispatch_after(dispatch_time( DISPATCH_TIME_NOW, (int64_t)( 2.0 * NSEC_PER_SEC ) ), dispatch_get_main_queue(), ^ {
                     [self.navigationController popViewControllerAnimated:YES];
@@ -343,13 +363,12 @@ static NSMutableArray *kCircles;
             break;
 
         case HTTP_REQUEST_ERROR:
-            [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"HTTP REQUEST ERROR"
-             addActivityIndicator:NO
-             minShowTime:3];
+                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR") addActivityIndicator:NO hideAfter:6.0];
+             
             break;
 
         default:
-            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR") addActivityIndicator:NO hideAfter:3];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR") addActivityIndicator:NO hideAfter:6.0];
             break;
         }
     }

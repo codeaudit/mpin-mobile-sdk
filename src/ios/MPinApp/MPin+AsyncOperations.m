@@ -329,6 +329,7 @@ static NSString *const constStrConnectionTimeoutNotification = @"ConnectionTimeo
 
 - ( void )AuthenticateOTP:( id<IUser>)user askForFingerprint:( BOOL )boolAskForFingerprint
 {
+    NSLog(@"AuthenticateOTP");
     dispatch_async(dispatch_get_main_queue(), ^ (void){
         LAContext *context = [[LAContext alloc] init];
         NSError *error;

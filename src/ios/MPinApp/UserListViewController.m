@@ -104,23 +104,17 @@ static NSString *const kAN = @"AN";
     storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     [self hideBottomBar:NO];
     storedBackendURL = [[ConfigurationManager sharedManager] getSelectedConfiguration] [@"backend"];
+    sdk = [[MPin alloc] init];
+    sdk.delegate = self;
+    [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
 }
 
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
 
-
-
-
-    NSString *config = [[ConfigurationManager sharedManager] getSelectedConfiguration] [@"backend"];
-
-    if ( ![storedBackendURL isEqualToString:config] )
-    {
-        [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
-    }
-    
     sdk.delegate = self;
+
     [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
     [[ThemeManager sharedManager] beautifyViewController:self];
     self.users = [MPin listUsers];
