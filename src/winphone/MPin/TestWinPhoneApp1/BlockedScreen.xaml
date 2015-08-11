@@ -8,17 +8,15 @@
     mc:Ignorable="d" Style="{StaticResource PageStyle}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        
-        <TextBlock x:Name="BlockedUesrTB" TextWrapping="WrapWholeWords" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center">
-            <Button x:Uid="IdsButton"  Click="GoIdentities_Click"/>
-            <Button x:Uid="RemoveUserButton" Click="RemoveUserButton_Click" />
-            <Button x:Uid="ResetPinBtn" Click="ResetPinButton_Click" />
-        </StackPanel>
-    </Grid>
+    <StackPanel>
+
+        <TextBlock x:Uid="BlockedUserTitle"  Style="{StaticResource TitleStyle}" />
+        <TextBlock x:Name="BlockedUser" Style="{StaticResource MainTextBlock}" />
+        <TextBlock x:Uid="BlockedUserTB" TextWrapping="WrapWholeWords" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MainTextBlock}"/>
+    
+        <Button x:Uid="IdsButton"  Click="GoIdentities_Click"/>
+        <Button x:Uid="RemoveUserButton" Click="RemoveUserButton_Click" />
+        <Button x:Uid="ResetPinBtn" Click="ResetPinButton_Click" />
+
+    </StackPanel>
 </Page>

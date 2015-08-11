@@ -23,10 +23,15 @@
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-        <Grid x:Name="Progress" Visibility="Collapsed" Canvas.ZIndex="1" Background="Black" Opacity="0.7" HorizontalAlignment="Stretch" >
+        <Grid x:Name="Progress" Visibility="Collapsed" Canvas.ZIndex="1" Background="Black" Opacity="0.5" HorizontalAlignment="Stretch" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -36,66 +41,56 @@
             <TextBlock Grid.Row="2" x:Uid="BusyText" FontSize="17" Foreground="White" HorizontalAlignment="Center"/>
         </Grid>
 
-        <Grid x:Name="PhotoContainer" Visibility="Collapsed">            
+        <Grid x:Name="PhotoContainer" Visibility="Collapsed" Grid.RowSpan="2">
             <CaptureElement x:Name="capturePreview" Stretch="UniformToFill"  />
         </Grid>
-        
+
+        <TextBlock x:Uid="MainPageTitle" Style="{StaticResource TitleStyle}" />
+
         <Pivot x:Name="MainPivot" CommonNavigationTransitionInfo.IsStaggerElement="True" 
-               SelectionChanged="MainPivot_SelectionChanged">
+               SelectionChanged="MainPivot_SelectionChanged" Grid.Row="1">
 
             <PivotItem x:Uid="ServicesPivotItem" 
-                       x:Name="ServicesPivotItem"
+                       x:Name="ServicesPivotItem" 
                        CommonNavigationTransitionInfo.IsStaggerElement="True">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                    <TextBlock x:Uid="ConfigurationTB"/>
-                    <ListBox x:Name="ServicesList"  Grid.Row="1"
-                             Loaded="ServicesList_Loaded"
-                             ItemsSource="{Binding BackendsList, Mode=TwoWay}"                              
-                             SelectionChanged="Services_SelectionChanged" 
-                             DataContextChanged="ServicesList_DataContextChanged" 
-                             DoubleTapped="ServicesList_DoubleTapped"
-                             ContinuumNavigationTransitionInfo.IsExitElement="True" 
-                             ContinuumNavigationTransitionInfo.IsEntranceElement="True">
-                        <ListBox.ItemTemplate>
+                    <GridView x:Name="ServicesList" 
+                                Loaded="ServicesList_Loaded" 
+                                SelectionMode="None"
+                                ItemsSource="{Binding BackendsList, Mode=TwoWay}"                              
+                                Tapped="ServicesList_Tapped"
+                                DataContextChanged="ServicesList_DataContextChanged" 
+                                DoubleTapped="ServicesList_DoubleTapped" 
+                                ContinuumNavigationTransitionInfo.IsExitElement="True" 
+                                ContinuumNavigationTransitionInfo.IsEntranceElement="True">                        
+                        <GridView.ItemTemplate>
                             <DataTemplate>
-                                <Grid>
+                                <Grid Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top" >
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="40" />
-                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="500"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <CheckBox IsChecked="{Binding IsSet}" IsEnabled="False" />
-
-                                    <StackPanel Margin="0,0,0,9.5" Grid.Column="1">
-                                        <TextBlock Text="{Binding Name}"  
-                                           TextWrapping="Wrap"
-                                            Pivot.SlideInAnimationGroup="1"
-                                            CommonNavigationTransitionInfo.IsStaggerElement="True"
-                                            Style="{ThemeResource ListViewItemTextBlockStyle}"
-                                            Margin="0,0,19,0"/>
-                                        <TextBlock Text="{Binding BackendUrl}"
-                                           TextWrapping="WrapWholeWords"
-                                            Pivot.SlideInAnimationGroup="2" 
-                                            CommonNavigationTransitionInfo.IsStaggerElement="True" 
-                                            Style="{ThemeResource ListViewItemContentTextBlockStyle}"
-                                            Margin="0,0,19,0"/>
-                                        <TextBlock Text="{Binding Type, Converter={StaticResource configurationConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,19,0" 
-                                                   TextWrapping="WrapWholeWords"
-                                                   Pivot.SlideInAnimationGroup="2" 
-                                                   CommonNavigationTransitionInfo.IsStaggerElement="True" 
-                                                   FontWeight="Bold"
-                                                   Style="{ThemeResource ListViewItemContentTextBlockStyle}"/>
-                                    </StackPanel>
-
+                                    <RadioButton IsChecked="{Binding IsSet, Mode=TwoWay}" GroupName="ServicesGroup" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Padding="0" >
+                                        <RadioButton.Content>
+                                            <StackPanel Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10, -5, 0,0"   >
+                                                <TextBlock Text="{Binding Name}"  Style="{StaticResource RadioButtonTextBlock}" />
+                                                <TextBlock Text="{Binding BackendUrl}" Style="{StaticResource RadioButtonTextBlock}" Foreground="{ThemeResource ListBoxItemDisabledForegroundThemeBrush}"/>
+                                                <TextBlock Text="{Binding Type, Converter={StaticResource configurationConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                           Style="{StaticResource RadioButtonTextBlock}" Foreground="{ThemeResource ListBoxItemDisabledForegroundThemeBrush}"/>
+                                            </StackPanel>
+                                        </RadioButton.Content>
+                                    </RadioButton>
                                 </Grid>
                             </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                        </GridView.ItemTemplate>
+                    </GridView>
                 </Grid>
             </PivotItem>
 
@@ -116,13 +111,20 @@
                              ContinuumNavigationTransitionInfo.IsEntranceElement="True">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Margin="0,0,0,9.5">
-                                    <TextBlock
-                                    Text="{Binding Id}"
-                                    Pivot.SlideInAnimationGroup="1"
-                                    CommonNavigationTransitionInfo.IsStaggerElement="True"
-                                    Style="{StaticResource ListViewItemTextBlockStyle}"/>
-                                </StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <SymbolIcon Symbol="Contact" Width="50"/>
+                                    <StackPanel Margin="0,0,0,9.5" Grid.Column="1">
+                                        <TextBlock  Text="{Binding Id}"
+                                                    Pivot.SlideInAnimationGroup="1"
+                                                    CommonNavigationTransitionInfo.IsStaggerElement="True"
+                                                    Style="{StaticResource ListViewItemTextBlockStyle}"/>
+                                    </StackPanel>
+                                </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
@@ -133,16 +135,15 @@
         </Pivot>
 
     </Grid>
-   
 
-    <Page.BottomAppBar>        
+    <Page.BottomAppBar>
         <CommandBar x:Name="BottomCommandBar">
             <AppBarButton x:Uid="TakePictureButton"
                           x:Name="TakePictureButton" 
                           Icon="Camera" 
                           Click="AppBarButton_Click" 
                           Visibility="Collapsed" />
-            
+
             <AppBarButton x:Uid="ScanAppBarButton" 
                           x:Name="ScanAppBarButton"          
                           Click="ScanAppBarButton_Click" >
@@ -163,7 +164,7 @@
 
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Uid="DeleteButton" x:Name="DeleteButton" Icon="Delete" Click="Delete_Click" />
-                <AppBarButton x:Uid="EditButton" x:Name="EditButton" Click="EditButton_Click" IsEnabled="False" />
+                <AppBarButton x:Uid="EditButton" x:Name="EditButton" Click="EditButton_Click" />
                 <AppBarButton x:Uid="ResetPinButton" x:Name="ResetPinButton" Click="ResetPinButton_Click" Visibility="Collapsed" />
                 <AppBarButton x:Uid="AboutButton" x:Name="AboutButton" Click="AboutButton_Click" />
                 <AppBarButton x:Uid="UpdateCheckButton" x:Name="UpdateCheckButton" Click="CheckForUpdate_Click" />

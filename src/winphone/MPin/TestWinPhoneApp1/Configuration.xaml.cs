@@ -99,6 +99,7 @@ namespace MPinDemo
             this.isAdding = e.Parameter == null;
             this.Backend = isAdding ? new Backend() : e.Parameter as Backend;
             this.backend.PropertyChanged += backend_PropertyChanged;
+            this.ConfigTitle.Text = ResourceLoader.GetForCurrentView().GetString(isAdding ? "ConfigTitleAdd" : "ConfigTitleEdit");
 
             if (this.Backend == null || this.Backend.Type == ConfigurationType.Mobile)
             {

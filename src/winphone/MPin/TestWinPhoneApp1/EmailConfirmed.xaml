@@ -16,5 +16,4 @@
         <Button x:Uid="ResendButton" Click="Resend_Click"/>
         <Button x:Uid="IdsButton" Click="GoIdentities_Click"/>
     </StackPanel>
-    
 </Page>

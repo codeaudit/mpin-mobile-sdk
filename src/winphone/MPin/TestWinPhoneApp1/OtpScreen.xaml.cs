@@ -154,17 +154,11 @@ namespace MPinDemo
 
             if (remaining > 0)
             {
-                TimeLeftView.Visibility = Visibility.Visible;
-                ExpiredTB.Visibility = Visibility.Collapsed;
-
-                TimeLeft.Text = remaining.ToString();
                 ProgressPercent = remaining;
             }
             else
             {
                 ProgressPercent = 0;
-                TimeLeftView.Visibility = Visibility.Collapsed;
-                ExpiredTB.Visibility = Visibility.Visible;
             }
         }
         

@@ -435,7 +435,7 @@ namespace MPinDemo.Models
 
                 this.skipProcessing = currentValue;
             }
-            this.isUserInProcessing = false;
+            this.IsUserInProcessing = false;
 
             await FinishRegistration(user);
         }

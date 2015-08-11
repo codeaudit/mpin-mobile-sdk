@@ -129,17 +129,11 @@
   <data name="AuthTB.Text" xml:space="preserve">
     <value>AUTHENTICATION STATUS</value>
   </data>
-  <data name="BlockedUser" xml:space="preserve">
-    <value>User {0} is BLOCKED! Too many unsuccessful authentications!</value>
-  </data>
-  <data name="ConfigurationTB.Text" xml:space="preserve">
-    <value>Please, choose а configuration</value>
+  <data name="BlockedUser.Text" xml:space="preserve">
+    <value>Too many unsuccessful authentications!</value>
   </data>
   <data name="ConfirmButton.Content" xml:space="preserve">
     <value>I confirmed my email, continue</value>
-  </data>
-  <data name="ConfirmTB.Text" xml:space="preserve">
-    <value>Click the link in the email, to confirm your identity and proceed.</value>
   </data>
   <data name="DeleteButton.Label" xml:space="preserve">
     <value>delete</value>
@@ -195,10 +189,10 @@ Unsuccessfull authentication!</value>
     <value>The mail is not in a valid mail format!</value>
   </data>
   <data name="Otp2TB.Text" xml:space="preserve">
-    <value> is: </value>
+    <value>YOUR PASSWORD</value>
   </data>
   <data name="OtpTB.Text" xml:space="preserve">
-    <value>The OTP number for</value>
+    <value>You can now use this password to log into your RADIUS service</value>
   </data>
   <data name="RegistrationProblem" xml:space="preserve">
     <value>A problem occurs during registration. Please, try again!</value>
@@ -321,7 +315,7 @@ Unsuccessfull authentication!</value>
     <value>RPS Prefix</value>
   </data>
   <data name="ServiceName.Text" xml:space="preserve">
-    <value>Service Name</value>
+    <value>Enter Service Name</value>
   </data>
   <data name="SeviceURLText.Text" xml:space="preserve">
     <value>Service URL</value>
@@ -430,5 +424,23 @@ Unsuccessfull authentication!</value>
   </data>
   <data name="SignInButton.Content" xml:space="preserve">
     <value>Sign in with this identity</value>
+  </data>
+  <data name="BlockedUserTitle.Text" xml:space="preserve">
+    <value>BLOCKED USER</value>
+  </data>
+  <data name="ConfigTitleAdd" xml:space="preserve">
+    <value>ADD SERVICE</value>
+  </data>
+  <data name="ConfigTitleEdit" xml:space="preserve">
+    <value>EDIT SERVICE</value>
+  </data>
+  <data name="MainPageTitle.Text" xml:space="preserve">
+    <value>M-PIN</value>
+  </data>
+  <data name="ConfirmTB.Text" xml:space="preserve">
+    <value>Click the link in the email, to confirm your identity and proceed.</value>
+  </data>
+  <data name="OtpTitle.Text" xml:space="preserve">
+    <value>ONE TIME PASSWORD</value>
   </data>
 </root>

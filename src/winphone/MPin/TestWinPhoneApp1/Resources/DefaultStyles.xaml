@@ -4,18 +4,23 @@
     xmlns:local="using:TestWinPhoneApp1.Resources">
 
     <SolidColorBrush x:Key="ProgressBarIndeterminateForegroundThemeBrush" Color="Red" />
-    
+
     <Style TargetType="Page" x:Key="PageStyle">
         <Setter Property="Margin" Value="12"/>
     </Style>
-    
+
     <Style TargetType="TextBlock">
-        <Setter Property="FontSize" Value="20" />        
+        <Setter Property="FontSize" Value="20" />
     </Style>
-    
+
     <Style x:Key="MainTextBlock" TargetType="TextBlock">
         <Setter Property="FontSize" Value="20" />
         <Setter Property="Margin" Value="0,12,0,12" />
+    </Style>
+
+    <Style x:Key="DescTextBlock" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Margin" Value="0,0,0,0" />
     </Style>
 
     <Style x:Key="TitleStyle" TargetType="TextBlock">
@@ -23,7 +28,24 @@
         <Setter Property="Margin" Value="0,12,0,12" />
         <Setter Property="FontWeight" Value="SemiBold" />
     </Style>
-                
+
+    <Style x:Key="StatusStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Margin" Value="8" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="RadioButtonTextBlock" TargetType="TextBlock">
+        <Setter Property="CommonNavigationTransitionInfo.IsStaggerElement" Value="True" />
+        <Setter Property="Pivot.SlideInAnimationGroup" Value="1" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+    </Style>
+
     <Style TargetType="ListBox">
         <Setter Property="Background" Value="Transparent"/>
     </Style>

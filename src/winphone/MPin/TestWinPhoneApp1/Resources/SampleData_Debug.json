@@ -41,7 +41,12 @@
     },
     {
         "url": "http://otp.m-pin.id",
-        "type" : "otp",
+        "type": "otp",
         "name": "VPN login"
+    },
+    { 
+        "url": "http://192.168.98.217",
+        "type": "otp",
+        "name": "Moni one"
     }
 ]

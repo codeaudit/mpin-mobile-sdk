@@ -63,7 +63,7 @@ namespace MPinDemo
         private bool isServiceAdding = false;
         private MainPage rootPage = null;
         private CoreDispatcher dispatcher;
-
+        private Backend ExBackend;
         internal static ApplicationDataContainer RoamingSettings = ApplicationData.Current.RoamingSettings;
         private static Controller controller = null;
         private static bool showUsers = true;
@@ -144,7 +144,11 @@ namespace MPinDemo
             Clear();
             base.OnNavigatedFrom(e);
             if (controller != null)
+            {
                 await controller.Dispose();
+            }
+
+            SavePropertyState(SelectedService, controller.DataModel.BackendsList.IndexOf(controller.DataModel.SelectedBackend)); //ServicesList.SelectedIndex);
         }
 
         #endregion
@@ -156,7 +160,8 @@ namespace MPinDemo
             switch (this.MainPivot.SelectedIndex)
             {
                 case 0:
-                    controller.DataModel.CurrentService = (Backend)this.ServicesList.SelectedItem;
+                    this.ExBackend = controller.DataModel.CurrentService;
+                    controller.DataModel.CurrentService = controller.DataModel.SelectedBackend; 
                     break;
 
                 case 1:
@@ -276,21 +281,10 @@ namespace MPinDemo
                 if (controller.DataModel.CurrentService != (Backend)this.ServicesList.Items[selectedIndex.Value])
                     controller.DataModel.CurrentService = (Backend)this.ServicesList.Items[selectedIndex.Value];
 
-                this.ServicesList.SelectedIndex = selectedIndex.Value;
+                controller.DataModel.SelectedBackend = controller.DataModel.BackendsList[selectedIndex.Value];// selectedIndex.Value;
+                ServicesList.ScrollIntoView(controller.DataModel.SelectedBackend);
             }
 
-            if (this.ServicesList != null)
-            {
-                if (this.ServicesList.SelectedItem != null)
-                {
-                    if (controller.DataModel.CurrentService != null && this.ServicesList.SelectedItem.Equals(controller.DataModel.CurrentService))
-                        this.ServicesList.ScrollIntoView(this.ServicesList.SelectedItem);
-                }
-                else if (controller.DataModel.CurrentService != null)
-                {
-                    ServicesList.SelectedItem = controller.DataModel.CurrentService;
-                }
-            }
         }
         #endregion
 
@@ -441,14 +435,12 @@ namespace MPinDemo
             SavePropertyState(SelectedUser, UsersListBox.SelectedIndex);
         }
 
-        private void Services_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ServicesList_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            SelectAppBarButton.IsEnabled = ServicesList.SelectedItem != null;
-            EditButton.IsEnabled = ServicesList.SelectedItem != null;
-            ServicesList.ScrollIntoView(ServicesList.SelectedItem);
-            SavePropertyState(SelectedService, ServicesList.SelectedIndex);
+            SelectAppBarButton.IsEnabled = EditButton.IsEnabled = controller.DataModel.SelectedBackend != null; 
+            ServicesList.ScrollIntoView(controller.DataModel.SelectedBackend);
         }
-
+        
         private void ServicesList_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
             if (isInitialLoad)
@@ -466,6 +458,16 @@ namespace MPinDemo
                     {
                         this.MainPivot.SelectedItem = this.UsersPivotItem;
                     }
+                    else
+                    {
+                        // if the connection to the service is unsuccessful -> set the previous successful service.
+                        controller.DataModel.SelectedBackend = this.ExBackend;
+                    }
+                    break;
+
+                case "IsUserInProcessing":
+                    // adding user to the server is async - reenable the page, if it is unsuccessful
+                    SetControlsIsEnabled(null);
                     break;
             }
         }
@@ -486,30 +488,34 @@ namespace MPinDemo
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            selectedServiceIndex = this.ServicesList.SelectedIndex;
-            controller.EditService(this.ServicesList.SelectedIndex, this.ServicesList.SelectedIndex >= AppDataModel.PredefinedServicesCount);
+            selectedServiceIndex = controller.DataModel.BackendsList.IndexOf(controller.DataModel.SelectedBackend);// this.ServicesList.SelectedIndex;
+            controller.EditService(selectedServiceIndex, selectedServiceIndex >= AppDataModel.PredefinedServicesCount);
         }
 
         private void MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectAppBarButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? ServicesList.SelectedItem != null : UsersListBox.SelectedItem != null;
+            SelectAppBarButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? controller.DataModel.SelectedBackend != null : UsersListBox.SelectedItem != null;
             DeleteButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? ServicesList.Items.Count > 0 : UsersListBox.Items.Count > 0;
             ResetPinButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Collapsed : Visibility.Visible;
             AddAppBarButton.Icon = new SymbolIcon(this.MainPivot.SelectedIndex == 0 ? Symbol.Add : Symbol.AddFriend);
 
-            EditButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
-            ScanAppBarButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
+            EditButton.Visibility = ScanAppBarButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
+            
+            // if the user manually go to Users pivot item, but the connection to the selected backend is not successful -> set the selected to be the last successfully connected service
+            if (this.MainPivot.SelectedIndex == 1 && controller.DataModel.SelectedBackend != controller.DataModel.CurrentService)
+                controller.DataModel.SelectedBackend = controller.DataModel.CurrentService;
+
+            ServicesList.ScrollIntoView(controller.DataModel.SelectedBackend);
         }
 
         private async void Delete_Click(object sender, RoutedEventArgs e)
         {
             switch (this.MainPivot.SelectedIndex)
             {
-                case 0:
-                    Backend backend = ServicesList.SelectedItem as Backend;
-                    if (backend != null && !string.IsNullOrEmpty(backend.BackendUrl))
+                case 0:                 
+                    if (controller.DataModel.SelectedBackend != null && !string.IsNullOrEmpty(controller.DataModel.SelectedBackend.BackendUrl))
                     {
-                        await controller.DeleteService(backend, this.ServicesList.SelectedIndex >= AppDataModel.PredefinedServicesCount);
+                        await controller.DeleteService(controller.DataModel.SelectedBackend, controller.DataModel.BackendsList.IndexOf(controller.DataModel.SelectedBackend) >= AppDataModel.PredefinedServicesCount);
                     }
                     break;
 
@@ -567,7 +573,7 @@ namespace MPinDemo
             if (!showUsers && controller.DataModel.BackendsList.Count > selectedServiceIndex && selectedServiceIndex > -1)
             {
                 // select a service after being edited/added
-                this.ServicesList.SelectedItem = controller.DataModel.BackendsList[selectedServiceIndex];
+                controller.DataModel.SelectedBackend = controller.DataModel.BackendsList[selectedServiceIndex];                
             }
 
             selectedServiceIndex = -1;

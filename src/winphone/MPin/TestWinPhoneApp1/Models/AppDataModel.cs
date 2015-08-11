@@ -42,7 +42,7 @@ namespace MPinDemo.Models
 
         private const string FileName =
 #if DEBUG
-            "SampleData_Debug.json";
+ "SampleData_Debug.json";
 #elif MPinConnect
             "SampleData_MPinConnect.json";
 #else
@@ -75,6 +75,31 @@ namespace MPinDemo.Models
                 {
                     services = value;
                     OnPropertyChanged();
+                }
+            }
+        }
+
+        public Backend SelectedBackend
+        {
+            get
+            {
+                if (this.BackendsList == null)
+                    return null; 
+
+                foreach (var backend in this.BackendsList)
+                    if (backend.IsSet.HasValue && (bool)backend.IsSet)
+                        return backend;
+
+                return null;
+            }
+            set
+            {
+                if (this.BackendsList != null)
+                {
+                    foreach (var backend in this.BackendsList)
+                    {
+                        backend.IsSet = value == null || !value.Equals(backend) ? false : true;
+                    }
                 }
             }
         }
@@ -135,7 +160,7 @@ namespace MPinDemo.Models
             {
                 return BlankPage1.RoamingSettings.Values[PredefinedServicesCountString] == null ? 0 : int.Parse(BlankPage1.RoamingSettings.Values[PredefinedServicesCountString].ToString());
             }
-        } 
+        }
 
         #endregion
 
@@ -335,6 +360,6 @@ namespace MPinDemo.Models
             }
         }
         #endregion // INotifyPropertyChanged
-        
+
     }
 }

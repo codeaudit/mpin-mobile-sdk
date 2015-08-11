@@ -129,11 +129,8 @@
   <data name="AuthTB.Text" xml:space="preserve">
     <value>СТАТУС ПРИ АУТЕНТИЦАКИЯТА</value>
   </data>
-  <data name="BlockedUser" xml:space="preserve">
-    <value>Потребителят {0} е в статус БЛОКИРАН! Твърде много неуспешни опити за аутентикация!</value>
-  </data>
-  <data name="ConfigurationTB.Text" xml:space="preserve">
-    <value>Моля, изберете конфигурация:</value>
+  <data name="BlockedUser.Text" xml:space="preserve">
+    <value>Твърде много неуспешни опити за аутентикация!</value>
   </data>
   <data name="ConfirmButton.Content" xml:space="preserve">
     <value>Потвърдих самоличността си, продължи.</value>
@@ -192,10 +189,10 @@
     <value>Невалиден формат на имейл адрес!</value>
   </data>
   <data name="Otp2TB.Text" xml:space="preserve">
-    <value> е: </value>
+    <value>ВАШАТА ПАРОЛА</value>
   </data>
   <data name="OtpTB.Text" xml:space="preserve">
-    <value>OTP номера за</value>
+    <value>Може да използвате следната парола за достъп</value>
   </data>
   <data name="RegistrationProblem" xml:space="preserve">
     <value>Появи се проблем по време на регистрацията. Моля, опитайте отново!</value>
@@ -430,5 +427,14 @@
   </data>
   <data name="SignInButton.Content" xml:space="preserve">
     <value>Вход с този потребител</value>
+  </data>
+  <data name="BlockedUserTitle.Text" xml:space="preserve">
+    <value>БЛОКИРАН ПОТРЕБИТЕЛ</value>
+  </data>
+  <data name="MainPageTitle.Text" xml:space="preserve">
+    <value>M-PIN</value>
+  </data>
+  <data name="OtpTitle.Text" xml:space="preserve">
+    <value>ЕДНОКРАТНА ПАРОЛА ЗА ДОСТЪП</value>
   </data>
 </root>
