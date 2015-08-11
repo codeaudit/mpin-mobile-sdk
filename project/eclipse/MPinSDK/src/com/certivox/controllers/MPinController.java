@@ -431,7 +431,7 @@ public class MPinController extends Controller {
                     Status status = getSdk().StartRegistration(getCurrentUser());
                     // TODO: This is not the right place for initing the list
                     initUsersList();
-
+                    Log.i(TAG, "startRegistration status code = " + status.getStatusCode());
                     switch (status.getStatusCode()) {
                     case OK:
                         if (mCurrentUser.getState().equals(State.ACTIVATED)) {
@@ -462,7 +462,10 @@ public class MPinController extends Controller {
             @Override
             public void run() {
                 if (isNetworkAvailable()) {
+                    
                     Status status = getSdk().RestartRegistration(getCurrentUser());
+                    Log.i(TAG, "restarRegistration status code = " + status.getStatusCode());
+
                     notifyOutboxHandlers(MESSAGE_EMAIL_SENT, 0, 0, null);
                 } else {
                     notifyOutboxHandlers(MESSAGE_NO_INTERNET_ACCESS, 0, 0, null);
@@ -481,6 +484,7 @@ public class MPinController extends Controller {
             public void run() {
                 if (isNetworkAvailable()) {
                     Status status = getSdk().FinishRegistration(getCurrentUser());
+                    Log.i(TAG, "finishRegistration status code = " + status.getStatusCode());
                     if (status.getStatusCode() != Status.Code.OK) {
                         notifyOutboxHandlers(MESSAGE_EMAIL_NOT_CONFIRMED, 0, 0, null);
                     } else {
@@ -517,8 +521,7 @@ public class MPinController extends Controller {
             }
         });
     }
-
-
+    
     // Do not call on UI Thread
     private Mpin getSdk() {
         try {

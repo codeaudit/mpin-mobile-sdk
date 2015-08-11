@@ -104,7 +104,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     private TextView              mChangeIdentityButton;
     private TextView              mChangeServiceButton;
     private TextView              mAboutButton;
-
+    private TextView              mNoInternetConnectionTitle;
     private Toast                 mNoInternetToast;
     private BroadcastReceiver     mNetworkConectivityReceiver;
     private static final String   CONNECTIVITY_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE";
@@ -335,6 +335,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         mChangeServiceButton = (TextView) findViewById(R.id.change_service);
         mAboutButton = (TextView) findViewById(R.id.about);
         mLoader = (RelativeLayout) findViewById(R.id.loader);
+        mNoInternetConnectionTitle = (TextView) findViewById(R.id.no_network_connection_message_id);
     }
 
 
@@ -431,12 +432,12 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
 
 
     private void onNoInternetConnectionAvailable() {
-        Log.i(TAG, "NO INTERNET CONNECTION AVAILABLE");
+        mNoInternetConnectionTitle.setVisibility(View.VISIBLE);
     }
 
 
     private void onInternetConnectionAvailable() {
-        Log.i(TAG, "INTERNET CONNECTION AVAILABLE");
+        mNoInternetConnectionTitle.setVisibility(View.GONE);
     }
 
 
