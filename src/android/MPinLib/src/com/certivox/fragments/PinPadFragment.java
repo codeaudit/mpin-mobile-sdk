@@ -99,7 +99,6 @@ public class PinPadFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         mView = inflater.inflate(R.layout.pinpad_layout, container, false);
         if (mUser == null) {
             showErrorDialog();
@@ -120,12 +119,16 @@ public class PinPadFragment extends Fragment {
 
     @Override
     public void onResume() {
-        if (mUser.getState().equals(User.State.REGISTERED)) {
-            ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.enter_pin_title);
-        } else {
-            ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.setup_pin_title);
-        }
         super.onResume();
+        if (mUser != null) {
+            if (mUser.getState().equals(User.State.REGISTERED)) {
+                ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.enter_pin_title);
+            } else {
+                ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.setup_pin_title);
+            }
+        } else {
+            showErrorDialog();
+        }
     }
 
 
