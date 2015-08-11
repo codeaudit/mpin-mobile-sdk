@@ -641,11 +641,10 @@ public class MPinController extends Controller {
         Status status = getSdk().AuthenticateAN(getCurrentUser(), accessNumber);
         Log.i(TAG, "authenticateAN Status code = " + status.getStatusCode());
         switch (status.getStatusCode()) {
-        case PIN_INPUT_CANCELED:
+        case OK:
+            saveCurrentUser(mCurrentUser);
             notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
-            break;
-        case NETWORK_ERROR:
-            onNetworkError();
+            notifyOutboxHandlers(MESSAGE_AUTH_SUCCESS, 0, 0, null);
             break;
         case INCORRECT_ACCESS_NUMBER:
             notifyOutboxHandlers(MESSAGE_INCORRECT_ACCESS_NUMBER, 0, 0, null);
@@ -655,10 +654,15 @@ public class MPinController extends Controller {
             notifyOutboxHandlers(MESSAGE_INCORRECT_PIN_AN, 0, 0, null);
             onSignIn();
             break;
-        case OK:
-            saveCurrentUser(mCurrentUser);
+        case PIN_INPUT_CANCELED:
             notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
-            notifyOutboxHandlers(MESSAGE_AUTH_SUCCESS, 0, 0, null);
+            break;
+        case NETWORK_ERROR:
+            onNetworkError();
+            break;
+        case IDENTITY_NOT_AUTHORIZED:
+            notifyOutboxHandlers(MESSAGE_IDENTITY_NOT_AUTHORIZED, 0, 0, null);
+            notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
             break;
         default:
             return;
@@ -670,9 +674,6 @@ public class MPinController extends Controller {
         Status status = getSdk().AuthenticateOTP(getCurrentUser(), otp);
         Log.i(TAG, "STATUS " + status);
         switch (status.getStatusCode()) {
-        case PIN_INPUT_CANCELED:
-            notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
-            break;
         case OK:
             if (otp.status != null && otp.ttlSeconds > 0) {
                 saveCurrentUser(mCurrentUser);
@@ -686,8 +687,15 @@ public class MPinController extends Controller {
             notifyOutboxHandlers(MESSAGE_INCORRECT_PIN, 0, 0, null);
             onSignIn();
             break;
+        case PIN_INPUT_CANCELED:
+            notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
+            break;
         case NETWORK_ERROR:
             onNetworkError();
+            break;
+        case IDENTITY_NOT_AUTHORIZED:
+            notifyOutboxHandlers(MESSAGE_IDENTITY_NOT_AUTHORIZED, 0, 0, null);
+            notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
             break;
         default:
             return;
@@ -699,19 +707,23 @@ public class MPinController extends Controller {
         final StringBuilder resultData = new StringBuilder();
         Status status = getSdk().Authenticate(getCurrentUser(), resultData);
         switch (status.getStatusCode()) {
-        case PIN_INPUT_CANCELED:
-            notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
+        case OK:
+            saveCurrentUser(mCurrentUser);
+            notifyOutboxHandlers(MESSAGE_SHOW_LOGGED_IN, 0, 0, null);
             break;
         case INCORRECT_PIN:
             notifyOutboxHandlers(MESSAGE_INCORRECT_PIN, 0, 0, null);
             onSignIn();
             break;
-        case OK:
-            saveCurrentUser(mCurrentUser);
-            notifyOutboxHandlers(MESSAGE_SHOW_LOGGED_IN, 0, 0, null);
+        case PIN_INPUT_CANCELED:
+            notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
             break;
         case NETWORK_ERROR:
             onNetworkError();
+            break;
+        case IDENTITY_NOT_AUTHORIZED:
+            notifyOutboxHandlers(MESSAGE_IDENTITY_NOT_AUTHORIZED, 0, 0, null);
+            notifyOutboxHandlers(MESSAGE_SHOW_IDENTITIES_LIST, 0, 0, null);
             break;
         default:
             return;
