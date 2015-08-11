@@ -7,8 +7,6 @@
 
 #include "mpin_sdk.h"
 
-class IMPinCryptoV2;
-
 class MPinSDKv2
 {
 public:
@@ -20,9 +18,18 @@ public:
     typedef MPinSDK::IHttpRequest IHttpRequest;
     typedef MPinSDK::IStorage IStorage;
     typedef MPinSDK::IPinPad IPinPad;
-    typedef MPinSDK::IContext IContext;
     typedef MPinSDK::Status Status;
     typedef MPinSDK::OTP OTP;
+
+    class IContext
+    {
+    public:
+        virtual ~IContext() {}
+        virtual IHttpRequest * CreateHttpRequest() const = 0;
+        virtual void ReleaseHttpRequest(IN IHttpRequest *request) const = 0;
+        virtual IStorage * GetStorage(IStorage::Type type) const = 0;
+        virtual CryptoType GetMPinCryptoType() const = 0;
+    };
 
     MPinSDKv2();
     ~MPinSDKv2();
@@ -62,12 +69,12 @@ private:
     typedef MPinSDK::State State;
     typedef MPinSDK::LogoutData LogoutData;
 
-    class Context : public IContext
+    class Context : public MPinSDK::IContext
     {
     public:
         Context();
         ~Context();
-        void Init(IContext *appContext);
+        void Init(MPinSDKv2::IContext *appContext);
         void SetPin(const String& pin);
         virtual IHttpRequest * CreateHttpRequest() const;
         virtual void ReleaseHttpRequest(IN IHttpRequest *request) const;
@@ -85,7 +92,7 @@ private:
             String m_pin;
         };
 
-        IContext *m_appContext;
+        MPinSDKv2::IContext *m_appContext;
         Pinpad *m_pinpad;
     };
 

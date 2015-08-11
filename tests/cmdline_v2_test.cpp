@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "core/mpin_sdk_v2.h"
-#include "contexts/cmdline_context.h"
+#include "contexts/cmdline_context_v2.h"
 #include "CvLogger.h"
 
 using namespace std;
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
         config.Put(MPinSDK::CONFIG_RPS_PREFIX, backend.rpsPrefix);
     }
 
-    CmdLineContext context("windows_test_v2_users.json", "windows_test_v2_tokens.json");
+    CmdLineContextV2 context("windows_test_v2_users.json", "windows_test_v2_tokens.json");
     MPinSDKv2 sdk;
 
     cout << "Using MPinSDK version " << sdk.GetVersion() << endl;
@@ -106,7 +106,9 @@ int main(int argc, char *argv[])
             return 0;
         }
 
-        MPinSDK::String pin = context.GetPinPad()->Show(user, MPinSDK::IPinPad::REGISTER);
+        MPinSDK::String pin;
+        cout << "Enter pin: ";
+        cin >> pin;
 
         s = sdk.FinishRegistration(user, pin);
         if(s != MPinSDK::Status::OK)
@@ -130,7 +132,9 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    MPinSDK::String pin = context.GetPinPad()->Show(user, MPinSDK::IPinPad::AUTHENTICATE);
+    MPinSDK::String pin;
+    cout << "Enter pin: ";
+    cin >> pin;
 
     MPinSDK::String authData;
     s = sdk.FinishAuthentication(user, pin, authData);

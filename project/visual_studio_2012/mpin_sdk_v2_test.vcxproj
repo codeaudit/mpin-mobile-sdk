@@ -67,11 +67,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\tests\cmdline_v2_test.cpp" />
-    <ClCompile Include="..\..\tests\contexts\cmdline_context.cpp" />
+    <ClCompile Include="..\..\tests\contexts\cmdline_context_v2.cpp" />
     <ClCompile Include="..\..\tests\contexts\http_request.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\tests\contexts\cmdline_context.h" />
+    <ClInclude Include="..\..\tests\contexts\cmdline_context_v2.h" />
     <ClInclude Include="..\..\tests\contexts\http_request.h" />
   </ItemGroup>
   <ItemGroup>

@@ -24,7 +24,7 @@ MPinSDKv2::Context::~Context()
     delete m_pinpad;
 }
 
-void MPinSDKv2::Context::Init(IContext *appContext)
+void MPinSDKv2::Context::Init(MPinSDKv2::IContext *appContext)
 {
     m_appContext = appContext;
 }
