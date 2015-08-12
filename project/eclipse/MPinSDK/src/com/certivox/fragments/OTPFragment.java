@@ -125,7 +125,7 @@ public class OTPFragment extends MPinFragment {
 
     @Override
     protected void initViews() {
-        setTooblarTitle(R.string.otp_title);
+        setToolbarTitle(R.string.otp_title);
         mUserEmailTextView = (TextView) mView.findViewById(R.id.user_email);
         if (getMPinController().getCurrentUser() != null) {
             mUserEmailTextView.setText(getMPinController().getCurrentUser().getId());

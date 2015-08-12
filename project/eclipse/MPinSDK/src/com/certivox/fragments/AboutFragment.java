@@ -89,7 +89,7 @@ public class AboutFragment extends MPinFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         disableDrawer();
-        setTooblarTitle(R.string.about_title);
+        setToolbarTitle(R.string.about_title);
         mView = inflater.inflate(R.layout.fragment_about, container, false);
         initViews();
         setVersion();

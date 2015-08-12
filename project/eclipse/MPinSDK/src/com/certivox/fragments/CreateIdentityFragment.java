@@ -101,7 +101,7 @@ public class CreateIdentityFragment extends MPinFragment implements OnClickListe
 
     @Override
     protected void initViews() {
-        setTooblarTitle(R.string.add_identity_title);
+        setToolbarTitle(R.string.add_identity_title);
 
         mEmailEditText = (EditText) mView.findViewById(R.id.email_input);
         mCreateIdentitiyButton = (Button) mView.findViewById(R.id.create_identity_button);

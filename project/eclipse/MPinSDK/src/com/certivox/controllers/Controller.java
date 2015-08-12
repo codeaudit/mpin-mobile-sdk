@@ -41,7 +41,7 @@ import android.os.Message;
 
 abstract public class Controller {
 
-    private static final String TAG            = "Controllerr";
+    private static final String TAG            = "Controller";
     private final List<Handler> outboxHandlers = new ArrayList<Handler>();
     private Object              lock           = new Object();
 
@@ -50,6 +50,11 @@ abstract public class Controller {
 
 
     abstract public boolean handleMessage(int what);
+
+
+    protected Controller(Handler handler) {
+        addOutboxHandler(handler);
+    }
 
 
     public final void addOutboxHandler(Handler handler) {

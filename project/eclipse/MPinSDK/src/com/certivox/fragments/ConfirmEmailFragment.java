@@ -103,7 +103,7 @@ public class ConfirmEmailFragment extends MPinFragment implements OnClickListene
 
     @Override
     protected void initViews() {
-        setTooblarTitle(R.string.confirm_email_title);
+        setToolbarTitle(R.string.confirm_email_title);
         mUserEmailTextView = (TextView) mView.findViewById(R.id.user_email);
         mUserEmailTextView.setText(getMPinController().getCurrentUser().getId());
 

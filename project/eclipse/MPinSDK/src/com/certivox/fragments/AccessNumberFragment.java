@@ -125,7 +125,7 @@ public class AccessNumberFragment extends MPinFragment {
 
     @Override
     protected void initViews() {
-        setTooblarTitle(R.string.access_number_title);
+        setToolbarTitle(R.string.access_number_title);
         mAccessNumberTitle = (TextView) mView.findViewById(R.id.access_number_title);
 
         mAccessNumberTitle

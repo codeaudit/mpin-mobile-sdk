@@ -108,7 +108,7 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        setTooblarTitle(R.string.select_service_toolbar_title);
+        setToolbarTitle(R.string.select_service_toolbar_title);
 
         mView = inflater.inflate(R.layout.fragment_configs_list, container, false);
         mSelectedConfiguraionId = -1;

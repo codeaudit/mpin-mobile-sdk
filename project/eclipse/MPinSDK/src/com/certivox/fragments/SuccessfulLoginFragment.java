@@ -91,7 +91,7 @@ public class SuccessfulLoginFragment extends MPinFragment implements OnClickList
 
     @Override
     protected void initViews() {
-        setTooblarTitle(R.string.account_summary);
+        setToolbarTitle(R.string.account_summary);
     }
 
 
