@@ -190,7 +190,7 @@ namespace MPinDemo
 
         private void SetControlsVisibility(bool takePicture)
         {
-            MainPivot.Visibility = takePicture ? Visibility.Collapsed : Visibility.Visible;
+            MainGrid.Visibility = takePicture ? Visibility.Collapsed : Visibility.Visible;
             ScanAppBarButton.Visibility = takePicture ? Visibility.Collapsed : Visibility.Visible;
             AddAppBarButton.Visibility = takePicture ? Visibility.Collapsed : Visibility.Visible;
             SelectAppBarButton.Visibility = takePicture ? Visibility.Collapsed : Visibility.Visible;
@@ -284,7 +284,6 @@ namespace MPinDemo
                 controller.DataModel.SelectedBackend = controller.DataModel.BackendsList[selectedIndex.Value];// selectedIndex.Value;
                 ServicesList.ScrollIntoView(controller.DataModel.SelectedBackend);
             }
-
         }
         #endregion
 
