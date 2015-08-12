@@ -11,13 +11,8 @@
         <local:ConfigurationConverter x:Key="configurationConverter"/>
         <local:ExistenceSelector x:Key="ExistenceSelector" />
     </Page.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <StackPanel>
+        <TextBlock x:Uid="ReadConfigurationTitle" Style="{StaticResource TitleStyle}" />
         <TextBlock x:Uid="ReadConfigurationText" TextWrapping="WrapWholeWords" />
         <TextBlock x:Uid="ReadConfigurationWarning" Grid.Row="1" TextWrapping="WrapWholeWords"/>
         
@@ -98,8 +93,8 @@
                 </DataTemplate>                
             </ListBox.ItemTemplate>
         </ListBox>
-    </Grid>
-
+    </StackPanel>
+    
     <Page.BottomAppBar>
         <CommandBar>
             <AppBarButton x:Uid="SaveConfigurationBarButton" 

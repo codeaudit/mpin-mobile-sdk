@@ -11,7 +11,7 @@
     
     <StackPanel>
         <TextBlock x:Uid="OtpTitle" Style="{StaticResource TitleStyle}"/>
-        <TextBlock Text="{Binding CurrentUser.Id, Mode=TwoWay}" Style="{StaticResource MainTextBlock}"/>
+        <TextBlock Text="{Binding CurrentUser.Id, Mode=TwoWay}" Style="{StaticResource IdentityTextBlock}"/>
         <TextBlock x:Uid="OtpTB" Style="{StaticResource MainTextBlock}" TextWrapping="WrapWholeWords"/>
 
         <TextBlock x:Uid="Otp2TB" Style="{StaticResource MainTextBlock}" FontSize="{ThemeResource TextStyleMediumFontSize}"/>

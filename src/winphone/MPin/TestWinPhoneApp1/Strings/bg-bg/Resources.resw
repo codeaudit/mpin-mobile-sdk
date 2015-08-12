@@ -437,4 +437,7 @@
   <data name="OtpTitle.Text" xml:space="preserve">
     <value>ЕДНОКРАТНА ПАРОЛА ЗА ДОСТЪП</value>
   </data>
+  <data name="ReadConfigurationTitle.Text" xml:space="preserve">
+    <value>ПРОЧЕТЕНИ КОНФИГУРАЦИИ</value>
+  </data>
 </root>

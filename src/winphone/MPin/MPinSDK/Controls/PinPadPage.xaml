@@ -19,7 +19,7 @@
         
         <TextBlock x:Name="PinMailTB" 
                    VerticalAlignment="Center" 
-                   HorizontalAlignment="Left" 
+                   HorizontalAlignment="Left"
                    FontWeight="{ThemeResource PhoneButtonFontWeight}"
                    FontSize="{ThemeResource TextStyleMediumFontSize}"
                    Margin="12"/>
@@ -27,7 +27,7 @@
                    Grid.Row="1"
                    VerticalAlignment="Center" 
                    HorizontalAlignment="Left" 
-                   FontSize="{ThemeResource TextStyleMediumFontSize}"
+                   FontSize="{ThemeResource TextStyleExtraLargeFontSize}"
                    Margin="12"/>
         
         <mPin:PinPadControl x:Name="PinPad" Grid.Row="2" VerticalAlignment="Bottom" />

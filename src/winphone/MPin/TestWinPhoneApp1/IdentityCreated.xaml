@@ -12,7 +12,7 @@
     <Grid>
         <StackPanel>
             <TextBlock x:Uid="IdentityCreatedTitle" Style="{StaticResource TitleStyle}"/>
-            <TextBlock x:Name="IdentityMail" Style="{StaticResource MainTextBlock}"/>
+            <TextBlock x:Name="IdentityMail" Style="{StaticResource IdentityTextBlock}"/>
             <TextBlock x:Uid="IdentityCreatedNotification" TextWrapping="WrapWholeWords" Style="{StaticResource MainTextBlock}"/>
             <Button x:Uid="SignInButton" Click="SignInButton_Click"/>
             <Button x:Uid="IdentityListButton" Click="Button_Click" />

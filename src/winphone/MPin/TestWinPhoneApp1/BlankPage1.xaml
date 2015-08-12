@@ -103,12 +103,14 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <ListBox x:Name="UsersListBox" Loaded="UsersListBox_Loaded"
-                             DataContext="{Binding UsersList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                             ItemsSource="{Binding}"
-                             SelectionChanged="UsersList_SelectionChanged"
-                             ContinuumNavigationTransitionInfo.IsExitElement="True" 
-                             ContinuumNavigationTransitionInfo.IsEntranceElement="True">
+                        <ListBox x:Name="UsersListBox" 
+                                 Loaded="UsersListBox_Loaded"
+                                 LayoutUpdated="UsersListBox_LayoutUpdated"
+                                 DataContext="{Binding UsersList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                 ItemsSource="{Binding}" 
+                                 SelectionChanged="UsersList_SelectionChanged"
+                                 ContinuumNavigationTransitionInfo.IsExitElement="True" 
+                                 ContinuumNavigationTransitionInfo.IsEntranceElement="True" >
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Margin="0">
@@ -117,8 +119,8 @@
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
 
-                                        <SymbolIcon Symbol="Contact" Width="50"/>
-                                        <StackPanel Margin="0,0,0,9.5" Grid.Column="1">
+                                        <Image Source="Assets/user.png" Width="48" Margin="24,0, 0, 0"/>
+                                        <StackPanel Margin="10,0,0,9.5" Grid.Column="1">
                                             <TextBlock  Text="{Binding Id}"
                                                     Pivot.SlideInAnimationGroup="1"
                                                     CommonNavigationTransitionInfo.IsStaggerElement="True"

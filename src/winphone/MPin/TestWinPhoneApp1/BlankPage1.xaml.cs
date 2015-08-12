@@ -148,7 +148,7 @@ namespace MPinDemo
                 await controller.Dispose();
             }
 
-            SavePropertyState(SelectedService, controller.DataModel.BackendsList.IndexOf(controller.DataModel.SelectedBackend)); //ServicesList.SelectedIndex);
+            SavePropertyState(SelectedService, controller.DataModel.BackendsList.IndexOf(controller.DataModel.SelectedBackend)); 
         }
 
         #endregion
@@ -210,6 +210,20 @@ namespace MPinDemo
             return string.IsNullOrEmpty(navigationData)
                 ? param == null ? "" : param.ToString()
                 : navigationData;
+        }
+
+        private User savedSelectedUser;
+        private User SavedSelectedUser
+        {
+            get
+            {
+                if (savedSelectedUser == null)
+                {
+                    savedSelectedUser = GetSelectedUser(controller.DataModel.UsersList);
+                }
+
+                return savedSelectedUser;
+            }
         }
 
         private User GetSelectedUser(ICollection<User> users)
@@ -540,11 +554,20 @@ namespace MPinDemo
 
             if (UsersListBox != null && UsersListBox.ItemsSource != null)
             {
-                UsersListBox.SelectedItem = GetSelectedUser(controller.DataModel.UsersList);
+                UsersListBox.SelectedItem = this.SavedSelectedUser;
                 isInitialLoad = false;
             }
         }
-
+        
+        private void UsersListBox_LayoutUpdated(object sender, object e)
+        {
+            if (UsersListBox != null && UsersListBox.ItemsSource != null && this.SavedSelectedUser != null && UsersListBox.SelectedItem == null)
+            {
+                UsersListBox.SelectedItem = this.SavedSelectedUser;
+                isInitialLoad = false;
+            }
+        }
+        
         private void AboutButton_Click(object sender, RoutedEventArgs e)
         {
             Frame mainFrame = rootPage.FindName("MainFrame") as Frame;

@@ -10,7 +10,7 @@
 
     <StackPanel>
         <TextBlock x:Uid="ANTitle" Style="{StaticResource TitleStyle}"/>
-        <TextBlock x:Name="ANUser" Style="{StaticResource MainTextBlock}"/>
+        <TextBlock x:Name="ANUser" Style="{StaticResource IdentityTextBlock}"/>
         <TextBlock x:Uid="AccessNumberTB"  Style="{StaticResource MainTextBlock}"/>
         <TextBox x:Name="AccessNumberTB" TextChanged="AccessNumberTB_TextChanged" KeyUp="AccessNumberTB_KeyUp"/>
         <TextBlock x:Name="AccessNumberLength"  Style="{StaticResource MainTextBlock}"/>

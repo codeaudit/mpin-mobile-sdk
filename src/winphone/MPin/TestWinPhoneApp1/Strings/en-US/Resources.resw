@@ -443,4 +443,7 @@ Unsuccessfull authentication!</value>
   <data name="OtpTitle.Text" xml:space="preserve">
     <value>ONE TIME PASSWORD</value>
   </data>
+  <data name="ReadConfigurationTitle.Text" xml:space="preserve">
+    <value>SCANNED SERVICES</value>
+  </data>
 </root>

@@ -11,7 +11,7 @@
     <StackPanel>
 
         <TextBlock x:Uid="BlockedUserTitle"  Style="{StaticResource TitleStyle}" />
-        <TextBlock x:Name="BlockedUser" Style="{StaticResource MainTextBlock}" />
+        <TextBlock x:Name="BlockedUser" Style="{StaticResource IdentityTextBlock}" />
         <TextBlock x:Uid="BlockedUserTB" TextWrapping="WrapWholeWords" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MainTextBlock}"/>
     
         <Button x:Uid="IdsButton"  Click="GoIdentities_Click"/>

@@ -11,25 +11,33 @@
     <Page.Resources>
         <local:ConfigurationTypeEnumToBooleanConverter x:Key="EnumToBooleanConverter" />
     </Page.Resources>
-    <StackPanel>
- 
-        <TextBlock x:Name="ConfigTitle"  Style="{StaticResource TitleStyle}"/>
+    <ScrollViewer>
+        <StackPanel>
 
-        <TextBlock x:Uid="ServiceName" Style="{StaticResource DescTextBlock}"/>
-        <TextBox x:Name="NameTB" Text="{Binding Name, Mode=TwoWay}" KeyUp="TextBox_KeyUp"/>
+            <TextBlock x:Name="ConfigTitle"  Style="{StaticResource TitleStyle}"/>
 
-        <TextBlock x:Uid="SeviceURLText" Style="{StaticResource DescTextBlock}"/>
-        <TextBox x:Name="UrlTB" Text="{Binding BackendUrl, Mode=TwoWay}" KeyUp="TextBox_KeyUp"/>
+            <TextBlock x:Uid="ServiceName" Style="{StaticResource DescTextBlock}"/>
+            <TextBox x:Name="NameTB" Text="{Binding Name, Mode=TwoWay}" KeyUp="TextBox_KeyUp"/>
 
-        <TextBlock x:Uid="RPSPrefix"  Style="{StaticResource DescTextBlock}"/>
-        <TextBox x:Name="RpsTB" Text="{Binding RpsPrefix, Mode=TwoWay}" KeyUp="TextBox_KeyUp"/>
+            <TextBlock x:Uid="SeviceURLText" Style="{StaticResource DescTextBlock}"/>
+            <TextBox x:Name="UrlTB" Text="{Binding BackendUrl, Mode=TwoWay}" KeyUp="TextBox_KeyUp"/>
 
-        <RadioButton x:Uid="MobileLoginRadioButton" x:Name="MobileLoginRadioButton" GroupName="Login" IsChecked="{Binding Path=Type, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Mobile, Mode=TwoWay}"/>
-        <RadioButton x:Uid="OnlineLoginRadioButton" x:Name="OnlineLoginRadioButton" GroupName="Login" IsChecked="{Binding Path=Type, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Online, Mode=TwoWay}"/>
-        <RadioButton x:Uid="OTPLoginRadioButton" x:Name="OTPLoginRadioButton" GroupName="Login"  IsChecked="{Binding Path=Type, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=OTP, Mode=TwoWay}"/>
+            <TextBlock x:Uid="RPSPrefix"  Style="{StaticResource DescTextBlock}"/>
+            <TextBox x:Name="RpsTB" Text="{Binding RpsPrefix, Mode=TwoWay}" KeyUp="TextBox_KeyUp"/>
 
-        <Button x:Name="TestBackendButton" x:Uid="TestBackendButton"  Click="Test_Click" />
-        <Button x:Name="RegisterService" Click="Button_Click" />
+            <RadioButton x:Uid="MobileLoginRadioButton" x:Name="MobileLoginRadioButton" GroupName="Login" IsChecked="{Binding Path=Type, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Mobile, Mode=TwoWay}"/>
+            <RadioButton x:Uid="OnlineLoginRadioButton" x:Name="OnlineLoginRadioButton" GroupName="Login" IsChecked="{Binding Path=Type, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Online, Mode=TwoWay}"/>
+            <RadioButton x:Uid="OTPLoginRadioButton" x:Name="OTPLoginRadioButton" GroupName="Login"  IsChecked="{Binding Path=Type, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=OTP, Mode=TwoWay}"/>
 
-    </StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="TestBackendButton" x:Uid="TestBackendButton"  Click="Test_Click" />
+                <Button x:Name="RegisterService" Click="Button_Click" Grid.Column="1"/>
+            </Grid>
+            
+        </StackPanel>
+    </ScrollViewer>
 </Page>
