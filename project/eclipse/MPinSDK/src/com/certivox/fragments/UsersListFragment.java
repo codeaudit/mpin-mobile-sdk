@@ -148,18 +148,16 @@ public class UsersListFragment extends MPinFragment implements OnClickListener, 
     private void initScreen() {
         mShowOptionsMenu = false;
         getActivity().invalidateOptionsMenu();
-        if (mUsersList != null) {
-            mUsersList = getMPinController().getUsersList();
-            if (mUsersList.isEmpty()) {
-                setTooblarTitle(R.string.change_identity_title);
-                hideIdentitiesList();
-                showCreateIdentityButton();
-            } else {
-                setTooblarTitle(R.string.select_identity_title);
-                hideCreateIdentityButton();
-                showIdentitiesList();
-                initAdapter();
-            }
+        mUsersList = getMPinController().getUsersList();
+        if (mUsersList == null || mUsersList.isEmpty()) {
+            setTooblarTitle(R.string.change_identity_title);
+            hideIdentitiesList();
+            showCreateIdentityButton();
+        } else {
+            setTooblarTitle(R.string.select_identity_title);
+            hideCreateIdentityButton();
+            showIdentitiesList();
+            initAdapter();
         }
     }
 
