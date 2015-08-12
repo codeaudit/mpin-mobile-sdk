@@ -45,7 +45,7 @@ import android.widget.Toast;
 
 import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 
 public class ConfirmEmailFragment extends MPinFragment implements OnClickListener {

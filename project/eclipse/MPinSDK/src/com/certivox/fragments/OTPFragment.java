@@ -34,7 +34,6 @@ package com.certivox.fragments;
 
 import android.os.Bundle;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -45,7 +44,7 @@ import android.widget.TextView;
 import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
 import com.certivox.models.OTP;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 
 public class OTPFragment extends MPinFragment {

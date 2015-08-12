@@ -73,7 +73,7 @@ import com.certivox.fragments.SuccessfulLoginFragment;
 import com.certivox.fragments.UsersListFragment;
 import com.certivox.models.Config;
 import com.certivox.models.OTP;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 
 public class MPinActivity extends ActionBarActivity implements OnClickListener, Handler.Callback {
@@ -85,6 +85,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
 
     // Controller
     private MPinController      mController;
+    private Handler             mControllerHandler;
     private static MPinActivity mActivity;
 
     private enum ActivityStates {
@@ -132,6 +133,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         super.onDestroy();
         mActivityLifecycleState = ActivityStates.ON_DESTROY;
         mController.handleMessage(MPinController.MESSAGE_ON_DESTROY);
+        mController.removeOutboxHandler(mControllerHandler);
         freeResources();
     }
 
@@ -274,13 +276,18 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     /** Called to do the initialization of the view */
     private void initialize() {
         mActivity = this;
+        initController();
         initViews();
         initActionBar();
         initNavigationDrawer();
 
-        // Init the controller
-        mController = new MPinController(getApplicationContext(), new Handler(this));
         mController.handleMessage(MPinController.MESSAGE_ON_CREATE);
+    }
+
+
+    private void initController() {
+        mControllerHandler = new Handler(this);
+        mController = new MPinController(getApplicationContext(), mControllerHandler);
     }
 
 
@@ -296,6 +303,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         mChangeServiceButton = null;
         mAboutButton = null;
         mLoader = null;
+        mControllerHandler = null;
     }
 
 

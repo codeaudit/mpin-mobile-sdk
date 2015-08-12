@@ -54,7 +54,7 @@ import com.certivox.adapters.ConfigurationListAdapter;
 import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
 import com.certivox.models.Config;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 
 public class ConfigsListFragment extends MPinFragment implements OnClickListener, AdapterView.OnItemClickListener {

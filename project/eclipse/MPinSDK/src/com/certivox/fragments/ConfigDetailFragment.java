@@ -50,7 +50,7 @@ import android.widget.EditText;
 import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
 import com.certivox.models.Config;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 
 public class ConfigDetailFragment extends MPinFragment implements OnClickListener {

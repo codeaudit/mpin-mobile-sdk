@@ -3,7 +3,7 @@ package com.certivox.fragments;
 
 import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 import android.os.Bundle;
 import android.os.Message;

@@ -45,7 +45,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.certivox.constants.FragmentTags;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 
 public class AccessNumberFragment extends MPinFragment {
