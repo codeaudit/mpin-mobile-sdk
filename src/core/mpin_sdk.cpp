@@ -1066,7 +1066,7 @@ Status MPinSDK::AuthenticateImpl(INOUT UserPtr user, const String& accessNumber,
     requestData.Clear();
     requestData["pass"] = json::Number(2);
     requestData["OTP"] = json::Boolean(otp != NULL ? true : false);
-    requestData["WID"] = json::String( accessNumber.empty() ? "0" : accessNumber );
+    requestData["WID"] = json::String(accessNumber.empty() ? "0" : accessNumber);
     requestData["V"] = json::String(util::HexEncode(v));
     requestData["mpin_id"] = json::String(mpinIdHex);
 
