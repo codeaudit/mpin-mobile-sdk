@@ -54,7 +54,7 @@ import com.certivox.adapters.UsersAdapter;
 import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
 import com.certivox.models.User;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 
 public class UsersListFragment extends MPinFragment implements OnClickListener, AdapterView.OnItemClickListener {
@@ -148,16 +148,18 @@ public class UsersListFragment extends MPinFragment implements OnClickListener, 
     private void initScreen() {
         mShowOptionsMenu = false;
         getActivity().invalidateOptionsMenu();
-        mUsersList = getMPinController().getUsersList();
-        if (mUsersList.isEmpty()) {
-            setTooblarTitle(R.string.change_identity_title);
-            hideIdentitiesList();
-            showCreateIdentityButton();
-        } else {
-            setTooblarTitle(R.string.select_identity_title);
-            hideCreateIdentityButton();
-            showIdentitiesList();
-            initAdapter();
+        if (mUsersList != null) {
+            mUsersList = getMPinController().getUsersList();
+            if (mUsersList.isEmpty()) {
+                setTooblarTitle(R.string.change_identity_title);
+                hideIdentitiesList();
+                showCreateIdentityButton();
+            } else {
+                setTooblarTitle(R.string.select_identity_title);
+                hideCreateIdentityButton();
+                showIdentitiesList();
+                initAdapter();
+            }
         }
     }
 

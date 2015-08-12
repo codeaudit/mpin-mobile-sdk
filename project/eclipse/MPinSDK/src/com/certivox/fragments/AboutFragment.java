@@ -45,7 +45,7 @@ import android.widget.TextView;
 
 import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 
 public class AboutFragment extends MPinFragment {

@@ -43,7 +43,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.certivox.models.Config;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 
 public class ConfigurationListAdapter extends BaseAdapter {
