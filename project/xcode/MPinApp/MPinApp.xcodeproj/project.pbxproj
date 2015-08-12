@@ -267,6 +267,7 @@
 		96F78E1D1B05E5B8005C2C7D /* ErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F78E1B1B05E5B8005C2C7D /* ErrorHandler.m */; };
 		96F78E1E1B05E5B8005C2C7D /* ErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F78E1B1B05E5B8005C2C7D /* ErrorHandler.m */; };
 		96F78E1F1B05E5B8005C2C7D /* ErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F78E1B1B05E5B8005C2C7D /* ErrorHandler.m */; };
+		96F7B1D21B7B3C080080C799 /* ConfigurationManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F7B1CD1B7B3C080080C799 /* ConfigurationManagerTests.m */; };
 		96F7EA671B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F7EA661B1858CB00A68A03 /* ANAuthenticationSuccessful.m */; };
 		96F7EA681B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F7EA661B1858CB00A68A03 /* ANAuthenticationSuccessful.m */; };
 		96F7EA691B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F7EA661B1858CB00A68A03 /* ANAuthenticationSuccessful.m */; };
@@ -425,6 +426,7 @@
 		96F62A271AC311D000B25B53 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutViewController.h; path = ../../../../src/ios/MPinApp/AboutViewController.h; sourceTree = "<group>"; };
 		96F78E1A1B05E5B8005C2C7D /* ErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = ErrorHandler.h; path = ../../../../src/ios/MPinApp/ErrorHandler.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		96F78E1B1B05E5B8005C2C7D /* ErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ErrorHandler.m; path = ../../../../src/ios/MPinApp/ErrorHandler.m; sourceTree = "<group>"; };
+		96F7B1CD1B7B3C080080C799 /* ConfigurationManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigurationManagerTests.m; sourceTree = "<group>"; };
 		96F7EA651B1858CB00A68A03 /* ANAuthenticationSuccessful.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ANAuthenticationSuccessful.h; path = ../../../../src/ios/MPinApp/ANAuthenticationSuccessful.h; sourceTree = "<group>"; };
 		96F7EA661B1858CB00A68A03 /* ANAuthenticationSuccessful.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ANAuthenticationSuccessful.m; path = ../../../../src/ios/MPinApp/ANAuthenticationSuccessful.m; sourceTree = "<group>"; };
 		96F7EA6D1B1C48EE00A68A03 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = "<group>"; };
@@ -605,6 +607,7 @@
 			isa = PBXGroup;
 			children = (
 				9604B77D1B73935B00FF6D6A /* Certivox_MPin_Tests.m */,
+				96F7B1CD1B7B3C080080C799 /* ConfigurationManagerTests.m */,
 				9604B77B1B73935B00FF6D6A /* Supporting Files */,
 			);
 			path = "Certivox MPin Tests";
@@ -1404,6 +1407,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96F7B1D21B7B3C080080C799 /* ConfigurationManagerTests.m in Sources */,
 				9604B77E1B73935B00FF6D6A /* Certivox_MPin_Tests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1650,6 +1654,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1676,6 +1681,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Certivox MPin Tests/Info.plist";
@@ -1698,6 +1704,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Certivox MPin Tests/Info.plist";
@@ -1720,6 +1727,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Certivox MPin Tests/Info.plist";
@@ -1742,6 +1750,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Certivox MPin Tests/Info.plist";
@@ -2496,6 +2505,7 @@
 				9604B7851B73935B00FF6D6A /* AdHoc */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = QA;
 		};
 		96130E5F1AEE4867005D2A86 /* Build configuration list for PBXNativeTarget "NTTComSecurity" */ = {
 			isa = XCConfigurationList;
