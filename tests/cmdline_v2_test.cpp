@@ -28,8 +28,8 @@ the following links:
 #include <map>
 #include <vector>
 
-#include "core/mpin_sdk.h"
-#include "contexts/cmdline_context.h"
+#include "core/mpin_sdk_v2.h"
+#include "contexts/cmdline_context_v2.h"
 #include "CvLogger.h"
 
 using namespace std;
@@ -40,7 +40,7 @@ struct Backend
     const char *rpsPrefix;
 };
 
-static void TestBackend(const MPinSDK& sdk, const char *backend, const char *rpsPrefix);
+static void TestBackend(const MPinSDKv2& sdk, const char *backend, const char *rpsPrefix);
 
 int main(int argc, char *argv[])
 {
@@ -62,8 +62,8 @@ int main(int argc, char *argv[])
         config.Put(MPinSDK::CONFIG_RPS_PREFIX, backend.rpsPrefix);
     }
 
-    CmdLineContext context("windows_test_users.json", "windows_test_tokens.json");
-    MPinSDK sdk;
+    CmdLineContextV2 context("windows_test_v2_users.json", "windows_test_v2_tokens.json");
+    MPinSDKv2 sdk;
 
     cout << "Using MPinSDK version " << sdk.GetVersion() << endl;
 
@@ -121,7 +121,20 @@ int main(int argc, char *argv[])
             _getch();
         }
 
-        s = sdk.FinishRegistration(user);
+        s = sdk.ConfirmRegistration(user);
+        if(s != MPinSDK::Status::OK)
+        {
+            cout << "Failed to confirm user registration: status code = " << s.GetStatusCode() << ", error: " << s.GetErrorMessage() << endl;
+            _getch();
+            sdk.Destroy();
+            return 0;
+        }
+
+        MPinSDK::String pin;
+        cout << "Enter pin: ";
+        cin >> pin;
+
+        s = sdk.FinishRegistration(user, pin);
         if(s != MPinSDK::Status::OK)
         {
             cout << "Failed to finish user registration: status code = " << s.GetStatusCode() << ", error: " << s.GetErrorMessage() << endl;
@@ -134,8 +147,21 @@ int main(int argc, char *argv[])
         _getch();
     }
 
+    s = sdk.StartAuthentication(user);
+    if(s != MPinSDK::Status::OK)
+    {
+        cout << "Failed to start user authentication: status code = " << s.GetStatusCode() << ", error: " << s.GetErrorMessage() << endl;
+        _getch();
+        sdk.Destroy();
+        return 0;
+    }
+
+    MPinSDK::String pin;
+    cout << "Enter pin: ";
+    cin >> pin;
+
     MPinSDK::String authData;
-    s = sdk.Authenticate(user, authData);
+    s = sdk.FinishAuthentication(user, pin, authData);
     if(s != MPinSDK::Status::OK)
     {
         cout << "Failed to authenticate user: status code = " << s.GetStatusCode() << ", error: " << s.GetErrorMessage() << endl;
@@ -153,7 +179,7 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-static void TestBackend(const MPinSDK& sdk, const char *beckend, const char *rpsPrefix)
+static void TestBackend(const MPinSDKv2& sdk, const char *beckend, const char *rpsPrefix)
 {
     MPinSDK::Status s;
     if(rpsPrefix != NULL)
