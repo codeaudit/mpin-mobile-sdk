@@ -32,6 +32,12 @@
 package com.certivox.fragments;
 
 
+import com.certivox.constants.FragmentTags;
+import com.certivox.controllers.MPinController;
+import com.certivox.models.CreateIdentityConfig;
+import com.certivox.models.MakeNewUserInfo;
+import com.certivox.mpinsdk.R;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -45,22 +51,31 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-
-import com.certivox.constants.FragmentTags;
-import com.certivox.controllers.MPinController;
-import com.certivox.mpinsdk.R;
+import android.widget.TextView;
 
 
 public class CreateIdentityFragment extends MPinFragment implements OnClickListener {
 
     private View     mView;
     private EditText mEmailEditText;
+    private EditText mDeviceNameEditText;
+    private TextView mDeviceNameTitleTextView;
     private Button   mCreateIdentitiyButton;
+    private int      mDeviceNameVisibility = View.INVISIBLE;
+    private String   mDefaulDeviceName     = "";
 
 
     @Override
     public void setData(Object data) {
-
+        if (data instanceof CreateIdentityConfig) {
+            CreateIdentityConfig config = ((CreateIdentityConfig) data);
+            if (config.isDeviceNameNeeded) {
+                mDeviceNameVisibility = View.VISIBLE;
+                if (config.defaultDeviceName != null) {
+                    mDefaulDeviceName = config.defaultDeviceName;
+                }
+            }
+        }
     }
 
 
@@ -104,6 +119,11 @@ public class CreateIdentityFragment extends MPinFragment implements OnClickListe
         setToolbarTitle(R.string.add_identity_title);
 
         mEmailEditText = (EditText) mView.findViewById(R.id.email_input);
+        mDeviceNameEditText = (EditText) mView.findViewById(R.id.device_name_input);
+        mDeviceNameEditText.setVisibility(mDeviceNameVisibility);
+        mDeviceNameEditText.setText(mDefaulDeviceName);
+        mDeviceNameTitleTextView = (TextView) mView.findViewById(R.id.enter_device_name_title);
+        mDeviceNameTitleTextView.setVisibility(mDeviceNameVisibility);
         mCreateIdentitiyButton = (Button) mView.findViewById(R.id.create_identity_button);
 
         mCreateIdentitiyButton.setOnClickListener(this);
@@ -160,8 +180,10 @@ public class CreateIdentityFragment extends MPinFragment implements OnClickListe
         String email = mEmailEditText.getText().toString().trim();
         mEmailEditText.setText(email);
         mEmailEditText.setSelection(email.length());
+        String deviceName = mDeviceNameEditText.getText().toString();
         if (validateEmail(email)) {
-            getMPinController().handleMessage(MPinController.MESSAGE_CREATE_IDENTITY, email);
+            MakeNewUserInfo info = new MakeNewUserInfo(email, deviceName);
+            getMPinController().handleMessage(MPinController.MESSAGE_CREATE_IDENTITY, info);
         } else {
             showInvalidEmailDialog();
         }
@@ -179,4 +201,5 @@ public class CreateIdentityFragment extends MPinFragment implements OnClickListe
                     }
                 }).setNegativeButton("Cancel", null).show();
     }
+
 }
