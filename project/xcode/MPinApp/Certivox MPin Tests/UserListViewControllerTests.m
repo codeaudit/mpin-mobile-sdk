@@ -13,6 +13,7 @@
 
 @interface UserListViewControllerTests : XCTestCase
 
+@property ( nonatomic, strong ) UserListViewController *vc;
 @end
 
 @implementation UserListViewControllerTests
@@ -21,6 +22,7 @@
 {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
+    self.vc = [[UserListViewController alloc] init];
 }
 
 - ( void )tearDown
@@ -29,18 +31,15 @@
     [super tearDown];
 }
 
-- ( void )testExample
+- ( void ) testInvalidate
 {
-    // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
+    [self.vc invalidate];
 }
 
-- ( void )testPerformanceExample
+- ( void ) testshowLeftMenuPressed:( id )sender
 {
-    // This is an example of a performance test case.
-    [self measureBlock: ^ {
-        // Put the code you want to measure the time of here.
-    }];
+    [self.vc showLeftMenuPressed:nil];
 }
+
 
 @end
