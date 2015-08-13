@@ -1,37 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿// Copyright (c) 2012-2015, Certivox
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+//
+// 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//
+// 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//
+// 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+// For full details regarding our CertiVox terms of service please refer to
+// the following links:
+//  * Our Terms and Conditions -
+//    http://www.certivox.com/about-certivox/terms-and-conditions/
+//  * Our Security and Privacy -
+//    http://www.certivox.com/about-certivox/security-privacy/
+//  * Our Statement of Position and Our Promise on Software Patents -
+//    http://www.certivox.com/about-certivox/patents/
+
+using MPinSDK.Common; // navigation extensions
+using System;
+using System.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using MPinSDK;
-using System.Runtime.InteropServices;
-using MPinRC;
-using System.Threading.Tasks;
-using MPinSDK.Common; // navigation extensions
-using System.Diagnostics;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
-
 namespace MPinDemo
 {
 
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// The main page used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page, IUser
+    public sealed partial class MainPage : Page
     {
-        private DispatcherTimer timer;
+        #region Fields
         public static MainPage Current;
-        
+        private DispatcherTimer timer;
+        #endregion // Fields
+
+        #region C'tor
         public MainPage()
         {
             this.InitializeComponent();
@@ -40,9 +51,10 @@ namespace MPinDemo
             // This is a static public property that allows downstream pages to get a handle to the MainPage instance
             // in order to call methods that are in this class.
             Current = this;
-
         }
+        #endregion // C'tor
 
+        #region Methods
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
         /// </summary>
@@ -59,7 +71,7 @@ namespace MPinDemo
                 // if no param passed - we consider to be the initial load and navigate to a screen depending on the last selected user state
                 if (!MainFrame.Navigate(typeof(BlankPage1), string.IsNullOrEmpty(parameter) ? "InitialLoad" : parameter))
                 {
-                    throw new Exception("Failed to create main screen");
+                    throw new Exception("Failed to create main screen"); 
                 }
             }
         }
@@ -110,25 +122,23 @@ namespace MPinDemo
                 // Collapse the StatusBlock if it has no text to conserve real estate.
                 if (StatusBlock.Text != String.Empty)
                 {
-                    //StatusBorder.Visibility = Windows.UI.Xaml.Visibility.Visible;
                     StatusBorder.Opacity = 1;
-                    StartTimer();
+                    StartTimer(type == NotifyType.StatusMessage ? 2 : 4);
                 }
                 else
                 {
-                    //StatusBorder.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                     StatusBorder.Opacity = 0;
                 }
             }
         }
 
-        private void StartTimer()
+        private void StartTimer(int seconds)
         {
             if (timer == null)
             {
                 timer = new DispatcherTimer();
                 timer.Tick += timer_Tick;
-                timer.Interval = new TimeSpan(0, 0, 2);
+                timer.Interval = new TimeSpan(0, 0, seconds);
             }
 
             timer.Start();
@@ -147,18 +157,6 @@ namespace MPinDemo
         };
 
         #endregion // notification
-
-        #region IUser
-        /// <summary>
-        /// Gets the selected user name which will be displayed at the pin pad control screen.
-        /// </summary>
-        /// <returns>
-        /// The selected user identity.
-        /// </returns>
-        public string GetUserId()
-        {
-            return BlankPage1.GetSelectedUser();
-        }
-        #endregion // IUser
+        #endregion // Methods
     }
 }

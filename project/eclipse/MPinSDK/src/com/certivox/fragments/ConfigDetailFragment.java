@@ -1,13 +1,42 @@
+/*******************************************************************************
+ * Copyright (c) 2012-2015, Certivox All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+ * following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following
+ * disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
+ * following disclaimer in the documentation and/or other materials provided with the distribution.
+ * 
+ * 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote
+ * products derived from this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * 
+ * For full details regarding our CertiVox terms of service please refer to the following links:
+ * 
+ * * Our Terms and Conditions - http://www.certivox.com/about-certivox/terms-and-conditions/
+ * 
+ * * Our Security and Privacy - http://www.certivox.com/about-certivox/security-privacy/
+ * 
+ * * Our Statement of Position and Our Promise on Software Patents - http://www.certivox.com/about-certivox/patents/
+ ******************************************************************************/
 package com.certivox.fragments;
+
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.content.ContentValues;
 import android.content.DialogInterface;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,316 +47,263 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
-import com.certivox.activities.MPinActivity;
-import com.certivox.db.ConfigsContract.ConfigEntry;
-import com.certivox.db.ConfigsDbHelper;
-import com.certivox.interfaces.ConfigController;
-import com.certivox.models.Status;
-import com.certivox.mpinsdk.Config;
-import com.example.mpinsdk.R;
+import com.certivox.constants.FragmentTags;
+import com.certivox.controllers.MPinController;
+import com.certivox.models.Config;
+import com.certivox.mpinsdk.R;
 
-public class ConfigDetailFragment extends Fragment {
 
-	private View mView;
-	private EditText mServiceNameEditText;
-	private EditText mServiceUrlEditText;
-	private EditText mServiceRTSEditText;
-	private CheckBox mServiceMobileCheckBox;
-	private CheckBox mServiceOTPCheckBox;
-	private CheckBox mServiceANCheckBox;
-	private Button mCheckServiceButton;
-	private Button mSaveServiceButton;
+public class ConfigDetailFragment extends MPinFragment implements OnClickListener {
 
-	private long mConfigId;
-	private String mConfigURL;
-	private ConfigController controller;
+    private static final String TAG = ConfigDetailFragment.class.getCanonicalName();
 
-	private Config mConfig;
+    private View     mView;
+    private EditText mServiceNameEditText;
+    private EditText mServiceUrlEditText;
+    private EditText mServiceRTSEditText;
+    private CheckBox mServiceOTPCheckBox;
+    private CheckBox mServiceANCheckBox;
+    private Button   mCheckServiceButton;
+    private Button   mSaveServiceButton;
 
-	private static final int INVALID_URL = 0;
-	private static final int INVALID_BACKEND = 1;
-	private static final int VALID_BACKEND = 2;
+    private Config mConfig;
+    private int    mConfigId;
+    private String mConfigURL;
 
-	private Status mChechBackendStatus;
 
-	public void setController(ConfigController controller) {
-		this.controller = controller;
-	}
+    @Override
+    public void setData(Object data) {
+        mConfigId = ((Integer) data).intValue();
+    }
 
-	public void setConfigId(long configId) {
-		this.mConfigId = configId;
-	}
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+    @Override
+    protected String getFragmentTag() {
+        return FragmentTags.FRAGMENT_CONFIGURATION_EDIT;
+    }
 
-		mConfig = new Config();
-		if (mConfigId != -1) {
-			initConfig();
-		}
-	}
 
-	private void initConfig() {
-		SQLiteDatabase db = new ConfigsDbHelper(getActivity())
-				.getReadableDatabase();
-		Cursor cursor = null;
-		try {
-			cursor = db.query(ConfigEntry.TABLE_NAME,
-					ConfigEntry.getFullProjection(), ConfigEntry._ID
-							+ " LIKE ?",
-					new String[] { String.valueOf(mConfigId) }, null, null,
-					null);
-			if (cursor.moveToFirst()) {
-				mConfig.formCursor(cursor);
-				mConfigURL = mConfig.getBackendUrl();
-			}
-		} finally {
-			if (cursor != null)
-				cursor.close();
-		}
-	}
+    @Override
+    public boolean handleMessage(Message msg) {
+        switch (msg.what) {
+        case MPinController.MESSAGE_VALID_BACKEND:
+            showValidBackendDialog();
+            return true;
+        case MPinController.MESSAGE_INVALID_BACKEND:
+            showInvalidBackednURL();
+            return true;
+        default:
+            break;
+        }
+        return false;
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		mView = inflater.inflate(R.layout.config_details_layout, container,
-				false);
-		initViews();
-		return mView;
-	}
 
-	private void updateDb() {
-		if (mConfig == null)
-			return;
-		SQLiteDatabase db = new ConfigsDbHelper(this.getActivity())
-				.getReadableDatabase();
-		ContentValues values = new ContentValues();
-		mConfig.toContentValues(values);
-		if (mConfig.getId() == -1) {
-			mConfig.setId(db.insert(ConfigEntry.TABLE_NAME, null, values));
-		} else {
-			db.update(ConfigEntry.TABLE_NAME, values, ConfigEntry._ID
-					+ " LIKE ?", new String[] { String.valueOf(mConfigId) });
-		}
-	}
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mConfig = new Config();
+        if (mConfigId != -1) {
+            initConfig();
+        }
+    }
 
-	private void initViews() {
 
-		mServiceNameEditText = (EditText) mView
-				.findViewById(R.id.service_name_input);
-		mServiceUrlEditText = (EditText) mView
-				.findViewById(R.id.service_url_input);
-		mServiceRTSEditText = (EditText) mView
-				.findViewById(R.id.service_rts_input);
+    private void initConfig() {
+        // TODO: maybe the configuration should be directly sent
+        mConfig = getMPinController().getConfiguration(mConfigId);
+        mConfigURL = mConfig.getBackendUrl();
+    }
 
-		mServiceMobileCheckBox = (CheckBox) mView
-				.findViewById(R.id.service_mobile);
-		mServiceOTPCheckBox = (CheckBox) mView.findViewById(R.id.service_otp);
-		mServiceANCheckBox = (CheckBox) mView.findViewById(R.id.service_an);
 
-		mCheckServiceButton = (Button) mView
-				.findViewById(R.id.check_service_button);
-		mSaveServiceButton = (Button) mView
-				.findViewById(R.id.save_service_button);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mView = inflater.inflate(R.layout.fragment_config_details, container, false);
+        initViews();
+        initScreen();
 
-		mCheckServiceButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				switch (checkBackend()) {
-				case INVALID_URL:
-					showInvalidURLDialog();
-					break;
-				case INVALID_BACKEND:
-					showInvalidBackednURL();
-					break;
-				case VALID_BACKEND:
-					showValidBackendDialog();
-					break;
-				default:
-					break;
-				}
-			}
-		});
+        return mView;
+    }
 
-		mSaveServiceButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (isEmptyTitle()) {
-					showEmptyTitleDialog();
-				} else {
-					switch (checkBackend()) {
-					case INVALID_URL:
-						showInvalidURLDialog();
-						break;
-					case INVALID_BACKEND:
-						showInvalidBackednURL();
-						break;
-					case VALID_BACKEND:
-						preSaveConfiguration();
-						break;
-					default:
-						break;
-					}
-				}
-			}
-		});
 
-		if (mConfig != null) {
-			mServiceNameEditText.setText(mConfig.getTitle());
-			mServiceUrlEditText.setText(mConfig.getBackendUrl());
-			mServiceRTSEditText.setText(mConfig.getRTS());
-			mServiceMobileCheckBox.setChecked(!mConfig.getRequestOtp()
-					&& !mConfig.getRequestAccessNumber());
-			mServiceOTPCheckBox.setChecked(mConfig.getRequestOtp());
-			mServiceANCheckBox.setChecked(mConfig.getRequestAccessNumber());
+    @Override
+    protected void initViews() {
+        mServiceNameEditText = (EditText) mView.findViewById(R.id.service_name_input);
+        mServiceUrlEditText = (EditText) mView.findViewById(R.id.service_url_input);
+        mServiceRTSEditText = (EditText) mView.findViewById(R.id.service_rts_input);
 
-			mServiceMobileCheckBox
-					.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-						@Override
-						public void onCheckedChanged(CompoundButton buttonView,
-								boolean isChecked) {
-							if (isChecked) {
-								mServiceOTPCheckBox.setChecked(false);
-								mServiceANCheckBox.setChecked(false);
-							} else if (!mServiceOTPCheckBox.isChecked()
-									&& !mServiceANCheckBox.isChecked()) {
-								buttonView.setChecked(true);
-							}
+        mServiceOTPCheckBox = (CheckBox) mView.findViewById(R.id.service_otp);
+        mServiceANCheckBox = (CheckBox) mView.findViewById(R.id.service_an);
+        mServiceANCheckBox.setChecked(true);
 
-						}
-					});
+        mCheckServiceButton = (Button) mView.findViewById(R.id.check_service_button);
+        mSaveServiceButton = (Button) mView.findViewById(R.id.save_service_button);
 
-			mServiceOTPCheckBox
-					.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-						@Override
-						public void onCheckedChanged(CompoundButton buttonView,
-								boolean isChecked) {
-							if (isChecked) {
-								mServiceMobileCheckBox.setChecked(false);
-								mServiceANCheckBox.setChecked(false);
-							} else if (!mServiceMobileCheckBox.isChecked()
-									&& !mServiceANCheckBox.isChecked()) {
-								buttonView.setChecked(true);
-							}
-						}
-					});
+        mCheckServiceButton.setOnClickListener(this);
+        mSaveServiceButton.setOnClickListener(this);
 
-			mServiceANCheckBox
-					.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-						@Override
-						public void onCheckedChanged(CompoundButton buttonView,
-								boolean isChecked) {
-							if (isChecked) {
-								mServiceOTPCheckBox.setChecked(false);
-								mServiceMobileCheckBox.setChecked(false);
-							} else if (!mServiceOTPCheckBox.isChecked()
-									&& !mServiceMobileCheckBox.isChecked()) {
-								buttonView.setChecked(true);
-							}
-						}
-					});
-		}
-	}
+        // TODO: This should be natural radio group buttons
+        mServiceOTPCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-	private boolean isEmptyTitle() {
-		if (mServiceNameEditText.getText().toString().trim().length() == 0) {
-			return true;
-		}
-		return false;
-	}
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mServiceANCheckBox.setChecked(false);
+                } else
+                    if (!mServiceANCheckBox.isChecked()) {
+                        buttonView.setChecked(true);
+                    }
+            }
+        });
 
-	private void showInvalidURLDialog() {
-		new AlertDialog.Builder(getActivity()).setTitle("Invalid URL address")
-				.setMessage("Try Again").setPositiveButton("OK", null).show();
-	}
+        mServiceANCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-	private void showInvalidBackednURL() {
-		new AlertDialog.Builder(getActivity()).setTitle("Invalid backend URL")
-				.setMessage("Try Again").setPositiveButton("OK", null).show();
-	}
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mServiceOTPCheckBox.setChecked(false);
+                } else
+                    if (!mServiceOTPCheckBox.isChecked()) {
+                        buttonView.setChecked(true);
+                    }
+            }
+        });
+    }
 
-	private void showValidBackendDialog() {
-		new AlertDialog.Builder(getActivity()).setTitle("Success")
-				.setMessage("The backend URL is correct!")
-				.setPositiveButton("OK", null).show();
-	}
 
-	private void showEmptyTitleDialog() {
-		new AlertDialog.Builder(getActivity()).setTitle("Error")
-				.setMessage("Service name field is empty")
-				.setPositiveButton("OK", null).show();
-	}
+    private void initScreen() {
+        disableDrawer();
+        if (mConfig.getId() != -1) {
+            setTooblarTitle(R.string.config_detail_toolbar_title);
+            mServiceNameEditText.setText(mConfig.getTitle());
+            mServiceUrlEditText.setText(mConfig.getBackendUrl());
+            mServiceRTSEditText.setText(mConfig.getRTS());
+            mServiceOTPCheckBox.setChecked(mConfig.getRequestOtp());
+            mServiceANCheckBox.setChecked(mConfig.getRequestAccessNumber());
+        } else {
+            setTooblarTitle(R.string.add_service_toolbar_title);
+        }
+    }
 
-	private void saveConfiguration(String backendUrl) {
-		// Setting service name
-		String serviceName = mServiceNameEditText.getText().toString();
-		mConfig.setTitle(serviceName);
-		// Setting service url
-		mConfig.setBackendUrl(backendUrl);
-		String rts = mServiceRTSEditText.getText().toString();
-		// Setting rts
-		mConfig.setRTS(rts);
-		// Set OTP
-		boolean otpChecked = mServiceOTPCheckBox.isChecked();
-		mConfig.setRequestOtp(otpChecked);
 
-		// set AccessNumber
-		boolean anChecked = mServiceANCheckBox.isChecked();
-		mConfig.setRequestAccessNumber(anChecked);
-		updateDb();
-		controller.configurationSaved();
-	}
+    @Override
+    protected OnClickListener getDrawerBackClickListener() {
+        OnClickListener drawerBackClickListener = new OnClickListener() {
 
-	private int checkBackend() {
-		controller.showLoader();
-		final String backendUrl = mServiceUrlEditText.getText().toString();
-		if (!URLUtil.isValidUrl(backendUrl)) {
-			controller.hideLoader();
-			return INVALID_URL;
-		} else {
-			mChechBackendStatus = null;
-			Thread checkBackendThread = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					mChechBackendStatus = MPinActivity.sdk().TestBackend(
-							backendUrl);
-				}
-			});
+            @Override
+            public void onClick(View v) {
+                getMPinController().handleMessage(MPinController.MESSAGE_ON_DRAWER_BACK);
+            }
+        };
+        return drawerBackClickListener;
+    }
 
-			checkBackendThread.start();
-			try {
-				checkBackendThread.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			controller.hideLoader();
-			if (mChechBackendStatus.getStatusCode() != Status.Code.OK) {
-				return INVALID_BACKEND;
-			} else {
-				return VALID_BACKEND;
-			}
 
-		}
-	}
+    private boolean isEmptyTitle() {
+        if (mServiceNameEditText.getText().toString().trim().length() == 0) {
+            return true;
+        }
+        return false;
+    }
 
-	private void preSaveConfiguration() {
-		final String backendUrl = mServiceUrlEditText.getText().toString();
-		if (mConfigId != -1 && !mConfigURL.equals(backendUrl)) {
-			new AlertDialog.Builder(getActivity())
-					.setTitle("Updating configuration")
-					.setMessage(
-							"This action will also delete all identities, associated with this configuration.")
-					.setPositiveButton("OK",
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									saveConfiguration(backendUrl);
-								}
-							}).setNegativeButton("Cancel", null).show();
-		} else {
-			saveConfiguration(backendUrl);
-		}
-	}
+
+    private void showInvalidURLDialog() {
+        new AlertDialog.Builder(getActivity()).setTitle(getResources().getString(R.string.invalid_url_address_title))
+                .setMessage(getResources().getString(R.string.try_again))
+                .setPositiveButton(getResources().getString(R.string.button_ok), null).show();
+    }
+
+
+    private void showInvalidBackednURL() {
+        new AlertDialog.Builder(getActivity()).setTitle(getResources().getString(R.string.invalid_backend_title))
+                .setMessage(R.string.invalid_backend_content)
+                .setPositiveButton(getResources().getString(R.string.button_ok), null).show();
+    }
+
+
+    private void showValidBackendDialog() {
+        new AlertDialog.Builder(getActivity()).setTitle(getResources().getString(R.string.correct_url_title))
+                .setMessage(getResources().getString(R.string.correct_url_content))
+                .setPositiveButton(getResources().getString(R.string.button_ok), null).show();
+    }
+
+
+    private void showEmptyTitleDialog() {
+        new AlertDialog.Builder(getActivity()).setTitle(getResources().getString(R.string.error_dialog_title))
+                .setMessage(getResources().getString(R.string.empty_title_content))
+                .setPositiveButton(getResources().getString(R.string.button_ok), null).show();
+    }
+
+
+    private Config getConfig() {
+        // Setting service name
+        String serviceName = mServiceNameEditText.getText().toString().trim();
+        mConfig.setTitle(serviceName);
+        // Setting service url
+        String backendUrl = mServiceUrlEditText.getText().toString().trim();
+        mConfig.setBackendUrl(backendUrl);
+        String rts = mServiceRTSEditText.getText().toString().trim();
+        // Setting rts
+        mConfig.setRTS(rts);
+        // Set OTP
+        boolean otpChecked = mServiceOTPCheckBox.isChecked();
+        mConfig.setRequestOtp(otpChecked);
+
+        // set AccessNumber
+        boolean anChecked = mServiceANCheckBox.isChecked();
+        mConfig.setRequestAccessNumber(anChecked);
+
+        return mConfig;
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+        case R.id.check_service_button:
+            onCheckConfigClicked();
+            return;
+        case R.id.save_service_button:
+            onSaveConfigClicked();
+            return;
+        default:
+            return;
+        }
+
+    }
+
+
+    private void onCheckConfigClicked() {
+        String backendUrl = mServiceUrlEditText.getText().toString().trim();
+        mServiceUrlEditText.setText(backendUrl);
+        mServiceUrlEditText.setSelection(backendUrl.length());
+        if (!URLUtil.isValidUrl(backendUrl)) {
+            showInvalidURLDialog();
+        } else {
+            getMPinController().handleMessage(MPinController.MESSAGE_CHECK_BACKEND_URL, backendUrl);
+        }
+    }
+
+
+    private void onSaveConfigClicked() {
+        String backendUrl = mServiceUrlEditText.getText().toString().trim();
+        mServiceUrlEditText.setText(backendUrl);
+        mServiceUrlEditText.setSelection(backendUrl.length());
+        if (isEmptyTitle()) {
+            showEmptyTitleDialog();
+        } else
+            if (mConfigId != -1 && !mConfigURL.equals(backendUrl)) {
+                new AlertDialog.Builder(getActivity()).setTitle("Updating configuration")
+                        .setMessage("This action will also delete all identities, associated with this configuration.")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                getMPinController().handleMessage(MPinController.MESSAGE_SAVE_CONFIG, getConfig());
+                            }
+                        }).setNegativeButton("Cancel", null).show();
+            } else {
+                getMPinController().handleMessage(MPinController.MESSAGE_SAVE_CONFIG, getConfig());
+            }
+    }
 }

@@ -1,64 +1,56 @@
 /*
  Localizable.strings
  MPinApp
- 
- Created by Tihomir Ganev on 29.Apr.15.
- Edited by: Ivelina Dimitrova 28.May.15.
  Copyright (c) 2015 Certivox. All rights reserved.
  */
 
 /* menu */
-
 "MENUVC_OPTION_0" = "IDENTITY LIST";
 "MENUVC_OPTION_1" = "CONFIGURATION LIST";
 "MENUVC_OPTION_2" = "ABOUT";
 
 /* User list */
-
 "USERLISTVC_TITLE" = "Identity List";
 "USERLISTVC_ADD_NEW_ID" = "ADD NEW IDENTITY +";
 
 /* Add user */
-
 "ADDIDVC_TITLE" = "Add Identity";
-
 "ADDIDVC_LBL_IDENTITY" = "ENTER YOUR EMAIL";
 "ADDIDVC_TXT_IDENTITY" = "email...";
 "ADDIDVC_LBL_DEVNAME" = "DEVICE NAME";
 "ADDIDVC_TXT_DEVNAME" = "Device name...";
 
 /* ID Created */
-
 "ID_CREATED_TITLE" = "Identity Created";
-
 "ID_CREATED_MESSAGE" = "Congratulations!\n Your identity: %@ \nhad been set up successfully.";
 "ID_CREATED_BTN_SIGN_IN" = "SIGN IN WITH THIS IDENTITY";
 
+/* ID Blocked */
+"BLOCKED_ID_TITLE" = "Identity Blocked";
+"BLOCKED_ID_MESSAGE" = "Wrong PIN entered too many times. Your identity has been blocked. You can either select a different identity, reset your PIN or remove your blocked identity.";
+"BLOCKED_ID_BACK_TO_ID_LIST" = "BACK TO IDENTITY LIST";
+"BLOCKED_ID_RESET_PIN" = "RESET PIN";
+"BLOCKED_ID_REMOVE_ID" = "REMOVE THIS IDENTITY";
+"BLOCKED_ID_RESET_PIN_CONFIRM" = "Are you sure that you would like to reset pin of \"%@\" ?";
 
 /*CONFIRM ID VC */
 "CONFIRM_EMAIL_VC_TITLE" = "Confirm Email";
-
 "CONFIRM_EMAIL_VC_LBL_MESSAGE" = "We have sent you an email to: \r\n %@ \r\n Click the link in the email to confirm your identity and proceed.";
 "CONFIRM_EMAIL_VC_BTN_EMAIL_CONFIRMED" = "I CONFIRMED MY EMAIL";
 "CONFIRM_EMAIL_VC_BTN_RESEND_EMAIL" = "RESEND EMAIL";
 "CONFIRM_EMAIL_VC_BTN_GOTO_ID_LIST" = "GO TO THE IDENTITY LIST";
 
 /* OTP */
-
 "OTPVC_TITLE" = "One Time Password";
-
-"OTPVC_LBL_MESSAGE"        = "You can now use this password to log in to your VPN service.";
+"OTPVC_LBL_MESSAGE"        = "You can now use this password to log in to your RADIUS service";
 "OTPVC_LBL_YOUR_PASSWORD" = "YOUR PASSWORD";
 
 /* ACCESS NUMBER */
 "ACCESSNUMBERVC_TITLE" = "Enter Access Number";
-
-"ACCESSNUMBERVC_NOTE"   = "ENTER %d DIGITS ACCESS NUMBER";
-
+"ACCESSNUMBERVC_NOTE"   = "ENTER %d DIGIT ACCESS NUMBER";
 
 /* Configuration list */
 "CONFIGLISTVC_TITLE"    = "Configuration List";
-
 
 /* Add Configuration*/
 "ADDCONFIGVC_TITLE_ADD" = "Add Configuration";
@@ -67,15 +59,18 @@
 "ADDCONFIGVC_URL" = "M-PIN SERVER URL";
 "ADDCONFIGVC_PREFIX" = "RPS PREFIX";
 "ADDCONFIGVC_BTN_TEST_CONFIG" = "TEST CONFIGURATION";
-"ADDCONFIGVC_ERROR_EMPTY_URL" = "M-PIN SERVER URL is empty";
-"ADDCONFIGVC_ERROR_INVALID_URL" = "M-PIN SERVER URL is not valid";
 "ADDCONFIGVC_MESSAGE_CONFIG_OK" = "Configuration is valid";
 "ADDCONFIGVC_INVALID_CONFIG" = "Invalid configuration";
 
 /* Account summary */
-
 "ACCOUNTSUMMARYVC_TITLE" = "Account Summary";
 
+/* Configurations */
+"CONFIGURATIONS_CONFIG_CHANGED" = "Configuration changed";
+
+/* Add configuration */
+
+"TESTING_CONFIGURATION" = "Testing configuration";
 /* About */
 "ABOUTVC_TITLE"         = "About";
 "ABOUTVC_BUILD_NUMBER"  = "Build: %@";
@@ -83,12 +78,21 @@
 "ABOUTVC_COPYRIGHT"     = "Copyright (c) %@ Certivox. all rights reserved.";
 
 /* PinPad VC */
-
 "PINPAD_VC_TITLE" = "Enter Your PIN";
+
+/* QR SCAN */
+
+"QR_MESSAGE"   = "Place  the QR code in the centre of the screen. It will be scanned automatically.";
+
+
+/* Confirm email screen*/
+
+"CONFIRM_EMAIL_ACTIVATE" = "%@ Please check your e-mail and follow the activation link!";
+"CONFIRM_EMAIL_RESEND" = "Resending email";
 
 /* HUD Messages */
 "HUD_CHANGE_CONFIGURATION"  = "Changing configuration. Please wait.";
-"HUD_AUTH_SUCCESS"          = "Authentication Successful!";
+"HUD_AUTH_SUCCESS"          = "You have successfully been \n authenticated";
 "HUD_LOGOUT"                = "Logging OUT";
 "HUD_LOGOUT_OK"             = "Logout Successful";
 "HUD_LOGOUT_NOT_OK"         = "Logout Unsuccessful";
@@ -96,38 +100,16 @@
 "HUD_UNSUPPORTED_ACTION"    = "Unsupported State and Action!";
 "HUD_SAVE_CONFIG"           = "Saving configuration. Please wait.";
 "HUD_SAVE_CONFIG_AND_DEL"   = "Saving configuration. Please wait. All associated identities will be deleted.";
-"HUD_REACTIVATE_USER"       = "Please wait";
-
-/* ERROR Messages */
-
-"ERROR_PLEASE_ENTER_VALID_EMAIL"        = "Please enter a valid email address!";
-"ERROR_PLEASE_ENTER_VALID_USER_ID"      = "Please enter a valid user id in the text field!";
-"ERROR_UNEXPECTED_USER_STATE"           = "User state is unexpected %ld";
-"ERROR_WRONG_AN"                        = "Wrong Access Number";
-
-"PIN_INPUT_CANCELED"                    = "PIN Input canceled";
-"CRYPTO_ERROR"                          = "Crypto error";
-"STORAGE_ERROR"                         = "Error in local storage";
-"NETWORK_ERROR"                         = "Network error";
-"RESPONSE_PARSE_ERROR"                  = "Invalid response from server";
-"FLOW_ERROR"                            = "FLOW ERROR";
-"IDENTITY_NOT_AUTHORIZED"               = "Registratin denied";
-"IDENTITY_NOT_VERIFIED"                 = "Acount needs verification";
-"REQUEST_EXPIRED"                       = "Expired request";
-"REVOKED"                               = "User account disabled from the server";
-"INCORRECT_PIN"                         = "Invalid PIN";
-"INCORRECT_ACCESS_NUMBER"               = "Invalid Access Number";
-"HTTP_SERVER_ERROR"                     = "Server error";
-"HTTP_REQUEST_ERROR"                    = "Invalid request";
+"HUD_REACTIVATE_USER"       = "Please reactivate user.";
 
 
 /* WARNINGS */
-"WARNING_USER_WILL_BE_DELETED"          = "User \"%@\" will be deleted!";
-"WARNING_CANNOT_EDIT_PREDEFINED_CONFIG" = "Predefined configurations cannot be edited.";
-"WARNING_CANNOT_DELETE_PREDEFINED_CONFIG" = "Predefined configurations cannot be deleted.";
-"WARNING_THIS_WILL_DELETE_ALL_IDS"      = "This action will also delete all identities, associated with this configuration.";
-
-"WARNING_VERIFY_FINGER" =  "Verify fingerprint";
+"WARNING_USER_WILL_BE_DELETED"              = "User \"%@\" will be deleted!";
+"WARNING_CANNOT_EDIT_PREDEFINED_CONFIG"     = "Predefined configurations cannot be edited.";
+"WARNING_CANNOT_DELETE_PREDEFINED_CONFIG"   = "Predefined configurations cannot be deleted.";
+"WARNING_THIS_WILL_DELETE_ALL_IDS"          = "This action will also delete all identities, associated with this configuration.";
+"WARNING_VERIFY_FINGER"                     = "Verify fingerprint";
+"WARNING_OVERWRITING_CONFIGURATIONS"        = "Some of the configurations will be overwritten. Please confirm.";
 
 /* BASIC THINGS */
 "KEY_RESET" = "RESET PIN";
@@ -141,27 +123,48 @@
 "KEY_DONE" = "DONE";
 "KEY_SETUP_PIN" = "Create PIN";
 "KEY_ENTER_PIN" = "Enter PIN";
+"KEY_BTNOK" = "KEY NOT OK";
+
+/* ALL ERRORS */
+
+"ERROR_WRONG_AN"                        = "Incorrect access number.  Please try again.";
+"PIN_INPUT_CANCELED"                    = "PIN input cancelled";
+
+"CRYPTO_ERROR"                          = "Internal error.  Please try again and if the problem persists, contact your system administrator. \n Error code 1001.";
+"STORAGE_ERROR"                         = "Internal error.  Please try again and if the problem persists, contact your system administrator. \n Error code  1002.";
+"NETWORK_ERROR"                         = "Network error. Please try again and if the problem persists, contact your system administrator. \n error code 1003.";
+"RESPONSE_PARSE_ERROR"                  = "Internal error.  Please try again and if the problem persists, contact your system administrator. \n Error code 1004.";
+"FLOW_ERROR"                            = "Internal error.  Please try again and if the problem persists, contact your system administrator. \n Error code 1005.";
+"IDENTITY_NOT_AUTHORIZED"               = "Your identity is not authorized.  Please contact your system administrator. \n Error code 1006.";
+"IDENTITY_NOT_VERIFIED"                 = "Identity not verified. Please contact your system administrator. \n Error code 1007.";
+"REQUEST_EXPIRED"                       = "Request expired.  Please reregister.  If the problem persists, please contact your system administrator. \n Error code 1008.";
+"REVOKED"                               = "Your account has been revoked.  Please contact your system administrator. \n Error code 1009.";
+"INCORRECT_PIN"                         = "Incorrect PIN.  Please try again. \n Error code 1010.";
+"INCORRECT_ACCESS_NUMBER"               = "Incorrect access number.  Please try again. \n Error code 1013.";
+"HTTP_SERVER_ERROR"                     = "Server error.  Please contact your system administrator. \n Error code 1011.";
+"HTTP_REQUEST_ERROR"                    = "Server error.  Please contact your system administrator. \n Error code 1012.";
+
+"ERROR_UNABLE_TO_SCAN_QR"               = "Unable to load camera and scan QR code!";
+"ERROR_QR_UNAUTHORIZED_ACCESS"          = "Unauthorized Access! Please check your e-mail and confirm the activation link!";
+"ERROR_CONNECTION_TIMEOUT"              = "Connection timeout!";
+
+"ERROR_INVALID_URL"                     = "Invalid URL";
+"ERROR_OTP_NOT_SUPPORTED"               = "OTP is not supported.";
+"ERROR_WRONG_MPIN_OR_AN"                = "Wrong MPIN or Access Number.";
+
+"ADDCONFIGVC_ERROR_EMPTY_URL"           = "M-PIN SERVER URL is empty";
+"ADDCONFIGVC_ERROR_EMPTY_NAME"          = "M-PIN SERVER Name is empty";
+"ADDCONFIGVC_ERROR_INVALID_URL"         = "M-PIN SERVER URL is not valid";
+
+"ERROR_NO_INTERNET_CONNECTION"          = "NO INTERNET CONNECTION.";
+
+"ERROR_PLEASE_ENTER_VALID_EMAIL"        = "Please enter a valid email address.";
+"ERROR_PLEASE_ENTER_VALID_USER_ID"      = "Please enter a valid user id in the text field.";
+"ERROR_UNEXPECTED_USER_STATE"           = "User state is unexpected %ld";
+
 
 /* OTHER SHARED STRINGS */
-"LOGIN_MOBILE_APP" = "Mobile application login";
-"LOGIN_ONLINE_SESSION" = "Web login";
-"LOGIN_OTP" = "OTP Login";
-
-/* MPIN STATUS ERROR MESSAGES */
-
-"KEY_BTNOK" = "KEY NOT OK";
-"PIN_INPUT_CANCELED" = "PIN INPUT CANCELED";
-"CRYPTO_ERROR" = "CRYPTO ERROR";
-"STORAGE_ERROR" = "STOARGE ERROR";
-"NETWORK_ERROR" = "NETWORK ERROR";
-"RESPONSE_PARSE_ERROR" = "RESOPNSE PARSE ERROR";
-"FLOW_ERROR" = "FLOW ERROR";
-"IDENTITY_NOT_AUTHORIZED" = "IDENTITY NOT AUTHORIZED";
-"IDENTITY_NOT_VERIFIED" = "IDENTITY NOT VERIFIED";
-"REQUEST_EXPIRED" = "REQUEST EXPIRED";
-"REVOKED" = "REVOKED";
-"INCORRECT_PIN" = "INCORRECT PIN";
-"INCORRECT_ACCESS_NUMBER" = "INCORRECT ACCESS NUMBER";
-"HTTP_SERVER_ERROR" = "HTTP ERROR";
-"HTTP_REQUEST_ERROR" = "HTTP REQUEST ERROR";
-
+"LOGIN_MOBILE_APP"                      = "Mobile application login";
+"LOGIN_ONLINE_SESSION"                  = "Login to Online Session";
+"LOGIN_OTP"                             = "OTP Login";
+"LOADING"                               = "LOADING";

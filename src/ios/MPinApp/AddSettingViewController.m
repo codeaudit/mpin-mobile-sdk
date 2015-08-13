@@ -1,10 +1,27 @@
-//
-//  AddSettingViewController.m
-//  MPinApp
-//
-//  Created by Certivox Developer on 1/20/15.
-//  Copyright (c) 2015 Certivox. All rights reserved.
-//
+/*
+ Copyright (c) 2012-2015, Certivox
+ All rights reserved.
+ 
+ Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+ 
+ 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+ 
+ 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ 
+ 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
+ For full details regarding our CertiVox terms of service please refer to
+ the following links:
+ * Our Terms and Conditions -
+ http://www.certivox.com/about-certivox/terms-and-conditions/
+ * Our Security and Privacy -
+ http://www.certivox.com/about-certivox/security-privacy/
+ * Our Statement of Position and Our Promise on Software Patents -
+ http://www.certivox.com/about-certivox/patents/
+ */
+
 
 #import "AddSettingViewController.h"
 #import "AppDelegate.h"
@@ -58,8 +75,6 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     singleTap.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:singleTap];
 
-    sdk = [[MPin alloc] init];
-    sdk.delegate = self;
 
     self.title = NSLocalizedString(@"ADDCONFIGVC_TITLE",@"");
     [_btnTestConfig setTitle:NSLocalizedString(@"ADDCONFIGVC_BTN_TEST_CONFIG", @"") forState:UIControlStateNormal];
@@ -68,6 +83,11 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
+
+    sdk = [[MPin alloc] init];
+    sdk.delegate = self;
+
+
     if ( _isEdit )
     {
         self.title = NSLocalizedString(@"ADDCONFIGVC_TITLE_EDIT", @"");
@@ -314,6 +334,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 
 - ( IBAction )onSave:( id )sender
 {
+    _txtMPINServiceURL.text = [_txtMPINServiceURL.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     bTestingConfig = NO;
     if ( [_txtMPINServiceNAME.text isEqualToString:@""] )
     {
@@ -361,14 +382,14 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     {
         caption = NSLocalizedString(@"HUD_SAVE_CONFIG", @"");
     }
-    
+
     [_btnDone setEnabled:NO];
     [sdk TestBackend:_txtMPINServiceURL.text rpsPrefix:[self getTXTMPINServiceRPSPrefix]];
 
     [[ErrorHandler sharedManager] presentMessageInViewController:self
      errorString:caption
      addActivityIndicator:YES
-     minShowTime:3];
+     minShowTime:0];
 }
 
 - ( NSString * ) getTXTMPINServiceRPSPrefix
@@ -409,15 +430,22 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
                  prefixName:[self getTXTMPINServiceRPSPrefix]];
             }
         }
-        
+
         [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
     }
 }
 
 - ( void )OnTestBackendError:( id )sender error:( NSError * )error
 {
+    _txtMPINServiceURL.text = [_txtMPINServiceURL.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
+    
     NSString *message = NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR");
+    
+    if ([NSString isNotBlank:mpinStatus.errorMessage]) {
+        message = [NSString stringWithFormat:@"%@\n%@", message, mpinStatus.errorMessage];
+    }
+    
 
     [[ErrorHandler sharedManager] updateMessage:[NSString stringWithFormat:@"%@", message]
      addActivityIndicator:NO
@@ -450,7 +478,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     if ( [NSString isValidURL:_txtMPINServiceURL.text] )
     {
         [[ErrorHandler sharedManager] presentMessageInViewController:self
-         errorString:@"Testing configuration"
+         errorString:NSLocalizedString(@"TESTING_CONFIGURATION", @"Testing configuration")
          addActivityIndicator:YES
          minShowTime:0];
         if ( [_txtMPINServiceRPSPrefix.text isEqualToString:@""] )
@@ -466,8 +494,8 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     {
         [[ErrorHandler sharedManager] presentMessageInViewController:self
          errorString:NSLocalizedString(@"ADDCONFIGVC_ERROR_INVALID_URL", @"")
-         addActivityIndicator:YES
-         minShowTime:0];
+         addActivityIndicator:NO
+         minShowTime:3];
     }
 }
 

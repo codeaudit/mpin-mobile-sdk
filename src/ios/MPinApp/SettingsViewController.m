@@ -1,10 +1,26 @@
-//
-//  SettingsViewController.m
-//  MPinApp
-//
-//  Created by Georgi Georgiev on 1/19/15.
-//  Copyright (c) 2015 Certivox. All rights reserved.
-//
+/*
+ Copyright (c) 2012-2015, Certivox
+ All rights reserved.
+ 
+ Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+ 
+ 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+ 
+ 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ 
+ 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
+ For full details regarding our CertiVox terms of service please refer to
+ the following links:
+ * Our Terms and Conditions -
+ http://www.certivox.com/about-certivox/terms-and-conditions/
+ * Our Security and Privacy -
+ http://www.certivox.com/about-certivox/security-privacy/
+ * Our Statement of Position and Our Promise on Software Patents -
+ http://www.certivox.com/about-certivox/patents/
+ */
 
 #import "SettingsViewController.h"
 #import "ConfigListTableViewCell.h"
@@ -27,6 +43,7 @@
     MPin *sdk;
 }
 - ( IBAction )gotoIdentityList:( id )sender;
+- ( IBAction )addQR:( id )sender;
 
 @end
 
@@ -38,14 +55,20 @@
 {
     [super viewDidLoad];
 
-    sdk = [[MPin alloc] init];
-    sdk.delegate = self;
     [[ThemeManager sharedManager] beautifyViewController:self];
+
+    UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"QR"] style:UIBarButtonItemStylePlain target:self action:@selector( addQR: )];
+    UIBarButtonItem *qrItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus-white"] style:UIBarButtonItemStylePlain target:self action:@selector( add: )];
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:addItem,qrItem, nil];
 }
 
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
+
+    sdk = [[MPin alloc] init];
+    sdk.delegate = self;
+
     [self.tableView reloadData];
     [(MenuViewController *)self.menuContainerViewController.leftMenuViewController setConfiguration];
 }
@@ -88,19 +111,20 @@
     NSInteger service = [[ConfigurationManager sharedManager] getConfigurationTypeAtIndex:indexPath.row];
     switch ( service )
     {
-        case LOGIN_ON_MOBILE:
-            customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_MOBILE_APP", @"");;
-            break;
-            
-        case LOGIN_ONLINE:
-            customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_ONLINE_SESSION", @"");
-            break;
-            
-        case LOGIN_WITH_OTP:
-            customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_OTP", @"");
-            break;
-            default:
-            break;
+    case LOGIN_ON_MOBILE:
+        customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_MOBILE_APP", @"");;
+        break;
+
+    case LOGIN_ONLINE:
+        customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_ONLINE_SESSION", @"");
+        break;
+
+    case LOGIN_WITH_OTP:
+        customCell.lblConfigurationType.text = NSLocalizedString(@"LOGIN_OTP", @"");
+        break;
+
+    default:
+        break;
     }
     [customCell setIsSelectedImage:( [[ConfigurationManager sharedManager] getSelectedConfigurationIndex] == indexPath.row )];
     [[ThemeManager sharedManager] customiseConfigurationListCell:customCell];
@@ -126,9 +150,9 @@
     {
         rpsPrefix = nil;
     }
-    
+
     [sdk SetBackend:url rpsPrefix:rpsPrefix];
-  
+
 
     [[ConfigurationManager sharedManager] setSelectedConfiguration:indexPath.row];
     [tableView reloadData];
@@ -142,7 +166,9 @@
 
 - ( void )OnSetBackendCompleted:( id )sender
 {
-    [[ErrorHandler sharedManager] updateMessage:@"Configuration changed" addActivityIndicator:NO hideAfter:2];
+    [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"CONFIGURATIONS_CONFIG_CHANGED",@"Configuration changed")
+     addActivityIndicator:NO
+     hideAfter:2];
 }
 
 - ( void )OnSetBackendError:( id )sender error:( NSError * )error
@@ -160,11 +186,19 @@
     [self.navigationController pushViewController:addViewController animated:YES];
 }
 
+- ( IBAction )addQR:( id )sender
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    UIViewController *vcQR = [storyboard instantiateViewControllerWithIdentifier:@"QRController"];
+    [self.navigationController pushViewController:vcQR animated:YES];
+}
+
 - ( IBAction )edit:( id )sender
 {
-     if ([[ConfigurationManager sharedManager] isEmpty]) return;
-    
-    if ( [[ConfigurationManager sharedManager] getSelectedConfigurationIndex] > ([[ConfigurationManager sharedManager] defaultConfigCount] -1))
+    if ( [[ConfigurationManager sharedManager] isEmpty] )
+        return;
+
+    if ( [[ConfigurationManager sharedManager] getSelectedConfigurationIndex] > ( [[ConfigurationManager sharedManager] defaultConfigCount] - 1 ) )
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
         AddSettingViewController *addViewController = [storyboard instantiateViewControllerWithIdentifier:@"AddConfig"];
@@ -178,15 +212,16 @@
         [[ErrorHandler sharedManager] presentMessageInViewController:self
          errorString:NSLocalizedString(@"WARNING_CANNOT_EDIT_PREDEFINED_CONFIG", @"")
          addActivityIndicator:NO
-         minShowTime:0];
+         minShowTime:3];
     }
 }
 
 - ( IBAction )deleteConfiguration:( id )sender
 {
-    if ([[ConfigurationManager sharedManager] isEmpty]) return;
-    
-    if ( [[ConfigurationManager sharedManager] getSelectedConfigurationIndex] > ([[ConfigurationManager sharedManager] defaultConfigCount] -1) )
+    if ( [[ConfigurationManager sharedManager] isEmpty] )
+        return;
+
+    if ( [[ConfigurationManager sharedManager] getSelectedConfigurationIndex] > ( [[ConfigurationManager sharedManager] defaultConfigCount] - 1 ) )
     {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"KEY_WARNING", @"")
                                   message:NSLocalizedString(@"WARNING_THIS_WILL_DELETE_ALL_IDS", @"")
@@ -200,7 +235,7 @@
         [[ErrorHandler sharedManager] presentMessageInViewController:self
          errorString:NSLocalizedString(@"WARNING_CANNOT_DELETE_PREDEFINED_CONFIG", @"")
          addActivityIndicator:NO
-         minShowTime:0];
+         minShowTime:3];
     }
 }
 

@@ -1,166 +1,137 @@
+/*******************************************************************************
+ * Copyright (c) 2012-2015, Certivox All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+ * following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following
+ * disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
+ * following disclaimer in the documentation and/or other materials provided with the distribution.
+ * 
+ * 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote
+ * products derived from this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * 
+ * For full details regarding our CertiVox terms of service please refer to the following links:
+ * 
+ * * Our Terms and Conditions - http://www.certivox.com/about-certivox/terms-and-conditions/
+ * 
+ * * Our Security and Privacy - http://www.certivox.com/about-certivox/security-privacy/
+ * 
+ * * Our Statement of Position and Our Promise on Software Patents - http://www.certivox.com/about-certivox/patents/
+ ******************************************************************************/
 package com.certivox.adapters;
 
-import java.util.ArrayList;
-import java.util.Collection;
+
+import java.util.List;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.certivox.models.User;
-import com.certivox.mpinsdk.Mpin;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
+
 
 public class UsersAdapter extends BaseAdapter {
 
-	private final Context mContext;
+    private Context    mContext;
+    private List<User> mUsersList;
 
-	private ArrayList<User> mUsersList;
 
-	public UsersAdapter(Context context) {
-		mContext = context;
-		mUsersList = new ArrayList<User>();
-	}
+    public UsersAdapter(Context context, List<User> usersList) {
+        mContext = context;
+        mUsersList = usersList;
+    }
 
-	public void setData(Collection<User> data) {
-		synchronized (mUsersList) {
-			mUsersList.clear();
-			mUsersList.addAll(data);
-			notifyDataSetChanged();
-		}
-	}
 
-	public void refresh(Mpin sdk) {
-		synchronized (mUsersList) {
-			mUsersList.clear();
-			sdk.ListUsers(mUsersList);
-		}
-		notifyDataSetChanged();
-	}
+    public void updateUsersList(List<User> usersList) {
+        mUsersList.clear();
+        mUsersList.addAll(usersList);
+        notifyDataSetChanged();
+    }
 
-	@Override
-	public int getCount() {
-		synchronized (mUsersList) {
-			return mUsersList.size();
-		}
-	}
 
-	@Override
-	public User getItem(int position) {
-		synchronized (mUsersList) {
-			return mUsersList.get(position);
-		}
-	}
+    @Override
+    public int getCount() {
+        return mUsersList.size();
+    }
 
-	@Override
-	public long getItemId(int position) {
-		return getItem(position).getId().hashCode();
-	}
 
-	@Override
-	public boolean hasStableIds() {
-		return true;
-	}
+    @Override
+    public User getItem(int position) {
+        return mUsersList.get(position);
+    }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		if (convertView == null) {
-			if (mContext == null) {
-				return null;
-			}
-			convertView = LayoutInflater.from(mContext).inflate(
-					R.layout.users_list_item, parent, false);
-			final Holder holder = new Holder();
-			holder.setContainer(convertView
-					.findViewById(R.id.fragment_users_list_item_container));
-			holder.setTextView((TextView) convertView
-					.findViewById(R.id.fragment_users_list_item_name));
-			convertView.setTag(holder);
-		}
-		Holder holder = (Holder) convertView.getTag();
-		User user = getItem(position);
-		holder.setPosition(position);
-		holder.setUser(user);
-		holder.getTextView().setText(user.getId());
-		if (user.isUserSelected()) {
-			holder.getTextView().setBackgroundColor(
-					mContext.getResources().getColor(
-							R.color.selected_item_background));
-			holder.getTextView().setCompoundDrawablesWithIntrinsicBounds(
-					mContext.getResources().getDrawable(
-							R.drawable.ic_avatar_selected), null, null,
-					null);
-		} else {
-			holder.getTextView().setBackgroundColor(
-					mContext.getResources().getColor(R.color.white));
-			holder.getTextView().setCompoundDrawablesWithIntrinsicBounds(
-					mContext.getResources().getDrawable(
-							R.drawable.ic_avatar), null, null, null);
-		}
-		return convertView;
-	}
 
-	public void deselectAllUsers() {
-		for (User user : mUsersList) {
-			user.setUserSelected(false);
-		}
-		notifyDataSetChanged();
-	}
+    @Override
+    public long getItemId(int position) {
+        return getItem(position).getId().hashCode();
+    }
 
-	private class Holder {
-		private View container;
-		private ImageButton delete;
-		private TextView textView;
-		private User user;
-		private int position;
 
-		public Holder() {
-			position = -1;
-		}
+    @Override
+    public boolean hasStableIds() {
+        return true;
+    }
 
-		public View getContainer() {
-			return container;
-		}
 
-		public void setContainer(View container) {
-			this.container = container;
-		}
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.users_list_item, parent, false);
+            holder = new ViewHolder();
+            holder.textView = (TextView) convertView.findViewById(R.id.fragment_users_list_item_name);
+            convertView.setTag(holder);
+        }
 
-		public ImageButton getDelete() {
-			return delete;
-		}
+        holder = (ViewHolder) convertView.getTag();
+        User user = getItem(position);
+        holder.textView.setText(user.getId());
+        if (user.isUserSelected()) {
+            holder.textView.setBackgroundColor(mContext.getResources().getColor(R.color.selected_item_background));
+            holder.textView.setCompoundDrawablesWithIntrinsicBounds(
+                    mContext.getResources().getDrawable(R.drawable.ic_avatar_selected), null, null, null);
+        } else {
+            holder.textView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+            holder.textView.setCompoundDrawablesWithIntrinsicBounds(
+                    mContext.getResources().getDrawable(R.drawable.ic_avatar), null, null, null);
+        }
 
-		public void setDelete(ImageButton delete) {
-			this.delete = delete;
-		}
+        return convertView;
+    }
 
-		public TextView getTextView() {
-			return textView;
-		}
 
-		public void setTextView(TextView textView) {
-			this.textView = textView;
-		}
+    public void deselectAllUsers() {
+        for (User user : mUsersList) {
+            user.setUserSelected(false);
+        }
+        notifyDataSetChanged();
+    }
 
-		public User getUser() {
-			return user;
-		}
 
-		public void setUser(User user) {
-			this.user = user;
-		}
+    public void setActiveUser(int position) {
+        deselectAllUsers();
+        User user = mUsersList.get(position);
+        user.setUserSelected(true);
+        notifyDataSetChanged();
+    }
 
-		public int getPosition() {
-			return position;
-		}
+    private class ViewHolder {
 
-		public void setPosition(int position) {
-			this.position = position;
-		}
-	}
-
+        TextView textView;
+    }
 }

@@ -1,0 +1,47 @@
+[
+    {
+        "url": "https://m-pindemo.certivox.org",        
+        "type" : "mobile",
+        "name": "Basic"
+    },
+    {
+        "url": "http://ec2-52-28-120-46.eu-central-1.compute.amazonaws.com",        
+        "type" :  "mobile",
+        "name": "Force Activation"
+    },
+    {
+        "url": "https://mpindemo-qa-v3.certivox.org",        
+        "type" : "online",
+        "name": "Bank service AN"
+    },
+    {
+        "url": "http://otp.m-pin.id/rps",        
+        "type" :  "otp",
+        "name": "Longest Journey Service"
+    },
+    {
+        "url": "http://risso.certivox.org/",        
+        "type" : "otp",
+        "name": "OTP login"
+    },
+    {
+        "url": "http://ntt-vpn.certivox.org",
+        "type" :  "otp",
+        "name": "OTP NTT login"
+    },
+    {
+        "url": "http://tcb.certivox.org",
+        "type" : "mobile",
+        "name": "Mobile banking login"
+    },
+    {
+        "url": "http://tcb.certivox.org",
+        "type" : "online",
+        "name": "Online banking login"
+    },
+    {
+        "url": "http://otp.m-pin.id",
+        "type" : "otp",
+        "name": "VPN login"
+    }
+]

@@ -1,58 +1,17 @@
-{
-    "Backends": [
-        {
-            "BackendUrl": "https://m-pindemo.certivox.org",
-            "RequestAccessNumber": false,
-            "RequestOtp": false,
-            "Title": "Basic"
-        },
-        {
-            "BackendUrl": "http://ec2-52-28-120-46.eu-central-1.compute.amazonaws.com",
-            "RequestAccessNumber": false,
-            "RequestOtp": false,
-            "Title": "Force Activation"
-        },
-        {
-            "BackendUrl": "https://mpindemo-qa-v3.certivox.org",
-            "RequestAccessNumber": true,
-            "RequestOtp": false,
-            "Title": "Bank service AN"
-        },
-        {
-            "BackendUrl": "http://otp.m-pin.id/rps",
-            "RequestAccessNumber": false,
-            "RequestOtp": true,
-            "Title": "Longest Journey Service"
-        },
-        {
-            "BackendUrl": "http://risso.certivox.org/",
-            "RequestAccessNumber": false,
-            "RequestOtp": true,
-            "Title": "OTP login"
-        },
-        {
-            "BackendUrl": "http://ntt-vpn.certivox.org",
-            "RequestAccessNumber": false,
-            "RequestOtp": true,
-            "Title": "OTP NTT login"
-        },
-        {
-            "BackendUrl": "http://tcb.certivox.org",
-            "RequestAccessNumber": false,
-            "RequestOtp": false,
-            "Title": "Mobile banking login"
-        },
-        {
-            "BackendUrl": "http://tcb.certivox.org",
-            "RequestAccessNumber": true,
-            "RequestOtp": false,
-            "Title": "Online banking login AN"
-        },
-        {
-            "BackendUrl": "http://otp.m-pin.id",
-            "RequestAccessNumber": false,
-            "RequestOtp": true,
-            "Title": "VPN login OTP"
-        }
-    ]
-}
+[
+    {
+        "url": "http://tcb.certivox.org",
+        "type" : "mobile",
+        "name": "Mobile banking login"
+    },
+    {
+        "url": "http://tcb.certivox.org",
+        "type" : "online",
+        "name": "Online banking login"
+    },
+    {
+        "url": "http://otp.m-pin.id",
+        "type" : "otp",
+        "name": "VPN login"
+    }
+]

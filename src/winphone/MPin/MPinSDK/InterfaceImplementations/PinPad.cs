@@ -1,4 +1,26 @@
-﻿using MPinRC;
+﻿// Copyright (c) 2012-2015, Certivox
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+//
+// 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//
+// 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//
+// 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+// For full details regarding our CertiVox terms of service please refer to
+// the following links:
+//  * Our Terms and Conditions -
+//    http://www.certivox.com/about-certivox/terms-and-conditions/
+//  * Our Security and Privacy -
+//    http://www.certivox.com/about-certivox/security-privacy/
+//  * Our Statement of Position and Our Promise on Software Patents -
+//    http://www.certivox.com/about-certivox/patents/
+
+using MPinRC;
 using MPinSDK.Controls;
 using MPinSDK.Models;
 using MPinSDK.Common;
@@ -42,41 +64,34 @@ namespace MPinSDK
             UIDispatcher.Initialize(dispatcher);
         }
 
-        public string Show(Mode mode)
+        public string Show(UserWrapper user, Mode mode)
         {
             this.Pin = string.Empty;
             lock (LockObject)
             {
                 countDownEvent = new CountdownEvent(1);
-                Task.Run(async () => { await DoAll(mode); }).Wait();
+                Task.Run(async () => { await DoAll(user, mode); }).Wait();
             }
 
             return this.Pin;
         }
 
-        private async Task DoAll(Mode mode)
+        private async Task DoAll(UserWrapper user, Mode mode)
         {
-            await DisplayPinPadAsync(mode);
+            await DisplayPinPadAsync(user, mode);
             Task.WaitAll();
             await Task.Delay(2000);
             await TakePinPad();
             countDownEvent.Wait();
         }
 
-        public async Task DisplayPinPadAsync(Mode mode)
+        public async Task DisplayPinPadAsync(UserWrapper user, Mode mode)
         {
             UIDispatcher.Initialize(this.Dispatcher);
             await ThreadPool.RunAsync(operation => UIDispatcher.Execute(() =>
             {
-                Frame rootFrame = Window.Current.Content as Frame;
-                string userId = string.Empty;
-                IUser userScreen = rootFrame.Content as IUser;
-                if (userScreen != null)
-                {
-                    userId = userScreen.GetUserId();
-                }
-
-                rootFrame.Navigate(typeof(PinPadPage), new List<object> { this, mode == Mode.AUTHENTICATE, userId });
+                Frame rootFrame = Window.Current.Content as Frame;                
+                rootFrame.Navigate(typeof(PinPadPage), new List<object> { this, mode == Mode.AUTHENTICATE, user == null ? string.Empty : user.GetId() });
                 Window.Current.Activate();
             }));
         }

@@ -1,4 +1,28 @@
 /*
+Copyright (c) 2012-2015, Certivox
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+For full details regarding our CertiVox terms of service please refer to
+the following links:
+ * Our Terms and Conditions -
+   http://www.certivox.com/about-certivox/terms-and-conditions/
+ * Our Security and Privacy -
+   http://www.certivox.com/about-certivox/security-privacy/
+ * Our Statement of Position and Our Promise on Software Patents -
+   http://www.certivox.com/about-certivox/patents/
+*/
+
+/*
  * Internal M-Pin Crypto interface Non-TEE implementation
  */
 
@@ -54,7 +78,6 @@ String Octet::ToString()
 
 MPinCryptoNonTee::MPinCryptoNonTee() : m_pinPad(NULL), m_storage(NULL), m_initialized(false), m_sessionOpened(false)
 {
-    memset(&m_mpinDomain, 0, sizeof(m_mpinDomain));
 }
 
 MPinCryptoNonTee::~MPinCryptoNonTee()
@@ -115,12 +138,6 @@ Status MPinCryptoNonTee::OpenSession()
         return Status(Status::CRYPTO_ERROR, String("Not initialized"));
     }
 
-    int res = MPIN_DOMAIN_INIT_NEW(&m_mpinDomain);
-    if(res)
-    {
-        return Status(Status::CRYPTO_ERROR, String().Format("MPIN_DOMAIN_INIT_NEW() failed with code %d", res));
-    }
-
     m_sessionOpened = true;
     return Status(Status::OK);
 }
@@ -129,14 +146,15 @@ void MPinCryptoNonTee::CloseSession()
 {
     if(m_sessionOpened)
     {
-        MPIN_DOMAIN_KILL(&m_mpinDomain);
         ForgetPass2Data();
         m_sessionOpened = false;
     }
 }
 
-Status MPinCryptoNonTee::Register(const String& mpinId, std::vector<String>& clientSecretShares)
+Status MPinCryptoNonTee::Register(UserPtr user, std::vector<String>& clientSecretShares)
 {
+    const String& mpinId = user->GetMPinId();
+    
     if(!m_sessionOpened)
     {
         return Status(Status::CRYPTO_ERROR, String("Session is not opened or not initialized"));
@@ -152,14 +170,14 @@ Status MPinCryptoNonTee::Register(const String& mpinId, std::vector<String>& cli
     Octet cs2(clientSecretShares[1]);
     Octet token(Octet::TOKEN_SIZE);
 
-    int res = MPIN_RECOMBINE_G1(&m_mpinDomain, &cs1, &cs2, &token);
+    int res = MPIN_RECOMBINE_G1(&cs1, &cs2, &token);
     if(res)
     {
         return Status(Status::CRYPTO_ERROR, String().Format("MPIN_RECOMBINE_G1() failed with code %d", res));
     }
 
     // Query the user for the pin
-    String pin = m_pinPad->Show(IPinPad::REGISTER);
+    String pin = m_pinPad->Show(user, IPinPad::REGISTER);
     if(pin.empty())
     {
         return Status(Status::PIN_INPUT_CANCELED, "Pin input canceled");
@@ -167,7 +185,7 @@ Status MPinCryptoNonTee::Register(const String& mpinId, std::vector<String>& cli
 
     // Extract the pin from the secret
     Octet cid(mpinId);
-    res = MPIN_EXTRACT_PIN(&m_mpinDomain, &cid, pin.GetHash(), &token);
+    res = MPIN_EXTRACT_PIN(&cid, pin.GetHash(), &token);
     if(res)
     {
         return Status(Status::CRYPTO_ERROR, String().Format("MPIN_EXTRACT_PIN() failed with code %d", res));
@@ -182,8 +200,10 @@ Status MPinCryptoNonTee::Register(const String& mpinId, std::vector<String>& cli
     return Status(Status::OK);
 }
 
-Status MPinCryptoNonTee::AuthenticatePass1(const String& mpinId, std::vector<String>& timePermitShares, String& commitmentU, String& commitmentUT)
+Status MPinCryptoNonTee::AuthenticatePass1(UserPtr user, std::vector<String>& timePermitShares, String& commitmentU, String& commitmentUT)
 {
+    const String& mpinId = user->GetMPinId();
+
     if(!m_sessionOpened)
     {
         return Status(Status::CRYPTO_ERROR, String("Session is not opened or not initialized"));
@@ -199,7 +219,7 @@ Status MPinCryptoNonTee::AuthenticatePass1(const String& mpinId, std::vector<Str
     Octet tp2(timePermitShares[1]);
     Octet timePermit(Octet::TOKEN_SIZE);
 
-    int res = MPIN_RECOMBINE_G1(&m_mpinDomain, &tp1, &tp2, &timePermit);
+    int res = MPIN_RECOMBINE_G1(&tp1, &tp2, &timePermit);
     if(res)
     {
         return Status(Status::CRYPTO_ERROR, String().Format("MPIN_RECOMBINE_G1() failed with code %d", res));
@@ -213,7 +233,7 @@ Status MPinCryptoNonTee::AuthenticatePass1(const String& mpinId, std::vector<Str
     }
 
     // Query the user for the pin
-    String pin = m_pinPad->Show(IPinPad::AUTHENTICATE);
+    String pin = m_pinPad->Show(user, IPinPad::AUTHENTICATE);
     if(pin.empty())
     {
         return Status(Status::PIN_INPUT_CANCELED, "Pin input canceled");
@@ -237,7 +257,7 @@ Status MPinCryptoNonTee::AuthenticatePass1(const String& mpinId, std::vector<Str
     Octet ut(Octet::TOKEN_SIZE);
 
     // Authentication pass 1
-    res = MPIN_CLIENT_1(&m_mpinDomain, date, &cid, &rng, &x, pin.GetHash(), &token, &clientSecret, &u, &timePermit, &ut, NULL, NULL);
+    res = MPIN_CLIENT_1(date, &cid, &rng, &x, pin.GetHash(), &token, &clientSecret, &u, &ut, &timePermit);
     if(res)
     {
         return Status(Status::CRYPTO_ERROR, String().Format("MPIN_CLIENT_1() failed with code %d", res));
@@ -253,8 +273,10 @@ Status MPinCryptoNonTee::AuthenticatePass1(const String& mpinId, std::vector<Str
     return Status(Status::OK);
 }
 
-Status MPinCryptoNonTee::AuthenticatePass2(const String& mpinId, const String& challenge, String& validator)
+Status MPinCryptoNonTee::AuthenticatePass2(UserPtr user, const String& challenge, String& validator)
 {
+    const String& mpinId = user->GetMPinId();
+
     if(!m_sessionOpened)
     {
         return Status(Status::CRYPTO_ERROR, String("Session is not opened or not initialized"));
@@ -269,7 +291,7 @@ Status MPinCryptoNonTee::AuthenticatePass2(const String& mpinId, const String& c
     Octet y(challenge);
     Octet v(m_clientSecret);
 
-    int res = MPIN_CLIENT_2(&m_mpinDomain, &x, &y, &v);
+    int res = MPIN_CLIENT_2(&x, &y, &v);
 
     ForgetPass2Data();
 

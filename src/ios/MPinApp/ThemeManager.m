@@ -1,10 +1,27 @@
-//
-//  ThemeManager.m
-//  MPinApp
-//
-//  Created by Tihomir Ganev on 19.февр..15.
-//  Copyright (c) 2015 г. Certivox. All rights reserved.
-//
+/*
+ Copyright (c) 2012-2015, Certivox
+ All rights reserved.
+ 
+ Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+ 
+ 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+ 
+ 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ 
+ 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
+ For full details regarding our CertiVox terms of service please refer to
+ the following links:
+ * Our Terms and Conditions -
+ http://www.certivox.com/about-certivox/terms-and-conditions/
+ * Our Security and Privacy -
+ http://www.certivox.com/about-certivox/security-privacy/
+ * Our Statement of Position and Our Promise on Software Patents -
+ http://www.certivox.com/about-certivox/patents/
+ */
+
 
 #import "ThemeManager.h"
 #import "AboutViewController.h"
@@ -63,8 +80,8 @@
     if ( [vc isMemberOfClass:[ANAuthenticationSuccessful class]] )
     {
         ANAuthenticationSuccessful *myVc = (ANAuthenticationSuccessful *)vc;
-        myVc.lblMessage.textColor = [[SettingsManager sharedManager] color9];
-        myVc.lblMessage.font = [UIFont fontWithName:@"OpenSans-Semibold" size:12.];
+        myVc.lblMessage.textColor = [[SettingsManager sharedManager] color7];
+        myVc.lblMessage.font = [UIFont fontWithName:@"OpenSans-Semibold" size:22.f];
     }
     else
     if ( [vc isMemberOfClass:[MenuViewController class]] )
@@ -72,7 +89,6 @@
         MenuViewController *myVc = (MenuViewController *)vc;
 
         myVc.tblMenu.backgroundColor = [[SettingsManager sharedManager] color6];
-        myVc.lblAppVersion.font = [UIFont fontWithName:@"OpenSans-Bold" size:12.f];
         myVc.view.backgroundColor = [[SettingsManager sharedManager] color6];
 
         myVc.lblConfigurationName.font = [UIFont fontWithName:@"OpenSans-Bold" size:14.f];
@@ -177,7 +193,7 @@
         myVc.lblOTP.textColor = [[SettingsManager sharedManager] color5];
         myVc.lblOTP.font = [UIFont fontWithName:@"OpenSans" size:38.0];
 
-        myVc.lblMessage.text = @"You can now use this password to log in to your VPN service";
+        myVc.lblMessage.text = NSLocalizedString(@"OTPVC_LBL_MESSAGE", @"You can now use this password to log in to your RADIUS service");
     }
 
     else
@@ -185,7 +201,7 @@
     {
         IdentityBlockedViewController *myVc = (IdentityBlockedViewController *)vc;
 
-        myVc.navigationController.title = @"Identity blocked";
+        myVc.title = NSLocalizedString(@"BLOCKED_ID_TITLE", @"Identity Blocked");
         myVc.lblUserEmail.textColor = [[SettingsManager sharedManager] color5];
         myVc.lblUserEmail.font = [UIFont fontWithName:@"OpenSans-Semibold" size:16.0];
         myVc.lblUserEmail.backgroundColor = [UIColor clearColor];
@@ -193,22 +209,22 @@
         myVc.lblMessage.textColor = [[SettingsManager sharedManager] color2];
         myVc.lblMessage.font = [UIFont fontWithName:@"OpenSans" size:14.0];
         myVc.lblMessage.numberOfLines = 0;
-        myVc.lblMessage.text = @"Wrong PIN entered too many times. Your identity is blocked. You can sign up a new identity or choose existing one.";
+        myVc.lblMessage.text = NSLocalizedString(@"BLOCKED_ID_MESSAGE",@"Wrong PIN entered too many times. Your identity has been blocked. You can either select a different identity, reset your PIN or remove your blocked identity.");
         myVc.lblMessage.backgroundColor = [UIColor clearColor];
 
         [myVc.imgViewBlockedId setImage:[UIImage imageNamed:@"identity-blocked"]];
 
         [myVc.btnResetPIN setTitleColor:[[SettingsManager sharedManager] color10] forState:UIControlStateNormal];
         myVc.btnResetPIN.backgroundColor = [[SettingsManager sharedManager] color1];
-        [myVc.btnResetPIN setTitle:@"RESET PIN" forState:UIControlStateNormal];
+        [myVc.btnResetPIN setTitle:NSLocalizedString(@"BLOCKED_ID_RESET_PIN", @"RESET PIN") forState:UIControlStateNormal];
 
         [myVc.btnBackToIdList setTitleColor:[[SettingsManager sharedManager] color10] forState:UIControlStateNormal];
         myVc.btnBackToIdList.backgroundColor = [[SettingsManager sharedManager] color1];
-        [myVc.btnBackToIdList setTitle:@"BACK TO IDENTITY LIST"  forState:UIControlStateNormal];
+        [myVc.btnBackToIdList setTitle:NSLocalizedString(@"BLOCKED_ID_BACK_TO_ID_LIST", @"BACK TO IDENTITY LIST")  forState:UIControlStateNormal];
 
         [myVc.btnDeleteId setTitleColor:[[SettingsManager sharedManager] color1] forState:UIControlStateNormal];
         myVc.btnDeleteId.backgroundColor = [[SettingsManager sharedManager] color10];
-        [myVc.btnDeleteId setTitle:@"REMOVE THIS IDENTITY"  forState:UIControlStateNormal];
+        [myVc.btnDeleteId setTitle:NSLocalizedString(@"BLOCKED_ID_REMOVE_ID", @"REMOVE THIS IDENTITY")  forState:UIControlStateNormal];
 
         myVc.viewButtonsBG.backgroundColor = [[SettingsManager sharedManager] color3];
     }

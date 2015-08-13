@@ -1,10 +1,27 @@
-//
-//  UserListViewController.m
-//  MPinApp
-//
-//  Created by Georgi Georgiev on 11/19/14.
-//  Copyright (c) 2014 Certivox. All rights reserved.
-//
+/*
+ Copyright (c) 2012-2015, Certivox
+ All rights reserved.
+ 
+ Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+ 
+ 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+ 
+ 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ 
+ 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
+ For full details regarding our CertiVox terms of service please refer to
+ the following links:
+ * Our Terms and Conditions -
+ http://www.certivox.com/about-certivox/terms-and-conditions/
+ * Our Security and Privacy -
+ http://www.certivox.com/about-certivox/security-privacy/
+ * Our Statement of Position and Our Promise on Software Patents -
+ http://www.certivox.com/about-certivox/patents/
+ */
+
 
 
 #import "IUser.h"
@@ -60,6 +77,7 @@ static NSString *const kAN = @"AN";
     BOOL boolFirstTime;
     BOOL boolShouldAskForFingerprint;
     UIStoryboard *storyboard;
+    NSString *storedBackendURL;
 }
 @property ( nonatomic, weak ) IBOutlet NSLayoutConstraint *constraintMenuHeight;
 
@@ -95,20 +113,31 @@ static NSString *const kAN = @"AN";
 - ( void )viewDidLoad
 {
     [super viewDidLoad];
-    sdk = [[MPin alloc] init];
-    sdk.delegate = self;
+
     boolFirstTime = YES;
-    boolShouldAskForFingerprint = YES;
+    boolShouldAskForFingerprint = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
     storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     [self hideBottomBar:NO];
     [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Initializing" addActivityIndicator:YES minShowTime:0];
+    storedBackendURL = [[ConfigurationManager sharedManager] getSelectedConfiguration] [@"backend"];
 }
 
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
+
+    sdk = [[MPin alloc] init];
     sdk.delegate = self;
+    NSString *config = [[ConfigurationManager sharedManager] getSelectedConfiguration] [@"backend"];
+
+    // Executed if for some reason backend url is changed in other controllers
+    // For example - QR Scanned backends can overwrite the selected backend and the url maybe will be different
+    if ( ![storedBackendURL isEqualToString:config] )
+    {
+        [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
+    }
+
     [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
     [[ThemeManager sharedManager] beautifyViewController:self];
     self.users = [MPin listUsers];
@@ -145,8 +174,9 @@ static NSString *const kAN = @"AN";
     }
 }
 
-- ( void )viewDidDisappear:( BOOL )animated
+-( void ) viewWillDisappear:( BOOL )animated
 {
+    [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
 }
 
@@ -320,6 +350,11 @@ static NSString *const kAN = @"AN";
     cell.imgViewSelected.image = [UIImage imageNamed:@"checked"];
 }
 
+#pragma mark - AN Delegate -
+
+-( void ) onAccessNumber:( NSString * ) an
+{}
+
 #pragma mark - SDK Handlers -
 - ( void )OnFinishRegistrationCompleted:( id )sender user:( const id<IUser>)user
 {
@@ -335,6 +370,7 @@ static NSString *const kAN = @"AN";
     {
     case IDENTITY_NOT_VERIFIED:
     {
+        [[ErrorHandler sharedManager] hideMessage];
         ConfirmEmailViewController *cevc = (ConfirmEmailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ConfirmEmailViewController"];
         cevc.iuser = ( error.userInfo ) [kUSER];
         [self.navigationController pushViewController:cevc animated:YES];
@@ -342,26 +378,11 @@ static NSString *const kAN = @"AN";
     break;
 
     case HTTP_SERVER_ERROR:
-        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Server error" addActivityIndicator:NO minShowTime:3];
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:NSLocalizedString(@"HTTP_SERVER_ERROR", @"SERVER ERROR.  PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR.") addActivityIndicator:NO minShowTime:3];
 
     default:
         break;
     }
-
-//     PIN_INPUT_CANCELED, // Local error, returned when user cancels pin entering
-//     CRYPTO_ERROR /* = MPinSDK::Status::CRYPTO_ERROR*/, // Local error in crypto functions
-//    STORAGE_ERROR, // Local storage related error
-//    NETWORK_ERROR, // Local error - cannot connect to remote server (no internet, or invalid server/port)
-//    RESPONSE_PARSE_ERROR, // Local error - cannot parse json response from remote server (invalid json or unexpected json structure)
-//    FLOW_ERROR, // Local error - unproper MPinSDK class usage
-//    IDENTITY_NOT_AUTHORIZED, // Remote error - the remote server refuses user registration
-//    IDENTITY_NOT_VERIFIED, // Remote error - the remote server refuses user registration because identity is not verified
-//    REQUEST_EXPIRED, // Remote error - the register/authentication request expired
-//    REVOKED, // Remote error - cannot get time permit (propably the user is temporary suspended)
-//    INCORRECT_PIN, // Remote error - user entered wrong pin
-//    INCORRECT_ACCESS_NUMBER, // Remote/local error - wrong access number (checksum failed or RPS returned 412)
-//    HTTP_SERVER_ERROR, // Remote error, that was not reduced to one of the above - the remote server returned internal server error status (5xx)
-//    HTTP_REQUEST_ERROR // Remote error, that was not reduced to one of the above - invalid data sent to server, the remote server returned 4xx error status
 }
 
 - ( void )OnAuthenticateOTPCompleted:( id )sender user:( id<IUser>)user otp:( OTP * )otp
@@ -369,7 +390,7 @@ static NSString *const kAN = @"AN";
     if ( otp.status.status != OK )
     {
         [[ErrorHandler sharedManager] presentMessageInViewController:self
-         errorString:@"OTP is not supported!"
+         errorString:NSLocalizedString(@"ERROR_OTP_NOT_SUPPORTED",  @"OTP is not supported!")
          addActivityIndicator:NO
          minShowTime:0];
 
@@ -390,11 +411,6 @@ static NSString *const kAN = @"AN";
      minShowTime:0];
 }
 
--( void ) onAccessNumber:( NSString * ) an
-{
-    [sdk AuthenticateAN:[self.users objectAtIndex:selectedIndexPath.row] accessNumber:an askForFingerprint:boolShouldAskForFingerprint];
-}
-
 - ( void )OnAuthenticateAccessNumberCompleted:( id )sender user:( id<IUser>)user
 {
     [[ErrorHandler sharedManager] presentMessageInViewController:self
@@ -409,15 +425,15 @@ static NSString *const kAN = @"AN";
     {
     case INCORRECT_PIN:
         [[ErrorHandler sharedManager] presentMessageInViewController:self
-         errorString:@"Wrong MPIN or Access Number!"
+         errorString:NSLocalizedString(@"INCORRECT_PIN",  @"Wrong MPIN or Access Number!")
          addActivityIndicator:NO
-         minShowTime:0];
+         minShowTime:3];
         break;
 
     case HTTP_REQUEST_ERROR:
-        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Wrong MPIN or Access Number!"
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:NSLocalizedString(@"HTTP_SERVER_ERROR", @"SERVER ERROR.  PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR.")
          addActivityIndicator:NO
-         minShowTime:0];
+         minShowTime:3];
         break;
 
     default:
@@ -463,7 +479,7 @@ static NSString *const kAN = @"AN";
         {
         case INCORRECT_PIN:
             [[ErrorHandler sharedManager] presentMessageInViewController:self
-             errorString:@"Wrong MPIN"
+             errorString:NSLocalizedString(@"INCORRECT_PIN",  @"Wrong MPIN or Access Number!")
              addActivityIndicator:NO
              minShowTime:0];
             break;
@@ -519,11 +535,11 @@ static NSString *const kAN = @"AN";
 -( IBAction )onResetPinButtonClicked:( id )sender
 {
     id<IUser> iuser = ( self.users ) [selectedIndexPath.row];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"RESET_PIN"
-                          message:[NSString stringWithFormat:@"Are you sure that you would like to reset pin of \"%@\" ?", [iuser getIdentity]]
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"KEY_RESET",  @"RESET PIN")
+                          message:[NSString stringWithFormat:NSLocalizedString(@"BLOCKED_ID_RESET_PIN_CONFIRM",@"Are you sure that you would like to reset pin of \"%@\" ?" ), [iuser getIdentity]]
                           delegate:self
-                          cancelButtonTitle:@"CANCEL"
-                          otherButtonTitles:@"RESET",
+                          cancelButtonTitle:NSLocalizedString(@"KEY_CANCEL",  @"CANCEL")
+                          otherButtonTitles:NSLocalizedString(@"KEY_RESET",  @"RESET PIN"),
                           nil];
     alert.tag = RESETPIN_TAG;
     [alert show];
@@ -531,6 +547,7 @@ static NSString *const kAN = @"AN";
 
 - ( IBAction )btnAuthTap:( id )sender
 {
+    [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
     [[ConfigurationManager sharedManager] setSelectedUserForCurrentConfiguration:selectedIndexPath.row];
     [self startAuthenticationFlow];
 }
@@ -549,10 +566,7 @@ static NSString *const kAN = @"AN";
         switch ( [iuser getState] )
         {
         case INVALID:
-            [[ErrorHandler sharedManager] presentMessageInViewController:self
-             errorString:NSLocalizedString(@"HUD_REACTIVATE_USER", @"")
-             addActivityIndicator:NO
-             minShowTime:0];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"HUD_REACTIVATE_USER", @"") addActivityIndicator:NO hideAfter:3];
             break;
 
         case STARTED_REGISTRATION:
@@ -566,15 +580,12 @@ static NSString *const kAN = @"AN";
         case REGISTERED:
             config = [[ConfigurationManager sharedManager] getSelectedConfiguration];
             s = [config [kSERVICE_TYPE] intValue];
-            [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
+
+
+
             switch ( s )
             {
             case LOGIN_ON_MOBILE:
-                if ( !boolShouldAskForFingerprint )
-                {
-                    [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
-                }
-
                 [sdk Authenticate:iuser askForFingerprint:boolShouldAskForFingerprint];
                 break;
 
@@ -582,20 +593,21 @@ static NSString *const kAN = @"AN";
                 [[ErrorHandler sharedManager] hideMessage];
                 accessViewController = [storyboard instantiateViewControllerWithIdentifier:@"accessnumber"];
                 accessViewController.delegate = self;
+                sdk.delegate = nil;
                 accessViewController.strEmail = [currentUser getIdentity];
                 accessViewController.currentUser = currentUser;
                 [self.navigationController pushViewController:accessViewController animated:YES];
                 break;
 
             case LOGIN_WITH_OTP:
-                [[ErrorHandler sharedManager] hideMessage];
-                [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
                 [sdk AuthenticateOTP:iuser askForFingerprint:boolShouldAskForFingerprint];
                 break;
             }
             break;
 
         case BLOCKED:
+
+            [[ErrorHandler sharedManager] hideMessage];
             identityBlockedViewController = [storyboard instantiateViewControllerWithIdentifier:@"IdentityBlockedViewController"];
             identityBlockedViewController.strUserEmail = [iuser getIdentity];
             identityBlockedViewController.iuser = iuser;
@@ -642,7 +654,7 @@ static NSString *const kAN = @"AN";
 
     default:
         [[ErrorHandler sharedManager] presentMessageInViewController:self
-         errorString:[NSString stringWithFormat:@"User state is unexpected %ld",                                                                                       [user getState]]
+         errorString:[NSString stringWithFormat:@"User state is unexpected %ld",                                                                                       (long)[user getState]]
          addActivityIndicator:NO
          minShowTime:0];
         break;
@@ -684,19 +696,19 @@ static NSString *const kAN = @"AN";
          minShowTime:0];
 
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
+        {
             BOOL isSuccessful = [MPin Logout:( self.users ) [selectedIndexPath.row]];
-            dispatch_async(dispatch_get_main_queue(), ^ (void) {
+            dispatch_async(dispatch_get_main_queue(), ^ (void)
+            {
                 [[ErrorHandler sharedManager] hideMessage];
                 NSString *descritpion = ( isSuccessful ) ? NSLocalizedString(@"HUD_LOGOUT_OK", @"") : NSLocalizedString(@"HUD_LOGOUT_NOT_OK", @"");
                 [[ErrorHandler sharedManager] presentMessageInViewController:self
                  errorString:descritpion
                  addActivityIndicator:NO
                  minShowTime:0];
-            }
-                           );
-        }
-                       );
+            });
+        });
 
         return;
     }
@@ -741,7 +753,7 @@ static NSString *const kAN = @"AN";
     default:
         break;
     }
-
+    NSLog(@"Calling PinPad from UserList");
     [self.navigationController pushViewController:pinpadViewController animated:YES];
 }
 
