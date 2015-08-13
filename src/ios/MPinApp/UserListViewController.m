@@ -133,7 +133,7 @@ static NSString *const kAN = @"AN";
     sdk.delegate = self;
 
     [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
-    [[ThemeManager sharedManager] beautifyViewController:self];
+    
     self.users = [MPin listUsers];
     [(MenuViewController *)self.menuContainerViewController.leftMenuViewController setConfiguration];
     [[NSNotificationCenter defaultCenter] removeObserver:self
@@ -145,6 +145,7 @@ static NSString *const kAN = @"AN";
 {
     [super viewDidAppear:animated];
 
+    [[ThemeManager sharedManager] beautifyViewController:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
     if ( ![NetworkMonitor sharedManager].networkStatusUp )
     {
