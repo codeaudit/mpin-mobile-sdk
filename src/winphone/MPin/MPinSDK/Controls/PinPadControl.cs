@@ -52,7 +52,7 @@ namespace MPinSDK.Controls
         private PinPadButton Zero;
         private PinPadButton Clear;
         private PinPadButton Sign;
-
+        private SymbolIcon BackIcon;
         internal const byte MPinLength = 4;
 
         public event EventHandler<PinPadEventArgs> PinEntered;
@@ -72,7 +72,13 @@ namespace MPinSDK.Controls
         {
             base.OnApplyTemplate();
             this.Pass = this.GetTemplateChild("pass") as PinPadPassword;
-           
+            this.BackIcon = this.GetTemplateChild("BackButton") as SymbolIcon;
+            if (BackIcon != null)
+            {
+                BackIcon.Tapped += backIcon_Tapped;
+                BackIcon.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            }
+
             RegisterButton(ref this.One, "one", One_Click);
             RegisterButton(ref this.Two, "two", Two_Click);
             RegisterButton(ref this.Three, "three", Three_Click);
@@ -86,7 +92,7 @@ namespace MPinSDK.Controls
             RegisterButton(ref this.Clear, "clear", Clear_Click);
             RegisterButton(ref this.Sign, "sign", Sign_Click);
         }
-                
+    
         #endregion // Overrides
 
         #region handlers
@@ -134,10 +140,15 @@ namespace MPinSDK.Controls
         {
             AddDigitToPin("0");
         }
+
+        void backIcon_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            if (this.Pass.Data.Length > 0)
+                this.Pass.Data = this.Pass.Data.Substring(0, this.Pass.Data.Length - 1);
+        }
+            
         void Clear_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            //if (this.Pass.Data.Length > 0)
-            //    this.Pass.Data = this.Pass.Data.Substring(0, this.Pass.Data.Length - 1);
             this.Pass.Data = string.Empty;
             ValidateSignButton();
         }
@@ -182,6 +193,7 @@ namespace MPinSDK.Controls
             if (this.Pass.Data.Length < MPinLength)
                 this.Pass.Data += digit;
 
+            this.BackIcon.Visibility = string.IsNullOrEmpty(this.Pass.Data) ? Visibility.Collapsed : Visibility.Visible;
             ValidateSignButton();
         }
 
