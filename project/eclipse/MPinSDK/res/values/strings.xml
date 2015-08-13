@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Activity -->
+    <string name="no_network_connection_message">No Internet connection</string>
+    <!-- Activity end -->
+
+
     <!-- Navigation drawer strings -->
     <string name="drawer_subtitle">Active service:</string>
     <string name="drawer_no_service">No Service</string>
