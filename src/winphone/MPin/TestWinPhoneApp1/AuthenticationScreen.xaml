@@ -10,7 +10,7 @@
 
     <StackPanel>
         <TextBlock x:Uid="AuthTB" Style="{StaticResource TitleStyle}"/>
-        <TextBlock Text="{Binding User.Id}" Style="{StaticResource MainTextBlock}"/>
+        <TextBlock Text="{Binding User.Id}" Style="{StaticResource IdentityTextBlock}"/>
         <TextBlock x:Name="AuthenticatedTB" TextWrapping="Wrap" Style="{StaticResource MainTextBlock}"/>
     </StackPanel>
 </Page>

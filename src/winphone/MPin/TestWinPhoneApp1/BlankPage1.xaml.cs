@@ -93,10 +93,10 @@ namespace MPinDemo
 
             _barcodeReader = new BarcodeReader
             {
-                Options = new DecodingOptions() 
-                { 
-                    TryHarder = true, 
-                    PossibleFormats =  new BarcodeFormat[] {BarcodeFormat.QR_CODE} 
+                Options = new DecodingOptions()
+                {
+                    TryHarder = true,
+                    PossibleFormats = new BarcodeFormat[] { BarcodeFormat.QR_CODE }
                 },
                 AutoRotate = true
             };
@@ -148,7 +148,7 @@ namespace MPinDemo
                 await controller.Dispose();
             }
 
-            SavePropertyState(SelectedService, controller.DataModel.BackendsList.IndexOf(controller.DataModel.SelectedBackend)); 
+            SavePropertyState(SelectedService, controller.DataModel.BackendsList.IndexOf(controller.DataModel.SelectedBackend));
         }
 
         #endregion
@@ -161,7 +161,7 @@ namespace MPinDemo
             {
                 case 0:
                     this.ExBackend = controller.DataModel.CurrentService;
-                    controller.DataModel.CurrentService = controller.DataModel.SelectedBackend; 
+                    controller.DataModel.CurrentService = controller.DataModel.SelectedBackend;
                     break;
 
                 case 1:
@@ -248,10 +248,21 @@ namespace MPinDemo
                 this.MainPivot.SelectedItem = this.UsersPivotItem;
             }
         }
-        
+
         internal static bool IsServiceNameExists(string name)
         {
-            return controller.DataModel.BackendsList.Any(item => item.Name.Equals(name));            
+            return controller.DataModel.BackendsList.Any(item => item.Name.Equals(name));
+        }
+
+        internal static bool IsActiveConfigurationURLChanged(List<int> existentsIndexes, List<Backend> newConfigurations)
+        {
+            int activeServiceIndex = controller.DataModel.BackendsList.IndexOf(controller.DataModel.CurrentService);
+            if (existentsIndexes.Contains(activeServiceIndex))
+            {
+                return !newConfigurations[activeServiceIndex].BackendUrl.Equals(controller.DataModel.BackendsList[activeServiceIndex].BackendUrl);
+            }
+
+            return false;
         }
 
         #region State
@@ -348,7 +359,7 @@ namespace MPinDemo
             await captureManager.CapturePhotoToStorageFileAsync(ImageEncodingProperties.CreateJpeg(), photoFile);
 
             await captureManager.StopPreviewAsync();
-            
+
             var data = await FileIO.ReadBufferAsync(photoFile);
             // create a stream from the file
             var ms = new InMemoryRandomAccessStream();
@@ -450,10 +461,10 @@ namespace MPinDemo
 
         private void ServicesList_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            SelectAppBarButton.IsEnabled = EditButton.IsEnabled = controller.DataModel.SelectedBackend != null; 
+            SelectAppBarButton.IsEnabled = EditButton.IsEnabled = controller.DataModel.SelectedBackend != null;
             ServicesList.ScrollIntoView(controller.DataModel.SelectedBackend);
         }
-        
+
         private void ServicesList_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
             if (isInitialLoad)
@@ -513,7 +524,7 @@ namespace MPinDemo
             AddAppBarButton.Icon = new SymbolIcon(this.MainPivot.SelectedIndex == 0 ? Symbol.Add : Symbol.AddFriend);
 
             EditButton.Visibility = ScanAppBarButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
-            
+
             // if the user manually go to Users pivot item, but the connection to the selected backend is not successful -> set the selected to be the last successfully connected service
             if (this.MainPivot.SelectedIndex == 1 && controller.DataModel.SelectedBackend != controller.DataModel.CurrentService)
                 controller.DataModel.SelectedBackend = controller.DataModel.CurrentService;
@@ -525,7 +536,7 @@ namespace MPinDemo
         {
             switch (this.MainPivot.SelectedIndex)
             {
-                case 0:                 
+                case 0:
                     if (controller.DataModel.SelectedBackend != null && !string.IsNullOrEmpty(controller.DataModel.SelectedBackend.BackendUrl))
                     {
                         await controller.DeleteService(controller.DataModel.SelectedBackend, controller.DataModel.BackendsList.IndexOf(controller.DataModel.SelectedBackend) >= AppDataModel.PredefinedServicesCount);
@@ -558,7 +569,7 @@ namespace MPinDemo
                 isInitialLoad = false;
             }
         }
-        
+
         private void UsersListBox_LayoutUpdated(object sender, object e)
         {
             if (UsersListBox != null && UsersListBox.ItemsSource != null && this.SavedSelectedUser != null && UsersListBox.SelectedItem == null)
@@ -567,7 +578,7 @@ namespace MPinDemo
                 isInitialLoad = false;
             }
         }
-        
+
         private void AboutButton_Click(object sender, RoutedEventArgs e)
         {
             Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
@@ -595,7 +606,8 @@ namespace MPinDemo
             if (!showUsers && controller.DataModel.BackendsList.Count > selectedServiceIndex && selectedServiceIndex > -1)
             {
                 // select a service after being edited/added
-                controller.DataModel.SelectedBackend = controller.DataModel.BackendsList[selectedServiceIndex];                
+                controller.DataModel.SelectedBackend = controller.DataModel.BackendsList[selectedServiceIndex];
+                ServicesList.ScrollIntoView(controller.DataModel.SelectedBackend);
             }
 
             selectedServiceIndex = -1;
@@ -677,5 +689,6 @@ namespace MPinDemo
         }
 
         #endregion // handlers
+
     }
 }

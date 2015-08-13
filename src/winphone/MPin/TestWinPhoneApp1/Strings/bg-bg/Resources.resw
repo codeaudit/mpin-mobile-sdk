@@ -440,4 +440,8 @@
   <data name="ReadConfigurationTitle.Text" xml:space="preserve">
     <value>ПРОЧЕТЕНИ КОНФИГУРАЦИИ</value>
   </data>
+  <data name="OverideActiveService" xml:space="preserve">
+    <value>Избрали сте да презапишете адреса на активната конфигурация.
+Ако продължите, всички съществуващи потребители ще бъдат изтрити.</value>
+  </data>
 </root>

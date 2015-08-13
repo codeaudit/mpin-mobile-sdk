@@ -446,4 +446,8 @@ Unsuccessfull authentication!</value>
   <data name="ReadConfigurationTitle.Text" xml:space="preserve">
     <value>SCANNED SERVICES</value>
   </data>
+  <data name="OverideActiveService" xml:space="preserve">
+    <value>Overwrite the URL for the active service?
+All existing identities will be deleted.</value>
+  </data>
 </root>

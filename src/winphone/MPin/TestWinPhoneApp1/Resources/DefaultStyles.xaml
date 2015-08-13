@@ -42,6 +42,8 @@
     </Style>
 
     <Style x:Key="RadioButtonTextBlock" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{ThemeResource AppBarItemForegroundThemeBrush}" />
+        <Setter Property="FontSize" Value="{ThemeResource TextStyleMediumFontSize}" />
         <Setter Property="CommonNavigationTransitionInfo.IsStaggerElement" Value="True" />
         <Setter Property="Pivot.SlideInAnimationGroup" Value="1" />
         <Setter Property="Padding" Value="0" />
