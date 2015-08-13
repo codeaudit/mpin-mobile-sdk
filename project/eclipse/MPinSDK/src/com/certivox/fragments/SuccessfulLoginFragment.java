@@ -43,7 +43,7 @@ import android.widget.TextView;
 
 import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 
 public class SuccessfulLoginFragment extends MPinFragment implements OnClickListener {
@@ -91,7 +91,7 @@ public class SuccessfulLoginFragment extends MPinFragment implements OnClickList
 
     @Override
     protected void initViews() {
-        setTooblarTitle(R.string.account_summary);
+        setToolbarTitle(R.string.account_summary);
     }
 
 

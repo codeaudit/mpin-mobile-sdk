@@ -39,7 +39,10 @@ import net.hockeyapp.android.FeedbackManager;
 import net.hockeyapp.android.UpdateManager;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -66,31 +69,33 @@ import com.certivox.fragments.CreateIdentityFragment;
 import com.certivox.fragments.IdentityBlockedFragment;
 import com.certivox.fragments.IdentityCreatedFragment;
 import com.certivox.fragments.MPinFragment;
+import com.certivox.fragments.NoInternetConnectionFragment;
 import com.certivox.fragments.OTPFragment;
 import com.certivox.fragments.PinPadFragment;
 import com.certivox.fragments.SuccessfulLoginFragment;
 import com.certivox.fragments.UsersListFragment;
 import com.certivox.models.Config;
 import com.certivox.models.OTP;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 
 public class MPinActivity extends ActionBarActivity implements OnClickListener, Handler.Callback {
 
-    private static final String TAG    = MPinActivity.class.getSimpleName();
+    private static final String TAG = MPinActivity.class.getSimpleName();
 
     // Needed for Hockey App
     private static final String APP_ID = "08b0417545be2304b7ce45ef43e30daf";
 
     // Controller
     private MPinController      mController;
+    private Handler             mControllerHandler;
     private static MPinActivity mActivity;
 
     private enum ActivityStates {
         ON_CREATE, ON_STOP, ON_POST_RESUME, ON_DESTROY;
     };
 
-    private ActivityStates        mActivityLifecycleState;
+    private ActivityStates mActivityLifecycleState;
 
     // Views
     private DrawerLayout          mDrawerLayout;
@@ -101,8 +106,10 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     private TextView              mChangeIdentityButton;
     private TextView              mChangeServiceButton;
     private TextView              mAboutButton;
-
+    private TextView              mNoInternetConnectionTitle;
     private Toast                 mNoInternetToast;
+    private BroadcastReceiver     mNetworkConectivityReceiver;
+    private static final String   CONNECTIVITY_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE";
 
 
     @Override
@@ -112,10 +119,30 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         mActivityLifecycleState = ActivityStates.ON_CREATE;
 
         initialize();
+        registerNetworkConectivityReceiver();
 
         // Needed for Hockey App
         checkForUpdates();
         checkForCrashes();
+    }
+
+
+    private void registerNetworkConectivityReceiver() {
+        mNetworkConectivityReceiver = new BroadcastReceiver() {
+
+            public void onReceive(Context context, Intent intent) {
+                mController.handleMessage(MPinController.MESSAGE_NETWORK_CONNECTION_CHANGE);
+            }
+        };
+
+        registerReceiver(mNetworkConectivityReceiver, new IntentFilter(CONNECTIVITY_CHANGE));
+    }
+
+
+    private void unregisterNetworkConectivityReceiver() {
+        if (mNetworkConectivityReceiver != null) {
+            unregisterReceiver(mNetworkConectivityReceiver);
+        }
     }
 
 
@@ -131,6 +158,8 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         super.onDestroy();
         mActivityLifecycleState = ActivityStates.ON_DESTROY;
         mController.handleMessage(MPinController.MESSAGE_ON_DESTROY);
+        unregisterNetworkConectivityReceiver();
+        mController.removeOutboxHandler(mControllerHandler);
         freeResources();
     }
 
@@ -192,6 +221,12 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         case MPinController.MESSAGE_STOP_WORK_IN_PROGRESS:
             hideLoader();
             return true;
+        case MPinController.MESSAGE_INTERNET_CONNECTION_AVAILABLE:
+            onInternetConnectionAvailable();
+            return true;
+        case MPinController.MESSAGE_NO_INTERNET_CONNECTION_AVAILABLE:
+            onNoInternetConnectionAvailable();
+            return true;
         case MPinController.MESSAGE_GO_BACK:
             goBack();
             return true;
@@ -240,6 +275,10 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
             OTP otp = (OTP) msg.obj;
             createAndAddFragment(FragmentTags.FRAGMENT_OTP, OTPFragment.class, false, otp);
             return true;
+        case MPinController.MESSAGE_SHOW_NO_INTERNET_CONNECTION:
+            createAndAddFragment(FragmentTags.FRAGMENT_NO_INTERNET_CONNECTION, NoInternetConnectionFragment.class,
+                    false, null);
+            return true;
         case MPinController.MESSAGE_INCORRECT_PIN_AN:
             showWrongPinDialog();
             return true;
@@ -269,14 +308,18 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     /** Called to do the initialization of the view */
     private void initialize() {
         mActivity = this;
+        initController();
         initViews();
         initActionBar();
         initNavigationDrawer();
 
-        // Init the controller
-        mController = new MPinController(getApplicationContext());
-        mController.addOutboxHandler(new Handler(this));
         mController.handleMessage(MPinController.MESSAGE_ON_CREATE);
+    }
+
+
+    private void initController() {
+        mControllerHandler = new Handler(this);
+        mController = new MPinController(getApplicationContext(), mControllerHandler);
     }
 
 
@@ -292,6 +335,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         mChangeServiceButton = null;
         mAboutButton = null;
         mLoader = null;
+        mControllerHandler = null;
     }
 
 
@@ -303,6 +347,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         mChangeServiceButton = (TextView) findViewById(R.id.change_service);
         mAboutButton = (TextView) findViewById(R.id.about);
         mLoader = (RelativeLayout) findViewById(R.id.loader);
+        mNoInternetConnectionTitle = (TextView) findViewById(R.id.no_network_connection_message_id);
     }
 
 
@@ -347,9 +392,10 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         mDrawerToggle.setDrawerIndicatorEnabled(false);
         // Change the hamburger icon to up carret
-        mDrawerToggle.setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-
-        mDrawerToggle.setToolbarNavigationClickListener(drawerBackClickListener);
+        if (drawerBackClickListener != null) {
+            mDrawerToggle.setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+            mDrawerToggle.setToolbarNavigationClickListener(drawerBackClickListener);
+        }
     }
 
 
@@ -398,10 +444,20 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     }
 
 
+    private void onNoInternetConnectionAvailable() {
+        mNoInternetConnectionTitle.setVisibility(View.VISIBLE);
+    }
+
+
+    private void onInternetConnectionAvailable() {
+        mNoInternetConnectionTitle.setVisibility(View.GONE);
+    }
+
+
     private void createAndAddFragment(String tag, Class<? extends MPinFragment> fragmentClass, boolean addToBackStack,
             Object data) {
 
-        //Need to check if the activity is in proper state for switching fragments, otherwise exception is thrown
+        // Need to check if the activity is in proper state for switching fragments, otherwise exception is thrown
         switch (mActivityLifecycleState) {
         case ON_CREATE:
         case ON_POST_RESUME:

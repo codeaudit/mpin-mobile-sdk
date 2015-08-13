@@ -36,7 +36,7 @@ import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
 import com.certivox.models.CreateIdentityConfig;
 import com.certivox.models.MakeNewUserInfo;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -44,7 +44,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -117,7 +116,7 @@ public class CreateIdentityFragment extends MPinFragment implements OnClickListe
 
     @Override
     protected void initViews() {
-        setTooblarTitle(R.string.add_identity_title);
+        setToolbarTitle(R.string.add_identity_title);
 
         mEmailEditText = (EditText) mView.findViewById(R.id.email_input);
         mDeviceNameEditText = (EditText) mView.findViewById(R.id.device_name_input);

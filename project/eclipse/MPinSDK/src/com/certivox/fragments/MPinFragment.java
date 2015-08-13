@@ -96,7 +96,7 @@ public abstract class MPinFragment extends Fragment implements Handler.Callback 
     }
 
 
-    protected void setTooblarTitle(int resId) {
+    protected void setToolbarTitle(int resId) {
         ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(resId);
     }
 

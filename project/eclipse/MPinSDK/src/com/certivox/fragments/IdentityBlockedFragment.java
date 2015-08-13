@@ -45,7 +45,7 @@ import android.widget.TextView;
 
 import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 
 public class IdentityBlockedFragment extends MPinFragment implements OnClickListener {
@@ -94,7 +94,7 @@ public class IdentityBlockedFragment extends MPinFragment implements OnClickList
 
     @Override
     protected void initViews() {
-        setTooblarTitle(R.string.identity_blocked_title);
+        setToolbarTitle(R.string.identity_blocked_title);
         mUserEmailTextView = (TextView) mView.findViewById(R.id.user_email);
         mUserEmailTextView.setText(getMPinController().getCurrentUser().getId());
         mRemoveIdentityButton = (Button) mView.findViewById(R.id.remove_identity_button);

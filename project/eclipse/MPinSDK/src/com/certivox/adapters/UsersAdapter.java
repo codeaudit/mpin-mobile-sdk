@@ -42,7 +42,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.certivox.models.User;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 
 public class UsersAdapter extends BaseAdapter {

@@ -45,7 +45,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.certivox.constants.FragmentTags;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 
 public class AccessNumberFragment extends MPinFragment {
@@ -125,7 +125,7 @@ public class AccessNumberFragment extends MPinFragment {
 
     @Override
     protected void initViews() {
-        setTooblarTitle(R.string.access_number_title);
+        setToolbarTitle(R.string.access_number_title);
         mAccessNumberTitle = (TextView) mView.findViewById(R.id.access_number_title);
 
         mAccessNumberTitle
