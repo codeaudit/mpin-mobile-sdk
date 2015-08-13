@@ -174,14 +174,14 @@ public class ConfigDetailFragment extends MPinFragment implements OnClickListene
     private void initScreen() {
         disableDrawer();
         if (mConfig.getId() != -1) {
-            setTooblarTitle(R.string.config_detail_toolbar_title);
+            setToolbarTitle(R.string.config_detail_toolbar_title);
             mServiceNameEditText.setText(mConfig.getTitle());
             mServiceUrlEditText.setText(mConfig.getBackendUrl());
             mServiceRTSEditText.setText(mConfig.getRTS());
             mServiceOTPCheckBox.setChecked(mConfig.getRequestOtp());
             mServiceANCheckBox.setChecked(mConfig.getRequestAccessNumber());
         } else {
-            setTooblarTitle(R.string.add_service_toolbar_title);
+            setToolbarTitle(R.string.add_service_toolbar_title);
         }
     }
 

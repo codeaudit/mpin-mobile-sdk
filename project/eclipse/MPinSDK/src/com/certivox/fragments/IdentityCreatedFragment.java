@@ -85,7 +85,7 @@ public class IdentityCreatedFragment extends MPinFragment implements OnClickList
 
     @Override
     protected void initViews() {
-        setTooblarTitle(R.string.identity_created_title);
+        setToolbarTitle(R.string.identity_created_title);
         mInfoTextView = (TextView) mView.findViewById(R.id.info_text);
         mInfoTextView.setText(String.format(getResources().getString(R.string.identity_created),
                 getMPinController().getCurrentUser().getId()));

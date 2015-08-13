@@ -94,7 +94,7 @@ public class IdentityBlockedFragment extends MPinFragment implements OnClickList
 
     @Override
     protected void initViews() {
-        setTooblarTitle(R.string.identity_blocked_title);
+        setToolbarTitle(R.string.identity_blocked_title);
         mUserEmailTextView = (TextView) mView.findViewById(R.id.user_email);
         mUserEmailTextView.setText(getMPinController().getCurrentUser().getId());
         mRemoveIdentityButton = (Button) mView.findViewById(R.id.remove_identity_button);
