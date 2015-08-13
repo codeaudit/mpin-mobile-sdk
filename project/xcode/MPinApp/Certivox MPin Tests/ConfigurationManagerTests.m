@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 #import "ConfigurationManager.h"
+#import "TestUtils.h"
 
 @interface ConfigurationManagerTests : XCTestCase
-
+{
+    TestUtils *t;
+}
 @property ( nonatomic ) ConfigurationManager *cm;
 
 @end
@@ -23,6 +26,7 @@
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
     self.cm = [ConfigurationManager sharedManager];
+    t = [[TestUtils alloc] init];
 }
 
 - ( void )tearDown
@@ -33,11 +37,15 @@
 
 - ( void ) testGetConfigurationAtIndex
 {
-    for ( int i = -100; i < 100; i++ )
+    for ( int i = 0; i < self.cm.getConfigurationsCount; i++ )
     {
         [self.cm getConfigurationAtIndex:i];
-        NSLog(@"%d", i);
     }
+}
+
+- ( void ) testSaveConfigurationAtIndex
+{
+    [self.cm saveConfigurationAtIndex:[t randomInt] url:[t randomText] serviceType:(int)[t randomInt]  name:[t randomText]];
 }
 
 @end

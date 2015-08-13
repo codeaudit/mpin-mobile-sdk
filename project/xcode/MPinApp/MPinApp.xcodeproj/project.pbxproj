@@ -195,6 +195,7 @@
 		964C6E031B7C704100D33D62 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001E1A1A3CEB000030A4 /* UIKit.framework */; };
 		964C6E041B7C704C00D33D62 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE49001A1A1A3CEB000030A4 /* Foundation.framework */; };
 		964C6E061B7C73C900D33D62 /* UserListViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 964C6E051B7C73C900D33D62 /* UserListViewControllerTests.m */; };
+		964C6E091B7C7A4100D33D62 /* TestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 964C6E081B7C7A4100D33D62 /* TestUtils.m */; };
 		964F19D11B4130E4000A03A5 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 964F19D01B4130E4000A03A5 /* Main_iPad.storyboard */; };
 		966EB9D41A8CF069004B936A /* ConfirmEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 966EB9D31A8CF069004B936A /* ConfirmEmailViewController.m */; };
 		968591A01AEE53EB00726E63 /* DimensionDataImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 968A180F1ACA8C70000C0DB0 /* DimensionDataImages.xcassets */; };
@@ -387,6 +388,8 @@
 		964B121C1A93921C00FFB67A /* BackButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BackButton.m; path = ../../../../src/ios/MPinApp/BackButton.m; sourceTree = "<group>"; };
 		964C6E011B7C703000D33D62 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = "/Users/tihomirganev/Projects/mpin-mobile/project/xcode/Pods/../build/Debug-iphoneos/libOCMock.a"; sourceTree = "<absolute>"; };
 		964C6E051B7C73C900D33D62 /* UserListViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserListViewControllerTests.m; sourceTree = "<group>"; };
+		964C6E071B7C7A4100D33D62 /* TestUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUtils.h; sourceTree = "<group>"; };
+		964C6E081B7C7A4100D33D62 /* TestUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestUtils.m; sourceTree = "<group>"; };
 		964F19D01B4130E4000A03A5 /* Main_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main_iPad.storyboard; sourceTree = "<group>"; };
 		966EB9D21A8CF069004B936A /* ConfirmEmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfirmEmailViewController.h; path = ../../../../src/ios/MPinApp/ConfirmEmailViewController.h; sourceTree = "<group>"; };
 		966EB9D31A8CF069004B936A /* ConfirmEmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = ConfirmEmailViewController.m; path = ../../../../src/ios/MPinApp/ConfirmEmailViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -619,6 +622,8 @@
 				96F7B1CD1B7B3C080080C799 /* ConfigurationManagerTests.m */,
 				9604B77B1B73935B00FF6D6A /* Supporting Files */,
 				964C6E051B7C73C900D33D62 /* UserListViewControllerTests.m */,
+				964C6E071B7C7A4100D33D62 /* TestUtils.h */,
+				964C6E081B7C7A4100D33D62 /* TestUtils.m */,
 			);
 			path = "Certivox MPin Tests";
 			sourceTree = "<group>";
@@ -1421,6 +1426,7 @@
 				96F7B1D21B7B3C080080C799 /* ConfigurationManagerTests.m in Sources */,
 				9604B77E1B73935B00FF6D6A /* Certivox_MPin_Tests.m in Sources */,
 				964C6E061B7C73C900D33D62 /* UserListViewControllerTests.m in Sources */,
+				964C6E091B7C7A4100D33D62 /* TestUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

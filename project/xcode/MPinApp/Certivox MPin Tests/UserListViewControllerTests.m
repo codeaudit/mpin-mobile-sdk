@@ -16,6 +16,13 @@
 @property ( nonatomic, strong ) UserListViewController *vc;
 @end
 
+@interface UserListViewControllerTests ( Tests )
+- ( void )viewDidLoad;
+@end
+
+
+
+
 @implementation UserListViewControllerTests
 
 - ( void )setUp
@@ -41,5 +48,14 @@
     [self.vc showLeftMenuPressed:nil];
 }
 
+- (void) testViewLifeCycle
+{
+    [self.vc viewDidLoad];
+    [self.vc viewWillAppear:YES];
+    [self.vc viewDidAppear:YES];
+    [self.vc showLeftMenuPressed:nil];
+    [self.vc viewWillDisappear:YES];
+    [self.vc invalidate];
+}
 
 @end
