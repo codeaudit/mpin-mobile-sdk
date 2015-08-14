@@ -448,6 +448,7 @@ namespace MPinDemo
         {
             SelectAppBarButton.IsEnabled = !controller.IsUserInProcessing && UsersListBox.SelectedItem != null;
             ResetPinButton.IsEnabled = UsersListBox.SelectedItem != null;
+            DeleteButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? ServicesList.Items.Count > 0 : UsersListBox.Items.Count > 0;
 
             UsersListBox.ScrollIntoView(UsersListBox.SelectedItem);
             if (isInitialLoad)
@@ -688,7 +689,6 @@ namespace MPinDemo
             SetControlsIsEnabled(null, true, false);
         }
 
-        #endregion // handlers
-
+        #endregion // handlers        
     }
 }
