@@ -81,7 +81,7 @@ import com.certivox.mpinsdk.R;
 
 public class MPinActivity extends ActionBarActivity implements OnClickListener, Handler.Callback {
 
-    private static final String TAG = MPinActivity.class.getSimpleName();
+    private static final String TAG    = MPinActivity.class.getSimpleName();
 
     // Needed for Hockey App
     private static final String APP_ID = "08b0417545be2304b7ce45ef43e30daf";
@@ -95,7 +95,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         ON_CREATE, ON_STOP, ON_POST_RESUME, ON_DESTROY;
     };
 
-    private ActivityStates mActivityLifecycleState;
+    private ActivityStates        mActivityLifecycleState;
 
     // Views
     private DrawerLayout          mDrawerLayout;
@@ -110,6 +110,11 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     private Toast                 mNoInternetToast;
     private BroadcastReceiver     mNetworkConectivityReceiver;
     private static final String   CONNECTIVITY_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE";
+
+
+    public MPinController getController() {
+        return mController;
+    }
 
 
     @Override
@@ -469,7 +474,6 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
             }
 
             if (fragment != null && !fragment.isVisible()) {
-                fragment.setMPinController(mController);
                 fragment.setData(data);
 
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();

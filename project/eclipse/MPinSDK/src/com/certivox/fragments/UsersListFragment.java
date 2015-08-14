@@ -87,9 +87,14 @@ public class UsersListFragment extends MPinFragment implements OnClickListener, 
         enableDrawer();
         mView = inflater.inflate(R.layout.fragment_users_list, container, false);
         initViews();
-        initScreen();
-
         return mView;
+    }
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initScreen();
     }
 
 
@@ -148,17 +153,28 @@ public class UsersListFragment extends MPinFragment implements OnClickListener, 
     private void initScreen() {
         mShowOptionsMenu = false;
         getActivity().invalidateOptionsMenu();
+
         mUsersList = getMPinController().getUsersList();
         if (mUsersList == null || mUsersList.isEmpty()) {
-            setToolbarTitle(R.string.change_identity_title);
-            hideIdentitiesList();
-            showCreateIdentityButton();
+            setChangeIdentityScreen();
         } else {
-            setToolbarTitle(R.string.select_identity_title);
-            hideCreateIdentityButton();
-            showIdentitiesList();
-            initAdapter();
+            setSelectIdentityScreen();
         }
+    }
+
+
+    private void setChangeIdentityScreen() {
+        setToolbarTitle(R.string.change_identity_title);
+        hideIdentitiesList();
+        showCreateIdentityButton();
+    }
+
+
+    private void setSelectIdentityScreen() {
+        setToolbarTitle(R.string.select_identity_title);
+        showIdentitiesList();
+        hideCreateIdentityButton();
+        initAdapter();
     }
 
 

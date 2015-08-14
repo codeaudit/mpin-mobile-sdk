@@ -50,25 +50,25 @@ import com.certivox.mpinsdk.R;
 
 public class AccessNumberFragment extends MPinFragment {
 
-    private static final String TAG = AccessNumberFragment.class.getCanonicalName();
+    private static final String TAG    = AccessNumberFragment.class.getCanonicalName();
 
-    private View     mView;
-    private TextView mAccessNumberTitle;
+    private View                mView;
+    private TextView            mAccessNumberTitle;
 
-    private TextView    mUserEmail;
-    private TextView    mDigit0;
-    private TextView    mDigit1;
-    private TextView    mDigit2;
-    private TextView    mDigit3;
-    private TextView    mDigit4;
-    private TextView    mDigit5;
-    private TextView    mDigit6;
-    private TextView    mDigit7;
-    private TextView    mDigit8;
-    private TextView    mDigit9;
-    private ImageButton mButtonLogin;
-    private ImageButton mButtonClear;
-    private EditText    mAccessNumberEditText;
+    private TextView            mUserEmail;
+    private TextView            mDigit0;
+    private TextView            mDigit1;
+    private TextView            mDigit2;
+    private TextView            mDigit3;
+    private TextView            mDigit4;
+    private TextView            mDigit5;
+    private TextView            mDigit6;
+    private TextView            mDigit7;
+    private TextView            mDigit8;
+    private TextView            mDigit9;
+    private ImageButton         mButtonLogin;
+    private ImageButton         mButtonClear;
+    private EditText            mAccessNumberEditText;
 
     private OnClickListener     mOnDigitClickListener;
     private int                 mAccessNumberLength;
@@ -107,10 +107,15 @@ public class AccessNumberFragment extends MPinFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_access_number, container, false);
+        return mView;
+    }
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         setAccessNumberLength();
         initViews();
-        initAccessNumber();
-        return mView;
     }
 
 
@@ -128,8 +133,8 @@ public class AccessNumberFragment extends MPinFragment {
         setToolbarTitle(R.string.access_number_title);
         mAccessNumberTitle = (TextView) mView.findViewById(R.id.access_number_title);
 
-        mAccessNumberTitle
-                .setText(String.format(getResources().getString(R.string.access_number_text), mAccessNumberLength));
+        mAccessNumberTitle.setText(String.format(getResources().getString(R.string.access_number_text),
+                mAccessNumberLength));
 
         mAccessNumberEditText = (EditText) mView.findViewById(R.id.pinpad_input);
         mAccessNumberEditText.setRawInputType(InputType.TYPE_CLASS_TEXT);
@@ -139,6 +144,7 @@ public class AccessNumberFragment extends MPinFragment {
         mAccessNumberEditText.requestFocus();
 
         mUserEmail = (TextView) mView.findViewById(R.id.user_email);
+
         if (getMPinController().getCurrentUser() != null) {
             mUserEmail.setText(getMPinController().getCurrentUser().getId());
         } else {
@@ -158,6 +164,8 @@ public class AccessNumberFragment extends MPinFragment {
 
         mButtonLogin = (ImageButton) mView.findViewById(R.id.pinpad_key_login);
         mButtonClear = (ImageButton) mView.findViewById(R.id.pinpad_key_clear);
+
+        initAccessNumber();
     }
 
 

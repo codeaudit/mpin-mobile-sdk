@@ -58,16 +58,14 @@ public class SuccessfulLoginFragment extends MPinFragment implements OnClickList
 
         mView = inflater.inflate(R.layout.fragment_successful_login, container, false);
 
-        mUserEmailTextView = (TextView) mView.findViewById(R.id.user_email);
-        if (getMPinController().getCurrentUser() != null) {
-            mUserEmailTextView.setText(getMPinController().getCurrentUser().getId());
-        }
-        mLogoutButton = (ImageButton) mView.findViewById(R.id.logout_button);
-        mLogoutButton.setOnClickListener(this);
-
-        initViews();
-
         return mView;
+    }
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initViews();
     }
 
 
@@ -91,6 +89,12 @@ public class SuccessfulLoginFragment extends MPinFragment implements OnClickList
 
     @Override
     protected void initViews() {
+        mUserEmailTextView = (TextView) mView.findViewById(R.id.user_email);
+        if (getMPinController().getCurrentUser() != null) {
+            mUserEmailTextView.setText(getMPinController().getCurrentUser().getId());
+        }
+        mLogoutButton = (ImageButton) mView.findViewById(R.id.logout_button);
+        mLogoutButton.setOnClickListener(this);
         setToolbarTitle(R.string.account_summary);
     }
 
