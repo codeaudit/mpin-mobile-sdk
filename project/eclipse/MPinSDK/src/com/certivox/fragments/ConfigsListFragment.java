@@ -237,20 +237,22 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
 
 
     private void onDeleteConfig() {
-        if (mSelectedConfiguraionId == -1) {
+        Config config = getMPinController().getConfiguration((int) mSelectedConfiguraionId);
+        if (config.getId() == -1) {
             showNoSelectedConfigurationDialog();
-        } else {
-            new AlertDialog.Builder(getActivity()).setTitle("Delete configuration")
-                    .setMessage("This action will also delete all identities, associated with this configuration.")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        } else
+            if (!config.isDefault()) {
+                new AlertDialog.Builder(getActivity()).setTitle("Delete configuration")
+                        .setMessage("This action will also delete all identities, associated with this configuration.")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            getMPinController().handleMessage(MPinController.MESSAGE_DELETE_CONFIGURATION,
-                                    mSelectedConfiguraionId);
-                        }
-                    }).setNegativeButton("Cancel", null).show();
-        }
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                getMPinController().handleMessage(MPinController.MESSAGE_DELETE_CONFIGURATION,
+                                        mSelectedConfiguraionId);
+                            }
+                        }).setNegativeButton("Cancel", null).show();
+            }
 
     }
 

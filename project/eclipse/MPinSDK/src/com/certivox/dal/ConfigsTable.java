@@ -42,9 +42,9 @@ import com.certivox.models.Config;
 
 public class ConfigsTable {
 
-    private SQLiteDatabase mDb;
-    private ConfigsDao     mConfigsDao;
-    private Context        mContext;
+    private SQLiteDatabase      mDb;
+    private ConfigsDao          mConfigsDao;
+    private Context             mContext;
 
     private static final String TYPE_ID      = " INTEGER PRIMARY KEY";
     private static final String TYPE_TEXT    = " TEXT";
@@ -53,9 +53,10 @@ public class ConfigsTable {
 
     private static String createConfgisTableQuery() {
         return String.format("CREATE TABLE IF NOT EXISTS " + ConfigEntry.TABLE_NAME + " (" + ConfigEntry._ID + TYPE_ID
-                + ", " + ConfigEntry.COLUMN_TITLE + TYPE_TEXT + ", " + ConfigEntry.COLUMN_BACKEND_URL + TYPE_TEXT + ", "
-                + ConfigEntry.COLUMN_RTS + TYPE_TEXT + ", " + ConfigEntry.COLUMN_REQUEST_OTP + TYPE_BOOLEAN + ", "
-                + ConfigEntry.COLUMN_REQUEST_ACCESS_NUMBER + TYPE_BOOLEAN + ")");
+                + ", " + ConfigEntry.COLUMN_TITLE + TYPE_TEXT + ", " + ConfigEntry.COLUMN_BACKEND_URL + TYPE_TEXT
+                + ", " + ConfigEntry.COLUMN_RTS + TYPE_TEXT + ", " + ConfigEntry.COLUMN_REQUEST_OTP + TYPE_BOOLEAN
+                + ", " + ConfigEntry.COLUMN_REQUEST_ACCESS_NUMBER + TYPE_BOOLEAN + ", " + ConfigEntry.COLUMN_IS_DEFAULT
+                + TYPE_BOOLEAN + ")");
     }
 
 
@@ -86,7 +87,7 @@ public class ConfigsTable {
         // true);
         // Config configurationVPNLogin = new Config("VPN login", "http://otp.m-pin.id", true, false);
 
-        Config configurationMPinConnect = new Config("M-Pin Connect", "https://m-pin.my.id", false, true);
+        Config configurationMPinConnect = new Config("M-Pin Connect", "https://m-pin.my.id", false, true, true);
 
         // insertConfig(configurationMobileBanking);
         // insertConfig(configurationOnlineBanking);
