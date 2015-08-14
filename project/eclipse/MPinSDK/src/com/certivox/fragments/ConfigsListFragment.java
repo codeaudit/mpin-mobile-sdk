@@ -59,7 +59,7 @@ import com.certivox.mpinsdk.R;
 
 public class ConfigsListFragment extends MPinFragment implements OnClickListener, AdapterView.OnItemClickListener {
 
-    private String TAG = ConfigsListFragment.class.getCanonicalName();
+    private String                   TAG = ConfigsListFragment.class.getCanonicalName();
 
     private View                     mView;
     private ListView                 mListView;
@@ -114,9 +114,15 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
         mSelectedConfiguraionId = -1;
         disableDrawer();
         initViews();
-        initAdapter();
 
         return mView;
+    }
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initAdapter();
     }
 
 

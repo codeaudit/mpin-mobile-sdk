@@ -96,8 +96,15 @@ public class ConfirmEmailFragment extends MPinFragment implements OnClickListene
 
         mView = inflater.inflate(R.layout.fragment_confirm_email, container, false);
 
-        initViews();
         return mView;
+    }
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        initViews();
     }
 
 

@@ -50,7 +50,7 @@ import com.certivox.mpinsdk.R;
 
 public class IdentityBlockedFragment extends MPinFragment implements OnClickListener {
 
-    private View mView;
+    private View     mView;
 
     private TextView mUserEmailTextView;
     private Button   mRemoveIdentityButton;
@@ -87,8 +87,14 @@ public class IdentityBlockedFragment extends MPinFragment implements OnClickList
 
         mView = inflater.inflate(R.layout.fragment_identity_blocked, container, false);
 
-        initViews();
         return mView;
+    }
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initViews();
     }
 
 
