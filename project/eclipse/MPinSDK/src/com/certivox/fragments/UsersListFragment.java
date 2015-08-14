@@ -160,18 +160,19 @@ public class UsersListFragment extends MPinFragment implements OnClickListener, 
         } else {
             setSelectIdentityScreen();
         }
+
+        setToolbarTitle(R.string.identity_list_title);
     }
 
 
     private void setChangeIdentityScreen() {
-        setToolbarTitle(R.string.change_identity_title);
+
         hideIdentitiesList();
         showCreateIdentityButton();
     }
 
 
     private void setSelectIdentityScreen() {
-        setToolbarTitle(R.string.select_identity_title);
         showIdentitiesList();
         hideCreateIdentityButton();
         initAdapter();

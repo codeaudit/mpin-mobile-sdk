@@ -18,8 +18,7 @@
 
 
     <!-- Toobar titles -->
-    <string name="select_identity_title">Identity List</string>
-    <string name="change_identity_title">Change Identity</string>
+    <string name="identity_list_title">Identity List</string>
     <string name="identity_created_title">Identity Created</string>
     <string name="add_identity_title">Add Identity</string>
     <string name="confirm_email_title">Confirm Email</string>
@@ -112,7 +111,8 @@
     <string name="about_info_text_2">Copyright  \u00A9 2015 CertiVox.\n All rights reserved. </string>
     <string name="terms_and_conditions_link"><a href="https://www.certivox.com/about-certivox/terms-and-conditions">CertiVox Terms &amp; Conditions</a></string>
     <!-- About end -->
-    
+
+
     <!-- No Internet Connection -->
     <string name="no_internet_title">No Internet Connection</string>
     <string name="no_internet_text">Please check your connection and try again</string>
