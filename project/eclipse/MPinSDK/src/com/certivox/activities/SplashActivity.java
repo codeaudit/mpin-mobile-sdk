@@ -1,5 +1,6 @@
 package com.certivox.activities;
 
+
 import java.util.ArrayList;
 
 import com.certivox.constants.IntentConstants;
@@ -10,6 +11,7 @@ import com.certivox.mpinsdk.R;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+
 
 public class SplashActivity extends ActionBarActivity {
 
@@ -26,16 +28,23 @@ public class SplashActivity extends ActionBarActivity {
 
 
     private void setInitialActivity() {
-        Intent intent;
+        Intent guideIntent = null;
+        Intent mpinIntent = new Intent(this, MPinActivity.class);
+
         if (mInstructionsDao.isFirstStart()) {
             //            mInstructionsDao.setIsFirstStart(false);
-            intent = new Intent(this, GuideActivity.class);
-            intent.putExtra(IntentConstants.FRAGMENT_LIST, getFirstStartGuideFragments());
-            startActivity(intent);
-        } else {
-            intent = new Intent(this, MPinActivity.class);
-            startActivity(intent);
+            guideIntent = new Intent(this, GuideActivity.class);
+            guideIntent.putExtra(IntentConstants.FRAGMENT_LIST, getFirstStartGuideFragments());
         }
+
+        if (guideIntent != null) {
+            startActivities(new Intent[] {
+                    mpinIntent, guideIntent
+            });
+        } else {
+            startActivity(mpinIntent);
+        }
+
         finish();
     }
 
@@ -44,7 +53,7 @@ public class SplashActivity extends ActionBarActivity {
         ArrayList<GuideFragmentsEnum> fragmentList = new ArrayList<GuideFragmentsEnum>();
         fragmentList.add(GuideFragmentsEnum.FRAGMENT_1);
         fragmentList.add(GuideFragmentsEnum.FRAGMENT_3);
-        fragmentList.add(GuideFragmentsEnum.FRAGMENT_4);
+        fragmentList.add(GuideFragmentsEnum.FRAGMENT_1);
 
         return fragmentList;
     }

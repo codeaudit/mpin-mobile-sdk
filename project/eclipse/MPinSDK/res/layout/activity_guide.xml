@@ -12,8 +12,8 @@
         android:layout_alignParentBottom="true" >
 
         <Button
-            android:id="@+id/guide_skip_button"
             style="@style/GuideButton"
+            android:id="@+id/guide_skip_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
