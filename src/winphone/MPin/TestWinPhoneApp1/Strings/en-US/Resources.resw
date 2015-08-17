@@ -450,4 +450,10 @@ Unsuccessfull authentication!</value>
     <value>Overwrite the URL for the active service?
 All existing identities will be deleted.</value>
   </data>
+  <data name="NoNetworkMessage.Text" xml:space="preserve">
+    <value>No Internet Connection! This screen will close automatically once a connection has been detected.</value>
+  </data>
+  <data name="NoNetworkTitle.Text" xml:space="preserve">
+    <value>NO NETWORK</value>
+  </data>
 </root>

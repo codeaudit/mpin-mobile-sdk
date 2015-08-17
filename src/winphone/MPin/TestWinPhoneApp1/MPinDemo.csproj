@@ -121,6 +121,9 @@
     <Compile Include="Models\AppDataModel.cs" />
     <Compile Include="Models\Backend.cs" />
     <Compile Include="Models\Controller.cs" />
+    <Compile Include="NoNetworkScreen.xaml.cs">
+      <DependentUpon>NoNetworkScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="OtpScreen.xaml.cs">
       <DependentUpon>OtpScreen.xaml</DependentUpon>
     </Compile>
@@ -190,6 +193,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="NoNetworkScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="OtpScreen.xaml">
       <SubType>Designer</SubType>

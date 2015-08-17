@@ -111,8 +111,9 @@ namespace MPinDemo
         /// <param name="e">Event data that describes how this page was reached.
         /// This parameter is typically used to configure the page.</param>
         protected async override void OnNavigatedTo(NavigationEventArgs e)
-        {
+        {   
             rootPage = MainPage.Current;
+            RemoveNoNetworkFrameIfAny();
             SetControlsIsEnabled(e.Parameter.ToString());
 
             List<object> data = (Window.Current.Content as Frame).GetNavigationData() as List<object>;
@@ -154,6 +155,15 @@ namespace MPinDemo
         #endregion
 
         #region methods
+
+        private void RemoveNoNetworkFrameIfAny()
+        {
+            Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
+            if (mainFrame.BackStack.Count == 1 && (mainFrame.BackStack[0] as PageStackEntry).SourcePageType.Equals(typeof(NoNetworkScreen)))
+            {
+                mainFrame.BackStack.RemoveAt(mainFrame.BackStack.Count - 1);
+            }
+        }
 
         private void Select()
         {

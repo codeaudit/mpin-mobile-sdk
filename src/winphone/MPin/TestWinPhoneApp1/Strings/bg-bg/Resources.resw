@@ -444,4 +444,10 @@
     <value>Избрали сте да презапишете адреса на активната конфигурация.
 Ако продължите, всички съществуващи потребители ще бъдат изтрити.</value>
   </data>
+  <data name="NoNetworkMessage.Text" xml:space="preserve">
+    <value>Няма достъп до Интернет мрежа! Този екран автоматично ще се затвори когато достъпа бъде възстановен.</value>
+  </data>
+  <data name="NoNetworkTitle.Text" xml:space="preserve">
+    <value>НЕВАЛИДНА МРЕЖА</value>
+  </data>
 </root>

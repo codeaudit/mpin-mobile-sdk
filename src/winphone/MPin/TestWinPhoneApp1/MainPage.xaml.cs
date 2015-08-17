@@ -23,6 +23,8 @@
 using MPinSDK.Common; // navigation extensions
 using System;
 using System.Diagnostics;
+using System.Net.NetworkInformation;
+using Windows.Networking.Connectivity;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -40,6 +42,8 @@ namespace MPinDemo
         #region Fields
         public static MainPage Current;
         private DispatcherTimer timer;
+        private string parameter = string.Empty;
+
         #endregion // Fields
 
         #region C'tor
@@ -51,8 +55,33 @@ namespace MPinDemo
             // This is a static public property that allows downstream pages to get a handle to the MainPage instance
             // in order to call methods that are in this class.
             Current = this;
+
+            NetworkInformation.NetworkStatusChanged += NetworkInformation_NetworkStatusChanged;
+
         }
+
         #endregion // C'tor
+
+        #region Members
+        internal bool IsInternetConnected
+        {
+            get
+            {
+                bool isConnected = NetworkInterface.GetIsNetworkAvailable();
+                if (isConnected)
+                {
+                    ConnectionProfile InternetConnectionProfile = NetworkInformation.GetInternetConnectionProfile();
+                    NetworkConnectivityLevel connection = InternetConnectionProfile.GetNetworkConnectivityLevel();
+                    if (connection == NetworkConnectivityLevel.None || connection == NetworkConnectivityLevel.ConstrainedInternetAccess)
+                    {
+                        isConnected = false;
+                    }
+                }
+
+                return isConnected;
+            }
+        }
+        #endregion // Members
 
         #region Methods
         /// <summary>
@@ -61,17 +90,26 @@ namespace MPinDemo
         /// <param name="e">Event data that describes how this page was reached.
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
-        {            
+        {
             if (MainFrame.Content == null)
             {
-                string parameter = (Window.Current.Content as Frame).GetNavigationData() as string; // get the passed parameter from the extension method
-                parameter = string.IsNullOrEmpty(parameter) ? e.Parameter as string : parameter;    // get the passed parameter from the event
-
+                if (!this.IsInternetConnected)
+                {
+                    if (!MainFrame.Navigate(typeof(NoNetworkScreen)))
+                    {
+                        throw new Exception("Failed to create no internet screen");
+                    }
+                    return;
+                }
+                
+                this.parameter = (Window.Current.Content as Frame).GetNavigationData() as string; // get the passed parameter from the extension method
+                this.parameter = string.IsNullOrEmpty(parameter) ? e.Parameter as string : parameter;    // get the passed parameter from the event    
+            
                 // When the navigation stack isn't restored navigate to the main screen; 
                 // if no param passed - we consider to be the initial load and navigate to a screen depending on the last selected user state
                 if (!MainFrame.Navigate(typeof(BlankPage1), string.IsNullOrEmpty(parameter) ? "InitialLoad" : parameter))
                 {
-                    throw new Exception("Failed to create main screen"); 
+                    throw new Exception("Failed to create main screen");
                 }
             }
         }
@@ -94,6 +132,21 @@ namespace MPinDemo
                     e.Handled = true;
                 }
             }
+        }
+
+
+        void NetworkInformation_NetworkStatusChanged(object sender)
+        {
+            Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                if (MainFrame.Content.GetType() == typeof(NoNetworkScreen) && this.IsInternetConnected)
+                {
+                    if (!MainFrame.Navigate(typeof(BlankPage1), string.IsNullOrEmpty(this.parameter) ? "InitialLoad" : this.parameter))
+                    {
+                        throw new Exception("Failed to create main screen");
+                    }
+                }
+            });
         }
 
         #region notification
@@ -158,5 +211,6 @@ namespace MPinDemo
 
         #endregion // notification
         #endregion // Methods
+
     }
 }
