@@ -181,10 +181,22 @@ public class MPinController extends Controller {
         mContext = context;
         mConfigsDao = new ConfigsDao(mContext);
         mUsersList = new ArrayList<User>();
-        mCurrentConfiguration = mConfigsDao.getActiveConfiguration();
+
+        setConfiguration();
 
         initWorkerThread();
         attempInitialization();
+    }
+
+
+    private void setConfiguration() {
+        Config config = mConfigsDao.getActiveConfiguration();
+        if (config == null) {
+            config = mConfigsDao.getDefaultConfiguration();
+            mConfigsDao.setActiveConfig(config);
+        }
+
+        mCurrentConfiguration = config;
     }
 
 
