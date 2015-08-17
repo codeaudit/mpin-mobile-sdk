@@ -1,3 +1,34 @@
+/*******************************************************************************
+ * Copyright (c) 2012-2015, Certivox All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+ * following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following
+ * disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
+ * following disclaimer in the documentation and/or other materials provided with the distribution.
+ * 
+ * 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote
+ * products derived from this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * 
+ * For full details regarding our CertiVox terms of service please refer to the following links:
+ * 
+ * * Our Terms and Conditions - http://www.certivox.com/about-certivox/terms-and-conditions/
+ * 
+ * * Our Security and Privacy - http://www.certivox.com/about-certivox/security-privacy/
+ * 
+ * * Our Statement of Position and Our Promise on Software Patents - http://www.certivox.com/about-certivox/patents/
+ ******************************************************************************/
 package com.certivox.activities;
 
 
@@ -8,7 +39,10 @@ import net.hockeyapp.android.FeedbackManager;
 import net.hockeyapp.android.UpdateManager;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,6 +56,7 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
@@ -34,26 +69,33 @@ import com.certivox.fragments.CreateIdentityFragment;
 import com.certivox.fragments.IdentityBlockedFragment;
 import com.certivox.fragments.IdentityCreatedFragment;
 import com.certivox.fragments.MPinFragment;
+import com.certivox.fragments.NoInternetConnectionFragment;
 import com.certivox.fragments.OTPFragment;
 import com.certivox.fragments.PinPadFragment;
 import com.certivox.fragments.SuccessfulLoginFragment;
 import com.certivox.fragments.UsersListFragment;
 import com.certivox.models.Config;
 import com.certivox.models.OTP;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 
 public class MPinActivity extends ActionBarActivity implements OnClickListener, Handler.Callback {
 
-    private static final String   TAG    = MPinActivity.class.getSimpleName();
+    private static final String TAG    = MPinActivity.class.getSimpleName();
 
     // Needed for Hockey App
-    private static final String   APP_ID = "08b0417545be2304b7ce45ef43e30daf";
+    private static final String APP_ID = "08b0417545be2304b7ce45ef43e30daf";
 
     // Controller
-    private MPinController        mController;
+    private MPinController      mController;
+    private Handler             mControllerHandler;
+    private static MPinActivity mActivity;
 
-    private static MPinActivity   mActivity;
+    private enum ActivityStates {
+        ON_CREATE, ON_STOP, ON_POST_RESUME, ON_DESTROY;
+    };
+
+    private ActivityStates        mActivityLifecycleState;
 
     // Views
     private DrawerLayout          mDrawerLayout;
@@ -64,14 +106,25 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     private TextView              mChangeIdentityButton;
     private TextView              mChangeServiceButton;
     private TextView              mAboutButton;
+    private TextView              mNoInternetConnectionTitle;
+    private Toast                 mNoInternetToast;
+    private BroadcastReceiver     mNetworkConectivityReceiver;
+    private static final String   CONNECTIVITY_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE";
+
+
+    public MPinController getController() {
+        return mController;
+    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mpin);
+        mActivityLifecycleState = ActivityStates.ON_CREATE;
 
         initialize();
+        registerNetworkConectivityReceiver();
 
         // Needed for Hockey App
         checkForUpdates();
@@ -79,10 +132,39 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     }
 
 
+    private void registerNetworkConectivityReceiver() {
+        mNetworkConectivityReceiver = new BroadcastReceiver() {
+
+            public void onReceive(Context context, Intent intent) {
+                mController.handleMessage(MPinController.MESSAGE_NETWORK_CONNECTION_CHANGE);
+            }
+        };
+
+        registerReceiver(mNetworkConectivityReceiver, new IntentFilter(CONNECTIVITY_CHANGE));
+    }
+
+
+    private void unregisterNetworkConectivityReceiver() {
+        if (mNetworkConectivityReceiver != null) {
+            unregisterReceiver(mNetworkConectivityReceiver);
+        }
+    }
+
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        mActivityLifecycleState = ActivityStates.ON_POST_RESUME;
+    }
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mActivityLifecycleState = ActivityStates.ON_DESTROY;
         mController.handleMessage(MPinController.MESSAGE_ON_DESTROY);
+        unregisterNetworkConectivityReceiver();
+        mController.removeOutboxHandler(mControllerHandler);
         freeResources();
     }
 
@@ -97,6 +179,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     @Override
     protected void onStop() {
         super.onStop();
+        mActivityLifecycleState = ActivityStates.ON_STOP;
         mController.handleMessage(MPinController.MESSAGE_ON_STOP);
     }
 
@@ -143,6 +226,12 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         case MPinController.MESSAGE_STOP_WORK_IN_PROGRESS:
             hideLoader();
             return true;
+        case MPinController.MESSAGE_INTERNET_CONNECTION_AVAILABLE:
+            onInternetConnectionAvailable();
+            return true;
+        case MPinController.MESSAGE_NO_INTERNET_CONNECTION_AVAILABLE:
+            onNoInternetConnectionAvailable();
+            return true;
         case MPinController.MESSAGE_GO_BACK:
             goBack();
             return true;
@@ -170,7 +259,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
             createAndAddFragment(FragmentTags.FRAGMENT_USERS_LIST, UsersListFragment.class, false, null);
             return true;
         case MPinController.MESSAGE_SHOW_CREATE_IDENTITY:
-            createAndAddFragment(FragmentTags.FRAGMENT_CREATE_IDENTITY, CreateIdentityFragment.class, false, null);
+            createAndAddFragment(FragmentTags.FRAGMENT_CREATE_IDENTITY, CreateIdentityFragment.class, false, msg.obj);
             return true;
         case MPinController.MESSAGE_SHOW_CONFIRM_EMAIL:
             createAndAddFragment(FragmentTags.FRAGMENT_CONFIRM_EMAIL, ConfirmEmailFragment.class, false, null);
@@ -191,6 +280,10 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
             OTP otp = (OTP) msg.obj;
             createAndAddFragment(FragmentTags.FRAGMENT_OTP, OTPFragment.class, false, otp);
             return true;
+        case MPinController.MESSAGE_SHOW_NO_INTERNET_CONNECTION:
+            createAndAddFragment(FragmentTags.FRAGMENT_NO_INTERNET_CONNECTION, NoInternetConnectionFragment.class,
+                    false, null);
+            return true;
         case MPinController.MESSAGE_INCORRECT_PIN_AN:
             showWrongPinDialog();
             return true;
@@ -209,6 +302,9 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         case MPinController.MESSAGE_IDENTITY_NOT_AUTHORIZED:
             showInvalidUserDialog();
             return true;
+        case MPinController.MESSAGE_NO_INTERNET_ACCESS:
+            showNoInternetAccessToast();
+            return true;
         }
         return false;
     }
@@ -217,14 +313,18 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     /** Called to do the initialization of the view */
     private void initialize() {
         mActivity = this;
+        initController();
         initViews();
         initActionBar();
         initNavigationDrawer();
 
-        // Init the controller
-        mController = new MPinController(getApplicationContext());
-        mController.addOutboxHandler(new Handler(this));
         mController.handleMessage(MPinController.MESSAGE_ON_CREATE);
+    }
+
+
+    private void initController() {
+        mControllerHandler = new Handler(this);
+        mController = new MPinController(getApplicationContext(), mControllerHandler);
     }
 
 
@@ -240,6 +340,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         mChangeServiceButton = null;
         mAboutButton = null;
         mLoader = null;
+        mControllerHandler = null;
     }
 
 
@@ -251,6 +352,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         mChangeServiceButton = (TextView) findViewById(R.id.change_service);
         mAboutButton = (TextView) findViewById(R.id.about);
         mLoader = (RelativeLayout) findViewById(R.id.loader);
+        mNoInternetConnectionTitle = (TextView) findViewById(R.id.no_network_connection_message_id);
     }
 
 
@@ -295,9 +397,10 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         mDrawerToggle.setDrawerIndicatorEnabled(false);
         // Change the hamburger icon to up carret
-        mDrawerToggle.setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-
-        mDrawerToggle.setToolbarNavigationClickListener(drawerBackClickListener);
+        if (drawerBackClickListener != null) {
+            mDrawerToggle.setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+            mDrawerToggle.setToolbarNavigationClickListener(drawerBackClickListener);
+        }
     }
 
 
@@ -346,30 +449,47 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     }
 
 
+    private void onNoInternetConnectionAvailable() {
+        mNoInternetConnectionTitle.setVisibility(View.VISIBLE);
+    }
+
+
+    private void onInternetConnectionAvailable() {
+        mNoInternetConnectionTitle.setVisibility(View.GONE);
+    }
+
+
     private void createAndAddFragment(String tag, Class<? extends MPinFragment> fragmentClass, boolean addToBackStack,
             Object data) {
 
-        MPinFragment fragment = (MPinFragment) getFragmentManager().findFragmentByTag(tag);
+        // Need to check if the activity is in proper state for switching fragments, otherwise exception is thrown
+        switch (mActivityLifecycleState) {
+        case ON_CREATE:
+        case ON_POST_RESUME:
+        case ON_STOP:
+            MPinFragment fragment = (MPinFragment) getFragmentManager().findFragmentByTag(tag);
 
-        if (fragment == null) {
-            fragment = getFragmentByClass(fragmentClass);
-        }
-
-        if (fragment != null && !fragment.isVisible()) {
-            fragment.setMPinController(mController);
-            fragment.setData(data);
-
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-            transaction.replace(R.id.content, fragment, tag);
-            if (addToBackStack) {
-                transaction.addToBackStack(tag);
+            if (fragment == null) {
+                fragment = getFragmentByClass(fragmentClass);
             }
-            transaction.commitAllowingStateLoss();
-            getFragmentManager().executePendingTransactions();
-        }
 
-        closeDrawer();
+            if (fragment != null && !fragment.isVisible()) {
+                fragment.setData(data);
+
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                transaction.replace(R.id.content, fragment, tag);
+                if (addToBackStack) {
+                    transaction.addToBackStack(tag);
+                }
+                transaction.commitAllowingStateLoss();
+                getFragmentManager().executePendingTransactions();
+            }
+            closeDrawer();
+            break;
+        default:
+            return;
+        }
     }
 
 
@@ -475,42 +595,42 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
 
 
     private void showAuthSuccessDialog() {
-        new AlertDialog.Builder(this).setTitle(getResources().getString(R.string.successful_login_title))
-                .setMessage(getResources().getString(R.string.successful_login_text))
-                .setPositiveButton(getResources().getString(R.string.button_ok), null).show();
+        new AlertDialog.Builder(this).setTitle(getString(R.string.successful_login_title))
+                .setMessage(getString(R.string.successful_login_text))
+                .setPositiveButton(getString(R.string.button_ok), null).show();
     }
 
 
     private void showWrongPinDialog() {
-        new AlertDialog.Builder(this).setTitle(getResources().getString(R.string.incorrect_pin_title))
-                .setPositiveButton(getResources().getString(R.string.button_ok), null).show();
+        new AlertDialog.Builder(this).setTitle(getString(R.string.incorrect_pin_title))
+                .setPositiveButton(getString(R.string.button_ok), null).show();
     }
 
 
     private void showOtpNotSupportedDialog() {
-        new AlertDialog.Builder(this).setTitle(getResources().getString(R.string.otp_not_supported_title))
-                .setMessage(getResources().getString(R.string.otp_not_supported_text))
-                .setPositiveButton(getResources().getString(R.string.button_ok), null).show();
+        new AlertDialog.Builder(this).setTitle(getString(R.string.otp_not_supported_title))
+                .setMessage(getString(R.string.otp_not_supported_text))
+                .setPositiveButton(getString(R.string.button_ok), null).show();
     }
 
 
     private void showIncorrectANDialog() {
-        new AlertDialog.Builder(this).setTitle(getResources().getString(R.string.incorrect_access_number_title))
-                .setPositiveButton(getResources().getString(R.string.button_ok), null).show();
+        new AlertDialog.Builder(this).setTitle(getString(R.string.incorrect_access_number_title))
+                .setPositiveButton(getString(R.string.button_ok), null).show();
     }
 
 
     private void showNetworkErrorDialog() {
-        new AlertDialog.Builder(this).setTitle(getResources().getString(R.string.network_error_title))
-                .setMessage(getResources().getString(R.string.try_again))
-                .setPositiveButton(getResources().getString(R.string.button_ok), null).show();
+        new AlertDialog.Builder(this).setTitle(getString(R.string.network_error_title))
+                .setMessage(getString(R.string.try_again)).setPositiveButton(getString(R.string.button_ok), null)
+                .show();
     }
 
 
     private void showInvalidUserDialog() {
-        new AlertDialog.Builder(this).setTitle(getResources().getString(R.string.error_dialog_title))
-                .setMessage(getResources().getString(R.string.user_not_authorized))
-                .setPositiveButton(getResources().getString(R.string.button_ok), null).show();
+        new AlertDialog.Builder(this).setTitle(getString(R.string.error_dialog_title))
+                .setMessage(getString(R.string.user_not_authorized))
+                .setPositiveButton(getString(R.string.button_ok), null).show();
     }
 
 
@@ -522,5 +642,13 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
             inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             view.clearFocus();
         }
+    }
+
+
+    private void showNoInternetAccessToast() {
+        if (mNoInternetToast == null) {
+            mNoInternetToast = Toast.makeText(this, getString(R.string.no_internet_toast), Toast.LENGTH_LONG);
+        }
+        mNoInternetToast.show();
     }
 }

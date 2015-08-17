@@ -26,12 +26,33 @@
 
         <!-- Activty content -->
 
-        <FrameLayout
-            android:id="@+id/content"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/gray" >
-        </FrameLayout>
+
+            <TextView
+                android:id="@+id/no_network_connection_message_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:drawableLeft="@drawable/ic_no_connection"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_no_connection"
+                android:gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/no_network_connection_message"
+                android:visibility="gone" />
+
+            <FrameLayout
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/no_network_connection_message_id" >
+            </FrameLayout>
+        </RelativeLayout>
         <!-- Activty content end -->
 
 

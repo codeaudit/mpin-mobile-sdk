@@ -10,6 +10,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "unit_tests", "unit_tests.vc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpin_sdk_test", "mpin_sdk_test.vcxproj", "{39536C4B-3293-4AD4-951F-0C4D5BCE7219}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpin_sdk_v2_test", "mpin_sdk_v2_test.vcxproj", "{CCBAA571-C783-41A4-B0B8-0A0281D61482}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C47BB154-F9DF-4C88-81C0-A27510A16840} = {C47BB154-F9DF-4C88-81C0-A27510A16840}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -28,6 +33,10 @@ Global
 		{39536C4B-3293-4AD4-951F-0C4D5BCE7219}.Debug|Win32.Build.0 = Debug|Win32
 		{39536C4B-3293-4AD4-951F-0C4D5BCE7219}.Release|Win32.ActiveCfg = Release|Win32
 		{39536C4B-3293-4AD4-951F-0C4D5BCE7219}.Release|Win32.Build.0 = Release|Win32
+		{CCBAA571-C783-41A4-B0B8-0A0281D61482}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CCBAA571-C783-41A4-B0B8-0A0281D61482}.Debug|Win32.Build.0 = Debug|Win32
+		{CCBAA571-C783-41A4-B0B8-0A0281D61482}.Release|Win32.ActiveCfg = Release|Win32
+		{CCBAA571-C783-41A4-B0B8-0A0281D61482}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

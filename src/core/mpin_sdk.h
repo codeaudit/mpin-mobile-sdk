@@ -1,4 +1,28 @@
 /*
+Copyright (c) 2012-2015, Certivox
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+For full details regarding our CertiVox terms of service please refer to
+the following links:
+ * Our Terms and Conditions -
+   http://www.certivox.com/about-certivox/terms-and-conditions/
+ * Our Security and Privacy -
+   http://www.certivox.com/about-certivox/security-privacy/
+ * Our Statement of Position and Our Promise on Software Patents -
+   http://www.certivox.com/about-certivox/patents/
+*/
+
+/*
  * M-Pin SDK interface
  */
 
@@ -114,7 +138,7 @@ public:
             NETWORK_ERROR, // Local error - cannot connect to remote server (no internet, or invalid server/port)
             RESPONSE_PARSE_ERROR, // Local error - cannot parse json response from remote server (invalid json or unexpected json structure)
             FLOW_ERROR, // Local error - unproper MPinSDK class usage
-            IDENTITY_NOT_AUTHORIZED, // Remote error - the remote server refuses user registration
+            IDENTITY_NOT_AUTHORIZED, // Remote error - the remote server refuses user registration or authentication
             IDENTITY_NOT_VERIFIED, // Remote error - the remote server refuses user registration because identity is not verified
             REQUEST_EXPIRED, // Remote error - the register/authentication request expired
             REVOKED, // Remote error - cannot get time permit (propably the user is temporary suspended)
@@ -173,6 +197,7 @@ public:
 
     private:
         friend class MPinSDK;
+        friend class MPinSDKv2;
         User(const String& id, const String& deviceName);
         const String& GetDeviceName() const;
         const String& GetMPinIdHex() const;
@@ -197,6 +222,10 @@ public:
         String m_mpinIdHex;
         String m_regOTT;
         TimePermitCache m_timePermitCache;
+        String m_timePermitShare1;
+        String m_timePermitShare2;
+        String m_clientSecret1;
+        String m_clientSecret2;
     };
 
 	class OTP
@@ -336,6 +365,8 @@ private:
     static const int AN_WITH_CHECKSUM_LEN = 7;
 
 private:
+    friend class MPinSDKv2;
+
     typedef std::map<String, UserPtr> UsersMap;
     typedef std::map<UserPtr, LogoutData> LogoutDataMap;
     
