@@ -363,7 +363,7 @@ namespace MPinDemo.Models
             switch (this.DataModel.CurrentUser.UserState)
             {
                 case User.State.Activated:
-                    await FinishRegistration(this.DataModel.CurrentUser);
+                    await FinishUserRegistration(this.DataModel.CurrentUser);
                     break;
 
                 case User.State.Blocked:
@@ -428,7 +428,7 @@ namespace MPinDemo.Models
             }
             this.IsUserInProcessing = false;
 
-            await FinishRegistration(user);
+            await FinishUserRegistration(user);
         }
 
         public static Status RestartRegistration(User user)
@@ -439,9 +439,8 @@ namespace MPinDemo.Models
             return new Status(-1, "No user!");
         }
 
-        private async Task FinishRegistration(User user)
+        private async Task FinishUserRegistration(User user)
         {
-            Status st = null;
             if (user.UserState == User.State.StartedRegistration)
             {
                 Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
@@ -449,37 +448,38 @@ namespace MPinDemo.Models
             }
             else if (user.UserState == User.State.Activated)
             {
-                await Task.Factory.StartNew(() =>
-                {
-                    st = sdk.FinishRegistration(user);
-                });
-
-                if (st != null)
-                {
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        if (st.StatusCode == Status.Code.OK)
-                        {
-                            // successful registration
-                            Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-                            mainFrame.Navigate(typeof(IdentityCreated), user);
-                        }
-                        else
-                        {
-                            rootPage.NotifyUser(
-                                string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblemReason"), user.Id, st.ErrorMessage),
-                                MainPage.NotifyType.ErrorMessage);
-                        }
-                    });
-                }
+                await Finish(user);
             }
-            //else
-            //{
-            //    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //    {
-            //        rootPage.NotifyUser(string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblem"), user.Id, user.UserState), MainPage.NotifyType.ErrorMessage);
-            //    });
-            //}
+        }
+
+        private async Task<Status> Finish(User user)
+        {
+            Status st = null;
+            await Task.Factory.StartNew(() =>
+            {
+                st = sdk.FinishRegistration(user);
+            });
+
+            if (st != null)
+            {
+                await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    if (st.StatusCode == Status.Code.OK)
+                    {
+                        // successful registration
+                        Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
+                        mainFrame.Navigate(typeof(IdentityCreated), user);
+                    }
+                    else
+                    {
+                        rootPage.NotifyUser(
+                            string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblemReason"), user.Id, st.ErrorMessage),
+                            MainPage.NotifyType.ErrorMessage);
+                    }
+                });
+            }
+
+            return st;
         }
 
         private async Task<User> AddAndRegisterUser(List<string> data)
@@ -558,17 +558,9 @@ namespace MPinDemo.Models
         private async Task<Status> OnEmailConfirmed()
         {
             Debug.Assert(this.DataModel.CurrentUser.UserState == User.State.StartedRegistration);
-
             Task.WaitAll();
 
-            Status s = null;
-            User user = this.DataModel.CurrentUser;
-            await Task.Factory.StartNew(() =>
-            {
-                s = sdk.FinishRegistration(user);
-            });
-
-            return s;
+            return await Finish(this.DataModel.CurrentUser);
         }
 
         internal static bool IfUserExists(string id)

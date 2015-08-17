@@ -23,13 +23,9 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <Grid Grid.ColumnSpan="3" Background="{ThemeResource PhoneChromeBrush}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <local:PinPadPassword x:Name="pass" Style="{StaticResource PinPadPassStyle}" />        
-                            <SymbolIcon x:Name="BackButton" Symbol="Back" Grid.Column="1" Margin="20" />
+                        <Grid Grid.ColumnSpan="3" Background="{ThemeResource PhoneChromeBrush}">                                                        
+                            <local:PinPadPassword x:Name="pass" Style="{StaticResource PinPadPassStyle}" HorizontalAlignment="Center" />
+                            <SymbolIcon x:Name="BackButton" Symbol="Back" Margin="20" HorizontalAlignment="Right"/>
                         </Grid>
                         <local:PinPadButton  x:Name="one" x:Uid="/MPinSDK/Resources/OneButton" Grid.Row="1"/>
                         <local:PinPadButton  x:Name="two" x:Uid="/MPinSDK/Resources/TwoButton" Grid.Row="1" Grid.Column="1"/>
