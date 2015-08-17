@@ -127,13 +127,10 @@
     <value>Добави</value>
   </data>
   <data name="AuthTB.Text" xml:space="preserve">
-    <value>Потребител:</value>
+    <value>СТАТУС ПРИ АУТЕНТИЦАКИЯТА</value>
   </data>
-  <data name="BlockedUser" xml:space="preserve">
-    <value>Потребителят {0} е в статус БЛОКИРАН! Твърде много неуспешни опити за аутентикация!</value>
-  </data>
-  <data name="ConfigurationTB.Text" xml:space="preserve">
-    <value>Моля, изберете конфигурация:</value>
+  <data name="BlockedUser.Text" xml:space="preserve">
+    <value>Твърде много неуспешни опити за аутентикация!</value>
   </data>
   <data name="ConfirmButton.Content" xml:space="preserve">
     <value>Потвърдих самоличността си, продължи.</value>
@@ -142,13 +139,13 @@
     <value>Изберете връзката от пощата си за да потвърдите самоличността си и да продължите напред. </value>
   </data>
   <data name="EmailTB.Text" xml:space="preserve">
-    <value>Изпратихме ви поща на:</value>
+    <value>ПОТВЪРЖДЕНИЕ НА РЕГИСТРАЦИЯТА</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Грешка: </value>
   </data>
   <data name="ErrorAuth" xml:space="preserve">
-    <value>НЕ е аутентикиран! Грешка: </value>
+    <value>Неуспешна аутентикация! Грешка: </value>
   </data>
   <data name="ExistingUser" xml:space="preserve">
     <value>Избраният потребител вече съществува за избраната конфигурация!</value>
@@ -160,10 +157,12 @@
     <value>Върни се към списъка с потребители</value>
   </data>
   <data name="IncorrectAccessNumber" xml:space="preserve">
-    <value>НЕ е аутентикиран поради грешен входен номер. </value>
+    <value>Невалиден входен номер!
+Неуспешна аутентикация!</value>
   </data>
   <data name="IncorrectPin" xml:space="preserve">
-    <value>НЕ е аутентикиран поради неправилно въведен ПИН!</value>
+    <value>Неправилен ПИН!
+Неуспешна аутентикация!</value>
   </data>
   <data name="InitializationFailed" xml:space="preserve">
     <value>Грешка при стартирането на MPinSDK: статус = {0}. Моля, опитайте отново!</value>
@@ -175,7 +174,7 @@
     <value>Съзадай акаунт</value>
   </data>
   <data name="NewUserIdTB.Text" xml:space="preserve">
-    <value>Адрес на поща:</value>
+    <value>Въведете адрес на поща</value>
   </data>
   <data name="NoSelectedUser" xml:space="preserve">
     <value>Няма избран потребител!</value>
@@ -190,10 +189,10 @@
     <value>Невалиден формат на имейл адрес!</value>
   </data>
   <data name="Otp2TB.Text" xml:space="preserve">
-    <value> е: </value>
+    <value>ВАШАТА ПАРОЛА</value>
   </data>
   <data name="OtpTB.Text" xml:space="preserve">
-    <value>OTP номера за</value>
+    <value>Може да използвате следната парола за достъп</value>
   </data>
   <data name="RegistrationProblem" xml:space="preserve">
     <value>Появи се проблем по време на регистрацията. Моля, опитайте отново!</value>
@@ -214,7 +213,7 @@
     <value>Статус на конфигурацията: </value>
   </data>
   <data name="SuccessfulAuth" xml:space="preserve">
-    <value>е успешно аутентикиран!</value>
+    <value>Успешна аутентикация!</value>
   </data>
   <data name="TimeLeftTB.Text" xml:space="preserve">
     <value>Оставащо време:</value>
@@ -250,7 +249,7 @@
     <value>Задай нов ПИН</value>
   </data>
   <data name="ResetPinButton.Label" xml:space="preserve">
-    <value>Задай нов ПИН</value>
+    <value>задай нов ПИН</value>
   </data>
   <data name="TestBackendButton.Content" xml:space="preserve">
     <value>Пробвай избраната конфигурация</value>
@@ -265,7 +264,7 @@
     <value>Сигурни ли сте, че искате да изтриете потребител {0}?</value>
   </data>
   <data name="AboutButton.Label" xml:space="preserve">
-    <value>Информация</value>
+    <value>информация</value>
   </data>
   <data name="About.Text" xml:space="preserve">
     <value>Windows Phone примерно приложение</value>
@@ -276,14 +275,11 @@
   <data name="AllRightsReserved.Text" xml:space="preserve">
     <value>Всички права запазени.</value>
   </data>
-  <data name="ANUser" xml:space="preserve">
-    <value>Здравей, {0}!</value>
-  </data>
   <data name="CertivoxLtd" xml:space="preserve">
     <value>Copyright {0} 2015, CertiVox UK Ltd</value>
   </data>
   <data name="DeviceNameTB.Text" xml:space="preserve">
-    <value>Име на устройство:</value>
+    <value>Име на устройство</value>
   </data>
   <data name="SuccessfulRegistration" xml:space="preserve">
     <value>Успешно регистриран потребител {0}!</value>
@@ -292,7 +288,7 @@
     <value>Добави Конфигурация</value>
   </data>
   <data name="EditButton.Label" xml:space="preserve">
-    <value>Редактирай Кофигурацията</value>
+    <value>редактирай кофигурацията</value>
   </data>
   <data name="EditService" xml:space="preserve">
     <value>Редактирай</value>
@@ -346,7 +342,7 @@
     <value>Некоректен формат на адреса на конфигурацията!</value>
   </data>
   <data name="UpdateCheckButton.Label" xml:space="preserve">
-    <value>Проверка за нова версия</value>
+    <value>проверка за нова версия</value>
   </data>
   <data name="AboutBuild" xml:space="preserve">
     <value>Build: </value>
@@ -404,5 +400,48 @@
   </data>
   <data name="NoQRCode" xml:space="preserve">
     <value>Не е открит QRCode символ!</value>
+  </data>
+  <data name="BusyText.Text" xml:space="preserve">
+    <value>Свързване със сървъра...</value>
+  </data>
+  <data name="TakePictureButton.Label" xml:space="preserve">
+    <value>снимай</value>
+  </data>
+  <data name="DuplicateName" xml:space="preserve">
+    <value>Конфигурация с такова име вече съществува!</value>
+  </data>
+  <data name="AddUserTitle.Text" xml:space="preserve">
+    <value>ДОБАВЕТЕ ПОТРЕБИТЕЛ</value>
+  </data>
+  <data name="ANTitle.Text" xml:space="preserve">
+    <value>ВЪВЕДЕТЕ ВХОДЕН НОМЕР</value>
+  </data>
+  <data name="IdentityCreatedNotification.Text" xml:space="preserve">
+    <value>Успешно добавен потребител! Вече може да се аутентикирате посредством този потребител.</value>
+  </data>
+  <data name="IdentityCreatedTitle.Text" xml:space="preserve">
+    <value>СЪЗДАДЕН ПОТРЕБИТЕЛ</value>
+  </data>
+  <data name="IdentityListButton.Content" xml:space="preserve">
+    <value>Върни се към списъка с потребители</value>
+  </data>
+  <data name="SignInButton.Content" xml:space="preserve">
+    <value>Вход с този потребител</value>
+  </data>
+  <data name="BlockedUserTitle.Text" xml:space="preserve">
+    <value>БЛОКИРАН ПОТРЕБИТЕЛ</value>
+  </data>
+  <data name="MainPageTitle.Text" xml:space="preserve">
+    <value>M-PIN</value>
+  </data>
+  <data name="OtpTitle.Text" xml:space="preserve">
+    <value>ЕДНОКРАТНА ПАРОЛА ЗА ДОСТЪП</value>
+  </data>
+  <data name="ReadConfigurationTitle.Text" xml:space="preserve">
+    <value>ПРОЧЕТЕНИ КОНФИГУРАЦИИ</value>
+  </data>
+  <data name="OverideActiveService" xml:space="preserve">
+    <value>Избрали сте да презапишете адреса на активната конфигурация.
+Ако продължите, всички съществуващи потребители ще бъдат изтрити.</value>
   </data>
 </root>

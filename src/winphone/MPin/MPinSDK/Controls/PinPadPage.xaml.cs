@@ -92,7 +92,8 @@ namespace MPinSDK.Controls
 
                 if (pinPadClassControl != null && doAuthenticate != null)
                 {
-                    PinMailTB.Text = ResourceLoader.GetForCurrentView("MPinSDK/Resources").GetString(doAuthenticate.Value ? "PinPadAuthentication" : "PinPadRegistration") + userId; 
+                    PinMailTB.Text = ResourceLoader.GetForCurrentView("MPinSDK/Resources").GetString(doAuthenticate.Value ? "PinPadAuthentication" : "PinPadRegistration");
+                    IdentityMailTB.Text = userId;
                 }
             }         
         }

@@ -8,14 +8,29 @@
     xmlns:mPin="using:MPinSDK.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <Page.Resources>        
+    </Page.Resources>
     <Grid x:Name="PinLayoutGrid">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
-        <TextBlock x:Name="PinMailTB" VerticalAlignment="Center" HorizontalAlignment="Center" />
-        <mPin:PinPadControl x:Name="PinPad" Grid.Row="1" />
+        <TextBlock x:Name="PinMailTB" 
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Left"
+                   FontWeight="{ThemeResource PhoneButtonFontWeight}"
+                   FontSize="{ThemeResource TextStyleMediumFontSize}"
+                   Margin="12"/>
+        <TextBlock x:Name="IdentityMailTB"
+                   Grid.Row="1"
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Left" 
+                   FontSize="{ThemeResource TextStyleExtraLargeFontSize}"
+                   Margin="12"/>
+        
+        <mPin:PinPadControl x:Name="PinPad" Grid.Row="2" VerticalAlignment="Bottom" />
+        
     </Grid>
 </Page>

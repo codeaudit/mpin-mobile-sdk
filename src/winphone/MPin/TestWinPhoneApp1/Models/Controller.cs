@@ -46,7 +46,6 @@ namespace MPinDemo.Models
         private CoreDispatcher dispatcher;
         private MainPage rootPage = null;
         private int selectedServicesIndex = -1;
-        public EventHandler<EventArgs> ScannedServicesLoaded;
 
         private static MPin sdk;
         #endregion // Fields
@@ -125,13 +124,7 @@ namespace MPinDemo.Models
                     bool isOk = false;
                     if (!string.IsNullOrEmpty(this.DataModel.CurrentService.BackendUrl))
                     {
-                        Status status = await ProcessServiceChanged();
-                        isOk = status != null && status.StatusCode == Status.Code.OK;
-                        rootPage.NotifyUser(!isOk
-                            ? string.Format(ResourceLoader.GetForCurrentView().GetString("InitializationFailed"), (status == null ? "null" : status.StatusCode.ToString()))
-                            : ResourceLoader.GetForCurrentView().GetString("ServiceSet"),
-                            !isOk ? MainPage.NotifyType.ErrorMessage : MainPage.NotifyType.StatusMessage);
-
+                        isOk = await ConnectToService();
                         UpdateServices(isOk);
                     }
 
@@ -156,6 +149,17 @@ namespace MPinDemo.Models
             }
         }
 
+        private async Task<bool> ConnectToService()
+        {
+            Status status = await ProcessServiceChanged();
+            bool isOk = status != null && status.StatusCode == Status.Code.OK;
+            rootPage.NotifyUser(!isOk
+                ? string.Format(ResourceLoader.GetForCurrentView().GetString("InitializationFailed"), (status == null ? "null" : status.StatusCode.ToString()))
+                : ResourceLoader.GetForCurrentView().GetString("ServiceSet"),
+                !isOk ? MainPage.NotifyType.ErrorMessage : MainPage.NotifyType.StatusMessage);
+            return isOk;
+        }
+
         private void UpdateServices(bool isSet)
         {
             foreach (var service in DataModel.BackendsList)
@@ -163,11 +167,6 @@ namespace MPinDemo.Models
                 service.IsSet = service.Equals(DataModel.CurrentService) && isSet ? true : false;
             }
         }
-
-        //static void CurrentService_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        //{
-        //    TODO:  maybe reconnect to the service.... on service editing
-        //}
 
         #endregion // handlers
 
@@ -222,14 +221,6 @@ namespace MPinDemo.Models
         private async Task ProcessSaveChanges()
         {
             await this.DataModel.SaveServices();
-        }
-
-        public static Status RestartRegistration(User user)
-        {
-            if (user != null)
-                return sdk.RestartRegistration(user);
-
-            return new Status(-1, "No user!");
         }
 
         internal static async Task<Status> TestBackend(Backend backend)
@@ -435,9 +426,17 @@ namespace MPinDemo.Models
 
                 this.skipProcessing = currentValue;
             }
-            this.isUserInProcessing = false;
+            this.IsUserInProcessing = false;
 
             await FinishRegistration(user);
+        }
+
+        public static Status RestartRegistration(User user)
+        {
+            if (user != null)
+                return sdk.RestartRegistration(user);
+
+            return new Status(-1, "No user!");
         }
 
         private async Task FinishRegistration(User user)
@@ -459,13 +458,18 @@ namespace MPinDemo.Models
                 {
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
-                        rootPage.NotifyUser(
-                            st.StatusCode == Status.Code.OK
-                                ? string.Format(ResourceLoader.GetForCurrentView().GetString("SuccessfulRegistration"), user.Id)
-                                : string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblemReason"), user.Id, st.ErrorMessage),
-                            st.StatusCode == Status.Code.OK
-                                ? MainPage.NotifyType.StatusMessage
-                                : MainPage.NotifyType.ErrorMessage);
+                        if (st.StatusCode == Status.Code.OK)
+                        {
+                            // successful registration
+                            Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
+                            mainFrame.Navigate(typeof(IdentityCreated), user);
+                        }
+                        else
+                        {
+                            rootPage.NotifyUser(
+                                string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblemReason"), user.Id, st.ErrorMessage),
+                                MainPage.NotifyType.ErrorMessage);
+                        }
                     });
                 }
             }
@@ -669,7 +673,11 @@ namespace MPinDemo.Models
                     await EditServiceInfo(parameter as Backend);
                     break;
 
-                case "InitialLoad":
+                case "SignIn":
+                    this.DataModel.CurrentUser = parameter as User;
+                    break;
+
+                case "InitialLoad":                
                     await ProcessUser();
                     break;
 
@@ -734,9 +742,12 @@ namespace MPinDemo.Models
                         return;
                     }
 
+                    bool shouldReconnect = newBackends.Any(item => item.Name.Equals(this.DataModel.CurrentService.Name));
                     await this.DataModel.MergeConfigurations(newBackends);
-                    if (ScannedServicesLoaded != null)
-                        ScannedServicesLoaded(this, null);
+                    if (shouldReconnect)
+                    {
+                        await ConnectToService();                        
+                    }
                     break;
 
                 default:

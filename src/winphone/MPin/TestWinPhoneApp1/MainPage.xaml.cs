@@ -123,7 +123,7 @@ namespace MPinDemo
                 if (StatusBlock.Text != String.Empty)
                 {
                     StatusBorder.Opacity = 1;
-                    StartTimer(type == NotifyType.StatusMessage ? 2 : 4);
+                    StartTimer(type == NotifyType.StatusMessage ? 2 : 6);
                 }
                 else
                 {

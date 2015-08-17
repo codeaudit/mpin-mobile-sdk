@@ -121,6 +121,19 @@ namespace MPinDemo
                     // if no set, back to the configurations list to select
                     return;
                 }
+                else if (BlankPage1.IsActiveConfigurationURLChanged(ExistentsIndexes, this.Configurations))
+                {
+                    var activeServiceConfirmation = new MessageDialog(ResourceLoader.GetForCurrentView().GetString("OverideActiveService"));
+                    activeServiceConfirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("YesCommand")));
+                    activeServiceConfirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("NoCommand")));
+                    activeServiceConfirmation.DefaultCommandIndex = 1;
+                    var res = await activeServiceConfirmation.ShowAsync();
+                    if (res.Equals(activeServiceConfirmation.Commands[1]))
+                    {
+                        // if no set, back to the configurations list to select
+                        return;
+                    }
+                }
             }
 
             this.Configurations.RemoveAll((item) => item.IsSet == false);
