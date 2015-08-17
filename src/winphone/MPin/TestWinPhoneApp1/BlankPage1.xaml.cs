@@ -172,7 +172,7 @@ namespace MPinDemo
 
         private void ProcessControlsOperations(string command)
         {
-            List<string> commandsToDisableScreen = new List<string>() { "AddUser", "SignIn" };
+            List<string> commandsToDisableScreen = new List<string>() { "AddUser", "SignIn", "EmailConfirmed" };
             if (commandsToDisableScreen.Contains(command))
                 SetControlsIsEnabled(null, true);
         }
