@@ -43,14 +43,16 @@ public final class ConfigsContract {
         public static final String TABLE_NAME                   = "configs";
         public static final String COLUMN_TITLE                 = "title";
         public static final String COLUMN_BACKEND_URL           = "backend_url";
-        public static final String COLUMN_RTS                   = "rts";;
+        public static final String COLUMN_RTS                   = "rts";
         public static final String COLUMN_REQUEST_OTP           = "request_otp";
         public static final String COLUMN_REQUEST_ACCESS_NUMBER = "request_access_number";
+        public static final String COLUMN_IS_DEFAULT            = "is_default";
 
 
         public static final String[] getFullProjection() {
             return new String[] {
-                    _ID, COLUMN_TITLE, COLUMN_BACKEND_URL, COLUMN_RTS, COLUMN_REQUEST_OTP, COLUMN_REQUEST_ACCESS_NUMBER
+                    _ID, COLUMN_TITLE, COLUMN_BACKEND_URL, COLUMN_RTS, COLUMN_REQUEST_OTP,
+                    COLUMN_REQUEST_ACCESS_NUMBER, COLUMN_IS_DEFAULT
             };
         };
 
