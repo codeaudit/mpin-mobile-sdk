@@ -16,6 +16,9 @@
         <item name="android:textColorSecondary">@color/white</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
+    
+    <style name="GuideActivityTheme" parent="AppTheme">
+    </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
@@ -59,6 +62,17 @@
     <style name="RaisedButtonWhite" parent="RaisedButton">
         <item name="android:background">@drawable/raised_button_white_background</item>
         <item name="android:textColor">@color/button_selector_white_textcolor</item>
+    </style>
+
+    <style name="GuideButton">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/swans_down</item>
+        <item name="android:padding">5dp</item>
+    </style>
+
+    <style name="GuideContent">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:padding">10dp</item>
     </style>
 
 </resources>

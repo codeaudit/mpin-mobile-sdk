@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/guide_view_pager"
+    style="@style/GuideContent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_above="@id/guide_controls_separator"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/gd_create_identity_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="Asd asd asd"
+        android:textColor="@color/swans_down"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/gd_create_identity_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_gd_create_identity" />
+
+    <TextView
+        android:id="@+id/gd_create_identity_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/gd_create_identity_content"
+        android:text="Asd asd asd asd asd"
+        android:textColor="@color/swans_down"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/gd_create_identity_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Asd asd asd asda asd asd as dasd as das das dads asda"
+        android:textColor="@color/swans_down"
+        android:textSize="14sp" />
+
+</RelativeLayout>
