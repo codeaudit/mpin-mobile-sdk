@@ -450,4 +450,10 @@
   <data name="NoNetworkTitle.Text" xml:space="preserve">
     <value>НЕВАЛИДНА МРЕЖА</value>
   </data>
+  <data name="NoConnection.Text" xml:space="preserve">
+    <value>Няма връзка с Интернет</value>
+  </data>
+  <data name="UserNotConfirmed" xml:space="preserve">
+    <value>Самоличността все още не е потвърдена!</value>
+  </data>
 </root>

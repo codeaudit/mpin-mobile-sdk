@@ -45,7 +45,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <TextBlock x:Uid="MainPageTitle" Style="{StaticResource TitleStyle}" Margin="24,0,0,0" />
+            <TextBlock x:Uid="MainPageTitle" Style="{StaticResource TitleStyle}" Margin="12,0,0,0" />
 
             <Pivot x:Name="MainPivot" CommonNavigationTransitionInfo.IsStaggerElement="True" Padding="0" 
                SelectionChanged="MainPivot_SelectionChanged" Grid.Row="1">

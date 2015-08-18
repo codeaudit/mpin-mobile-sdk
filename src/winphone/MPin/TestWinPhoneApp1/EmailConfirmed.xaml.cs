@@ -26,6 +26,7 @@ using MPinSDK.Models;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -39,6 +40,10 @@ namespace MPinDemo
     /// </summary>
     public sealed partial class EmailConfirmed : Page, INotifyPropertyChanged
     {
+        #region fields
+        private MainPage rootPage = null;
+        #endregion // fields
+
         #region C'tor
         public EmailConfirmed()
         {
@@ -51,7 +56,7 @@ namespace MPinDemo
         private User _user;
         public User User
         {
-            get 
+            get
             {
                 return _user;
             }
@@ -64,7 +69,7 @@ namespace MPinDemo
                 }
             }
         }
-        #endregion 
+        #endregion
 
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
@@ -73,29 +78,36 @@ namespace MPinDemo
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            rootPage = MainPage.Current;
             if (e.Parameter != null)
             {
                 this.User = e.Parameter as User;
             }
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            base.OnNavigatedFrom(e);
-        }
-
         #region Handlers
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("EmailConfirmed Finish..");
-            Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-            mainFrame.GoBack(new List<object>() { "EmailConfirmed", "Finish" });
+            Status s = await Controller.OnEmailConfirmed(this.User);
+
+            string errorMsg = s == null
+                ? string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblem"), User.Id, User.UserState)
+                : s.StatusCode != Status.Code.OK 
+                    ?  s.StatusCode  == Status.Code.IdentityNotVerified 
+                        ? ResourceLoader.GetForCurrentView().GetString("UserNotConfirmed")
+                            : string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblemReason"), User.Id, s.ErrorMessage) 
+                            : string.Empty;
+
+            if (!string.IsNullOrEmpty(errorMsg))
+            {
+                rootPage.NotifyUser(errorMsg, MainPage.NotifyType.ErrorMessage);
+            }            
         }
 
         private void Resend_Click(object sender, RoutedEventArgs e)
         {
             if (this.User != null)
-                lock (Window.Current.Content)  
+                lock (Window.Current.Content)
                 {
                     Status st = Controller.RestartRegistration(this.User);
                     if (st.StatusCode != Status.Code.OK)
@@ -110,7 +122,7 @@ namespace MPinDemo
         {
             System.Diagnostics.Debug.WriteLine("EmailConfirmed -> Identities");
             Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-            mainFrame.GoBack(new List<object >() { "EmailConfirmed", string.Empty});
+            mainFrame.GoBack(new List<object>() { "EmailConfirmed", string.Empty });
         }
         #endregion
 

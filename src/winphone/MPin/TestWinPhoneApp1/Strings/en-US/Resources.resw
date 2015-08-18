@@ -456,4 +456,10 @@ All existing identities will be deleted.</value>
   <data name="NoNetworkTitle.Text" xml:space="preserve">
     <value>NO NETWORK</value>
   </data>
+  <data name="NoConnection.Text" xml:space="preserve">
+    <value>No Internet Connection</value>
+  </data>
+  <data name="UserNotConfirmed" xml:space="preserve">
+    <value>User is still not confirmed!</value>
+  </data>
 </root>

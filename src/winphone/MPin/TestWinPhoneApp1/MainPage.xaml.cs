@@ -22,6 +22,7 @@
 
 using MPinSDK.Common; // navigation extensions
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
 using Windows.Networking.Connectivity;
@@ -43,23 +44,20 @@ namespace MPinDemo
         public static MainPage Current;
         private DispatcherTimer timer;
         private string parameter = string.Empty;
-
         #endregion // Fields
 
         #region C'tor
         public MainPage()
         {
             this.InitializeComponent();
+            this.Loaded += MainPage_Loaded;
             Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+            NetworkInformation.NetworkStatusChanged += NetworkInformation_NetworkStatusChanged;
 
             // This is a static public property that allows downstream pages to get a handle to the MainPage instance
             // in order to call methods that are in this class.
             Current = this;
-
-            NetworkInformation.NetworkStatusChanged += NetworkInformation_NetworkStatusChanged;
-
         }
-
         #endregion // C'tor
 
         #region Members
@@ -101,10 +99,10 @@ namespace MPinDemo
                     }
                     return;
                 }
-                
+
                 this.parameter = (Window.Current.Content as Frame).GetNavigationData() as string; // get the passed parameter from the extension method
                 this.parameter = string.IsNullOrEmpty(parameter) ? e.Parameter as string : parameter;    // get the passed parameter from the event    
-            
+                
                 // When the navigation stack isn't restored navigate to the main screen; 
                 // if no param passed - we consider to be the initial load and navigate to a screen depending on the last selected user state
                 if (!MainFrame.Navigate(typeof(BlankPage1), string.IsNullOrEmpty(parameter) ? "InitialLoad" : parameter))
@@ -134,19 +132,39 @@ namespace MPinDemo
             }
         }
 
+        void MainPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            NotifyConnectionExisting();
+        }
 
         void NetworkInformation_NetworkStatusChanged(object sender)
         {
             Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-            {
-                if (MainFrame.Content.GetType() == typeof(NoNetworkScreen) && this.IsInternetConnected)
                 {
-                    if (!MainFrame.Navigate(typeof(BlankPage1), string.IsNullOrEmpty(this.parameter) ? "InitialLoad" : this.parameter))
+                    if (MainFrame.Content.GetType() == typeof(NoNetworkScreen))
                     {
-                        throw new Exception("Failed to create main screen");
+                        if (this.IsInternetConnected)
+                        {
+                            if (!MainFrame.Navigate(typeof(BlankPage1), string.IsNullOrEmpty(this.parameter) ? "InitialLoad" : this.parameter))
+                            {
+                                throw new Exception("Failed to create main screen");
+                            }
+                        }
                     }
-                }
-            });
+                    else
+                    {
+                        NotifyConnectionExisting();
+                    }
+                });
+        }
+
+        private void NotifyConnectionExisting()
+        {
+            List<Type> excludedTextTypes = new List<Type>() { typeof(NoNetworkScreen), typeof(AuthenticationScreen) };
+            if (!excludedTextTypes.Contains(MainFrame.Content.GetType()))
+            {
+                NoConnection.Visibility = this.IsInternetConnected ? Visibility.Collapsed : Visibility.Visible;
+            }
         }
 
         #region notification

@@ -127,7 +127,7 @@ namespace MPinDemo
             }
             else
             {
-                string param = GetAllPossiblePassedParams(e.Parameter);
+                string param = GetAllPossiblePassedParams(e.Parameter);                
                 isInitialLoad = !string.IsNullOrEmpty(param) && param.Equals("InitialLoad");
             }
 
@@ -182,7 +182,7 @@ namespace MPinDemo
 
         private void ProcessControlsOperations(string command)
         {
-            List<string> commandsToDisableScreen = new List<string>() { "AddUser", "SignIn", "EmailConfirmed" };
+            List<string> commandsToDisableScreen = new List<string>() { "AddUser", "SignIn"};
             if (commandsToDisableScreen.Contains(command))
                 SetControlsIsEnabled(null, true);
         }
@@ -699,6 +699,6 @@ namespace MPinDemo
             SetControlsIsEnabled(null, true, false);
         }
 
-        #endregion // handlers        
+        #endregion // handlers            
     }
 }
