@@ -32,7 +32,7 @@ public class SplashActivity extends ActionBarActivity {
         Intent mpinIntent = new Intent(this, MPinActivity.class);
 
         if (mInstructionsDao.isFirstStart()) {
-            //            mInstructionsDao.setIsFirstStart(false);
+            mInstructionsDao.setIsFirstStart(false);
             guideIntent = new Intent(this, GuideActivity.class);
             guideIntent.putExtra(IntentConstants.FRAGMENT_LIST, getFirstStartGuideFragments());
         }
