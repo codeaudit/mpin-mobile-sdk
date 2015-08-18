@@ -37,8 +37,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.certivox.activities.GuideActivity;
 import com.certivox.constants.FragmentTags;
+import com.certivox.constants.IntentConstants;
 import com.certivox.dal.ConfigsDao;
+import com.certivox.dal.InstructionsDao;
+import com.certivox.enums.GuideFragmentsEnum;
 import com.certivox.models.Config;
 import com.certivox.models.CreateIdentityConfig;
 import com.certivox.models.MakeNewUserInfo;
@@ -51,6 +55,7 @@ import com.certivox.mpinsdk.R;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
@@ -78,6 +83,7 @@ public class MPinController extends Controller {
     private Context              mContext;
     private static volatile Mpin sSDK;
     private ConfigsDao           mConfigsDao;
+    private InstructionsDao      mInstructionsDao;
     private List<User>           mUsersList;
     private User                 mCurrentUser;
     private Config               mCurrentConfiguration;
@@ -180,6 +186,7 @@ public class MPinController extends Controller {
         super(handler);
         mContext = context;
         mConfigsDao = new ConfigsDao(mContext);
+        mInstructionsDao = new InstructionsDao(mContext);
         mUsersList = new ArrayList<User>();
 
         setConfiguration();
@@ -664,6 +671,10 @@ public class MPinController extends Controller {
                     break;
                 case REGISTERED:
                     if (mConfigsDao.getActiveConfiguration().getRequestAccessNumber()) {
+                        if(!mInstructionsDao.hasAuthenticatedBefore()){
+                            mInstructionsDao.setHasAuthenticatedBefore(true);
+                            startFirstAuthenticationGuide();
+                        }
                         notifyOutboxHandlers(MESSAGE_SHOW_ACCESS_NUMBER, 0, 0, null);
                     } else {
                         preAuthenticate("");
@@ -1057,6 +1068,15 @@ public class MPinController extends Controller {
             PreferenceManager.getDefaultSharedPreferences(mContext).edit()
                     .putString(PREFERENCE_DEFAULT_DEVICE_NAME, deviceName).apply();
         }
+    }
+    
+    private void startFirstAuthenticationGuide(){
+        Intent guideIntent = new Intent(mContext, GuideActivity.class);
+        ArrayList<GuideFragmentsEnum> fragmentList = new ArrayList<GuideFragmentsEnum>();
+        fragmentList.add(GuideFragmentsEnum.FRAGMENT_GD_GET_ACCESS_NUMBER);
+        guideIntent.putExtra(IntentConstants.FRAGMENT_LIST, fragmentList);
+        guideIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(guideIntent);
     }
 
 }
