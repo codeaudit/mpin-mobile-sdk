@@ -23,11 +23,11 @@ public class GuideActivity extends ActionBarActivity {
 
     private static final String TAG = GuideActivity.class.getCanonicalName();
 
-    private ViewPager           mViewPager;
+    private ViewPager mViewPager;
 
-    private Button              mDoneButton;
-    private ImageButton         mNextButton;
-    private Button              mSkipButton;
+    private Button      mDoneButton;
+    private ImageButton mNextButton;
+    private Button      mSkipButton;
 
 
     @Override
@@ -66,13 +66,13 @@ public class GuideActivity extends ActionBarActivity {
 
             @Override
             public void onPageScrolled(int arg0, float arg1, int arg2) {
-                //Do nothing
+                // Do nothing
             }
 
 
             @Override
             public void onPageScrollStateChanged(int arg0) {
-                //Do nothing
+                // Do nothing
             }
         });
 
@@ -83,10 +83,12 @@ public class GuideActivity extends ActionBarActivity {
     private void showProperButtons(boolean isEndOfPage) {
         if (isEndOfPage) {
             hideNextButton();
+            hideSkipButton();
             showDoneButton();
         } else {
             hideDoneButton();
             showNextButton();
+            showSkipButton();
         }
     }
 
@@ -135,5 +137,15 @@ public class GuideActivity extends ActionBarActivity {
 
     private void hideNextButton() {
         mNextButton.setVisibility(View.INVISIBLE);
+    }
+
+
+    private void showSkipButton() {
+        mSkipButton.setVisibility(View.VISIBLE);
+    }
+
+
+    private void hideSkipButton() {
+        mSkipButton.setVisibility(View.INVISIBLE);
     }
 }

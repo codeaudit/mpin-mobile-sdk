@@ -122,6 +122,15 @@
     <!-- Guide -->
     <string name="skip_button_title">Skip</string>
     <string name="done_button_title">Done</string>
+    <string name="gd_first_start_title">Setup your phone\nto use M-Pin</string>
+    <string name="gd_create_identity_title">Create an identity</string>
+    <string name="gd_create_identity_content">Enter your email address to register.</string>
+    <string name="gd_confirm_email_title">Confirm your email</string>
+    <string name="gd_confirm_email_content">Click the link in the email and you are ready to choose your PIN.</string>
+    <string name="gd_create_pin_title">Create your PIN</string>
+    <string name="gd_create_pin_content">It`s much simpler than a password and more secure.</string>
+    <string name="gd_ready_to_go_title">You are ready to go!</string>
+    <string name="gd_ready_to_go_content">You can now use your M-Pin identity any time you want.</string>
     <!-- Guide end--> 
 
     <string name="logout">Logout</string>
