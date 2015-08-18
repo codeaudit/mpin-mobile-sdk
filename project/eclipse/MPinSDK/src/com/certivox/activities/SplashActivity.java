@@ -51,10 +51,10 @@ public class SplashActivity extends ActionBarActivity {
 
     private ArrayList<GuideFragmentsEnum> getFirstStartGuideFragments() {
         ArrayList<GuideFragmentsEnum> fragmentList = new ArrayList<GuideFragmentsEnum>();
-        fragmentList.add(GuideFragmentsEnum.FRAGMENT_1);
-        fragmentList.add(GuideFragmentsEnum.FRAGMENT_2);
-        fragmentList.add(GuideFragmentsEnum.FRAGMENT_3);
-        fragmentList.add(GuideFragmentsEnum.FRAGMENT_4);
+        fragmentList.add(GuideFragmentsEnum.FRAGMENT_GD_CREATE_IDENTITY);
+        fragmentList.add(GuideFragmentsEnum.FRAGMENT_GD_CONFIRM_EMAIL);
+        fragmentList.add(GuideFragmentsEnum.FRAGMENT_GD_CREATE_PIN);
+        fragmentList.add(GuideFragmentsEnum.FRAGMENT_GD_READY_TO_GO);
 
         return fragmentList;
     }

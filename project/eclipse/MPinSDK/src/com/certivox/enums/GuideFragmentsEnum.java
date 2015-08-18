@@ -5,7 +5,8 @@ import com.certivox.mpinsdk.R;
 
 
 public enum GuideFragmentsEnum {
-    FRAGMENT_1(R.layout.fragment_gd_create_identity), FRAGMENT_2(R.layout.fragment_gd_confirm_email), FRAGMENT_3(R.layout.fragment_gd_create_pin), FRAGMENT_4(
+    FRAGMENT_GD_CREATE_IDENTITY(R.layout.fragment_gd_create_identity), FRAGMENT_GD_CONFIRM_EMAIL(
+            R.layout.fragment_gd_confirm_email), FRAGMENT_GD_CREATE_PIN(R.layout.fragment_gd_create_pin), FRAGMENT_GD_READY_TO_GO(
             R.layout.fragment_gd_ready_to_go);
 
     private int mResourceId;
