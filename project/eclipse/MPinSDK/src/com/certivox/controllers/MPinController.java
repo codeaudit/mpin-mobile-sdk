@@ -37,8 +37,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.certivox.activities.GuideActivity;
+import com.certivox.constants.ConfigConstant;
 import com.certivox.constants.FragmentTags;
+import com.certivox.constants.IntentConstants;
 import com.certivox.dal.ConfigsDao;
+import com.certivox.dal.AppInstanceInfoDao;
+import com.certivox.enums.GuideFragmentsEnum;
 import com.certivox.models.Config;
 import com.certivox.models.CreateIdentityConfig;
 import com.certivox.models.MakeNewUserInfo;
@@ -51,6 +56,7 @@ import com.certivox.mpinsdk.R;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
@@ -62,124 +68,127 @@ import android.util.Log;
 
 public class MPinController extends Controller {
 
-    private static final String  TAG                                      = MPinController.class.getSimpleName();
+    private static final String TAG = MPinController.class.getSimpleName();
+
 
     static {
         System.loadLibrary("AndroidMpinSDK");
     }
 
-    private Object               mSDKLockObject                           = new Object();
+    private Object mSDKLockObject = new Object();
 
-    private HandlerThread        mWorkerThread;
-    private Handler              mWorkerHandler;
+    private HandlerThread mWorkerThread;
+    private Handler       mWorkerHandler;
 
-    private static final String  PREFERENCE_USER                          = "PREFERENCE_USER";
-    private static final String  PREFERENCE_DEFAULT_DEVICE_NAME           = "DEFAULT_DEVICE_NAME";
+    private static final String  PREFERENCE_USER                = "PREFERENCE_USER";
+    private static final String  PREFERENCE_DEFAULT_DEVICE_NAME = "DEFAULT_DEVICE_NAME";
     private Context              mContext;
     private static volatile Mpin sSDK;
     private ConfigsDao           mConfigsDao;
+    private AppInstanceInfoDao   mAppInstanceInfoDao;
     private List<User>           mUsersList;
     private User                 mCurrentUser;
     private Config               mCurrentConfiguration;
     private String               mCurrentFragmentTag;
 
-    private String               mAccessNumberLength;
-    private String               mIsDeviceNameNeeded;
+    private String mAccessNumberLength;
+    private String mIsDeviceNameNeeded;
 
     // Receive Messages
-    public static final int      MESSAGE_ON_CREATE                        = 0;
-    public static final int      MESSAGE_ON_DESTROY                       = 1;
-    public static final int      MESSAGE_ON_START                         = 2;
-    public static final int      MESSAGE_ON_STOP                          = 3;
-    public static final int      MESSAGE_ON_BACK                          = 4;
-    public static final int      MESSAGE_ON_DRAWER_BACK                   = 5;
-    public static final int      MESSAGE_ON_SHOW_IDENTITY_LIST            = 6;
-    public static final int      MESSAGE_ON_CHANGE_SERVICE                = 7;
-    public static final int      MESSAGE_ON_ABOUT                         = 8;
-    public static final int      MESSAGE_RESET_PIN                        = 9;
-    public static final int      MESSAGE_ON_SHOW_PINPAD                   = 10;
-    public static final int      MESSAGE_NETWORK_CONNECTION_CHANGE        = 11;
+    public static final int MESSAGE_ON_CREATE                 = 0;
+    public static final int MESSAGE_ON_DESTROY                = 1;
+    public static final int MESSAGE_ON_START                  = 2;
+    public static final int MESSAGE_ON_STOP                   = 3;
+    public static final int MESSAGE_ON_BACK                   = 4;
+    public static final int MESSAGE_ON_DRAWER_BACK            = 5;
+    public static final int MESSAGE_ON_SHOW_IDENTITY_LIST     = 6;
+    public static final int MESSAGE_ON_CHANGE_SERVICE         = 7;
+    public static final int MESSAGE_ON_ABOUT                  = 8;
+    public static final int MESSAGE_RESET_PIN                 = 9;
+    public static final int MESSAGE_ON_SHOW_PINPAD            = 10;
+    public static final int MESSAGE_NETWORK_CONNECTION_CHANGE = 11;
 
     // Receive Messages from Fragment Configurations List
-    public static final int      MESSAGE_ON_NEW_CONFIGURATION             = 12;
-    public static final int      MESSAGE_ON_SELECT_CONFIGURATION          = 13;
-    public static final int      MESSAGE_ON_EDIT_CONFIGURATION            = 14;
-    public static final int      MESSAGE_DELETE_CONFIGURATION             = 15;
+    public static final int MESSAGE_ON_NEW_CONFIGURATION    = 12;
+    public static final int MESSAGE_ON_SELECT_CONFIGURATION = 13;
+    public static final int MESSAGE_ON_EDIT_CONFIGURATION   = 14;
+    public static final int MESSAGE_DELETE_CONFIGURATION    = 15;
 
     // Receive Messages from Fragment Configuration Edit
-    public static final int      MESSAGE_CHECK_BACKEND_URL                = 16;
-    public static final int      MESSAGE_SAVE_CONFIG                      = 17;
+    public static final int MESSAGE_CHECK_BACKEND_URL = 16;
+    public static final int MESSAGE_SAVE_CONFIG       = 17;
 
     // Receive Messages from Fragment Users List
-    public static final int      MESSAGE_ON_CREATE_IDENTITY               = 18;
+    public static final int MESSAGE_ON_CREATE_IDENTITY = 18;
 
     // Receive Messages from Fragment Create identity
-    public static final int      MESSAGE_CREATE_IDENTITY                  = 19;
+    public static final int MESSAGE_CREATE_IDENTITY = 19;
 
     // Receive Messages from Fragment CONFIRM EMAIL
-    public static final int      MESSAGE_EMAIL_CONFIRMED                  = 20;
-    public static final int      MESSAGE_RESEND_EMAIL                     = 21;
+    public static final int MESSAGE_EMAIL_CONFIRMED = 20;
+    public static final int MESSAGE_RESEND_EMAIL    = 21;
 
     // Receive Messages from Fragment Identity created
-    public static final int      MESSAGE_ON_SIGN_IN                       = 22;
+    public static final int MESSAGE_ON_SIGN_IN = 22;
 
     // Receive Messages from Fragment Identity blocked
-    public static final int      MESSAGE_ON_DELETE_IDENTITY               = 23;
+    public static final int MESSAGE_ON_DELETE_IDENTITY = 23;
 
     // Receive Messages from Fragment OTP
-    public static final int      MESSAGE_OTP_EXPIRED                      = 24;
+    public static final int MESSAGE_OTP_EXPIRED = 24;
 
     // Receive Messages from MPinActivity
-    public static final int      MESSAGE_AUTHENTICATION_STARTED           = 25;
+    public static final int MESSAGE_AUTHENTICATION_STARTED = 25;
 
     // Receive Messages from NoInternetConnectionFragment
-    public static final int      MESSAGE_RETRY_INITIALIZATION             = 26;
+    public static final int MESSAGE_RETRY_INITIALIZATION = 26;
 
     // Sent Messages
-    public static final int      MESSAGE_GO_BACK                          = 1;
-    public static final int      MESSAGE_START_WORK_IN_PROGRESS           = 2;
-    public static final int      MESSAGE_STOP_WORK_IN_PROGRESS            = 3;
-    public static final int      MESSAGE_CONFIGURATION_DELETED            = 4;
-    public static final int      MESSAGE_CONFIGURATION_CHANGED            = 5;
-    public static final int      MESSAGE_NO_ACTIVE_CONFIGURATION          = 6;
-    public static final int      MESSAGE_CONFIGURATION_CHANGE_ERROR       = 7;
-    public static final int      MESSAGE_VALID_BACKEND                    = 8;
-    public static final int      MESSAGE_INVALID_BACKEND                  = 9;
-    public static final int      MESSAGE_CONFIGURATION_SAVED              = 10;
-    public static final int      MESSAGE_IDENTITY_EXISTS                  = 11;
-    public static final int      MESSAGE_SHOW_CONFIGURATIONS_LIST         = 12;
-    public static final int      MESSAGE_SHOW_CONFIGURATION_EDIT          = 13;
-    public static final int      MESSAGE_SHOW_ABOUT                       = 14;
-    public static final int      MESSAGE_SHOW_IDENTITIES_LIST             = 15;
-    public static final int      MESSAGE_SHOW_CREATE_IDENTITY             = 16;
-    public static final int      MESSAGE_SHOW_CONFIRM_EMAIL               = 17;
-    public static final int      MESSAGE_SHOW_IDENTITY_CREATED            = 18;
-    public static final int      MESSAGE_SHOW_SIGN_IN                     = 19;
-    public static final int      MESSAGE_SHOW_ACCESS_NUMBER               = 20;
-    public static final int      MESSAGE_SHOW_USER_BLOCKED                = 21;
-    public static final int      MESSAGE_SHOW_LOGGED_IN                   = 22;
-    public static final int      MESSAGE_SHOW_OTP                         = 23;
-    public static final int      MESSAGE_EMAIL_NOT_CONFIRMED              = 24;
-    public static final int      MESSAGE_EMAIL_SENT                       = 25;
-    public static final int      MESSAGE_INCORRECT_ACCESS_NUMBER          = 26;
-    public static final int      MESSAGE_INCORRECT_PIN                    = 27;
-    public static final int      MESSAGE_INCORRECT_PIN_AN                 = 28;
-    public static final int      MESSAGE_NETWORK_ERROR                    = 29;
-    public static final int      MESSAGE_IDENTITY_DELETED                 = 30;
-    public static final int      MESSAGE_AUTH_SUCCESS                     = 31;
-    public static final int      MESSAGE_SDK_INITIALIZED                  = 32;
-    public static final int      MESSAGE_OTP_NOT_SUPPORTED                = 33;
-    public static final int      MESSAGE_IDENTITY_NOT_AUTHORIZED          = 34;
-    public static final int      MESSAGE_NO_INTERNET_ACCESS               = 35;
-    public static final int      MESSAGE_NO_INTERNET_CONNECTION_AVAILABLE = 36;
-    public static final int      MESSAGE_INTERNET_CONNECTION_AVAILABLE    = 37;
-    public static final int      MESSAGE_SHOW_NO_INTERNET_CONNECTION      = 38;
+    public static final int MESSAGE_GO_BACK                          = 1;
+    public static final int MESSAGE_START_WORK_IN_PROGRESS           = 2;
+    public static final int MESSAGE_STOP_WORK_IN_PROGRESS            = 3;
+    public static final int MESSAGE_CONFIGURATION_DELETED            = 4;
+    public static final int MESSAGE_CONFIGURATION_CHANGED            = 5;
+    public static final int MESSAGE_NO_ACTIVE_CONFIGURATION          = 6;
+    public static final int MESSAGE_CONFIGURATION_CHANGE_ERROR       = 7;
+    public static final int MESSAGE_VALID_BACKEND                    = 8;
+    public static final int MESSAGE_INVALID_BACKEND                  = 9;
+    public static final int MESSAGE_CONFIGURATION_SAVED              = 10;
+    public static final int MESSAGE_IDENTITY_EXISTS                  = 11;
+    public static final int MESSAGE_SHOW_CONFIGURATIONS_LIST         = 12;
+    public static final int MESSAGE_SHOW_CONFIGURATION_EDIT          = 13;
+    public static final int MESSAGE_SHOW_ABOUT                       = 14;
+    public static final int MESSAGE_SHOW_IDENTITIES_LIST             = 15;
+    public static final int MESSAGE_SHOW_CREATE_IDENTITY             = 16;
+    public static final int MESSAGE_SHOW_CONFIRM_EMAIL               = 17;
+    public static final int MESSAGE_SHOW_IDENTITY_CREATED            = 18;
+    public static final int MESSAGE_SHOW_SIGN_IN                     = 19;
+    public static final int MESSAGE_SHOW_ACCESS_NUMBER               = 20;
+    public static final int MESSAGE_SHOW_USER_BLOCKED                = 21;
+    public static final int MESSAGE_SHOW_LOGGED_IN                   = 22;
+    public static final int MESSAGE_SHOW_OTP                         = 23;
+    public static final int MESSAGE_EMAIL_NOT_CONFIRMED              = 24;
+    public static final int MESSAGE_EMAIL_SENT                       = 25;
+    public static final int MESSAGE_INCORRECT_ACCESS_NUMBER          = 26;
+    public static final int MESSAGE_INCORRECT_PIN                    = 27;
+    public static final int MESSAGE_INCORRECT_PIN_AN                 = 28;
+    public static final int MESSAGE_NETWORK_ERROR                    = 29;
+    public static final int MESSAGE_IDENTITY_DELETED                 = 30;
+    public static final int MESSAGE_AUTH_SUCCESS                     = 31;
+    public static final int MESSAGE_SDK_INITIALIZED                  = 32;
+    public static final int MESSAGE_OTP_NOT_SUPPORTED                = 33;
+    public static final int MESSAGE_IDENTITY_NOT_AUTHORIZED          = 34;
+    public static final int MESSAGE_NO_INTERNET_ACCESS               = 35;
+    public static final int MESSAGE_NO_INTERNET_CONNECTION_AVAILABLE = 36;
+    public static final int MESSAGE_INTERNET_CONNECTION_AVAILABLE    = 37;
+    public static final int MESSAGE_SHOW_NO_INTERNET_CONNECTION      = 38;
 
 
     public MPinController(Context context, Handler handler) {
         super(handler);
         mContext = context;
         mConfigsDao = new ConfigsDao(mContext);
+        mAppInstanceInfoDao = new AppInstanceInfoDao(mContext);
         mUsersList = new ArrayList<User>();
 
         setConfiguration();
@@ -663,7 +672,14 @@ public class MPinController extends Controller {
                     notifyOutboxHandlers(MESSAGE_SHOW_SIGN_IN, 0, 0, null);
                     break;
                 case REGISTERED:
-                    if (mConfigsDao.getActiveConfiguration().getRequestAccessNumber()) {
+                    Config activeConfig = mConfigsDao.getActiveConfiguration();
+                    if (activeConfig.getRequestAccessNumber()) {
+                        if (activeConfig.isDefault()
+                                && activeConfig.getTitle().equals(ConfigConstant.MPIN_CONNECT_CONFIG_TITLE)
+                                && !mAppInstanceInfoDao.hasAuthenticatedToMpinConnect()) {
+                            mAppInstanceInfoDao.setHasAuthenticatedToMpinConnect(true);
+                            startFirstAuthenticationGuide();
+                        }
                         notifyOutboxHandlers(MESSAGE_SHOW_ACCESS_NUMBER, 0, 0, null);
                     } else {
                         preAuthenticate("");
@@ -1035,8 +1051,8 @@ public class MPinController extends Controller {
 
 
     private String getDefaultDeviceName() {
-        String defaultDeviceName = PreferenceManager.getDefaultSharedPreferences(mContext).getString(
-                PREFERENCE_DEFAULT_DEVICE_NAME, "");
+        String defaultDeviceName = PreferenceManager.getDefaultSharedPreferences(mContext)
+                .getString(PREFERENCE_DEFAULT_DEVICE_NAME, "");
 
         if (defaultDeviceName.isEmpty()) {
             BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -1057,6 +1073,16 @@ public class MPinController extends Controller {
             PreferenceManager.getDefaultSharedPreferences(mContext).edit()
                     .putString(PREFERENCE_DEFAULT_DEVICE_NAME, deviceName).apply();
         }
+    }
+
+
+    private void startFirstAuthenticationGuide() {
+        Intent guideIntent = new Intent(mContext, GuideActivity.class);
+        ArrayList<GuideFragmentsEnum> fragmentList = new ArrayList<GuideFragmentsEnum>();
+        fragmentList.add(GuideFragmentsEnum.FRAGMENT_GD_GET_ACCESS_NUMBER);
+        guideIntent.putExtra(IntentConstants.FRAGMENT_LIST, fragmentList);
+        guideIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(guideIntent);
     }
 
 }

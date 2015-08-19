@@ -4,7 +4,7 @@ package com.certivox.activities;
 import java.util.ArrayList;
 
 import com.certivox.constants.IntentConstants;
-import com.certivox.dal.InstructionsDao;
+import com.certivox.dal.AppInstanceInfoDao;
 import com.certivox.enums.GuideFragmentsEnum;
 import com.certivox.mpinsdk.R;
 
@@ -15,14 +15,14 @@ import android.support.v7.app.ActionBarActivity;
 
 public class SplashActivity extends ActionBarActivity {
 
-    private InstructionsDao mInstructionsDao;
+    private AppInstanceInfoDao mInstructionsDao;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
-        mInstructionsDao = new InstructionsDao(getApplicationContext());
+        mInstructionsDao = new AppInstanceInfoDao(getApplicationContext());
         setInitialActivity();
     }
 
