@@ -138,6 +138,21 @@
                     android:text="@string/about"
                     android:textColor="@color/button_selector_white_textcolor"
                     android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/quick_start_guide"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/drawer_selector"
+                    android:clickable="true"
+                    android:drawableLeft="@drawable/ic_about"
+                    android:drawablePadding="20dp"
+                    android:drawableStart="@drawable/ic_about"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:text="@string/quick_start_guide"
+                    android:textColor="@color/button_selector_white_textcolor"
+                    android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
         <!-- The navigation drawer end -->
