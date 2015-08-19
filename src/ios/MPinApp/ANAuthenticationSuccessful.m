@@ -30,13 +30,18 @@
 - ( void ) viewDidLoad
 {
     [super viewDidLoad];
-    [[ThemeManager sharedManager] beautifyViewController:self];
 }
 
 - ( void ) viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
     _lblMessage.text = NSLocalizedString(@"HUD_AUTH_SUCCESS", @"Authentication successful");
+}
+
+-(void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [[ThemeManager sharedManager] beautifyViewController:self];
 }
 
 - ( IBAction )back:( UIBarButtonItem * )sender

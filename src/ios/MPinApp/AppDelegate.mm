@@ -39,6 +39,7 @@
 {
     MFSideMenuContainerViewController *container;
     NetworkDownViewController *vcNetworkDown;
+    BOOL boolRestartFlow;
 }
 
 @end
@@ -47,6 +48,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    boolRestartFlow = NO;
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     UIUserNotificationType types = UIUserNotificationTypeBadge |
     UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
@@ -75,8 +77,9 @@
     
 	UIViewController *leftSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"MenuViewController"];
 
+    [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
+    
 	[container setLeftMenuViewController:leftSideMenuViewController];
-	[container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
 
 	self.window.rootViewController = container;
     
@@ -101,10 +104,10 @@
 }
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    MFSideMenuContainerViewController *container = (MFSideMenuContainerViewController *)self.window.rootViewController;
-    if ([((UINavigationController *)container.centerViewController).topViewController  isMemberOfClass:[OTPViewController class]]){
-        [((UINavigationController *)container.centerViewController) popToRootViewControllerAnimated:NO];
-    }
+    boolRestartFlow = YES;
+    MFSideMenuContainerViewController *c = (MFSideMenuContainerViewController *)self.window.rootViewController;
+    [c.centerViewController popToRootViewControllerAnimated:NO];
+
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
@@ -114,7 +117,6 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    // fill screen with our own colour
     UIView *protectionView = [[UIView alloc]initWithFrame:self.window.frame];
     protectionView.backgroundColor = [UIColor whiteColor];
     protectionView.tag = 1234;
@@ -131,19 +133,21 @@
     [UIView animateWithDuration:0.5 animations:^{
         protectionView.alpha = 1;
     }];
+
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-
-    // grab a reference to our coloured view
+    if (boolRestartFlow)
+    {
+        boolRestartFlow = !boolRestartFlow;
+        [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
+        [_vcUserList invalidate];
+    }
     UIView *colourView = [self.window viewWithTag:1234];
-    
-    // fade away colour view from main view
     [UIView animateWithDuration:0.5 animations:^{
         colourView.alpha = 0;
     } completion:^(BOOL finished) {
-        // remove when finished fading
         [colourView removeFromSuperview];
     }];
 }

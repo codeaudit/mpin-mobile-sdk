@@ -168,3 +168,5 @@
 "LOGIN_ONLINE_SESSION"                  = "Login to Online Session";
 "LOGIN_OTP"                             = "OTP Login";
 "LOADING"                               = "LOADING";
+
+"CONNECTION_WAS_LOST"                   = "Connection was lost";

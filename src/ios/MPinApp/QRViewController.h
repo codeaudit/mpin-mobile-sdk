@@ -24,6 +24,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import "SuperViewController.h"
 
 @interface QRViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate>
 

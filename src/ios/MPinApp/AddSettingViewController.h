@@ -24,6 +24,7 @@
 
 
 #import "MPin+AsyncOperations.h"
+#import "SuperViewController.h"
 
 @interface AddSettingViewController : UIViewController <UITextFieldDelegate,
                                                         UITableViewDataSource,

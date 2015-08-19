@@ -36,4 +36,6 @@
 - (void)customiseMenuCell:(MenuTableViewCell*)cell;
 - (void)customiseConfigurationListCell:(ConfigListTableViewCell*)cell;
 
+-(void) showNetworkDown:(id)viewController;
+-(void) hideNetworkDown:(id)viewController;
 @end

@@ -23,6 +23,7 @@
  */
 
 #import "MPin+AsyncOperations.h"
+#import "SuperViewController.h"
 
 @interface SettingsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITabBarDelegate, MPinSDKDelegate, UIAlertViewDelegate>
 

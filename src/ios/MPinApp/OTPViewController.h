@@ -22,6 +22,8 @@
  http://www.certivox.com/about-certivox/patents/
  */
 
+#import "SuperViewController.h"
+
 @class OTP;
 
 @interface OTPViewController : UIViewController

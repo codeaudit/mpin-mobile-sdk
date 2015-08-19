@@ -25,6 +25,7 @@
 #import <UIKit/UIKit.h>
 #import "IUser.h"
 #import "MPin+AsyncOperations.h"
+#import "SuperViewController.h"
 
 @interface IdentityBlockedViewController : UIViewController <MPinSDKDelegate>
 

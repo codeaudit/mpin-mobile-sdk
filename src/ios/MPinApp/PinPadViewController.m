@@ -1,25 +1,25 @@
 /*
- Copyright (c) 2012-2015, Certivox
- All rights reserved.
- 
- Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
- 
- 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
- 
- 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
- 
- 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
- 
- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- 
- For full details regarding our CertiVox terms of service please refer to
- the following links:
+   Copyright (c) 2012-2015, Certivox
+   All rights reserved.
+
+   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+   1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+   2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+   3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+   For full details regarding our CertiVox terms of service please refer to
+   the following links:
  * Our Terms and Conditions -
- http://www.certivox.com/about-certivox/terms-and-conditions/
+   http://www.certivox.com/about-certivox/terms-and-conditions/
  * Our Security and Privacy -
- http://www.certivox.com/about-certivox/security-privacy/
+   http://www.certivox.com/about-certivox/security-privacy/
  * Our Statement of Position and Our Promise on Software Patents -
- http://www.certivox.com/about-certivox/patents/
+   http://www.certivox.com/about-certivox/patents/
  */
 
 
@@ -80,9 +80,14 @@ static NSMutableArray *kCircles;
     [self renderNumberTextField:PIN_LENGTH];
     self.label.text = kCircles [0];
     [self.pinView setBottomBorder:[[SettingsManager sharedManager] color7] width:2.f alpha:.5f];
-    [[ThemeManager sharedManager] beautifyViewController:self];
     self.sdk = [[MPin alloc] init];
     self.sdk.delegate = self;
+}
+
+-( void ) viewDidAppear:( BOOL )animated
+{
+    [super viewDidAppear:animated];
+    [[ThemeManager sharedManager] beautifyViewController:self];
 }
 
 - ( void )viewWillAppear:( BOOL )animated
@@ -277,43 +282,43 @@ static NSMutableArray *kCircles;
             break;
 
         case CRYPTO_ERROR:
-                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"CRYPTO_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"CRYPTO_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
             break;
 
         case STORAGE_ERROR:
-                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"STORAGE_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"STORAGE_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
             break;
 
         case NETWORK_ERROR:
-                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"NETWORK_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"NETWORK_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
             break;
 
         case RESPONSE_PARSE_ERROR:
-                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"RESPONSE_PARSE_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"RESPONSE_PARSE_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
             break;
 
         case FLOW_ERROR:
-                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"FLOW_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"FLOW_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
             break;
 
         case IDENTITY_NOT_AUTHORIZED:
-                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"IDENTITY_NOT_AUTHORIZED", @"Request error") addActivityIndicator:NO hideAfter:6];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"IDENTITY_NOT_AUTHORIZED", @"Request error") addActivityIndicator:NO hideAfter:6];
             break;
 
         case IDENTITY_NOT_VERIFIED:
-                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"IDENTITY_NOT_VERIFIED", @"Request error") addActivityIndicator:NO hideAfter:6];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"IDENTITY_NOT_VERIFIED", @"Request error") addActivityIndicator:NO hideAfter:6];
             break;
 
         case REQUEST_EXPIRED:
-                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"REQUEST_EXPIRED", @"Request error") addActivityIndicator:NO hideAfter:6];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"REQUEST_EXPIRED", @"Request error") addActivityIndicator:NO hideAfter:6];
             break;
 
         case REVOKED:
-                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"REVOKED", @"Request error") addActivityIndicator:NO hideAfter:6];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"REVOKED", @"Request error") addActivityIndicator:NO hideAfter:6];
             break;
 
         case HTTP_SERVER_ERROR:
-                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"HTTP_SERVER_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"HTTP_SERVER_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
             break;
 
         case HTTP_REQUEST_ERROR:
@@ -382,8 +387,8 @@ static NSMutableArray *kCircles;
             break;
 
         case HTTP_REQUEST_ERROR:
-                [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR") addActivityIndicator:NO hideAfter:6.0];
-             
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR") addActivityIndicator:NO hideAfter:6.0];
+
             break;
 
         default:

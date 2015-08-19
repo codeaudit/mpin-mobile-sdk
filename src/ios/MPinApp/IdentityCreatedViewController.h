@@ -24,7 +24,7 @@
 
 #import "MPin+AsyncOperations.h"
 #import "AccessNumberViewController.h"
-
+#import "SuperViewController.h"
 
 @interface IdentityCreatedViewController : UIViewController <MPinSDKDelegate, AccessNumberDelegate, UIAlertViewDelegate>
 

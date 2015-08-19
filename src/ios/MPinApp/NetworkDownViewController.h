@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SuperViewController.h"
 
 @interface NetworkDownViewController : UIViewController
 
-@property (nonatomic, weak) IBOutlet UILabel *lblMessage;
+@property ( nonatomic, weak ) IBOutlet UILabel *lblMessage;
 
 @end

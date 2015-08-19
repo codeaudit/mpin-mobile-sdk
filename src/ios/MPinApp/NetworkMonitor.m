@@ -9,6 +9,7 @@
 #import "NetworkMonitor.h"
 #import "ApplicationManager.h"
 #import "AppDelegate.h"
+#import "ThemeManager.h"
 
 @interface NetworkMonitor ( )
 {
@@ -53,8 +54,10 @@
             NSLog(@"!!! NETWORK UP");
             if ( boolWasDown )
             {
-                [appDelegate connectionUp];
                 [[ApplicationManager sharedManager] setBackend];
+                dispatch_async(dispatch_get_main_queue(),^ {
+                    [[NSNotificationCenter defaultCenter] postNotificationName: @"NETWORK_UP_NOTIFICATION" object:nil userInfo:nil];
+                });
             }
             boolWasDown = NO;
             self.networkStatusUp = YES;
@@ -62,8 +65,11 @@
 
         default:
             {
+                dispatch_async(dispatch_get_main_queue(),^ {
+                    [[NSNotificationCenter defaultCenter] postNotificationName: @"NETWORK_DOWN_NOTIFICATION" object:nil userInfo:nil];
+                });
+
                 NSLog(@"!!! NETWORK DOWN");
-                [appDelegate connectionDown];
                 boolWasDown = YES;
                 self.networkStatusUp = NO;
             }

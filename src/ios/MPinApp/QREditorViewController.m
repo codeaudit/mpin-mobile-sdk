@@ -26,6 +26,7 @@
 #import "ConfigListTableViewCell.h"
 #import "ConfigurationManager.h"
 #import "Utilities.h"
+#import "ThemeManager.h"
 
 @interface QREditorViewController ( )
 {
@@ -50,6 +51,12 @@
     [super viewWillAppear:animated];
     
     [_tblView reloadData];
+}
+
+-(void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [[ThemeManager sharedManager] beautifyViewController:self];
 }
 
 - ( void )didReceiveMemoryWarning

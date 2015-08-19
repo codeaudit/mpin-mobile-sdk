@@ -31,6 +31,7 @@
 #import "Utilities.h"
 #import "QREditorViewController.h"
 #import <AudioToolbox/AudioToolbox.h>
+#import "ThemeManager.h"
 
 static NSInteger constIntTimeoutInterval = 30;
 
@@ -88,7 +89,7 @@ static NSInteger constIntTimeoutInterval = 30;
 - ( void ) viewDidAppear:( BOOL )animated
 {
     [super viewDidAppear:animated];
-
+    [[ThemeManager sharedManager] beautifyViewController:self];
     if ( !( _isReading = [self startReading] ) )
     {
         [[ErrorHandler sharedManager] presentMessageInViewController:self

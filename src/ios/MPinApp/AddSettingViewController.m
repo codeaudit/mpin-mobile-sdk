@@ -66,7 +66,6 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 {
     [super viewDidLoad];
     _service = LOGIN_ONLINE;
-    [[ThemeManager sharedManager] beautifyViewController:self];
     UITapGestureRecognizer *singleTap =
         [[UITapGestureRecognizer alloc] initWithTarget:self
          action:@selector( resignOnTap: )];
@@ -80,14 +79,19 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     [_btnTestConfig setTitle:NSLocalizedString(@"ADDCONFIGVC_BTN_TEST_CONFIG", @"") forState:UIControlStateNormal];
 }
 
+-(void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [[ThemeManager sharedManager] beautifyViewController:self];
+}
+
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
 
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
-
-
+    
     if ( _isEdit )
     {
         self.title = NSLocalizedString(@"ADDCONFIGVC_TITLE_EDIT", @"");

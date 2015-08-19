@@ -244,6 +244,11 @@
 		96AE72731B440AD100171D05 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA7F1B1C493300A68A03 /* CoreText.framework */; };
 		96AE72741B440ADC00171D05 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA7D1B1C492B00A68A03 /* AssetsLibrary.framework */; };
 		96B27CAC1ACACE92007145C2 /* MPin+AsyncOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = FE8129661ABAB61B008677CE /* MPin+AsyncOperations.m */; };
+		96C3B6AB1B81C511000CF693 /* SuperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C3B6AA1B81C511000CF693 /* SuperViewController.m */; };
+		96C3B6AC1B81C511000CF693 /* SuperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C3B6AA1B81C511000CF693 /* SuperViewController.m */; };
+		96C3B6AD1B81C511000CF693 /* SuperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C3B6AA1B81C511000CF693 /* SuperViewController.m */; };
+		96C3B6AE1B81C511000CF693 /* SuperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C3B6AA1B81C511000CF693 /* SuperViewController.m */; };
+		96C3B6AF1B81C511000CF693 /* SuperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C3B6AA1B81C511000CF693 /* SuperViewController.m */; };
 		96C88F461AC42B6E00A5F27A /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A261AC311D000B25B53 /* AboutViewController.m */; };
 		96C88F471AC42B7D00A5F27A /* ConfigurationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A211AC30FAF00B25B53 /* ConfigurationManager.m */; };
 		96C88F481AC42B7D00A5F27A /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A231AC30FAF00B25B53 /* SettingsManager.m */; };
@@ -415,6 +420,8 @@
 		9699B2511AADF7F0008AA313 /* TextFieldTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TextFieldTableViewCell.m; path = ../../../../src/ios/MPinApp/TextFieldTableViewCell.m; sourceTree = "<group>"; };
 		9699B2531AADF812008AA313 /* OptionSelectTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionSelectTableViewCell.h; path = ../../../../src/ios/MPinApp/OptionSelectTableViewCell.h; sourceTree = "<group>"; };
 		9699B2541AADF812008AA313 /* OptionSelectTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OptionSelectTableViewCell.m; path = ../../../../src/ios/MPinApp/OptionSelectTableViewCell.m; sourceTree = "<group>"; };
+		96C3B6A91B81C511000CF693 /* SuperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SuperViewController.h; path = ../../../../src/ios/MPinApp/SuperViewController.h; sourceTree = "<group>"; };
+		96C3B6AA1B81C511000CF693 /* SuperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SuperViewController.m; path = ../../../../src/ios/MPinApp/SuperViewController.m; sourceTree = "<group>"; };
 		96C9BF271AE6407D00FAC454 /* IdentityBlockedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IdentityBlockedViewController.h; path = ../../../../src/ios/MPinApp/IdentityBlockedViewController.h; sourceTree = "<group>"; };
 		96C9BF281AE6407D00FAC454 /* IdentityBlockedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = IdentityBlockedViewController.m; path = ../../../../src/ios/MPinApp/IdentityBlockedViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		96D3CACF1AEE4D34004BAC3A /* NTTComSecurityMPin.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = NTTComSecurityMPin.plist; sourceTree = "<group>"; };
@@ -809,6 +816,8 @@
 				96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */,
 				96D9C0AA1B7341260035F3BB /* NetworkDownViewController.h */,
 				96D9C0AB1B7341260035F3BB /* NetworkDownViewController.m */,
+				96C3B6A91B81C511000CF693 /* SuperViewController.h */,
+				96C3B6AA1B81C511000CF693 /* SuperViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -1425,6 +1434,7 @@
 			files = (
 				96F7B1D21B7B3C080080C799 /* ConfigurationManagerTests.m in Sources */,
 				9604B77E1B73935B00FF6D6A /* Certivox_MPin_Tests.m in Sources */,
+				96C3B6AF1B81C511000CF693 /* SuperViewController.m in Sources */,
 				964C6E061B7C73C900D33D62 /* UserListViewControllerTests.m in Sources */,
 				964C6E091B7C7A4100D33D62 /* TestUtils.m in Sources */,
 			);
@@ -1448,6 +1458,7 @@
 				96130E281AEE4867005D2A86 /* BackButton.m in Sources */,
 				96130E291AEE4867005D2A86 /* PinPadViewController.m in Sources */,
 				96130E2A1AEE4867005D2A86 /* MenuViewController.m in Sources */,
+				96C3B6AD1B81C511000CF693 /* SuperViewController.m in Sources */,
 				96130E2B1AEE4867005D2A86 /* SettingsViewCell.m in Sources */,
 				96130E2C1AEE4867005D2A86 /* AboutViewController.m in Sources */,
 				96130E2D1AEE4867005D2A86 /* ThemeManager.m in Sources */,
@@ -1496,6 +1507,7 @@
 				96130E721AEE490A005D2A86 /* BackButton.m in Sources */,
 				96130E731AEE490A005D2A86 /* PinPadViewController.m in Sources */,
 				96130E741AEE490A005D2A86 /* MenuViewController.m in Sources */,
+				96C3B6AE1B81C511000CF693 /* SuperViewController.m in Sources */,
 				96130E751AEE490A005D2A86 /* SettingsViewCell.m in Sources */,
 				96130E761AEE490A005D2A86 /* AboutViewController.m in Sources */,
 				96130E771AEE490A005D2A86 /* ThemeManager.m in Sources */,
@@ -1544,6 +1556,7 @@
 				96B27CAC1ACACE92007145C2 /* MPin+AsyncOperations.m in Sources */,
 				9649BC931AC16D1000B9F41B /* BackButton.m in Sources */,
 				9649BC941AC16D1000B9F41B /* PinPadViewController.m in Sources */,
+				96C3B6AC1B81C511000CF693 /* SuperViewController.m in Sources */,
 				9649BC951AC16D1000B9F41B /* MenuViewController.m in Sources */,
 				9649BC961AC16D1000B9F41B /* SettingsViewCell.m in Sources */,
 				96C88F461AC42B6E00A5F27A /* AboutViewController.m in Sources */,
@@ -1592,6 +1605,7 @@
 				FE148D6F1A2F13D0007E83EF /* PinPadViewController.m in Sources */,
 				9649BC841AC045E900B9F41B /* MenuViewController.m in Sources */,
 				FE72C3451A6E519D0082F14D /* SettingsViewCell.m in Sources */,
+				96C3B6AB1B81C511000CF693 /* SuperViewController.m in Sources */,
 				96F62A281AC311D000B25B53 /* AboutViewController.m in Sources */,
 				961957461A960E9900C93604 /* ThemeManager.m in Sources */,
 				FE72C3481A6EA6960082F14D /* AddSettingViewController.m in Sources */,
@@ -2175,7 +2189,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Certivox/CertivoxMPin.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
 				PROVISIONING_PROFILE = "";
@@ -2266,7 +2280,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Certivox/CertivoxMPin.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
 				PROVISIONING_PROFILE = "";
@@ -2363,7 +2377,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Certivox/CertivoxMPin.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2453,7 +2467,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Certivox/CertivoxMPin.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
 				PROVISIONING_PROFILE = "";
@@ -2550,7 +2564,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Certivox/CertivoxMPin.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "CertiVox M-Pin";
 				TARGETED_DEVICE_FAMILY = 1;

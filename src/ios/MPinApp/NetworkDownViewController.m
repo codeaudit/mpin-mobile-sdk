@@ -21,9 +21,9 @@
     // Do any additional setup after loading the view.
 }
 
-- ( void )viewWillAppear:( BOOL )animated
+-( void ) viewDidAppear:( BOOL )animated
 {
-    [super viewWillAppear:animated];
+    [super viewDidAppear:animated];
     [[ThemeManager sharedManager] beautifyViewController:self];
 }
 

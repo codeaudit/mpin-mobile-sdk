@@ -24,6 +24,7 @@
 
 
 #import "ThemeManager.h"
+#import "AFNetworking.h"
 #import "AboutViewController.h"
 #import "AddIdentityViewController.h"
 #import "AddSettingViewController.h"
@@ -43,7 +44,10 @@
 #import "NetworkDownViewController.h"
 
 @interface ThemeManager ( )
-
+{
+    UIView *_viewNetworkDown;
+    UIViewController *_currentVC;
+}
 @end
 
 @implementation ThemeManager
@@ -63,7 +67,35 @@
 {
     self = [super init];
     if ( self )
-    {}
+    {
+        CGRect screenRect = [[UIScreen mainScreen] bounds];
+        CGFloat screenWidth = screenRect.size.width;
+        CGRect r = CGRectMake(0, 0, screenWidth, 44.f);
+        _viewNetworkDown = [[UIView alloc] initWithFrame:r];
+        _viewNetworkDown.backgroundColor = [UIColor colorWithHexString:@"F1F2F2"];
+        _viewNetworkDown.translatesAutoresizingMaskIntoConstraints = NO;
+        _viewNetworkDown.tag = 11000;
+
+        UILabel *l = [[UILabel alloc] initWithFrame:r];
+        l.center = _viewNetworkDown.center;
+        [_viewNetworkDown addSubview:l];
+        l.text = NSLocalizedString(@"CONNECTION_WAS_LOST", @"Connection was lost");
+        l.textAlignment = NSTextAlignmentCenter;
+        l.font = [UIFont fontWithName:@"OpenSans" size:16.f];
+        l.textColor = [UIColor colorWithHexString:@"#58595B"];
+        CGRect labelRect = [l.text
+                            boundingRectWithSize:l.frame.size
+                            options:NSStringDrawingUsesLineFragmentOrigin
+                            attributes:@{
+                                NSFontAttributeName : [UIFont fontWithName:@"OpenSans" size:14.f]
+                            }
+                            context:nil];
+        UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake( ( ( screenWidth - labelRect.size.width - 90 ) / 2 ), 6, 32, 32 )];
+        imgView.backgroundColor = [UIColor clearColor];
+        imgView.contentMode  = UIViewContentModeScaleAspectFit;
+        imgView.image = [UIImage imageNamed:@"CloudOffBar"];
+        [_viewNetworkDown addSubview:imgView];
+    }
 
     return self;
 }
@@ -71,6 +103,8 @@
 - ( void )beautifyViewController:( id )vc
 {
     UIViewController *v = (UIViewController *)vc;
+    [_viewNetworkDown removeFromSuperview];
+    _currentVC = vc;
 
     v.navigationController.navigationBar.barTintColor = [[SettingsManager sharedManager] color0];
     v.navigationController.navigationBar.tintColor = [[SettingsManager sharedManager] color6];
@@ -112,6 +146,14 @@
         myVc.lblNote.textColor = [[SettingsManager sharedManager] color9];
         myVc.lblNote.font = [UIFont fontWithName:@"OpenSans-Semibold" size:12.];
         [self setupLoginButton:myVc.btnLogin];
+        if ( [AFNetworkReachabilityManager sharedManager].reachable )
+        {
+            myVc.constraintNoNetworkViewHeight.constant = 0;
+        }
+        else
+        {
+            myVc.constraintNoNetworkViewHeight.constant = 36;
+        }
     }
 
     else
@@ -340,5 +382,49 @@
     cell.lblConfigurationType.textColor = [[SettingsManager sharedManager] color4];
 }
 
-//TODO: Add method for title labels
+//-( void ) showNetworkDown:( id )viewController
+//{
+//    UIViewController *vc  = _currentVC;
+//    [_viewNetworkDown removeFromSuperview];
+//    if ( [vc isMemberOfClass:[UserListViewController class]] )
+//    {
+//        UserListViewController *myVc = (UserListViewController *)vc;
+//        NSLayoutConstraint *c = [NSLayoutConstraint constraintWithItem:myVc.table attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:myVc.view attribute:NSLayoutAttributeTop multiplier:1.0f constant:44.0f];
+//        c.priority = 999;
+//        [myVc.view addConstraint:c];
+//    }
+//    else if ([vc isMemberOfClass:[AccessNumberViewController class]])
+//    {
+//        AccessNumberViewController *myVc = (AccessNumberViewController *)viewController;
+////        NSLayoutConstraint *c = [NSLayoutConstraint constraintWithItem:myVc.viewANContainer attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:myVc.view attribute:NSLayoutAttributeTop multiplier:1.0f constant:44.0f];
+////        c.priority = 999;
+////        [myVc.view addConstraint:c];
+//        
+//        
+//    }
+//    [vc.view addSubview:_viewNetworkDown];
+//}
+//
+//-( void ) hideNetworkDown:( id )viewController
+//{
+//    UIViewController *vc  = _currentVC;
+//    if ( [vc isMemberOfClass:[UserListViewController class]] )
+//    {
+//        UserListViewController *myVc = (UserListViewController *)vc;
+//        NSLayoutConstraint *c = [NSLayoutConstraint constraintWithItem:myVc.table attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:myVc.view attribute:NSLayoutAttributeTop multiplier:1.0f constant:0.0f];
+//        c.priority = 999;
+//        [myVc.view addConstraint:c];
+//    }
+//    else if ([vc isMemberOfClass:[AccessNumberViewController class]])
+//    {
+//        AccessNumberViewController *myVc = (AccessNumberViewController *)viewController;
+////        NSLayoutConstraint *c = [NSLayoutConstraint constraintWithItem:myVc.viewANContainer attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:myVc.view attribute:NSLayoutAttributeTop multiplier:1.0f constant:0.0f];
+////        c.priority = 999;
+////        [myVc.view addConstraint:c];
+//
+//        
+//    }
+//    [_viewNetworkDown removeFromSuperview];
+//}
+
 @end
