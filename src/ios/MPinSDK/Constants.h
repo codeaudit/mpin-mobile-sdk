@@ -63,6 +63,14 @@ static NSString *const kJSON_TYPE_MOBILE= @"mobile";
 static NSString *const kJSON_TYPE_ONLINE = @"online";
 //// END
 
+///// MESSAGE PARAMETER LIST
+static NSString *const kMpinId = @"mpinId";
+static NSString *const kActivationKey = @"activationKey";
+static NSString *const kSafariID = @"com.apple.mobilesafari";
+
+///// END
+
+
 
 static NSString *const kDeviceName = @"setDeviceName";
 static NSString *const kDefaultDeviceName = @"Sample IOS App";

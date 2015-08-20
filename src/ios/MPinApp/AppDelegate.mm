@@ -32,6 +32,7 @@
 #import "AFNetworkReachabilityManager.h"
 #import "ApplicationManager.h"
 #import <HockeySDK/HockeySDK.h>
+#import "Utilities.h"
 
 @interface AppDelegate ()
 @end
@@ -98,7 +99,18 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    return NO;
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Message LOG"
+                                                     message:[NSString stringWithFormat:@"Calling application: %@ , URL Schema %@ ,URL query: %@ ",sourceApplication, [url scheme], [url query]]
+                                                    delegate:nil
+                                           cancelButtonTitle:@"Cancel"
+                                           otherButtonTitles:nil,
+                           nil];
+    [alert show];
+    
+    
+    NSDictionary * params = [Utilities urlQueryParamsToDictianary:[url query]];
+    
+    return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

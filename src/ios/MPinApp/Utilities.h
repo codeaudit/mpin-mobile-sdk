@@ -29,5 +29,7 @@
 @interface Utilities : NSObject
 
 +(enum SERVICES) ServerJSONConfigTypeToService_type:(NSString*) jsonTypeName;
++(NSDictionary *) urlQueryParamsToDictianary:(NSString *) urlQuery;
+
 
 @end

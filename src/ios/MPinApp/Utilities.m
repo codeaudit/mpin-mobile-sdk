@@ -46,4 +46,9 @@
     }
 }
 
++(NSDictionary *) urlQueryParamsToDictianary:(NSString *) urlQuery {
+    
+    return nil;
+}
+
 @end
