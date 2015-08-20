@@ -84,15 +84,11 @@ static NSMutableArray *kCircles;
     self.sdk.delegate = self;
 }
 
--( void ) viewDidAppear:( BOOL )animated
-{
-    [super viewDidAppear:animated];
-    [[ThemeManager sharedManager] beautifyViewController:self];
-}
-
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
+    [self registerObservers];
+    [[ThemeManager sharedManager] beautifyViewController:self];
     [self hideWrongPIN];
     if ( self.sdk == nil )
     {
@@ -142,6 +138,7 @@ static NSMutableArray *kCircles;
 - ( void )viewWillDisappear:( BOOL )animated
 {
     [super viewWillDisappear:animated];
+    [self unRegisterObservers];
 }
 
 - ( void ) viewDidDisappear:( BOOL )animated
@@ -432,6 +429,45 @@ static NSMutableArray *kCircles;
     identityBlockedViewController.strUserEmail = [_currentUser getIdentity];
     identityBlockedViewController.iuser = _currentUser;
     [self.navigationController pushViewController:identityBlockedViewController animated:YES];
+}
+
+#pragma mark - NSNotification handlers -
+
+-( void ) networkUp
+{
+    [[ThemeManager sharedManager] hideNetworkDown:self];
+}
+
+-( void ) networkDown
+{
+    NSLog(@"Network DOWN Notification");
+    
+    [self.view layoutIfNeeded];
+    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations:^{
+        self.constraintNoNetworkViewHeight.constant = 36.0f;
+        [self.view layoutIfNeeded];
+    }];
+}
+
+- (void) applicationWillResignActive
+{
+    [MPin sendPin:kEmptyStr];
+    self.sdk.delegate = nil;
+}
+
+-( void ) unRegisterObservers
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_UP_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+}
+
+- ( void ) registerObservers
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkUp ) name:@"NETWORK_UP_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkDown ) name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive) name:UIApplicationWillResignActiveNotification object:nil];
+    
 }
 
 @end

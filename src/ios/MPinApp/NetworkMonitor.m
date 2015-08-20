@@ -9,11 +9,11 @@
 #import "NetworkMonitor.h"
 #import "ApplicationManager.h"
 #import "AppDelegate.h"
-#import "ThemeManager.h"
+#import "AFNetworkReachabilityManager.h"
+#import <SystemConfiguration/SCNetworkReachability.h>
 
 @interface NetworkMonitor ( )
 {
-    BOOL boolWasDown;
     AppDelegate *appDelegate;
 }
 @end
@@ -36,12 +36,27 @@
     self = [super init];
     if ( self )
     {
-        boolWasDown = YES;
         appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         [self runNetowrkMonitoring];
     }
 
     return self;
+}
+
++( bool )isNetworkAvailable
+{
+    SCNetworkReachabilityFlags flags;
+    SCNetworkReachabilityRef address;
+    //TODO: Fix the address
+    address = SCNetworkReachabilityCreateWithName(NULL, "www.apple.com" );
+    Boolean success = SCNetworkReachabilityGetFlags(address, &flags);
+    CFRelease(address);
+
+    bool canReach = success
+                    && !( flags & kSCNetworkReachabilityFlagsConnectionRequired )
+                    && ( flags & kSCNetworkReachabilityFlagsReachable );
+
+    return canReach;
 }
 
 - ( void ) runNetowrkMonitoring
@@ -51,15 +66,10 @@
         {
         case AFNetworkReachabilityStatusReachableViaWiFi:
         case AFNetworkReachabilityStatusReachableViaWWAN:
-            NSLog(@"!!! NETWORK UP");
-            if ( boolWasDown )
-            {
+            dispatch_async(dispatch_get_main_queue(),^ {
                 [[ApplicationManager sharedManager] setBackend];
-                dispatch_async(dispatch_get_main_queue(),^ {
-                    [[NSNotificationCenter defaultCenter] postNotificationName: @"NETWORK_UP_NOTIFICATION" object:nil userInfo:nil];
-                });
-            }
-            boolWasDown = NO;
+                [[NSNotificationCenter defaultCenter] postNotificationName: @"NETWORK_UP_NOTIFICATION" object:nil userInfo:nil];
+            });
             self.networkStatusUp = YES;
             break;
 
@@ -69,15 +79,11 @@
                     [[NSNotificationCenter defaultCenter] postNotificationName: @"NETWORK_DOWN_NOTIFICATION" object:nil userInfo:nil];
                 });
 
-                NSLog(@"!!! NETWORK DOWN");
-                boolWasDown = YES;
                 self.networkStatusUp = NO;
             }
             break;
         }
     }];
-
-    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
 }
 
 @end

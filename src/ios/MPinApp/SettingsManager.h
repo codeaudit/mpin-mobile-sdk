@@ -39,6 +39,7 @@
 @property ( nonatomic, strong ) UIColor *color8;
 @property ( nonatomic, strong ) UIColor *color9;
 @property ( nonatomic, strong ) UIColor *color10;
+@property ( nonatomic, strong ) UIColor *color11;
 
 @property ( nonatomic, strong ) NSString *strHockeyAppID;
 

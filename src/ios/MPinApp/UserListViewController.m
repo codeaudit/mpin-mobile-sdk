@@ -136,7 +136,6 @@ static NSString *const kAN = @"AN";
 
     self.users = [MPin listUsers];
     [(MenuViewController *)self.menuContainerViewController.leftMenuViewController setConfiguration];
-    
     [[ThemeManager sharedManager] beautifyViewController:self];
 }
 
@@ -145,7 +144,6 @@ static NSString *const kAN = @"AN";
     [super viewWillDisappear:animated];
     [self unRegisterObservers];
 }
-
 
 - ( void )viewDidAppear:( BOOL )animated
 {
@@ -730,32 +728,15 @@ static NSString *const kAN = @"AN";
 
 -( void ) networkUp
 {
-    NSLog(@"Network UP Notification");
-    if ( boolNetworkWasDown )
-    {
-        boolNetworkWasDown = NO;
-        [self.view layoutIfNeeded];
-        [UIView animateWithDuration:1.0f animations:^{
-            self.constraintNoNetworkViewHeight.constant = 0.0f;
-            [self.view layoutIfNeeded];
-        }];
-    }
+    [[ThemeManager sharedManager] hideNetworkDown:self];
+    [_table reloadData];
 }
 
 -( void ) networkDown
 {
     NSLog(@"Network DOWN Notification");
-    
-    if ( !boolNetworkWasDown )
-    {
-        boolNetworkWasDown = YES;
-        
-        [self.view layoutIfNeeded];
-        [UIView animateWithDuration:1.0f animations:^{
-            self.constraintNoNetworkViewHeight.constant = 36.0f;
-            [self.view layoutIfNeeded];
-        }];
-    }
+
+    [[ThemeManager sharedManager] showNetworkDown:self];
 }
 
 -( void ) unRegisterObservers
@@ -771,7 +752,6 @@ static NSString *const kAN = @"AN";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkUp ) name:@"NETWORK_UP_NOTIFICATION" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkDown ) name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
 }
-
 
 - ( void )showPinPad
 {
@@ -798,7 +778,5 @@ static NSString *const kAN = @"AN";
     NSLog(@"Calling PinPad from UserList");
     [self.navigationController pushViewController:pinpadViewController animated:YES];
 }
-
-
 
 @end

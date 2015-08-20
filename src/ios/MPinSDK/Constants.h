@@ -73,6 +73,8 @@ static NSString *const kEmptyStr = @"";
 static NSString *constStrNetworkDown = @"NetworkDown";
 static NSString *constStrNetworkUp = @"NetworkUp";
 
+static float kFltNoNetworkMessageAnimationDuration = 0.3f;
+
 enum SERVICES
 {
     LOGIN_ON_MOBILE = 0,

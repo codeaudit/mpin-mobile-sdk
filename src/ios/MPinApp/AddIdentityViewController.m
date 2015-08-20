@@ -84,19 +84,21 @@ static NSString *const kUser = @"User";
     [super viewWillAppear:animated];
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
+    [[ThemeManager sharedManager] beautifyViewController:self];
 }
 
 - ( void )viewDidAppear:( BOOL )animated
 {
     [super viewDidAppear:animated];
-    [[ThemeManager sharedManager] beautifyViewController:self];
+    [self registerObservers];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
 }
 
-- ( void )viewDidDisappear:( BOOL )animated
+- ( void )viewWillDisappear:( BOOL )animated
 {
-    [super viewDidDisappear:animated];
+    [super viewWillDisappear:animated];
     [[ErrorHandler sharedManager] hideMessage];
+    [self unRegisterObservers];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
 }
 
@@ -284,6 +286,36 @@ static NSString *const kUser = @"User";
 - ( IBAction )back:( id )sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - NSNotification handlers -
+
+-( void ) networkUp
+{
+    [[ThemeManager sharedManager] hideNetworkDown:self];
+}
+
+-( void ) networkDown
+{
+    NSLog(@"Network DOWN Notification");
+    
+    [self.view layoutIfNeeded];
+    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations:^{
+        self.constraintNoNetworkViewHeight.constant = 36.0f;
+        [self.view layoutIfNeeded];
+    }];
+}
+
+-( void ) unRegisterObservers
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_UP_NOTIFICATION" object:nil];
+}
+
+- ( void ) registerObservers
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkUp ) name:@"NETWORK_UP_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkDown ) name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
 }
 
 @end

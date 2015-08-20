@@ -8,12 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol NoNetworkNotificationProtocol <NSObject>
+
+@required
+- ( void ) networkUp;
+- ( void ) networkDown;
+- ( void ) unRegisterObservers;
+- ( void ) registerObservers;
+
+
+@end
+
 @interface SuperViewController : UIViewController
-{
-    BOOL boolNetworkWasDown;
-}
+{}
 
 @property( nonatomic,weak ) IBOutlet UIView *viewNoNetwork;
 @property( nonatomic,weak ) IBOutlet NSLayoutConstraint *constraintNoNetworkViewHeight;
+@property( nonatomic,weak ) IBOutlet UILabel *lblNetworkDownMessage;
+@property( nonatomic,weak ) IBOutlet UIImageView *imgViewNetworkDown;
 
 @end

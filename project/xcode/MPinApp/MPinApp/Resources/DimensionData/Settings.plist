@@ -61,6 +61,8 @@
 		<string>5EAE20</string>
 		<key>color10</key>
 		<string>69BE28</string>
+		<key>color11</key>
+		<string>F1F2F2</string>
 	</dict>
 	<key>URL_MOBILE_GUIDE</key>
 	<string>http://www.certivox.com/mobile-app</string>

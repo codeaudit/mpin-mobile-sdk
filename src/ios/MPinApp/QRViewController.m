@@ -69,7 +69,7 @@ static NSInteger constIntTimeoutInterval = 30;
 - (void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
+    [self unRegisterObservers];
 }
 
 - (void) dealloc
@@ -80,7 +80,8 @@ static NSInteger constIntTimeoutInterval = 30;
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
-    
+    [self registerObservers];
+    [[ThemeManager sharedManager] beautifyViewController:self];
     _imgViewRectangle.hidden = YES;
     _lblMessage.hidden = YES;
     _lblMessage.text = NSLocalizedString(@"QR_MESSAGE", @"Place  the QR code in the centre of the screen. It will be scanned automatically.");
@@ -89,7 +90,7 @@ static NSInteger constIntTimeoutInterval = 30;
 - ( void ) viewDidAppear:( BOOL )animated
 {
     [super viewDidAppear:animated];
-    [[ThemeManager sharedManager] beautifyViewController:self];
+    
     if ( !( _isReading = [self startReading] ) )
     {
         [[ErrorHandler sharedManager] presentMessageInViewController:self
@@ -267,6 +268,36 @@ static NSInteger constIntTimeoutInterval = 30;
 -( IBAction )close:( id )sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - NSNotification handlers -
+
+-( void ) networkUp
+{
+    [[ThemeManager sharedManager] hideNetworkDown:self];
+}
+
+-( void ) networkDown
+{
+    NSLog(@"Network DOWN Notification");
+    
+    [self.view layoutIfNeeded];
+    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations:^{
+        self.constraintNoNetworkViewHeight.constant = 36.0f;
+        [self.view layoutIfNeeded];
+    }];
+}
+
+-( void ) unRegisterObservers
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_UP_NOTIFICATION" object:nil];
+}
+
+- ( void ) registerObservers
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkUp ) name:@"NETWORK_UP_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkDown ) name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
 }
 
 @end

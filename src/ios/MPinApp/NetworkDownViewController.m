@@ -8,6 +8,7 @@
 
 #import "NetworkDownViewController.h"
 #import "ThemeManager.h"
+#import "AppDelegate.h"
 
 @interface NetworkDownViewController ( )
 
@@ -21,12 +22,18 @@
     // Do any additional setup after loading the view.
 }
 
--( void ) viewDidAppear:( BOOL )animated
+-( void ) viewWillAppear:( BOOL )animated
 {
-    [super viewDidAppear:animated];
+    [super  viewWillAppear:animated];
+    [self   registerObservers];
     [[ThemeManager sharedManager] beautifyViewController:self];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self unRegisterObservers];
+}
 - ( void )didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -42,5 +49,30 @@
     // Pass the selected object to the new view controller.
    }
  */
+
+#pragma mark - NSNotification handlers -
+
+-( void ) networkUp
+{
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [appDelegate connectionUp];
+}
+
+-( void ) networkDown
+{
+    NSLog(@"Network DOWN Notification");
+}
+
+-( void ) unRegisterObservers
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_UP_NOTIFICATION" object:nil];
+}
+
+- ( void ) registerObservers
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkUp ) name:@"NETWORK_UP_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkDown ) name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
+}
 
 @end

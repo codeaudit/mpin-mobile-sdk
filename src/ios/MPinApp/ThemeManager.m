@@ -42,11 +42,11 @@
 #import "IdentityBlockedViewController.h"
 #import "ANAuthenticationSuccessful.h"
 #import "NetworkDownViewController.h"
+#import "NetworkMonitor.h"
 
 @interface ThemeManager ( )
 {
-    UIView *_viewNetworkDown;
-    UIViewController *_currentVC;
+    BOOL boolReachabilityManagerReady;
 }
 @end
 
@@ -68,43 +68,23 @@
     self = [super init];
     if ( self )
     {
-        CGRect screenRect = [[UIScreen mainScreen] bounds];
-        CGFloat screenWidth = screenRect.size.width;
-        CGRect r = CGRectMake(0, 0, screenWidth, 44.f);
-        _viewNetworkDown = [[UIView alloc] initWithFrame:r];
-        _viewNetworkDown.backgroundColor = [UIColor colorWithHexString:@"F1F2F2"];
-        _viewNetworkDown.translatesAutoresizingMaskIntoConstraints = NO;
-        _viewNetworkDown.tag = 11000;
-
-        UILabel *l = [[UILabel alloc] initWithFrame:r];
-        l.center = _viewNetworkDown.center;
-        [_viewNetworkDown addSubview:l];
-        l.text = NSLocalizedString(@"CONNECTION_WAS_LOST", @"Connection was lost");
-        l.textAlignment = NSTextAlignmentCenter;
-        l.font = [UIFont fontWithName:@"OpenSans" size:16.f];
-        l.textColor = [UIColor colorWithHexString:@"#58595B"];
-        CGRect labelRect = [l.text
-                            boundingRectWithSize:l.frame.size
-                            options:NSStringDrawingUsesLineFragmentOrigin
-                            attributes:@{
-                                NSFontAttributeName : [UIFont fontWithName:@"OpenSans" size:14.f]
-                            }
-                            context:nil];
-        UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake( ( ( screenWidth - labelRect.size.width - 90 ) / 2 ), 6, 32, 32 )];
-        imgView.backgroundColor = [UIColor clearColor];
-        imgView.contentMode  = UIViewContentModeScaleAspectFit;
-        imgView.image = [UIImage imageNamed:@"CloudOffBar"];
-        [_viewNetworkDown addSubview:imgView];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( reachabilityManagerReady ) name:AFNetworkingReachabilityDidChangeNotification object:nil];
+        boolReachabilityManagerReady = NO;
     }
 
     return self;
 }
 
+- ( void ) reachabilityManagerReady
+{
+    boolReachabilityManagerReady = YES;
+}
+
 - ( void )beautifyViewController:( id )vc
 {
-    UIViewController *v = (UIViewController *)vc;
-    [_viewNetworkDown removeFromSuperview];
-    _currentVC = vc;
+    SuperViewController *v = (SuperViewController *)vc;
+
+    [self setupErrorViewInViewController:v];
 
     v.navigationController.navigationBar.barTintColor = [[SettingsManager sharedManager] color0];
     v.navigationController.navigationBar.tintColor = [[SettingsManager sharedManager] color6];
@@ -146,14 +126,6 @@
         myVc.lblNote.textColor = [[SettingsManager sharedManager] color9];
         myVc.lblNote.font = [UIFont fontWithName:@"OpenSans-Semibold" size:12.];
         [self setupLoginButton:myVc.btnLogin];
-        if ( [AFNetworkReachabilityManager sharedManager].reachable )
-        {
-            myVc.constraintNoNetworkViewHeight.constant = 0;
-        }
-        else
-        {
-            myVc.constraintNoNetworkViewHeight.constant = 36;
-        }
     }
 
     else
@@ -382,49 +354,64 @@
     cell.lblConfigurationType.textColor = [[SettingsManager sharedManager] color4];
 }
 
-//-( void ) showNetworkDown:( id )viewController
-//{
-//    UIViewController *vc  = _currentVC;
-//    [_viewNetworkDown removeFromSuperview];
-//    if ( [vc isMemberOfClass:[UserListViewController class]] )
-//    {
-//        UserListViewController *myVc = (UserListViewController *)vc;
-//        NSLayoutConstraint *c = [NSLayoutConstraint constraintWithItem:myVc.table attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:myVc.view attribute:NSLayoutAttributeTop multiplier:1.0f constant:44.0f];
-//        c.priority = 999;
-//        [myVc.view addConstraint:c];
-//    }
-//    else if ([vc isMemberOfClass:[AccessNumberViewController class]])
-//    {
-//        AccessNumberViewController *myVc = (AccessNumberViewController *)viewController;
-////        NSLayoutConstraint *c = [NSLayoutConstraint constraintWithItem:myVc.viewANContainer attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:myVc.view attribute:NSLayoutAttributeTop multiplier:1.0f constant:44.0f];
-////        c.priority = 999;
-////        [myVc.view addConstraint:c];
-//        
-//        
-//    }
-//    [vc.view addSubview:_viewNetworkDown];
-//}
-//
-//-( void ) hideNetworkDown:( id )viewController
-//{
-//    UIViewController *vc  = _currentVC;
-//    if ( [vc isMemberOfClass:[UserListViewController class]] )
-//    {
-//        UserListViewController *myVc = (UserListViewController *)vc;
-//        NSLayoutConstraint *c = [NSLayoutConstraint constraintWithItem:myVc.table attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:myVc.view attribute:NSLayoutAttributeTop multiplier:1.0f constant:0.0f];
-//        c.priority = 999;
-//        [myVc.view addConstraint:c];
-//    }
-//    else if ([vc isMemberOfClass:[AccessNumberViewController class]])
-//    {
-//        AccessNumberViewController *myVc = (AccessNumberViewController *)viewController;
-////        NSLayoutConstraint *c = [NSLayoutConstraint constraintWithItem:myVc.viewANContainer attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:myVc.view attribute:NSLayoutAttributeTop multiplier:1.0f constant:0.0f];
-////        c.priority = 999;
-////        [myVc.view addConstraint:c];
-//
-//        
-//    }
-//    [_viewNetworkDown removeFromSuperview];
-//}
+- ( void ) setupErrorViewInViewController: ( SuperViewController * ) superVc
+{
+    if ( [superVc isMemberOfClass:[MenuViewController class]]
+         || [superVc isMemberOfClass:[ANAuthenticationSuccessful class]]
+         || [superVc isMemberOfClass:[NetworkDownViewController class]] )
+    {
+        return;
+    }
+
+    if ( superVc.viewNoNetwork )
+    {
+        superVc.viewNoNetwork.backgroundColor = [[SettingsManager sharedManager] color11];
+        superVc.lblNetworkDownMessage.textColor = [[SettingsManager sharedManager] color7];
+        superVc.lblNetworkDownMessage.text = NSLocalizedString(@"CONNECTION_WAS_LOST", @"Connection was lost");
+        superVc.lblNetworkDownMessage.font = [UIFont fontWithName:@"OpenSans" size:14.f];
+        
+        if ( boolReachabilityManagerReady == NO )
+        {
+            superVc.constraintNoNetworkViewHeight.constant = 0;
+        }
+        else
+        if ( [AFNetworkReachabilityManager sharedManager].reachable )
+        {
+            superVc.constraintNoNetworkViewHeight.constant = 0;
+        }
+        else
+        {
+            superVc.constraintNoNetworkViewHeight.constant = 36.f;
+        }
+    }
+}
+
+- ( void ) showNetworkDown:( SuperViewController * )vc
+{
+    if ( vc.constraintNoNetworkViewHeight.constant > 0 )
+    {
+        return;
+    }
+
+    [vc.view layoutIfNeeded];
+    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations: ^ {
+        vc.constraintNoNetworkViewHeight.constant = 36.0f;
+        [vc.view layoutIfNeeded];
+    }];
+}
+
+- ( void ) hideNetworkDown:( SuperViewController * )vc
+{
+    if ( vc.constraintNoNetworkViewHeight.constant == 0 )
+    {
+        return;
+    }
+
+    [vc.view layoutIfNeeded];
+    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations: ^ {
+        vc.constraintNoNetworkViewHeight.constant = 0.0f;
+        [vc.view layoutIfNeeded];
+    }];
+}
 
 @end

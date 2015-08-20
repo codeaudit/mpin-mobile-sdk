@@ -23,17 +23,14 @@
  http://www.certivox.com/about-certivox/patents/
  */
 
-
+#import <HockeySDK/HockeySDK.h>
 #import "AppDelegate.h"
 #import "Constants.h"
 #import "MFSideMenuContainerViewController.h"
-#import "SettingsManager.h"
-#import "OTPViewController.h"
-#import "AFNetworkReachabilityManager.h"
 #import "ApplicationManager.h"
-#import <HockeySDK/HockeySDK.h>
 #import "NetworkMonitor.h"
 #import "NetworkDownViewController.h"
+#import "AFNetworkReachabilityManager.h"
 
 @interface AppDelegate ()
 {
@@ -49,6 +46,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     boolRestartFlow = NO;
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     UIUserNotificationType types = UIUserNotificationTypeBadge |
     UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
@@ -58,7 +56,6 @@
     [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
     [application registerForRemoteNotifications];
 
-    
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 
     [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:[SettingsManager sharedManager].strHockeyAppID];
@@ -66,8 +63,6 @@
     [[BITHockeyManager sharedHockeyManager] startManager];
     [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
     
-	
-
 	container = (MFSideMenuContainerViewController *)self.window.rootViewController;
     
 	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:[NSBundle mainBundle]];
@@ -82,6 +77,12 @@
 	[container setLeftMenuViewController:leftSideMenuViewController];
 
 	self.window.rootViewController = container;
+    
+    if (![NetworkMonitor isNetworkAvailable])
+    {
+        [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:vcNetworkDown]];
+        container.panMode = MFSideMenuPanModeNone;
+    }
     
     [ApplicationManager sharedManager];
     [NetworkMonitor sharedManager];
@@ -107,7 +108,6 @@
     boolRestartFlow = YES;
     MFSideMenuContainerViewController *c = (MFSideMenuContainerViewController *)self.window.rootViewController;
     [c.centerViewController popToRootViewControllerAnimated:NO];
-
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
@@ -128,22 +128,27 @@
     imgView.contentMode = UIViewContentModeCenter;
     imgView.backgroundColor = [[SettingsManager sharedManager] color10];
     [self.window bringSubviewToFront:protectionView];
-    
     // fade in the view
     [UIView animateWithDuration:0.5 animations:^{
         protectionView.alpha = 1;
     }];
-
 }
+
+
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    if (boolRestartFlow)
+    if (![NetworkMonitor isNetworkAvailable])
+    {
+        [self connectionDown];
+    }
+    if (boolRestartFlow && [NetworkMonitor isNetworkAvailable])
     {
         boolRestartFlow = !boolRestartFlow;
         [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
         [_vcUserList invalidate];
     }
+
     UIView *colourView = [self.window viewWithTag:1234];
     [UIView animateWithDuration:0.5 animations:^{
         colourView.alpha = 0;
@@ -151,6 +156,7 @@
         [colourView removeFromSuperview];
     }];
 }
+
 
 -( void) connectionDown
 {
@@ -165,6 +171,5 @@
     [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
     container.panMode = MFSideMenuPanModeDefault;
 }
-
 
 @end

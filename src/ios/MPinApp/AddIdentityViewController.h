@@ -27,7 +27,7 @@
 
 @class BackButton;
 
-@interface AddIdentityViewController : UIViewController <UITextFieldDelegate, MPinSDKDelegate>
+@interface AddIdentityViewController : SuperViewController <UITextFieldDelegate, MPinSDKDelegate>
 
 @property ( nonatomic, weak ) IBOutlet BackButton *btnBack;
 @property ( nonatomic, weak ) IBOutlet UITextField *txtIdentity;

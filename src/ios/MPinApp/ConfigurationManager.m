@@ -324,7 +324,7 @@ static NSString *const kSettings = @"settings";
 
 - ( NSDictionary * )getSelectedConfiguration
 {
-    if ( (int)_arrConfigrations.count > (int)_intSelectedConfiguration )
+    if ( (int)_arrConfigrations.count > (int)_intSelectedConfiguration && _intSelectedConfiguration != -1 )
     {
         return [NSMutableDictionary dictionaryWithDictionary:[_arrConfigrations objectAtIndex:_intSelectedConfiguration]];
     }

@@ -169,4 +169,4 @@
 "LOGIN_OTP"                             = "OTP Login";
 "LOADING"                               = "LOADING";
 
-"CONNECTION_WAS_LOST"                   = "Connection was lost";
+"CONNECTION_WAS_LOST"                   = "No Internet Connection";

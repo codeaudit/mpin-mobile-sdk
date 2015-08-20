@@ -7,12 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AFNetworkReachabilityManager.h"
+
 
 @interface NetworkMonitor : NSObject
 
 + ( NetworkMonitor * )sharedManager;
++ ( bool )isNetworkAvailable;
 
-@property (nonatomic) BOOL networkStatusUp;
+@property ( nonatomic ) BOOL networkStatusUp;
 
 @end

@@ -63,7 +63,8 @@
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
-
+    [[ThemeManager sharedManager] beautifyViewController:self];
+    [self registerObservers];
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
 
@@ -71,15 +72,10 @@
     [(MenuViewController *)self.menuContainerViewController.leftMenuViewController setConfiguration];
 }
 
--( void ) viewDidAppear:( BOOL )animated
-{
-    [super viewDidAppear:animated];
-    [[ThemeManager sharedManager] beautifyViewController:self];
-}
-
 - ( void )viewWillDisappear:( BOOL )animated
 {
     [super viewWillDisappear:animated];
+    [self unRegisterObservers];
 }
 
 #pragma mark - Table view datasource & delegate -
@@ -289,6 +285,36 @@
         [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
         break;
     }
+}
+
+#pragma mark - NSNotification handlers -
+
+-( void ) networkUp
+{
+    [[ThemeManager sharedManager] hideNetworkDown:self];
+}
+
+-( void ) networkDown
+{
+    NSLog(@"Network DOWN Notification");
+    [[ErrorHandler sharedManager] hideMessage];
+    [self.view layoutIfNeeded];
+    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations:^{
+        self.constraintNoNetworkViewHeight.constant = 36.0f;
+        [self.view layoutIfNeeded];
+    }];
+}
+
+-( void ) unRegisterObservers
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_UP_NOTIFICATION" object:nil];
+}
+
+- ( void ) registerObservers
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkUp ) name:@"NETWORK_UP_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkDown ) name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
 }
 
 @end

@@ -19,7 +19,6 @@
 - ( void )viewDidLoad
 {
     [super viewDidLoad];
-    boolNetworkWasDown = NO;
 }
 
 - ( void )didReceiveMemoryWarning
@@ -43,27 +42,5 @@
     [super viewWillDisappear:animated];
 }
 
-
-
--( void ) networkUp
-{
-    NSLog(@"Network UP Notification");
-    if ( boolNetworkWasDown )
-    {
-        boolNetworkWasDown = NO;
-        [[ThemeManager sharedManager] hideNetworkDown:self];
-    }
-}
-
--( void ) networkDown
-{
-    NSLog(@"Network DOWN Notification");
-
-    if ( !boolNetworkWasDown )
-    {
-        boolNetworkWasDown = YES;
-        [[ThemeManager sharedManager] showNetworkDown:self];
-    }
-}
 
 @end

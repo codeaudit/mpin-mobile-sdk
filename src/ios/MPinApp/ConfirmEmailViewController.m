@@ -51,7 +51,8 @@
     [super viewWillAppear:animated];
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
-
+    [[ThemeManager sharedManager] beautifyViewController:self];
+    [self registerObservers];
     self.lblUserID.text = [self.iuser getIdentity];
     self.title = NSLocalizedString(@"CONFIRM_EMAIL_VC_TITLE", @"");
 
@@ -59,18 +60,20 @@
     [self.btnEmailConfirmed setTitle:NSLocalizedString(@"CONFIRM_EMAIL_VC_BTN_EMAIL_CONFIRMED", @"") forState:UIControlStateNormal];
     [self.btnGoToIdList setTitle:NSLocalizedString(@"CONFIRM_EMAIL_VC_BTN_GOTO_ID_LIST", @"") forState:UIControlStateNormal];
     [self.btnResendEmail setTitle:NSLocalizedString(@"CONFIRM_EMAIL_VC_BTN_RESEND_EMAIL", @"") forState:UIControlStateNormal];
+    
 }
 
 - ( void )viewDidAppear:( BOOL )animated
 {
     [super viewDidAppear:animated];
-    [[ThemeManager sharedManager] beautifyViewController:self];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
 }
 
-- ( void )viewDidDisappear:( BOOL )animated
+- ( void )viewWillDisappear:( BOOL )animated
 {
-    [super viewDidDisappear:animated];
+    [super viewWillDisappear:animated];
+    [self registerObservers];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
 }
 
@@ -141,6 +144,36 @@
      errorString:mpinStatus.errorMessage
      addActivityIndicator:NO
      minShowTime:0];
+}
+
+#pragma mark - NSNotification handlers -
+
+-( void ) networkUp
+{
+    [[ThemeManager sharedManager] hideNetworkDown:self];
+}
+
+-( void ) networkDown
+{
+    NSLog(@"Network DOWN Notification");
+    
+    [self.view layoutIfNeeded];
+    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations:^{
+        self.constraintNoNetworkViewHeight.constant = 36.0f;
+        [self.view layoutIfNeeded];
+    }];
+}
+
+-( void ) unRegisterObservers
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_UP_NOTIFICATION" object:nil];
+}
+
+- ( void ) registerObservers
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkUp ) name:@"NETWORK_UP_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkDown ) name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
 }
 
 @end

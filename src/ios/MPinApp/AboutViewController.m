@@ -66,10 +66,17 @@
     [_btnValues     setTitle:NSLocalizedString(@"ABOUTVC_BTN_VALUES", @"Values / Security / Privacy") forState:UIControlStateNormal];
 }
 
--( void ) viewDidAppear:( BOOL )animated
+-( void ) viewWillAppear:( BOOL )animated
 {
-    [super viewDidAppear:animated];
+    [super viewWillAppear:animated];
+    [self registerObservers];
     [[ThemeManager sharedManager] beautifyViewController:self];
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self unRegisterObservers];
 }
 
 - ( void )didReceiveMemoryWarning
@@ -138,6 +145,36 @@
     } failure: ^ (AFHTTPRequestOperation *operation, NSError *error){
         [[[UIAlertView alloc] initWithTitle:@"" message:@"Operation completed" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     }];
+}
+
+#pragma mark - NSNotification handlers -
+
+-( void ) networkUp
+{
+    [[ThemeManager sharedManager] hideNetworkDown:self];
+}
+
+-( void ) networkDown
+{
+    NSLog(@"Network DOWN Notification");
+    
+    [self.view layoutIfNeeded];
+    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations:^{
+        self.constraintNoNetworkViewHeight.constant = 36.0f;
+        [self.view layoutIfNeeded];
+    }];
+}
+
+-( void ) unRegisterObservers
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_UP_NOTIFICATION" object:nil];
+}
+
+- ( void ) registerObservers
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkUp ) name:@"NETWORK_UP_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkDown ) name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
 }
 
 @end

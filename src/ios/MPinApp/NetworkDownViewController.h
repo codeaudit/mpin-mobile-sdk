@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SuperViewController.h"
 
-@interface NetworkDownViewController : UIViewController
+@interface NetworkDownViewController : SuperViewController <NoNetworkNotificationProtocol>
 
 @property ( nonatomic, weak ) IBOutlet UILabel *lblMessage;
 

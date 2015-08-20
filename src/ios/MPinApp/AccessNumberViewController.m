@@ -175,32 +175,17 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
 
 -( void ) networkUp
 {
-    NSLog(@"Network UP Notification");
-    if ( boolNetworkWasDown )
-    {
-        boolNetworkWasDown = NO;
-        [self.view layoutIfNeeded];
-        [UIView animateWithDuration:1.0f animations:^{
-            self.constraintNoNetworkViewHeight.constant = 0.0f;
-            [self.view layoutIfNeeded];
-        }];
-    }
+    [[ThemeManager sharedManager] hideNetworkDown:self];
 }
 
 -( void ) networkDown
 {
     NSLog(@"Network DOWN Notification");
-    
-    if ( !boolNetworkWasDown )
-    {
-        boolNetworkWasDown = YES;
-        
+    [self.view layoutIfNeeded];
+    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations: ^ {
+        self.constraintNoNetworkViewHeight.constant = 36.0f;
         [self.view layoutIfNeeded];
-        [UIView animateWithDuration:1.0f animations:^{
-            self.constraintNoNetworkViewHeight.constant = 36.0f;
-            [self.view layoutIfNeeded];
-        }];
-    }
+    }];
 }
 
 -( void ) unRegisterObservers
