@@ -5,14 +5,14 @@ import android.content.Context;
 import android.preference.PreferenceManager;
 
 
-public class InstructionsDao {
+public class AppInstanceInfoDao {
 
     private Context             mContext;
     public static final String  KEY_FIRST_START       = "first_start";
     private static final String KEY_HAS_AUTHENTICATED = "has_authenticated";
 
 
-    public InstructionsDao(Context context) {
+    public AppInstanceInfoDao(Context context) {
         mContext = context;
     }
 
@@ -42,7 +42,7 @@ public class InstructionsDao {
      * 
      * @return whether the user has authenticated before
      */
-    public boolean hasAuthenticatedBefore() {
+    public boolean hasAuthenticatedToMpinConnect() {
         return PreferenceManager.getDefaultSharedPreferences(mContext).getBoolean(KEY_HAS_AUTHENTICATED, false);
     }
 
@@ -53,7 +53,7 @@ public class InstructionsDao {
      * @param hasAuthenticated
      *            - whether the user has authenticated before
      */
-    public void setHasAuthenticatedBefore(boolean hasAuthenticated) {
+    public void setHasAuthenticatedToMpinConnect(boolean hasAuthenticated) {
         PreferenceManager.getDefaultSharedPreferences(mContext).edit()
                 .putBoolean(KEY_HAS_AUTHENTICATED, hasAuthenticated).commit();
     }
