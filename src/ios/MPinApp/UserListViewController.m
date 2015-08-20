@@ -386,7 +386,7 @@ static NSString *const kAN = @"AN";
         [[ErrorHandler sharedManager] presentMessageInViewController:self
          errorString:NSLocalizedString(@"ERROR_OTP_NOT_SUPPORTED",  @"OTP is not supported!")
          addActivityIndicator:NO
-         minShowTime:0];
+         minShowTime:3];
 
         return;
     }
@@ -402,7 +402,7 @@ static NSString *const kAN = @"AN";
     [[ErrorHandler sharedManager] presentMessageInViewController:self
      errorString:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR")
      addActivityIndicator:NO
-     minShowTime:0];
+     minShowTime:3];
 }
 
 - ( void )OnAuthenticateAccessNumberCompleted:( id )sender user:( id<IUser>)user
@@ -410,7 +410,7 @@ static NSString *const kAN = @"AN";
     [[ErrorHandler sharedManager] presentMessageInViewController:self
      errorString:NSLocalizedString(@"HUD_AUTH_SUCCESS", @"")
      addActivityIndicator:NO
-     minShowTime:0];
+     minShowTime:3];
 }
 
 - ( void )OnAuthenticateAccessNumberError:( id )sender error:( NSError * )error

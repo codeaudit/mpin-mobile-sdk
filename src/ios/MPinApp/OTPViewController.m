@@ -70,21 +70,24 @@
     _lblEmail.text = _strEmail;
     [btnBack setup];
     self.navigationItem.leftBarButtonItem = btnBack;
+
+    [[ThemeManager sharedManager] beautifyViewController:self];
     self.title = NSLocalizedString(@"OTPVC_TITLE", @"");
     self.lblMessage.text = NSLocalizedString(@"OTPVC_LBL_MESSAGE", @"");
     self.lblYourPassword.text = NSLocalizedString(@"OTPVC_LBL_YOUR_PASSWORD", @"");
+    [self registerObservers];
 }
 
-- ( void ) viewDidDisappear:( BOOL )animated
+- ( void ) viewWillDisappear:( BOOL )animated
 {
-    [super viewDidDisappear:animated];
+    [super viewWillDisappear:animated];
+    [self unRegisterObservers];
     [self.cpb stopAnimation];
 }
 
 -( void ) viewDidAppear:( BOOL )animated
 {
     [super viewDidAppear:animated];
-    [[ThemeManager sharedManager] beautifyViewController:self];
 }
 
 - ( void ) onProgressBarFinish:( id )sender
@@ -100,6 +103,32 @@
 - ( IBAction ) back:( UIBarButtonItem * )sender
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+#pragma mark - NSNotification handlers -
+
+-( void ) networkUp
+{
+    [[ThemeManager sharedManager] hideNetworkDown:self];
+}
+
+-( void ) networkDown
+{
+    NSLog(@"Network DOWN Notification");
+
+    [[ThemeManager sharedManager] showNetworkDown:self];
+}
+
+-( void ) unRegisterObservers
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_UP_NOTIFICATION" object:nil];
+}
+
+- ( void ) registerObservers
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkUp ) name:@"NETWORK_UP_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkDown ) name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
 }
 
 @end

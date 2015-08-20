@@ -27,13 +27,15 @@
     [super  viewWillAppear:animated];
     [self   registerObservers];
     [[ThemeManager sharedManager] beautifyViewController:self];
+    _lblMessage.text = NSLocalizedString(@"CONNECTION_WAS_LOST", @"No Internet Connection");
 }
 
-- (void)viewWillDisappear:(BOOL)animated
+- ( void )viewWillDisappear:( BOOL )animated
 {
     [super viewWillDisappear:animated];
     [self unRegisterObservers];
 }
+
 - ( void )didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
