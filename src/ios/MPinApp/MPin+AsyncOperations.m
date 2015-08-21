@@ -214,6 +214,44 @@ static NSString *const constStrConnectionTimeoutNotification = @"ConnectionTimeo
     [self RestartRegistration:user userData:@""];
 }
 
+///// Adding SMS  flow
+
+- ( void ) ActivateUserRegisteredBySMS:(NSString* ) mpinId activationKey:(NSString *) activationKey {
+   
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        MpinStatus *mpinStatus = [MPin ActivateUserRegisteredBySMS:mpinId activationKey:activationKey];
+        
+        dispatch_async(dispatch_get_main_queue(), ^ (void) {
+            if ( self.delegate == nil )
+                return;
+            
+            if ( mpinStatus.status == OK )
+            {
+                if ( [(NSObject *)self.delegate respondsToSelector:@selector( OnActivateUserRegisteredBySMSCompleted:)] )
+                {
+                    [self.delegate OnActivateUserRegisteredBySMSCompleted:self];
+                }
+            }
+            else
+            {
+                if ( [(NSObject *)self.delegate respondsToSelector:@selector( OnActivateUserRegisteredBySMSError:error: )] )
+                {
+                    [self.delegate OnActivateUserRegisteredBySMSError:self
+                                                        error:[NSError errorWithDomain:@"SDK"
+                                                                                  code:mpinStatus.status
+                                                                              userInfo:@{kMPinSatus : mpinStatus,
+                                                                                         kUSER : @"TODO  ::  return USER" }
+                                                               ]
+                     ];
+                }
+            }
+        });
+    });
+    
+}
+
+///
+
 - ( void )FinishRegistration:( const id<IUser>)user
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {

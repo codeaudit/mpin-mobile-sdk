@@ -133,6 +133,15 @@ typedef sdk::Context Context;
     return [[MpinStatus alloc] initWith:(MPinStatus)s.GetStatusCode() errorMessage:[NSString stringWithUTF8String:s.GetErrorMessage().c_str()]];
 }
 
+//// Adding SMS  FLOW
++ (MpinStatus*) ActivateUserRegisteredBySMS:(NSString* ) mpinId activationKey:(NSString *) activationKey {
+    [lock lock];
+    Status s = mpin.ActivateUserRegisteredBySMS([mpinId UTF8String], [activationKey UTF8String]);
+    [lock unlock];
+    return [[MpinStatus alloc] initWith:(MPinStatus)s.GetStatusCode() errorMessage:[NSString stringWithUTF8String:s.GetErrorMessage().c_str()]];
+}
+///////
+
 + (MpinStatus*) FinishRegistration:(const id<IUser>) user {
     [lock lock];
     Status s = mpin.FinishRegistration([((User *) user) getUserPtr]);

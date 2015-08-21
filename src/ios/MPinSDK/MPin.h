@@ -44,6 +44,13 @@
 
 + (void)DeleteUser:(const id<IUser>)user;
 
+
+///////// SMS Flow
+/// TOOD :  add user as output parameter to a function
++ (MpinStatus*) ActivateUserRegisteredBySMS:(NSString* ) mpinId activationKey:(NSString *) activationKey;
+////////////////////////////
+
+
 + (MpinStatus*)StartRegistration:(const id<IUser>)user;
 + (MpinStatus*)RestartRegistration:(const id<IUser>)user;
 + (MpinStatus*)StartRegistration:(const id<IUser>)user userData:(NSString *) userData;

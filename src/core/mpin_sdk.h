@@ -252,6 +252,12 @@ public:
     UserPtr MakeNewUser(const String& id, const String& deviceName = "") const;
     Status StartRegistration(INOUT UserPtr user, const String& userData = "");
     Status RestartRegistration(INOUT UserPtr user, const String& userData = "");
+    
+    //// Adding SMS  flow
+    /// TODO  ::  Return USER_PTR  as output parameter
+    Status ActivateUserRegisteredBySMS(const String&  mpinId, const String &  activationKey);
+    /////// END
+    
     Status FinishRegistration(INOUT UserPtr user);
     Status Authenticate(INOUT UserPtr user);
     Status Authenticate(INOUT UserPtr user, OUT String& authResultData);
@@ -360,6 +366,10 @@ private:
     Status CheckUserState(IN UserPtr user, User::State expectedState);
 	Status WriteUsersToStorage();
 	Status LoadUsersFromStorage();
+    
+    /// SMS  Flow
+    Status mpinVerifyRequest(const String & mpinId, const String & activationKey);
+    ///
 
     static const char *DEFAULT_RPS_PREFIX;
     static const int AN_WITH_CHECKSUM_LEN = 7;

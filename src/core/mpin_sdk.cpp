@@ -858,6 +858,66 @@ Status MPinSDK::RequestRegistration(UserPtr user, const String& userData)
     return Status(Status::OK);
 }
 
+
+///// Adding SMS  flow
+Status MPinSDK::ActivateUserRegisteredBySMS(const String& mpinId, const String &  activationKey)
+{
+    /// TODO:: add param validation
+    
+    Status s = CheckIfBackendIsSet();
+    if(s != Status::OK)
+    {
+        return s;
+    }
+    
+    String json_mpinId = util::HexDecode(mpinId);
+    util::JsonObject mpinIdJson;
+    if(!mpinIdJson.Parse(json_mpinId.c_str()))
+    {
+        return Status(Status::STORAGE_ERROR, String().Format("Failed to parse mpinId json: '%s'", mpinId.c_str()));
+    }
+    
+    const String & userId = ((const json::String&) mpinIdJson["userID"]).Value();
+    UserPtr user = MakeNewUser(userId);
+    user->SetRegistered();
+    
+    s =  mpinVerifyRequest(mpinId, activationKey);
+    if(s != Status::OK)
+    {
+        return s;
+    }
+
+    return FinishRegistration(user);
+}
+
+
+
+Status MPinSDK::mpinVerifyRequest(const String & mpinId, const String & activationKey) {
+
+    ///TODO:  this url should come from Client settings
+    String url = String().Format("%s/mpinVerify", m_clientSettings.GetStringParam("certivoxURL"));
+    
+    util::JsonObject body;
+    body["mpin_id"] = json::String(mpinId);
+    body["activate_key"] = json::String(activationKey);
+    
+    HttpResponse response = MakeRequest(url, IHttpRequest::POST, body);
+    
+    if(response.GetStatus() != HttpResponse::HTTP_OK)
+    {
+        Status s;
+        s.SetStatusCode(Status::IDENTITY_NOT_VERIFIED);
+        s.SetErrorMessage("Identity not verified");
+        return s;
+    }
+
+    return Status(Status::OK);
+}
+
+
+//////////////////
+
+//// TODO  ::  add push notification parameter
 Status MPinSDK::FinishRegistration(UserPtr user)
 {
     Status s = CheckIfBackendIsSet();
