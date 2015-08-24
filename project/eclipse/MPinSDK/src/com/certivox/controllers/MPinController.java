@@ -239,6 +239,10 @@ public class MPinController extends Controller {
             onChangeIdentity();
             return true;
         case MESSAGE_ON_CHANGE_SERVICE:
+            if (!mAppInstanceInfoDao.hasConfigurationListBeenShown()) {
+                mAppInstanceInfoDao.setConfigurationListBeenShown(true);
+                startFirstTimeConfigListSelectedGuide();
+            }
             notifyOutboxHandlers(MESSAGE_SHOW_CONFIGURATIONS_LIST, 0, 0, null);
             return true;
         case MESSAGE_ON_ABOUT:
@@ -1080,6 +1084,17 @@ public class MPinController extends Controller {
         Intent guideIntent = new Intent(mContext, GuideActivity.class);
         ArrayList<GuideFragmentsEnum> fragmentList = new ArrayList<GuideFragmentsEnum>();
         fragmentList.add(GuideFragmentsEnum.FRAGMENT_GD_GET_ACCESS_NUMBER);
+        guideIntent.putExtra(IntentConstants.FRAGMENT_LIST, fragmentList);
+        guideIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(guideIntent);
+    }
+
+
+    private void startFirstTimeConfigListSelectedGuide() {
+        Intent guideIntent = new Intent(mContext, GuideActivity.class);
+        ArrayList<GuideFragmentsEnum> fragmentList = new ArrayList<GuideFragmentsEnum>();
+        fragmentList.add(GuideFragmentsEnum.FRAGMENT_GD_DOWNLOAD_SERVER);
+        fragmentList.add(GuideFragmentsEnum.FRAGMENT_GD_ADD_SERVER_TO_APP);
         guideIntent.putExtra(IntentConstants.FRAGMENT_LIST, fragmentList);
         guideIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(guideIntent);
