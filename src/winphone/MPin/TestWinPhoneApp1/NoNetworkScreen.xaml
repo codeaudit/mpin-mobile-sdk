@@ -8,8 +8,10 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <StackPanel>
-        <TextBlock x:Uid="NoNetworkTitle" Style="{StaticResource TitleStyle}" />
+    <StackPanel Margin="12">
+        <TextBlock x:Uid="MainPageTitle" Style="{StaticResource TitleStyle}" />
+
+        <TextBlock x:Uid="NoNetworkTitle" Style="{StaticResource IdentityTextBlock}" />
         <TextBlock x:Uid="NoNetworkMessage" Style="{StaticResource MainTextBlock}" TextWrapping="WrapWholeWords"/>
     </StackPanel>
 </Page>

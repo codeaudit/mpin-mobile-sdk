@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
+using Windows.ApplicationModel.Resources;
 using Windows.Networking.Connectivity;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -163,7 +164,7 @@ namespace MPinDemo
             List<Type> excludedTextTypes = new List<Type>() { typeof(NoNetworkScreen), typeof(AuthenticationScreen) };
             if (!excludedTextTypes.Contains(MainFrame.Content.GetType()))
             {
-                NoConnection.Visibility = this.IsInternetConnected ? Visibility.Collapsed : Visibility.Visible;
+                NotifyUser(this.IsInternetConnected ? string.Empty : ResourceLoader.GetForCurrentView().GetString("NoConnection"), NotifyType.ErrorMessage, false);
             }
         }
 
@@ -173,7 +174,7 @@ namespace MPinDemo
         /// </summary>
         /// <param name="strMessage"></param>
         /// <param name="type"></param>
-        public void NotifyUser(string strMessage, NotifyType type = NotifyType.StatusMessage)
+        public void NotifyUser(string strMessage, NotifyType type = NotifyType.StatusMessage, bool shouldDisappear = true)
         {
             Debug.WriteLine("NotifyUser: " + strMessage + type.ToString());
 
@@ -193,13 +194,30 @@ namespace MPinDemo
                 // Collapse the StatusBlock if it has no text to conserve real estate.
                 if (StatusBlock.Text != String.Empty)
                 {
-                    StatusBorder.Opacity = 1;
-                    StartTimer(type == NotifyType.StatusMessage ? 2 : 6);
+                    StatusBorder.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    if (shouldDisappear)
+                        StartTimer(type == NotifyType.StatusMessage ? 2 : 8);
                 }
                 else
                 {
-                    StatusBorder.Opacity = 0;
+                    StatusBorder.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                 }
+
+                SetMessagePosition(string.IsNullOrEmpty(StatusBlock.Text));
+            }
+        }
+
+        private void SetMessagePosition(bool restorePosition)
+        {
+            Page framePage = MainFrame.Content as Page;
+            if (framePage == null)
+                return;
+
+            AppBar bottomAppBar = framePage.BottomAppBar;
+            if (bottomAppBar != null)
+            {
+                double bottom = restorePosition ? 0 : bottomAppBar.Height;                
+                StatusBorder.Margin = new Thickness(StatusBorder.Margin.Left, StatusBorder.Margin.Top, StatusBorder.Margin.Right, bottom); 
             }
         }
 

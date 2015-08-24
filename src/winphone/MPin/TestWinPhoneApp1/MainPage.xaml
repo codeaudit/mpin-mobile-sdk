@@ -17,10 +17,8 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock x:Uid="NoConnection" x:Name="NoConnection" Style="{StaticResource MainTextBlock}" Visibility="Collapsed" />
-        
         <Frame x:Name="MainFrame" Grid.Row="1" Margin="0,25,0,0"/>
-        <Border x:Name="StatusBorder" Grid.Row="2" Opacity="0">
+        <Border x:Name="StatusBorder" Grid.Row="2" Margin="-12" Visibility="Collapsed">
             <TextBlock x:Name="StatusBlock" Style="{StaticResource StatusStyle}" />
         </Border>
     </Grid>
