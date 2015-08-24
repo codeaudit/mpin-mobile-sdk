@@ -37,7 +37,6 @@
  */
 
 #include "Storage.h"
-#include "def.h"
 
 namespace store {
 

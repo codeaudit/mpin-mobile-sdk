@@ -29,40 +29,12 @@
  *
  * * Our Statement of Position and Our Promise on Software Patents - http://www.certivox.com/about-certivox/patents/
  ******************************************************************************/
-/*
- * Storage.h
- *
- *  Created on: Oct 28, 2014
- *      Author: georgi
- */
 
-#ifndef STORAGE_H_
-#define STORAGE_H_
+#ifndef _JNI_USER_H_
+#define _JNI_USER_H_
 
-#include "JNICommon.h"
+#include "jni.h"
 
-namespace store {
+void RegisterUserJNI(JNIEnv* env);
 
-typedef MPinSDK::IStorage IStorage;
-typedef MPinSDK::String String;
-
-class Storage: public IStorage {
-	public:
-		explicit Storage(jobject context, bool isMpinType);
-		virtual bool SetData(const String& data);
-		virtual bool GetData(String &data);
-		virtual const String& GetErrorMessage() const;
-		virtual ~Storage();
-	private:
-		// JNI CLASES ::
-		jclass m_pjstorageCls;
-		// JNI OBJECTS ::
-		jobject m_pjstorage;
-		// C++ Member variables
-		String m_errorMessage;
-		Storage(const Storage &);
-		void setErrorMessage();
-};
-
-} /* namespace store */
-#endif /* STORAGE_H_ */
+#endif // _JNI_USER_H_

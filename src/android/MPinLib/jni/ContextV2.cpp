@@ -29,40 +29,66 @@
  *
  * * Our Statement of Position and Our Promise on Software Patents - http://www.certivox.com/about-certivox/patents/
  ******************************************************************************/
-/*
- * Storage.h
- *
- *  Created on: Oct 28, 2014
- *      Author: georgi
- */
 
-#ifndef STORAGE_H_
-#define STORAGE_H_
+#include "ContextV2.h"
+#include "HTTPConnector.h"
+#include "Storage.h"
 
-#include "JNICommon.h"
+namespace sdkv2
+{
 
-namespace store {
+typedef store::Storage Storage;
+typedef net::HTTPConnector HttpRequest;
 
-typedef MPinSDK::IStorage IStorage;
-typedef MPinSDK::String String;
+Context* Context::m_pInstance = NULL;
 
-class Storage: public IStorage {
-	public:
-		explicit Storage(jobject context, bool isMpinType);
-		virtual bool SetData(const String& data);
-		virtual bool GetData(String &data);
-		virtual const String& GetErrorMessage() const;
-		virtual ~Storage();
-	private:
-		// JNI CLASES ::
-		jclass m_pjstorageCls;
-		// JNI OBJECTS ::
-		jobject m_pjstorage;
-		// C++ Member variables
-		String m_errorMessage;
-		Storage(const Storage &);
-		void setErrorMessage();
-};
+Context * Context::Instance(jobject jcontext)
+{
+	if(m_pInstance == NULL)
+	{
+		m_pInstance = new Context(jcontext);
+	}
+	return m_pInstance;
+}
 
-} /* namespace store */
-#endif /* STORAGE_H_ */
+Context::Context(jobject jcontext)
+{
+	m_pIstorageSecure = new Storage(jcontext, true);
+	m_pIstorageNonSecure = new Storage(jcontext, false);
+}
+
+IHttpRequest * Context::CreateHttpRequest() const
+{
+	return new HttpRequest(JNI_getJENV());
+}
+
+void Context::ReleaseHttpRequest(IHttpRequest *request) const
+{
+	RELEASE(request)
+}
+
+IStorage * Context::GetStorage(IStorage::Type type) const
+{
+	switch (type) {
+	case IStorage::SECURE:
+		return m_pIstorageSecure;
+	case IStorage::NONSECURE:
+		return m_pIstorageNonSecure;
+	default:
+		return NULL;
+	}
+}
+
+MPinSDK::CryptoType Context::GetMPinCryptoType() const
+{
+	return MPinSDK::CRYPTO_NON_TEE;
+}
+
+Context::~Context()
+{
+	RELEASE(m_pIstorageSecure)
+	RELEASE(m_pIstorageNonSecure)
+	RELEASE(m_pInstance)
+}
+
+}

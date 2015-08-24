@@ -29,40 +29,34 @@
  *
  * * Our Statement of Position and Our Promise on Software Patents - http://www.certivox.com/about-certivox/patents/
  ******************************************************************************/
-/*
- * Storage.h
- *
- *  Created on: Oct 28, 2014
- *      Author: georgi
- */
 
-#ifndef STORAGE_H_
-#define STORAGE_H_
-
+#include "JNIUser.h"
 #include "JNICommon.h"
 
-namespace store {
 
-typedef MPinSDK::IStorage IStorage;
-typedef MPinSDK::String String;
+static void nDestruct(JNIEnv* env, jobject jobj, jlong jptr)
+{
+	delete (MPinSDK::UserPtr*) jptr;
+}
 
-class Storage: public IStorage {
-	public:
-		explicit Storage(jobject context, bool isMpinType);
-		virtual bool SetData(const String& data);
-		virtual bool GetData(String &data);
-		virtual const String& GetErrorMessage() const;
-		virtual ~Storage();
-	private:
-		// JNI CLASES ::
-		jclass m_pjstorageCls;
-		// JNI OBJECTS ::
-		jobject m_pjstorage;
-		// C++ Member variables
-		String m_errorMessage;
-		Storage(const Storage &);
-		void setErrorMessage();
+static jstring nGetId(JNIEnv* env, jobject jobj, jlong jptr)
+{
+	return env->NewStringUTF( (*((const MPinSDK::UserPtr*)jptr))->GetId().c_str());
+}
+
+static jint nGetState(JNIEnv* env, jobject jobj, jlong jptr)
+{
+	return (*((const MPinSDK::UserPtr*)jptr))->GetState();
+}
+
+static JNINativeMethod g_methodsUser[] =
+{
+	NATIVE_METHOD(nDestruct, "(J)V"),
+	NATIVE_METHOD(nGetId, "(J)Ljava/lang/String;"),
+	NATIVE_METHOD(nGetState, "(J)I")
 };
 
-} /* namespace store */
-#endif /* STORAGE_H_ */
+void RegisterUserJNI(JNIEnv* env)
+{
+	RegisterNativeMethods(env, "com/certivox/models/User", g_methodsUser, ARR_LEN(g_methodsUser));
+}
