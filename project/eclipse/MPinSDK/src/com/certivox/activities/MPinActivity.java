@@ -106,6 +106,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     private TextView              mChangeIdentityButton;
     private TextView              mChangeServiceButton;
     private TextView              mAboutButton;
+    private TextView              mQuickStartGuideButton;
     private TextView              mNoInternetConnectionTitle;
     private Toast                 mNoInternetToast;
     private BroadcastReceiver     mNetworkConectivityReceiver;
@@ -195,6 +196,9 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
             break;
         case R.id.about:
             mController.handleMessage(MPinController.MESSAGE_ON_ABOUT);
+            break;
+        case R.id.quick_start_guide:
+            mController.handleMessage(MPinController.MESSAGE_ON_QUICK_START_GUIDE);
             break;
         default:
             return;
@@ -339,6 +343,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         mChangeIdentityButton = null;
         mChangeServiceButton = null;
         mAboutButton = null;
+        mQuickStartGuideButton = null;
         mLoader = null;
         mControllerHandler = null;
     }
@@ -351,6 +356,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         mChangeIdentityButton = (TextView) findViewById(R.id.change_identitiy);
         mChangeServiceButton = (TextView) findViewById(R.id.change_service);
         mAboutButton = (TextView) findViewById(R.id.about);
+        mQuickStartGuideButton = (TextView) findViewById(R.id.quick_start_guide);
         mLoader = (RelativeLayout) findViewById(R.id.loader);
         mNoInternetConnectionTitle = (TextView) findViewById(R.id.no_network_connection_message_id);
     }
@@ -413,6 +419,9 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         }
         if (mAboutButton != null) {
             mAboutButton.setOnClickListener(this);
+        }
+        if (mQuickStartGuideButton != null) {
+            mQuickStartGuideButton.setOnClickListener(this);
         }
     }
 
