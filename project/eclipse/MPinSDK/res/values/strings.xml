@@ -130,12 +130,12 @@
     <string name="gd_confirm_email_title">Confirm your email</string>
     <string name="gd_confirm_email_content">Click the link in the email and you are ready to choose your PIN.</string>
     <string name="gd_create_pin_title">Create your PIN</string>
-    <string name="gd_create_pin_content">It`s much simpler than a password and more secure.</string>
+    <string name="gd_create_pin_content">It\'s much simpler than a password and more secure.</string>
     <string name="gd_ready_to_go_title">You are ready to go!</string>
     <string name="gd_ready_to_go_content">You can now use your M-Pin identity any time you want.</string>
     <string name="gd_login_to_community_title">Login to the CertiVox\ncommunity</string>
     <string name="gd_get_access_number_title">Get your Access Number</string>
-    <string name="gd_get_access_number_content">Login to discuss certivox.com on your desktop browser and choose \"Sign in with phone\".</string>
+    <string name="gd_get_access_number_content">Login to discuss.certivox.com on your desktop browser and choose \"Sign in with phone\".</string>
     <string name="gd_get_mpin_server_title">Get your own M-Pin Server</string>
     <string name="gd_download_server_title">Download and setup your own M-Pin Server</string>
     <string name="gd_download_server_content">Visit certivox.com/products, choose from M-Pin Core or M-Pin SSO, then follow the online installation instructions.</string>
