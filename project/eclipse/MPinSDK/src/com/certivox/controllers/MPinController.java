@@ -104,44 +104,45 @@ public class MPinController extends Controller {
     public static final int MESSAGE_ON_SHOW_IDENTITY_LIST     = 6;
     public static final int MESSAGE_ON_CHANGE_SERVICE         = 7;
     public static final int MESSAGE_ON_ABOUT                  = 8;
-    public static final int MESSAGE_RESET_PIN                 = 9;
-    public static final int MESSAGE_ON_SHOW_PINPAD            = 10;
-    public static final int MESSAGE_NETWORK_CONNECTION_CHANGE = 11;
+    public static final int      MESSAGE_ON_QUICK_START_GUIDE             = 9;
+    public static final int      MESSAGE_RESET_PIN                        = 10;
+    public static final int      MESSAGE_ON_SHOW_PINPAD                   = 11;
+    public static final int      MESSAGE_NETWORK_CONNECTION_CHANGE        = 12;
 
     // Receive Messages from Fragment Configurations List
-    public static final int MESSAGE_ON_NEW_CONFIGURATION    = 12;
-    public static final int MESSAGE_ON_SELECT_CONFIGURATION = 13;
-    public static final int MESSAGE_ON_EDIT_CONFIGURATION   = 14;
-    public static final int MESSAGE_DELETE_CONFIGURATION    = 15;
+    public static final int      MESSAGE_ON_NEW_CONFIGURATION             = 13;
+    public static final int      MESSAGE_ON_SELECT_CONFIGURATION          = 14;
+    public static final int      MESSAGE_ON_EDIT_CONFIGURATION            = 15;
+    public static final int      MESSAGE_DELETE_CONFIGURATION             = 16;
 
     // Receive Messages from Fragment Configuration Edit
-    public static final int MESSAGE_CHECK_BACKEND_URL = 16;
-    public static final int MESSAGE_SAVE_CONFIG       = 17;
+    public static final int      MESSAGE_CHECK_BACKEND_URL                = 17;
+    public static final int      MESSAGE_SAVE_CONFIG                      = 18;
 
     // Receive Messages from Fragment Users List
-    public static final int MESSAGE_ON_CREATE_IDENTITY = 18;
+    public static final int      MESSAGE_ON_CREATE_IDENTITY               = 19;
 
     // Receive Messages from Fragment Create identity
-    public static final int MESSAGE_CREATE_IDENTITY = 19;
+    public static final int      MESSAGE_CREATE_IDENTITY                  = 20;
 
     // Receive Messages from Fragment CONFIRM EMAIL
-    public static final int MESSAGE_EMAIL_CONFIRMED = 20;
-    public static final int MESSAGE_RESEND_EMAIL    = 21;
+    public static final int      MESSAGE_EMAIL_CONFIRMED                  = 21;
+    public static final int      MESSAGE_RESEND_EMAIL                     = 22;
 
     // Receive Messages from Fragment Identity created
-    public static final int MESSAGE_ON_SIGN_IN = 22;
+    public static final int      MESSAGE_ON_SIGN_IN                       = 23;
 
     // Receive Messages from Fragment Identity blocked
-    public static final int MESSAGE_ON_DELETE_IDENTITY = 23;
+    public static final int      MESSAGE_ON_DELETE_IDENTITY               = 24;
 
     // Receive Messages from Fragment OTP
-    public static final int MESSAGE_OTP_EXPIRED = 24;
+    public static final int      MESSAGE_OTP_EXPIRED                      = 25;
 
     // Receive Messages from MPinActivity
-    public static final int MESSAGE_AUTHENTICATION_STARTED = 25;
+    public static final int      MESSAGE_AUTHENTICATION_STARTED           = 26;
 
     // Receive Messages from NoInternetConnectionFragment
-    public static final int MESSAGE_RETRY_INITIALIZATION = 26;
+    public static final int      MESSAGE_RETRY_INITIALIZATION             = 27;
 
     // Sent Messages
     public static final int MESSAGE_GO_BACK                          = 1;
@@ -247,6 +248,9 @@ public class MPinController extends Controller {
             return true;
         case MESSAGE_ON_ABOUT:
             notifyOutboxHandlers(MESSAGE_SHOW_ABOUT, 0, 0, null);
+            return true;
+        case MESSAGE_ON_QUICK_START_GUIDE:
+            startQuickStartGuide();
             return true;
         case MESSAGE_ON_CREATE_IDENTITY:
             CreateIdentityConfig config = new CreateIdentityConfig();
@@ -1095,6 +1099,21 @@ public class MPinController extends Controller {
         ArrayList<GuideFragmentsEnum> fragmentList = new ArrayList<GuideFragmentsEnum>();
         fragmentList.add(GuideFragmentsEnum.FRAGMENT_GD_DOWNLOAD_SERVER);
         fragmentList.add(GuideFragmentsEnum.FRAGMENT_GD_ADD_SERVER_TO_APP);
+        guideIntent.putExtra(IntentConstants.FRAGMENT_LIST, fragmentList);
+        guideIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(guideIntent);
+    }
+
+
+    private void startQuickStartGuide() {
+        Intent guideIntent = new Intent(mContext, GuideActivity.class);
+        ArrayList<GuideFragmentsEnum> fragmentList = new ArrayList<GuideFragmentsEnum>();
+        fragmentList.add(GuideFragmentsEnum.FRAGMENT_GD_CREATE_IDENTITY);
+        fragmentList.add(GuideFragmentsEnum.FRAGMENT_GD_CONFIRM_EMAIL);
+        fragmentList.add(GuideFragmentsEnum.FRAGMENT_GD_CREATE_PIN);
+        fragmentList.add(GuideFragmentsEnum.FRAGMENT_GD_READY_TO_GO);
+        fragmentList.add(GuideFragmentsEnum.FRAGMENT_GD_GET_ACCESS_NUMBER);
+
         guideIntent.putExtra(IntentConstants.FRAGMENT_LIST, fragmentList);
         guideIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(guideIntent);

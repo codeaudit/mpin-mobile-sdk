@@ -14,6 +14,7 @@
     <string name="change_identitiy">Identity List</string>
     <string name="change_service">Configuration List</string>
     <string name="about">About</string>
+    <string name="quick_start_guide">Quick Start Guide</string>
     <!-- Navigation drawer strings end -->
 
 
@@ -117,8 +118,9 @@
     <string name="no_internet_title">No Internet Connection</string>
     <string name="no_internet_text">Please check your connection and try again</string>
     <string name="no_internet_retry_button">Retry</string>
-    <!-- No Internet Connection end-->
-    
+    <!-- No Internet Connection end -->
+
+
     <!-- Guide -->
     <string name="skip_button_title">Skip</string>
     <string name="done_button_title">Done</string>
@@ -139,7 +141,7 @@
     <string name="gd_download_server_content">Visit certivox.com/products, choose from M-Pin Core or M-Pin SSO, then follow the online installation instructions.</string>
     <string name="gd_add_server_to_app_title">Add your server to this app</string>
     <string name="gd_add_server_to_app_content">Simply hit “+” on the next screen then enter the name and URL of your M-Pin Server and you are ready to authenticate to your service using this app.</string>
-    <!-- Guide end--> 
+    <!-- Guide end -->
 
     <string name="logout">Logout</string>
 
