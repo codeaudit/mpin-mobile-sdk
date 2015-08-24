@@ -435,7 +435,7 @@ static NSString *const kAN = @"AN";
         MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
         [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR")
          addActivityIndicator:NO
-         minShowTime:0];
+         minShowTime:3];
     } break;
     }
 }
@@ -475,14 +475,14 @@ static NSString *const kAN = @"AN";
             [[ErrorHandler sharedManager] presentMessageInViewController:self
              errorString:NSLocalizedString(@"INCORRECT_PIN",  @"Wrong MPIN or Access Number!")
              addActivityIndicator:NO
-             minShowTime:0];
+             minShowTime:3];
             break;
 
         default:
             [[ErrorHandler sharedManager] presentMessageInViewController:self
              errorString:mpinStatus.errorMessage
              addActivityIndicator:NO
-             minShowTime:0];
+             minShowTime:3];
             break;
         }
     }
