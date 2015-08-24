@@ -31,6 +31,7 @@
 #import "NetworkMonitor.h"
 #import "NetworkDownViewController.h"
 #import "AFNetworkReachabilityManager.h"
+#import "ANAuthenticationSuccessful.h";
 
 @interface AppDelegate ()
 {
@@ -105,9 +106,17 @@
 }
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    boolRestartFlow = YES;
+    boolRestartFlow = NO;
     MFSideMenuContainerViewController *c = (MFSideMenuContainerViewController *)self.window.rootViewController;
-    [c.centerViewController popToRootViewControllerAnimated:NO];
+    
+    UINavigationController *centerNavigationController = c.centerViewController;
+    if ([centerNavigationController.topViewController isKindOfClass:[UserListViewController class]]
+        || [centerNavigationController.topViewController isKindOfClass:[ANAuthenticationSuccessful class]])
+    {
+        [c.centerViewController popToRootViewControllerAnimated:NO];
+        boolRestartFlow = YES;
+    }
+
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
