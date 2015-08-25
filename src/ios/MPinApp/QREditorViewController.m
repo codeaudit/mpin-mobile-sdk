@@ -49,6 +49,7 @@
 - ( void ) viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
+     [[ThemeManager sharedManager] beautifyViewController:self];
     [self registerObservers];
     [_tblView reloadData];
 }
@@ -57,13 +58,9 @@
 {
     [super viewWillDisappear:animated];
     [self unRegisterObservers];
+    
 }
 
--( void ) viewDidAppear:( BOOL )animated
-{
-    [super viewDidAppear:animated];
-    [[ThemeManager sharedManager] beautifyViewController:self];
-}
 
 - ( void )didReceiveMemoryWarning
 {

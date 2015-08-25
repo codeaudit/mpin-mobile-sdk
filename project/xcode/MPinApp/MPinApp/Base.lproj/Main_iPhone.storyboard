@@ -2499,9 +2499,11 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
+                        <outlet property="constraintNoNetworkViewHeight" destination="vWE-mg-tCM" id="sYI-dS-nAp"/>
                         <outlet property="imgViewNetworkDown" destination="fkf-2p-8bf" id="boe-UN-R4b"/>
                         <outlet property="lblNetworkDownMessage" destination="cK7-i7-FRe" id="2xf-9e-s5v"/>
                         <outlet property="tblView" destination="eeI-hd-Jgm" id="M7e-HH-FgL"/>
+                        <outlet property="viewNoNetwork" destination="9My-o0-wDg" id="mFO-bW-bzh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3vX-DZ-eRh" userLabel="First Responder" sceneMemberID="firstResponder"/>
