@@ -48,7 +48,7 @@
             <TextBlock x:Uid="MainPageTitle" Style="{StaticResource TitleStyle}" Margin="12,0,0,0" />
 
             <Pivot x:Name="MainPivot" CommonNavigationTransitionInfo.IsStaggerElement="True" Padding="0" 
-               SelectionChanged="MainPivot_SelectionChanged" Grid.Row="1">
+               SelectionChanged="MainPivot_SelectionChanged" Grid.Row="1" Margin="0,0,0,60">
 
                 <PivotItem x:Uid="ServicesPivotItem" 
                        x:Name="ServicesPivotItem" Margin="24, 0, 0, 0"
