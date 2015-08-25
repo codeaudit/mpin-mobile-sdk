@@ -456,4 +456,7 @@
   <data name="UserNotConfirmed" xml:space="preserve">
     <value>Самоличността все още не е потвърдена!</value>
   </data>
+  <data name="EmailSent" xml:space="preserve">
+    <value>Моля, проверете си пощата и следвайте инструкциите за активиране!</value>
+  </data>
 </root>

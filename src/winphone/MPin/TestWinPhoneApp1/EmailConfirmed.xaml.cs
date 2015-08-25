@@ -115,6 +115,10 @@ namespace MPinDemo
                         Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
                         mainFrame.GoBack(new List<object>() { "Error", st.ErrorMessage });
                     }
+                    else
+                    {
+                        rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("EmailSent"), MainPage.NotifyType.StatusMessage);
+                    }
                 }
         }
 

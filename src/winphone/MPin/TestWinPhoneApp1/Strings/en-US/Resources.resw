@@ -462,4 +462,7 @@ All existing identities will be deleted.</value>
   <data name="UserNotConfirmed" xml:space="preserve">
     <value>User is still not confirmed!</value>
   </data>
+  <data name="EmailSent" xml:space="preserve">
+    <value>Please, check your e-mail and follow the activation link!</value>
+  </data>
 </root>
