@@ -39,15 +39,40 @@
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/terms_and_conditions_link"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/mobile_guide_link_id"
+        style="@style/LinkAbout"
         android:layout_below="@id/about_info_text_2"
-        android:fontFamily="@string/font_roboto"
-        android:gravity="center_horizontal"
-        android:text="@string/terms_and_conditions_link"
-        android:textColor="@color/base_text_color"
-        android:textSize="18sp" />
+        android:text="@string/mobile_guide_link" />
+
+    <TextView
+        android:id="@+id/sdk_link_id"
+        style="@style/LinkAbout"
+        android:layout_below="@id/mobile_guide_link_id"
+        android:text="@string/sdk_link" />
+
+    <TextView
+        android:id="@+id/homepage_link_id"
+        style="@style/LinkAbout"
+        android:layout_below="@id/sdk_link_id"
+        android:text="@string/homepage_link" />
+
+    <TextView
+        android:id="@+id/support_link_id"
+        style="@style/LinkAbout"
+        android:layout_below="@id/homepage_link_id"
+        android:text="@string/support_link" />
+
+    <TextView
+        android:id="@+id/terms_and_conditions_link"
+        style="@style/LinkAbout"
+        android:layout_below="@id/support_link_id"
+        android:text="@string/terms_and_conditions_link" />
+
+    <TextView
+        android:id="@+id/privacy_link_id"
+        style="@style/LinkAbout"
+        android:layout_below="@id/terms_and_conditions_link"
+        android:text="@string/privacy_link" />
 
     <TextView
         android:id="@+id/about_build_text"

@@ -112,6 +112,11 @@
     <string name="about_info_text_1">CertiVox M-Pin</string>
     <string name="about_info_text_2">Copyright  \u00A9 2015 CertiVox.\n All rights reserved. </string>
     <string name="terms_and_conditions_link"><a href="https://www.certivox.com/about-certivox/terms-and-conditions">CertiVox Terms &amp; Conditions</a></string>
+    <string name="mobile_guide_link"><a href="http://www.certivox.com/mobile-app">M-Pin Mobile Guide</a></string>
+    <string name="sdk_link"><a href="https://github.com/CertiVox">Built on the M-Pin Mobile SDK</a></string>
+    <string name="homepage_link"><a href="https://www.certivox.com/">CertiVox Homepage</a></string>
+    <string name="support_link"><a href="https://www.certivox.com/support">Product Support</a></string>
+    <string name="privacy_link"><a href="https://www.certivox.com/about-certivox/security-privacy/">Values / Security / Privacy</a></string>
     <!-- About end -->
 
 
