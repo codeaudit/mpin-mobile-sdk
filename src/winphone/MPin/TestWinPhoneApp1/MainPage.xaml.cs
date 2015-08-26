@@ -214,7 +214,7 @@ namespace MPinDemo
                 return;
 
             AppBar bottomAppBar = framePage.BottomAppBar;
-            if (bottomAppBar != null)
+            if (bottomAppBar != null || restorePosition)
             {
                 double bottom = restorePosition ? 0 : bottomAppBar.Height;                
                 StatusBorder.Margin = new Thickness(StatusBorder.Margin.Left, StatusBorder.Margin.Top, StatusBorder.Margin.Right, bottom); 
