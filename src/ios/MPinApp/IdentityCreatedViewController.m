@@ -67,7 +67,7 @@
 
 - ( void )viewDidAppear:( BOOL )animated
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad: ) name:kShowPinPadNotification object:nil];
 }
 
 - ( void )viewDidDisappear:( BOOL )animated
@@ -158,7 +158,7 @@
 
 #pragma mark - My methods -
 
-- ( void )showPinPad
+- ( void )showPinPad:(NSNotification *)notification
 {
     [[ErrorHandler sharedManager] hideMessage];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];

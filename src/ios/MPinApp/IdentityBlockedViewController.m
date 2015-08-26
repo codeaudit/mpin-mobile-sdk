@@ -85,7 +85,7 @@
         _lblUserEmail.text = @"";
     }
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad: ) name:kShowPinPadNotification object:nil];
 }
 
 - ( void )viewDidDisappear:( BOOL )animated
@@ -218,7 +218,7 @@
      minShowTime:0];
 }
 
-- ( void )showPinPad
+- ( void )showPinPad:(NSNotification *)notification
 {
     PinPadViewController *pinpadViewController = [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];
     pinpadViewController.currentUser = self.iuser;

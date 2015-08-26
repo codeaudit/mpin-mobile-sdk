@@ -145,7 +145,7 @@ static NSString *const kAN = @"AN";
     [[NSNotificationCenter defaultCenter] removeObserver:self
      name:kShowPinPadNotification
      object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad: ) name:kShowPinPadNotification object:nil];
 }
 
 - ( void )viewDidAppear:( BOOL )animated
@@ -731,7 +731,7 @@ static NSString *const kAN = @"AN";
 
 #pragma mark - Notifications handlers -
 
-- ( void )showPinPad
+- ( void )showPinPad:(NSNotification *)notification
 {
     [[ErrorHandler sharedManager] hideMessage];
     PinPadViewController *pinpadViewController = [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];

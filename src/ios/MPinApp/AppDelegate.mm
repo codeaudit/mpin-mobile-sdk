@@ -35,6 +35,7 @@
 #import "Utilities.h"
 
 @interface AppDelegate ()
+- ( void )showPinPad:(id<IUser>) user;
 @end
 
 @implementation AppDelegate
@@ -99,18 +100,38 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Message LOG"
-                                                     message:[NSString stringWithFormat:@"Calling application: %@ , URL Schema %@ ,URL query: %@ ",sourceApplication, [url scheme], [url query]]
-                                                    delegate:nil
-                                           cancelButtonTitle:@"Cancel"
-                                           otherButtonTitles:nil,
-                           nil];
-    [alert show];
-    
-    
-    NSDictionary * params = [Utilities urlQueryParamsToDictianary:[url query]];
-    
+    NSDictionary * urlParams = [Utilities urlQueryParamsToDictianary:[url query]];
+    MPin *sdk  = [[MPin alloc] init];
+    sdk.delegate = self;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad: ) name:kShowPinPadNotification object:nil];
+    [sdk ActivateUserRegisteredBySMS:[urlParams objectForKey:@"mpinId"] activationKey:[urlParams objectForKey:@"activateKey"]];
     return YES;
+}
+
+- ( void ) OnActivateUserRegisteredBySMSCompleted:( id ) sender {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
+}
+- ( void ) OnActivateUserRegisteredBySMSError:( id ) sender error:( NSError * ) error {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
+    
+    MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
+    MFSideMenuContainerViewController *container = (MFSideMenuContainerViewController *)self.window.rootViewController;
+    [[ErrorHandler sharedManager] presentMessageInViewController:((UINavigationController *)container.centerViewController).topViewController
+                                                     errorString:mpinStatus.errorMessage
+                                            addActivityIndicator:YES
+                                                     minShowTime:0];
+}
+
+- ( void )showPinPad:(NSNotification *)notification  {
+    UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    PinPadViewController *pinpadViewController = [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];
+    pinpadViewController.boolShouldShowBackButton = YES;
+    pinpadViewController.boolIsSMS = YES;
+    pinpadViewController.title = kEnterPin;
+    pinpadViewController.currentUser = [notification.userInfo objectForKey:kUser];
+    pinpadViewController.boolSetupPin = YES;
+    MFSideMenuContainerViewController *container = (MFSideMenuContainerViewController *)self.window.rootViewController;
+    [((UINavigationController *)container.centerViewController).topViewController.navigationController pushViewController:pinpadViewController animated:YES];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

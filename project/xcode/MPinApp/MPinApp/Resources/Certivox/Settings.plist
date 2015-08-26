@@ -6,7 +6,7 @@
 	<array>
 		<dict>
 			<key>backend</key>
-			<string>https://m-pin.my.id</string>
+			<string>http://192.168.10.188:8005</string>
 			<key>rps_prefix</key>
 			<string></string>
 			<key>SERVICE_TYPE</key>

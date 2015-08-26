@@ -858,44 +858,15 @@ Status MPinSDK::RequestRegistration(UserPtr user, const String& userData)
     return Status(Status::OK);
 }
 
-
-///// Adding SMS  flow
 Status MPinSDK::ActivateUserRegisteredBySMS(const String& mpinId, const String &  activationKey)
 {
-    /// TODO:: add param validation
-    
     Status s = CheckIfBackendIsSet();
     if(s != Status::OK)
     {
         return s;
     }
     
-    String json_mpinId = util::HexDecode(mpinId);
-    util::JsonObject mpinIdJson;
-    if(!mpinIdJson.Parse(json_mpinId.c_str()))
-    {
-        return Status(Status::STORAGE_ERROR, String().Format("Failed to parse mpinId json: '%s'", mpinId.c_str()));
-    }
-    
-    const String & userId = ((const json::String&) mpinIdJson["userID"]).Value();
-    UserPtr user = MakeNewUser(userId);
-    user->SetRegistered();
-    
-    s =  mpinVerifyRequest(mpinId, activationKey);
-    if(s != Status::OK)
-    {
-        return s;
-    }
-
-    return FinishRegistration(user);
-}
-
-
-
-Status MPinSDK::mpinVerifyRequest(const String & mpinId, const String & activationKey) {
-
-    ///TODO:  this url should come from Client settings
-    String url = String().Format("%s/mpinVerify", m_clientSettings.GetStringParam("certivoxURL"));
+    String url = m_clientSettings.GetStringParam("mobileVerifyURL");
     
     util::JsonObject body;
     body["mpin_id"] = json::String(mpinId);
@@ -911,11 +882,26 @@ Status MPinSDK::mpinVerifyRequest(const String & mpinId, const String & activati
         return s;
     }
 
-    return Status(Status::OK);
+    String regOTT = response.GetJsonData().GetStringParam("regOTT");
+
+    String json_mpinId = util::HexDecode(mpinId);
+    util::JsonObject mpinIdJson;
+    if(!mpinIdJson.Parse(json_mpinId.c_str()))
+    {
+        return Status(Status::RESPONSE_PARSE_ERROR, String().Format("Failed to parse mpinId json: '%s'", mpinId.c_str()));
+    }
+    
+    const String & userId = ((const json::String&) mpinIdJson["userID"]).Value();
+    UserPtr user = MakeNewUser(userId);
+    user->SetStartedRegistration(mpinId, regOTT);
+    AddUser(user);
+    s = WriteUsersToStorage();
+    if(s != Status::OK) {
+        return s;
+    }
+    
+    return FinishRegistration(user);
 }
-
-
-//////////////////
 
 //// TODO  ::  add push notification parameter
 Status MPinSDK::FinishRegistration(UserPtr user)

@@ -26,6 +26,8 @@
 #import "Constants.h"
 #import <objc/runtime.h>
 #import "AFNetworkReachabilityManager.h"
+#import "NSString+Helper.h"
+
 @import LocalAuthentication;
 
 static char const *const delegateKey = "delegateKey";
@@ -214,10 +216,10 @@ static NSString *const constStrConnectionTimeoutNotification = @"ConnectionTimeo
     [self RestartRegistration:user userData:@""];
 }
 
-///// Adding SMS  flow
-
 - ( void ) ActivateUserRegisteredBySMS:(NSString* ) mpinId activationKey:(NSString *) activationKey {
-   
+    
+    if ([NSString isBlank:mpinId] || [NSString isBlank:activationKey])  return;
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
         MpinStatus *mpinStatus = [MPin ActivateUserRegisteredBySMS:mpinId activationKey:activationKey];
         
@@ -249,8 +251,6 @@ static NSString *const constStrConnectionTimeoutNotification = @"ConnectionTimeo
     });
     
 }
-
-///
 
 - ( void )FinishRegistration:( const id<IUser>)user
 {

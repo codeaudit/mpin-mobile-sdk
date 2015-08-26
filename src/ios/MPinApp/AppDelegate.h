@@ -25,7 +25,7 @@
 
 #import "UserListViewController.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, MPinSDKDelegate>
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UserListViewController *vcUserList;
 @property (strong, nonatomic) NSData *devToken;
