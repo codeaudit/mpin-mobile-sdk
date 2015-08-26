@@ -23,7 +23,6 @@
  */
 
 #import "ApplicationManager.h"
-#import "AFNetworkReachabilityManager.h"
 #import "ConfigurationManager.h"
 #import "AppDelegate.h"
 #import "MFSideMenuContainerViewController.h"
@@ -35,7 +34,7 @@ static NSString *constStrConnectionTimeoutNotification = @"ConnectionTimeoutNoti
     MPin *sdk;
     AppDelegate *appdelegate;
 }
-- ( void ) runNetowrkMonitoring;
+
 @end
 
 
@@ -60,42 +59,12 @@ static NSString *constStrConnectionTimeoutNotification = @"ConnectionTimeoutNoti
         sdk = [[MPin alloc] init];
         sdk.delegate = self;
         appdelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        [self runNetowrkMonitoring];
     }
 
     return self;
 }
 
 /// TODO :: Move any MSGs to Localization File
-- ( void ) runNetowrkMonitoring
-{
-    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock: ^ (AFNetworkReachabilityStatus status) {
-        switch ( status )
-        {
-        case AFNetworkReachabilityStatusReachableViaWiFi:
-        case AFNetworkReachabilityStatusReachableViaWWAN:
-            if ( ![MPin isConfigLoadSuccessfully] )
-            {
-                [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
-            }
-                [[ErrorHandler sharedManager] hideMessage];
-            break;
-
-        default:
-            {
-                //TODO: show netowrk indicator
-                
-                UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-
-                
-                [[ErrorHandler sharedManager] presentMessageInViewController:window.rootViewController errorString:NSLocalizedString(@"ERROR_NO_INTERNET_CONNECTION", @"No Internet Connection!") addActivityIndicator:YES minShowTime:0];
-            }
-            break;
-        }
-    }];
-    // and now activate monitoring
-    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
-}
 
 - ( void ) OnSetBackendCompleted:( id ) sender
 {
@@ -118,10 +87,7 @@ static NSString *constStrConnectionTimeoutNotification = @"ConnectionTimeoutNoti
 
 -( void ) setBackend
 {
-    if ( ![MPin isConfigLoadSuccessfully] )
-    {
-        [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
-    }
+    [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
 }
 
 @end

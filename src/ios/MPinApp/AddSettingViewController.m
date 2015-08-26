@@ -1,25 +1,25 @@
 /*
- Copyright (c) 2012-2015, Certivox
- All rights reserved.
- 
- Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
- 
- 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
- 
- 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
- 
- 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
- 
- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- 
- For full details regarding our CertiVox terms of service please refer to
- the following links:
+   Copyright (c) 2012-2015, Certivox
+   All rights reserved.
+
+   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+   1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+   2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+   3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+   For full details regarding our CertiVox terms of service please refer to
+   the following links:
  * Our Terms and Conditions -
- http://www.certivox.com/about-certivox/terms-and-conditions/
+   http://www.certivox.com/about-certivox/terms-and-conditions/
  * Our Security and Privacy -
- http://www.certivox.com/about-certivox/security-privacy/
+   http://www.certivox.com/about-certivox/security-privacy/
  * Our Statement of Position and Our Promise on Software Patents -
- http://www.certivox.com/about-certivox/patents/
+   http://www.certivox.com/about-certivox/patents/
  */
 
 
@@ -66,7 +66,6 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 {
     [super viewDidLoad];
     _service = LOGIN_ONLINE;
-    [[ThemeManager sharedManager] beautifyViewController:self];
     UITapGestureRecognizer *singleTap =
         [[UITapGestureRecognizer alloc] initWithTarget:self
          action:@selector( resignOnTap: )];
@@ -80,13 +79,19 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     [_btnTestConfig setTitle:NSLocalizedString(@"ADDCONFIGVC_BTN_TEST_CONFIG", @"") forState:UIControlStateNormal];
 }
 
+- ( void )viewWillDisappear:( BOOL )animated
+{
+    [super viewWillDisappear:animated];
+    [self unRegisterObservers];
+}
+
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
-
+    [self registerObservers];
+    [[ThemeManager sharedManager] beautifyViewController:self];
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
-
 
     if ( _isEdit )
     {
@@ -321,10 +326,62 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     [_tblView reloadData];
 }
 
-#pragma mark - my methods -
+#pragma mark - My methods -
+
 - ( void )resignOnTap:( id )sender
 {
     [self.currentResponder resignFirstResponder];
+}
+
+- ( NSString * ) getTXTMPINServiceRPSPrefix
+{
+    if ( [NSString isBlank:_txtMPINServiceRPSPrefix.text] )
+        return nil;
+
+    return _txtMPINServiceRPSPrefix.text;
+}
+
+#pragma mark - Actions  -
+
+- ( IBAction )goBack:( id )sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- ( IBAction )btnTestConfigTap:( id )sender
+{
+    bTestingConfig = YES;
+
+    if ( ![self isValidName:_txtMPINServiceNAME.text] )
+    {
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
+         errorString:NSLocalizedString(@"ADDCONFIGVC_ERROR_EMPTY_NAME", @"")
+         addActivityIndicator:NO
+         minShowTime:3];
+    }
+    else
+    if ( ![NSString isValidURL:_txtMPINServiceURL.text] )
+    {
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
+         errorString:NSLocalizedString(@"ADDCONFIGVC_ERROR_INVALID_URL", @"")
+         addActivityIndicator:NO
+         minShowTime:3];
+    }
+    else
+    {
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
+         errorString:NSLocalizedString(@"TESTING_CONFIGURATION", @"Testing configuration")
+         addActivityIndicator:YES
+         minShowTime:0];
+        if ( [_txtMPINServiceRPSPrefix.text isEqualToString:@""] )
+        {
+            [sdk TestBackend:_txtMPINServiceURL.text rpsPrefix:nil];
+        }
+        else
+        {
+            [sdk TestBackend:_txtMPINServiceURL.text rpsPrefix:_txtMPINServiceRPSPrefix.text];
+        }
+    }
 }
 
 - ( IBAction )textFieldReturn:( id )sender
@@ -336,69 +393,52 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 {
     _txtMPINServiceURL.text = [_txtMPINServiceURL.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     bTestingConfig = NO;
-    if ( [_txtMPINServiceNAME.text isEqualToString:@""] )
+
+    if ( ![self isValidName:_txtMPINServiceNAME.text] )
     {
         [[ErrorHandler sharedManager] presentMessageInViewController:self
          errorString:NSLocalizedString(@"ADDCONFIGVC_ERROR_EMPTY_NAME", @"")
          addActivityIndicator:NO
          minShowTime:3];
-
-        return;
     }
-    if ( [_txtMPINServiceURL.text isEqualToString:@""] )
-    {
-        [[ErrorHandler sharedManager] presentMessageInViewController:self
-         errorString:NSLocalizedString(@"ADDCONFIGVC_ERROR_EMPTY_URL", @"")
-         addActivityIndicator:NO
-         minShowTime:3];
-
-        return;
-    }
-
+    else
     if ( ![NSString isValidURL:_txtMPINServiceURL.text] )
     {
         [[ErrorHandler sharedManager] presentMessageInViewController:self
          errorString:NSLocalizedString(@"ADDCONFIGVC_ERROR_INVALID_URL", @"")
          addActivityIndicator:NO
          minShowTime:3];
-
-        return;
-    }
-    int minShowTime = 1;
-    NSString *caption = @"";
-    if ( _isEdit )
-    {
-        if ( [_txtMPINServiceURL.text isEqualToString:[[ConfigurationManager sharedManager] getURLAtIndex:_selectedIndex]] )
-        {
-            caption = NSLocalizedString(@"HUD_SAVE_CONFIG", @"");
-        }
-        else
-        {
-            caption = NSLocalizedString(@"HUD_SAVE_CONFIG_AND_DEL", @"");
-            minShowTime = 3;
-        }
     }
     else
     {
-        caption = NSLocalizedString(@"HUD_SAVE_CONFIG", @"");
+        NSString *caption = @"";
+        if ( _isEdit )
+        {
+            if ( [_txtMPINServiceURL.text isEqualToString:[[ConfigurationManager sharedManager] getURLAtIndex:_selectedIndex]] )
+            {
+                caption = NSLocalizedString(@"HUD_SAVE_CONFIG", @"");
+            }
+            else
+            {
+                caption = NSLocalizedString(@"HUD_SAVE_CONFIG_AND_DEL", @"");
+            }
+        }
+        else
+        {
+            caption = NSLocalizedString(@"HUD_SAVE_CONFIG", @"");
+        }
+
+        [_btnDone setEnabled:NO];
+        [sdk TestBackend:_txtMPINServiceURL.text rpsPrefix:[self getTXTMPINServiceRPSPrefix]];
+
+        [[ErrorHandler sharedManager] presentMessageInViewController:self
+         errorString:caption
+         addActivityIndicator:YES
+         minShowTime:0];
     }
-
-    [_btnDone setEnabled:NO];
-    [sdk TestBackend:_txtMPINServiceURL.text rpsPrefix:[self getTXTMPINServiceRPSPrefix]];
-
-    [[ErrorHandler sharedManager] presentMessageInViewController:self
-     errorString:caption
-     addActivityIndicator:YES
-     minShowTime:0];
 }
 
-- ( NSString * ) getTXTMPINServiceRPSPrefix
-{
-    if ( [NSString isBlank:_txtMPINServiceRPSPrefix.text] )
-        return nil;
-
-    return _txtMPINServiceRPSPrefix.text;
-}
+#pragma mark - Mpin sdk callbacks -
 
 - ( void )OnTestBackendCompleted:( id )sender
 {
@@ -439,17 +479,18 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 {
     _txtMPINServiceURL.text = [_txtMPINServiceURL.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
-    
+
     NSString *message = NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR");
-    
-    if ([NSString isNotBlank:mpinStatus.errorMessage]) {
+
+    if ( [NSString isNotBlank:mpinStatus.errorMessage] )
+    {
         message = [NSString stringWithFormat:@"%@\n%@", message, mpinStatus.errorMessage];
     }
-    
+
 
     [[ErrorHandler sharedManager] updateMessage:[NSString stringWithFormat:@"%@", message]
      addActivityIndicator:NO
-     hideAfter:3];
+     hideAfter:6];
     [_btnDone setEnabled:YES];
 }
 
@@ -466,37 +507,54 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     [self OnTestBackendError:sender error:error];
 }
 
-- ( IBAction )goBack:( id )sender
+- ( BOOL ) isValidName:( NSString * ) name
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    if ( [name isEqualToString:@""] || [[name stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]] isEqualToString:@""] )
+    {
+        return NO;
+    }
+
+    return YES;
 }
 
-- ( IBAction )btnTestConfigTap:( id )sender
+- ( BOOL ) isValidURL:( NSString * ) url
 {
-    bTestingConfig = YES;
+    if ( [_txtMPINServiceNAME.text isEqualToString:@""] || [[_txtMPINServiceNAME.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]] isEqualToString:@""] )
+    {
+        return NO;
+    }
 
-    if ( [NSString isValidURL:_txtMPINServiceURL.text] )
-    {
-        [[ErrorHandler sharedManager] presentMessageInViewController:self
-         errorString:NSLocalizedString(@"TESTING_CONFIGURATION", @"Testing configuration")
-         addActivityIndicator:YES
-         minShowTime:0];
-        if ( [_txtMPINServiceRPSPrefix.text isEqualToString:@""] )
-        {
-            [sdk TestBackend:_txtMPINServiceURL.text rpsPrefix:nil];
-        }
-        else
-        {
-            [sdk TestBackend:_txtMPINServiceURL.text rpsPrefix:_txtMPINServiceRPSPrefix.text];
-        }
-    }
-    else
-    {
-        [[ErrorHandler sharedManager] presentMessageInViewController:self
-         errorString:NSLocalizedString(@"ADDCONFIGVC_ERROR_INVALID_URL", @"")
-         addActivityIndicator:NO
-         minShowTime:3];
-    }
+    return YES;
+}
+
+#pragma mark - NSNotification handlers -
+
+-( void ) networkUp
+{
+    [[ThemeManager sharedManager] hideNetworkDown:self];
+}
+
+-( void ) networkDown
+{
+    NSLog(@"Network DOWN Notification");
+
+    [self.view layoutIfNeeded];
+    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations: ^ {
+        self.constraintNoNetworkViewHeight.constant = 36.0f;
+        [self.view layoutIfNeeded];
+    }];
+}
+
+-( void ) unRegisterObservers
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_UP_NOTIFICATION" object:nil];
+}
+
+- ( void ) registerObservers
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkUp ) name:@"NETWORK_UP_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkDown ) name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
 }
 
 @end

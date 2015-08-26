@@ -1,0 +1,1 @@
+ATMHUD_DHOERL_OTHER_LDFLAGS = -framework "QuartzCore"

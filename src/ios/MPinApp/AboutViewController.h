@@ -22,8 +22,9 @@
  http://www.certivox.com/about-certivox/patents/
  */
 
+#import "SuperViewController.h"
 
-@interface AboutViewController : UIViewController
+@interface AboutViewController : SuperViewController
 
 @property ( nonatomic, weak ) IBOutlet UIButton *btnGuide;
 @property ( nonatomic, weak ) IBOutlet UIButton *btnSDK_URL;

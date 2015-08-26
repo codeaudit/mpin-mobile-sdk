@@ -23,7 +23,7 @@
  */
 
 
-
+#import "SuperViewController.h"
 @interface AccountSummaryViewController : UIViewController
 
 @property(nonatomic,strong) NSString *strEmail;
