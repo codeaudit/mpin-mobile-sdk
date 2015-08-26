@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:text="@string/gd_first_start_title"
+        android:text="@string/gd_get_mpin_server_title"
         android:textSize="28sp" />
 
     <ImageView
