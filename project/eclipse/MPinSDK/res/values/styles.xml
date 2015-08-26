@@ -86,4 +86,14 @@
         <item name="android:scaleType">centerInside</item>
     </style>
 
+    <style name="LinkAbout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@string/font_roboto</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textColor">@color/base_text_color</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:paddingTop">10dp</item>
+    </style>
+
 </resources>

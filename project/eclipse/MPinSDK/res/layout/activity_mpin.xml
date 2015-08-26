@@ -78,13 +78,22 @@
                 android:text="@string/drawer_subtitle" />
 
             <TextView
-                android:id="@+id/drawer_subtitle"
+                android:id="@+id/active_service_id"
                 style="@style/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
                 android:text="@string/drawer_no_service" />
+
+            <TextView
+                android:id="@+id/active_service_url_id"
+                style="@style/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:text="@string/drawer_no_service_url" />
 
             <LinearLayout
                 android:id="@+id/action_items"
