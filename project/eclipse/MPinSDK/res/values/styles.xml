@@ -83,7 +83,7 @@
 
     <style name="GuideImageView">
         <item name="android:paddingBottom">30dp</item>
-        <item name="android:scaleType">center</item>
+        <item name="android:scaleType">centerInside</item>
     </style>
 
 </resources>

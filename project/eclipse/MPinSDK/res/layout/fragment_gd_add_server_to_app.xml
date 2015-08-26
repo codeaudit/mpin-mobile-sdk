@@ -20,7 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/gd_add_server_to_app_subtitle"
-        android:layout_below="@id/gd_add_server_to_app_title" />
+        android:layout_below="@id/gd_add_server_to_app_title"
+        android:src="@drawable/ic_gd_add_server_to_app" />
 
     <TextView
         android:id="@+id/gd_add_server_to_app_subtitle"
