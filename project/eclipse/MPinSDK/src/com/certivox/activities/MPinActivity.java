@@ -39,7 +39,10 @@ import net.hockeyapp.android.FeedbackManager;
 import net.hockeyapp.android.UpdateManager;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -66,13 +69,14 @@ import com.certivox.fragments.CreateIdentityFragment;
 import com.certivox.fragments.IdentityBlockedFragment;
 import com.certivox.fragments.IdentityCreatedFragment;
 import com.certivox.fragments.MPinFragment;
+import com.certivox.fragments.NoInternetConnectionFragment;
 import com.certivox.fragments.OTPFragment;
 import com.certivox.fragments.PinPadFragment;
 import com.certivox.fragments.SuccessfulLoginFragment;
 import com.certivox.fragments.UsersListFragment;
 import com.certivox.models.Config;
 import com.certivox.models.OTP;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 
 public class MPinActivity extends ActionBarActivity implements OnClickListener, Handler.Callback {
@@ -84,6 +88,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
 
     // Controller
     private MPinController      mController;
+    private Handler             mControllerHandler;
     private static MPinActivity mActivity;
 
     private enum ActivityStates {
@@ -101,8 +106,16 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     private TextView              mChangeIdentityButton;
     private TextView              mChangeServiceButton;
     private TextView              mAboutButton;
-
+    private TextView              mQuickStartGuideButton;
+    private TextView              mNoInternetConnectionTitle;
     private Toast                 mNoInternetToast;
+    private BroadcastReceiver     mNetworkConectivityReceiver;
+    private static final String   CONNECTIVITY_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE";
+
+
+    public MPinController getController() {
+        return mController;
+    }
 
 
     @Override
@@ -112,10 +125,30 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         mActivityLifecycleState = ActivityStates.ON_CREATE;
 
         initialize();
+        registerNetworkConectivityReceiver();
 
         // Needed for Hockey App
         checkForUpdates();
         checkForCrashes();
+    }
+
+
+    private void registerNetworkConectivityReceiver() {
+        mNetworkConectivityReceiver = new BroadcastReceiver() {
+
+            public void onReceive(Context context, Intent intent) {
+                mController.handleMessage(MPinController.MESSAGE_NETWORK_CONNECTION_CHANGE);
+            }
+        };
+
+        registerReceiver(mNetworkConectivityReceiver, new IntentFilter(CONNECTIVITY_CHANGE));
+    }
+
+
+    private void unregisterNetworkConectivityReceiver() {
+        if (mNetworkConectivityReceiver != null) {
+            unregisterReceiver(mNetworkConectivityReceiver);
+        }
     }
 
 
@@ -131,6 +164,8 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         super.onDestroy();
         mActivityLifecycleState = ActivityStates.ON_DESTROY;
         mController.handleMessage(MPinController.MESSAGE_ON_DESTROY);
+        unregisterNetworkConectivityReceiver();
+        mController.removeOutboxHandler(mControllerHandler);
         freeResources();
     }
 
@@ -162,6 +197,9 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         case R.id.about:
             mController.handleMessage(MPinController.MESSAGE_ON_ABOUT);
             break;
+        case R.id.quick_start_guide:
+            mController.handleMessage(MPinController.MESSAGE_ON_QUICK_START_GUIDE);
+            break;
         default:
             return;
         }
@@ -192,6 +230,12 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         case MPinController.MESSAGE_STOP_WORK_IN_PROGRESS:
             hideLoader();
             return true;
+        case MPinController.MESSAGE_INTERNET_CONNECTION_AVAILABLE:
+            onInternetConnectionAvailable();
+            return true;
+        case MPinController.MESSAGE_NO_INTERNET_CONNECTION_AVAILABLE:
+            onNoInternetConnectionAvailable();
+            return true;
         case MPinController.MESSAGE_GO_BACK:
             goBack();
             return true;
@@ -219,7 +263,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
             createAndAddFragment(FragmentTags.FRAGMENT_USERS_LIST, UsersListFragment.class, false, null);
             return true;
         case MPinController.MESSAGE_SHOW_CREATE_IDENTITY:
-            createAndAddFragment(FragmentTags.FRAGMENT_CREATE_IDENTITY, CreateIdentityFragment.class, false, null);
+            createAndAddFragment(FragmentTags.FRAGMENT_CREATE_IDENTITY, CreateIdentityFragment.class, false, msg.obj);
             return true;
         case MPinController.MESSAGE_SHOW_CONFIRM_EMAIL:
             createAndAddFragment(FragmentTags.FRAGMENT_CONFIRM_EMAIL, ConfirmEmailFragment.class, false, null);
@@ -239,6 +283,10 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         case MPinController.MESSAGE_SHOW_OTP:
             OTP otp = (OTP) msg.obj;
             createAndAddFragment(FragmentTags.FRAGMENT_OTP, OTPFragment.class, false, otp);
+            return true;
+        case MPinController.MESSAGE_SHOW_NO_INTERNET_CONNECTION:
+            createAndAddFragment(FragmentTags.FRAGMENT_NO_INTERNET_CONNECTION, NoInternetConnectionFragment.class,
+                    false, null);
             return true;
         case MPinController.MESSAGE_INCORRECT_PIN_AN:
             showWrongPinDialog();
@@ -269,14 +317,18 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     /** Called to do the initialization of the view */
     private void initialize() {
         mActivity = this;
+        initController();
         initViews();
         initActionBar();
         initNavigationDrawer();
 
-        // Init the controller
-        mController = new MPinController(getApplicationContext());
-        mController.addOutboxHandler(new Handler(this));
         mController.handleMessage(MPinController.MESSAGE_ON_CREATE);
+    }
+
+
+    private void initController() {
+        mControllerHandler = new Handler(this);
+        mController = new MPinController(getApplicationContext(), mControllerHandler);
     }
 
 
@@ -291,7 +343,9 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         mChangeIdentityButton = null;
         mChangeServiceButton = null;
         mAboutButton = null;
+        mQuickStartGuideButton = null;
         mLoader = null;
+        mControllerHandler = null;
     }
 
 
@@ -302,7 +356,9 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         mChangeIdentityButton = (TextView) findViewById(R.id.change_identitiy);
         mChangeServiceButton = (TextView) findViewById(R.id.change_service);
         mAboutButton = (TextView) findViewById(R.id.about);
+        mQuickStartGuideButton = (TextView) findViewById(R.id.quick_start_guide);
         mLoader = (RelativeLayout) findViewById(R.id.loader);
+        mNoInternetConnectionTitle = (TextView) findViewById(R.id.no_network_connection_message_id);
     }
 
 
@@ -347,9 +403,10 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         mDrawerToggle.setDrawerIndicatorEnabled(false);
         // Change the hamburger icon to up carret
-        mDrawerToggle.setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-
-        mDrawerToggle.setToolbarNavigationClickListener(drawerBackClickListener);
+        if (drawerBackClickListener != null) {
+            mDrawerToggle.setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+            mDrawerToggle.setToolbarNavigationClickListener(drawerBackClickListener);
+        }
     }
 
 
@@ -362,6 +419,9 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         }
         if (mAboutButton != null) {
             mAboutButton.setOnClickListener(this);
+        }
+        if (mQuickStartGuideButton != null) {
+            mQuickStartGuideButton.setOnClickListener(this);
         }
     }
 
@@ -398,10 +458,20 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     }
 
 
+    private void onNoInternetConnectionAvailable() {
+        mNoInternetConnectionTitle.setVisibility(View.VISIBLE);
+    }
+
+
+    private void onInternetConnectionAvailable() {
+        mNoInternetConnectionTitle.setVisibility(View.GONE);
+    }
+
+
     private void createAndAddFragment(String tag, Class<? extends MPinFragment> fragmentClass, boolean addToBackStack,
             Object data) {
 
-        //Need to check if the activity is in proper state for switching fragments, otherwise exception is thrown
+        // Need to check if the activity is in proper state for switching fragments, otherwise exception is thrown
         switch (mActivityLifecycleState) {
         case ON_CREATE:
         case ON_POST_RESUME:
@@ -413,7 +483,6 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
             }
 
             if (fragment != null && !fragment.isVisible()) {
-                fragment.setMPinController(mController);
                 fragment.setData(data);
 
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();

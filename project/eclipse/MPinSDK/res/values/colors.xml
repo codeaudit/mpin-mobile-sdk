@@ -5,6 +5,8 @@
     <color name="black">#000000</color>
     <color name="green">#4DB6AC</color>
     <color name="dark_green">#00897B</color>
+    <color name="swans_down">#DCEEED</color>
+    <color name="paradiso">#3E928A</color>
     <color name="primaryColorDark">#4D646F</color>
     <color name="mpinMainColor">#4DB6AC</color>
     <color name="subtitleColor">#878787</color>

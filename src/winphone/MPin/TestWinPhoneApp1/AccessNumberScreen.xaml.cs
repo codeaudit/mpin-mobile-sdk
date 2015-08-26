@@ -65,7 +65,7 @@ namespace MPinDemo
             List<string> data = e.Parameter as List<string>;
             if (data != null && data.Count == 2)
             {
-                ANUser.Text = string.Format(ResourceLoader.GetForCurrentView().GetString("ANUser"), data[0]);
+                ANUser.Text = data[0].ToString();
 
                 this.ANLength = int.Parse(data[1]);
                 this.AccessNumberLength.Text = string.Format(ResourceLoader.GetForCurrentView().GetString("AccessNumberLength"), this.ANLength);

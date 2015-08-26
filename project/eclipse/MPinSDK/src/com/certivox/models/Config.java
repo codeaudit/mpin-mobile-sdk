@@ -40,6 +40,7 @@ public final class Config {
     private String  mRTS;
     private boolean mRequestOtp;
     private boolean mRequestAccessNumber;
+    private boolean mIsDefault;
 
 
     public Config() {
@@ -47,18 +48,20 @@ public final class Config {
     }
 
 
-    public Config(String title, String backendUrl, boolean requestOtp, boolean requestAccessNumber) {
+    public Config(String title, String backendUrl, boolean requestOtp, boolean requestAccessNumber, boolean isDefault) {
         mId = -1;
         mTitle = title;
         mBackendUrl = backendUrl;
         mRequestOtp = requestOtp;
         mRequestAccessNumber = requestAccessNumber;
         mRTS = "";
+        mIsDefault = isDefault;
     }
 
 
-    public Config(String title, String backendUrl, String rts, boolean requestOtp, boolean requestAccessNumber) {
-        this(title, backendUrl, requestOtp, requestAccessNumber);
+    public Config(String title, String backendUrl, String rts, boolean requestOtp, boolean requestAccessNumber,
+            boolean isDefault) {
+        this(title, backendUrl, requestOtp, requestAccessNumber, isDefault);
         mRTS = rts;
     }
 
@@ -121,4 +124,15 @@ public final class Config {
     public void setRequestAccessNumber(boolean requestAccessNumber) {
         mRequestAccessNumber = requestAccessNumber;
     }
+
+
+    public boolean isDefault() {
+        return mIsDefault;
+    }
+
+
+    public void setIsDefault(boolean isDefault) {
+        mIsDefault = isDefault;
+    }
+
 }

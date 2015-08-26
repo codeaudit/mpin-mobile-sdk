@@ -34,7 +34,6 @@ package com.certivox.fragments;
 
 import android.os.Bundle;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -45,7 +44,7 @@ import android.widget.TextView;
 import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
 import com.certivox.models.OTP;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 
 public class OTPFragment extends MPinFragment {
@@ -88,9 +87,15 @@ public class OTPFragment extends MPinFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_otp, container, false);
         mIsFragmentDestroyed = false;
-        initViews();
 
         return mView;
+    }
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initViews();
     }
 
 
@@ -125,7 +130,7 @@ public class OTPFragment extends MPinFragment {
 
     @Override
     protected void initViews() {
-        setTooblarTitle(R.string.otp_title);
+        setToolbarTitle(R.string.otp_title);
         mUserEmailTextView = (TextView) mView.findViewById(R.id.user_email);
         if (getMPinController().getCurrentUser() != null) {
             mUserEmailTextView.setText(getMPinController().getCurrentUser().getId());

@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ClearButton.Content" xml:space="preserve">
-    <value>Clear</value>
+    <value>clear</value>
   </data>
   <data name="EightButton.Content" xml:space="preserve">
     <value>8</value>
@@ -139,19 +139,19 @@
     <value>1</value>
   </data>
   <data name="PinPadAuthentication" xml:space="preserve">
-    <value>Authenticate user </value>
+    <value>ENTER PIN</value>
   </data>
   <data name="PinPadRegistration" xml:space="preserve">
-    <value>Register user </value>
+    <value>SETUP PIN</value>
   </data>
   <data name="PinPasswordBox.PlaceholderText" xml:space="preserve">
-    <value>Enter your pin</value>
+    <value>enter your pin</value>
   </data>
   <data name="SevenButton.Content" xml:space="preserve">
     <value>7</value>
   </data>
   <data name="SignButton.Content" xml:space="preserve">
-    <value>Sign in</value>
+    <value>enter</value>
   </data>
   <data name="SixButton.Content" xml:space="preserve">
     <value>6</value>

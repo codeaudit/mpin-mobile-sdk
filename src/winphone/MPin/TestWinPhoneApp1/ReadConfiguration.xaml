@@ -5,100 +5,71 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="using:MPinDemo"
-    mc:Ignorable="d"
+    mc:Ignorable="d" Style="{StaticResource PageStyle}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <local:ConfigurationConverter x:Key="configurationConverter"/>
         <local:ExistenceSelector x:Key="ExistenceSelector" />
     </Page.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+
+    <StackPanel>
+        <TextBlock x:Uid="ReadConfigurationTitle" Style="{StaticResource TitleStyle}" />
         <TextBlock x:Uid="ReadConfigurationText" TextWrapping="WrapWholeWords" />
         <TextBlock x:Uid="ReadConfigurationWarning" Grid.Row="1" TextWrapping="WrapWholeWords"/>
-        
-        <ListBox x:Name="ConfigurationsListBox" ItemsSource="{Binding Configurations, Mode=TwoWay}" Grid.Row="2" ItemTemplateSelector="{Binding ExistenceSelector}" >
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <local:ExistenceSelector Content="{Binding}">
-                        <local:ExistenceSelector.UniqueTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="40" />
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
+        <ScrollViewer>
+            <ListBox x:Name="ConfigurationsListBox" ItemsSource="{Binding Configurations, Mode=TwoWay}" Grid.Row="2" ItemTemplateSelector="{Binding ExistenceSelector}" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <local:ExistenceSelector Content="{Binding}">
+                            <local:ExistenceSelector.UniqueTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="40" />
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
 
-                                    <CheckBox IsChecked="{Binding IsSet, Mode=TwoWay}" />
+                                        <CheckBox IsChecked="{Binding IsSet, Mode=TwoWay}" />
 
-                                    <StackPanel Margin="0,0,0,9.5" Grid.Column="1">
-                                        <TextBlock Text="{Binding Name}"  
-                                           TextWrapping="Wrap"
-                                            Pivot.SlideInAnimationGroup="1"
-                                            CommonNavigationTransitionInfo.IsStaggerElement="True"
-                                            Style="{ThemeResource ListViewItemTextBlockStyle}"
-                                            Margin="0,0,19,0"/>
-                                        <TextBlock Text="{Binding BackendUrl}"
-                                           TextWrapping="WrapWholeWords"
-                                            Pivot.SlideInAnimationGroup="2" 
-                                            CommonNavigationTransitionInfo.IsStaggerElement="True" 
-                                            Style="{ThemeResource ListViewItemContentTextBlockStyle}"
-                                            Margin="0,0,19,0"/>
-                                        <TextBlock Text="{Binding Converter={StaticResource configurationConverter}}" Margin="0,0,19,0" 
-                                                   TextWrapping="WrapWholeWords"
-                                                   Pivot.SlideInAnimationGroup="2" 
-                                                   CommonNavigationTransitionInfo.IsStaggerElement="True" 
-                                                   FontWeight="Bold"
-                                                   Style="{ThemeResource ListViewItemContentTextBlockStyle}"/>
-                                    </StackPanel>
+                                        <StackPanel Margin="0,0,0,9.5" Grid.Column="1">
+                                            <TextBlock Text="{Binding Name}"  Style="{StaticResource RadioButtonTextBlock}" />
+                                            <TextBlock Text="{Binding BackendUrl}" Style="{StaticResource RadioButtonTextBlock}" Foreground="{ThemeResource ListBoxItemDisabledForegroundThemeBrush}"/>
+                                            <TextBlock Text="{Binding Type, Converter={StaticResource configurationConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                           Style="{StaticResource RadioButtonTextBlock}" Foreground="{ThemeResource ListBoxItemDisabledForegroundThemeBrush}"/>
+</StackPanel>
 
-                                </Grid>
-                            </DataTemplate>
-                        </local:ExistenceSelector.UniqueTemplate>
-                        <local:ExistenceSelector.DuplicateTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="40" />
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
+                                    </Grid>
+                                </DataTemplate>
+                            </local:ExistenceSelector.UniqueTemplate>
+                            <local:ExistenceSelector.DuplicateTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="40" />
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
 
-                                    <CheckBox IsChecked="{Binding IsSet, Mode=TwoWay}" />
+                                        <CheckBox IsChecked="{Binding IsSet, Mode=TwoWay}" />
 
-                                    <StackPanel Margin="0,0,0,9.5" Grid.Column="1">
-                                        <TextBlock Text="{Binding Name}"  
-                                           TextWrapping="Wrap" 
-                                            Pivot.SlideInAnimationGroup="1"
-                                            CommonNavigationTransitionInfo.IsStaggerElement="True"
-                                            Style="{ThemeResource ListViewItemTextBlockStyle}"
-                                            Margin="0,0,19,0"/>
-                                        <TextBlock Text="{Binding BackendUrl}"
-                                           TextWrapping="WrapWholeWords"
-                                            Pivot.SlideInAnimationGroup="2" 
-                                            CommonNavigationTransitionInfo.IsStaggerElement="True" 
-                                            Style="{ThemeResource ListViewItemContentTextBlockStyle}"
-                                            Margin="0,0,19,0"/>
-                                        <TextBlock Text="{Binding Converter={StaticResource configurationConverter}}" Margin="0,0,19,0" 
-                                                   TextWrapping="WrapWholeWords"
-                                                   Pivot.SlideInAnimationGroup="2" 
-                                                   CommonNavigationTransitionInfo.IsStaggerElement="True" 
-                                                   FontWeight="Bold"
-                                                   Style="{ThemeResource ListViewItemContentTextBlockStyle}"/>
-                                        <TextBlock Text="(duplicated)" Foreground="Red" Style="{ThemeResource ListViewItemContentTextBlockStyle}"/>
-                                    </StackPanel>
+                                        <StackPanel Margin="0,0,0,9.5" Grid.Column="1">
+                                            <TextBlock Text="{Binding Name}"  Style="{StaticResource RadioButtonTextBlock}" />
+                                            <TextBlock Text="{Binding BackendUrl}" Style="{StaticResource RadioButtonTextBlock}" Foreground="{ThemeResource ListBoxItemDisabledForegroundThemeBrush}"/>
+                                            <TextBlock Text="{Binding Type, Converter={StaticResource configurationConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                           Style="{StaticResource RadioButtonTextBlock}" Foreground="{ThemeResource ListBoxItemDisabledForegroundThemeBrush}"/>
+                                            
+                                            <TextBlock Text="(duplicated)" Foreground="Red" Style="{ThemeResource ListViewItemContentTextBlockStyle}"/>
+                                        </StackPanel>
 
-                                </Grid>
-                            </DataTemplate>
-                        </local:ExistenceSelector.DuplicateTemplate>
-                    </local:ExistenceSelector>
-                </DataTemplate>                
-            </ListBox.ItemTemplate>
-        </ListBox>
-    </Grid>
+                                    </Grid>
+                                </DataTemplate>
+                            </local:ExistenceSelector.DuplicateTemplate>
+                        </local:ExistenceSelector>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </ScrollViewer>
+
+    </StackPanel>
 
     <Page.BottomAppBar>
         <CommandBar>

@@ -99,6 +99,7 @@ namespace MPinDemo
             this.isAdding = e.Parameter == null;
             this.Backend = isAdding ? new Backend() : e.Parameter as Backend;
             this.backend.PropertyChanged += backend_PropertyChanged;
+            this.ConfigTitle.Text = ResourceLoader.GetForCurrentView().GetString(isAdding ? "ConfigTitleAdd" : "ConfigTitleEdit");
 
             if (this.Backend == null || this.Backend.Type == ConfigurationType.Mobile)
             {
@@ -121,7 +122,8 @@ namespace MPinDemo
         #region handlers
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(this.Backend.Name) && Uri.IsWellFormedUriString(this.Backend.BackendUrl, UriKind.Absolute))
+            bool correctName = IsNameCorrect();
+            if (correctName && Uri.IsWellFormedUriString(this.Backend.BackendUrl, UriKind.Absolute))
             {
                 if (!isAdding && isUrlChanged)
                 {
@@ -142,8 +144,26 @@ namespace MPinDemo
             }
             else
             {
-                rootPage.NotifyUser(string.IsNullOrEmpty(this.Backend.Name) ? ResourceLoader.GetForCurrentView().GetString("EmptyTitle") : ResourceLoader.GetForCurrentView().GetString("WrongURL"), MainPage.NotifyType.ErrorMessage);
+                rootPage.NotifyUser(
+                    !correctName 
+                    ? string.IsNullOrEmpty(this.Backend.Name) 
+                        ? ResourceLoader.GetForCurrentView().GetString("EmptyTitle") 
+                        : ResourceLoader.GetForCurrentView().GetString("DuplicateName")
+                    : ResourceLoader.GetForCurrentView().GetString("WrongURL"), MainPage.NotifyType.ErrorMessage);
             }
+        }
+
+        private bool IsNameCorrect()
+        {
+            if (string.IsNullOrEmpty(this.Backend.Name))
+                return false;
+
+            if (isAdding)
+            {
+                return !BlankPage1.IsServiceNameExists(this.Backend.Name);
+            }
+
+            return true;
         }
 
         private async void Test_Click(object sender, RoutedEventArgs e)

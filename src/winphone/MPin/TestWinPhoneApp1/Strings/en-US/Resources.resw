@@ -127,31 +127,25 @@
     <value>Add</value>
   </data>
   <data name="AuthTB.Text" xml:space="preserve">
-    <value>User:</value>
+    <value>AUTHENTICATION STATUS</value>
   </data>
-  <data name="BlockedUser" xml:space="preserve">
-    <value>User {0} is BLOCKED! Too many unsuccessful authentications!</value>
-  </data>
-  <data name="ConfigurationTB.Text" xml:space="preserve">
-    <value>Please, choose а configuration</value>
+  <data name="BlockedUser.Text" xml:space="preserve">
+    <value>Too many unsuccessful authentications!</value>
   </data>
   <data name="ConfirmButton.Content" xml:space="preserve">
     <value>I confirmed my email, continue</value>
   </data>
-  <data name="ConfirmTB.Text" xml:space="preserve">
-    <value>Click the link in the email, to confirm your identity and proceed.</value>
-  </data>
   <data name="DeleteButton.Label" xml:space="preserve">
-    <value>Delete</value>
+    <value>delete</value>
   </data>
   <data name="EmailTB.Text" xml:space="preserve">
-    <value>We have sent you an email to:</value>
+    <value>CONFIRM EMAIL</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Error: </value>
   </data>
   <data name="ErrorAuth" xml:space="preserve">
-    <value>is NOT authenticated! Error: </value>
+    <value>Unsuccessful authentication! Error: </value>
   </data>
   <data name="ExistingUser" xml:space="preserve">
     <value>User already exists for the specified service!</value>
@@ -160,13 +154,15 @@
     <value>Expired!</value>
   </data>
   <data name="IdsButton.Content" xml:space="preserve">
-    <value>Go to identities list</value>
+    <value>Back to identity list</value>
   </data>
   <data name="IncorrectAccessNumber" xml:space="preserve">
-    <value>is NOT successfully authenticated due to incorrect access number!</value>
+    <value>Incorrect Access Number! 
+Unsuccessfull authenitecation!</value>
   </data>
   <data name="IncorrectPin" xml:space="preserve">
-    <value>is NOT authenticated due to an incorrect entered pin!</value>
+    <value>Incorrect PIN! 
+Unsuccessfull authentication!</value>
   </data>
   <data name="InitializationFailed" xml:space="preserve">
     <value>Failed to initialize MPinSDK: status code = {0}. Try again!</value>
@@ -178,7 +174,7 @@
     <value>Create Identity</value>
   </data>
   <data name="NewUserIdTB.Text" xml:space="preserve">
-    <value>Email address:</value>
+    <value>Enter your email</value>
   </data>
   <data name="NoSelectedUser" xml:space="preserve">
     <value>No selected user!</value>
@@ -193,10 +189,10 @@
     <value>The mail is not in a valid mail format!</value>
   </data>
   <data name="Otp2TB.Text" xml:space="preserve">
-    <value> is: </value>
+    <value>YOUR PASSWORD</value>
   </data>
   <data name="OtpTB.Text" xml:space="preserve">
-    <value>The OTP number for</value>
+    <value>You can now use this password to log into your RADIUS service</value>
   </data>
   <data name="RegistrationProblem" xml:space="preserve">
     <value>A problem occurs during registration. Please, try again!</value>
@@ -217,7 +213,7 @@
     <value>Backend status: </value>
   </data>
   <data name="SuccessfulAuth" xml:space="preserve">
-    <value>is successfully authenticated!</value>
+    <value>Successfully authenticated!</value>
   </data>
   <data name="TimeLeftTB.Text" xml:space="preserve">
     <value>Time left:</value>
@@ -253,7 +249,7 @@
     <value>Reset PIN</value>
   </data>
   <data name="ResetPinButton.Label" xml:space="preserve">
-    <value>Reset PIN</value>
+    <value>reset PIN</value>
   </data>
   <data name="TestBackendButton.Content" xml:space="preserve">
     <value>Test Service</value>
@@ -265,7 +261,7 @@
     <value>Problem with the registration of {0} due to {1}!</value>
   </data>
   <data name="AboutButton.Label" xml:space="preserve">
-    <value>About</value>
+    <value>about</value>
   </data>
   <data name="About.Text" xml:space="preserve">
     <value>Windows Phone Sample Application</value>
@@ -276,14 +272,14 @@
   <data name="AllRightsReserved.Text" xml:space="preserve">
     <value>All rights reserved.</value>
   </data>
-  <data name="ANUser" xml:space="preserve">
-    <value>Hi, {0}!</value>
+  <data name="ANTitle.Text" xml:space="preserve">
+    <value>ENTER ACCESS NUMBER</value>
   </data>
   <data name="CertivoxLtd" xml:space="preserve">
     <value>Copyright {0} 2015, CertiVox UK Ltd</value>
   </data>
   <data name="DeviceNameTB.Text" xml:space="preserve">
-    <value>Device name:</value>
+    <value>Device Name</value>
   </data>
   <data name="SuccessfulRegistration" xml:space="preserve">
     <value>Successfully registered user {0}!</value>
@@ -292,7 +288,7 @@
     <value>Add Service</value>
   </data>
   <data name="EditButton.Label" xml:space="preserve">
-    <value>Edit Configuration</value>
+    <value>edit configuration</value>
   </data>
   <data name="EditService" xml:space="preserve">
     <value>Edit Service</value>
@@ -319,7 +315,7 @@
     <value>RPS Prefix</value>
   </data>
   <data name="ServiceName.Text" xml:space="preserve">
-    <value>Service Name</value>
+    <value>Enter Service Name</value>
   </data>
   <data name="SeviceURLText.Text" xml:space="preserve">
     <value>Service URL</value>
@@ -328,7 +324,7 @@
     <value>Are you sure you want to delete configuration "{0}"?</value>
   </data>
   <data name="EmptyTitle" xml:space="preserve">
-    <value>The service's name cannot be empty!</value>
+    <value>The service name cannot be empty!</value>
   </data>
   <data name="LostUsers" xml:space="preserve">
     <value>All previously registered users for this Service will be lost as the url is changed. Are you sure you want to do it?</value>
@@ -346,7 +342,7 @@
     <value>The URL string is not correct!</value>
   </data>
   <data name="UpdateCheckButton.Label" xml:space="preserve">
-    <value>Check for update</value>
+    <value>check for update</value>
   </data>
   <data name="AboutBuild" xml:space="preserve">
     <value>Build: </value>
@@ -404,5 +400,54 @@
   </data>
   <data name="NoQRCode" xml:space="preserve">
     <value>No QRCode symbol is found!</value>
+  </data>
+  <data name="BusyText.Text" xml:space="preserve">
+    <value>Connecting to the server...</value>
+  </data>
+  <data name="TakePictureButton.Label" xml:space="preserve">
+    <value>take picture</value>
+  </data>
+  <data name="DuplicateName" xml:space="preserve">
+    <value>The service name already exists!</value>
+  </data>
+  <data name="AddUserTitle.Text" xml:space="preserve">
+    <value>ADD IDENTITY</value>
+  </data>
+  <data name="IdentityCreatedNotification.Text" xml:space="preserve">
+    <value>Identity successfully created. You can now use this identity to authenticate.</value>
+  </data>
+  <data name="IdentityCreatedTitle.Text" xml:space="preserve">
+    <value>IDENTITY CREATED</value>
+  </data>
+  <data name="IdentityListButton.Content" xml:space="preserve">
+    <value>Back to identity list</value>
+  </data>
+  <data name="SignInButton.Content" xml:space="preserve">
+    <value>Sign in with this identity</value>
+  </data>
+  <data name="BlockedUserTitle.Text" xml:space="preserve">
+    <value>BLOCKED USER</value>
+  </data>
+  <data name="ConfigTitleAdd" xml:space="preserve">
+    <value>ADD SERVICE</value>
+  </data>
+  <data name="ConfigTitleEdit" xml:space="preserve">
+    <value>EDIT SERVICE</value>
+  </data>
+  <data name="MainPageTitle.Text" xml:space="preserve">
+    <value>M-PIN</value>
+  </data>
+  <data name="ConfirmTB.Text" xml:space="preserve">
+    <value>Click the link in the email, to confirm your identity and proceed.</value>
+  </data>
+  <data name="OtpTitle.Text" xml:space="preserve">
+    <value>ONE TIME PASSWORD</value>
+  </data>
+  <data name="ReadConfigurationTitle.Text" xml:space="preserve">
+    <value>SCANNED SERVICES</value>
+  </data>
+  <data name="OverideActiveService" xml:space="preserve">
+    <value>Overwrite the URL for the active service?
+All existing identities will be deleted.</value>
   </data>
 </root>

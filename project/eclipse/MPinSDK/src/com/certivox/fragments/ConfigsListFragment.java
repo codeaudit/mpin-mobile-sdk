@@ -54,12 +54,12 @@ import com.certivox.adapters.ConfigurationListAdapter;
 import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
 import com.certivox.models.Config;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 
 public class ConfigsListFragment extends MPinFragment implements OnClickListener, AdapterView.OnItemClickListener {
 
-    private String TAG = ConfigsListFragment.class.getCanonicalName();
+    private String                   TAG = ConfigsListFragment.class.getCanonicalName();
 
     private View                     mView;
     private ListView                 mListView;
@@ -108,15 +108,21 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        setTooblarTitle(R.string.select_service_toolbar_title);
+        setToolbarTitle(R.string.select_service_toolbar_title);
 
         mView = inflater.inflate(R.layout.fragment_configs_list, container, false);
         mSelectedConfiguraionId = -1;
         disableDrawer();
         initViews();
-        initAdapter();
 
         return mView;
+    }
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initAdapter();
     }
 
 
@@ -231,20 +237,22 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
 
 
     private void onDeleteConfig() {
-        if (mSelectedConfiguraionId == -1) {
+        Config config = getMPinController().getConfiguration((int) mSelectedConfiguraionId);
+        if (config.getId() == -1) {
             showNoSelectedConfigurationDialog();
-        } else {
-            new AlertDialog.Builder(getActivity()).setTitle("Delete configuration")
-                    .setMessage("This action will also delete all identities, associated with this configuration.")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        } else
+            if (!config.isDefault()) {
+                new AlertDialog.Builder(getActivity()).setTitle("Delete configuration")
+                        .setMessage("This action will also delete all identities, associated with this configuration.")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            getMPinController().handleMessage(MPinController.MESSAGE_DELETE_CONFIGURATION,
-                                    mSelectedConfiguraionId);
-                        }
-                    }).setNegativeButton("Cancel", null).show();
-        }
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                getMPinController().handleMessage(MPinController.MESSAGE_DELETE_CONFIGURATION,
+                                        mSelectedConfiguraionId);
+                            }
+                        }).setNegativeButton("Cancel", null).show();
+            }
 
     }
 

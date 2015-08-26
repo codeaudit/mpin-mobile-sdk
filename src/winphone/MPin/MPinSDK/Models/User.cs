@@ -26,12 +26,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MPinRC;
+using System.Diagnostics;
 
 namespace MPinSDK.Models
 {
     /// <summary>
     /// The User object which represents an end-user of the M-Pin authentication.
     /// </summary>
+    [DebuggerDisplay("{Id}, State: {UserState}")]
     public class User : IDisposable
     {
         private UserWrapper user;

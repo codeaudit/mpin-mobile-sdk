@@ -69,7 +69,7 @@ namespace MPinDemo
                 this.User = data[0] as User;
                 if (this.User != null)
                 {
-                    BlockedUesrTB.Text = string.Format(ResourceLoader.GetForCurrentView().GetString("BlockedUser"), this.User.Id);
+                    BlockedUser.Text = this.User.Id;
                 }
             }
         }

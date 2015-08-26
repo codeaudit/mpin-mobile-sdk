@@ -34,6 +34,7 @@ package com.certivox.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -47,9 +48,7 @@ public abstract class MPinFragment extends Fragment implements Handler.Callback 
 
     private static final String TAG = MPinFragment.class.getCanonicalName();
 
-    // MPinController
-    private MPinController mMPinController;
-    private Handler        mHandler;
+    private Handler             mHandler;
 
 
     abstract protected void initViews();
@@ -69,12 +68,20 @@ public abstract class MPinFragment extends Fragment implements Handler.Callback 
         Log.i(TAG, "Fragment on Attach");
         super.onAttach(activity);
         mHandler = new Handler(this);
-        if (mMPinController != null) {
-            getMPinController().addOutboxHandler(mHandler);
-            mMPinController.setCurrentFragmentTag(getFragmentTag());
-        }
 
         hideKeyboard();
+    }
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        MPinController controller = getMPinController();
+        if (controller != null) {
+            controller.addOutboxHandler(mHandler);
+            controller.setCurrentFragmentTag(getFragmentTag());
+        }
     }
 
 
@@ -86,17 +93,12 @@ public abstract class MPinFragment extends Fragment implements Handler.Callback 
     }
 
 
-    public void setMPinController(MPinController controller) {
-        mMPinController = controller;
-    }
-
-
     public MPinController getMPinController() {
-        return mMPinController;
+        return ((MPinActivity) getActivity()).getController();
     }
 
 
-    protected void setTooblarTitle(int resId) {
+    protected void setToolbarTitle(int resId) {
         ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(resId);
     }
 

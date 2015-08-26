@@ -45,7 +45,7 @@ import android.widget.TextView;
 
 import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 
 public class AboutFragment extends MPinFragment {
@@ -89,7 +89,7 @@ public class AboutFragment extends MPinFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         disableDrawer();
-        setTooblarTitle(R.string.about_title);
+        setToolbarTitle(R.string.about_title);
         mView = inflater.inflate(R.layout.fragment_about, container, false);
         initViews();
         setVersion();

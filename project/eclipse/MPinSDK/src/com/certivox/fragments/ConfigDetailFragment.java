@@ -50,25 +50,25 @@ import android.widget.EditText;
 import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
 import com.certivox.models.Config;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 
 public class ConfigDetailFragment extends MPinFragment implements OnClickListener {
 
     private static final String TAG = ConfigDetailFragment.class.getCanonicalName();
 
-    private View     mView;
-    private EditText mServiceNameEditText;
-    private EditText mServiceUrlEditText;
-    private EditText mServiceRTSEditText;
-    private CheckBox mServiceOTPCheckBox;
-    private CheckBox mServiceANCheckBox;
-    private Button   mCheckServiceButton;
-    private Button   mSaveServiceButton;
+    private View                mView;
+    private EditText            mServiceNameEditText;
+    private EditText            mServiceUrlEditText;
+    private EditText            mServiceRTSEditText;
+    private CheckBox            mServiceOTPCheckBox;
+    private CheckBox            mServiceANCheckBox;
+    private Button              mCheckServiceButton;
+    private Button              mSaveServiceButton;
 
-    private Config mConfig;
-    private int    mConfigId;
-    private String mConfigURL;
+    private Config              mConfig;
+    private int                 mConfigId;
+    private String              mConfigURL;
 
 
     @Override
@@ -99,20 +99,13 @@ public class ConfigDetailFragment extends MPinFragment implements OnClickListene
     }
 
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    private void initConfig() {
         mConfig = new Config();
         if (mConfigId != -1) {
-            initConfig();
+            mConfig = getMPinController().getConfiguration(mConfigId);
+            mConfigURL = mConfig.getBackendUrl();
         }
-    }
 
-
-    private void initConfig() {
-        // TODO: maybe the configuration should be directly sent
-        mConfig = getMPinController().getConfiguration(mConfigId);
-        mConfigURL = mConfig.getBackendUrl();
     }
 
 
@@ -120,9 +113,16 @@ public class ConfigDetailFragment extends MPinFragment implements OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_config_details, container, false);
         initViews();
-        initScreen();
 
         return mView;
+    }
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initConfig();
+        initScreen();
     }
 
 
@@ -174,14 +174,14 @@ public class ConfigDetailFragment extends MPinFragment implements OnClickListene
     private void initScreen() {
         disableDrawer();
         if (mConfig.getId() != -1) {
-            setTooblarTitle(R.string.config_detail_toolbar_title);
+            setToolbarTitle(R.string.config_detail_toolbar_title);
             mServiceNameEditText.setText(mConfig.getTitle());
             mServiceUrlEditText.setText(mConfig.getBackendUrl());
             mServiceRTSEditText.setText(mConfig.getRTS());
             mServiceOTPCheckBox.setChecked(mConfig.getRequestOtp());
             mServiceANCheckBox.setChecked(mConfig.getRequestAccessNumber());
         } else {
-            setTooblarTitle(R.string.add_service_toolbar_title);
+            setToolbarTitle(R.string.add_service_toolbar_title);
         }
     }
 

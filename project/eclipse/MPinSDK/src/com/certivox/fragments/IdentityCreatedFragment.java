@@ -43,7 +43,7 @@ import android.widget.TextView;
 
 import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 
 public class IdentityCreatedFragment extends MPinFragment implements OnClickListener {
@@ -78,17 +78,23 @@ public class IdentityCreatedFragment extends MPinFragment implements OnClickList
 
         mView = inflater.inflate(R.layout.fragment_identity_created, container, false);
 
-        initViews();
         return mView;
     }
 
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initViews();
+    }
+
+
+    @Override
     protected void initViews() {
-        setTooblarTitle(R.string.identity_created_title);
+        setToolbarTitle(R.string.identity_created_title);
         mInfoTextView = (TextView) mView.findViewById(R.id.info_text);
-        mInfoTextView.setText(String.format(getResources().getString(R.string.identity_created),
-                getMPinController().getCurrentUser().getId()));
+        mInfoTextView.setText(String.format(getResources().getString(R.string.identity_created), getMPinController()
+                .getCurrentUser().getId()));
         mUserEmailTextView = (TextView) mView.findViewById(R.id.user_email);
         mUserEmailTextView.setText(getMPinController().getCurrentUser().getId());
 

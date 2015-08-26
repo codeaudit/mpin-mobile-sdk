@@ -45,7 +45,7 @@ import android.widget.Toast;
 
 import com.certivox.constants.FragmentTags;
 import com.certivox.controllers.MPinController;
-import com.example.mpinsdk.R;
+import com.certivox.mpinsdk.R;
 
 
 public class ConfirmEmailFragment extends MPinFragment implements OnClickListener {
@@ -96,14 +96,21 @@ public class ConfirmEmailFragment extends MPinFragment implements OnClickListene
 
         mView = inflater.inflate(R.layout.fragment_confirm_email, container, false);
 
-        initViews();
         return mView;
     }
 
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        initViews();
+    }
+
+
+    @Override
     protected void initViews() {
-        setTooblarTitle(R.string.confirm_email_title);
+        setToolbarTitle(R.string.confirm_email_title);
         mUserEmailTextView = (TextView) mView.findViewById(R.id.user_email);
         mUserEmailTextView.setText(getMPinController().getCurrentUser().getId());
 

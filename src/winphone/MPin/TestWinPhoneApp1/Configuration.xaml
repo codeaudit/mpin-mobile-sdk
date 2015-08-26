@@ -6,43 +6,38 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     DataContext="{Binding Backend, Mode=TwoWay, RelativeSource={RelativeSource Self}}"
-    mc:Ignorable="d"
+    mc:Ignorable="d" Style="{StaticResource PageStyle}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <local:ConfigurationTypeEnumToBooleanConverter x:Key="EnumToBooleanConverter" />
     </Page.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <ScrollViewer>
+        <StackPanel>
 
-        <TextBlock x:Uid="ServiceName" Grid.ColumnSpan="2" />
-        <TextBox x:Name="NameTB" Text="{Binding Name, Mode=TwoWay}" Grid.Row="1" Grid.ColumnSpan="2" KeyUp="TextBox_KeyUp"/>
+            <TextBlock x:Name="ConfigTitle"  Style="{StaticResource TitleStyle}"/>
 
-        <TextBlock x:Uid="SeviceURLText" Grid.Row="2" Grid.ColumnSpan="2" />
-        <TextBox x:Name="UrlTB" Text="{Binding BackendUrl, Mode=TwoWay}" Grid.Row="3" Grid.ColumnSpan="2" KeyUp="TextBox_KeyUp"/>
+            <TextBlock x:Uid="ServiceName" Style="{StaticResource DescTextBlock}"/>
+            <TextBox x:Name="NameTB" Text="{Binding Name, Mode=TwoWay}" KeyUp="TextBox_KeyUp"/>
 
-        <TextBlock x:Uid="RPSPrefix" Grid.Row="4" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="RpsTB" Text="{Binding RpsPrefix, Mode=TwoWay}" Grid.Row="5" Grid.ColumnSpan="2" KeyUp="TextBox_KeyUp"/>
+            <TextBlock x:Uid="SeviceURLText" Style="{StaticResource DescTextBlock}"/>
+            <TextBox x:Name="UrlTB" Text="{Binding BackendUrl, Mode=TwoWay}" KeyUp="TextBox_KeyUp"/>
 
-        <StackPanel Grid.Row="6" Grid.ColumnSpan="2">
+            <TextBlock x:Uid="RPSPrefix"  Style="{StaticResource DescTextBlock}"/>
+            <TextBox x:Name="RpsTB" Text="{Binding RpsPrefix, Mode=TwoWay}" KeyUp="TextBox_KeyUp"/>
+
             <RadioButton x:Uid="MobileLoginRadioButton" x:Name="MobileLoginRadioButton" GroupName="Login" IsChecked="{Binding Path=Type, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Mobile, Mode=TwoWay}"/>
             <RadioButton x:Uid="OnlineLoginRadioButton" x:Name="OnlineLoginRadioButton" GroupName="Login" IsChecked="{Binding Path=Type, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Online, Mode=TwoWay}"/>
             <RadioButton x:Uid="OTPLoginRadioButton" x:Name="OTPLoginRadioButton" GroupName="Login"  IsChecked="{Binding Path=Type, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=OTP, Mode=TwoWay}"/>
-        </StackPanel>
 
-        <Button x:Name="TestBackendButton" x:Uid="TestBackendButton" Grid.Row="7" Click="Test_Click" />
-        <Button x:Name="RegisterService" Grid.Row="7" Grid.Column="1" Click="Button_Click" />
-    </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="TestBackendButton" x:Uid="TestBackendButton"  Click="Test_Click" />
+                <Button x:Name="RegisterService" Click="Button_Click" Grid.Column="1"/>
+            </Grid>
+            
+        </StackPanel>
+    </ScrollViewer>
 </Page>
