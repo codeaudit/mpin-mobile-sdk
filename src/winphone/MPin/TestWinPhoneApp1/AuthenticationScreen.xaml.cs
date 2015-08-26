@@ -90,7 +90,6 @@ namespace MPinDemo
                 {
                     switch(s.StatusCode)
                     {
-                        // todo.... -> NetworkError should not be returned
                         case Status.Code.OK:
                             AuthenticatedTB.Text = ResourceLoader.GetForCurrentView().GetString("SuccessfulAuth");
                             break;
