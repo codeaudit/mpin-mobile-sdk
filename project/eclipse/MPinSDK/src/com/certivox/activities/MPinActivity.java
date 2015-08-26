@@ -98,11 +98,12 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     private ActivityStates        mActivityLifecycleState;
 
     // Views
-    private DrawerLayout          mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar               mToolbar;
     private RelativeLayout        mLoader;
-    private TextView              mDrawerSubtitle;
+    private DrawerLayout          mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private TextView              mDrawerActiveServiceTextView;
+    private TextView              mDrawerActiveServiceUrlTextView;
     private TextView              mChangeIdentityButton;
     private TextView              mChangeServiceButton;
     private TextView              mAboutButton;
@@ -340,7 +341,8 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     private void freeResources() {
         mActivity = null;
         mController = null;
-        mDrawerSubtitle = null;
+        mDrawerActiveServiceTextView = null;
+        mDrawerActiveServiceUrlTextView = null;
         mDrawerToggle = null;
         mDrawerLayout = null;
         mToolbar = null;
@@ -355,7 +357,8 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
 
 
     private void initViews() {
-        mDrawerSubtitle = (TextView) findViewById(R.id.drawer_subtitle);
+        mDrawerActiveServiceTextView = (TextView) findViewById(R.id.active_service_id);
+        mDrawerActiveServiceUrlTextView = (TextView) findViewById(R.id.active_service_url_id);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mChangeIdentityButton = (TextView) findViewById(R.id.change_identitiy);
@@ -438,9 +441,11 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     private void setDrawerTitle() {
         Config config = mController.getActiveConfiguration();
         if (config != null) {
-            String title = config.getTitle();
-            if (mDrawerSubtitle != null) {
-                mDrawerSubtitle.setText(title);
+            if (mDrawerActiveServiceTextView != null) {
+                mDrawerActiveServiceTextView.setText(config.getTitle());
+            }
+            if (mDrawerActiveServiceUrlTextView != null) {
+                mDrawerActiveServiceUrlTextView.setText(config.getBackendUrl());
             }
         }
     }
