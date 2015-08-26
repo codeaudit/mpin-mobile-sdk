@@ -252,13 +252,8 @@ public:
     UserPtr MakeNewUser(const String& id, const String& deviceName = "") const;
     Status StartRegistration(INOUT UserPtr user, const String& userData = "");
     Status RestartRegistration(INOUT UserPtr user, const String& userData = "");
-    
-    //// Adding SMS  flow
-    /// TODO  ::  Return USER_PTR  as output parameter
     Status ActivateUserRegisteredBySMS(const String&  mpinId, const String &  activationKey);
-    /////// END
-    
-    Status FinishRegistration(INOUT UserPtr user);
+    Status FinishRegistration(INOUT UserPtr user, const String & pushMessageIdentifier = "");
     Status Authenticate(INOUT UserPtr user);
     Status Authenticate(INOUT UserPtr user, OUT String& authResultData);
     Status AuthenticateOTP(INOUT UserPtr user, OUT OTP& otp);

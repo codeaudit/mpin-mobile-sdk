@@ -903,8 +903,7 @@ Status MPinSDK::ActivateUserRegisteredBySMS(const String& mpinId, const String &
     return FinishRegistration(user);
 }
 
-//// TODO  ::  add push notification parameter
-Status MPinSDK::FinishRegistration(UserPtr user)
+Status MPinSDK::FinishRegistration(UserPtr user, const String & pushMessageIdentifier)
 {
     Status s = CheckIfBackendIsSet();
     if(s != Status::OK)
@@ -932,6 +931,10 @@ Status MPinSDK::FinishRegistration(UserPtr user)
     String regOTT = user->GetRegOTT();
 
     String url = String().Format("%s/%s?regOTT=%s", m_clientSettings.GetStringParam("signatureURL"), mpinIdHex.c_str(), regOTT.c_str());
+    if(pushMessageIdentifier != "") {
+        url = url + "&pmiToken=" + pushMessageIdentifier;
+    }
+    
     HttpResponse response = MakeGetRequest(url);
     if(response.GetStatus() != HttpResponse::HTTP_OK)
     {
