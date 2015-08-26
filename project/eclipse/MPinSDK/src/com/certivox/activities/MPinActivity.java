@@ -107,6 +107,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     private TextView              mChangeServiceButton;
     private TextView              mAboutButton;
     private TextView              mQuickStartGuideButton;
+    private TextView              mMPinServerGuideButton;
     private TextView              mNoInternetConnectionTitle;
     private Toast                 mNoInternetToast;
     private BroadcastReceiver     mNetworkConectivityReceiver;
@@ -199,6 +200,9 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
             break;
         case R.id.quick_start_guide:
             mController.handleMessage(MPinController.MESSAGE_ON_QUICK_START_GUIDE);
+            break;
+        case R.id.m_pin_server_guide:
+            mController.handleMessage(MPinController.MESSAGE_ON_MPIN_SERVER_GUIDE);
             break;
         default:
             return;
@@ -344,6 +348,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         mChangeServiceButton = null;
         mAboutButton = null;
         mQuickStartGuideButton = null;
+        mMPinServerGuideButton = null;
         mLoader = null;
         mControllerHandler = null;
     }
@@ -357,6 +362,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         mChangeServiceButton = (TextView) findViewById(R.id.change_service);
         mAboutButton = (TextView) findViewById(R.id.about);
         mQuickStartGuideButton = (TextView) findViewById(R.id.quick_start_guide);
+        mMPinServerGuideButton = (TextView) findViewById(R.id.m_pin_server_guide);
         mLoader = (RelativeLayout) findViewById(R.id.loader);
         mNoInternetConnectionTitle = (TextView) findViewById(R.id.no_network_connection_message_id);
     }
@@ -422,6 +428,9 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         }
         if (mQuickStartGuideButton != null) {
             mQuickStartGuideButton.setOnClickListener(this);
+        }
+        if ((mMPinServerGuideButton != null)) {
+            mMPinServerGuideButton.setOnClickListener(this);
         }
     }
 
