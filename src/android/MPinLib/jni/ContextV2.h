@@ -29,40 +29,38 @@
  *
  * * Our Statement of Position and Our Promise on Software Patents - http://www.certivox.com/about-certivox/patents/
  ******************************************************************************/
-/*
- * Storage.h
- *
- *  Created on: Oct 28, 2014
- *      Author: georgi
- */
 
-#ifndef STORAGE_H_
-#define STORAGE_H_
+#ifndef _CONTEXT_V2_H_
+#define _CONTEXT_V2_H_
 
 #include "JNICommon.h"
+#include "mpin_sdk_v2.h"
 
-namespace store {
+namespace sdkv2
+{
+typedef MPinSDKv2::IContext IContext;
+typedef MPinSDKv2::IHttpRequest IHttpRequest;
+typedef MPinSDKv2::IStorage IStorage;
 
-typedef MPinSDK::IStorage IStorage;
-typedef MPinSDK::String String;
+class Context: public IContext
+{
+public:
+	static Context* Instance(jobject jcontext);
+	virtual IHttpRequest * CreateHttpRequest() const;
+	virtual void ReleaseHttpRequest(IHttpRequest *request) const;
+	virtual IStorage * GetStorage(IStorage::Type type) const;
+	virtual MPinSDK::CryptoType GetMPinCryptoType() const;
+	virtual ~Context();
 
-class Storage: public IStorage {
-	public:
-		explicit Storage(jobject context, bool isMpinType);
-		virtual bool SetData(const String& data);
-		virtual bool GetData(String &data);
-		virtual const String& GetErrorMessage() const;
-		virtual ~Storage();
-	private:
-		// JNI CLASES ::
-		jclass m_pjstorageCls;
-		// JNI OBJECTS ::
-		jobject m_pjstorage;
-		// C++ Member variables
-		String m_errorMessage;
-		Storage(const Storage &);
-		void setErrorMessage();
+private:
+	Context(jobject jcontext);
+	Context(Context const&){};
+	Context& operator=(Context const&){ return *this;};
+	static Context* m_pInstance;
+	IStorage * m_pIstorageSecure;
+	IStorage * m_pIstorageNonSecure;
 };
 
-} /* namespace store */
-#endif /* STORAGE_H_ */
+}
+
+#endif // _CONTEXT_V2_H_
