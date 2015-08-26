@@ -38,7 +38,7 @@ using Windows.UI.Xaml.Navigation;
 namespace MPinDemo
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// A page used to display the configurations list returned from a server JSON which URI has been scanned by a QRCode.
     /// </summary>
     public sealed partial class ReadConfiguration : Page, INotifyPropertyChanged
     {

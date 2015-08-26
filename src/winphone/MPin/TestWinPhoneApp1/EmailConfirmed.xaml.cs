@@ -124,7 +124,6 @@ namespace MPinDemo
 
         private void GoIdentities_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("EmailConfirmed -> Identities");
             Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
             mainFrame.GoBack(new List<object>() { "EmailConfirmed", string.Empty });
         }

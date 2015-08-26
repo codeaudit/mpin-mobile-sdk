@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Navigation;
 namespace MPinDemo
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// A page displayed when there is no network when the app is opened.
     /// </summary>
     public sealed partial class NoNetworkScreen : Page
     {
