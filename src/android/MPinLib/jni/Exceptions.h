@@ -40,15 +40,15 @@
 #define EXCEPTIONS_H_
 
 #include <exception>
-#include "def.h"
+#include "JNICommon.h"
 
 class Exception : public std::exception {
-	String m_message;
+	MPinSDK::String m_message;
 
     protected :
     Exception () {}
     public:
-        Exception ( const String & aMessage ) : exception() {
+        Exception ( const MPinSDK::String & aMessage ) : exception() {
             m_message = aMessage;
         }
         virtual const char * what () const throw() {
@@ -60,13 +60,13 @@ class Exception : public std::exception {
 class IllegalArgumentException : public Exception {
 	IllegalArgumentException() {}
     public:
-		IllegalArgumentException ( const String & aMessage ) : Exception(aMessage) {}
+		IllegalArgumentException ( const MPinSDK::String & aMessage ) : Exception(aMessage) {}
 };
 
 class JNIOperationFailureException : public Exception {
 	JNIOperationFailureException(){}
     public:
-		JNIOperationFailureException ( const String & aMessage ) : Exception(aMessage) {}
+		JNIOperationFailureException ( const MPinSDK::String & aMessage ) : Exception(aMessage) {}
 };
 
 
