@@ -30,4 +30,7 @@
 @property (strong, nonatomic) UserListViewController *vcUserList;
 @property (strong, nonatomic) NSData *devToken;
 
+-( void) connectionDown;
+-( void) connectionUp;
+
 @end

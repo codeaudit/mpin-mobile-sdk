@@ -22,6 +22,7 @@
  http://www.certivox.com/about-certivox/patents/
  */
 
+#import "SuperViewController.h"
 #import "DigitPadViewController.h"
 #import "MPin.h"
 #import "MPin+AsyncOperations.h"

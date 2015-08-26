@@ -1,29 +1,30 @@
 /*
- Copyright (c) 2012-2015, Certivox
- All rights reserved.
- 
- Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
- 
- 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
- 
- 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
- 
- 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
- 
- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- 
- For full details regarding our CertiVox terms of service please refer to
- the following links:
+   Copyright (c) 2012-2015, Certivox
+   All rights reserved.
+
+   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+   1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+   2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+   3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+   For full details regarding our CertiVox terms of service please refer to
+   the following links:
  * Our Terms and Conditions -
- http://www.certivox.com/about-certivox/terms-and-conditions/
+   http://www.certivox.com/about-certivox/terms-and-conditions/
  * Our Security and Privacy -
- http://www.certivox.com/about-certivox/security-privacy/
+   http://www.certivox.com/about-certivox/security-privacy/
  * Our Statement of Position and Our Promise on Software Patents -
- http://www.certivox.com/about-certivox/patents/
+   http://www.certivox.com/about-certivox/patents/
  */
 
 
 #import "ThemeManager.h"
+#import "AFNetworking.h"
 #import "AboutViewController.h"
 #import "AddIdentityViewController.h"
 #import "AddSettingViewController.h"
@@ -40,9 +41,13 @@
 #import "MenuTableViewCell.h"
 #import "IdentityBlockedViewController.h"
 #import "ANAuthenticationSuccessful.h"
+#import "NetworkDownViewController.h"
+#import "NetworkMonitor.h"
 
 @interface ThemeManager ( )
-
+{
+    BOOL boolReachabilityManagerReady;
+}
 @end
 
 @implementation ThemeManager
@@ -62,14 +67,24 @@
 {
     self = [super init];
     if ( self )
-    {}
+    {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( reachabilityManagerReady ) name:AFNetworkingReachabilityDidChangeNotification object:nil];
+        boolReachabilityManagerReady = NO;
+    }
 
     return self;
 }
 
+- ( void ) reachabilityManagerReady
+{
+    boolReachabilityManagerReady = YES;
+}
+
 - ( void )beautifyViewController:( id )vc
 {
-    UIViewController *v = (UIViewController *)vc;
+    SuperViewController *v = (SuperViewController *)vc;
+
+    [self setupErrorViewInViewController:v];
 
     v.navigationController.navigationBar.barTintColor = [[SettingsManager sharedManager] color0];
     v.navigationController.navigationBar.tintColor = [[SettingsManager sharedManager] color6];
@@ -82,6 +97,13 @@
         ANAuthenticationSuccessful *myVc = (ANAuthenticationSuccessful *)vc;
         myVc.lblMessage.textColor = [[SettingsManager sharedManager] color7];
         myVc.lblMessage.font = [UIFont fontWithName:@"OpenSans-Semibold" size:22.f];
+    }
+    else
+    if ( [vc isMemberOfClass:[NetworkDownViewController class]] )
+    {
+        NetworkDownViewController *myVc = (NetworkDownViewController *)vc;
+        myVc.lblMessage.font = [UIFont fontWithName:@"OpenSans-Bold" size:20.f];
+        myVc.lblMessage.textColor = [[SettingsManager sharedManager] color10];
     }
     else
     if ( [vc isMemberOfClass:[MenuViewController class]] )
@@ -255,6 +277,13 @@
     {
         UserListViewController *myVc = (UserListViewController *)vc;
 
+        myVc.navigationController.navigationBar.barTintColor = [[SettingsManager sharedManager] color0];
+        myVc.navigationController.navigationBar.tintColor = [[SettingsManager sharedManager] color6];
+        [myVc.navigationController.navigationBar setTitleTextAttributes:@{ NSForegroundColorAttributeName : [[SettingsManager sharedManager] color6],
+                                                                           NSFontAttributeName : [UIFont fontWithName:@"OpenSans" size:18.0f] }];
+        v.navigationController.navigationBar.translucent = NO;
+
+
         myVc.btnDelete.backgroundColor = [[SettingsManager sharedManager] color1];
         [myVc.btnDelete setTitleColor:[[SettingsManager sharedManager] color8] forState:UIControlStateNormal];
 
@@ -325,5 +354,64 @@
     cell.lblConfigurationType.textColor = [[SettingsManager sharedManager] color4];
 }
 
-//TODO: Add method for title labels
+- ( void ) setupErrorViewInViewController: ( SuperViewController * ) superVc
+{
+    if ( [superVc isMemberOfClass:[MenuViewController class]]
+         || [superVc isMemberOfClass:[ANAuthenticationSuccessful class]]
+         || [superVc isMemberOfClass:[NetworkDownViewController class]] )
+    {
+        return;
+    }
+
+    if ( superVc.viewNoNetwork )
+    {
+        superVc.viewNoNetwork.backgroundColor = [[SettingsManager sharedManager] color11];
+        superVc.lblNetworkDownMessage.textColor = [[SettingsManager sharedManager] color7];
+        superVc.lblNetworkDownMessage.text = NSLocalizedString(@"CONNECTION_WAS_LOST", @"Connection was lost");
+        superVc.lblNetworkDownMessage.font = [UIFont fontWithName:@"OpenSans" size:14.f];
+        
+        if ( boolReachabilityManagerReady == NO )
+        {
+            superVc.constraintNoNetworkViewHeight.constant = 0;
+        }
+        else
+        if ( [AFNetworkReachabilityManager sharedManager].reachable )
+        {
+            superVc.constraintNoNetworkViewHeight.constant = 0;
+        }
+        else
+        {
+            superVc.constraintNoNetworkViewHeight.constant = 36.f;
+        }
+    }
+}
+
+- ( void ) showNetworkDown:( SuperViewController * )vc
+{
+    if ( vc.constraintNoNetworkViewHeight.constant > 0 )
+    {
+        return;
+    }
+
+    [vc.view layoutIfNeeded];
+    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations: ^ {
+        vc.constraintNoNetworkViewHeight.constant = 36.0f;
+        [vc.view layoutIfNeeded];
+    }];
+}
+
+- ( void ) hideNetworkDown:( SuperViewController * )vc
+{
+    if ( vc.constraintNoNetworkViewHeight.constant == 0 )
+    {
+        return;
+    }
+
+    [vc.view layoutIfNeeded];
+    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations: ^ {
+        vc.constraintNoNetworkViewHeight.constant = 0.0f;
+        [vc.view layoutIfNeeded];
+    }];
+}
+
 @end
