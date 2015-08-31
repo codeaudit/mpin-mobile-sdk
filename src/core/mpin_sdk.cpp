@@ -891,7 +891,7 @@ Status MPinSDK::ActivateUserRegisteredBySMS(const String& mpinId, const String &
         return Status(Status::RESPONSE_PARSE_ERROR, String().Format("Failed to parse mpinId json: '%s'", mpinId.c_str()));
     }
     
-    const String & userId = ((const json::String&) mpinIdJson["userID"]).Value();
+    const String & userId = mpinIdJson.GetStringParam("userID");
     UserPtr user = MakeNewUser(userId);
     user->SetStartedRegistration(mpinId, regOTT);
     AddUser(user);

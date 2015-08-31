@@ -361,10 +361,6 @@ private:
     Status CheckUserState(IN UserPtr user, User::State expectedState);
 	Status WriteUsersToStorage();
 	Status LoadUsersFromStorage();
-    
-    /// SMS  Flow
-    Status mpinVerifyRequest(const String & mpinId, const String & activationKey);
-    ///
 
     static const char *DEFAULT_RPS_PREFIX;
     static const int AN_WITH_CHECKSUM_LEN = 7;
