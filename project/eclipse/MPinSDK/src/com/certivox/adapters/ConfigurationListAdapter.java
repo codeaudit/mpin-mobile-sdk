@@ -32,6 +32,8 @@
 package com.certivox.adapters;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.content.Context;
@@ -48,15 +50,23 @@ import com.certivox.mpinsdk.R;
 
 public class ConfigurationListAdapter extends BaseAdapter {
 
-    private Context      mContext;
-    private List<Config> mConfigsList;
-    private long         mSelectedConfigurationId;
+    public static final Integer[] SELECT_ALL = new Integer[] {
+            Integer.valueOf(-1)
+    };
+
+    public static final Integer[] SELECT_NONE = new Integer[] {
+            Integer.valueOf(-2)
+    };
+
+    private Context       mContext;
+    private List<Config>  mConfigsList;
+    private List<Integer> mSelectedPositions;
 
 
-    public ConfigurationListAdapter(Context context, List<Config> configurations, long selectedConfigurationId) {
+    public ConfigurationListAdapter(Context context, List<Config> configurations, Integer... selectedConfigurations) {
         mContext = context;
         mConfigsList = configurations;
-        mSelectedConfigurationId = selectedConfigurationId;
+        resolveSelectedPositions(selectedConfigurations);
     }
 
 
@@ -67,9 +77,39 @@ public class ConfigurationListAdapter extends BaseAdapter {
     }
 
 
-    public void setSelectedfigurationId(long id) {
-        mSelectedConfigurationId = id;
+    public void setSelected(Integer... selectedConfigurations) {
+        resolveSelectedPositions(selectedConfigurations);
         notifyDataSetChanged();
+    }
+
+
+    public boolean isSelected(int position) {
+        return mSelectedPositions.contains(position);
+    }
+
+
+    public void select(int position) {
+        if (!mSelectedPositions.contains(position)) {
+            mSelectedPositions.add(position);
+            notifyDataSetChanged();
+        }
+    }
+
+
+    public void deselect(int position) {
+        if (mSelectedPositions.contains(position)) {
+            mSelectedPositions.remove(Integer.valueOf(position));
+            notifyDataSetChanged();
+        }
+    }
+
+
+    public List<Config> getSelected() {
+        List<Config> selectedConfigs = new ArrayList<Config>();
+        for (int pos : mSelectedPositions) {
+            selectedConfigs.add(mConfigsList.get(pos));
+        }
+        return selectedConfigs;
     }
 
 
@@ -116,7 +156,7 @@ public class ConfigurationListAdapter extends BaseAdapter {
 
         convertView.setId((int) config.getId());
 
-        if (config.getId() == mSelectedConfigurationId) {
+        if (mSelectedPositions.contains(position)) {
             holder.button.setChecked(true);
         } else {
             holder.button.setChecked(false);
@@ -135,6 +175,21 @@ public class ConfigurationListAdapter extends BaseAdapter {
             }
 
         return mContext.getResources().getString(R.string.request_mobile_title);
+    }
+
+
+    private void resolveSelectedPositions(Integer... selectedPos) {
+        mSelectedPositions = new ArrayList<Integer>();
+        if (selectedPos == SELECT_ALL) {
+            for (int i = 0; i < mConfigsList.size(); i++) {
+                mSelectedPositions.add(i);
+            }
+        } else
+            if (selectedPos == SELECT_NONE) {
+                // do nothing
+            } else {
+                mSelectedPositions = Arrays.asList(selectedPos);
+            }
     }
 
     private static class ViewHolder {

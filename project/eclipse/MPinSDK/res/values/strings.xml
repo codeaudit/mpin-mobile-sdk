@@ -150,6 +150,12 @@
     <string name="gd_add_server_to_app_content">Simply hit “+” on the next screen then enter the name and URL of your M-Pin Server and you are ready to authenticate to your service using this app.</string>
     <!-- Guide end -->
 
+
+    <!-- Select configs activity -->
+    <string name="import_configurations_title">Import configurations</string>
+    <string name="no_configurations_loaded_message">No configurations to select</string>
+    <!-- Select configs activity -->
+
     <string name="logout">Logout</string>
 
     <!-- Dialogs -->

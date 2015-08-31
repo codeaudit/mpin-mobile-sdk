@@ -3,5 +3,7 @@ package com.certivox.constants;
 
 public class IntentConstants {
 
-    public static final String FRAGMENT_LIST = "com.certivox.mpinsdk.FRAGMENT_LIST";
+    public static final String FRAGMENT_LIST               = "com.certivox.mpinsdk.intent.FRAGMENT_LIST";
+    public static final String EXTRA_CONFIGS_LIST          = "com.certivox.mpinsdk.intent.EXTRA_CONFIGS_LIST";
+    public static final String EXTRA_SELECTED_CONFIGS_LIST = "com.certivox.mpinsdk.intent.EXTRA_SELECTED_CONFIGS_LIST";
 }

@@ -34,6 +34,12 @@ package com.certivox.fragments;
 
 import java.util.List;
 
+import com.certivox.adapters.ConfigurationListAdapter;
+import com.certivox.constants.FragmentTags;
+import com.certivox.controllers.MPinController;
+import com.certivox.models.Config;
+import com.certivox.mpinsdk.R;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -50,16 +56,10 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.certivox.adapters.ConfigurationListAdapter;
-import com.certivox.constants.FragmentTags;
-import com.certivox.controllers.MPinController;
-import com.certivox.models.Config;
-import com.certivox.mpinsdk.R;
-
 
 public class ConfigsListFragment extends MPinFragment implements OnClickListener, AdapterView.OnItemClickListener {
 
-    private String                   TAG = ConfigsListFragment.class.getCanonicalName();
+    private String TAG = ConfigsListFragment.class.getCanonicalName();
 
     private View                     mView;
     private ListView                 mListView;
@@ -189,7 +189,7 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         mSelectedConfiguraionId = view.getId();
-        mAdapter.setSelectedfigurationId(mSelectedConfiguraionId);
+        mAdapter.setSelected(position);
     }
 
 
@@ -204,10 +204,20 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
     private void initAdapter() {
         List<Config> listConfigurations = getMPinController().getConfigurationsList();
         mSelectedConfiguraionId = getMPinController().getActiveConfigurationId();
-
-        mAdapter = new ConfigurationListAdapter(getActivity().getApplicationContext(), listConfigurations,
-                mSelectedConfiguraionId);
-
+        int selectedPos = -1;
+        for (int i = 0; i < listConfigurations.size(); i++) {
+            Config config = listConfigurations.get(i);
+            if (config.getId() == mSelectedConfiguraionId) {
+                selectedPos = i;
+            }
+        }
+        if (selectedPos == -1) {
+            mAdapter = new ConfigurationListAdapter(getActivity().getApplicationContext(), listConfigurations,
+                    ConfigurationListAdapter.SELECT_NONE);
+        } else {
+            mAdapter = new ConfigurationListAdapter(getActivity().getApplicationContext(), listConfigurations,
+                    selectedPos);
+        }
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(this);
     }
