@@ -16,9 +16,8 @@
         <item name="android:textColorSecondary">@color/white</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
-    
-    <style name="GuideActivityTheme" parent="AppTheme">
-    </style>
+
+    <style name="GuideActivityTheme" parent="AppTheme"></style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
@@ -73,6 +72,29 @@
     <style name="GuideContent">
         <item name="android:background">@android:color/transparent</item>
         <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="GuideTextView">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/swans_down</item>
+        <item name="android:paddingLeft">30dp</item>
+        <item name="android:paddingRight">30dp</item>
+        <item name="android:paddingBottom">30dp</item>
+    </style>
+
+    <style name="GuideImageView">
+        <item name="android:paddingBottom">30dp</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+
+    <style name="LinkAbout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@string/font_roboto</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textColor">@color/base_text_color</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:paddingTop">10dp</item>
     </style>
 
 </resources>

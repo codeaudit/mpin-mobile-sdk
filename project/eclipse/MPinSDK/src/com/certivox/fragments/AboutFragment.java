@@ -51,7 +51,13 @@ import com.certivox.mpinsdk.R;
 public class AboutFragment extends MPinFragment {
 
     private View     mView;
-    private TextView mLinkTextView;
+    private TextView mMobileGuideLinkView;
+    private TextView mMobileSDKLinkView;
+    private TextView mHomepageLinkView;
+    private TextView mSupportLinkView;
+    private TextView mTermsLinkView;
+    private TextView mPrivacyLinkView;
+
     private TextView mVersionTextView;
     private TextView mBuildTextView;
 
@@ -99,8 +105,24 @@ public class AboutFragment extends MPinFragment {
 
     @Override
     protected void initViews() {
-        mLinkTextView = (TextView) mView.findViewById(R.id.terms_and_conditions_link);
-        mLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        mMobileGuideLinkView = (TextView) mView.findViewById(R.id.mobile_guide_link_id);
+        mMobileGuideLinkView.setMovementMethod(LinkMovementMethod.getInstance());
+
+        mMobileSDKLinkView = (TextView) mView.findViewById(R.id.sdk_link_id);
+        mMobileSDKLinkView.setMovementMethod(LinkMovementMethod.getInstance());
+
+        mHomepageLinkView = (TextView) mView.findViewById(R.id.homepage_link_id);
+        mHomepageLinkView.setMovementMethod(LinkMovementMethod.getInstance());
+
+        mSupportLinkView = (TextView) mView.findViewById(R.id.support_link_id);
+        mSupportLinkView.setMovementMethod(LinkMovementMethod.getInstance());
+
+        mPrivacyLinkView = (TextView) mView.findViewById(R.id.privacy_link_id);
+        mPrivacyLinkView.setMovementMethod(LinkMovementMethod.getInstance());
+
+        mTermsLinkView = (TextView) mView.findViewById(R.id.terms_and_conditions_link);
+        mTermsLinkView.setMovementMethod(LinkMovementMethod.getInstance());
+
         mVersionTextView = (TextView) mView.findViewById(R.id.about_version);
         mBuildTextView = (TextView) mView.findViewById(R.id.about_build);
     }

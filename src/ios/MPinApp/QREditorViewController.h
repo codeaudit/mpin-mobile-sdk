@@ -22,9 +22,10 @@
  http://www.certivox.com/about-certivox/patents/
  */
 
+#import "SuperViewController.h"
 #import <UIKit/UIKit.h>
 
-@interface QREditorViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
+@interface QREditorViewController : SuperViewController <NoNetworkNotificationProtocol,UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 
 @property ( nonatomic, strong, setter = setArrConfigs : ) NSArray *arrQRConfigs;
 @property ( nonatomic, weak ) IBOutlet UITableView *tblView;

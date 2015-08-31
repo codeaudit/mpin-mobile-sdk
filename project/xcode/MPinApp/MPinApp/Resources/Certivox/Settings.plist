@@ -39,6 +39,8 @@
 		<string>22C064</string>
 		<key>color10</key>
 		<string>607D8B</string>
+		<key>color11</key>
+		<string>F1F2F2</string>
 	</dict>
 	<key>HOCKEYAPP_ID</key>
 	<string>0333b64530b6e80617d820942540baeb</string>

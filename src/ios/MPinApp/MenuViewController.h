@@ -22,7 +22,9 @@
  http://www.certivox.com/about-certivox/patents/
  */
 
-@interface MenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+#import "SuperViewController.h"
+
+@interface MenuViewController : SuperViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property ( nonatomic, weak ) IBOutlet UITableView *tblMenu;
 @property ( nonatomic, weak ) IBOutlet UILabel *lblConfigurationName;

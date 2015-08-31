@@ -7,40 +7,38 @@
 
     <TextView
         android:id="@+id/gd_get_access_number_title"
+        style="@style/GuideTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_margin="20dp"
-        android:text="@string/gd_first_start_title"
-        android:textColor="@color/swans_down"
+        android:text="@string/gd_login_to_community_title"
         android:textSize="28sp" />
 
     <ImageView
         android:id="@+id/gd_get_access_number_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
+        style="@style/GuideImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/gd_get_access_number_subtitle"
+        android:layout_below="@id/gd_get_access_number_title"
         android:src="@drawable/ic_gd_community" />
 
     <TextView
         android:id="@+id/gd_get_access_number_subtitle"
+        style="@style/GuideTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/gd_get_access_number_content"
-        android:layout_marginBottom="30dp"
         android:text="@string/gd_get_access_number_title"
-        android:textColor="@color/swans_down"
         android:textSize="24sp" />
 
     <TextView
         android:id="@+id/gd_get_access_number_content"
+        style="@style/GuideTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
         android:text="@string/gd_get_access_number_content"
-        android:textColor="@color/swans_down"
         android:textSize="18sp" />
 
 </RelativeLayout>

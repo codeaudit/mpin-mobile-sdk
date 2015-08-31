@@ -9,11 +9,14 @@
     <!-- Navigation drawer strings -->
     <string name="drawer_subtitle">Active service:</string>
     <string name="drawer_no_service">No Service</string>
+    <string name="drawer_no_service_url">No Service URL</string>
     <string name="drawer_open">Drawer Open</string>
     <string name="drawer_closed">Drawer Closed</string>
     <string name="change_identitiy">Identity List</string>
     <string name="change_service">Configuration List</string>
     <string name="about">About</string>
+    <string name="quick_start_guide">Quick Start Guide</string>
+    <string name="m_pin_server_guide">Get your own M-Pin Server</string>
     <!-- Navigation drawer strings end -->
 
 
@@ -110,6 +113,11 @@
     <string name="about_info_text_1">CertiVox M-Pin</string>
     <string name="about_info_text_2">Copyright  \u00A9 2015 CertiVox.\n All rights reserved. </string>
     <string name="terms_and_conditions_link"><a href="https://www.certivox.com/about-certivox/terms-and-conditions">CertiVox Terms &amp; Conditions</a></string>
+    <string name="mobile_guide_link"><a href="http://www.certivox.com/mobile-app">M-Pin Mobile Guide</a></string>
+    <string name="sdk_link"><a href="https://github.com/CertiVox">Built on the M-Pin Mobile SDK</a></string>
+    <string name="homepage_link"><a href="https://www.certivox.com/">CertiVox Homepage</a></string>
+    <string name="support_link"><a href="https://www.certivox.com/support">Product Support</a></string>
+    <string name="privacy_link"><a href="https://www.certivox.com/about-certivox/security-privacy/">Values / Security / Privacy</a></string>
     <!-- About end -->
 
 
@@ -117,8 +125,9 @@
     <string name="no_internet_title">No Internet Connection</string>
     <string name="no_internet_text">Please check your connection and try again</string>
     <string name="no_internet_retry_button">Retry</string>
-    <!-- No Internet Connection end-->
-    
+    <!-- No Internet Connection end -->
+
+
     <!-- Guide -->
     <string name="skip_button_title">Skip</string>
     <string name="done_button_title">Done</string>
@@ -128,18 +137,18 @@
     <string name="gd_confirm_email_title">Confirm your email</string>
     <string name="gd_confirm_email_content">Click the link in the email and you are ready to choose your PIN.</string>
     <string name="gd_create_pin_title">Create your PIN</string>
-    <string name="gd_create_pin_content">It`s much simpler than a password and more secure.</string>
+    <string name="gd_create_pin_content">It\'s much simpler than a password and more secure.</string>
     <string name="gd_ready_to_go_title">You are ready to go!</string>
     <string name="gd_ready_to_go_content">You can now use your M-Pin identity any time you want.</string>
     <string name="gd_login_to_community_title">Login to the CertiVox\ncommunity</string>
     <string name="gd_get_access_number_title">Get your Access Number</string>
-    <string name="gd_get_access_number_content">Login to discuss certivox.com on your desktop browser and choose \"Sign in with phone\".</string>
+    <string name="gd_get_access_number_content">Login to discuss.certivox.com on your desktop browser and choose \"Sign in with phone\".</string>
     <string name="gd_get_mpin_server_title">Get your own M-Pin Server</string>
     <string name="gd_download_server_title">Download and setup your own M-Pin Server</string>
     <string name="gd_download_server_content">Visit certivox.com/products, choose from M-Pin Core or M-Pin SSO, then follow the online installation instructions.</string>
     <string name="gd_add_server_to_app_title">Add your server to this app</string>
     <string name="gd_add_server_to_app_content">Simply hit “+” on the next screen then enter the name and URL of your M-Pin Server and you are ready to authenticate to your service using this app.</string>
-    <!-- Guide end--> 
+    <!-- Guide end -->
 
     <string name="logout">Logout</string>
 

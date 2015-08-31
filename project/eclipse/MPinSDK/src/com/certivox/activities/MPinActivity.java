@@ -98,14 +98,17 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     private ActivityStates        mActivityLifecycleState;
 
     // Views
-    private DrawerLayout          mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar               mToolbar;
     private RelativeLayout        mLoader;
-    private TextView              mDrawerSubtitle;
+    private DrawerLayout          mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private TextView              mDrawerActiveServiceTextView;
+    private TextView              mDrawerActiveServiceUrlTextView;
     private TextView              mChangeIdentityButton;
     private TextView              mChangeServiceButton;
     private TextView              mAboutButton;
+    private TextView              mQuickStartGuideButton;
+    private TextView              mMPinServerGuideButton;
     private TextView              mNoInternetConnectionTitle;
     private Toast                 mNoInternetToast;
     private BroadcastReceiver     mNetworkConectivityReceiver;
@@ -195,6 +198,12 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
             break;
         case R.id.about:
             mController.handleMessage(MPinController.MESSAGE_ON_ABOUT);
+            break;
+        case R.id.quick_start_guide:
+            mController.handleMessage(MPinController.MESSAGE_ON_QUICK_START_GUIDE);
+            break;
+        case R.id.m_pin_server_guide:
+            mController.handleMessage(MPinController.MESSAGE_ON_MPIN_SERVER_GUIDE);
             break;
         default:
             return;
@@ -332,25 +341,31 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     private void freeResources() {
         mActivity = null;
         mController = null;
-        mDrawerSubtitle = null;
+        mDrawerActiveServiceTextView = null;
+        mDrawerActiveServiceUrlTextView = null;
         mDrawerToggle = null;
         mDrawerLayout = null;
         mToolbar = null;
         mChangeIdentityButton = null;
         mChangeServiceButton = null;
         mAboutButton = null;
+        mQuickStartGuideButton = null;
+        mMPinServerGuideButton = null;
         mLoader = null;
         mControllerHandler = null;
     }
 
 
     private void initViews() {
-        mDrawerSubtitle = (TextView) findViewById(R.id.drawer_subtitle);
+        mDrawerActiveServiceTextView = (TextView) findViewById(R.id.active_service_id);
+        mDrawerActiveServiceUrlTextView = (TextView) findViewById(R.id.active_service_url_id);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mChangeIdentityButton = (TextView) findViewById(R.id.change_identitiy);
         mChangeServiceButton = (TextView) findViewById(R.id.change_service);
         mAboutButton = (TextView) findViewById(R.id.about);
+        mQuickStartGuideButton = (TextView) findViewById(R.id.quick_start_guide);
+        mMPinServerGuideButton = (TextView) findViewById(R.id.m_pin_server_guide);
         mLoader = (RelativeLayout) findViewById(R.id.loader);
         mNoInternetConnectionTitle = (TextView) findViewById(R.id.no_network_connection_message_id);
     }
@@ -414,15 +429,23 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         if (mAboutButton != null) {
             mAboutButton.setOnClickListener(this);
         }
+        if (mQuickStartGuideButton != null) {
+            mQuickStartGuideButton.setOnClickListener(this);
+        }
+        if ((mMPinServerGuideButton != null)) {
+            mMPinServerGuideButton.setOnClickListener(this);
+        }
     }
 
 
     private void setDrawerTitle() {
         Config config = mController.getActiveConfiguration();
         if (config != null) {
-            String title = config.getTitle();
-            if (mDrawerSubtitle != null) {
-                mDrawerSubtitle.setText(title);
+            if (mDrawerActiveServiceTextView != null) {
+                mDrawerActiveServiceTextView.setText(config.getTitle());
+            }
+            if (mDrawerActiveServiceUrlTextView != null) {
+                mDrawerActiveServiceUrlTextView.setText(config.getBackendUrl());
             }
         }
     }

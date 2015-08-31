@@ -1,6 +1,5 @@
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/AFNetworking" "${PODS_ROOT}/Headers/Public/ATMHud@dhoerl" "${PODS_ROOT}/Headers/Public/MFSideMenu"
-OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/AFNetworking" -isystem "${PODS_ROOT}/Headers/Public/ATMHud@dhoerl" -isystem "${PODS_ROOT}/Headers/Public/MFSideMenu"
-OTHER_LDFLAGS = $(inherited) -ObjC -l"Pods-AFNetworking" -l"Pods-ATMHud@dhoerl" -l"Pods-MFSideMenu" -framework "CoreGraphics" -framework "MobileCoreServices" -framework "QuartzCore" -framework "Security" -framework "SystemConfiguration"
-OTHER_LIBTOOLFLAGS = $(OTHER_LDFLAGS)
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/AFNetworking" "${PODS_ROOT}/Headers/Public/ATMHud@dhoerl" "${PODS_ROOT}/Headers/Public/MFSideMenu" "${PODS_ROOT}/Headers/Public/OCMock"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/AFNetworking" -isystem "${PODS_ROOT}/Headers/Public/ATMHud@dhoerl" -isystem "${PODS_ROOT}/Headers/Public/MFSideMenu" -isystem "${PODS_ROOT}/Headers/Public/OCMock"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"AFNetworking" -l"ATMHud@dhoerl" -l"MFSideMenu" -l"OCMock" -framework "CoreGraphics" -framework "MobileCoreServices" -framework "QuartzCore" -framework "Security" -framework "SystemConfiguration"
 PODS_ROOT = ${SRCROOT}/../Pods
