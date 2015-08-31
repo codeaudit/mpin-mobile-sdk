@@ -32,6 +32,7 @@ static NSString *const kSettings = @"settings";
 
 @interface ConfigurationManager ( ) {
     NSInteger defaultConfigCount;
+    BOOL _isFirstTimeLaunch;
 }
 
 @property ( nonatomic, strong ) NSMutableArray *arrConfigrations;
@@ -94,7 +95,8 @@ static NSString *const kSettings = @"settings";
         long configHash = [fileContent hash];
 
         defaultConfigCount = [configs count];
-
+        
+        _isFirstTimeLaunch = (hashValue == 0);
 
         if ( hashValue != configHash )
         {
@@ -389,6 +391,10 @@ static NSString *const kSettings = @"settings";
     }
 
     return intAtIndex;
+}
+
+-(BOOL) isFirstTimeLaunch{
+    return _isFirstTimeLaunch;
 }
 
 @end

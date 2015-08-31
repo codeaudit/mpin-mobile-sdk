@@ -36,7 +36,8 @@
 
 #define USER_LIST 0
 #define SETTINGS 1
-#define ABOUT 2
+#define HELP 2
+#define ABOUT 3
 
 @interface MenuViewController ( ) {
     AboutViewController *vcAbout;
@@ -93,7 +94,7 @@
 
 - ( NSInteger )tableView:( UITableView * )tableView numberOfRowsInSection:( NSInteger )section
 {
-    return 3;
+    return 4;
 }
 
 - ( UITableViewCell * )tableView:( UITableView * )tableView cellForRowAtIndexPath:( NSIndexPath * )indexPath
@@ -114,11 +115,12 @@
     case USER_LIST:
         ( (MenuTableViewCell *)cell ).lblMenuID.text = NSLocalizedString(@"MENUVC_OPTION_0",@"");
         break;
-
     case SETTINGS:
         ( (MenuTableViewCell *)cell ).lblMenuID.text = NSLocalizedString(@"MENUVC_OPTION_1",@"");
         break;
-
+    case HELP:
+         ( (MenuTableViewCell *)cell ).lblMenuID.text = @"HELP";
+        break;
     case ABOUT:
         ( (MenuTableViewCell *)cell ).lblMenuID.text = NSLocalizedString(@"MENUVC_OPTION_2",@"");
         break;
@@ -139,6 +141,10 @@
 
     case SETTINGS:
         vc = vcSettings;
+        break;
+            
+    case HELP:
+         vc = [[UIViewController alloc] init];
         break;
 
     case ABOUT:
@@ -163,6 +169,10 @@
 
     case SETTINGS:
         vc = vcSettings;
+        break;
+            
+    case HELP:
+        vc = [[UIViewController alloc] init];
         break;
 
     case ABOUT:

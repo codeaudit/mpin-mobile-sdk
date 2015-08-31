@@ -82,4 +82,12 @@ enum SERVICES
     LOGIN_WITH_OTP  = 2
 };
 
+
+//// HELP  DATA
+static NSString *const kHelpTitle = @"Title";
+static NSString *const kHelpImage = @"image";
+static NSString *const kHelpSubTitle = @"subtitle";
+static NSString *const kHelpDescription = @"description";
+//// END
+
 #endif
