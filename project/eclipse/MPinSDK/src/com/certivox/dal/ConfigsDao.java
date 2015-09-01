@@ -35,6 +35,10 @@ package com.certivox.dal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -181,6 +185,34 @@ public class ConfigsDao {
         }
 
         cursor.close();
+
+        return configurations;
+    }
+
+
+    public ArrayList<Config> getConfigsByJsonArray(JSONArray jsonArray) {
+        ArrayList<Config> configurations = new ArrayList<Config>();
+        JSONObject currentJsonObject;
+        Config currentConfig;
+        String currentType;
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                currentJsonObject = jsonArray.getJSONObject(i);
+                currentConfig = new Config();
+                currentConfig.setBackendUrl(currentJsonObject.getString("url"));
+                currentConfig.setTitle(currentJsonObject.getString("name"));
+                currentType = currentJsonObject.getString("type");
+                if (currentType.equals("otp")) {
+                    currentConfig.setRequestOtp(true);
+                } else
+                    if (currentType.equals("online")) {
+                        currentConfig.setRequestAccessNumber(true);
+                    }
+                configurations.add(currentConfig);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
         return configurations;
     }

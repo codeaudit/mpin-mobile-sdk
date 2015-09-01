@@ -52,8 +52,14 @@ public class SplashActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_guide);
+        setContentView(R.layout.activity_splash);
         mInstructionsDao = new AppInstanceInfoDao(getApplicationContext());
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         setInitialActivity();
     }
 

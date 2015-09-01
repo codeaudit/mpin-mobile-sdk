@@ -37,22 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.certivox.activities.GuideActivity;
-import com.certivox.constants.ConfigConstant;
-import com.certivox.constants.FragmentTags;
-import com.certivox.constants.IntentConstants;
-import com.certivox.dal.ConfigsDao;
-import com.certivox.dal.AppInstanceInfoDao;
-import com.certivox.enums.GuideFragmentsEnum;
-import com.certivox.models.Config;
-import com.certivox.models.CreateIdentityConfig;
-import com.certivox.models.MakeNewUserInfo;
-import com.certivox.models.OTP;
-import com.certivox.models.Status;
-import com.certivox.models.User;
-import com.certivox.models.User.State;
-import com.certivox.mpinsdk.Mpin;
-import com.certivox.mpinsdk.R;
+import org.json.JSONArray;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -64,6 +49,24 @@ import android.os.HandlerThread;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.certivox.activities.GuideActivity;
+import com.certivox.constants.ConfigConstant;
+import com.certivox.constants.FragmentTags;
+import com.certivox.constants.IntentConstants;
+import com.certivox.dal.AppInstanceInfoDao;
+import com.certivox.dal.ConfigsDao;
+import com.certivox.enums.GuideFragmentsEnum;
+import com.certivox.models.Config;
+import com.certivox.models.CreateIdentityConfig;
+import com.certivox.models.MakeNewUserInfo;
+import com.certivox.models.OTP;
+import com.certivox.models.Status;
+import com.certivox.models.User;
+import com.certivox.models.User.State;
+import com.certivox.mpinsdk.Mpin;
+import com.certivox.mpinsdk.R;
+import com.certivox.net.HttpConnector;
 
 
 public class MPinController extends Controller {
@@ -319,6 +322,27 @@ public class MPinController extends Controller {
         default:
             return false;
         }
+    }
+
+
+    public void handleQRCodeUrl(final String url) {
+        notifyOutboxHandlers(MESSAGE_START_WORK_IN_PROGRESS, 0, 0, null);
+        mWorkerHandler.post(new Runnable() {
+
+            @Override
+            public void run() {
+                if (isNetworkAvailable()) {
+                    JSONArray json = HttpConnector.getJsonArray(url);
+                    if (mConfigsDao != null) {
+                        ArrayList<Config> configList = mConfigsDao.getConfigsByJsonArray(json);
+                        //TODO pass the configList to view
+                    }
+                } else {
+                    notifyOutboxHandlers(MESSAGE_NO_INTERNET_ACCESS, 0, 0, null);
+                }
+                notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
+            }
+        });
     }
 
 

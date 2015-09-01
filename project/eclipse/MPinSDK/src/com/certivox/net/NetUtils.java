@@ -29,112 +29,30 @@
  * 
  * * Our Statement of Position and Our Promise on Software Patents - http://www.certivox.com/about-certivox/patents/
  ******************************************************************************/
-package com.certivox.models;
+package com.certivox.net;
 
 
-public final class Config {
-
-    private long    mId;
-    private String  mTitle;
-    private String  mBackendUrl;
-    private String  mRTS;
-    private boolean mRequestOtp;
-    private boolean mRequestAccessNumber;
-    private boolean mIsDefault;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 
-    public Config() {
-        mId = -1;
-        mRequestOtp = false;
-        mRequestAccessNumber = false;
+public class NetUtils {
+
+    public static String toReadInputStream(InputStream inputStream) throws IOException {
+        InputStreamReader inputStreamReader = null;
+        try {
+            inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+            char[] buffer = new char[512];
+            StringBuilder str = new StringBuilder();
+            int i = 0;
+            while ((i = inputStreamReader.read(buffer)) != -1)
+                str.append(buffer, 0, i);
+            return str.toString();
+        } finally {
+            if (inputStreamReader != null) {
+                inputStreamReader.close();
+            }
+        }
     }
-
-
-    public Config(String title, String backendUrl, boolean requestOtp, boolean requestAccessNumber, boolean isDefault) {
-        mId = -1;
-        mTitle = title;
-        mBackendUrl = backendUrl;
-        mRequestOtp = requestOtp;
-        mRequestAccessNumber = requestAccessNumber;
-        mRTS = "";
-        mIsDefault = isDefault;
-    }
-
-
-    public Config(String title, String backendUrl, String rts, boolean requestOtp, boolean requestAccessNumber,
-            boolean isDefault) {
-        this(title, backendUrl, requestOtp, requestAccessNumber, isDefault);
-        mRTS = rts;
-    }
-
-
-    public long getId() {
-        return mId;
-    }
-
-
-    public void setId(long id) {
-        mId = id;
-    }
-
-
-    public String getTitle() {
-        return mTitle;
-    }
-
-
-    public void setTitle(String title) {
-        mTitle = title;
-    }
-
-
-    public String getBackendUrl() {
-        return mBackendUrl;
-    }
-
-
-    public void setBackendUrl(String backendUrl) {
-        mBackendUrl = backendUrl;
-    }
-
-
-    public String getRTS() {
-        return mRTS;
-    }
-
-
-    public void setRTS(String rts) {
-        mRTS = rts;
-    }
-
-
-    public boolean getRequestOtp() {
-        return mRequestOtp;
-    }
-
-
-    public void setRequestOtp(boolean requestOtp) {
-        mRequestOtp = requestOtp;
-    }
-
-
-    public boolean getRequestAccessNumber() {
-        return mRequestAccessNumber;
-    }
-
-
-    public void setRequestAccessNumber(boolean requestAccessNumber) {
-        mRequestAccessNumber = requestAccessNumber;
-    }
-
-
-    public boolean isDefault() {
-        return mIsDefault;
-    }
-
-
-    public void setIsDefault(boolean isDefault) {
-        mIsDefault = isDefault;
-    }
-
 }
