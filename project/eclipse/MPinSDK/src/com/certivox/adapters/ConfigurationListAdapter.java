@@ -36,16 +36,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.certivox.models.Config;
+import com.certivox.mpinsdk.R;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.certivox.models.Config;
-import com.certivox.mpinsdk.R;
 
 
 public class ConfigurationListAdapter extends BaseAdapter {
@@ -58,9 +59,15 @@ public class ConfigurationListAdapter extends BaseAdapter {
             Integer.valueOf(-2)
     };
 
-    private Context       mContext;
-    private List<Config>  mConfigsList;
-    private List<Integer> mSelectedPositions;
+    public interface AdditionalContentAdapter {
+
+        void fillView(Config item, int position, RelativeLayout parentView);
+    }
+
+    private Context                  mContext;
+    private List<Config>             mConfigsList;
+    private List<Integer>            mSelectedPositions;
+    private AdditionalContentAdapter mAdditionalContentProvider;
 
 
     public ConfigurationListAdapter(Context context, List<Config> configurations, Integer... selectedConfigurations) {
@@ -74,6 +81,11 @@ public class ConfigurationListAdapter extends BaseAdapter {
         mConfigsList.clear();
         mConfigsList.addAll(configList);
         notifyDataSetChanged();
+    }
+
+
+    public void setAdditionalContentAdapter(AdditionalContentAdapter adapter) {
+        mAdditionalContentProvider = adapter;
     }
 
 
@@ -146,6 +158,7 @@ public class ConfigurationListAdapter extends BaseAdapter {
             holder.title = (TextView) convertView.findViewById(R.id.item_config_title);
             holder.url = (TextView) convertView.findViewById(R.id.item_config_url);
             holder.button = (RadioButton) convertView.findViewById(R.id.toggle_button);
+            holder.additionalContent = (RelativeLayout) convertView.findViewById(R.id.item_config_additional_content);
             convertView.setTag(holder);
         }
 
@@ -162,6 +175,9 @@ public class ConfigurationListAdapter extends BaseAdapter {
             holder.button.setChecked(false);
         }
 
+        if (mAdditionalContentProvider != null) {
+            mAdditionalContentProvider.fillView(config, position, holder.additionalContent);
+        }
         return convertView;
     }
 
@@ -194,8 +210,9 @@ public class ConfigurationListAdapter extends BaseAdapter {
 
     private static class ViewHolder {
 
-        TextView    title;
-        TextView    url;
-        RadioButton button;
+        TextView       title;
+        TextView       url;
+        RadioButton    button;
+        RelativeLayout additionalContent;
     }
 }
