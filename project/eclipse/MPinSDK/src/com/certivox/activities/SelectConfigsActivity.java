@@ -1,7 +1,39 @@
+/*******************************************************************************
+ * Copyright (c) 2012-2015, Certivox All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+ * following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following
+ * disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
+ * following disclaimer in the documentation and/or other materials provided with the distribution.
+ * 
+ * 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote
+ * products derived from this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * 
+ * For full details regarding our CertiVox terms of service please refer to the following links:
+ * 
+ * * Our Terms and Conditions - http://www.certivox.com/about-certivox/terms-and-conditions/
+ * 
+ * * Our Security and Privacy - http://www.certivox.com/about-certivox/security-privacy/
+ * 
+ * * Our Statement of Position and Our Promise on Software Patents - http://www.certivox.com/about-certivox/patents/
+ ******************************************************************************/
 package com.certivox.activities;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.certivox.adapters.ConfigurationListAdapter;
@@ -17,6 +49,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,22 +62,22 @@ import android.widget.Toast;
 
 public class SelectConfigsActivity extends ActionBarActivity {
 
-    private ListView                 mListView;
+    private ListView mListView;
+    private Toolbar  mToolbar;
+
     private ConfigurationListAdapter mConfigsAdapter;
-    private Toolbar                  mToolbar;
-    private Config                   mActiveConfig;
-    private List<Config>             mExistingConfigs;
-    private int                      mSelectedDuplicatesCount;
-    private boolean                  mIsActiveConfigDuplicateSelected;
+    private ConfigsDao               mConfigsDao;
+    private SparseBooleanArray       mDuplicatesSelection;
+    private int                      mActiveConfigPosition;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_configs);
-        resolveStartIntent();
+        initAdapter();
         initViews();
-        initExistingConfigs();
+        initConfigs();
 
     }
 
@@ -74,14 +107,30 @@ public class SelectConfigsActivity extends ActionBarActivity {
     }
 
 
-    public void initExistingConfigs() {
-        ConfigsDao configDao = new ConfigsDao(this);
-        mActiveConfig = configDao.getActiveConfiguration();
-        mExistingConfigs = configDao.getListConfigs();
+    public void initConfigs() {
+        mConfigsDao = new ConfigsDao(this);
+        mDuplicatesSelection = new SparseBooleanArray();
+
+        String activeConfigTitle = mConfigsDao.getActiveConfiguration().getTitle();
+        List<Config> existingConfigs = mConfigsDao.getListConfigs();
+        for (int i = 0; i < mConfigsAdapter.getCount(); i++) {
+            String newConfigTitle = ((Config) mConfigsAdapter.getItem(i)).getTitle();
+            for (int j = 0; j < existingConfigs.size(); j++) {
+                String existingConfigTitle = existingConfigs.get(j).getTitle();
+
+                if (existingConfigTitle.equals(newConfigTitle)) {
+                    mDuplicatesSelection.put(i, true);
+
+                    if (activeConfigTitle.equals(newConfigTitle)) {
+                        mActiveConfigPosition = i;
+                    }
+                }
+            }
+        }
     }
 
 
-    private void resolveStartIntent() {
+    private void initAdapter() {
         Intent startIntent = getIntent();
 
         if (startIntent.getAction().equals(Intent.ACTION_PICK)) {
@@ -91,11 +140,9 @@ public class SelectConfigsActivity extends ActionBarActivity {
                         ConfigurationListAdapter.SELECT_ALL);
             } else {
                 Toast.makeText(this, getString(R.string.no_configurations_loaded_message), Toast.LENGTH_LONG).show();
-                setResult(RESULT_CANCELED);
                 finish();
             }
         } else {
-            setResult(RESULT_CANCELED);
             finish();
         }
     }
@@ -107,7 +154,7 @@ public class SelectConfigsActivity extends ActionBarActivity {
         setSupportActionBar(mToolbar);
 
         mListView = (ListView) findViewById(R.id.select_configs_list_view);
-        mConfigsAdapter = new ConfigurationListAdapter(this, getMockConfigs(), ConfigurationListAdapter.SELECT_ALL);
+        // mConfigsAdapter = new ConfigurationListAdapter(this, getMockConfigs(), ConfigurationListAdapter.SELECT_ALL);
         mConfigsAdapter.setAdditionalContentAdapter(new DuplicatesAdapter());
         mListView.setAdapter(mConfigsAdapter);
         mListView.setOnItemClickListener(new SelectionListener());
@@ -124,10 +171,10 @@ public class SelectConfigsActivity extends ActionBarActivity {
 
 
     private void warnForOverridesAndReturnResult() {
-        if (mIsActiveConfigDuplicateSelected) {
+        if (mDuplicatesSelection.get(mActiveConfigPosition)) {
             showActiveConfigOverrideWarningDialog();
         } else
-            if (mSelectedDuplicatesCount > 0) {
+            if (mDuplicatesSelection.indexOfValue(true) >= 0) {
                 showOverridesWarningDialog();
             } else {
                 returnResult();
@@ -183,36 +230,14 @@ public class SelectConfigsActivity extends ActionBarActivity {
         @Override
         public void fillView(Config item, int position, RelativeLayout parentView) {
 
-            if (isExistingName(item)) {
+            if (mDuplicatesSelection.indexOfKey(position) >= 0) {
                 TextView duplicateTextView = new TextView(SelectConfigsActivity.this);
                 duplicateTextView.setText("Duplicated");
                 duplicateTextView.setTextColor(Color.RED);
                 parentView.addView(duplicateTextView);
-                if (mConfigsAdapter.isSelected(position)) {
-                    if (mActiveConfig.getTitle().equals(item.getTitle())) {
-                        mIsActiveConfigDuplicateSelected = true;
-                    }
-                    mSelectedDuplicatesCount++;
-                } else {
-                    if (mActiveConfig.getTitle().equals(item.getTitle())) {
-                        mIsActiveConfigDuplicateSelected = false;
-                    }
-                    mSelectedDuplicatesCount--;
-                }
             } else {
                 parentView.removeAllViews();
             }
-        }
-
-
-        private boolean isExistingName(Config config) {
-            for (Config existingConfig : mExistingConfigs) {
-                if (existingConfig.getTitle().equals(config.getTitle())) {
-                    return true;
-                }
-            }
-
-            return false;
         }
 
     }
@@ -221,6 +246,11 @@ public class SelectConfigsActivity extends ActionBarActivity {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            // Switch the duplicated selection
+            if (mDuplicatesSelection.indexOfKey(position) >= 0) {
+                mDuplicatesSelection.put(position, !mDuplicatesSelection.get(position));
+            }
+
             if (mConfigsAdapter.isSelected(position)) {
                 mConfigsAdapter.deselect(position);
             } else {
