@@ -136,7 +136,6 @@ static NSString *const kAN = @"AN";
 
     self.users = [MPin listUsers];
     [(MenuViewController *)self.menuContainerViewController.leftMenuViewController setConfiguration];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad: ) name:kShowPinPadNotification object:nil];
     [[ThemeManager sharedManager] beautifyViewController:self];
 }
 
@@ -749,7 +748,7 @@ static NSString *const kAN = @"AN";
 
 - ( void ) registerObservers
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad: ) name:kShowPinPadNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkUp ) name:@"NETWORK_UP_NOTIFICATION" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkDown ) name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
 }
