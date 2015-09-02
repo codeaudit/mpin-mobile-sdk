@@ -128,7 +128,7 @@
     MPin *sdk  = [[MPin alloc] init];
     sdk.delegate = self;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad: ) name:kShowPinPadNotification object:nil];
-    [sdk ActivateUserRegisteredBySMS:[urlParams objectForKey:@"mpinId"] activationKey:[urlParams objectForKey:@"activateKey"]];
+    [sdk RegisterUserBySMS:[urlParams objectForKey:@"mpinId"] activationKey:[urlParams objectForKey:@"activateKey"]];
     return YES;
 }
 

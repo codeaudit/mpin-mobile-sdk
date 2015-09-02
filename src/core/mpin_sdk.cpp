@@ -858,9 +858,15 @@ Status MPinSDK::RequestRegistration(UserPtr user, const String& userData)
     return Status(Status::OK);
 }
 
-Status MPinSDK::ActivateUserRegisteredBySMS(const String& mpinId, const String &  activationKey)
+Status MPinSDK::RegisterUserBySMS(UserPtr user, const String& mpinId, const String &  activationKey)
 {
     Status s = CheckIfBackendIsSet();
+    if(s != Status::OK)
+    {
+        return s;
+    }
+
+    s = CheckUserState(user, User::INVALID);
     if(s != Status::OK)
     {
         return s;
@@ -884,15 +890,6 @@ Status MPinSDK::ActivateUserRegisteredBySMS(const String& mpinId, const String &
 
     String regOTT = response.GetJsonData().GetStringParam("regOTT");
 
-    String json_mpinId = util::HexDecode(mpinId);
-    util::JsonObject mpinIdJson;
-    if(!mpinIdJson.Parse(json_mpinId.c_str()))
-    {
-        return Status(Status::RESPONSE_PARSE_ERROR, String().Format("Failed to parse mpinId json: '%s'", mpinId.c_str()));
-    }
-    
-    const String & userId = mpinIdJson.GetStringParam("userID");
-    UserPtr user = MakeNewUser(userId);
     user->SetStartedRegistration(mpinId, regOTT);
     AddUser(user);
     s = WriteUsersToStorage();

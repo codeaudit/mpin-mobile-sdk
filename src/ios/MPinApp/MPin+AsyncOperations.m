@@ -216,12 +216,12 @@ static NSString *const constStrConnectionTimeoutNotification = @"ConnectionTimeo
     [self RestartRegistration:user userData:@""];
 }
 
-- ( void ) ActivateUserRegisteredBySMS:(NSString* ) mpinId activationKey:(NSString *) activationKey {
+- ( void ) RegisterUserBySMS:(NSString* ) mpinId activationKey:(NSString *) activationKey {
     
     if ([NSString isBlank:mpinId] || [NSString isBlank:activationKey])  return;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-        MpinStatus *mpinStatus = [MPin ActivateUserRegisteredBySMS:mpinId activationKey:activationKey];
+        MpinStatus *mpinStatus = [MPin RegisterUserBySMS:mpinId activationKey:activationKey];
         
         dispatch_async(dispatch_get_main_queue(), ^ (void) {
             if ( self.delegate == nil )

@@ -252,7 +252,7 @@ public:
     UserPtr MakeNewUser(const String& id, const String& deviceName = "") const;
     Status StartRegistration(INOUT UserPtr user, const String& userData = "");
     Status RestartRegistration(INOUT UserPtr user, const String& userData = "");
-    Status ActivateUserRegisteredBySMS(const String&  mpinId, const String &  activationKey);
+    Status RegisterUserBySMS(UserPtr user, const String& mpinId, const String &  activationKey);
     Status FinishRegistration(INOUT UserPtr user, const String & pushMessageIdentifier = "");
     Status Authenticate(INOUT UserPtr user);
     Status Authenticate(INOUT UserPtr user, OUT String& authResultData);
