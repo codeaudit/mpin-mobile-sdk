@@ -33,10 +33,29 @@ package com.certivox.activities;
 
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
-import net.hockeyapp.android.CrashManager;
-import net.hockeyapp.android.FeedbackManager;
-import net.hockeyapp.android.UpdateManager;
+import com.certivox.constants.FragmentTags;
+import com.certivox.constants.IntentConstants;
+import com.certivox.controllers.MPinController;
+import com.certivox.fragments.AboutFragment;
+import com.certivox.fragments.AccessNumberFragment;
+import com.certivox.fragments.ConfigDetailFragment;
+import com.certivox.fragments.ConfigsListFragment;
+import com.certivox.fragments.ConfirmEmailFragment;
+import com.certivox.fragments.CreateIdentityFragment;
+import com.certivox.fragments.IdentityBlockedFragment;
+import com.certivox.fragments.IdentityCreatedFragment;
+import com.certivox.fragments.MPinFragment;
+import com.certivox.fragments.NoInternetConnectionFragment;
+import com.certivox.fragments.OTPFragment;
+import com.certivox.fragments.PinPadFragment;
+import com.certivox.fragments.SuccessfulLoginFragment;
+import com.certivox.fragments.UsersListFragment;
+import com.certivox.models.Config;
+import com.certivox.models.OTP;
+import com.certivox.mpinsdk.R;
+
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
@@ -57,31 +76,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.certivox.constants.FragmentTags;
-import com.certivox.controllers.MPinController;
-import com.certivox.fragments.AboutFragment;
-import com.certivox.fragments.AccessNumberFragment;
-import com.certivox.fragments.ConfigDetailFragment;
-import com.certivox.fragments.ConfigsListFragment;
-import com.certivox.fragments.ConfirmEmailFragment;
-import com.certivox.fragments.CreateIdentityFragment;
-import com.certivox.fragments.IdentityBlockedFragment;
-import com.certivox.fragments.IdentityCreatedFragment;
-import com.certivox.fragments.MPinFragment;
-import com.certivox.fragments.NoInternetConnectionFragment;
-import com.certivox.fragments.OTPFragment;
-import com.certivox.fragments.PinPadFragment;
-import com.certivox.fragments.SuccessfulLoginFragment;
-import com.certivox.fragments.UsersListFragment;
-import com.certivox.models.Config;
-import com.certivox.models.OTP;
-import com.certivox.mpinsdk.R;
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.FeedbackManager;
+import net.hockeyapp.android.UpdateManager;
 
 
 public class MPinActivity extends ActionBarActivity implements OnClickListener, Handler.Callback {
 
-    private static final String TAG    = MPinActivity.class.getSimpleName();
+    private static final String TAG = MPinActivity.class.getSimpleName();
 
     // Needed for Hockey App
     private static final String APP_ID = "08b0417545be2304b7ce45ef43e30daf";
@@ -95,7 +97,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         ON_CREATE, ON_STOP, ON_POST_RESUME, ON_DESTROY;
     };
 
-    private ActivityStates        mActivityLifecycleState;
+    private ActivityStates mActivityLifecycleState;
 
     // Views
     private Toolbar               mToolbar;
@@ -313,6 +315,8 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
             return true;
         case MPinController.MESSAGE_NO_INTERNET_ACCESS:
             showNoInternetAccessToast();
+            return true;
+        case MPinController.MESSAGE_IMPORT_NEW_CONFIGURATIONS:
             return true;
         }
         return false;

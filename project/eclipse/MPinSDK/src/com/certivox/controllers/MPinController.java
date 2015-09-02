@@ -37,22 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.certivox.activities.GuideActivity;
-import com.certivox.constants.ConfigConstant;
-import com.certivox.constants.FragmentTags;
-import com.certivox.constants.IntentConstants;
-import com.certivox.dal.ConfigsDao;
-import com.certivox.dal.AppInstanceInfoDao;
-import com.certivox.enums.GuideFragmentsEnum;
-import com.certivox.models.Config;
-import com.certivox.models.CreateIdentityConfig;
-import com.certivox.models.MakeNewUserInfo;
-import com.certivox.models.OTP;
-import com.certivox.models.Status;
-import com.certivox.models.User;
-import com.certivox.models.User.State;
-import com.certivox.mpinsdk.Mpin;
-import com.certivox.mpinsdk.R;
+import org.json.JSONArray;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -64,6 +49,24 @@ import android.os.HandlerThread;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.certivox.activities.GuideActivity;
+import com.certivox.constants.ConfigConstant;
+import com.certivox.constants.FragmentTags;
+import com.certivox.constants.IntentConstants;
+import com.certivox.dal.AppInstanceInfoDao;
+import com.certivox.dal.ConfigsDao;
+import com.certivox.enums.GuideFragmentsEnum;
+import com.certivox.models.Config;
+import com.certivox.models.CreateIdentityConfig;
+import com.certivox.models.MakeNewUserInfo;
+import com.certivox.models.OTP;
+import com.certivox.models.Status;
+import com.certivox.models.User;
+import com.certivox.models.User.State;
+import com.certivox.mpinsdk.Mpin;
+import com.certivox.mpinsdk.R;
+import com.certivox.net.HttpConnector;
 
 
 public class MPinController extends Controller {
@@ -183,6 +186,7 @@ public class MPinController extends Controller {
     public static final int      MESSAGE_NO_INTERNET_CONNECTION_AVAILABLE = 36;
     public static final int      MESSAGE_INTERNET_CONNECTION_AVAILABLE    = 37;
     public static final int      MESSAGE_SHOW_NO_INTERNET_CONNECTION      = 38;
+    public static final int      MESSAGE_IMPORT_NEW_CONFIGURATIONS        = 39;
 
 
     public MPinController(Context context, Handler handler) {
@@ -319,6 +323,28 @@ public class MPinController extends Controller {
         default:
             return false;
         }
+    }
+
+
+    public void handleQRCodeUrl(final String url) {
+        notifyOutboxHandlers(MESSAGE_START_WORK_IN_PROGRESS, 0, 0, null);
+        //TODO temporary solution
+       new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                if (isNetworkAvailable()) {
+                    JSONArray json = HttpConnector.getJsonArray(url);
+                    if (mConfigsDao != null) {
+                        ArrayList<Config> configList = mConfigsDao.getConfigsByJsonArray(json);
+                        notifyOutboxHandlers(MESSAGE_IMPORT_NEW_CONFIGURATIONS, 0, 0, configList);
+                    }
+                } else {
+                    notifyOutboxHandlers(MESSAGE_NO_INTERNET_ACCESS, 0, 0, null);
+                }
+                notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
+            }
+        }).start();
     }
 
 

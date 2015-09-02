@@ -48,6 +48,8 @@ public final class Config implements Serializable {
 
     public Config() {
         mId = -1;
+        mRequestOtp = false;
+        mRequestAccessNumber = false;
     }
 
 

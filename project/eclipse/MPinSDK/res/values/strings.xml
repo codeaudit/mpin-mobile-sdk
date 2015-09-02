@@ -40,6 +40,15 @@
     <string name="select_config">Select Configuration</string>
     <!-- Menu titles end -->
 
+
+    <!-- Context Menu titles -->
+    <string name="select_config_context_menu">Select Configuration</string>
+    <string name="new_config_context_menu">New</string>
+    <string name="edit_config_context_menu">Edit</string>
+    <string name="delete_config_context_menu">Delete</string>
+    <string name="scan_qr_config_context_menu">Scan QR Code</string>
+    <!-- Context Menu titles end -->
+
     <string name="add_identity_button">Add an identity</string>
     <string name="app_name">CertiVox M-Pin</string>
     <string name="loading">Loading</string>
