@@ -26,6 +26,8 @@
 #import "Constants.h"
 #import <objc/runtime.h>
 #import "AFNetworkReachabilityManager.h"
+#import "NSString+Helper.h"
+
 @import LocalAuthentication;
 
 static char const *const delegateKey = "delegateKey";
@@ -212,6 +214,42 @@ static NSString *const constStrConnectionTimeoutNotification = @"ConnectionTimeo
 - ( void )RestartRegistration:( const id<IUser>)user
 {
     [self RestartRegistration:user userData:@""];
+}
+
+- ( void ) RegisterUserBySMS:(NSString* ) mpinId activationKey:(NSString *) activationKey {
+    
+    if ([NSString isBlank:mpinId] || [NSString isBlank:activationKey])  return;
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        MpinStatus *mpinStatus = [MPin RegisterUserBySMS:mpinId activationKey:activationKey];
+        
+        dispatch_async(dispatch_get_main_queue(), ^ (void) {
+            if ( self.delegate == nil )
+                return;
+            
+            if ( mpinStatus.status == OK )
+            {
+                if ( [(NSObject *)self.delegate respondsToSelector:@selector( OnActivateUserRegisteredBySMSCompleted:)] )
+                {
+                    [self.delegate OnActivateUserRegisteredBySMSCompleted:self];
+                }
+            }
+            else
+            {
+                if ( [(NSObject *)self.delegate respondsToSelector:@selector( OnActivateUserRegisteredBySMSError:error: )] )
+                {
+                    [self.delegate OnActivateUserRegisteredBySMSError:self
+                                                        error:[NSError errorWithDomain:@"SDK"
+                                                                                  code:mpinStatus.status
+                                                                              userInfo:@{kMPinSatus : mpinStatus,
+                                                                                         kUSER : @"TODO  ::  return USER" }
+                                                               ]
+                     ];
+                }
+            }
+        });
+    });
+    
 }
 
 - ( void )FinishRegistration:( const id<IUser>)user
