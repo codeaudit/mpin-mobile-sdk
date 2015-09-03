@@ -1,10 +1,14 @@
 package com.certivox.mpinsdk.test;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 import android.test.InstrumentationTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
-import android.util.Log;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import com.certivox.mpinsdk.MPinSDKv2;
 import com.certivox.models.User;
@@ -15,44 +19,65 @@ public class MPinSDKv2Test extends InstrumentationTestCase {
 	static {
 		System.loadLibrary("AndroidMpinSDK");
 	}
-
-	@SmallTest
-	public void test() {
+	
+	private MPinSDKv2 m_sdk = null;
+	private User m_user = null;
+	
+	private static final String USER_ID = "testUser";
+	private static final String BACKEND = "http://ec2-52-28-120-46.eu-central-1.compute.amazonaws.com";
+	
+	@Before
+	public void setUp() {
+		// Init the sdk
 		HashMap<String, String> config = new HashMap<String, String>();
-		config.put("backend", "http://ec2-52-28-120-46.eu-central-1.compute.amazonaws.com");
+		config.put(MPinSDKv2.CONFIG_BACKEND, BACKEND);
+		m_sdk = new MPinSDKv2(getInstrumentation().getTargetContext(), config);
+
+		// Delete the USER_ID user if it was leftover in sdk for some reason (probably from previous test run) 
+		LinkedList<User> users = new LinkedList<User>();
+		m_sdk.ListUsers(users);
+		Iterator<User> i = users.iterator(); 
+		while(i.hasNext()) {
+			User user = i.next();
+			if(user.getId().equals(USER_ID)) {
+				m_sdk.DeleteUser(user);
+			}
+		}
 		
-		MPinSDKv2 sdk = new MPinSDKv2(getInstrumentation().getTargetContext(), config);
-		Log.w("MPinSDKv2Test", "MPinSDKv2 object successfuly created (version " + sdk.GetVersion() + ")");
+		m_user = null;
+	}
+	
+	@After
+	public void tearDown() {
+		if(m_user != null) {
+			m_sdk.DeleteUser(m_user);
+			m_user = null;
+		}
 		
-		User user = sdk.MakeNewUser("testUser");
-		
-		Status s = sdk.StartRegistration(user);
-		assertTrue(s.getStatusCode() == Status.Code.OK);
-		assertTrue(user.getState() == User.State.ACTIVATED);
-		
-		s = sdk.ConfirmRegistration(user);
-		assertTrue(s.getStatusCode() == Status.Code.OK);
-		
-		s = sdk.FinishRegistration(user, "1234");
-		assertTrue(s.getStatusCode() == Status.Code.OK);
-		assertTrue(user.getState() == User.State.REGISTERED);
-		
-		Log.w("MPinSDKv2Test", "User registered and force activated");
-		Log.w("MPinSDKv2Test", "Trying to authenticate user");
-		
-		s = sdk.StartAuthentication(user);
-		assertTrue(s.getStatusCode() == Status.Code.OK);
-		
-		StringBuilder authResultData = new StringBuilder();
-		s = sdk.FinishAuthentication(user, "1234", authResultData);
-		assertTrue(s.getStatusCode() == Status.Code.OK);
-		
-		Log.w("MPinSDKv2Test", "User successfuly authenticated! Auth result data: " + authResultData);
-		
-		sdk.DeleteUser(user);
-		Log.w("MPinSDKv2Test", "User deleted");
-		sdk.close();
-		Log.w("MPinSDKv2Test", "MPinSDKv2 object successfuly closed");
+		m_sdk.close();
+		m_sdk = null;
 	}
 
+	@Test
+	public void testUserShouldRegisterAndAuthenticate() {
+		m_user = m_sdk.MakeNewUser(USER_ID);
+		
+		Status s = m_sdk.StartRegistration(m_user);
+		assertEquals("StartRegistration failed: '" + s.getErrorMessage() + "'.", Status.Code.OK, s.getStatusCode());
+		assertEquals("Unexpected user state after StartRegistration (should be force activated).", User.State.ACTIVATED, m_user.getState());
+		
+		s = m_sdk.ConfirmRegistration(m_user);
+		assertEquals("ConfirmRegistration failed: '" + s.getErrorMessage() + "'.", Status.Code.OK, s.getStatusCode());
+		
+		s = m_sdk.FinishRegistration(m_user, "1234");
+		assertEquals("FinishRegistration failed: '" + s.getErrorMessage() + "'.", Status.Code.OK, s.getStatusCode());
+		assertEquals("Unexpected user state after FinishRegistration.", User.State.REGISTERED, m_user.getState());
+		
+		s = m_sdk.StartAuthentication(m_user);
+		assertEquals("StartAuthentication failed: '" + s.getErrorMessage() + "'.", Status.Code.OK, s.getStatusCode());
+		
+		StringBuilder authResultData = new StringBuilder();
+		s = m_sdk.FinishAuthentication(m_user, "1234", authResultData);
+		assertEquals("FinishAuthentication failed: '" + s.getErrorMessage() + "'.", Status.Code.OK, s.getStatusCode());
+	}
 }
