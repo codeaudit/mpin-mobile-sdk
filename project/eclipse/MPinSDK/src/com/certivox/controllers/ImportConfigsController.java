@@ -78,8 +78,8 @@ public class ImportConfigsController {
         if (startIntent.getAction().equals(Intent.ACTION_PICK)) {
             if (startIntent.hasExtra(IntentConstants.EXTRA_CONFIGS_LIST)) {
                 mConfigsAdapter = new ConfigurationListAdapter(mActivity.getBaseContext(),
-                        (List<Config>) startIntent.getSerializableExtra(IntentConstants.EXTRA_CONFIGS_LIST),
-                        ConfigurationListAdapter.SELECT_ALL);
+                        (List<Config>) startIntent.getSerializableExtra(IntentConstants.EXTRA_CONFIGS_LIST));
+                mConfigsAdapter.selectAll();
                 mConfigsAdapter.setAdditionalContentAdapter(new DuplicatesAdapter());
             } else {
                 mActivity.finish();

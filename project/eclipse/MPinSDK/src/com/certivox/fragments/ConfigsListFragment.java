@@ -245,8 +245,7 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
             }
         }
         if (selectedPos == -1) {
-            mAdapter = new ConfigurationListAdapter(getActivity().getApplicationContext(), listConfigurations,
-                    ConfigurationListAdapter.SELECT_NONE);
+            mAdapter = new ConfigurationListAdapter(getActivity().getApplicationContext(), listConfigurations);
         } else {
             mAdapter = new ConfigurationListAdapter(getActivity().getApplicationContext(), listConfigurations,
                     selectedPos);

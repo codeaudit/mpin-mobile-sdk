@@ -59,16 +59,10 @@ public class ImportConfigsActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_configs);
-        initViews();
         mController = new ImportConfigsController(this);
+        initViews();
+
         mController.handleOnCreate();
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 
@@ -90,6 +84,15 @@ public class ImportConfigsActivity extends ActionBarActivity {
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mToolbar = null;
+        mListView = null;
+        mController = null;
+    }
+
+
     public void setConfigsAdapter(ConfigurationListAdapter adapter) {
         mListView.setAdapter(adapter);
     }
@@ -99,6 +102,7 @@ public class ImportConfigsActivity extends ActionBarActivity {
         mToolbar = (Toolbar) findViewById(R.id.select_configs_toolbar);
         mToolbar.setTitle(R.string.import_configs_title);
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mListView = (ListView) findViewById(R.id.select_configs_list_view);
         mListView.setOnItemClickListener(new SelectionListener());
