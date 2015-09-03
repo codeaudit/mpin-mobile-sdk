@@ -54,7 +54,7 @@
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
-            android:name="com.certivox.activities.SelectConfigsActivity"
+            android:name="com.certivox.activities.ImportConfigsActivity"
             android:label="@string/app_name"
             android:parentActivityName="com.certivox.activities.MPinActivity"
             android:screenOrientation="portrait" >

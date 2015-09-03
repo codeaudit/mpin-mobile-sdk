@@ -46,7 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/item_config_url"
-        android:layout_toEndOf="@+id/toggle_button"
-        android:layout_toRightOf="@+id/toggle_button" />
+        android:layout_toEndOf="@id/toggle_button"
+        android:layout_toRightOf="@id/toggle_button" />
 
 </RelativeLayout>

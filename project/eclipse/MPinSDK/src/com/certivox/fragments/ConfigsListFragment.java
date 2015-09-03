@@ -61,6 +61,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+
 public class ConfigsListFragment extends MPinFragment implements OnClickListener, AdapterView.OnItemClickListener {
 
     private String TAG = ConfigsListFragment.class.getCanonicalName();
@@ -126,6 +127,12 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
         initAdapter();
     }
 
@@ -238,8 +245,7 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
             }
         }
         if (selectedPos == -1) {
-            mAdapter = new ConfigurationListAdapter(getActivity().getApplicationContext(), listConfigurations,
-                    ConfigurationListAdapter.SELECT_NONE);
+            mAdapter = new ConfigurationListAdapter(getActivity().getApplicationContext(), listConfigurations);
         } else {
             mAdapter = new ConfigurationListAdapter(getActivity().getApplicationContext(), listConfigurations,
                     selectedPos);

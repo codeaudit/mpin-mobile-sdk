@@ -317,7 +317,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
             showNoInternetAccessToast();
             return true;
         case MPinController.MESSAGE_IMPORT_NEW_CONFIGURATIONS:
-            Intent startIntent = new Intent(this, SelectConfigsActivity.class);
+            Intent startIntent = new Intent(this, ImportConfigsActivity.class);
             startIntent.setAction(Intent.ACTION_PICK);
             startIntent.putExtra(IntentConstants.EXTRA_CONFIGS_LIST, (ArrayList<Config>) msg.obj);
             startActivity(startIntent);

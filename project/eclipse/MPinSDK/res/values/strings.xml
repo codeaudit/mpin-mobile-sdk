@@ -161,8 +161,12 @@
 
 
     <!-- Select configs activity -->
-    <string name="import_configurations_title">Import configurations</string>
-    <string name="no_configurations_loaded_message">No configurations to select</string>
+    <string name="import_configs_title">Import configurations</string>
+    <string name="import_configs_confirm_overrides_title">Overrides selected</string>
+    <string name="import_configs_confirm_overrides_text">Are you sure you want to override the configurations with duplicated names?</string>
+    <string name="import_configs_confirm_active_config_override_title">Active configuration override</string>
+    <string name="import_configs_confirm_active_config_override_text">Overwrite the URL for the active service?\nAll existing identities will be deleted.</string>
+    <string name="import_configs_duplicated_config_info">Duplicate</string>
     <!-- Select configs activity -->
 
     <string name="logout">Logout</string>
@@ -179,6 +183,7 @@
     <string name="try_again">Try again</string>
     <string name="user_not_authorized">You are not authorized! Please contact the service administrator or try again later.</string>
     <string name="button_ok">OK</string>
+    <string name="button_cancel">Cancel</string>
     <string name="invalid_url_address_title">Invalid URL address</string>
     <string name="invalid_backend_title">Invalid URL</string>
     <string name="invalid_backend_content">M-PIN Server URL is not valid</string>
