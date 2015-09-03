@@ -54,6 +54,7 @@ public class HttpConnector {
             connection.setReadTimeout(10000);
             connection.setConnectTimeout(15000);
             connection.setRequestMethod("GET");
+            connection.setRequestProperty("connection", "close");
             connection.setDoInput(true);
 
             // Starts the query
@@ -65,16 +66,16 @@ public class HttpConnector {
             }
         } catch (JSONException exception) {
             Log.i("HTTP", "Exception extracting json");
-            //Nothing to do
+            // Nothing to do
         } catch (IOException exception) {
             Log.i("IOException", "Exception extracting json");
-            //Nothing to do
+            // Nothing to do
         } finally {
             if (is != null) {
                 try {
                     is.close();
                 } catch (IOException e) {
-                    //Nothing to do
+                    // Nothing to do
                 }
 
                 return json;
