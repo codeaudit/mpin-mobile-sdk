@@ -32,7 +32,10 @@
 package com.certivox.models;
 
 
-public final class Config {
+import java.io.Serializable;
+
+
+public final class Config implements Serializable {
 
     private long    mId;
     private String  mTitle;

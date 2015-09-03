@@ -186,6 +186,7 @@ public class MPinController extends Controller {
     public static final int      MESSAGE_NO_INTERNET_CONNECTION_AVAILABLE = 36;
     public static final int      MESSAGE_INTERNET_CONNECTION_AVAILABLE    = 37;
     public static final int      MESSAGE_SHOW_NO_INTERNET_CONNECTION      = 38;
+    public static final int      MESSAGE_IMPORT_NEW_CONFIGURATIONS        = 39;
 
 
     public MPinController(Context context, Handler handler) {
@@ -327,7 +328,8 @@ public class MPinController extends Controller {
 
     public void handleQRCodeUrl(final String url) {
         notifyOutboxHandlers(MESSAGE_START_WORK_IN_PROGRESS, 0, 0, null);
-        mWorkerHandler.post(new Runnable() {
+        //TODO temporary solution
+       new Thread(new Runnable() {
 
             @Override
             public void run() {
@@ -335,14 +337,14 @@ public class MPinController extends Controller {
                     JSONArray json = HttpConnector.getJsonArray(url);
                     if (mConfigsDao != null) {
                         ArrayList<Config> configList = mConfigsDao.getConfigsByJsonArray(json);
-                        //TODO pass the configList to view
+                        notifyOutboxHandlers(MESSAGE_IMPORT_NEW_CONFIGURATIONS, 0, 0, configList);
                     }
                 } else {
                     notifyOutboxHandlers(MESSAGE_NO_INTERNET_ACCESS, 0, 0, null);
                 }
                 notifyOutboxHandlers(MESSAGE_STOP_WORK_IN_PROGRESS, 0, 0, null);
             }
-        });
+        }).start();
     }
 
 

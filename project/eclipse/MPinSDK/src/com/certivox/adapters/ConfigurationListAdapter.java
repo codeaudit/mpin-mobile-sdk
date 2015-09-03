@@ -32,7 +32,13 @@
 package com.certivox.adapters;
 
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import com.certivox.models.Config;
+import com.certivox.mpinsdk.R;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -40,23 +46,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.certivox.models.Config;
-import com.certivox.mpinsdk.R;
 
 
 public class ConfigurationListAdapter extends BaseAdapter {
 
-    private Context      mContext;
-    private List<Config> mConfigsList;
-    private long         mSelectedConfigurationId;
+    public interface AdditionalContentAdapter {
+
+        void fillView(Config item, int position, RelativeLayout parentView);
+    }
+
+    private Context                  mContext;
+    private List<Config>             mConfigsList;
+    private Set<Integer>             mSelectedPositions;
+    private AdditionalContentAdapter mAdditionalContentProvider;
 
 
-    public ConfigurationListAdapter(Context context, List<Config> configurations, long selectedConfigurationId) {
+    public ConfigurationListAdapter(Context context, List<Config> configurations, int... selectedConfigurations) {
         mContext = context;
         mConfigsList = configurations;
-        mSelectedConfigurationId = selectedConfigurationId;
+        mSelectedPositions = new HashSet<Integer>();
+        setSelectedPositions(selectedConfigurations);
     }
 
 
@@ -67,9 +78,58 @@ public class ConfigurationListAdapter extends BaseAdapter {
     }
 
 
-    public void setSelectedfigurationId(long id) {
-        mSelectedConfigurationId = id;
+    public void setAdditionalContentAdapter(AdditionalContentAdapter adapter) {
+        mAdditionalContentProvider = adapter;
+    }
+
+
+    public void setSelected(int... selectedConfigurations) {
+        setSelectedPositions(selectedConfigurations);
         notifyDataSetChanged();
+    }
+
+
+    public boolean isSelected(int position) {
+        return mSelectedPositions.contains(position);
+    }
+
+
+    public void select(int position) {
+        if (!mSelectedPositions.contains(position)) {
+            mSelectedPositions.add(position);
+            notifyDataSetChanged();
+        }
+    }
+
+
+    public void selectAll() {
+        int[] allPositions = new int[mConfigsList.size()];
+        for (int i = 0; i < mConfigsList.size(); i++) {
+            allPositions[i] = i;
+        }
+        setSelectedPositions(allPositions);
+    }
+
+
+    public void deselect(int position) {
+        if (mSelectedPositions.contains(position)) {
+            mSelectedPositions.remove(Integer.valueOf(position));
+            notifyDataSetChanged();
+        }
+    }
+
+
+    public void deselectAll() {
+        setSelectedPositions();
+    }
+
+
+    public List<Config> getSelected() {
+        List<Config> selectedConfigs = new ArrayList<Config>();
+        for (int pos : mSelectedPositions) {
+            selectedConfigs.add(mConfigsList.get(pos));
+        }
+        return selectedConfigs;
     }
 
 
@@ -106,6 +166,7 @@ public class ConfigurationListAdapter extends BaseAdapter {
             holder.title = (TextView) convertView.findViewById(R.id.item_config_title);
             holder.url = (TextView) convertView.findViewById(R.id.item_config_url);
             holder.button = (RadioButton) convertView.findViewById(R.id.toggle_button);
+            holder.additionalContent = (RelativeLayout) convertView.findViewById(R.id.item_config_additional_content);
             convertView.setTag(holder);
         }
 
@@ -116,12 +177,15 @@ public class ConfigurationListAdapter extends BaseAdapter {
 
         convertView.setId((int) config.getId());
 
-        if (config.getId() == mSelectedConfigurationId) {
+        if (mSelectedPositions.contains(position)) {
             holder.button.setChecked(true);
         } else {
             holder.button.setChecked(false);
         }
 
+        if (mAdditionalContentProvider != null) {
+            mAdditionalContentProvider.fillView(config, position, holder.additionalContent);
+        }
         return convertView;
     }
 
@@ -137,10 +201,22 @@ public class ConfigurationListAdapter extends BaseAdapter {
         return mContext.getResources().getString(R.string.request_mobile_title);
     }
 
+
+    private void setSelectedPositions(int... selectedPos) {
+        if (selectedPos != null) {
+            mSelectedPositions.clear();
+
+            for (int pos : selectedPos) {
+                mSelectedPositions.add(pos);
+            }
+        }
+    }
+
     private static class ViewHolder {
 
-        TextView    title;
-        TextView    url;
-        RadioButton button;
+        TextView       title;
+        TextView       url;
+        RadioButton    button;
+        RelativeLayout additionalContent;
     }
 }
