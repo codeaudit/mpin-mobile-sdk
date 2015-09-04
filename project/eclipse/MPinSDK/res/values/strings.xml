@@ -190,6 +190,8 @@
     <string name="correct_url_title">Success</string>
     <string name="correct_url_content">The backend URL is correct!</string>
     <string name="empty_title_content">Service name field is empty</string>
+    <string name="read_qr_error_title">Error reading QR code</string>
+    <string name="read_qr_error_content">Unexpected error occurred, try again!</string>
     <!-- Dialogs end -->
 
 

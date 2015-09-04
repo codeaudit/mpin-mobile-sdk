@@ -3,6 +3,11 @@
     xmlns:mpin="http://schemas.android.com/apk/res-auto" >
 
     <item
+        android:id="@+id/configs_scan_qr"
+        android:icon="@drawable/ic_qr"
+        android:title="@string/scan_qr_config_context_menu"
+        mpin:showAsAction="always"/>
+    <item
         android:id="@+id/select_config"
         android:icon="@drawable/ic_check"
         android:title="@string/select_config_context_menu"
@@ -16,8 +21,5 @@
     <item
         android:id="@+id/configs_list_delete"
         android:title="@string/delete_config_context_menu"/>
-    <item
-        android:id="@+id/configs_scan_qr"
-        android:title="@string/scan_qr_config_context_menu"/>
 
 </menu>

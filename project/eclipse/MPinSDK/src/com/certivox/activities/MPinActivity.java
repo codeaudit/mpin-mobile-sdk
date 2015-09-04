@@ -35,6 +35,30 @@ package com.certivox.activities;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.FeedbackManager;
+import net.hockeyapp.android.UpdateManager;
+import android.app.AlertDialog;
+import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.certivox.constants.FragmentTags;
 import com.certivox.constants.IntentConstants;
 import com.certivox.controllers.MPinController;
@@ -56,34 +80,10 @@ import com.certivox.models.Config;
 import com.certivox.models.OTP;
 import com.certivox.mpinsdk.R;
 
-import android.app.AlertDialog;
-import android.app.FragmentTransaction;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-import net.hockeyapp.android.CrashManager;
-import net.hockeyapp.android.FeedbackManager;
-import net.hockeyapp.android.UpdateManager;
-
 
 public class MPinActivity extends ActionBarActivity implements OnClickListener, Handler.Callback {
 
-    private static final String TAG = MPinActivity.class.getSimpleName();
+    private static final String TAG    = MPinActivity.class.getSimpleName();
 
     // Needed for Hockey App
     private static final String APP_ID = "08b0417545be2304b7ce45ef43e30daf";
@@ -97,7 +97,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         ON_CREATE, ON_STOP, ON_POST_RESUME, ON_DESTROY;
     };
 
-    private ActivityStates mActivityLifecycleState;
+    private ActivityStates        mActivityLifecycleState;
 
     // Views
     private Toolbar               mToolbar;
@@ -228,6 +228,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     }
 
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean handleMessage(Message msg) {
         switch (msg.what) {
@@ -317,10 +318,10 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
             showNoInternetAccessToast();
             return true;
         case MPinController.MESSAGE_IMPORT_NEW_CONFIGURATIONS:
-            Intent startIntent = new Intent(this, ImportConfigsActivity.class);
-            startIntent.setAction(Intent.ACTION_PICK);
-            startIntent.putExtra(IntentConstants.EXTRA_CONFIGS_LIST, (ArrayList<Config>) msg.obj);
-            startActivity(startIntent);
+            onImportNewConfiguration((ArrayList<Config>) msg.obj);
+            return true;
+        case MPinController.MESSAGE_ERROR_READING_QR:
+            showErrorReadingQrDialog();
             return true;
         }
         return false;
@@ -544,6 +545,14 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     }
 
 
+    private void onImportNewConfiguration(ArrayList<Config> configs) {
+        Intent startIntent = new Intent(this, ImportConfigsActivity.class);
+        startIntent.setAction(Intent.ACTION_PICK);
+        startIntent.putExtra(IntentConstants.EXTRA_CONFIGS_LIST, configs);
+        startActivity(startIntent);
+    }
+
+
     private void goBack() {
         super.onBackPressed();
     }
@@ -661,6 +670,13 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     private void showInvalidUserDialog() {
         new AlertDialog.Builder(this).setTitle(getString(R.string.error_dialog_title))
                 .setMessage(getString(R.string.user_not_authorized))
+                .setPositiveButton(getString(R.string.button_ok), null).show();
+    }
+
+
+    private void showErrorReadingQrDialog() {
+        new AlertDialog.Builder(this).setTitle(getString(R.string.read_qr_error_title))
+                .setMessage(getString(R.string.read_qr_error_content))
                 .setPositiveButton(getString(R.string.button_ok), null).show();
     }
 
