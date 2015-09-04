@@ -20,7 +20,7 @@ using MPinSDK.Models;
 namespace MPinDemo
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// A page displayed after an idendity has been added.
     /// </summary>
     public sealed partial class IdentityCreated : Page
     {

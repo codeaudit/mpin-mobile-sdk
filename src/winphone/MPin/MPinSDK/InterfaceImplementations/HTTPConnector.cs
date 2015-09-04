@@ -146,10 +146,6 @@ namespace MPinSDK
                 fullUrl = fullUrl.Substring(0, fullUrl.Length - 1);
             }
 
-            //Uri uri = new Uri(fullUrl);// Uri.parse(fullUrl);
-            ////TODO temporary hack -> check
-            //if ("wss".Equals(uri.Scheme))
-            //    uri.Scheme ="https";
             bool successful = true;
             try
             {
@@ -186,8 +182,6 @@ namespace MPinSDK
        
         protected async Task SendRequest(String serviceURL, Windows.Web.Http.HttpMethod http_method, String requestBody, IDictionary<String, String> requestProperties)
         {
-            // TODO: check if the response is empty, if an exception is thrown
-            // empty resonse returned on unsuccessful authentication
             HttpClient httpClient = new HttpClient();
             CancellationTokenSource cts = new CancellationTokenSource();
             try

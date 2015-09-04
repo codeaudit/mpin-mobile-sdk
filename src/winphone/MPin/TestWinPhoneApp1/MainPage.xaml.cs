@@ -22,7 +22,12 @@
 
 using MPinSDK.Common; // navigation extensions
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.NetworkInformation;
+using Windows.ApplicationModel.Resources;
+using Windows.Networking.Connectivity;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -40,19 +45,45 @@ namespace MPinDemo
         #region Fields
         public static MainPage Current;
         private DispatcherTimer timer;
+        private string parameter = string.Empty;
+        private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+        private static string RunTimeString = "RunTime";
         #endregion // Fields
 
         #region C'tor
         public MainPage()
         {
             this.InitializeComponent();
+            this.Loaded += MainPage_Loaded;
             Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+            NetworkInformation.NetworkStatusChanged += NetworkInformation_NetworkStatusChanged;
 
             // This is a static public property that allows downstream pages to get a handle to the MainPage instance
             // in order to call methods that are in this class.
             Current = this;
         }
         #endregion // C'tor
+
+        #region Members
+        internal bool IsInternetConnected
+        {
+            get
+            {
+                bool isConnected = NetworkInterface.GetIsNetworkAvailable();
+                if (isConnected)
+                {
+                    ConnectionProfile InternetConnectionProfile = NetworkInformation.GetInternetConnectionProfile();
+                    NetworkConnectivityLevel connection = InternetConnectionProfile.GetNetworkConnectivityLevel();
+                    if (connection == NetworkConnectivityLevel.None || connection == NetworkConnectivityLevel.ConstrainedInternetAccess)
+                    {
+                        isConnected = false;
+                    }
+                }
+
+                return isConnected;
+            }
+        }
+        #endregion // Members
 
         #region Methods
         /// <summary>
@@ -61,18 +92,50 @@ namespace MPinDemo
         /// <param name="e">Event data that describes how this page was reached.
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
-        {            
+        {
             if (MainFrame.Content == null)
             {
-                string parameter = (Window.Current.Content as Frame).GetNavigationData() as string; // get the passed parameter from the extension method
-                parameter = string.IsNullOrEmpty(parameter) ? e.Parameter as string : parameter;    // get the passed parameter from the event
+                this.parameter = (Window.Current.Content as Frame).GetNavigationData() as string; // get the passed parameter from the extension method
+                this.parameter = string.IsNullOrEmpty(parameter) ? e.Parameter as string : parameter;    // get the passed parameter from the event    
+                object passed = string.IsNullOrEmpty(parameter) ? "InitialLoad" : parameter;
+
+                if (IsTheFirstAppLaunch())
+                {
+                    if (!MainFrame.Navigate(typeof(AppIntro), passed))
+                    {
+                        throw new Exception("Failed to create starup screen");
+                    }
+                    return;
+                }   
+
+                if (!this.IsInternetConnected)
+                {
+                    if (!MainFrame.Navigate(typeof(NoNetworkScreen)))
+                    {
+                        throw new Exception("Failed to create no internet screen");
+                    }
+                    return;
+                }
 
                 // When the navigation stack isn't restored navigate to the main screen; 
                 // if no param passed - we consider to be the initial load and navigate to a screen depending on the last selected user state
-                if (!MainFrame.Navigate(typeof(BlankPage1), string.IsNullOrEmpty(parameter) ? "InitialLoad" : parameter))
+                if (!MainFrame.Navigate(typeof(BlankPage1), passed))
                 {
-                    throw new Exception("Failed to create main screen"); 
+                    throw new Exception("Failed to create main screen");
                 }
+            }
+        }
+
+        private bool IsTheFirstAppLaunch()
+        {
+            if (!localSettings.Values.Keys.Contains(RunTimeString))
+            {
+                localSettings.Values.Add(RunTimeString, 1);
+                return true;
+            }
+            else
+            {                
+                return false;
             }
         }
 
@@ -96,13 +159,48 @@ namespace MPinDemo
             }
         }
 
+        void MainPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            NotifyConnectionExisting();
+        }
+
+        void NetworkInformation_NetworkStatusChanged(object sender)
+        {
+            Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    if (MainFrame.Content.GetType() == typeof(NoNetworkScreen))
+                    {
+                        if (this.IsInternetConnected)
+                        {
+                            if (!MainFrame.Navigate(typeof(BlankPage1), string.IsNullOrEmpty(this.parameter) ? "InitialLoad" : this.parameter))
+                            {
+                                throw new Exception("Failed to create main screen");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        NotifyConnectionExisting();
+                    }
+                });
+        }
+
+        private void NotifyConnectionExisting()
+        {
+            List<Type> excludedTextTypes = new List<Type>() { typeof(NoNetworkScreen), typeof(AuthenticationScreen) };
+            if (!excludedTextTypes.Contains(MainFrame.Content.GetType()))
+            {
+                NotifyUser(this.IsInternetConnected ? string.Empty : ResourceLoader.GetForCurrentView().GetString("NoConnection"), NotifyType.ErrorMessage, false);
+            }
+        }
+
         #region notification
         /// <summary>
         /// Used to display messages to the user
         /// </summary>
         /// <param name="strMessage"></param>
         /// <param name="type"></param>
-        public void NotifyUser(string strMessage, NotifyType type = NotifyType.StatusMessage)
+        public void NotifyUser(string strMessage, NotifyType type = NotifyType.StatusMessage, bool shouldDisappear = true)
         {
             Debug.WriteLine("NotifyUser: " + strMessage + type.ToString());
 
@@ -122,13 +220,30 @@ namespace MPinDemo
                 // Collapse the StatusBlock if it has no text to conserve real estate.
                 if (StatusBlock.Text != String.Empty)
                 {
-                    StatusBorder.Opacity = 1;
-                    StartTimer(type == NotifyType.StatusMessage ? 2 : 6);
+                    StatusBorder.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    if (shouldDisappear)
+                        StartTimer(type == NotifyType.StatusMessage ? 2 : 8);
                 }
                 else
                 {
-                    StatusBorder.Opacity = 0;
+                    StatusBorder.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                 }
+
+                SetMessagePosition(string.IsNullOrEmpty(StatusBlock.Text));
+            }
+        }
+
+        private void SetMessagePosition(bool restorePosition)
+        {
+            Page framePage = MainFrame.Content as Page;
+            if (framePage == null)
+                return;
+
+            AppBar bottomAppBar = framePage.BottomAppBar;
+            if (bottomAppBar != null || restorePosition)
+            {
+                double bottom = restorePosition ? 0 : bottomAppBar.Height;                
+                StatusBorder.Margin = new Thickness(StatusBorder.Margin.Left, StatusBorder.Margin.Top, StatusBorder.Margin.Right, bottom); 
             }
         }
 
@@ -158,5 +273,6 @@ namespace MPinDemo
 
         #endregion // notification
         #endregion // Methods
+
     }
 }

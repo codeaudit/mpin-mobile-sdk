@@ -111,8 +111,9 @@ namespace MPinDemo
         /// <param name="e">Event data that describes how this page was reached.
         /// This parameter is typically used to configure the page.</param>
         protected async override void OnNavigatedTo(NavigationEventArgs e)
-        {
+        {   
             rootPage = MainPage.Current;
+            ClearBackStackIfNecessary();
             SetControlsIsEnabled(e.Parameter.ToString());
 
             List<object> data = (Window.Current.Content as Frame).GetNavigationData() as List<object>;
@@ -126,7 +127,7 @@ namespace MPinDemo
             }
             else
             {
-                string param = GetAllPossiblePassedParams(e.Parameter);
+                string param = GetAllPossiblePassedParams(e.Parameter);                
                 isInitialLoad = !string.IsNullOrEmpty(param) && param.Equals("InitialLoad");
             }
 
@@ -155,6 +156,17 @@ namespace MPinDemo
 
         #region methods
 
+        private void ClearBackStackIfNecessary()
+        {
+            Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
+            if (mainFrame.BackStack.Count == 1 && 
+                ((mainFrame.BackStack[0] as PageStackEntry).SourcePageType.Equals(typeof(NoNetworkScreen)) ||
+                 (mainFrame.BackStack[0] as PageStackEntry).SourcePageType.Equals(typeof(AppIntro))))
+            {
+                mainFrame.BackStack.RemoveAt(mainFrame.BackStack.Count - 1);
+            }
+        }
+
         private void Select()
         {
             switch (this.MainPivot.SelectedIndex)
@@ -172,7 +184,7 @@ namespace MPinDemo
 
         private void ProcessControlsOperations(string command)
         {
-            List<string> commandsToDisableScreen = new List<string>() { "AddUser", "SignIn", "EmailConfirmed" };
+            List<string> commandsToDisableScreen = new List<string>() { "AddUser", "SignIn"};
             if (commandsToDisableScreen.Contains(command))
                 SetControlsIsEnabled(null, true);
         }
@@ -689,6 +701,6 @@ namespace MPinDemo
             SetControlsIsEnabled(null, true, false);
         }
 
-        #endregion // handlers        
+        #endregion // handlers            
     }
 }

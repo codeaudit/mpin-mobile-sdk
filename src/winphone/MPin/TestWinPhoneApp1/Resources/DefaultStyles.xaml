@@ -6,7 +6,7 @@
     <SolidColorBrush x:Key="ProgressBarIndeterminateForegroundThemeBrush" Color="Red" />
 
     <Style TargetType="Page" x:Key="PageStyle">
-        <Setter Property="Margin" Value="12"/>
+        <Setter Property="Margin" Value="12, 0, 12, 0"/>
     </Style>
 
     <Style TargetType="TextBlock">
