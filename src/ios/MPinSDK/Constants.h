@@ -99,6 +99,16 @@ static NSString *const kHelpTitle = @"Title";
 static NSString *const kHelpImage = @"image";
 static NSString *const kHelpSubTitle = @"subtitle";
 static NSString *const kHelpDescription = @"description";
+
+static NSString *const kHelpFile = @"Help";
+
+static NSString *const kFirstTimeLaunch = @"first_app_start";
+static NSString *const kQuickStartGuide = @"quick_menu_item";
+static NSString *const kMpinServerGuide = @"server_settings";
+static NSString *const kAddIdentityGuide = @"add_id_guide";
+
+static NSString *const kAppUserGuideForMPINConnect = @"M-Pin Connect";
+
 //// END
 
 #endif

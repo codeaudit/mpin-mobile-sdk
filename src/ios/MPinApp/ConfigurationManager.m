@@ -30,9 +30,15 @@
 static NSString *const kCurrentSelectionIndex = @"currentSelectionIndex";
 static NSString *const kSettings = @"settings";
 
+static NSString *const kAppFirstTime = @"appLaunch";
+static NSString *const kAddIdentityFirstTime = @"addIdentity";
+static NSString *const kServerSettingsFirstTime = @"server_settings";
+
 @interface ConfigurationManager ( ) {
     NSInteger defaultConfigCount;
     BOOL _isFirstTimeLaunch;
+    BOOL _isFirstTimeServerSettings;
+    BOOL _isFirstTimeAddIdentity;
 }
 
 @property ( nonatomic, strong ) NSMutableArray *arrConfigrations;
@@ -79,6 +85,7 @@ static NSString *const kSettings = @"settings";
     self = [super init];
     if ( self )
     {
+        [self loadLaunchSettings];
         _intSelectedConfiguration = [[NSUserDefaults standardUserDefaults] integerForKey:kCurrentSelectionIndex];
         _arrConfigrations = [[[NSUserDefaults standardUserDefaults] objectForKey:kSettings] mutableCopy];
         if ( _arrConfigrations == nil )
@@ -96,8 +103,6 @@ static NSString *const kSettings = @"settings";
 
         defaultConfigCount = [configs count];
         
-        _isFirstTimeLaunch = (hashValue == 0);
-
         if ( hashValue != configHash )
         {
             NSMutableArray *tmpArray = [NSMutableArray array];
@@ -129,6 +134,13 @@ static NSString *const kSettings = @"settings";
     }
 
     return self;
+}
+
+
+- ( void ) loadLaunchSettings {
+    _isFirstTimeLaunch = ![[NSUserDefaults standardUserDefaults] boolForKey:kAppFirstTime];
+    _isFirstTimeAddIdentity = ![[NSUserDefaults standardUserDefaults] boolForKey:kAddIdentityFirstTime];
+    _isFirstTimeServerSettings = ![[NSUserDefaults standardUserDefaults] boolForKey:kServerSettingsFirstTime];
 }
 
 - ( BOOL )isEmpty
@@ -394,7 +406,39 @@ static NSString *const kSettings = @"settings";
 }
 
 -(BOOL) isFirstTimeLaunch{
-    return _isFirstTimeLaunch;
+    if (_isFirstTimeLaunch == YES) {
+        [[NSUserDefaults standardUserDefaults] setBool:_isFirstTimeLaunch forKey:kAppFirstTime];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        _isFirstTimeLaunch = NO;
+        return YES;
+    }
+    
+    return NO;
+}
+
+-(BOOL) isFirstTimeServerSettings {
+    if (_isFirstTimeServerSettings == YES) {
+        [[NSUserDefaults standardUserDefaults] setBool:_isFirstTimeServerSettings forKey:kServerSettingsFirstTime];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        _isFirstTimeServerSettings = NO;
+        return YES;
+    }
+    
+    return NO;
+}
+
+-(BOOL) isFirstTimeAddIdentity {
+    if(_isFirstTimeAddIdentity ==  NO) return NO;
+    
+    NSDictionary * currConfig = [self getSelectedConfiguration];
+    if ([kAppUserGuideForMPINConnect isEqualToString:[currConfig objectForKey:kCONFIG_NAME]]) {
+        [[NSUserDefaults standardUserDefaults] setBool:_isFirstTimeAddIdentity forKey:kAddIdentityFirstTime];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        _isFirstTimeAddIdentity = NO;
+        return YES;
+    }
+    
+    return NO;
 }
 
 @end

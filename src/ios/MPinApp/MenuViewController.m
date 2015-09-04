@@ -32,52 +32,71 @@
 #import "ThemeManager.h"
 #import "ConfigurationManager.h"
 #import "AFHTTPRequestOperationManager.h"
+#import "HelpViewController.h"
+#import "MenuItem.h"
 
-
-#define USER_LIST 0
-#define SETTINGS 1
-#define HELP 2
-#define ABOUT 3
 
 @interface MenuViewController ( ) {
-    AboutViewController *vcAbout;
-    SettingsViewController *vcSettings;
-    UserListViewController *vcUserList;
+    NSMutableArray * menu;
 }
-
+- (void) initMenuItems;
 @end
 
 @implementation MenuViewController
 
+- (void) initMenuItems {
+    menu = [NSMutableArray array];
+    
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:kHelpFile ofType:@"plist"];
+    NSDictionary *menuData = [[NSDictionary alloc] initWithContentsOfFile:filePath];
+    
+    [menu addObject:[[MenuItem alloc] initWith:NSLocalizedString(@"MENUVC_OPTION_0",@"")
+                                    controller:((AppDelegate *)[UIApplication sharedApplication].delegate).vcUserList]];
+    
+    [menu addObject:[[MenuItem alloc] initWith:NSLocalizedString(@"MENUVC_OPTION_1",@"")
+                                    controller:[self.storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"]]];
+    
+    HelpViewController * helpControler  = [self.storyboard instantiateViewControllerWithIdentifier:@"helpcontroller"];
+    helpControler.dataSource = [menuData objectForKey:kQuickStartGuide];
+    
+    [menu addObject:[[MenuItem alloc] initWith:NSLocalizedString(@"MENUVC_OPTION_2",@"")
+                     controller:helpControler]];
+    
+    helpControler  = [self.storyboard instantiateViewControllerWithIdentifier:@"helpcontroller"];
+    helpControler.dataSource = [menuData objectForKey:kMpinServerGuide];
+    
+    [menu addObject:[[MenuItem alloc] initWith:NSLocalizedString(@"MENUVC_OPTION_3",@"")
+                                    controller:helpControler]];
+    
+    [menu addObject:[[MenuItem alloc] initWith:NSLocalizedString(@"MENUVC_OPTION_4",@"")
+                     controller:[self.storyboard instantiateViewControllerWithIdentifier:@"AboutViewController"]]];
+
+}
+
+
+
 - ( void )viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    vcAbout = [self.storyboard instantiateViewControllerWithIdentifier:@"AboutViewController"];
-    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-    vcAbout = [self.storyboard instantiateViewControllerWithIdentifier:@"AboutViewController"];
-    vcUserList = appDelegate.vcUserList;
-    vcSettings = [self.storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
-    // Keep the next line here
+    [self initMenuItems];
     [[ThemeManager sharedManager] beautifyViewController:self];
+    
+    if ([[ConfigurationManager sharedManager] isFirstTimeLaunch]) {
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:kHelpFile ofType:@"plist"];
+        NSDictionary *menuData = [[NSDictionary alloc] initWithContentsOfFile:filePath];
+        HelpViewController * helpControler  = [self.storyboard instantiateViewControllerWithIdentifier:@"helpcontroller"];
+        helpControler.dataSource = [menuData objectForKey:kFirstTimeLaunch];
+        [self presentViewController:helpControler animated:NO completion:nil];
+    }
 }
 
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
     [self setConfiguration];
-}
-
--( void ) viewDidAppear:( BOOL )animated
-{
-    [super viewDidAppear:animated];
+   
     
-}
-
-- ( void )didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
 }
 
 #pragma mark - UITableViewDataSource -
@@ -94,7 +113,7 @@
 
 - ( NSInteger )tableView:( UITableView * )tableView numberOfRowsInSection:( NSInteger )section
 {
-    return 4;
+    return [menu count];
 }
 
 - ( UITableViewCell * )tableView:( UITableView * )tableView cellForRowAtIndexPath:( NSIndexPath * )indexPath
@@ -110,48 +129,17 @@
 
 - ( void )tableView:( UITableView * )tableView willDisplayCell:( UITableViewCell * )cell forRowAtIndexPath:( NSIndexPath * )indexPath
 {
-    switch ( indexPath.row )
-    {
-    case USER_LIST:
-        ( (MenuTableViewCell *)cell ).lblMenuID.text = NSLocalizedString(@"MENUVC_OPTION_0",@"");
-        break;
-    case SETTINGS:
-        ( (MenuTableViewCell *)cell ).lblMenuID.text = NSLocalizedString(@"MENUVC_OPTION_1",@"");
-        break;
-    case HELP:
-         ( (MenuTableViewCell *)cell ).lblMenuID.text = @"HELP";
-        break;
-    case ABOUT:
-        ( (MenuTableViewCell *)cell ).lblMenuID.text = NSLocalizedString(@"MENUVC_OPTION_2",@"");
-        break;
-    }
+    ( (MenuTableViewCell *)cell ).lblMenuID.text = ((MenuItem *)[menu objectAtIndex:indexPath.row]).title;
 }
 
 - ( void )tableView:( UITableView * )tableView didSelectRowAtIndexPath:( NSIndexPath * )indexPath
 {
-    UIViewController *vc = vcUserList;
+    UIViewController *vc = nil;
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-    switch ( indexPath.row )
-    {
-    case USER_LIST:
-        vc = vcUserList;
-        break;
-
-    case SETTINGS:
-        vc = vcSettings;
-        break;
-            
-    case HELP:
-         vc = [[UIViewController alloc] init];
-        break;
-
-    case ABOUT:
-        vc = vcAbout;
-        break;
-    }
-
+    vc = ((MenuItem *)[menu objectAtIndex:indexPath.row]).controller;
+   
     UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
     NSArray *controllers = @ [vc];
     navigationController.viewControllers = controllers;
@@ -160,26 +148,10 @@
 
 - ( void )setCenterWithID:( int )vcId
 {
-    UIViewController *vc = vcUserList;
-    switch ( vcId )
-    {
-    case USER_LIST:
-        vc = vcUserList;
-        break;
-
-    case SETTINGS:
-        vc = vcSettings;
-        break;
-            
-    case HELP:
-        vc = [[UIViewController alloc] init];
-        break;
-
-    case ABOUT:
-        vc = vcAbout;
-        break;
-    }
-
+    UIViewController *vc = nil;
+  
+    vc = ((MenuItem *)[menu objectAtIndex:vcId]).controller;
+    
     UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
     NSArray *controllers = @ [vc];
     navigationController.viewControllers = controllers;

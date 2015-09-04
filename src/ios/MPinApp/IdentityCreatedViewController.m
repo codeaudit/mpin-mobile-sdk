@@ -28,6 +28,7 @@
 #import "AccountSummaryViewController.h"
 #import "ThemeManager.h"
 #import "MFSideMenu.h"
+#import "HelpViewController.h"
 
 @interface IdentityCreatedViewController ( ) {
     MPin *sdk;
@@ -204,6 +205,14 @@
 
 - ( IBAction )gotoIDList:( id )sender
 {
+    if([[ConfigurationManager sharedManager] isFirstTimeAddIdentity] ) {
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:kHelpFile ofType:@"plist"];
+        NSDictionary *menuData = [[NSDictionary alloc] initWithContentsOfFile:filePath];
+        HelpViewController * helpControler  = [self.storyboard instantiateViewControllerWithIdentifier:@"helpcontroller"];
+        helpControler.dataSource = [menuData objectForKey:kAddIdentityGuide];
+        [self presentViewController:helpControler animated:NO completion:nil];
+    }
+
     [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
     NSDictionary *config = [[ConfigurationManager sharedManager] getSelectedConfiguration];
     [self startAuthenticationFlow:self.user forService:[config [kSERVICE_TYPE] intValue]];

@@ -298,7 +298,6 @@
         myVc.title = NSLocalizedString(@"USERLISTVC_TITLE", @"");
         [myVc.btnDelete setTitle:NSLocalizedString(@"KEY_DELETE", @"") forState:UIControlStateNormal];
     }
-
     else
     {
         for ( int i = 0; i < [( (UIViewController *)vc ).view.subviews count]; i++ )

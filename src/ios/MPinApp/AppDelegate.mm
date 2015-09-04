@@ -90,6 +90,7 @@
     
     [ApplicationManager sharedManager];
     [NetworkMonitor sharedManager];
+    
 	return YES;
 }
 
