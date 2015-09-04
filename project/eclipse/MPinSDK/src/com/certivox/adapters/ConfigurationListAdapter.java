@@ -73,6 +73,7 @@ public class ConfigurationListAdapter extends BaseAdapter {
 
     public void updateConfigsList(List<Config> configList) {
         mConfigsList.clear();
+        setSelected();
         mConfigsList.addAll(configList);
         notifyDataSetChanged();
     }

@@ -280,7 +280,7 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
 
     private void onDeleteConfig() {
         Config config = getMPinController().getConfiguration((int) mSelectedConfiguraionId);
-        if (config.getId() == -1) {
+        if (config == null || config.getId() == -1) {
             showNoSelectedConfigurationDialog();
         } else
             if (!config.isDefault()) {
