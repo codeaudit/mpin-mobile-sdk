@@ -28,6 +28,7 @@
 #include "HTTPConnector.h"
 #include "Storage.h"
 #import "Constants.h"
+#import "User.h"
 
 namespace sdk {
     
@@ -102,7 +103,9 @@ namespace sdk {
     
 String Context::Show(MPinSDK::UserPtr user, Mode mode) {
     dispatch_async(dispatch_get_main_queue(),^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:kShowPinPadNotification object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kShowPinPadNotification
+                                                            object:nil
+                                                          userInfo:[NSDictionary dictionaryWithObject:[[User alloc] initWith:user] forKey:kUser]];
     });
     
         [cLock lock];

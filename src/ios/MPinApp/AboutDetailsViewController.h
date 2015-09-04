@@ -23,6 +23,7 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "SuperViewController.h"
 
 @interface AboutDetailsViewController : UIViewController
 

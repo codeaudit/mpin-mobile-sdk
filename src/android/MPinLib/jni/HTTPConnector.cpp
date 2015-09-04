@@ -37,7 +37,6 @@
  */
 
 #include "HTTPConnector.h"
-//#include <android/log.h>
 
 namespace net {
 
@@ -76,8 +75,7 @@ jobject HTTPConnector::createJavaMap(const StringMap& map) {
 	return jhashtable;
 }
 
-void HTTPConnector::convertJHashtable2StringMap(jobject jhashtable,
-		IN OUT StringMap & a_map) throw (IllegalArgumentException) {
+void HTTPConnector::convertJHashtable2StringMap(jobject jhashtable, StringMap & a_map) throw (IllegalArgumentException) {
 	if (jhashtable == NULL)
 		throw IllegalArgumentException(
 				"NULL hashtable parrameter is passed to HTTPConnector::convertJHashtable2StringMap");

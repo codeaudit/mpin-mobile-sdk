@@ -53,11 +53,11 @@
 "CONFIGLISTVC_TITLE"    = "Configuration List";
 
 /* Add Configuration*/
-"ADDCONFIGVC_TITLE_ADD" = "Add Configuration";
+"ADDCONFIGVC_TITLE_ADD" = "Add Service";
 "ADDCONFIGVC_TITLE_EDIT" = "Edit Configuration";
-"ADDCONFIGVC_NAME" = "NAME";
-"ADDCONFIGVC_URL" = "M-PIN SERVER URL";
-"ADDCONFIGVC_PREFIX" = "RPS PREFIX";
+"ADDCONFIGVC_NAME" = "Service Name";
+"ADDCONFIGVC_URL" = "M-PIN Server";
+"ADDCONFIGVC_PREFIX" = "RPS Prerfix";
 "ADDCONFIGVC_BTN_TEST_CONFIG" = "TEST CONFIGURATION";
 "ADDCONFIGVC_MESSAGE_CONFIG_OK" = "Configuration is valid";
 "ADDCONFIGVC_INVALID_CONFIG" = "Invalid configuration";
@@ -168,3 +168,4 @@
 "LOGIN_ONLINE_SESSION"                  = "Login to Online Session";
 "LOGIN_OTP"                             = "OTP Login";
 "LOADING"                               = "LOADING";
+"CONNECTION_WAS_LOST"                   = "No Internet Connection";

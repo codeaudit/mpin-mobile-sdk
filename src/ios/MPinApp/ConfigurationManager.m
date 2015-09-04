@@ -324,18 +324,29 @@ static NSString *const kSettings = @"settings";
 
 - ( NSDictionary * )getSelectedConfiguration
 {
-    if ( [_arrConfigrations count] == 0 )
-        return nil;
+    if ( (int)_arrConfigrations.count > (int)_intSelectedConfiguration && _intSelectedConfiguration != -1 )
+    {
+        return [NSMutableDictionary dictionaryWithDictionary:[_arrConfigrations objectAtIndex:_intSelectedConfiguration]];
+    }
     else
-        return [NSMutableDictionary dictionaryWithDictionary:[_arrConfigrations objectAtIndexedSubscript:_intSelectedConfiguration]];
+    {
+        _intSelectedConfiguration = 0;
+        [self saveConfigurations];
+        return [NSMutableDictionary dictionaryWithDictionary:[_arrConfigrations objectAtIndex:0]];;
+    }
 }
 
 - ( NSDictionary * )getConfigurationAtIndex:( NSInteger ) index
 {
-    if ( index >= [_arrConfigrations count] )
-        return nil;
+    if ( [_arrConfigrations count] > index )
+    {
+        return [NSMutableDictionary dictionaryWithDictionary:[_arrConfigrations objectAtIndex:index]];
+    }
     else
-        return [NSMutableDictionary dictionaryWithDictionary:[_arrConfigrations objectAtIndexedSubscript:index]];
+    {
+        return nil;
+    }
+        
 }
 
 - ( NSInteger )getSelectedConfigurationIndex
@@ -376,6 +387,7 @@ static NSString *const kSettings = @"settings";
             break;
         }
     }
+
     return intAtIndex;
 }
 

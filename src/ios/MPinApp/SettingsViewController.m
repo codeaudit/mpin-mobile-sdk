@@ -1,25 +1,25 @@
 /*
- Copyright (c) 2012-2015, Certivox
- All rights reserved.
- 
- Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
- 
- 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
- 
- 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
- 
- 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
- 
- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- 
- For full details regarding our CertiVox terms of service please refer to
- the following links:
+   Copyright (c) 2012-2015, Certivox
+   All rights reserved.
+
+   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+   1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+   2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+   3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+   For full details regarding our CertiVox terms of service please refer to
+   the following links:
  * Our Terms and Conditions -
- http://www.certivox.com/about-certivox/terms-and-conditions/
+   http://www.certivox.com/about-certivox/terms-and-conditions/
  * Our Security and Privacy -
- http://www.certivox.com/about-certivox/security-privacy/
+   http://www.certivox.com/about-certivox/security-privacy/
  * Our Statement of Position and Our Promise on Software Patents -
- http://www.certivox.com/about-certivox/patents/
+   http://www.certivox.com/about-certivox/patents/
  */
 
 #import "SettingsViewController.h"
@@ -41,6 +41,7 @@
 
 @interface SettingsViewController ( ) {
     MPin *sdk;
+    NSUInteger intNextConfiguration;
 }
 - ( IBAction )gotoIdentityList:( id )sender;
 - ( IBAction )addQR:( id )sender;
@@ -54,9 +55,6 @@
 - ( void )viewDidLoad
 {
     [super viewDidLoad];
-
-    [[ThemeManager sharedManager] beautifyViewController:self];
-
     UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"QR"] style:UIBarButtonItemStylePlain target:self action:@selector( addQR: )];
     UIBarButtonItem *qrItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus-white"] style:UIBarButtonItemStylePlain target:self action:@selector( add: )];
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:addItem,qrItem, nil];
@@ -65,7 +63,8 @@
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
-
+    [[ThemeManager sharedManager] beautifyViewController:self];
+    [self registerObservers];
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
 
@@ -76,6 +75,7 @@
 - ( void )viewWillDisappear:( BOOL )animated
 {
     [super viewWillDisappear:animated];
+    [self unRegisterObservers];
 }
 
 #pragma mark - Table view datasource & delegate -
@@ -126,37 +126,35 @@
     default:
         break;
     }
-    [customCell setIsSelectedImage:( [[ConfigurationManager sharedManager] getSelectedConfigurationIndex] == indexPath.row )];
+    if ( [[ConfigurationManager sharedManager] getSelectedConfigurationIndex] == indexPath.row )
+    {
+        [customCell setIsSelectedImage:YES];
+    }
+    else
+    {
+        [customCell setIsSelectedImage:NO];
+    }
+
     [[ThemeManager sharedManager] customiseConfigurationListCell:customCell];
 }
 
 - ( void )tableView:( UITableView * )tableView didSelectRowAtIndexPath:( NSIndexPath * )indexPath
 {
+    ConfigListTableViewCell *curentCell = (ConfigListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+
     if ( [[ConfigurationManager sharedManager] getSelectedConfigurationIndex] == indexPath.row )
     {
         return;
     }
-    NSInteger intSelectedConfiguration = indexPath.row;
-
-    [[ErrorHandler sharedManager] presentMessageInViewController:self
-     errorString:NSLocalizedString(@"HUD_CHANGE_CONFIGURATION", @"")
-     addActivityIndicator:YES
-     minShowTime:0];
-
-
-    NSString *rpsPrefix = [[ConfigurationManager sharedManager] getPrefixAtIndex:intSelectedConfiguration];
-    NSString *url = [[ConfigurationManager sharedManager] getURLAtIndex:intSelectedConfiguration];
-    if ( [rpsPrefix isEqualToString:@""] )
+    else
     {
-        rpsPrefix = nil;
+        if ( curentCell )
+        {
+            curentCell.imgViewSelected.image = [UIImage imageNamed:@"pin-dot-incorrect"];
+        }
+        intNextConfiguration = indexPath.row;
+        [self changeConfiguration:indexPath.row];
     }
-
-    [sdk SetBackend:url rpsPrefix:rpsPrefix];
-
-
-    [[ConfigurationManager sharedManager] setSelectedConfiguration:indexPath.row];
-    [tableView reloadData];
-    [(MenuViewController *)self.menuContainerViewController.leftMenuViewController setConfiguration];
 }
 
 - ( BOOL )tableView:( UITableView * )tableView canEditRowAtIndexPath:( NSIndexPath * )indexPath
@@ -166,18 +164,40 @@
 
 - ( void )OnSetBackendCompleted:( id )sender
 {
+    [[ConfigurationManager sharedManager] setSelectedConfiguration:intNextConfiguration];
+    [(MenuViewController *)self.menuContainerViewController.leftMenuViewController setConfiguration];
     [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"CONFIGURATIONS_CONFIG_CHANGED",@"Configuration changed")
      addActivityIndicator:NO
-     hideAfter:2];
+     hideAfter:6];
+    [_tableView reloadData];
 }
 
 - ( void )OnSetBackendError:( id )sender error:( NSError * )error
 {
     MpinStatus *status = ( error.userInfo ) [kMPinSatus];
-    [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(status.statusCodeAsString, @"UNKNOWN ERROR") addActivityIndicator:NO hideAfter:2];
+    [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(status.statusCodeAsString, @"UNKNOWN ERROR") addActivityIndicator:NO hideAfter:6];
+    [_tableView reloadData];
 }
 
 #pragma mark - Custom actions -
+
+-( void ) changeConfiguration: ( NSUInteger ) index
+{
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+     errorString:NSLocalizedString(@"HUD_CHANGE_CONFIGURATION", @"")
+     addActivityIndicator:YES
+     minShowTime:0];
+
+    NSString *rpsPrefix = [[ConfigurationManager sharedManager] getPrefixAtIndex:index];
+    NSString *url = [[ConfigurationManager sharedManager] getURLAtIndex:index];
+    if ( [rpsPrefix isEqualToString:@""] )
+    {
+        rpsPrefix = nil;
+    }
+
+    [sdk SetBackend:url rpsPrefix:rpsPrefix];
+}
+
 - ( IBAction )add:( id )sender
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
@@ -265,6 +285,36 @@
         [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
         break;
     }
+}
+
+#pragma mark - NSNotification handlers -
+
+-( void ) networkUp
+{
+    [[ThemeManager sharedManager] hideNetworkDown:self];
+}
+
+-( void ) networkDown
+{
+    NSLog(@"Network DOWN Notification");
+    [[ErrorHandler sharedManager] hideMessage];
+    [self.view layoutIfNeeded];
+    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations:^{
+        self.constraintNoNetworkViewHeight.constant = 36.0f;
+        [self.view layoutIfNeeded];
+    }];
+}
+
+-( void ) unRegisterObservers
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_UP_NOTIFICATION" object:nil];
+}
+
+- ( void ) registerObservers
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkUp ) name:@"NETWORK_UP_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkDown ) name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
 }
 
 @end

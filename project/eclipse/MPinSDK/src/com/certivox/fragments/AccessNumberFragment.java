@@ -141,6 +141,7 @@ public class AccessNumberFragment extends MPinFragment {
         mAccessNumberEditText.setTextIsSelectable(true);
         mAccessNumberEditText.setLongClickable(false);
         mAccessNumberEditText.setClickable(false);
+        mAccessNumberEditText.setCursorVisible(false);
         mAccessNumberEditText.requestFocus();
 
         mUserEmail = (TextView) mView.findViewById(R.id.user_email);

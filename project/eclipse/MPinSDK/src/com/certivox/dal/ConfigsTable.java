@@ -36,6 +36,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.certivox.constants.ConfigConstant;
 import com.certivox.dal.ConfigsContract.ConfigEntry;
 import com.certivox.models.Config;
 
@@ -55,7 +56,8 @@ public class ConfigsTable {
         return String.format("CREATE TABLE IF NOT EXISTS " + ConfigEntry.TABLE_NAME + " (" + ConfigEntry._ID + TYPE_ID
                 + ", " + ConfigEntry.COLUMN_TITLE + TYPE_TEXT + ", " + ConfigEntry.COLUMN_BACKEND_URL + TYPE_TEXT + ", "
                 + ConfigEntry.COLUMN_RTS + TYPE_TEXT + ", " + ConfigEntry.COLUMN_REQUEST_OTP + TYPE_BOOLEAN + ", "
-                + ConfigEntry.COLUMN_REQUEST_ACCESS_NUMBER + TYPE_BOOLEAN + ")");
+                + ConfigEntry.COLUMN_REQUEST_ACCESS_NUMBER + TYPE_BOOLEAN + ", " + ConfigEntry.COLUMN_IS_DEFAULT
+                + TYPE_BOOLEAN + ")");
     }
 
 
@@ -86,7 +88,8 @@ public class ConfigsTable {
         // true);
         // Config configurationVPNLogin = new Config("VPN login", "http://otp.m-pin.id", true, false);
 
-        Config configurationMPinConnect = new Config("M-Pin Connect", "https://m-pin.my.id", false, true);
+        Config configurationMPinConnect = new Config(ConfigConstant.MPIN_CONNECT_CONFIG_TITLE,
+                ConfigConstant.MPIN_CONNECT_CONFIG_URL, false, true, true);
 
         // insertConfig(configurationMobileBanking);
         // insertConfig(configurationOnlineBanking);

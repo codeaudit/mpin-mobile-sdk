@@ -57,6 +57,25 @@ public class ConfigsDao {
     }
 
 
+    public Config getDefaultConfiguration() {
+        Config config = null;
+
+        SQLiteDatabase db = new ConfigsDbHelper(mContext).getReadableDatabase();
+        Cursor cursor = db.query(ConfigEntry.TABLE_NAME, ConfigEntry.getFullProjection(), ConfigEntry.COLUMN_IS_DEFAULT
+                + " LIKE ?", new String[] {
+            "1"
+        }, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            config = getByCursor(cursor);
+        }
+        cursor.close();
+        db.close();
+
+        return config;
+    }
+
+
     public Config getConfigurationById(long id) {
         Log.i("DEBUG", "getConfigurationById id = " + id);
         if (id == -1) {
@@ -66,8 +85,8 @@ public class ConfigsDao {
         SQLiteDatabase db = new ConfigsDbHelper(mContext).getReadableDatabase();
         Cursor cursor = db.query(ConfigEntry.TABLE_NAME, ConfigEntry.getFullProjection(), ConfigEntry._ID + " LIKE ?",
                 new String[] {
-                        String.valueOf(id)
-        }, null, null, null);
+                    String.valueOf(id)
+                }, null, null, null);
 
         Config config = null;
         if (cursor.moveToFirst()) {
@@ -84,7 +103,7 @@ public class ConfigsDao {
 
         SQLiteDatabase db = new ConfigsDbHelper(mContext).getReadableDatabase();
         db.delete(ConfigEntry.TABLE_NAME, ConfigEntry._ID + " LIKE ?", new String[] {
-                String.valueOf(configId)
+            String.valueOf(configId)
         });
         db.close();
     }
@@ -97,7 +116,7 @@ public class ConfigsDao {
             config.setId(db.insert(ConfigEntry.TABLE_NAME, null, values));
         } else {
             db.update(ConfigEntry.TABLE_NAME, values, ConfigEntry._ID + " LIKE ?", new String[] {
-                    String.valueOf(config.getId())
+                String.valueOf(config.getId())
             });
         }
 
@@ -113,8 +132,9 @@ public class ConfigsDao {
         config.setBackendUrl(cursor.getString(cursor.getColumnIndexOrThrow(ConfigEntry.COLUMN_BACKEND_URL)));
         config.setRTS(cursor.getString(cursor.getColumnIndexOrThrow(ConfigEntry.COLUMN_RTS)));
         config.setRequestOtp(cursor.getInt(cursor.getColumnIndexOrThrow(ConfigEntry.COLUMN_REQUEST_OTP)) == 1);
-        config.setRequestAccessNumber(
-                cursor.getInt(cursor.getColumnIndexOrThrow(ConfigEntry.COLUMN_REQUEST_ACCESS_NUMBER)) == 1);
+        config.setRequestAccessNumber(cursor.getInt(cursor
+                .getColumnIndexOrThrow(ConfigEntry.COLUMN_REQUEST_ACCESS_NUMBER)) == 1);
+        config.setIsDefault(cursor.getInt(cursor.getColumnIndexOrThrow(ConfigEntry.COLUMN_IS_DEFAULT)) == 1);
 
         return config;
     }
@@ -127,6 +147,7 @@ public class ConfigsDao {
         values.put(ConfigEntry.COLUMN_RTS, config.getRTS());
         values.put(ConfigEntry.COLUMN_REQUEST_OTP, config.getRequestOtp());
         values.put(ConfigEntry.COLUMN_REQUEST_ACCESS_NUMBER, config.getRequestAccessNumber());
+        values.put(ConfigEntry.COLUMN_IS_DEFAULT, config.isDefault());
 
         return values;
     }

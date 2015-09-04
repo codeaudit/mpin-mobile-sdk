@@ -39,13 +39,17 @@
 #ifndef HTTPCONNECTOR_H_
 #define HTTPCONNECTOR_H_
 
-#include "def.h"
+#include "JNICommon.h"
 #include "Exceptions.h"
 
 
 using namespace std;
 
 namespace net {
+
+	typedef MPinSDK::String String;
+	typedef MPinSDK::StringMap StringMap;
+	typedef MPinSDK::IHttpRequest IHttpRequest;
 
 	class HTTPConnector : public IHttpRequest {
 		public:
@@ -82,8 +86,7 @@ namespace net {
 			HTTPConnector();
 			HTTPConnector(const HTTPConnector &);
 			jobject createJavaMap(const StringMap& map);
-			void convertJHashtable2StringMap(jobject jhashtable, IN OUT StringMap & a_map) throw(IllegalArgumentException);
-			void convertJString2String(const jstring js, IN OUT String & str);
+			void convertJHashtable2StringMap(jobject jhashtable, StringMap & a_map) throw(IllegalArgumentException);
 	};
 }
 

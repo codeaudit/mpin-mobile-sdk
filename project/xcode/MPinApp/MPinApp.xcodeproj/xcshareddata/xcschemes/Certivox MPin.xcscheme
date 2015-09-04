@@ -42,7 +42,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FEA769A71B53B084005557FE"
+               BlueprintIdentifier = "9604B7781B73935B00FF6D6A"
                BuildableName = "Certivox MPin Tests.xctest"
                BlueprintName = "Certivox MPin Tests"
                ReferencedContainer = "container:MPinApp.xcodeproj">
@@ -60,17 +60,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FE49003A1A1A3CEB000030A4"
-               BuildableName = "MPinAppTests.xctest"
-               BlueprintName = "MPinAppTests"
-               ReferencedContainer = "container:MPinApp.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FEA769A71B53B084005557FE"
+               BlueprintIdentifier = "9604B7781B73935B00FF6D6A"
                BuildableName = "Certivox MPin Tests.xctest"
                BlueprintName = "Certivox MPin Tests"
                ReferencedContainer = "container:MPinApp.xcodeproj">

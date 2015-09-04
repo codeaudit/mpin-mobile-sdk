@@ -1,1 +1,0 @@
-PODS_ATMHUD_DHOERL_OTHER_LDFLAGS = -framework "QuartzCore"

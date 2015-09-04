@@ -7,11 +7,14 @@ PATH_TO_CORE	:= ../../../core/crypto
 LOCAL_MODULE    :=  AndroidMpinSDK
 LOCAL_SRC_FILES :=  ../../../../ext/cvshared/cpp/CvString.cpp \
 					../../../../ext/cvshared/cpp/CvXcode.cpp \
-					AndroidMpinSDK.cpp \
+					JNICommon.cpp \
+					JNIMPinSDK.cpp \
+					JNIMPinSDKv2.cpp \
+					JNIUser.cpp \
 					HTTPConnector.cpp \
 					Storage.cpp \
 					Context.cpp \
-					JNICommon.cpp \
+					ContextV2.cpp \
 					$(PATH_TO_CORE)/aes.c \
 					$(PATH_TO_CORE)/big.c \
 					$(PATH_TO_CORE)/clint.h \
@@ -36,6 +39,7 @@ LOCAL_SRC_FILES :=  ../../../../ext/cvshared/cpp/CvString.cpp \
 					$(PATH_TO_CORE)/version.h \
 					\
 					$(PATH_TO_CORE)/../mpin_sdk.cpp \
+					$(PATH_TO_CORE)/../mpin_sdk_v2.cpp \
 					$(PATH_TO_CORE)/../utils.cpp \
 					$(PATH_TO_CORE)/../mpin_crypto_non_tee.cpp
 					
