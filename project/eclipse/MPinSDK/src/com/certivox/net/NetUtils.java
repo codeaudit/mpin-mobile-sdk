@@ -39,7 +39,7 @@ import java.io.InputStreamReader;
 
 public class NetUtils {
 
-    public static String toReadInputStream(InputStream inputStream) throws IOException {
+    public static String readInputStream(InputStream inputStream) throws IOException {
         InputStreamReader inputStreamReader = null;
         try {
             inputStreamReader = new InputStreamReader(inputStream, "UTF-8");

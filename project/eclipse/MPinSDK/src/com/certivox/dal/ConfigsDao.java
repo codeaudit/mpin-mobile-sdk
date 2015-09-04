@@ -210,7 +210,7 @@ public class ConfigsDao {
                     }
                 configurations.add(currentConfig);
             } catch (JSONException e) {
-                e.printStackTrace();
+                //Nothing to do
             }
         }
 

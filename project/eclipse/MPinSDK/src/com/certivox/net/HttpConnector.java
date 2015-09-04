@@ -62,13 +62,11 @@ public class HttpConnector {
             int response = connection.getResponseCode();
             is = connection.getInputStream();
             if (response == 200) {
-                json = new JSONArray(NetUtils.toReadInputStream(connection.getInputStream()));
+                json = new JSONArray(NetUtils.readInputStream(connection.getInputStream()));
             }
         } catch (JSONException exception) {
-            Log.i("HTTP", "Exception extracting json");
             // Nothing to do
         } catch (IOException exception) {
-            Log.i("IOException", "Exception extracting json");
             // Nothing to do
         } finally {
             if (is != null) {
