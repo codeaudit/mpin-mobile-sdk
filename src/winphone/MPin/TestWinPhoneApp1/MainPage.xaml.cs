@@ -27,6 +27,7 @@ using System.Diagnostics;
 using System.Net.NetworkInformation;
 using Windows.ApplicationModel.Resources;
 using Windows.Networking.Connectivity;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -45,6 +46,8 @@ namespace MPinDemo
         public static MainPage Current;
         private DispatcherTimer timer;
         private string parameter = string.Empty;
+        private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+        private static string RunTimeString = "RunTime";
         #endregion // Fields
 
         #region C'tor
@@ -92,6 +95,19 @@ namespace MPinDemo
         {
             if (MainFrame.Content == null)
             {
+                this.parameter = (Window.Current.Content as Frame).GetNavigationData() as string; // get the passed parameter from the extension method
+                this.parameter = string.IsNullOrEmpty(parameter) ? e.Parameter as string : parameter;    // get the passed parameter from the event    
+                object passed = string.IsNullOrEmpty(parameter) ? "InitialLoad" : parameter;
+
+                if (IsTheFirstAppLaunch())
+                {
+                    if (!MainFrame.Navigate(typeof(AppIntro), passed))
+                    {
+                        throw new Exception("Failed to create starup screen");
+                    }
+                    return;
+                }   
+
                 if (!this.IsInternetConnected)
                 {
                     if (!MainFrame.Navigate(typeof(NoNetworkScreen)))
@@ -101,15 +117,25 @@ namespace MPinDemo
                     return;
                 }
 
-                this.parameter = (Window.Current.Content as Frame).GetNavigationData() as string; // get the passed parameter from the extension method
-                this.parameter = string.IsNullOrEmpty(parameter) ? e.Parameter as string : parameter;    // get the passed parameter from the event    
-                
                 // When the navigation stack isn't restored navigate to the main screen; 
                 // if no param passed - we consider to be the initial load and navigate to a screen depending on the last selected user state
-                if (!MainFrame.Navigate(typeof(BlankPage1), string.IsNullOrEmpty(parameter) ? "InitialLoad" : parameter))
+                if (!MainFrame.Navigate(typeof(BlankPage1), passed))
                 {
                     throw new Exception("Failed to create main screen");
                 }
+            }
+        }
+
+        private bool IsTheFirstAppLaunch()
+        {
+            if (!localSettings.Values.Keys.Contains(RunTimeString))
+            {
+                localSettings.Values.Add(RunTimeString, 1);
+                return true;
+            }
+            else
+            {                
+                return false;
             }
         }
 

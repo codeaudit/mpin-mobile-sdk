@@ -113,7 +113,7 @@ namespace MPinDemo
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {   
             rootPage = MainPage.Current;
-            RemoveNoNetworkFrameIfAny();
+            ClearBackStackIfNecessary();
             SetControlsIsEnabled(e.Parameter.ToString());
 
             List<object> data = (Window.Current.Content as Frame).GetNavigationData() as List<object>;
@@ -156,10 +156,12 @@ namespace MPinDemo
 
         #region methods
 
-        private void RemoveNoNetworkFrameIfAny()
+        private void ClearBackStackIfNecessary()
         {
             Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
-            if (mainFrame.BackStack.Count == 1 && (mainFrame.BackStack[0] as PageStackEntry).SourcePageType.Equals(typeof(NoNetworkScreen)))
+            if (mainFrame.BackStack.Count == 1 && 
+                ((mainFrame.BackStack[0] as PageStackEntry).SourcePageType.Equals(typeof(NoNetworkScreen)) ||
+                 (mainFrame.BackStack[0] as PageStackEntry).SourcePageType.Equals(typeof(AppIntro))))
             {
                 mainFrame.BackStack.RemoveAt(mainFrame.BackStack.Count - 1);
             }
