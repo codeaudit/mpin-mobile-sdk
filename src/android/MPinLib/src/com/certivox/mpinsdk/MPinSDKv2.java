@@ -45,7 +45,9 @@ import com.certivox.models.User;
 
 public class MPinSDKv2 implements Closeable {
 
-    public MPinSDKv2(Context context, Map<String, String> config) {
+    public static final String CONFIG_BACKEND = "backend";
+
+	public MPinSDKv2(Context context, Map<String, String> config) {
         mPtr = nConstruct(context, config);
     }
 
