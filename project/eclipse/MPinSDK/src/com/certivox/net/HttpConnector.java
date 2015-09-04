@@ -29,70 +29,57 @@
  * 
  * * Our Statement of Position and Our Promise on Software Patents - http://www.certivox.com/about-certivox/patents/
  ******************************************************************************/
-package com.certivox.activities;
+package com.certivox.net;
 
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
-import com.certivox.constants.IntentConstants;
-import com.certivox.dal.AppInstanceInfoDao;
-import com.certivox.enums.GuideFragmentsEnum;
-import com.certivox.mpinsdk.R;
+import org.json.JSONArray;
+import org.json.JSONException;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-
-
-public class SplashActivity extends ActionBarActivity {
-
-    private AppInstanceInfoDao mInstructionsDao;
+import android.util.Log;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-        mInstructionsDao = new AppInstanceInfoDao(getApplicationContext());
-    }
+public class HttpConnector {
 
+    public static JSONArray getJsonArray(String stringUrl) {
+        InputStream is = null;
+        JSONArray json = null;
+        try {
+            URL url = new URL(stringUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setReadTimeout(10000);
+            connection.setConnectTimeout(15000);
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("connection", "close");
+            connection.setDoInput(true);
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setInitialActivity();
-    }
+            // Starts the query
+            connection.connect();
+            int response = connection.getResponseCode();
+            is = connection.getInputStream();
+            if (response == 200) {
+                json = new JSONArray(NetUtils.readInputStream(connection.getInputStream()));
+            }
+        } catch (JSONException exception) {
+            // Nothing to do
+        } catch (IOException exception) {
+            // Nothing to do
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    // Nothing to do
+                }
 
-
-    private void setInitialActivity() {
-        Intent guideIntent = null;
-        Intent mpinIntent = new Intent(this, MPinActivity.class);
-
-        if (mInstructionsDao.isFirstStart()) {
-            mInstructionsDao.setIsFirstStart(false);
-            guideIntent = new Intent(this, GuideActivity.class);
-            guideIntent.putExtra(IntentConstants.FRAGMENT_LIST, getFirstStartGuideFragments());
+                return json;
+            }
         }
 
-        if (guideIntent != null) {
-            startActivities(new Intent[] {
-                    mpinIntent, guideIntent
-            });
-        } else {
-            startActivity(mpinIntent);
-        }
-
-        finish();
-    }
-
-
-    private ArrayList<GuideFragmentsEnum> getFirstStartGuideFragments() {
-        ArrayList<GuideFragmentsEnum> fragmentList = new ArrayList<GuideFragmentsEnum>();
-        fragmentList.add(GuideFragmentsEnum.FRAGMENT_GD_CREATE_IDENTITY);
-        fragmentList.add(GuideFragmentsEnum.FRAGMENT_GD_CONFIRM_EMAIL);
-        fragmentList.add(GuideFragmentsEnum.FRAGMENT_GD_CREATE_PIN);
-        fragmentList.add(GuideFragmentsEnum.FRAGMENT_GD_READY_TO_GO);
-
-        return fragmentList;
+        return json;
     }
 }

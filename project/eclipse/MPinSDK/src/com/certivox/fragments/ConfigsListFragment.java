@@ -34,10 +34,21 @@ package com.certivox.fragments;
 
 import java.util.List;
 
+import com.certivox.activities.QRReaderActivity;
+import com.certivox.adapters.ConfigurationListAdapter;
+import com.certivox.constants.FragmentTags;
+import com.certivox.constants.IntentConstants;
+import com.certivox.controllers.MPinController;
+import com.certivox.models.Config;
+import com.certivox.mpinsdk.R;
+
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -50,16 +61,10 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.certivox.adapters.ConfigurationListAdapter;
-import com.certivox.constants.FragmentTags;
-import com.certivox.controllers.MPinController;
-import com.certivox.models.Config;
-import com.certivox.mpinsdk.R;
-
 
 public class ConfigsListFragment extends MPinFragment implements OnClickListener, AdapterView.OnItemClickListener {
 
-    private String                   TAG = ConfigsListFragment.class.getCanonicalName();
+    private String TAG = ConfigsListFragment.class.getCanonicalName();
 
     private View                     mView;
     private ListView                 mListView;
@@ -122,6 +127,12 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
         initAdapter();
     }
 
@@ -169,6 +180,9 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
         case R.id.configs_list_delete:
             onDeleteConfig();
             return true;
+        case R.id.configs_scan_qr:
+            startQRCodeScanning();
+            return true;
         default:
             return false;
         }
@@ -189,7 +203,7 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         mSelectedConfiguraionId = view.getId();
-        mAdapter.setSelectedfigurationId(mSelectedConfiguraionId);
+        mAdapter.setSelected(position);
     }
 
 
@@ -201,13 +215,41 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
     }
 
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IntentConstants.QR_CODE_RESULT) {
+            switch (resultCode) {
+            case Activity.RESULT_OK:
+                String url = data.getStringExtra(IntentConstants.QR_CODE_URL);
+                getMPinController().handleQRCodeUrl(url);
+                break;
+            case Activity.RESULT_CANCELED:
+                Log.i(TAG, "RESULT_CANCELED");
+                break;
+            default:
+                break;
+            }
+        }
+    }
+
+
     private void initAdapter() {
         List<Config> listConfigurations = getMPinController().getConfigurationsList();
         mSelectedConfiguraionId = getMPinController().getActiveConfigurationId();
-
-        mAdapter = new ConfigurationListAdapter(getActivity().getApplicationContext(), listConfigurations,
-                mSelectedConfiguraionId);
-
+        int selectedPos = -1;
+        for (int i = 0; i < listConfigurations.size(); i++) {
+            Config config = listConfigurations.get(i);
+            if (config.getId() == mSelectedConfiguraionId) {
+                selectedPos = i;
+            }
+        }
+        if (selectedPos == -1) {
+            mAdapter = new ConfigurationListAdapter(getActivity().getApplicationContext(), listConfigurations);
+        } else {
+            mAdapter = new ConfigurationListAdapter(getActivity().getApplicationContext(), listConfigurations,
+                    selectedPos);
+        }
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(this);
     }
@@ -266,5 +308,11 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
     private void showNoActivatedConfigurationDialog() {
         new AlertDialog.Builder(getActivity()).setTitle("No activated configuration")
                 .setMessage("Please, activate a configuration").setPositiveButton("OK", null).show();
+    }
+
+
+    private void startQRCodeScanning() {
+        Intent startQRCodeActivityIntent = new Intent(getActivity(), QRReaderActivity.class);
+        startActivityForResult(startQRCodeActivityIntent, IntentConstants.QR_CODE_RESULT);
     }
 }
