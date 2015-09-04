@@ -47,8 +47,8 @@ public class MPinSDKv2 implements Closeable {
 
     public static final String CONFIG_BACKEND = "backend";
 
-	public MPinSDKv2(Context context, Map<String, String> config) {
-        mPtr = nConstruct(context, config);
+	public MPinSDKv2() {
+        mPtr = nConstruct();
     }
 
     @Override
@@ -65,6 +65,10 @@ public class MPinSDKv2 implements Closeable {
         super.finalize();
     }
 
+    public Status Init(Map<String, String> config, Context context) {
+    	return nInit(mPtr, config, context);
+    }
+    
     public Status TestBackend(String server) {
         return nTestBackend(mPtr, server);
     }
@@ -163,8 +167,9 @@ public class MPinSDKv2 implements Closeable {
 
     private long mPtr;
 
-    private native long nConstruct(Context context, Map<String, String> config);
+    private native long nConstruct();
     private native void nDestruct(long ptr);
+    private native Status nInit(long ptr, Map<String, String> config, Context context);
     private native Status nTestBackend(long ptr, String server);
     private native Status nTestBackendRPS(long ptr, String server, String rpsPrefix);
     private native Status nSetBackend(long ptr, String server);
