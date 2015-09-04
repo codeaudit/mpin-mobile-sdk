@@ -43,12 +43,12 @@
               deviceName:(const NSString*)devName;
 
 + (void)DeleteUser:(const id<IUser>)user;
-
 + (MpinStatus*)StartRegistration:(const id<IUser>)user;
 + (MpinStatus*)RestartRegistration:(const id<IUser>)user;
 + (MpinStatus*)StartRegistration:(const id<IUser>)user userData:(NSString *) userData;
 + (MpinStatus*)RestartRegistration:(const id<IUser>)user userData:(NSString *) userData;
 + (MpinStatus*)FinishRegistration:(const id<IUser>)user;
++ (MpinStatus*) RegisterUserBySMS:(NSString* ) mpinId activationKey:(NSString *) activationKey;
 
 + (MpinStatus*)Authenticate:(const id<IUser>)user;
 + (MpinStatus*)Authenticate:(const id<IUser>)user authResultData:(NSString **)authResultData;

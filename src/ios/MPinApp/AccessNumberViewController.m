@@ -64,7 +64,7 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
     [[NSNotificationCenter defaultCenter] removeObserver:self
      name:kShowPinPadNotification
      object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad: ) name:kShowPinPadNotification object:nil];
     _lblEmail.text = _strEmail;
     _txtAN.text = @"";
     [_txtAN setBottomBorder:[[SettingsManager sharedManager] color7] width:2.f alpha:.5f];
@@ -158,9 +158,12 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
     [MPin sendPin:kEmptyStr];
 }
 
+
+
+
 #pragma mark - NSNotification handlers -
 
-- ( void )showPinPad
+- ( void )showPinPad:(NSNotification *)notification
 {
     [[ErrorHandler sharedManager] hideMessage];
     PinPadViewController *pinpadViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"pinpad"];

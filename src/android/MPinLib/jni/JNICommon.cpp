@@ -39,6 +39,7 @@
 #include "JNICommon.h"
 #include "JNIUser.h"
 #include "JNIMPinSDK.h"
+#include "JNIMPinSDKv2.h"
 
 static JavaVM * g_jvm;
 
@@ -58,6 +59,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved)
 	JNIEnv* env = JNI_getJENV();
 
 	RegisterMPinSDKJNI(env);
+	RegisterMPinSDKv2JNI(env);
 	RegisterUserJNI(env);
 
 	return JNI_VERSION_1_6;

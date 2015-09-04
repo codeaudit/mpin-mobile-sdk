@@ -37,7 +37,7 @@
 
 static NSString *const kEmpty = @"";
 static NSString *const kMpinStatus = @"MpinStatus";
-static NSString *const kUser = @"User";
+
 
 @interface AddIdentityViewController ( ) {
     MPin *sdk;
@@ -87,11 +87,13 @@ static NSString *const kUser = @"User";
     [[ThemeManager sharedManager] beautifyViewController:self];
 }
 
-- ( void )viewDidAppear:( BOOL )animated
-{
+- ( void )viewDidAppear:( BOOL )animated{
     [super viewDidAppear:animated];
     [self registerObservers];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector( showPinPad: )
+                                                 name:kShowPinPadNotification
+                                               object:nil];
 }
 
 - ( void )viewWillDisappear:( BOOL )animated
@@ -102,7 +104,7 @@ static NSString *const kUser = @"User";
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
 }
 
-- ( void )showPinPad
+- ( void )showPinPad:(NSNotification *)notification
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     PinPadViewController *pinpadViewController = [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];
