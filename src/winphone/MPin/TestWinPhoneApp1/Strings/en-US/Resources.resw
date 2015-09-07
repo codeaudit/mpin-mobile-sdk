@@ -450,4 +450,37 @@ Unsuccessfull authentication!</value>
     <value>Overwrite the URL for the active service?
 All existing identities will be deleted.</value>
   </data>
+  <data name="NoNetworkMessage.Text" xml:space="preserve">
+    <value>No Internet Connection! This screen will close automatically once a connection has been detected.</value>
+  </data>
+  <data name="NoNetworkTitle.Text" xml:space="preserve">
+    <value>NO NETWORK</value>
+  </data>
+  <data name="NoConnection" xml:space="preserve">
+    <value>No Internet Connection</value>
+  </data>
+  <data name="UserNotConfirmed" xml:space="preserve">
+    <value>User is still not confirmed!</value>
+  </data>
+  <data name="EmailSent" xml:space="preserve">
+    <value>Please, check your e-mail and follow the activation link!</value>
+  </data>
+  <data name="DoneButton.Content" xml:space="preserve">
+    <value>DONE</value>
+  </data>
+  <data name="IntroCreate.Text" xml:space="preserve">
+    <value>Create an identity</value>
+  </data>
+  <data name="IntroEnterEmail.Text" xml:space="preserve">
+    <value>Enter your email address to register</value>
+  </data>
+  <data name="IntroTitle.Text" xml:space="preserve">
+    <value>Setup your phone to use M-Pin</value>
+  </data>
+  <data name="NextButton.Content" xml:space="preserve">
+    <value> &gt; </value>
+  </data>
+  <data name="SkipButton.Content" xml:space="preserve">
+    <value>SKIP</value>
+  </data>
 </root>

@@ -39,23 +39,27 @@
 
 typedef sdkv2::Context Context;
 
-static jlong nConstruct(JNIEnv* env, jobject jobj, jobject jcontext, jobject jconfig)
+static jlong nConstruct(JNIEnv* env, jobject jobj)
 {
-	MPinSDKv2::StringMap config;
-	if(jconfig)
-	{
-		ReadJavaMap(env, jconfig, config);
-	}
-	MPinSDKv2* sdk = new MPinSDKv2();
-	MPinSDKv2::Status s = sdk->Init(config, Context::Instance(jcontext));
-	LOGI("Init status %d: '%s'", s.GetStatusCode(), s.GetErrorMessage().c_str());
-	return (jlong) sdk;
+	return (jlong) new MPinSDKv2();
 }
 
 static void nDestruct(JNIEnv* env, jobject jobj, jlong jptr)
 {
 	MPinSDKv2* sdk = (MPinSDKv2*) jptr;
 	delete sdk;
+}
+
+static jobject nInit(JNIEnv* env, jobject jobj, jlong jptr, jobject jconfig, jobject jcontext)
+{
+	MPinSDKv2::StringMap config;
+	if(jconfig)
+	{
+		ReadJavaMap(env, jconfig, config);
+	}
+
+	MPinSDKv2* sdk = (MPinSDKv2*) jptr;
+	return MakeJavaStatus(env, sdk->Init(config, Context::Instance(jcontext)));
 }
 
 static jobject nTestBackend(JNIEnv* env, jobject jobj, jlong jptr, jstring jserver)
@@ -233,8 +237,9 @@ static jstring nGetClientParam(JNIEnv* env, jobject jobj, jlong jptr, jstring jk
 
 static JNINativeMethod g_methodsMPinSDKv2[] =
 {
-	NATIVE_METHOD(nConstruct, "(Landroid/content/Context;Ljava/util/Map;)J"),
+	NATIVE_METHOD(nConstruct, "()J"),
 	NATIVE_METHOD(nDestruct, "(J)V"),
+	NATIVE_METHOD(nInit, "(JLjava/util/Map;Landroid/content/Context;)Lcom/certivox/models/Status;"),
 	NATIVE_METHOD(nTestBackend, "(JLjava/lang/String;)Lcom/certivox/models/Status;"),
 	NATIVE_METHOD(nTestBackendRPS, "(JLjava/lang/String;Ljava/lang/String;)Lcom/certivox/models/Status;"),
 	NATIVE_METHOD(nSetBackend, "(JLjava/lang/String;)Lcom/certivox/models/Status;"),

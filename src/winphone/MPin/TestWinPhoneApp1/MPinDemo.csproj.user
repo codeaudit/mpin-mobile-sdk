@@ -14,11 +14,11 @@
     <BackgroundTaskDebugEngines>{92EF0900-2251-11D2-B72E-0000F87572EF}</BackgroundTaskDebugEngines>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
-    <DeviceId>30F105C9-681E-420b-A277-7C086EAD8A4E</DeviceId>
+    <DeviceId>BC33F59A-75C2-482D-A3EB-5B80CD5F0DDE</DeviceId>
     <DebugEngines>{2E36F1D4-B23C-435D-AB41-18E608940038}</DebugEngines>
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
     <BackgroundTaskDebugEngines>{2E36F1D4-B23C-435D-AB41-18E608940038}</BackgroundTaskDebugEngines>
-    <CreateCleanLayout>true</CreateCleanLayout>
+    <CreateCleanLayout>false</CreateCleanLayout>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectView>ShowAllFiles</ProjectView>

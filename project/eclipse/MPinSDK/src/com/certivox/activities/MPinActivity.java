@@ -33,6 +33,7 @@ package com.certivox.activities;
 
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.FeedbackManager;
@@ -59,6 +60,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.certivox.constants.FragmentTags;
+import com.certivox.constants.IntentConstants;
 import com.certivox.controllers.MPinController;
 import com.certivox.fragments.AboutFragment;
 import com.certivox.fragments.AccessNumberFragment;
@@ -226,6 +228,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     }
 
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean handleMessage(Message msg) {
         switch (msg.what) {
@@ -313,6 +316,12 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
             return true;
         case MPinController.MESSAGE_NO_INTERNET_ACCESS:
             showNoInternetAccessToast();
+            return true;
+        case MPinController.MESSAGE_IMPORT_NEW_CONFIGURATIONS:
+            onImportNewConfiguration((ArrayList<Config>) msg.obj);
+            return true;
+        case MPinController.MESSAGE_ERROR_READING_QR:
+            showErrorReadingQrDialog();
             return true;
         }
         return false;
@@ -536,6 +545,14 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     }
 
 
+    private void onImportNewConfiguration(ArrayList<Config> configs) {
+        Intent startIntent = new Intent(this, ImportConfigsActivity.class);
+        startIntent.setAction(Intent.ACTION_PICK);
+        startIntent.putExtra(IntentConstants.EXTRA_CONFIGS_LIST, configs);
+        startActivity(startIntent);
+    }
+
+
     private void goBack() {
         super.onBackPressed();
     }
@@ -653,6 +670,13 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     private void showInvalidUserDialog() {
         new AlertDialog.Builder(this).setTitle(getString(R.string.error_dialog_title))
                 .setMessage(getString(R.string.user_not_authorized))
+                .setPositiveButton(getString(R.string.button_ok), null).show();
+    }
+
+
+    private void showErrorReadingQrDialog() {
+        new AlertDialog.Builder(this).setTitle(getString(R.string.read_qr_error_title))
+                .setMessage(getString(R.string.read_qr_error_content))
                 .setPositiveButton(getString(R.string.button_ok), null).show();
     }
 

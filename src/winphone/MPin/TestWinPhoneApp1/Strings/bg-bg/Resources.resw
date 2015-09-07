@@ -444,4 +444,37 @@
     <value>Избрали сте да презапишете адреса на активната конфигурация.
 Ако продължите, всички съществуващи потребители ще бъдат изтрити.</value>
   </data>
+  <data name="NoNetworkMessage.Text" xml:space="preserve">
+    <value>Няма достъп до Интернет мрежа! Този екран автоматично ще се затвори когато достъпа бъде възстановен.</value>
+  </data>
+  <data name="NoNetworkTitle.Text" xml:space="preserve">
+    <value>НЕВАЛИДНА МРЕЖА</value>
+  </data>
+  <data name="NoConnection" xml:space="preserve">
+    <value>Няма връзка с Интернет</value>
+  </data>
+  <data name="UserNotConfirmed" xml:space="preserve">
+    <value>Самоличността все още не е потвърдена!</value>
+  </data>
+  <data name="EmailSent" xml:space="preserve">
+    <value>Моля, проверете си пощата и следвайте инструкциите за активиране!</value>
+  </data>
+  <data name="DoneButton.Content" xml:space="preserve">
+    <value>ГОТОВО</value>
+  </data>
+  <data name="IntroCreate.Text" xml:space="preserve">
+    <value>Създаване на профил</value>
+  </data>
+  <data name="IntroEnterEmail.Text" xml:space="preserve">
+    <value>Въведете адрес на поща за регистрация</value>
+  </data>
+  <data name="IntroTitle.Text" xml:space="preserve">
+    <value>Настройки на телефона за да използва M-Pin</value>
+  </data>
+  <data name="NextButton.Content" xml:space="preserve">
+    <value> &gt; </value>
+  </data>
+  <data name="SkipButton.Content" xml:space="preserve">
+    <value>ПРОПУСНИ</value>
+  </data>
 </root>
