@@ -51,6 +51,8 @@ static NSString *const kSelectedUser = @"SELECTED_USER";
 static NSString *const kConfigHashValue = @"hashValue";
 static NSString *const kDefConfigThreshold = @"DefConfigThreshold";
 static NSString *const kSelectedConfiguration = @"SelectedConfiguration";
+static NSString *const kUser = @"USER";
+
 
 /// BEGIN JSON CONFIG FROM SERVER
 static NSString *const kJSON_URL = @"url";
@@ -61,7 +63,16 @@ static NSString *const kJSON_PREFIX = @"prefix";
 static NSString *const kJSON_TYPE_OTP = @"otp";
 static NSString *const kJSON_TYPE_MOBILE = @"mobile";
 static NSString *const kJSON_TYPE_ONLINE = @"online";
+
 //// END
+
+///// MESSAGE PARAMETER LIST
+static NSString *const kMpinId = @"mpinId";
+static NSString *const kActivationKey = @"activationKey";
+static NSString *const kSafariID = @"com.apple.mobilesafari";
+
+///// END
+
 
 
 static NSString *const kDeviceName = @"setDeviceName";
@@ -81,5 +92,23 @@ enum SERVICES
     LOGIN_ONLINE    = 1,
     LOGIN_WITH_OTP  = 2
 };
+
+
+//// HELP  DATA
+static NSString *const kHelpTitle = @"Title";
+static NSString *const kHelpImage = @"image";
+static NSString *const kHelpSubTitle = @"subtitle";
+static NSString *const kHelpDescription = @"description";
+
+static NSString *const kHelpFile = @"Help";
+
+static NSString *const kFirstTimeLaunch = @"first_app_start";
+static NSString *const kQuickStartGuide = @"quick_menu_item";
+static NSString *const kMpinServerGuide = @"server_settings";
+static NSString *const kAddIdentityGuide = @"add_id_guide";
+
+static NSString *const kAppUserGuideForMPINConnect = @"M-Pin Connect";
+
+//// END
 
 #endif

@@ -39,9 +39,13 @@
 #ifndef CONTEXT_H_
 #define CONTEXT_H_
 
-#include "def.h"
+#include "JNICommon.h"
 
 namespace sdk {
+
+typedef MPinSDK::IContext IContext;
+typedef MPinSDK::IHttpRequest IHttpRequest;
+typedef MPinSDK::IStorage IStorage;
 
 class Context: public IContext, public MPinSDK::IPinPad {
 public:

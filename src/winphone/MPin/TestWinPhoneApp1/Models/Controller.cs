@@ -43,8 +43,8 @@ namespace MPinDemo.Models
         private const string DefautRpsPrefix = "rps";
         private const string ConfigBackend = "backend";
         private bool skipProcessing;
-        private CoreDispatcher dispatcher;
-        private MainPage rootPage = null;
+        private static CoreDispatcher dispatcher;
+        private static MainPage rootPage = null;
         private int selectedServicesIndex = -1;
 
         private static MPin sdk;
@@ -117,7 +117,6 @@ namespace MPinDemo.Models
         /// <param name="e">The <see cref="System.ComponentModel.PropertyChangedEventArgs"/> instance containing the event data.</param>
         async void DataModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            // TODO: check for memory leaks - http://stackoverflow.com/questions/12133551/c-sharp-events-memory-leak
             switch (e.PropertyName)
             {
                 case "CurrentService":
@@ -452,7 +451,7 @@ namespace MPinDemo.Models
             }
         }
 
-        private async Task<Status> Finish(User user)
+        private static async Task<Status> Finish(User user)
         {
             Status st = null;
             await Task.Factory.StartNew(() =>
@@ -534,33 +533,13 @@ namespace MPinDemo.Models
             }
         }
 
-        private async Task ShowCreatingNewIdentity(User user, Status reason)
+      
+        internal static async Task<Status> OnEmailConfirmed(User user)
         {
-            Status s = null;
-            if (user != null && user.UserState == User.State.StartedRegistration)
-            {
-                s = await OnEmailConfirmed();
-            }
-
-            string errorMsg = s == null
-                ? string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblem"), user.Id, user.UserState)
-                : s.StatusCode != Status.Code.OK ? string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblemReason"), user.Id, s.ErrorMessage) : string.Empty;
-
-            if (!string.IsNullOrEmpty(errorMsg))
-            {
-                await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    rootPage.NotifyUser(errorMsg, MainPage.NotifyType.ErrorMessage);
-                });
-            }
-        }
-
-        private async Task<Status> OnEmailConfirmed()
-        {
-            Debug.Assert(this.DataModel.CurrentUser.UserState == User.State.StartedRegistration);
+            Debug.Assert(user.UserState == User.State.StartedRegistration);
             Task.WaitAll();
 
-            return await Finish(this.DataModel.CurrentUser);
+            return await Finish(user);
         }
 
         internal static bool IfUserExists(string id)
@@ -684,10 +663,6 @@ namespace MPinDemo.Models
                     if (parameter == null || string.IsNullOrEmpty(parameter.ToString()))
                     {
                         await NotConfirmedIdentity();
-                    }
-                    else
-                    {
-                        await ShowCreatingNewIdentity(this.DataModel.CurrentUser, null);
                     }
                     break;
 

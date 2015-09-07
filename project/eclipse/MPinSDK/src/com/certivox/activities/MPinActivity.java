@@ -33,6 +33,7 @@ package com.certivox.activities;
 
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.FeedbackManager;
@@ -59,6 +60,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.certivox.constants.FragmentTags;
+import com.certivox.constants.IntentConstants;
 import com.certivox.controllers.MPinController;
 import com.certivox.fragments.AboutFragment;
 import com.certivox.fragments.AccessNumberFragment;
@@ -98,15 +100,17 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     private ActivityStates        mActivityLifecycleState;
 
     // Views
-    private DrawerLayout          mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar               mToolbar;
     private RelativeLayout        mLoader;
-    private TextView              mDrawerSubtitle;
+    private DrawerLayout          mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private TextView              mDrawerActiveServiceTextView;
+    private TextView              mDrawerActiveServiceUrlTextView;
     private TextView              mChangeIdentityButton;
     private TextView              mChangeServiceButton;
     private TextView              mAboutButton;
     private TextView              mQuickStartGuideButton;
+    private TextView              mMPinServerGuideButton;
     private TextView              mNoInternetConnectionTitle;
     private Toast                 mNoInternetToast;
     private BroadcastReceiver     mNetworkConectivityReceiver;
@@ -200,6 +204,9 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         case R.id.quick_start_guide:
             mController.handleMessage(MPinController.MESSAGE_ON_QUICK_START_GUIDE);
             break;
+        case R.id.m_pin_server_guide:
+            mController.handleMessage(MPinController.MESSAGE_ON_MPIN_SERVER_GUIDE);
+            break;
         default:
             return;
         }
@@ -221,6 +228,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     }
 
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean handleMessage(Message msg) {
         switch (msg.what) {
@@ -309,6 +317,12 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         case MPinController.MESSAGE_NO_INTERNET_ACCESS:
             showNoInternetAccessToast();
             return true;
+        case MPinController.MESSAGE_IMPORT_NEW_CONFIGURATIONS:
+            onImportNewConfiguration((ArrayList<Config>) msg.obj);
+            return true;
+        case MPinController.MESSAGE_ERROR_READING_QR:
+            showErrorReadingQrDialog();
+            return true;
         }
         return false;
     }
@@ -336,7 +350,8 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     private void freeResources() {
         mActivity = null;
         mController = null;
-        mDrawerSubtitle = null;
+        mDrawerActiveServiceTextView = null;
+        mDrawerActiveServiceUrlTextView = null;
         mDrawerToggle = null;
         mDrawerLayout = null;
         mToolbar = null;
@@ -344,19 +359,22 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         mChangeServiceButton = null;
         mAboutButton = null;
         mQuickStartGuideButton = null;
+        mMPinServerGuideButton = null;
         mLoader = null;
         mControllerHandler = null;
     }
 
 
     private void initViews() {
-        mDrawerSubtitle = (TextView) findViewById(R.id.drawer_subtitle);
+        mDrawerActiveServiceTextView = (TextView) findViewById(R.id.active_service_id);
+        mDrawerActiveServiceUrlTextView = (TextView) findViewById(R.id.active_service_url_id);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mChangeIdentityButton = (TextView) findViewById(R.id.change_identitiy);
         mChangeServiceButton = (TextView) findViewById(R.id.change_service);
         mAboutButton = (TextView) findViewById(R.id.about);
         mQuickStartGuideButton = (TextView) findViewById(R.id.quick_start_guide);
+        mMPinServerGuideButton = (TextView) findViewById(R.id.m_pin_server_guide);
         mLoader = (RelativeLayout) findViewById(R.id.loader);
         mNoInternetConnectionTitle = (TextView) findViewById(R.id.no_network_connection_message_id);
     }
@@ -423,15 +441,20 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         if (mQuickStartGuideButton != null) {
             mQuickStartGuideButton.setOnClickListener(this);
         }
+        if ((mMPinServerGuideButton != null)) {
+            mMPinServerGuideButton.setOnClickListener(this);
+        }
     }
 
 
     private void setDrawerTitle() {
         Config config = mController.getActiveConfiguration();
         if (config != null) {
-            String title = config.getTitle();
-            if (mDrawerSubtitle != null) {
-                mDrawerSubtitle.setText(title);
+            if (mDrawerActiveServiceTextView != null) {
+                mDrawerActiveServiceTextView.setText(config.getTitle());
+            }
+            if (mDrawerActiveServiceUrlTextView != null) {
+                mDrawerActiveServiceUrlTextView.setText(config.getBackendUrl());
             }
         }
     }
@@ -519,6 +542,14 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         }
 
         return fragment;
+    }
+
+
+    private void onImportNewConfiguration(ArrayList<Config> configs) {
+        Intent startIntent = new Intent(this, ImportConfigsActivity.class);
+        startIntent.setAction(Intent.ACTION_PICK);
+        startIntent.putExtra(IntentConstants.EXTRA_CONFIGS_LIST, configs);
+        startActivity(startIntent);
     }
 
 
@@ -639,6 +670,13 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
     private void showInvalidUserDialog() {
         new AlertDialog.Builder(this).setTitle(getString(R.string.error_dialog_title))
                 .setMessage(getString(R.string.user_not_authorized))
+                .setPositiveButton(getString(R.string.button_ok), null).show();
+    }
+
+
+    private void showErrorReadingQrDialog() {
+        new AlertDialog.Builder(this).setTitle(getString(R.string.read_qr_error_title))
+                .setMessage(getString(R.string.read_qr_error_content))
                 .setPositiveButton(getString(R.string.button_ok), null).show();
     }
 

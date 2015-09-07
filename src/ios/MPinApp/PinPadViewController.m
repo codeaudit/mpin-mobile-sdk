@@ -152,6 +152,9 @@ static NSMutableArray *kCircles;
     [MPin sendPin:self.strNumber];
     [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
     NSLog(@"sendPIN: %@", self.strNumber);
+    if (self.boolIsSMS) {
+        [self popToRoot];
+    }
 }
 
 - ( IBAction )clearAction:( id )sender

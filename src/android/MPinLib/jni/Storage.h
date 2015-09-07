@@ -39,9 +39,12 @@
 #ifndef STORAGE_H_
 #define STORAGE_H_
 
-#include "def.h"
+#include "JNICommon.h"
 
 namespace store {
+
+typedef MPinSDK::IStorage IStorage;
+typedef MPinSDK::String String;
 
 class Storage: public IStorage {
 	public:

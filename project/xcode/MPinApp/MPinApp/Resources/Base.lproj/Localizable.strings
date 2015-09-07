@@ -7,7 +7,9 @@
 /* menu */
 "MENUVC_OPTION_0" = "IDENTITY LIST";
 "MENUVC_OPTION_1" = "CONFIGURATION LIST";
-"MENUVC_OPTION_2" = "ABOUT";
+"MENUVC_OPTION_2" = "Quick Start Guide";
+"MENUVC_OPTION_3" = "Get your own M-Pin Server";
+"MENUVC_OPTION_4" = "ABOUT";
 
 /* User list */
 "USERLISTVC_TITLE" = "Identity List";

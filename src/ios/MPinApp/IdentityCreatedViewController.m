@@ -28,6 +28,7 @@
 #import "AccountSummaryViewController.h"
 #import "ThemeManager.h"
 #import "MFSideMenu.h"
+#import "HelpViewController.h"
 
 @interface IdentityCreatedViewController ( ) {
     MPin *sdk;
@@ -64,7 +65,7 @@
 - ( void )viewDidAppear:( BOOL )animated
 {
     [super viewDidAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad: ) name:kShowPinPadNotification object:nil];
 }
 
 - ( void )viewWillDisappear:( BOOL )animated
@@ -157,7 +158,7 @@
 
 #pragma mark - My methods -
 
-- ( void )showPinPad
+- ( void )showPinPad:(NSNotification *)notification
 {
     [[ErrorHandler sharedManager] hideMessage];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
@@ -204,6 +205,14 @@
 
 - ( IBAction )gotoIDList:( id )sender
 {
+    if([[ConfigurationManager sharedManager] isFirstTimeAddIdentity] ) {
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:kHelpFile ofType:@"plist"];
+        NSDictionary *menuData = [[NSDictionary alloc] initWithContentsOfFile:filePath];
+        HelpViewController * helpControler  = [self.storyboard instantiateViewControllerWithIdentifier:@"helpcontroller"];
+        helpControler.dataSource = [menuData objectForKey:kAddIdentityGuide];
+        [self presentViewController:helpControler animated:NO completion:nil];
+    }
+
     [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
     NSDictionary *config = [[ConfigurationManager sharedManager] getSelectedConfiguration];
     [self startAuthenticationFlow:self.user forService:[config [kSERVICE_TYPE] intValue]];

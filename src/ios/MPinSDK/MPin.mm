@@ -133,6 +133,20 @@ typedef sdk::Context Context;
     return [[MpinStatus alloc] initWith:(MPinStatus)s.GetStatusCode() errorMessage:[NSString stringWithUTF8String:s.GetErrorMessage().c_str()]];
 }
 
++ (MpinStatus*) RegisterUserBySMS:(NSString* ) mpinId activationKey:(NSString *) activationKey {
+    NSError *error = nil;
+    NSDictionary *mpinIdJSON = [NSJSONSerialization JSONObjectWithData:[mpinId dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
+    if(error != nil)
+        return [[MpinStatus alloc] initWith:RESPONSE_PARSE_ERROR errorMessage:[NSString stringWithFormat:@"Failed to parse mpinId json: %@", mpinId]];
+    
+    NSString * userID = mpinIdJSON[@"userID"];
+    User* userPtr = [MPin MakeNewUser:userID];
+    [lock lock];
+    Status s = mpin.RegisterUserBySMS([userPtr getUserPtr], [mpinId UTF8String], [activationKey UTF8String]);
+    [lock unlock];
+    return [[MpinStatus alloc] initWith:(MPinStatus)s.GetStatusCode() errorMessage:[NSString stringWithUTF8String:s.GetErrorMessage().c_str()]];
+}
+
 + (MpinStatus*) FinishRegistration:(const id<IUser>) user {
     [lock lock];
     Status s = mpin.FinishRegistration([((User *) user) getUserPtr]);

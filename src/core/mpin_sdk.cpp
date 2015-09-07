@@ -858,7 +858,49 @@ Status MPinSDK::RequestRegistration(UserPtr user, const String& userData)
     return Status(Status::OK);
 }
 
-Status MPinSDK::FinishRegistration(UserPtr user)
+Status MPinSDK::RegisterUserBySMS(UserPtr user, const String& mpinId, const String &  activationKey)
+{
+    Status s = CheckIfBackendIsSet();
+    if(s != Status::OK)
+    {
+        return s;
+    }
+
+    s = CheckUserState(user, User::INVALID);
+    if(s != Status::OK)
+    {
+        return s;
+    }
+    
+    String url = m_clientSettings.GetStringParam("mobileVerifyURL");
+    
+    util::JsonObject body;
+    body["mpin_id"] = json::String(mpinId);
+    body["activate_key"] = json::String(activationKey);
+    
+    HttpResponse response = MakeRequest(url, IHttpRequest::POST, body);
+    
+    if(response.GetStatus() != HttpResponse::HTTP_OK)
+    {
+        Status s;
+        s.SetStatusCode(Status::IDENTITY_NOT_VERIFIED);
+        s.SetErrorMessage("Identity not verified");
+        return s;
+    }
+
+    String regOTT = response.GetJsonData().GetStringParam("regOTT");
+
+    user->SetStartedRegistration(mpinId, regOTT);
+    AddUser(user);
+    s = WriteUsersToStorage();
+    if(s != Status::OK) {
+        return s;
+    }
+    
+    return FinishRegistration(user);
+}
+
+Status MPinSDK::FinishRegistration(UserPtr user, const String & pushMessageIdentifier)
 {
     Status s = CheckIfBackendIsSet();
     if(s != Status::OK)
@@ -886,6 +928,10 @@ Status MPinSDK::FinishRegistration(UserPtr user)
     String regOTT = user->GetRegOTT();
 
     String url = String().Format("%s/%s?regOTT=%s", m_clientSettings.GetStringParam("signatureURL"), mpinIdHex.c_str(), regOTT.c_str());
+    if(pushMessageIdentifier != "") {
+        url = url + "&pmiToken=" + pushMessageIdentifier;
+    }
+    
     HttpResponse response = MakeGetRequest(url);
     if(response.GetStatus() != HttpResponse::HTTP_OK)
     {

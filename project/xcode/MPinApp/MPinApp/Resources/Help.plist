@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>first_app_start</key>
+	<array>
+		<dict>
+			<key>Title</key>
+			<string>Setup your phone to use M-Pin</string>
+			<key>image</key>
+			<string></string>
+			<key>subtitle</key>
+			<string>Create an identity</string>
+			<key>description</key>
+			<string>Enter your email address to register.</string>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Setup your phone to use M-Pin</string>
+			<key>image</key>
+			<string></string>
+			<key>subtitle</key>
+			<string>Confirm your email</string>
+			<key>description</key>
+			<string>Click the link in the email and you are ready to choose your PIN.</string>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Setup your phone to use M-Pin</string>
+			<key>image</key>
+			<string></string>
+			<key>subtitle</key>
+			<string>Create your PIN</string>
+			<key>description</key>
+			<string>It&apos;s much simpler than a password and more secure.</string>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Setup your phone to use M-Pin</string>
+			<key>image</key>
+			<string></string>
+			<key>subtitle</key>
+			<string>You are ready to go!</string>
+			<key>description</key>
+			<string>You can now use your M-Pin identity any time you want.</string>
+		</dict>
+	</array>
+	<key>server_settings</key>
+	<array>
+		<dict>
+			<key>Title</key>
+			<string>Get your own M-Pin Server</string>
+			<key>image</key>
+			<string></string>
+			<key>subtitle</key>
+			<string>Download and setup your own M-Pin Server</string>
+			<key>description</key>
+			<string>Visit certivox.com/products, choose from M-Pin Core or M-Pin SSO, then follow the online installation instructions.</string>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Get your own M-Pin Server</string>
+			<key>image</key>
+			<string></string>
+			<key>subtitle</key>
+			<string>Add your server to this app</string>
+			<key>description</key>
+			<string>Simply hit “+” on the next screen then enter the name and URL of your M-Pin Server and you are ready to authenticate to your service using this app.</string>
+		</dict>
+	</array>
+	<key>quick_menu_item</key>
+	<array>
+		<dict>
+			<key>Title</key>
+			<string>Setup your phone to use M-Pin</string>
+			<key>image</key>
+			<string></string>
+			<key>subtitle</key>
+			<string>Create an identity</string>
+			<key>description</key>
+			<string>Enter your email address to register.</string>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Setup your phone to use M-Pin</string>
+			<key>image</key>
+			<string></string>
+			<key>subtitle</key>
+			<string>Confirm your email</string>
+			<key>description</key>
+			<string>Click the link in the email and you are ready to choose your PIN.</string>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Setup your phone to use M-Pin</string>
+			<key>image</key>
+			<string></string>
+			<key>subtitle</key>
+			<string>Create your PIN</string>
+			<key>description</key>
+			<string>It&apos;s much simpler than a password and more secure.</string>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Setup your phone to use M-Pin</string>
+			<key>image</key>
+			<string></string>
+			<key>subtitle</key>
+			<string>You are ready to go!</string>
+			<key>description</key>
+			<string>You can now use your M-Pin identity any time you want.</string>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Login to the Certivox community</string>
+			<key>image</key>
+			<string></string>
+			<key>subtitle</key>
+			<string>Get your Access Number</string>
+			<key>description</key>
+			<string>Login to discuss.certivox.com on your desktop browser and choose &quot;Sign in with phone&quot;.</string>
+		</dict>
+	</array>
+	<key>add_id_guide</key>
+	<array>
+		<dict>
+			<key>Title</key>
+			<string>Login to the Certivox community</string>
+			<key>image</key>
+			<string></string>
+			<key>subtitle</key>
+			<string>Get your Access Number</string>
+			<key>description</key>
+			<string>Login to discuss.certivox.com on your desktop browser and choose &quot;Sign in with phone&quot;.</string>
+		</dict>
+	</array>
+</dict>
+</plist>

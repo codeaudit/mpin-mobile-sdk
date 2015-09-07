@@ -309,6 +309,18 @@
 		FE148D6C1A2F13D0007E83EF /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE148D601A2F13D0007E83EF /* AppDelegate.mm */; };
 		FE148D6F1A2F13D0007E83EF /* PinPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE148D661A2F13D0007E83EF /* PinPadViewController.m */; };
 		FE148D701A2F13D0007E83EF /* UserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE148D681A2F13D0007E83EF /* UserListViewController.m */; };
+		FE160C1C1B946EBF00138EC3 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE160C1B1B946EBF00138EC3 /* HelpViewController.m */; };
+		FE160C1D1B946EBF00138EC3 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE160C1B1B946EBF00138EC3 /* HelpViewController.m */; };
+		FE160C1E1B946EBF00138EC3 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE160C1B1B946EBF00138EC3 /* HelpViewController.m */; };
+		FE160C1F1B946EBF00138EC3 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE160C1B1B946EBF00138EC3 /* HelpViewController.m */; };
+		FE160C221B947F7200138EC3 /* Help.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE160C211B947F7200138EC3 /* Help.plist */; };
+		FE160C231B947F7200138EC3 /* Help.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE160C211B947F7200138EC3 /* Help.plist */; };
+		FE160C241B947F7200138EC3 /* Help.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE160C211B947F7200138EC3 /* Help.plist */; };
+		FE160C251B947F7200138EC3 /* Help.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE160C211B947F7200138EC3 /* Help.plist */; };
+		FE160C291B972B4E00138EC3 /* MenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = FE160C281B972B4E00138EC3 /* MenuItem.m */; };
+		FE160C2A1B972B4E00138EC3 /* MenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = FE160C281B972B4E00138EC3 /* MenuItem.m */; };
+		FE160C2B1B972B4E00138EC3 /* MenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = FE160C281B972B4E00138EC3 /* MenuItem.m */; };
+		FE160C2C1B972B4E00138EC3 /* MenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = FE160C281B972B4E00138EC3 /* MenuItem.m */; };
 		FE298B7B1B3ABBD80071E6B3 /* QRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE298B7A1B3ABBD80071E6B3 /* QRViewController.m */; };
 		FE298B7C1B3ABBD80071E6B3 /* QRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE298B7A1B3ABBD80071E6B3 /* QRViewController.m */; };
 		FE298B7D1B3ABBD80071E6B3 /* QRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE298B7A1B3ABBD80071E6B3 /* QRViewController.m */; };
@@ -469,6 +481,11 @@
 		FE148D661A2F13D0007E83EF /* PinPadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PinPadViewController.m; path = ../../../../src/ios/MPinApp/PinPadViewController.m; sourceTree = "<group>"; };
 		FE148D671A2F13D0007E83EF /* UserListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserListViewController.h; path = ../../../../src/ios/MPinApp/UserListViewController.h; sourceTree = "<group>"; };
 		FE148D681A2F13D0007E83EF /* UserListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserListViewController.m; path = ../../../../src/ios/MPinApp/UserListViewController.m; sourceTree = "<group>"; };
+		FE160C1A1B946EBF00138EC3 /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HelpViewController.h; path = ../../../../src/ios/MPinApp/HelpViewController.h; sourceTree = "<group>"; };
+		FE160C1B1B946EBF00138EC3 /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HelpViewController.m; path = ../../../../src/ios/MPinApp/HelpViewController.m; sourceTree = "<group>"; };
+		FE160C211B947F7200138EC3 /* Help.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Help.plist; sourceTree = "<group>"; };
+		FE160C271B972B4E00138EC3 /* MenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuItem.h; path = ../../../../src/ios/MPinApp/MenuItem.h; sourceTree = "<group>"; };
+		FE160C281B972B4E00138EC3 /* MenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuItem.m; path = ../../../../src/ios/MPinApp/MenuItem.m; sourceTree = "<group>"; };
 		FE298B791B3ABBD80071E6B3 /* QRViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QRViewController.h; path = ../../../../src/ios/MPinApp/QRViewController.h; sourceTree = "<group>"; };
 		FE298B7A1B3ABBD80071E6B3 /* QRViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QRViewController.m; path = ../../../../src/ios/MPinApp/QRViewController.m; sourceTree = "<group>"; };
 		FE36B3B31B04E195000ACD70 /* ApplicationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApplicationManager.h; path = ../../../../src/ios/MPinApp/ApplicationManager.h; sourceTree = "<group>"; };
@@ -654,6 +671,7 @@
 				960D6A901A88C0E20068E0F7 /* Settings.bundle */,
 				968591CF1AF0C7E200726E63 /* Localizable.strings */,
 				96E21A531AF8AE6C00490625 /* en_BG1.strings */,
+				FE160C211B947F7200138EC3 /* Help.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -818,6 +836,8 @@
 				96D9C0AB1B7341260035F3BB /* NetworkDownViewController.m */,
 				96C3B6A91B81C511000CF693 /* SuperViewController.h */,
 				96C3B6AA1B81C511000CF693 /* SuperViewController.m */,
+				FE160C1A1B946EBF00138EC3 /* HelpViewController.h */,
+				FE160C1B1B946EBF00138EC3 /* HelpViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -871,6 +891,15 @@
 				96F7EA701B1C48EE00A68A03 /* HockeySDKResources.bundle */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		FE160C261B972B2000138EC3 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				FE160C271B972B4E00138EC3 /* MenuItem.h */,
+				FE160C281B972B4E00138EC3 /* MenuItem.m */,
+			);
+			name = Data;
 			sourceTree = "<group>";
 		};
 		FE49000E1A1A3CEB000030A4 = {
@@ -933,6 +962,7 @@
 		FE4900201A1A3CEB000030A4 /* MPinApp */ = {
 			isa = PBXGroup;
 			children = (
+				FE160C261B972B2000138EC3 /* Data */,
 				963485ED1B5E7560001F2C71 /* Utils */,
 				9649BC881AC0472D00B9F41B /* CustomComponents */,
 				9699B25A1AADF8F7008AA313 /* Managers */,
@@ -1128,6 +1158,7 @@
 				96130E521AEE4867005D2A86 /* OpenSans-BoldItalic.ttf in Resources */,
 				96130E531AEE4867005D2A86 /* MPin.h in Resources */,
 				96130E551AEE4867005D2A86 /* OpenSans-Semibold.ttf in Resources */,
+				FE160C241B947F7200138EC3 /* Help.plist in Resources */,
 				96D3CAD41AEE5324004BAC3A /* Settings.plist in Resources */,
 				96130E561AEE4867005D2A86 /* OpenSans-Light.ttf in Resources */,
 				96130E571AEE4867005D2A86 /* MpinStatus.h in Resources */,
@@ -1158,6 +1189,7 @@
 				96130E9C1AEE490A005D2A86 /* OpenSans-BoldItalic.ttf in Resources */,
 				96130E9D1AEE490A005D2A86 /* MPin.h in Resources */,
 				96130E9F1AEE490A005D2A86 /* OpenSans-Semibold.ttf in Resources */,
+				FE160C251B947F7200138EC3 /* Help.plist in Resources */,
 				96D3CAD51AEE5328004BAC3A /* Settings.plist in Resources */,
 				96130EA01AEE490A005D2A86 /* OpenSans-Light.ttf in Resources */,
 				96130EA11AEE490A005D2A86 /* MpinStatus.h in Resources */,
@@ -1188,6 +1220,7 @@
 				9649BCB91AC16D1000B9F41B /* OpenSans-BoldItalic.ttf in Resources */,
 				9649BCBB1AC16D1000B9F41B /* MPin.h in Resources */,
 				9649BCBC1AC16D1000B9F41B /* OpenSans-Semibold.ttf in Resources */,
+				FE160C231B947F7200138EC3 /* Help.plist in Resources */,
 				9649BCBD1AC16D1000B9F41B /* OpenSans-Light.ttf in Resources */,
 				968591CB1AF0C7E200726E63 /* Localizable.strings in Resources */,
 				9649BCBE1AC16D1000B9F41B /* MpinStatus.h in Resources */,
@@ -1210,6 +1243,7 @@
 				968591CA1AF0C7E200726E63 /* Localizable.strings in Resources */,
 				960D6A971A88C0E20068E0F7 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				960D6A981A88C0E20068E0F7 /* OpenSans-Italic.ttf in Resources */,
+				FE160C221B947F7200138EC3 /* Help.plist in Resources */,
 				968A180C1ACA8C58000C0DB0 /* Settings.plist in Resources */,
 				96F7EA791B1C48EF00A68A03 /* HockeySDKResources.bundle in Resources */,
 				FE148D461A2F1007007E83EF /* IUser.h in Resources */,
@@ -1445,6 +1479,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEF579541B15F0BE00B31A3E /* ApplicationManager.m in Sources */,
+				FE160C2B1B972B4E00138EC3 /* MenuItem.m in Sources */,
 				96130E211AEE4867005D2A86 /* ConfigurationManager.m in Sources */,
 				96130E221AEE4867005D2A86 /* ConfirmEmailViewController.m in Sources */,
 				96E9D3701B39699B004ADDEA /* AboutDetailsViewController.m in Sources */,
@@ -1462,6 +1497,7 @@
 				96130E2B1AEE4867005D2A86 /* SettingsViewCell.m in Sources */,
 				96130E2C1AEE4867005D2A86 /* AboutViewController.m in Sources */,
 				96130E2D1AEE4867005D2A86 /* ThemeManager.m in Sources */,
+				FE160C1E1B946EBF00138EC3 /* HelpViewController.m in Sources */,
 				FE298B7D1B3ABBD80071E6B3 /* QRViewController.m in Sources */,
 				96130E2E1AEE4867005D2A86 /* AddSettingViewController.m in Sources */,
 				96130E2F1AEE4867005D2A86 /* DigitPadViewController.m in Sources */,
@@ -1494,6 +1530,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEF579551B15F10800B31A3E /* ApplicationManager.m in Sources */,
+				FE160C2C1B972B4E00138EC3 /* MenuItem.m in Sources */,
 				96130E6B1AEE490A005D2A86 /* ConfigurationManager.m in Sources */,
 				96130E6C1AEE490A005D2A86 /* ConfirmEmailViewController.m in Sources */,
 				96E9D3711B39699B004ADDEA /* AboutDetailsViewController.m in Sources */,
@@ -1511,6 +1548,7 @@
 				96130E751AEE490A005D2A86 /* SettingsViewCell.m in Sources */,
 				96130E761AEE490A005D2A86 /* AboutViewController.m in Sources */,
 				96130E771AEE490A005D2A86 /* ThemeManager.m in Sources */,
+				FE160C1F1B946EBF00138EC3 /* HelpViewController.m in Sources */,
 				FE298B7E1B3ABBD80071E6B3 /* QRViewController.m in Sources */,
 				96130E781AEE490A005D2A86 /* AddSettingViewController.m in Sources */,
 				96130E791AEE490A005D2A86 /* DigitPadViewController.m in Sources */,
@@ -1543,6 +1581,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEF579511B1494AD00B31A3E /* ApplicationManager.m in Sources */,
+				FE160C2A1B972B4E00138EC3 /* MenuItem.m in Sources */,
 				FEF579501B1493F700B31A3E /* NSString+Helper.m in Sources */,
 				968591B71AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
 				96E9D36F1B39699B004ADDEA /* AboutDetailsViewController.m in Sources */,
@@ -1560,6 +1599,7 @@
 				9649BC951AC16D1000B9F41B /* MenuViewController.m in Sources */,
 				9649BC961AC16D1000B9F41B /* SettingsViewCell.m in Sources */,
 				96C88F461AC42B6E00A5F27A /* AboutViewController.m in Sources */,
+				FE160C1D1B946EBF00138EC3 /* HelpViewController.m in Sources */,
 				FE298B7C1B3ABBD80071E6B3 /* QRViewController.m in Sources */,
 				9649BC991AC16D1000B9F41B /* ThemeManager.m in Sources */,
 				9649BC9A1AC16D1000B9F41B /* AddSettingViewController.m in Sources */,
@@ -1592,6 +1632,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96F62A241AC30FAF00B25B53 /* ConfigurationManager.m in Sources */,
+				FE160C291B972B4E00138EC3 /* MenuItem.m in Sources */,
 				966EB9D41A8CF069004B936A /* ConfirmEmailViewController.m in Sources */,
 				96F7EA671B1858CB00A68A03 /* ANAuthenticationSuccessful.m in Sources */,
 				96E9D36E1B39699B004ADDEA /* AboutDetailsViewController.m in Sources */,
@@ -1609,6 +1650,7 @@
 				96F62A281AC311D000B25B53 /* AboutViewController.m in Sources */,
 				961957461A960E9900C93604 /* ThemeManager.m in Sources */,
 				FE72C3481A6EA6960082F14D /* AddSettingViewController.m in Sources */,
+				FE160C1C1B946EBF00138EC3 /* HelpViewController.m in Sources */,
 				FE298B7B1B3ABBD80071E6B3 /* QRViewController.m in Sources */,
 				FEFA50111A7148E5002D6E24 /* DigitPadViewController.m in Sources */,
 				FE4900271A1A3CEB000030A4 /* main.m in Sources */,
