@@ -31,7 +31,7 @@
 #import "NetworkMonitor.h"
 #import "NetworkDownViewController.h"
 #import "AFNetworkReachabilityManager.h"
-#import "ANAuthenticationSuccessful.h";
+#import "ANAuthenticationSuccessful.h"
 
 @interface AppDelegate ()
 {
@@ -178,6 +178,7 @@
 {
     NSLog(@"Appdelegate : Connection Up");
     [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
+    [_vcUserList setBackend];
     container.panMode = MFSideMenuPanModeDefault;
 }
 

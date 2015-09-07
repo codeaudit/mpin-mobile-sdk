@@ -123,6 +123,11 @@ static NSString *const kAN = @"AN";
     storedBackendURL = [[ConfigurationManager sharedManager] getSelectedConfiguration] [@"backend"];
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
+    
+}
+
+-(void) setBackend
+{
     [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
 }
 
@@ -131,7 +136,8 @@ static NSString *const kAN = @"AN";
     [super viewWillAppear:animated];
 
     sdk.delegate = self;
-
+    
+    
     [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
 
     self.users = [MPin listUsers];

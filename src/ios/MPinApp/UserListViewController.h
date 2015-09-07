@@ -41,7 +41,7 @@
 - ( void ) invalidate;
 - ( IBAction )showLeftMenuPressed:( id )sender;
 - ( IBAction )btnAuthTap:( id )sender;
-
+- (void) setBackend;
 @property( nonatomic, weak ) IBOutlet UIView             *viewButtonsContainer;
 @property( nonatomic, weak ) IBOutlet UITableView        *table;
 @property( nonatomic, weak ) IBOutlet UIButton           *btnReset;
