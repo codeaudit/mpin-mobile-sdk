@@ -242,6 +242,7 @@ namespace MPinRC
 		void DeleteUser(UserWrapper^ user);
 		MPinRC::StatusWrapper^ StartRegistration(MPinRC::UserWrapper^ user, Platform::String^ userData);
 		MPinRC::StatusWrapper^ RestartRegistration(MPinRC::UserWrapper^ user, Platform::String^ userData);
+		MPinRC::StatusWrapper^ RegisterUserBySMS(MPinRC::UserWrapper^ user, Platform::String^ mpinId, Platform::String^ activationKey);
 		MPinRC::StatusWrapper^ FinishRegistration(MPinRC::UserWrapper^ user);
 
 		MPinRC::StatusWrapper^ Authenticate(MPinRC::UserWrapper^ user);

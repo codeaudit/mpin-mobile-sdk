@@ -67,7 +67,63 @@ namespace MPinDemo
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
-                        
+            Frame rootFrame = CreateRootFrame();
+
+            // When the navigation stack isn't restored navigate to the first page,
+            // configuring the new page by passing required information as a navigation
+            // parameter
+            if (rootFrame != null && !rootFrame.Navigate(typeof(MainPage), e.Arguments))
+            {
+                throw new Exception("Failed to create initial page");
+            }
+
+            //RootFrame = rootFrame;
+            // Ensure the current window is active
+            Window.Current.Activate();
+
+            await HockeyClient.Current.SendCrashesAsync();
+#if WINDOWS_PHONE_APP
+            await HockeyClient.Current.CheckForAppUpdateAsync();
+#endif
+        }
+
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            base.OnActivated(args);
+            if (args.Kind == ActivationKind.Protocol)
+            {
+                ProtocolActivatedEventArgs protocolArgs = args as ProtocolActivatedEventArgs;
+
+                // TODO: Handle URI activation
+                // The received URI is eventArgs.Uri.AbsoluteUri
+
+                Frame rootFrame = CreateRootFrame();
+                if (rootFrame.Content == null)
+                {
+                    if (!rootFrame.Navigate(typeof(MainPage)))
+                    {
+                        throw new Exception("Failed to create initial page");
+                    }
+                }
+
+                //var p = rootFrame.Content as UriAssociations;
+                ////p.FileEvent = null;
+                //p.ProtocolEvent = eventArgs;
+                //p.NavigateToProtocolPage(typeof(UserID));
+                ////rootFrame.Navigate(typeof(UserID), eventArgs.Uri);
+
+                var p = rootFrame.Content as MainPage;
+                p.ProtocolEvent = protocolArgs;
+                p.NavigateToProtocolPage();
+
+                // Ensure the current window is active
+                Window.Current.Activate();
+
+            }
+        }
+
+        private Frame CreateRootFrame()
+        {
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -80,10 +136,10 @@ namespace MPinDemo
                 // TODO: change this value to a cache size that is appropriate for your application
                 rootFrame.CacheSize = 1;
 
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    // TODO: Load state from previously suspended application
-                }
+                //if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                //{
+                //    // TODO: Load state from previously suspended application
+                //}
 
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
@@ -103,24 +159,9 @@ namespace MPinDemo
 
                 rootFrame.ContentTransitions = null;
                 rootFrame.Navigated += this.RootFrame_FirstNavigated;
-
-                // When the navigation stack isn't restored navigate to the first page,
-                // configuring the new page by passing required information as a navigation
-                // parameter
-                if (!rootFrame.Navigate(typeof(MainPage), e.Arguments))
-                {
-                    throw new Exception("Failed to create initial page");
-                }
             }
 
-            //RootFrame = rootFrame;
-            // Ensure the current window is active
-            Window.Current.Activate();
-
-            await HockeyClient.Current.SendCrashesAsync();
-#if WINDOWS_PHONE_APP
-            await HockeyClient.Current.CheckForAppUpdateAsync();
-#endif
+            return rootFrame;
         }
 
         /// <summary>
