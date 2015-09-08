@@ -59,15 +59,15 @@
     UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"QR"] style:UIBarButtonItemStylePlain target:self action:@selector( addQR: )];
     UIBarButtonItem *qrItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus-white"] style:UIBarButtonItemStylePlain target:self action:@selector( add: )];
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:addItem,qrItem, nil];
-    
-    if([[ConfigurationManager sharedManager] isFirstTimeServerSettings] ) {
+
+    if ( [[ConfigurationManager sharedManager] isFirstTimeServerSettings] )
+    {
         NSString *filePath = [[NSBundle mainBundle] pathForResource:kHelpFile ofType:@"plist"];
         NSDictionary *menuData = [[NSDictionary alloc] initWithContentsOfFile:filePath];
-        HelpViewController * helpControler  = [self.storyboard instantiateViewControllerWithIdentifier:@"helpcontroller"];
-        helpControler.dataSource = [menuData objectForKey:kMpinServerGuide];
+        HelpViewController *helpControler  = [self.storyboard instantiateViewControllerWithIdentifier:@"HelpViewController"];
+
         [self presentViewController:helpControler animated:NO completion:nil];
     }
-
 }
 
 - ( void )viewWillAppear:( BOOL )animated
@@ -80,7 +80,6 @@
 
     [self.tableView reloadData];
     [(MenuViewController *)self.menuContainerViewController.leftMenuViewController setConfiguration];
-    
 }
 
 - ( void )viewWillDisappear:( BOOL )animated
@@ -310,7 +309,7 @@
     NSLog(@"Network DOWN Notification");
     [[ErrorHandler sharedManager] hideMessage];
     [self.view layoutIfNeeded];
-    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations:^{
+    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations: ^ {
         self.constraintNoNetworkViewHeight.constant = 36.0f;
         [self.view layoutIfNeeded];
     }];

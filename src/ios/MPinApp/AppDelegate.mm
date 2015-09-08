@@ -32,11 +32,14 @@
 #import "NetworkDownViewController.h"
 #import "AFNetworkReachabilityManager.h"
 #import "ANAuthenticationSuccessful.h"
+#import "Utilities.h"
+#import "HelpViewController.h"
 
 @interface AppDelegate ()
 {
     MFSideMenuContainerViewController *container;
     NetworkDownViewController *vcNetworkDown;
+    HelpViewController *vcHelp;
     BOOL boolRestartFlow;
     
 }
@@ -72,6 +75,7 @@
     _vcUserList = [storyboard instantiateViewControllerWithIdentifier:@"UserListViewController"];
     
     vcNetworkDown = [storyboard instantiateViewControllerWithIdentifier:@"NetworkDownViewController"];
+    vcHelp = [storyboard instantiateViewControllerWithIdentifier:@"HelpViewController"];
     
 	UIViewController *leftSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"MenuViewController"];
 
@@ -89,6 +93,11 @@
     
     [ApplicationManager sharedManager];
     [NetworkMonitor sharedManager];
+    UIPageControl *pageControl = [UIPageControl appearance];
+    pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
+    pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
+    pageControl.backgroundColor = [UIColor greenColor];
+
     
 	return YES;
 }
@@ -139,7 +148,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
     
     MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
-    MFSideMenuContainerViewController *container = (MFSideMenuContainerViewController *)self.window.rootViewController;
     [[ErrorHandler sharedManager] presentMessageInViewController:((UINavigationController *)container.centerViewController).topViewController
                                                      errorString:mpinStatus.errorMessage
                                             addActivityIndicator:YES
@@ -154,7 +162,6 @@
     pinpadViewController.title = kEnterPin;
     pinpadViewController.currentUser = [notification.userInfo objectForKey:kUser];
     pinpadViewController.boolSetupPin = YES;
-    MFSideMenuContainerViewController *container = (MFSideMenuContainerViewController *)self.window.rootViewController;
     [((UINavigationController *)container.centerViewController).topViewController.navigationController pushViewController:pinpadViewController animated:YES];
 }
 
@@ -200,6 +207,13 @@
     }];
 }
 
+
+-( void) firstTime
+{
+    NSLog(@"Appdelegate : Connection Down");
+    [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:vcHelp]];
+    container.panMode = MFSideMenuPanModeNone;
+}
 
 -( void) connectionDown
 {

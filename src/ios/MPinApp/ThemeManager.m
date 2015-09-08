@@ -43,6 +43,8 @@
 #import "ANAuthenticationSuccessful.h"
 #import "NetworkDownViewController.h"
 #import "NetworkMonitor.h"
+#import "ThemeManager.h"
+#import "HelpViewController.h"
 
 @interface ThemeManager ( )
 {
@@ -97,6 +99,11 @@
         ANAuthenticationSuccessful *myVc = (ANAuthenticationSuccessful *)vc;
         myVc.lblMessage.textColor = [[SettingsManager sharedManager] color7];
         myVc.lblMessage.font = [UIFont fontWithName:@"OpenSans-Semibold" size:22.f];
+    }
+    else
+    if ( [vc isMemberOfClass:[HelpViewController class]] )
+    {
+        HelpViewController *myVc = (HelpViewController *)vc;
     }
     else
     if ( [vc isMemberOfClass:[NetworkDownViewController class]] )
@@ -357,7 +364,8 @@
 {
     if ( [superVc isMemberOfClass:[MenuViewController class]]
          || [superVc isMemberOfClass:[ANAuthenticationSuccessful class]]
-         || [superVc isMemberOfClass:[NetworkDownViewController class]] )
+         || [superVc isMemberOfClass:[NetworkDownViewController class]]
+        || [superVc isMemberOfClass:[HelpViewController class]])
     {
         return;
     }
@@ -368,7 +376,7 @@
         superVc.lblNetworkDownMessage.textColor = [[SettingsManager sharedManager] color7];
         superVc.lblNetworkDownMessage.text = NSLocalizedString(@"CONNECTION_WAS_LOST", @"Connection was lost");
         superVc.lblNetworkDownMessage.font = [UIFont fontWithName:@"OpenSans" size:14.f];
-        
+
         if ( boolReachabilityManagerReady == NO )
         {
             superVc.constraintNoNetworkViewHeight.constant = 0;

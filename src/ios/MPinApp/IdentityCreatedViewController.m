@@ -158,7 +158,7 @@
 
 #pragma mark - My methods -
 
-- ( void )showPinPad:(NSNotification *)notification
+- ( void )showPinPad:( NSNotification * )notification
 {
     [[ErrorHandler sharedManager] hideMessage];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
@@ -205,11 +205,11 @@
 
 - ( IBAction )gotoIDList:( id )sender
 {
-    if([[ConfigurationManager sharedManager] isFirstTimeAddIdentity] ) {
+    if ( [[ConfigurationManager sharedManager] isFirstTimeAddIdentity] )
+    {
         NSString *filePath = [[NSBundle mainBundle] pathForResource:kHelpFile ofType:@"plist"];
         NSDictionary *menuData = [[NSDictionary alloc] initWithContentsOfFile:filePath];
-        HelpViewController * helpControler  = [self.storyboard instantiateViewControllerWithIdentifier:@"helpcontroller"];
-        helpControler.dataSource = [menuData objectForKey:kAddIdentityGuide];
+        HelpViewController *helpControler  = [self.storyboard instantiateViewControllerWithIdentifier:@"HelpViewController"];
         [self presentViewController:helpControler animated:NO completion:nil];
     }
 
@@ -235,7 +235,7 @@
 {
     NSLog(@"Network DOWN Notification");
     [self.view layoutIfNeeded];
-    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations:^{
+    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations: ^ {
         self.constraintNoNetworkViewHeight.constant = 36.0f;
         [self.view layoutIfNeeded];
     }];
