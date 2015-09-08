@@ -151,8 +151,14 @@
     NSString * fromHexMpinId = [Utilities stringFromHexString:mpinId];
     NSError *error = nil;
     NSDictionary *mpinIdJSON = [NSJSONSerialization JSONObjectWithData:[fromHexMpinId dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
-    if(error != nil)
-        return [[MpinStatus alloc] initWith:RESPONSE_PARSE_ERROR errorMessage:[NSString stringWithFormat:@"Failed to parse mpinId json: %@", mpinId]];
+    if(error != nil) {
+        [[ErrorHandler sharedManager] presentMessageInViewController:((UINavigationController *)container.centerViewController).topViewController
+                                                         errorString:[NSString stringWithFormat:@"Failed to parse mpinId json: %@", mpinId]
+                                                addActivityIndicator:YES
+                                                         minShowTime:0];
+        
+        return YES;
+    }
 
     NSString * userID = mpinIdJSON[@"userID"];
     id<IUser> user = [MPin MakeNewUser:userID];
@@ -162,6 +168,9 @@
 
 
 - ( void ) OnVerifyUserompleted:( id ) sender user:( const id<IUser>) user {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:nil name:kShowPinPadNotification object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad: ) name:kShowPinPadNotification object:nil];
     [sdk FinishRegistration:user pushNotificationIdentifier:self.strDeviceToken];
 }
@@ -180,7 +189,6 @@
 - ( void )OnFinishRegistrationCompleted:( id )sender user:( const id<IUser>)user
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
-
 }
 
 - ( void )OnFinishRegistrationError:( id )sender error:( NSError * )error
@@ -194,12 +202,6 @@
                                             addActivityIndicator:YES
                                                      minShowTime:0];
 }
-
-
-
-
-
-
 
 - ( void )showPinPad:(NSNotification *)notification  {
     UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];

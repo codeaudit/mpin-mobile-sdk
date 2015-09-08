@@ -221,6 +221,12 @@ typedef sdk::Context Context;
     return users;
 }
 
++ ( id<IUser> ) getIUserById:(NSString *) userId {
+    
+    return nil;
+}
+
+
 +(void) sendPin:(const NSString *) pin {
     Context *ctx = Context::Instance();
     ctx->setPin([pin UTF8String]);

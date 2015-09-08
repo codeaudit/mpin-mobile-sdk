@@ -60,6 +60,7 @@
 + (Boolean)CanLogout:(const id<IUser>)user;
 
 + (NSMutableArray*)listUsers;
++ ( id<IUser> ) getIUserById:(NSString *) userId;
 
 + (NSString *) GetClientParam:(const NSString *) key;
 
