@@ -2,7 +2,6 @@ package com.certivox.fragments;
 
 
 import com.certivox.constants.FragmentTags;
-import com.certivox.controllers.MPinController;
 import com.certivox.mpinsdk.R;
 
 import android.os.Bundle;
@@ -11,13 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 
 public class NoInternetConnectionFragment extends MPinFragment {
 
-    private View   mContentView;
-    private Button mRetryButton;
+    private View mContentView;
 
 
     @Override
@@ -39,15 +36,6 @@ public class NoInternetConnectionFragment extends MPinFragment {
     @Override
     protected void initViews() {
         setToolbarTitle(R.string.no_internet_title);
-        mRetryButton = (Button) mContentView.findViewById(R.id.retry_button);
-
-        mRetryButton.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                getMPinController().handleMessage(MPinController.MESSAGE_RETRY_INITIALIZATION);
-            }
-        });
     }
 
 
