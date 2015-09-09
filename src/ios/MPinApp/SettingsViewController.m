@@ -59,15 +59,6 @@
     UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"QR"] style:UIBarButtonItemStylePlain target:self action:@selector( addQR: )];
     UIBarButtonItem *qrItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus-white"] style:UIBarButtonItemStylePlain target:self action:@selector( add: )];
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:addItem,qrItem, nil];
-
-    if ( [[ConfigurationManager sharedManager] isFirstTimeServerSettings] )
-    {
-        NSString *filePath = [[NSBundle mainBundle] pathForResource:kHelpFile ofType:@"plist"];
-        NSDictionary *menuData = [[NSDictionary alloc] initWithContentsOfFile:filePath];
-        HelpViewController *helpControler  = [self.storyboard instantiateViewControllerWithIdentifier:@"HelpViewController"];
-
-        [self presentViewController:helpControler animated:NO completion:nil];
-    }
 }
 
 - ( void )viewWillAppear:( BOOL )animated

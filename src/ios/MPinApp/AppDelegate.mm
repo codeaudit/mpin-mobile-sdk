@@ -34,6 +34,7 @@
 #import "ANAuthenticationSuccessful.h"
 #import "Utilities.h"
 #import "HelpViewController.h"
+#import "ConfigurationManager.h"
 
 @interface AppDelegate ()
 {
@@ -85,19 +86,20 @@
 
 	self.window.rootViewController = container;
     
+    [ApplicationManager sharedManager];
+    [NetworkMonitor sharedManager];
+    
     if (![NetworkMonitor isNetworkAvailable])
     {
         [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:vcNetworkDown]];
         container.panMode = MFSideMenuPanModeNone;
     }
+    else if ([[ConfigurationManager sharedManager] isFirstTimeLaunch])
+    {
+        [self firstTimeLaunch];
+    }
     
-    [ApplicationManager sharedManager];
-    [NetworkMonitor sharedManager];
-    UIPageControl *pageControl = [UIPageControl appearance];
-    pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
-    pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
-    pageControl.backgroundColor = [UIColor greenColor];
-
+    
     
 	return YES;
 }
@@ -208,10 +210,12 @@
 }
 
 
--( void) firstTime
+-( void) firstTimeLaunch
 {
-    NSLog(@"Appdelegate : Connection Down");
+    NSLog(@"Appdelegate : First time");
+    
     [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:vcHelp]];
+    vcHelp.helpMode = HELP_QUICK_START;
     container.panMode = MFSideMenuPanModeNone;
 }
 
@@ -225,9 +229,17 @@
 -( void) connectionUp
 {
     NSLog(@"Appdelegate : Connection Up");
-    [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
-    [_vcUserList setBackend];
-    container.panMode = MFSideMenuPanModeDefault;
+    if ([[ConfigurationManager sharedManager] isFirstTimeLaunch])
+    {
+        [self firstTimeLaunch];
+    }
+    else
+    {
+        [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
+        [_vcUserList setBackend];
+        container.panMode = MFSideMenuPanModeDefault;
+    }
+    
 }
 
 @end

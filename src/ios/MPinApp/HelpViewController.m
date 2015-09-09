@@ -74,6 +74,7 @@
     self.view.backgroundColor = [[SettingsManager sharedManager] color0];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     [_swipeView reloadData];
+    [_swipeView scrollToItemAtIndex:0 duration:0];
 }
 
 #pragma mark - Swipe view -
@@ -81,7 +82,36 @@
 
 - ( NSInteger )numberOfItemsInSwipeView:( SwipeView * )swipeView
 {
-    return 4;
+    switch ( _helpMode )
+    {
+    case HELP_SERVER:
+    {
+        return 2;
+
+        break;
+    }
+
+    case HELP_QUICK_START:
+    {
+        return 4;
+
+        break;
+    }
+
+    case HELP_AN:
+    {
+        return 1;
+
+        break;
+    }
+
+    default:
+    {
+        return 0;
+
+        break;
+    }
+    }
 }
 
 - ( UIView * )swipeView:( SwipeView * )swipeView viewForItemAtIndex:( NSInteger )index reusingView:( UIView * )view
@@ -143,55 +173,31 @@
         arView.lblSubTitle.font     = [UIFont fontWithName:@"OpenSans" size:18.f];
         arView.lblTitle.font        = [UIFont fontWithName:@"OpenSans" size:18.f];
 
+        arView.pageControl = [[PageControl alloc] initWithFrame:CGRectMake(10, screenHeight - 130, screenWidth - 20, 55)];
+        arView.pageControl.backgroundColor = [[SettingsManager sharedManager] color0];
+        arView.pageControl.pageIndicatorTintColor           = [[SettingsManager sharedManager] color4];
+        arView.pageControl.currentPageIndicatorTintColor    = [[SettingsManager sharedManager] color10];
+        arView.pageControl.userInteractionEnabled = NO;
+        [arView addSubview:arView.pageControl];
+        arView.lblTitle.numberOfLines = 0;
+        arView.lblSubTitle.numberOfLines = 0;
         arView.lblDesc.numberOfLines = 0;
     }
 
-    switch ( index )
+    switch ( _helpMode )
     {
-    case 0:
-        [arView.imgArt setImage:[UIImage imageNamed:@"Guide0"]];
-        arView.lblSubTitle.text = @"Create an identity";
-        arView.lblDesc.text = @"Enter your email to register.";
-        [arView.btnNext setTitle:@"" forState:UIControlStateNormal];
-        [arView.btnNext setImage:[UIImage imageNamed:@"arrow-right-white"] forState:UIControlStateNormal];
-        [arView.btnNext addTarget:self action:@selector( next: ) forControlEvents:UIControlEventTouchUpInside];
+    case HELP_SERVER:
 
-        break;
+        return [self setupServer:arView atIndex:index];
 
-    case 1:
-        [arView.imgArt setImage:[UIImage imageNamed:@"Guide1"]];
-        arView.lblSubTitle.text = @"Confirm your email";
-        arView.lblDesc.text = @"Clink the link in the email and you are ready to choose your PIN.";
-        [arView.btnNext setTitle:@"" forState:UIControlStateNormal];
-        [arView.btnNext setImage:[UIImage imageNamed:@"arrow-right-white"] forState:UIControlStateNormal];
-        [arView.btnNext addTarget:self action:@selector( next: ) forControlEvents:UIControlEventTouchUpInside];
+    case HELP_QUICK_START:
 
-        break;
+        return [self setupQuickStart:arView atIndex:index];
 
-    case 2:
-        [arView.imgArt setImage:[UIImage imageNamed:@"Guide2"]];
-        arView.lblSubTitle.text = @"Create your PIN";
-        arView.lblDesc.text = @"It's much simpler than a password and more secure.";
-        [arView.btnNext setTitle:@"" forState:UIControlStateNormal];
-        [arView.btnNext setImage:[UIImage imageNamed:@"arrow-right-white"] forState:UIControlStateNormal];
-        [arView.btnNext addTarget:self action:@selector( next: ) forControlEvents:UIControlEventTouchUpInside];
+    case HELP_AN:
 
-        break;
-
-    case 3:
-        [arView.imgArt setImage:[UIImage imageNamed:@"Guide0"]];
-        arView.lblSubTitle.text = @"You are ready to go!";
-        arView.lblDesc.text = @"You can nao use your M-Pin identity any time you want.";
-        [arView.btnNext setTitle:@"DONE" forState:UIControlStateNormal];
-        [arView.btnNext setImage:nil forState:UIControlStateNormal];
-        [arView.btnNext addTarget:self action:@selector( done: ) forControlEvents:UIControlEventTouchUpInside];
-
-        break;
-
-    default:
-        break;
+        return [self setupAN:arView atIndex:index];
     }
-    arView.lblTitle.text = @"Setup your phone to use M-Pin";
 
     return arView;
 }
@@ -215,7 +221,171 @@
 - ( IBAction )done:( id )sender
 {
     MenuViewController *menuVC = (MenuViewController *)self.menuContainerViewController.leftMenuViewController;
-    [menuVC setCenterWithID:0];
+    switch ( _helpMode )
+    {
+    case HELP_SERVER:
+    {
+        [menuVC setCenterWithID:SETTINGS];
+        break;
+    }
+
+    case HELP_QUICK_START:
+    {
+        [menuVC setCenterWithID:USER_LIST];
+        break;
+    }
+
+    default:
+    {
+        break;
+    }
+    }
 }
+
+- ( HelpDataView * ) setupQuickStart:( HelpDataView * )arView atIndex:( NSInteger )index
+{
+    arView.pageControl.numberOfPages = 4;
+    switch ( index )
+    {
+    case 0:
+        [arView.imgArt setImage:[UIImage imageNamed:@"Guide0"]];
+        arView.lblSubTitle.text = @"Create an identity";
+        arView.lblDesc.text = @"Enter your email to register.";
+        [arView.btnNext setTitle:@"" forState:UIControlStateNormal];
+        [arView.btnNext setImage:[UIImage imageNamed:@"arrow-right-white"] forState:UIControlStateNormal];
+        [arView.btnNext addTarget:self action:@selector( next: ) forControlEvents:UIControlEventTouchUpInside];
+
+        break;
+
+    case 1:
+        [arView.imgArt setImage:[UIImage imageNamed:@"Guide1"]];
+        arView.lblSubTitle.text = @"Confirm your email";
+        arView.lblDesc.text = @"Click the link in the email and you are ready to choose your PIN.";
+        [arView.btnNext setTitle:@"" forState:UIControlStateNormal];
+        [arView.btnNext setImage:[UIImage imageNamed:@"arrow-right-white"] forState:UIControlStateNormal];
+        [arView.btnNext addTarget:self action:@selector( next: ) forControlEvents:UIControlEventTouchUpInside];
+
+        break;
+
+    case 2:
+        [arView.imgArt setImage:[UIImage imageNamed:@"Guide2"]];
+        arView.lblSubTitle.text = @"Create your PIN";
+        arView.lblDesc.text = @"It's much simpler than a password and more secure.";
+        [arView.btnNext setTitle:@"" forState:UIControlStateNormal];
+        [arView.btnNext setImage:[UIImage imageNamed:@"arrow-right-white"] forState:UIControlStateNormal];
+        [arView.btnNext addTarget:self action:@selector( next: ) forControlEvents:UIControlEventTouchUpInside];
+
+        break;
+
+    case 3:
+        [arView.imgArt setImage:[UIImage imageNamed:@"Guide3"]];
+        arView.lblSubTitle.text = @"You are ready to go!";
+        arView.lblDesc.text = @"You can now use your M-Pin identity any time you want.";
+        [arView.btnNext setTitle:@"DONE" forState:UIControlStateNormal];
+        [arView.btnNext setImage:nil forState:UIControlStateNormal];
+        [arView.btnNext addTarget:self action:@selector( done: ) forControlEvents:UIControlEventTouchUpInside];
+
+        break;
+
+    default:
+        break;
+    }
+    arView.pageControl.currentPage = index;
+    arView.lblTitle.text = @"Setup your phone to use M-Pin";
+
+    return arView;
+}
+
+- ( HelpDataView * ) setupServer:( HelpDataView * )arView atIndex:( NSInteger )index
+{
+    arView.pageControl.numberOfPages = 2;
+    switch ( index )
+    {
+    case 0:
+        [arView.imgArt setImage:[UIImage imageNamed:@"Guide4"]];
+        arView.lblSubTitle.text = @"Download and setup your own M-Pin Server";
+        arView.lblDesc.text = @"Visit certivox.com/products, choose from M-Pin Core or M-Pin SSO, then follow the online installation instructions.";
+        [arView.btnNext setTitle:@"" forState:UIControlStateNormal];
+        [arView.btnNext setImage:[UIImage imageNamed:@"arrow-right-white"] forState:UIControlStateNormal];
+        [arView.btnNext addTarget:self action:@selector( next: ) forControlEvents:UIControlEventTouchUpInside];
+
+        break;
+
+    case 1:
+        [arView.imgArt setImage:[UIImage imageNamed:@"Guide5"]];
+        arView.lblSubTitle.text = @"Add your server to this app";
+        arView.lblDesc.text = @"Simply hit “+” on the next screen then enter the name and URL of your M-Pin Server and you are ready to authenticate to your service using this app.";
+        [arView.btnNext setImage:nil forState:UIControlStateNormal];
+        [arView.btnNext setTitle:@"DONE" forState:UIControlStateNormal];
+        [arView.btnNext addTarget:self action:@selector( done: ) forControlEvents:UIControlEventTouchUpInside];
+
+        break;
+
+    default:
+        break;
+    }
+    arView.pageControl.currentPage = index;
+    arView.lblTitle.text = @"Get your own M-Pin Server";
+
+    return arView;
+}
+
+- ( HelpDataView * ) setupAN:( HelpDataView * )arView atIndex:( NSInteger )index
+{
+    switch ( index )
+    {
+    case 0:
+        [arView.imgArt setImage:[UIImage imageNamed:@"Guide0"]];
+        arView.lblSubTitle.text = @"Get your Access Number";
+        arView.lblDesc.text = @"Login to discuss.certivox.com on your desktop browser and choose \"Sign in with phone\".";
+        [arView.btnNext setTitle:@"DONE" forState:UIControlStateNormal];
+        [arView.btnNext addTarget:self action:@selector( done: ) forControlEvents:UIControlEventTouchUpInside];
+
+        break;
+
+    default:
+        break;
+    }
+    arView.pageControl.currentPage = index;
+    arView.lblTitle.text = @"Login to the Certivox community";
+
+    return arView;
+}
+
+@end
+
+@implementation PageControl
+//
+//-( id ) initWithCoder:( NSCoder * )aDecoder
+//{
+//    self = [super initWithCoder:aDecoder];
+//
+//    activeImage     = [UIImage imageNamed:@"PageIndicatorSelected"];
+//    inactiveImage   = [UIImage imageNamed:@"PageIndicator"];
+//
+//    return self;
+//}
+//
+//-( void ) updateDots
+//{
+//    for ( int i = 0; i < [self.subviews count]; i++ )
+//    {
+//        UIImageView *dot = self.subviews[i];
+//        if ([dot isMemberOfClass:[UIView class]])
+//        {
+//            continue;
+//        }
+//        if ( i == self.currentPage )
+//            dot.image = activeImage;
+//        else
+//            dot.image = inactiveImage;
+//    }
+//}
+//
+//-( void ) setCurrentPage:( NSInteger )page
+//{
+//    [super setCurrentPage:page];
+//    [self updateDots];
+//}
 
 @end

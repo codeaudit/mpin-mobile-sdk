@@ -40,14 +40,6 @@
     SettingsViewController  *vcSettings;
     UserListViewController  *vcUserList;
     HelpViewController      *vcHelp;
-    enum MENU_OPTIONS
-    {
-        USER_LIST = 0,
-        SETTINGS = 1,
-        QUICK_START = 2,
-        GET_SERVER = 3,
-        ABOUT = 4
-    };
 }
 
 @end
@@ -151,14 +143,25 @@
         break;
 
     case SETTINGS:
-        vc = vcSettings;
+        if ( [[ConfigurationManager sharedManager] isFirstTimeServerSettings] )
+        {
+            vcHelp.helpMode = HELP_SERVER;
+            vc = vcHelp;
+        }
+        else
+        {
+            vc = vcSettings;
+        }
+
         break;
 
     case QUICK_START:
+        vcHelp.helpMode = HELP_QUICK_START;
         vc = vcHelp;
         break;
 
     case GET_SERVER:
+        vcHelp.helpMode = HELP_SERVER;
         vc = vcHelp;
         break;
 
@@ -171,8 +174,6 @@
     }
 
     [self setCenter:vc];
-    
-    
 }
 
 - ( void )setCenterWithID:( int )vcId
@@ -193,10 +194,12 @@
         break;
 
     case QUICK_START:
+        vcHelp.helpMode = HELP_QUICK_START;
         vc = vcHelp;
         break;
 
     case GET_SERVER:
+        vcHelp.helpMode = HELP_SERVER;
         vc = vcHelp;
         break;
     }
@@ -204,7 +207,7 @@
     [self setCenter:vc];
 }
 
-- (void) setCenter:(UIViewController *)vc
+- ( void ) setCenter:( UIViewController * )vc
 {
     UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
     [navigationController setNavigationBarHidden:NO animated:NO];
