@@ -109,32 +109,32 @@
 
 - ( UIView * )swipeView:( SwipeView * )swipeView viewForItemAtIndex:( NSInteger )index reusingView:( UIView * )view
 {
-    HelpDataView *arView = (HelpDataView *)view;
+    HelpDataView *helpView = (HelpDataView *)view;
 
     NSLog(@"Loading page at index %ld", (long)index);
 
-    if ( arView == nil )
+    if ( helpView == nil )
     {
-        arView = [[HelpDataView alloc] initWithFrame:self.swipeView.bounds];
-        [[ThemeManager sharedManager] customiseHelpView:arView];
+        helpView = [[HelpDataView alloc] initWithFrame:self.swipeView.bounds];
+        [[ThemeManager sharedManager] customiseHelpView:helpView];
     }
 
     switch ( _helpMode )
     {
     case HELP_SERVER:
 
-        return [self setupServer:arView atIndex:index];
+        return [self setupServer:helpView atIndex:index];
 
     case HELP_QUICK_START:
 
-        return [self setupQuickStart:arView atIndex:index];
+        return [self setupQuickStart:helpView atIndex:index];
 
     case HELP_AN:
 
-        return [self setupAN:arView atIndex:index];
+        return [self setupAN:helpView atIndex:index];
     }
 
-    return arView;
+    return helpView;
 }
 
 - ( CGSize )swipeViewItemSize:( SwipeView * )swipeView
@@ -173,115 +173,118 @@
     }
 }
 
-- ( HelpDataView * ) setupQuickStart:( HelpDataView * )arView atIndex:( NSInteger )index
+- ( HelpDataView * ) setupQuickStart:( HelpDataView * )helpView atIndex:( NSInteger )index
 {
-    arView.pageControl.numberOfPages = 4;
+    helpView.pageControl.numberOfPages = 4;
     switch ( index )
     {
     case 0:
-        [arView.imgArt setImage:[UIImage imageNamed:@"Guide0"]];
-        arView.lblSubTitle.text = @"Create an identity";
-        arView.lblDesc.text = @"Enter your email to register.";
-        [arView.btnNext setTitle:@"" forState:UIControlStateNormal];
-        [arView.btnNext setImage:[UIImage imageNamed:@"arrow-right-white"] forState:UIControlStateNormal];
-        [arView.btnNext addTarget:self action:@selector( next: ) forControlEvents:UIControlEventTouchUpInside];
+        [helpView.imgArt setImage:[UIImage imageNamed:@"Guide0"]];
+        helpView.lblSubTitle.text = @"Create an identity";
+        helpView.lblDesc.text = @"Enter your email to register.";
+        [helpView.btnNext setTitle:@"" forState:UIControlStateNormal];
+        [helpView.btnNext setImage:[UIImage imageNamed:@"arrow-right-white"] forState:UIControlStateNormal];
+        [helpView.btnNext addTarget:self action:@selector( next: ) forControlEvents:UIControlEventTouchUpInside];
 
         break;
 
     case 1:
-        [arView.imgArt setImage:[UIImage imageNamed:@"Guide1"]];
-        arView.lblSubTitle.text = @"Confirm your email";
-        arView.lblDesc.text = @"Click the link in the email and you are ready to choose your PIN.";
-        [arView.btnNext setTitle:@"" forState:UIControlStateNormal];
-        [arView.btnNext setImage:[UIImage imageNamed:@"arrow-right-white"] forState:UIControlStateNormal];
-        [arView.btnNext addTarget:self action:@selector( next: ) forControlEvents:UIControlEventTouchUpInside];
+        [helpView.imgArt setImage:[UIImage imageNamed:@"Guide1"]];
+        helpView.lblSubTitle.text = @"Confirm your email";
+        helpView.lblDesc.text = @"Click the link in the email and you are ready to choose your PIN.";
+        [helpView.btnNext setTitle:@"" forState:UIControlStateNormal];
+        [helpView.btnNext setImage:[UIImage imageNamed:@"arrow-right-white"] forState:UIControlStateNormal];
+        [helpView.btnNext addTarget:self action:@selector( next: ) forControlEvents:UIControlEventTouchUpInside];
 
         break;
 
     case 2:
-        [arView.imgArt setImage:[UIImage imageNamed:@"Guide2"]];
-        arView.lblSubTitle.text = @"Create your PIN";
-        arView.lblDesc.text = @"It's much simpler than a password and more secure.";
-        [arView.btnNext setTitle:@"" forState:UIControlStateNormal];
-        [arView.btnNext setImage:[UIImage imageNamed:@"arrow-right-white"] forState:UIControlStateNormal];
-        [arView.btnNext addTarget:self action:@selector( next: ) forControlEvents:UIControlEventTouchUpInside];
+        [helpView.imgArt setImage:[UIImage imageNamed:@"Guide2"]];
+        helpView.lblSubTitle.text = @"Create your PIN";
+        helpView.lblDesc.text = @"It's much simpler than a password and more secure.";
+        [helpView.btnNext setTitle:@"" forState:UIControlStateNormal];
+        [helpView.btnNext setImage:[UIImage imageNamed:@"arrow-right-white"] forState:UIControlStateNormal];
+        [helpView.btnNext addTarget:self action:@selector( next: ) forControlEvents:UIControlEventTouchUpInside];
 
         break;
 
     case 3:
-        [arView.imgArt setImage:[UIImage imageNamed:@"Guide3"]];
-        arView.lblSubTitle.text = @"You are ready to go!";
-        arView.lblDesc.text = @"You can now use your M-Pin identity any time you want.";
-        [arView.btnNext setTitle:@"DONE" forState:UIControlStateNormal];
-        [arView.btnNext setImage:nil forState:UIControlStateNormal];
-        [arView.btnNext addTarget:self action:@selector( done: ) forControlEvents:UIControlEventTouchUpInside];
+        [helpView.imgArt setImage:[UIImage imageNamed:@"Guide3"]];
+        helpView.lblSubTitle.text = @"You are ready to go!";
+        helpView.lblDesc.text = @"You can now use your M-Pin identity any time you want.";
+        [helpView.btnNext setTitle:@"DONE" forState:UIControlStateNormal];
+        [helpView.btnNext setImage:nil forState:UIControlStateNormal];
+        [helpView.btnNext addTarget:self action:@selector( done: ) forControlEvents:UIControlEventTouchUpInside];
 
         break;
 
     default:
         break;
     }
-    arView.pageControl.currentPage = index;
-    arView.lblTitle.text = @"Setup your phone to use M-Pin";
+    [helpView.btnSkip addTarget:self action:@selector( skip: ) forControlEvents:UIControlEventTouchUpInside];
+    helpView.pageControl.currentPage = index;
+    helpView.lblTitle.text = @"Setup your phone to use M-Pin";
 
-    return arView;
+    return helpView;
 }
 
-- ( HelpDataView * ) setupServer:( HelpDataView * )arView atIndex:( NSInteger )index
+- ( HelpDataView * ) setupServer:( HelpDataView * )helpView atIndex:( NSInteger )index
 {
-    arView.pageControl.numberOfPages = 2;
+    helpView.pageControl.numberOfPages = 2;
     switch ( index )
     {
     case 0:
-        [arView.imgArt setImage:[UIImage imageNamed:@"Guide4"]];
-        arView.lblSubTitle.text = @"Download and setup your own M-Pin Server";
-        arView.lblDesc.text = @"Visit certivox.com/products, choose from M-Pin Core or M-Pin SSO, then follow the online installation instructions.";
-        [arView.btnNext setTitle:@"" forState:UIControlStateNormal];
-        [arView.btnNext setImage:[UIImage imageNamed:@"arrow-right-white"] forState:UIControlStateNormal];
-        [arView.btnNext addTarget:self action:@selector( next: ) forControlEvents:UIControlEventTouchUpInside];
+        [helpView.imgArt setImage:[UIImage imageNamed:@"Guide4"]];
+        helpView.lblSubTitle.text = @"Download and setup your own M-Pin Server";
+        helpView.lblDesc.text = @"Visit certivox.com/products, choose from M-Pin Core or M-Pin SSO, then follow the online installation instructions.";
+        [helpView.btnNext setTitle:@"" forState:UIControlStateNormal];
+        [helpView.btnNext setImage:[UIImage imageNamed:@"arrow-right-white"] forState:UIControlStateNormal];
+        [helpView.btnNext addTarget:self action:@selector( next: ) forControlEvents:UIControlEventTouchUpInside];
 
         break;
 
     case 1:
-        [arView.imgArt setImage:[UIImage imageNamed:@"Guide5"]];
-        arView.lblSubTitle.text = @"Add your server to this app";
-        arView.lblDesc.text = @"Simply hit “+” on the next screen then enter the name and URL of your M-Pin Server and you are ready to authenticate to your service using this app.";
-        [arView.btnNext setImage:nil forState:UIControlStateNormal];
-        [arView.btnNext setTitle:@"DONE" forState:UIControlStateNormal];
-        [arView.btnNext addTarget:self action:@selector( done: ) forControlEvents:UIControlEventTouchUpInside];
+        [helpView.imgArt setImage:[UIImage imageNamed:@"Guide5"]];
+        helpView.lblSubTitle.text = @"Add your server to this app";
+        helpView.lblDesc.text = @"Simply hit “+” on the next screen then enter the name and URL of your M-Pin Server and you are ready to authenticate to your service using this app.";
+        [helpView.btnNext setImage:nil forState:UIControlStateNormal];
+        [helpView.btnNext setTitle:@"DONE" forState:UIControlStateNormal];
+        [helpView.btnNext addTarget:self action:@selector( done: ) forControlEvents:UIControlEventTouchUpInside];
 
         break;
 
     default:
         break;
     }
-    arView.pageControl.currentPage = index;
-    arView.lblTitle.text = @"Get your own M-Pin Server";
+    [helpView.btnSkip addTarget:self action:@selector( skip: ) forControlEvents:UIControlEventTouchUpInside];
+    helpView.pageControl.currentPage = index;
+    helpView.lblTitle.text = @"Get your own M-Pin Server";
 
-    return arView;
+    return helpView;
 }
 
-- ( HelpDataView * ) setupAN:( HelpDataView * )arView atIndex:( NSInteger )index
+- ( HelpDataView * ) setupAN:( HelpDataView * )helpView atIndex:( NSInteger )index
 {
-    arView.pageControl.numberOfPages = 1;
+    helpView.pageControl.numberOfPages = 1;
     switch ( index )
     {
     case 0:
-        [arView.imgArt setImage:[UIImage imageNamed:@"Guide6"]];
-        arView.lblSubTitle.text = @"Get your Access Number";
-        arView.lblDesc.text = @"Login to discuss.certivox.com on your desktop browser and choose \"Sign in with phone\".";
-        [arView.btnNext setTitle:@"DONE" forState:UIControlStateNormal];
-        [arView.btnNext addTarget:self action:@selector( done: ) forControlEvents:UIControlEventTouchUpInside];
+        [helpView.imgArt setImage:[UIImage imageNamed:@"Guide6"]];
+        helpView.lblSubTitle.text = @"Get your Access Number";
+        helpView.lblDesc.text = @"Login to discuss.certivox.com on your desktop browser and choose \"Sign in with phone\".";
+        [helpView.btnNext setTitle:@"DONE" forState:UIControlStateNormal];
+        [helpView.btnNext addTarget:self action:@selector( done: ) forControlEvents:UIControlEventTouchUpInside];
 
         break;
 
     default:
         break;
     }
-    arView.pageControl.currentPage = index;
-    arView.lblTitle.text = @"Login to the Certivox community";
+    [helpView.btnSkip addTarget:self action:@selector( skip: ) forControlEvents:UIControlEventTouchUpInside];
+    helpView.pageControl.currentPage = index;
+    helpView.lblTitle.text = @"Login to the Certivox community";
 
-    return arView;
+    return helpView;
 }
 
 @end

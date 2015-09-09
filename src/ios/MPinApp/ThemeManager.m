@@ -366,7 +366,7 @@
     if ( [superVc isMemberOfClass:[MenuViewController class]]
          || [superVc isMemberOfClass:[ANAuthenticationSuccessful class]]
          || [superVc isMemberOfClass:[NetworkDownViewController class]]
-        || [superVc isMemberOfClass:[HelpViewController class]])
+         || [superVc isMemberOfClass:[HelpViewController class]] )
     {
         return;
     }
@@ -434,47 +434,46 @@
     helpView.lblTitle.textAlignment = NSTextAlignmentCenter;
     helpView.lblTitle.backgroundColor = [[SettingsManager sharedManager] color0];
     [helpView addSubview:helpView.lblTitle];
-    
+
     helpView.lblSubTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, ceil(screenHeight / 3) + 80, screenWidth - 20, 50)];
     helpView.lblSubTitle.textColor = [UIColor redColor];
     helpView.lblSubTitle.textAlignment = NSTextAlignmentCenter;
     helpView.lblSubTitle.backgroundColor = [UIColor whiteColor];
     [helpView addSubview:helpView.lblSubTitle];
-    
+
     helpView.lblDesc = [[UILabel alloc] initWithFrame:CGRectMake(10, ceil(screenHeight / 3) + 130, screenWidth - 20, screenHeight - ceil(screenHeight / 3) - 250)];
     helpView.lblDesc.textColor = [UIColor redColor];
     helpView.lblDesc.textAlignment = NSTextAlignmentCenter;
     helpView.lblDesc.backgroundColor = [[SettingsManager sharedManager] color0];
     helpView.lblDesc.adjustsFontSizeToFitWidth = YES;
     [helpView addSubview:helpView.lblDesc];
-    
+
     helpView.btnSkip = [[UIButton alloc] initWithFrame:CGRectMake(0, screenHeight - 55 - 20, screenWidth / 2, 55)];
     helpView.btnSkip.backgroundColor = [[SettingsManager sharedManager] color0];
     [helpView.btnSkip setTitle:@"SKIP" forState:UIControlStateNormal];
     [helpView.btnSkip setTitleColor:[[SettingsManager sharedManager] color10] forState:UIControlStateNormal];
     [helpView.btnSkip.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:18.f]];
-    [helpView.btnSkip addTarget:self action:@selector( skip: ) forControlEvents:UIControlEventTouchUpInside];
     [helpView addSubview:helpView.btnSkip];
-    
+
     helpView.btnNext = [[UIButton alloc] initWithFrame:CGRectMake(screenWidth / 2, screenHeight - 55 - 20, screenWidth / 2, 55)];
     helpView.btnNext.backgroundColor = [[SettingsManager sharedManager] color10];
     [helpView addSubview:helpView.btnNext];
-    
-    
-    
+
+
+
     helpView.imgArt = [[UIImageView alloc] initWithFrame:CGRectMake( 10, 70, screenWidth - 20, ceil(screenHeight / 3) )];
     helpView.imgArt.backgroundColor = [UIColor whiteColor];
     helpView.imgArt.contentMode = UIViewContentModeScaleAspectFit;
     [helpView addSubview:helpView.imgArt];
-    
+
     helpView.lblDesc.textColor = [[SettingsManager sharedManager] color10];
     helpView.lblSubTitle.textColor = [[SettingsManager sharedManager] color10];
     helpView.lblTitle.textColor = [[SettingsManager sharedManager] color10];
-    
+
     helpView.lblDesc.font         = [UIFont fontWithName:@"OpenSans" size:14.f];
     helpView.lblSubTitle.font     = [UIFont fontWithName:@"OpenSans" size:18.f];
     helpView.lblTitle.font        = [UIFont fontWithName:@"OpenSans" size:18.f];
-    
+
     helpView.pageControl = [[PageControl alloc] initWithFrame:CGRectMake(10, screenHeight - 110, screenWidth - 20, 35)];
     helpView.pageControl.backgroundColor = [[SettingsManager sharedManager] color0];
     helpView.pageControl.pageIndicatorTintColor           = [[SettingsManager sharedManager] color4];
@@ -487,7 +486,6 @@
     CGFloat size = helpView.lblDesc.font.pointSize;
     [helpView.lblDesc setMinimumScaleFactor:10.0 / size];
     helpView.lblDesc.baselineAdjustment = UIBaselineAdjustmentAlignBaselines;
-
 }
 
 @end
