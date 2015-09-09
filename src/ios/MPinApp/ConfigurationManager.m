@@ -415,6 +415,7 @@ static NSString *const kServerSettingsFirstTime = @"server_settings";
 
         return YES;
     }
+
     return NO;
 }
 

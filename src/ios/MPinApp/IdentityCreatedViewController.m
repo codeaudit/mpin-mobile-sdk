@@ -29,6 +29,7 @@
 #import "ThemeManager.h"
 #import "MFSideMenu.h"
 #import "HelpViewController.h"
+#import "MenuViewController.h"
 
 @interface IdentityCreatedViewController ( ) {
     MPin *sdk;
@@ -207,15 +208,18 @@
 {
     if ( [[ConfigurationManager sharedManager] isFirstTimeAddIdentity] )
     {
-        NSString *filePath = [[NSBundle mainBundle] pathForResource:kHelpFile ofType:@"plist"];
-        NSDictionary *menuData = [[NSDictionary alloc] initWithContentsOfFile:filePath];
-        HelpViewController *helpControler  = [self.storyboard instantiateViewControllerWithIdentifier:@"HelpViewController"];
-        [self presentViewController:helpControler animated:NO completion:nil];
+        MenuViewController *menuVC = (MenuViewController *)self.menuContainerViewController.leftMenuViewController;
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:[NSBundle mainBundle]];
+        HelpViewController *vcHelp = [storyboard instantiateViewControllerWithIdentifier:@"HelpViewController"];
+        vcHelp.helpMode = HELP_AN;
+        [menuVC setCenter:vcHelp];
     }
-
-    [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
-    NSDictionary *config = [[ConfigurationManager sharedManager] getSelectedConfiguration];
-    [self startAuthenticationFlow:self.user forService:[config [kSERVICE_TYPE] intValue]];
+    else
+    {
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
+        NSDictionary *config = [[ConfigurationManager sharedManager] getSelectedConfiguration];
+        [self startAuthenticationFlow:self.user forService:[config [kSERVICE_TYPE] intValue]];
+    }
 }
 
 #pragma mark - Alert view delegate -

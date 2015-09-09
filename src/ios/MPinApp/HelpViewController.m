@@ -230,13 +230,9 @@
     }
 
     case HELP_QUICK_START:
+    case HELP_AN:
     {
         [menuVC setCenterWithID:USER_LIST];
-        break;
-    }
-
-    default:
-    {
         break;
     }
     }
@@ -332,10 +328,11 @@
 
 - ( HelpDataView * ) setupAN:( HelpDataView * )arView atIndex:( NSInteger )index
 {
+    arView.pageControl.numberOfPages = 1;
     switch ( index )
     {
     case 0:
-        [arView.imgArt setImage:[UIImage imageNamed:@"Guide0"]];
+        [arView.imgArt setImage:[UIImage imageNamed:@"Guide6    "]];
         arView.lblSubTitle.text = @"Get your Access Number";
         arView.lblDesc.text = @"Login to discuss.certivox.com on your desktop browser and choose \"Sign in with phone\".";
         [arView.btnNext setTitle:@"DONE" forState:UIControlStateNormal];
