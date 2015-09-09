@@ -35,6 +35,7 @@
 #import "Utilities.h"
 #import "HelpViewController.h"
 #import "ConfigurationManager.h"
+#import "IUser.h"
 
 @interface AppDelegate ()
 {
@@ -104,8 +105,13 @@
         [self firstTimeLaunch];
     }
     
+    [ApplicationManager sharedManager];
+    [NetworkMonitor sharedManager];
     
     
+    sdk  = [[MPin alloc] init];
+    sdk.delegate = self;
+
 	return YES;
 }
 
