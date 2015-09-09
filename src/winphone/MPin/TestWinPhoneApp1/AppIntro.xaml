@@ -27,17 +27,10 @@
                     </Grid.RowDefinitions>
 
                     <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Width="104" Height="173">
-                        <Rectangle Fill="{ThemeResource TextBoxBackgroundThemeBrush}" Width="61" Height="9" Canvas.Left="22" Canvas.Top="84" />
-                        <Rectangle Fill="{ThemeResource TextBoxBackgroundThemeBrush}" Width="61" Height="9" Canvas.Left="22" Canvas.Top="100" />
-                        <!-- TODO <Image  Canvas.Left="38" Canvas.Top="39" Width="28" Height="28"/>
-                        
-                        <image xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABYlBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAAk9ovSAAAAdHRSTlMAPIW42O7v2rqIQVbHzV4du8InQO32Sj30g0NCf+xHGeQi3P4hxDbRU+DVY9bGueM4591Fil1PmcD3PzfwzKdqZ6Hbj2xLjMnl9YYsKYLOjhycBc9JpJYCWvhUSNkf/Q8Kh+iJEhA7UEzeVSrFM2ZvleKYBOeSWncAAAABYktHRACIBR1IAAAACXBIWXMAAAsSAAALEgHS3X78AAABRklEQVQoz32SV1fCQBCFJ2iCBVRUELEBigXRqGjsBgtWBLti74q95P8fs2U2xaPzsnPvt2V2ZwEwJE9Zuax4KyqrwB3VPkOEv8aBausMRwTqLdbQaLgiGELWxJ1wc6SltY2LdsY6gkxGY1TFmersojDhnNvNZQ8RvVz04SlJbvSbeYrnAwgHuaECDGGBwwhH0EnDqCh/jDFNGOMwIfLJKcKmZ4QxC17b1ef0zLxNqiAbf4YCyn9wwWrG4lI2pC+vCGMVAixZW9/Aq+Q2+W55KLBVMXsHt9iKbZDIkNpx9X6XuHsApAv77o9xQJ7sEODIHIuak0XCpqmTLE+2OLazE+Kc0vTsnOSFC0SXV7ScHFNpKq5vpFuAu3uPSuUDzn0ssovJpRJ+oSfrkOcX58P5Xx31vSUtFH//9eezH4lPRYn6vrRvtH4AIZPCKB+HzB0AAAAASUVORK5CYII=" x="38" y="39" width="28" height="28"/>
-   
-
-                        
-                        -->
-                        <Path Fill="{ThemeResource TextBoxBackgroundThemeBrush}" StrokeThickness="0"
-                              Data="M94.000,173.000 L10.000,173.000 C4.477,173.000 -0.000,168.523 -0.000,163.000 L-0.000,10.000 C-0.000,4.477 4.477,0.000 10.000,0.000 L94.000,0.000 C99.523,0.000 104.000,4.477 104.000,10.000 L104.000,163.000 C104.000,168.523 99.523,173.000 94.000,173.000 ZM94.812,12.906 C94.812,11.249 93.469,9.906 91.813,9.906 L12.187,9.906 C10.531,9.906 9.188,11.249 9.188,12.906 L9.188,150.219 C9.188,151.876 10.531,153.219 12.187,153.219 L91.813,153.219 C93.469,153.219 94.812,151.876 94.812,150.219 L94.812,12.906 Z" />
+                        <Path Fill="{ThemeResource ApplicationForegroundThemeBrush}" StrokeThickness="0"
+                              Data="M22.000,109.000 L22.000,100.000 L83.000,100.000 L83.000,109.000 L22.000,109.000 ZM22.000,84.000 L83.000,84.000 L83.000,93.000 L22.000,93.000 L22.000,84.000 Z" />
+                        <Path Fill="{ThemeResource ApplicationForegroundThemeBrush}" StrokeThickness="0"
+                              Data="M94.000,173.000 L10.000,173.000 C4.477,173.000 -0.000,168.523 -0.000,163.000 L-0.000,10.000 C-0.000,4.477 4.477,0.000 10.000,0.000 L94.000,0.000 C99.523,0.000 104.000,4.477 104.000,10.000 L104.000,163.000 C104.000,168.523 99.523,173.000 94.000,173.000 ZM94.812,12.906 C94.812,11.249 93.469,9.906 91.813,9.906 L12.187,9.906 C10.531,9.906 9.188,11.249 9.188,12.906 L9.188,150.219 C9.188,151.876 10.531,153.219 12.187,153.219 L91.813,153.219 C93.469,153.219 94.812,151.876 94.812,150.219 L94.812,12.906 ZM52.000,67.000 C44.300,67.000 38.000,60.700 38.000,53.000 C38.000,45.300 44.300,39.000 52.000,39.000 C59.700,39.000 66.000,45.300 66.000,53.000 C66.000,60.700 59.700,67.000 52.000,67.000 ZM52.000,43.200 C49.620,43.200 47.800,45.020 47.800,47.400 C47.800,49.780 49.620,51.600 52.000,51.600 C54.380,51.600 56.200,49.780 56.200,47.400 C56.200,45.020 54.380,43.200 52.000,43.200 ZM52.000,54.260 C49.200,54.260 43.600,55.800 43.600,58.600 C45.420,61.260 48.500,63.080 52.000,63.080 C55.500,63.080 58.580,61.260 60.400,58.600 C60.400,55.800 54.800,54.260 52.000,54.260 Z" />                        
                     </Canvas>
 
                     <TextBlock x:Uid="IntroCreate" Style="{StaticResource IdentityTextBlock}" Grid.Row="1"/>
@@ -55,11 +48,11 @@
                     </Grid.RowDefinitions>
 
                     <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Width="181" Height="146">
-                        <Rectangle Fill="{ThemeResource TextBoxBackgroundThemeBrush}" RadiusX="3" RadiusY="3" Width="148.375" Height="102.688" Canvas.Left="16.313" Canvas.Top="14.656" />
+                        <Rectangle Fill="{ThemeResource ApplicationForegroundThemeBrush}" RadiusX="3" RadiusY="3" Width="148.375" Height="102.688" Canvas.Left="16.313" Canvas.Top="14.656" />
                         <Path StrokeThickness="0" Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                           Data="M164.000,118.000 L102.062,69.900 L90.929,78.510 L79.436,69.959 L16.000,118.000 L16.000,110.235 L74.264,66.111 L16.000,22.765 L16.000,15.000 L79.436,62.194 L79.532,62.121 L91.000,71.000 L102.094,62.125 L102.161,62.176 L164.000,15.000 L164.000,22.000 L107.105,66.000 L164.000,110.000 L164.000,118.000 Z"/>
                         <Ellipse Fill="{ThemeResource PhoneAccentBrush}" Width="75" Height="75" Canvas.Left="106" Canvas.Top="71" />
-                        <Path Fill="{ThemeResource TextBoxBackgroundThemeBrush}" StrokeThickness="0"
+                        <Path Fill="{ThemeResource ApplicationForegroundThemeBrush}" StrokeThickness="0"
                               Data="M126.000,111.000 L122.000,115.000 L138.000,131.000 L171.000,97.000 L167.000,93.000 L138.000,122.000 L126.000,111.000 Z" />
                     </Canvas>
 
@@ -79,7 +72,7 @@
 
                     <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Width="181" Height="179">
 
-                        <Rectangle Fill="{ThemeResource TextBoxBackgroundThemeBrush}" RadiusX="10" RadiusY="10" Width="78.75" Height="78.594" Canvas.Left="49.313" Canvas.Top="66.688" />
+                        <Rectangle Fill="{ThemeResource ApplicationForegroundThemeBrush}" RadiusX="10" RadiusY="10" Width="78.75" Height="78.594" Canvas.Left="49.313" Canvas.Top="66.688" />
                         <Path Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" StrokeThickness="0"
                               Data="M128.000,125.017 L128.000,127.448 L102.087,127.448 L102.087,146.000 L99.651,146.000 L99.651,127.448 L76.100,127.448 L76.100,146.000 L73.665,146.000 L73.665,127.448 L49.000,127.448 L49.000,125.017 L73.665,125.017 L73.665,106.379 L49.000,106.379 L49.000,103.948 L73.665,103.948 L73.665,86.931 L49.000,86.931 L49.000,84.500 L73.665,84.500 L73.665,67.000 L76.100,67.000 L76.100,84.500 L99.651,84.500 L99.651,67.000 L102.087,67.000 L102.087,84.500 L128.000,84.500 L128.000,86.931 L102.087,86.931 L102.087,103.948 L128.000,103.948 L128.000,106.379 L102.087,106.379 L102.087,125.017 L128.000,125.017 ZM99.651,86.931 L76.100,86.931 L76.100,103.948 L99.651,103.948 L99.651,86.931 ZM99.651,106.379 L76.100,106.379 L76.100,125.017 L99.651,125.017 L99.651,106.379 Z" />
 
@@ -89,7 +82,7 @@
                             <TextBlock Text="****" HorizontalAlignment="Center" FontSize="48" Foreground="{ThemeResource PhoneAccentBrush}"/>
                         </Grid>
 
-                        <Path Fill="{ThemeResource TextBoxBackgroundThemeBrush}" StrokeThickness="0" 
+                        <Path Fill="{ThemeResource ApplicationForegroundThemeBrush}" StrokeThickness="0" 
                             Data="M0.000,32.000 L0.000,27.000 L181.000,27.000 L181.000,32.000 L0.000,32.000 Z"/>
 
                     </Canvas>
@@ -109,7 +102,7 @@
                     </Grid.RowDefinitions>
 
                     <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Width="104" Height="173">
-                        <Path StrokeThickness="0" Fill="{ThemeResource TextBoxBackgroundThemeBrush}"
+                        <Path StrokeThickness="0" Fill="{ThemeResource ApplicationForegroundThemeBrush}"
                           Data="M94.000,173.000 L10.000,173.000 C4.477,173.000 -0.000,168.523 -0.000,163.000 L-0.000,10.000 C-0.000,4.477 4.477,0.000 10.000,0.000 L94.000,0.000 C99.523,0.000 104.000,4.477 104.000,10.000 L104.000,163.000 C104.000,168.523 99.523,173.000 94.000,173.000 ZM94.812,12.906 C94.812,11.249 93.469,9.906 91.813,9.906 L12.187,9.906 C10.531,9.906 9.188,11.249 9.188,12.906 L9.188,150.219 C9.188,151.876 10.531,153.219 12.187,153.219 L91.813,153.219 C93.469,153.219 94.812,151.876 94.812,150.219 L94.812,12.906 Z"/>
                         <Rectangle Fill="{ThemeResource PhoneAccentBrush}" RadiusX="8" RadiusY="8" Width="61" Height="48" Canvas.Left="22" Canvas.Top="76" />
                         <Path Fill="{ThemeResource PhoneAccentBrush}" StrokeThickness="0"
@@ -124,7 +117,7 @@
         </Pivot>
 
         <StackPanel Grid.Row="2" Margin="0,24,0,0">
-            <Rectangle Height="1" Fill="{ThemeResource TextBoxBackgroundThemeBrush}" Stretch="UniformToFill" Margin="-12, 0, -12, 0"/>
+            <Rectangle Height="1" Fill="{ThemeResource ApplicationForegroundThemeBrush}" Stretch="UniformToFill" Margin="-12, 0, -12, 0"/>
             <Grid Margin="0,6,0,6">
                 <Button x:Name="SkipButton" x:Uid="SkipButton" Click="AppBarButton_Click" HorizontalAlignment="Left" BorderThickness="0"/>
                 <Button x:Name="NextButton" x:Uid="NextButton" Click="NextButton_Click" HorizontalAlignment="Right" BorderThickness="0"/>
