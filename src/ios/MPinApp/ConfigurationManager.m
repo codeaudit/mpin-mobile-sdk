@@ -407,6 +407,7 @@ static NSString *const kServerSettingsFirstTime = @"server_settings";
 
 -( BOOL ) isFirstTimeLaunch
 {
+    return YES;
     if ( _isFirstTimeLaunch == YES )
     {
         [[NSUserDefaults standardUserDefaults] setBool:_isFirstTimeLaunch forKey:kAppFirstTime];

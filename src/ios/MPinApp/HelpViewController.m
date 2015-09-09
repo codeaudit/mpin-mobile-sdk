@@ -28,14 +28,7 @@
 #import "MFSideMenu.h"
 #import "SwipeView.h"
 #import "ThemeManager.h"
-
-@interface HelpDataView ( )
-{}
-@end
-
-@implementation HelpDataView
-
-@end
+#import "HelpDataView.h"
 
 
 
@@ -117,71 +110,13 @@
 - ( UIView * )swipeView:( SwipeView * )swipeView viewForItemAtIndex:( NSInteger )index reusingView:( UIView * )view
 {
     HelpDataView *arView = (HelpDataView *)view;
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    CGFloat screenHeight = screenRect.size.height;
-    CGFloat screenWidth = screenRect.size.width;
 
     NSLog(@"Loading page at index %ld", (long)index);
 
     if ( arView == nil )
     {
         arView = [[HelpDataView alloc] initWithFrame:self.swipeView.bounds];
-        arView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-
-        arView.lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, screenWidth - 20, 50)];
-        arView.lblTitle.textColor = [UIColor redColor];
-        arView.lblTitle.textAlignment = NSTextAlignmentCenter;
-        arView.lblTitle.backgroundColor = [[SettingsManager sharedManager] color0];
-        [arView addSubview:arView.lblTitle];
-
-        arView.lblSubTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, ceil(screenHeight / 3) + 80, screenWidth - 20, 50)];
-        arView.lblSubTitle.textColor = [UIColor redColor];
-        arView.lblSubTitle.textAlignment = NSTextAlignmentCenter;
-        arView.lblSubTitle.backgroundColor = [UIColor whiteColor];
-        [arView addSubview:arView.lblSubTitle];
-
-        arView.lblDesc = [[UILabel alloc] initWithFrame:CGRectMake(10, ceil(screenHeight / 3) + 140, screenWidth - 20, screenHeight - ceil(screenHeight / 3) - 60 - 60 - 60 - 60 - 60)];
-        arView.lblDesc.textColor = [UIColor redColor];
-        arView.lblDesc.textAlignment = NSTextAlignmentCenter;
-        arView.lblDesc.backgroundColor = [[SettingsManager sharedManager] color0];;
-        [arView addSubview:arView.lblDesc];
-
-        arView.btnSkip = [[UIButton alloc] initWithFrame:CGRectMake(0, screenHeight - 55 - 20, screenWidth / 2, 55)];
-        arView.btnSkip.backgroundColor = [[SettingsManager sharedManager] color0];
-        [arView.btnSkip setTitle:@"SKIP" forState:UIControlStateNormal];
-        [arView.btnSkip setTitleColor:[[SettingsManager sharedManager] color10] forState:UIControlStateNormal];
-        [arView.btnSkip.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:18.f]];
-        [arView.btnSkip addTarget:self action:@selector( skip: ) forControlEvents:UIControlEventTouchUpInside];
-        [arView addSubview:arView.btnSkip];
-
-        arView.btnNext = [[UIButton alloc] initWithFrame:CGRectMake(screenWidth / 2, screenHeight - 55 - 20, screenWidth / 2, 55)];
-        arView.btnNext.backgroundColor = [[SettingsManager sharedManager] color10];
-        [arView addSubview:arView.btnNext];
-
-
-
-        arView.imgArt = [[UIImageView alloc] initWithFrame:CGRectMake( 10, 70, screenWidth - 20, ceil(screenHeight / 3) )];
-        arView.imgArt.backgroundColor = [UIColor whiteColor];
-        arView.imgArt.contentMode = UIViewContentModeScaleAspectFit;
-        [arView addSubview:arView.imgArt];
-
-        arView.lblDesc.textColor = [[SettingsManager sharedManager] color10];
-        arView.lblSubTitle.textColor = [[SettingsManager sharedManager] color10];
-        arView.lblTitle.textColor = [[SettingsManager sharedManager] color10];
-
-        arView.lblDesc.font         = [UIFont fontWithName:@"OpenSans" size:14.f];
-        arView.lblSubTitle.font     = [UIFont fontWithName:@"OpenSans" size:18.f];
-        arView.lblTitle.font        = [UIFont fontWithName:@"OpenSans" size:18.f];
-
-        arView.pageControl = [[PageControl alloc] initWithFrame:CGRectMake(10, screenHeight - 130, screenWidth - 20, 55)];
-        arView.pageControl.backgroundColor = [[SettingsManager sharedManager] color0];
-        arView.pageControl.pageIndicatorTintColor           = [[SettingsManager sharedManager] color4];
-        arView.pageControl.currentPageIndicatorTintColor    = [[SettingsManager sharedManager] color10];
-        arView.pageControl.userInteractionEnabled = NO;
-        [arView addSubview:arView.pageControl];
-        arView.lblTitle.numberOfLines = 0;
-        arView.lblSubTitle.numberOfLines = 0;
-        arView.lblDesc.numberOfLines = 0;
+        [[ThemeManager sharedManager] customiseHelpView:arView];
     }
 
     switch ( _helpMode )
@@ -332,7 +267,7 @@
     switch ( index )
     {
     case 0:
-        [arView.imgArt setImage:[UIImage imageNamed:@"Guide6    "]];
+        [arView.imgArt setImage:[UIImage imageNamed:@"Guide6"]];
         arView.lblSubTitle.text = @"Get your Access Number";
         arView.lblDesc.text = @"Login to discuss.certivox.com on your desktop browser and choose \"Sign in with phone\".";
         [arView.btnNext setTitle:@"DONE" forState:UIControlStateNormal];
@@ -351,38 +286,3 @@
 
 @end
 
-@implementation PageControl
-//
-//-( id ) initWithCoder:( NSCoder * )aDecoder
-//{
-//    self = [super initWithCoder:aDecoder];
-//
-//    activeImage     = [UIImage imageNamed:@"PageIndicatorSelected"];
-//    inactiveImage   = [UIImage imageNamed:@"PageIndicator"];
-//
-//    return self;
-//}
-//
-//-( void ) updateDots
-//{
-//    for ( int i = 0; i < [self.subviews count]; i++ )
-//    {
-//        UIImageView *dot = self.subviews[i];
-//        if ([dot isMemberOfClass:[UIView class]])
-//        {
-//            continue;
-//        }
-//        if ( i == self.currentPage )
-//            dot.image = activeImage;
-//        else
-//            dot.image = inactiveImage;
-//    }
-//}
-//
-//-( void ) setCurrentPage:( NSInteger )page
-//{
-//    [super setCurrentPage:page];
-//    [self updateDots];
-//}
-
-@end

@@ -26,27 +26,6 @@
 #import "SwipeView.h"
 
 
-@interface PageControl : UIPageControl
-{
-    UIImage* activeImage;
-    UIImage* inactiveImage;
-}
-@end
-
-@interface HelpDataView : SwipeView
-
-@property( nonatomic,strong )  UILabel *lblTitle;
-@property( nonatomic,strong )  UILabel *lblSubTitle;
-@property( nonatomic,strong )  UIImageView *imgArt;
-@property( nonatomic,strong )  UILabel *lblDesc;
-@property( nonatomic,strong )  PageControl *pageControl;
-@property( nonatomic,strong )  UIButton *btnSkip;
-@property( nonatomic,strong )  UIButton *btnNext;
-
-@end
-
-
-
 @interface HelpViewController : UIViewController <SwipeViewDataSource, SwipeViewDelegate>
 
 @property( nonatomic,weak ) IBOutlet SwipeView *swipeView;

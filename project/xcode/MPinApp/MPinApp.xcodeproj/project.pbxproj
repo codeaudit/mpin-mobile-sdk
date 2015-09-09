@@ -270,6 +270,10 @@
 		96E9D36F1B39699B004ADDEA /* AboutDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */; };
 		96E9D3701B39699B004ADDEA /* AboutDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */; };
 		96E9D3711B39699B004ADDEA /* AboutDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */; };
+		96EE721C1BA02861002CD3D8 /* HelpDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EE721B1BA02861002CD3D8 /* HelpDataView.m */; };
+		96EE721D1BA02861002CD3D8 /* HelpDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EE721B1BA02861002CD3D8 /* HelpDataView.m */; };
+		96EE721E1BA02861002CD3D8 /* HelpDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EE721B1BA02861002CD3D8 /* HelpDataView.m */; };
+		96EE721F1BA02861002CD3D8 /* HelpDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EE721B1BA02861002CD3D8 /* HelpDataView.m */; };
 		96F62A241AC30FAF00B25B53 /* ConfigurationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A211AC30FAF00B25B53 /* ConfigurationManager.m */; };
 		96F62A251AC30FAF00B25B53 /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A231AC30FAF00B25B53 /* SettingsManager.m */; };
 		96F62A281AC311D000B25B53 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F62A261AC311D000B25B53 /* AboutViewController.m */; };
@@ -446,6 +450,8 @@
 		96E21A531AF8AE6C00490625 /* en_BG1.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = en_BG1.strings; sourceTree = "<group>"; };
 		96E9D36C1B39699B004ADDEA /* AboutDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutDetailsViewController.h; path = ../../../../src/ios/MPinApp/AboutDetailsViewController.h; sourceTree = "<group>"; };
 		96E9D36D1B39699B004ADDEA /* AboutDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutDetailsViewController.m; path = ../../../../src/ios/MPinApp/AboutDetailsViewController.m; sourceTree = "<group>"; };
+		96EE721A1BA02861002CD3D8 /* HelpDataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HelpDataView.h; path = ../../../../src/ios/MPinApp/HelpDataView.h; sourceTree = "<group>"; };
+		96EE721B1BA02861002CD3D8 /* HelpDataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HelpDataView.m; path = ../../../../src/ios/MPinApp/HelpDataView.m; sourceTree = "<group>"; };
 		96F62A201AC30FAF00B25B53 /* ConfigurationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfigurationManager.h; path = ../../../../src/ios/MPinApp/ConfigurationManager.h; sourceTree = "<group>"; };
 		96F62A211AC30FAF00B25B53 /* ConfigurationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConfigurationManager.m; path = ../../../../src/ios/MPinApp/ConfigurationManager.m; sourceTree = "<group>"; };
 		96F62A221AC30FAF00B25B53 /* SettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsManager.h; path = ../../../../src/ios/MPinApp/SettingsManager.h; sourceTree = "<group>"; };
@@ -737,6 +743,8 @@
 				FE4AEB071A443E4C000B3181 /* CycleProgressBar.m */,
 				964B121B1A93921C00FFB67A /* BackButton.h */,
 				964B121C1A93921C00FFB67A /* BackButton.m */,
+				96EE721A1BA02861002CD3D8 /* HelpDataView.h */,
+				96EE721B1BA02861002CD3D8 /* HelpDataView.m */,
 			);
 			name = CustomComponents;
 			sourceTree = "<group>";
@@ -1507,6 +1515,7 @@
 				96130E321AEE4867005D2A86 /* TextFieldTableViewCell.m in Sources */,
 				96130E331AEE4867005D2A86 /* AccessNumberViewController.m in Sources */,
 				963485EB1B5E755C001F2C71 /* Utilities.m in Sources */,
+				96EE721E1BA02861002CD3D8 /* HelpDataView.m in Sources */,
 				96130E341AEE4867005D2A86 /* UIColor+Helper.m in Sources */,
 				968591B81AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
 				96130E351AEE4867005D2A86 /* ConfigListTableViewCell.m in Sources */,
@@ -1558,6 +1567,7 @@
 				96130E7C1AEE490A005D2A86 /* TextFieldTableViewCell.m in Sources */,
 				96130E7D1AEE490A005D2A86 /* AccessNumberViewController.m in Sources */,
 				963485EC1B5E755C001F2C71 /* Utilities.m in Sources */,
+				96EE721F1BA02861002CD3D8 /* HelpDataView.m in Sources */,
 				96130E7E1AEE490A005D2A86 /* UIColor+Helper.m in Sources */,
 				968591B91AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
 				96130E7F1AEE490A005D2A86 /* ConfigListTableViewCell.m in Sources */,
@@ -1609,6 +1619,7 @@
 				9649BC9E1AC16D1000B9F41B /* OTPViewController.m in Sources */,
 				96F78E1D1B05E5B8005C2C7D /* ErrorHandler.m in Sources */,
 				963485EA1B5E755C001F2C71 /* Utilities.m in Sources */,
+				96EE721D1BA02861002CD3D8 /* HelpDataView.m in Sources */,
 				9649BC9F1AC16D1000B9F41B /* TextFieldTableViewCell.m in Sources */,
 				9649BCA01AC16D1000B9F41B /* AccessNumberViewController.m in Sources */,
 				9649BCA11AC16D1000B9F41B /* UIColor+Helper.m in Sources */,
@@ -1660,6 +1671,7 @@
 				FEFA500E1A7143DB002D6E24 /* AccessNumberViewController.m in Sources */,
 				968D0A441A7B93C00037841D /* UIColor+Helper.m in Sources */,
 				963485E91B5E755C001F2C71 /* Utilities.m in Sources */,
+				96EE721C1BA02861002CD3D8 /* HelpDataView.m in Sources */,
 				968591B61AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
 				961957491A97276100C93604 /* ConfigListTableViewCell.m in Sources */,
 				FE8129671ABAB61B008677CE /* MPin+AsyncOperations.m in Sources */,
