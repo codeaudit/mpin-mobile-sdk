@@ -180,8 +180,8 @@
     {
     case 0:
         [helpView.imgArt setImage:[UIImage imageNamed:@"Guide0"]];
-        helpView.lblSubTitle.text = @"Create an identity";
-        helpView.lblDesc.text = @"Enter your email to register.";
+        helpView.lblSubTitle.text = NSLocalizedString(@"SETUP_MPIN_SUBTITLE_0",@"Create an identity");
+        helpView.lblDesc.text = NSLocalizedString(@"SETUP_MPIN_DESC_0",@"Enter your email to register.");
         [helpView.btnNext setTitle:@"" forState:UIControlStateNormal];
         [helpView.btnNext setImage:[UIImage imageNamed:@"arrow-right-white"] forState:UIControlStateNormal];
         [helpView.btnNext addTarget:self action:@selector( next: ) forControlEvents:UIControlEventTouchUpInside];
@@ -190,8 +190,8 @@
 
     case 1:
         [helpView.imgArt setImage:[UIImage imageNamed:@"Guide1"]];
-        helpView.lblSubTitle.text = @"Confirm your email";
-        helpView.lblDesc.text = @"Click the link in the email and you are ready to choose your PIN.";
+        helpView.lblSubTitle.text = NSLocalizedString(@"SETUP_MPIN_SUBTITLE_1",@"Confirm your email");
+        helpView.lblDesc.text = NSLocalizedString(@"SETUP_MPIN_DESC_1",@"Click the link in the email and you are ready to choose your PIN.");
         [helpView.btnNext setTitle:@"" forState:UIControlStateNormal];
         [helpView.btnNext setImage:[UIImage imageNamed:@"arrow-right-white"] forState:UIControlStateNormal];
         [helpView.btnNext addTarget:self action:@selector( next: ) forControlEvents:UIControlEventTouchUpInside];
@@ -200,8 +200,8 @@
 
     case 2:
         [helpView.imgArt setImage:[UIImage imageNamed:@"Guide2"]];
-        helpView.lblSubTitle.text = @"Create your PIN";
-        helpView.lblDesc.text = @"It's much simpler than a password and more secure.";
+        helpView.lblSubTitle.text = NSLocalizedString(@"SETUP_MPIN_SUBTITLE_2",@"Create your PIN");
+        helpView.lblDesc.text = NSLocalizedString(@"SETUP_MPIN_DESC_2",@"It's much simpler than a password and more secure.");
         [helpView.btnNext setTitle:@"" forState:UIControlStateNormal];
         [helpView.btnNext setImage:[UIImage imageNamed:@"arrow-right-white"] forState:UIControlStateNormal];
         [helpView.btnNext addTarget:self action:@selector( next: ) forControlEvents:UIControlEventTouchUpInside];
@@ -210,9 +210,9 @@
 
     case 3:
         [helpView.imgArt setImage:[UIImage imageNamed:@"Guide3"]];
-        helpView.lblSubTitle.text = @"You are ready to go!";
-        helpView.lblDesc.text = @"You can now use your M-Pin identity any time you want.";
-        [helpView.btnNext setTitle:@"DONE" forState:UIControlStateNormal];
+        helpView.lblSubTitle.text = NSLocalizedString(@"SETUP_MPIN_SUBTITLE_3",@"You are ready to go!");
+        helpView.lblDesc.text = NSLocalizedString(@"SETUP_MPIN_DESC_3",@"You can now use your M-Pin identity any time you want.");
+        [helpView.btnNext setTitle:NSLocalizedString(@"SETUP_BTN_DONE", @"DONE") forState:UIControlStateNormal];
         [helpView.btnNext setImage:nil forState:UIControlStateNormal];
         [helpView.btnNext addTarget:self action:@selector( done: ) forControlEvents:UIControlEventTouchUpInside];
 
@@ -223,7 +223,7 @@
     }
     [helpView.btnSkip addTarget:self action:@selector( skip: ) forControlEvents:UIControlEventTouchUpInside];
     helpView.pageControl.currentPage = index;
-    helpView.lblTitle.text = @"Setup your phone to use M-Pin";
+    helpView.lblTitle.text = NSLocalizedString(@"SETUP_MPIN_TITLE",@"Setup your phone to use M-Pin");
 
     return helpView;
 }
@@ -235,8 +235,8 @@
     {
     case 0:
         [helpView.imgArt setImage:[UIImage imageNamed:@"Guide4"]];
-        helpView.lblSubTitle.text = @"Download and setup your own M-Pin Server";
-        helpView.lblDesc.text = @"Visit certivox.com/products, choose from M-Pin Core or M-Pin SSO, then follow the online installation instructions.";
+        helpView.lblSubTitle.text = NSLocalizedString(@"SETUP_SERVER_SUBTITLE_0",@"Download and setup your own M-Pin Server");
+        helpView.lblDesc.text = NSLocalizedString(@"SETUP_SERVER_DESC_0",@"Visit certivox.com/products, choose from M-Pin Core or M-Pin SSO, then follow the online installation instructions.");
         [helpView.btnNext setTitle:@"" forState:UIControlStateNormal];
         [helpView.btnNext setImage:[UIImage imageNamed:@"arrow-right-white"] forState:UIControlStateNormal];
         [helpView.btnNext addTarget:self action:@selector( next: ) forControlEvents:UIControlEventTouchUpInside];
@@ -245,10 +245,10 @@
 
     case 1:
         [helpView.imgArt setImage:[UIImage imageNamed:@"Guide5"]];
-        helpView.lblSubTitle.text = @"Add your server to this app";
-        helpView.lblDesc.text = @"Simply hit “+” on the next screen then enter the name and URL of your M-Pin Server and you are ready to authenticate to your service using this app.";
+        helpView.lblSubTitle.text = NSLocalizedString(@"SETUP_SERVER_SUBTITLE_1",@"Add your server to this app");
+        helpView.lblDesc.text = NSLocalizedString(@"SETUP_SERVER_DESC_1",@"Simply hit “+” on the next screen then enter the name and URL of your M-Pin Server and you are ready to authenticate to your service using this app.");
         [helpView.btnNext setImage:nil forState:UIControlStateNormal];
-        [helpView.btnNext setTitle:@"DONE" forState:UIControlStateNormal];
+        [helpView.btnNext setTitle:NSLocalizedString(@"SETUP_BTN_DONE", @"DONE") forState:UIControlStateNormal];
         [helpView.btnNext addTarget:self action:@selector( done: ) forControlEvents:UIControlEventTouchUpInside];
 
         break;
@@ -258,7 +258,7 @@
     }
     [helpView.btnSkip addTarget:self action:@selector( skip: ) forControlEvents:UIControlEventTouchUpInside];
     helpView.pageControl.currentPage = index;
-    helpView.lblTitle.text = @"Get your own M-Pin Server";
+    helpView.lblTitle.text = NSLocalizedString(@"",@"Get your own M-Pin Server");
 
     return helpView;
 }
@@ -270,9 +270,9 @@
     {
     case 0:
         [helpView.imgArt setImage:[UIImage imageNamed:@"Guide6"]];
-        helpView.lblSubTitle.text = @"Get your Access Number";
-        helpView.lblDesc.text = @"Login to discuss.certivox.com on your desktop browser and choose \"Sign in with phone\".";
-        [helpView.btnNext setTitle:@"DONE" forState:UIControlStateNormal];
+        helpView.lblSubTitle.text = NSLocalizedString(@"SETUP_AN_SUBTITLE_0",@"Get your Access Number");
+        helpView.lblDesc.text = NSLocalizedString(@"SETUP_AN_DESC_0",@"Login to discuss.certivox.com on your desktop browser and choose \"Sign in with phone\".");
+        [helpView.btnNext setTitle:NSLocalizedString(@"SETUP_BTN_DONE", @"DONE") forState:UIControlStateNormal];
         [helpView.btnNext addTarget:self action:@selector( done: ) forControlEvents:UIControlEventTouchUpInside];
 
         break;
@@ -282,7 +282,7 @@
     }
     [helpView.btnSkip addTarget:self action:@selector( skip: ) forControlEvents:UIControlEventTouchUpInside];
     helpView.pageControl.currentPage = index;
-    helpView.lblTitle.text = @"Login to the Certivox community";
+    helpView.lblTitle.text = NSLocalizedString(@"SETUP_AN_TITLE",@"Login to the Certivox community");
 
     return helpView;
 }

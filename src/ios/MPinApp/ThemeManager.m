@@ -450,7 +450,7 @@
 
     helpView.btnSkip = [[UIButton alloc] initWithFrame:CGRectMake(0, screenHeight - 55 - 20, screenWidth / 2, 55)];
     helpView.btnSkip.backgroundColor = [[SettingsManager sharedManager] color0];
-    [helpView.btnSkip setTitle:@"SKIP" forState:UIControlStateNormal];
+    [helpView.btnSkip setTitle:NSLocalizedString(@"SETUP_BTN_SKIP",  @"SKIP") forState:UIControlStateNormal];
     [helpView.btnSkip setTitleColor:[[SettingsManager sharedManager] color10] forState:UIControlStateNormal];
     [helpView.btnSkip.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:18.f]];
     [helpView addSubview:helpView.btnSkip];
