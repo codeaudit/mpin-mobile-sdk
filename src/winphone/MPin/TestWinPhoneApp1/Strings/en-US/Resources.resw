@@ -483,4 +483,22 @@ All existing identities will be deleted.</value>
   <data name="SkipButton.Content" xml:space="preserve">
     <value>SKIP</value>
   </data>
+  <data name="IntroClickLink.Text" xml:space="preserve">
+    <value>Click the link in the email and you are ready to choose your PIN.</value>
+  </data>
+  <data name="IntroConfirm.Text" xml:space="preserve">
+    <value>Confirm your email</value>
+  </data>
+  <data name="IntroFinish.Text" xml:space="preserve">
+    <value>You can now use your M-Pin identity any time  you want.</value>
+  </data>
+  <data name="IntroPin.Text" xml:space="preserve">
+    <value>Create your PIN</value>
+  </data>
+  <data name="IntroReady.Text" xml:space="preserve">
+    <value>You are ready to go!</value>
+  </data>
+  <data name="IntroSimpler.Text" xml:space="preserve">
+    <value>It's much simpler than a password and more secure.</value>
+  </data>
 </root>

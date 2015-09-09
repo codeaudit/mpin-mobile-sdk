@@ -477,4 +477,22 @@
   <data name="SkipButton.Content" xml:space="preserve">
     <value>ПРОПУСНИ</value>
   </data>
+  <data name="IntroClickLink.Text" xml:space="preserve">
+    <value>Изберете линка от пощата си и сте готови да зададете своя ПИН.</value>
+  </data>
+  <data name="IntroConfirm.Text" xml:space="preserve">
+    <value>Потвърдете пощата си</value>
+  </data>
+  <data name="IntroFinish.Text" xml:space="preserve">
+    <value>Може да използвате създадения от вас потребител по всяко време.</value>
+  </data>
+  <data name="IntroPin.Text" xml:space="preserve">
+    <value>Създайте своя ПИН</value>
+  </data>
+  <data name="IntroReady.Text" xml:space="preserve">
+    <value>Това е всичко!</value>
+  </data>
+  <data name="IntroSimpler.Text" xml:space="preserve">
+    <value>Много по-лесно е от използването на парола, както и по-сигурно.</value>
+  </data>
 </root>

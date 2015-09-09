@@ -15,10 +15,92 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock x:Uid="IntroTitle" Style="{StaticResource TitleStyle}" />
+        <TextBlock x:Uid="IntroTitle" Style="{StaticResource TitleStyle}" Margin="24" />
 
         <Pivot x:Name="IntroPivot" SelectionChanged="IntroPivot_SelectionChanged" Grid.Row="1">
-            <PivotItem Header="First">
+            <PivotItem>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Width="104" Height="173">
+                        <Rectangle Fill="{ThemeResource TextBoxBackgroundThemeBrush}" Width="61" Height="9" Canvas.Left="22" Canvas.Top="84" />
+                        <Rectangle Fill="{ThemeResource TextBoxBackgroundThemeBrush}" Width="61" Height="9" Canvas.Left="22" Canvas.Top="100" />
+                        <!-- TODO <Image  Canvas.Left="38" Canvas.Top="39" Width="28" Height="28"/>
+                        
+                        <image xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABYlBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAAk9ovSAAAAdHRSTlMAPIW42O7v2rqIQVbHzV4du8InQO32Sj30g0NCf+xHGeQi3P4hxDbRU+DVY9bGueM4591Fil1PmcD3PzfwzKdqZ6Hbj2xLjMnl9YYsKYLOjhycBc9JpJYCWvhUSNkf/Q8Kh+iJEhA7UEzeVSrFM2ZvleKYBOeSWncAAAABYktHRACIBR1IAAAACXBIWXMAAAsSAAALEgHS3X78AAABRklEQVQoz32SV1fCQBCFJ2iCBVRUELEBigXRqGjsBgtWBLti74q95P8fs2U2xaPzsnPvt2V2ZwEwJE9Zuax4KyqrwB3VPkOEv8aBausMRwTqLdbQaLgiGELWxJ1wc6SltY2LdsY6gkxGY1TFmersojDhnNvNZQ8RvVz04SlJbvSbeYrnAwgHuaECDGGBwwhH0EnDqCh/jDFNGOMwIfLJKcKmZ4QxC17b1ef0zLxNqiAbf4YCyn9wwWrG4lI2pC+vCGMVAixZW9/Aq+Q2+W55KLBVMXsHt9iKbZDIkNpx9X6XuHsApAv77o9xQJ7sEODIHIuak0XCpqmTLE+2OLazE+Kc0vTsnOSFC0SXV7ScHFNpKq5vpFuAu3uPSuUDzn0ssovJpRJ+oSfrkOcX58P5Xx31vSUtFH//9eezH4lPRYn6vrRvtH4AIZPCKB+HzB0AAAAASUVORK5CYII=" x="38" y="39" width="28" height="28"/>
+   
+
+                        
+                        -->
+                        <Path Fill="{ThemeResource TextBoxBackgroundThemeBrush}" StrokeThickness="0"
+                              Data="M94.000,173.000 L10.000,173.000 C4.477,173.000 -0.000,168.523 -0.000,163.000 L-0.000,10.000 C-0.000,4.477 4.477,0.000 10.000,0.000 L94.000,0.000 C99.523,0.000 104.000,4.477 104.000,10.000 L104.000,163.000 C104.000,168.523 99.523,173.000 94.000,173.000 ZM94.812,12.906 C94.812,11.249 93.469,9.906 91.813,9.906 L12.187,9.906 C10.531,9.906 9.188,11.249 9.188,12.906 L9.188,150.219 C9.188,151.876 10.531,153.219 12.187,153.219 L91.813,153.219 C93.469,153.219 94.812,151.876 94.812,150.219 L94.812,12.906 Z" />
+                    </Canvas>
+
+                    <TextBlock x:Uid="IntroCreate" Style="{StaticResource IdentityTextBlock}" Grid.Row="1"/>
+                    <TextBlock x:Uid="IntroEnterEmail" Style="{StaticResource MainTextBlock}" Grid.Row="2"/>
+
+                </Grid>
+            </PivotItem>
+
+            <PivotItem>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Width="181" Height="146">
+                        <Rectangle Fill="{ThemeResource TextBoxBackgroundThemeBrush}" RadiusX="3" RadiusY="3" Width="148.375" Height="102.688" Canvas.Left="16.313" Canvas.Top="14.656" />
+                        <Path StrokeThickness="0" Fill="{ThemeResource TextBoxForegroundThemeBrush}"
+                          Data="M164.000,118.000 L102.062,69.900 L90.929,78.510 L79.436,69.959 L16.000,118.000 L16.000,110.235 L74.264,66.111 L16.000,22.765 L16.000,15.000 L79.436,62.194 L79.532,62.121 L91.000,71.000 L102.094,62.125 L102.161,62.176 L164.000,15.000 L164.000,22.000 L107.105,66.000 L164.000,110.000 L164.000,118.000 Z"/>
+                        <Ellipse Fill="{ThemeResource PhoneAccentBrush}" Width="75" Height="75" Canvas.Left="106" Canvas.Top="71" />
+                        <Path Fill="{ThemeResource TextBoxBackgroundThemeBrush}" StrokeThickness="0"
+                              Data="M126.000,111.000 L122.000,115.000 L138.000,131.000 L171.000,97.000 L167.000,93.000 L138.000,122.000 L126.000,111.000 Z" />
+                    </Canvas>
+
+                    <TextBlock x:Uid="IntroConfirm" Style="{StaticResource IdentityTextBlock}" Grid.Row="1" />
+                    <TextBlock x:Uid="IntroClickLink" Style="{StaticResource MainTextBlock}" Grid.Row="2" TextWrapping="Wrap"/>
+
+                </Grid>
+            </PivotItem>
+
+            <PivotItem>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Width="181" Height="179">
+
+                        <Rectangle Fill="{ThemeResource TextBoxBackgroundThemeBrush}" RadiusX="10" RadiusY="10" Width="78.75" Height="78.594" Canvas.Left="49.313" Canvas.Top="66.688" />
+                        <Path Fill="{ThemeResource TextBoxForegroundThemeBrush}" StrokeThickness="0"
+                              Data="M128.000,125.017 L128.000,127.448 L102.087,127.448 L102.087,146.000 L99.651,146.000 L99.651,127.448 L76.100,127.448 L76.100,146.000 L73.665,146.000 L73.665,127.448 L49.000,127.448 L49.000,125.017 L73.665,125.017 L73.665,106.379 L49.000,106.379 L49.000,103.948 L73.665,103.948 L73.665,86.931 L49.000,86.931 L49.000,84.500 L73.665,84.500 L73.665,67.000 L76.100,67.000 L76.100,84.500 L99.651,84.500 L99.651,67.000 L102.087,67.000 L102.087,84.500 L128.000,84.500 L128.000,86.931 L102.087,86.931 L102.087,103.948 L128.000,103.948 L128.000,106.379 L102.087,106.379 L102.087,125.017 L128.000,125.017 ZM99.651,86.931 L76.100,86.931 L76.100,103.948 L99.651,103.948 L99.651,86.931 ZM99.651,106.379 L76.100,106.379 L76.100,125.017 L99.651,125.017 L99.651,106.379 Z" />
+
+                        <!--<image xlink:href="data:img/png;base64,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" x="99" y="99" width="75" height="80"/>-->
+                        
+                        <Grid Width="181" Margin="0,-10,0,0">
+                            <TextBlock Text="****" HorizontalAlignment="Center" FontSize="48" Foreground="{ThemeResource PhoneAccentBrush}"/>
+                        </Grid>
+
+                        <Path Fill="{ThemeResource TextBoxBackgroundThemeBrush}" StrokeThickness="0" 
+                            Data="M0.000,32.000 L0.000,27.000 L181.000,27.000 L181.000,32.000 L0.000,32.000 Z"/>
+
+                    </Canvas>
+
+                    <TextBlock x:Uid="IntroPin" Style="{StaticResource IdentityTextBlock}" Grid.Row="1"/>
+                    <TextBlock x:Uid="IntroSimpler" Style="{StaticResource MainTextBlock}" Grid.Row="2"  TextWrapping="Wrap"/>
+
+                </Grid>
+            </PivotItem>
+
+            <PivotItem>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -33,28 +115,22 @@
                         <Path Fill="{ThemeResource PhoneAccentBrush}" StrokeThickness="0"
                               Data="M64.000,100.425 L64.000,67.500 C64.000,61.149 58.851,56.000 52.500,56.000 C46.149,56.000 41.000,61.149 41.000,67.500 L41.000,101.033 C34.431,97.227 30.000,90.138 30.000,82.000 L30.000,67.000 C30.000,54.850 39.850,45.000 52.000,45.000 C64.150,45.000 74.000,54.850 74.000,67.000 L74.000,82.000 C74.000,89.720 70.016,96.499 64.000,100.425 Z" />
                     </Canvas>
-                    
-                    <TextBlock x:Name="IntroCreate" Style="{StaticResource IdentityTextBlock}" Grid.Row="1"/>
-                    <TextBlock x:Name="IntroEnterEmail" Style="{StaticResource MainTextBlock}" Grid.Row="2"/>
+
+                    <TextBlock x:Uid="IntroReady" Style="{StaticResource IdentityTextBlock}" Grid.Row="1"/>
+                    <TextBlock x:Uid="IntroFinish" Style="{StaticResource MainTextBlock}" Grid.Row="2" TextWrapping="Wrap"/>
 
                 </Grid>
             </PivotItem>
-
-            <PivotItem Header="Second">
-            </PivotItem>
-
-            <PivotItem Header="Third">
-            </PivotItem>
-
-            <PivotItem Header="Fourth">
-            </PivotItem>
         </Pivot>
 
-        <Grid Grid.Row="2">
-            <Button x:Name="SkipButton" x:Uid="SkipButton" Click="AppBarButton_Click" HorizontalAlignment="Left"/>
-            <Button x:Name="NextButton" x:Uid="NextButton" Click="NextButton_Click" HorizontalAlignment="Right" />
-            <Button x:Name="DoneButton" x:Uid="DoneButton" Click="AppBarButton_Click" HorizontalAlignment="Right"/>
-        </Grid>
+        <StackPanel Grid.Row="2" Margin="0,24,0,0">
+            <Rectangle Height="1" Fill="{ThemeResource TextBoxBackgroundThemeBrush}" Stretch="UniformToFill" Margin="-12, 0, -12, 0"/>
+            <Grid Margin="0,6,0,6">
+                <Button x:Name="SkipButton" x:Uid="SkipButton" Click="AppBarButton_Click" HorizontalAlignment="Left" BorderThickness="1"/>
+                <Button x:Name="NextButton" x:Uid="NextButton" Click="NextButton_Click" HorizontalAlignment="Right" BorderThickness="1"/>
+                <Button x:Name="DoneButton" x:Uid="DoneButton" Click="AppBarButton_Click" HorizontalAlignment="Right" BorderThickness="1"/>
+            </Grid>
+        </StackPanel>
     </Grid>
 
 </Page>
