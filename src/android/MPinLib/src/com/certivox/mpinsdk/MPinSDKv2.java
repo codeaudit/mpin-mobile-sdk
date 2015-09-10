@@ -109,8 +109,16 @@ public class MPinSDKv2 implements Closeable {
         return nRestartRegistration(mPtr, user, userData);
     }
 
+    public Status VerifyUser(User user, String mpinId, String activationKey) {
+    	return nVerifyUser(mPtr, user, mpinId, activationKey);
+    }
+    
     public Status ConfirmRegistration(User user) {
-    	return nConfirmRegistration(mPtr, user);
+    	return nConfirmRegistration(mPtr, user, "");
+    }
+
+    public Status ConfirmRegistration(User user, String pushMessageIdentifier) {
+    	return nConfirmRegistration(mPtr, user, pushMessageIdentifier);
     }
 
     public Status FinishRegistration(User user, String pin) {
@@ -177,7 +185,8 @@ public class MPinSDKv2 implements Closeable {
     private native User nMakeNewUser(long ptr, String id, String deviceName);
     private native Status nStartRegistration(long ptr, User user, String userData);
     private native Status nRestartRegistration(long ptr, User user, String userData);
-    private native Status nConfirmRegistration(long ptr, User user);
+    private native Status nVerifyUser(long ptr, User user, String mpinId, String activationKey);
+    private native Status nConfirmRegistration(long ptr, User user, String pushMessageIdentifier);
     private native Status nFinishRegistration(long ptr, User user, String pin);
     private native Status nStartAuthentication(long ptr, User user);
     private native Status nCheckAccessNumber(long ptr, String accessNumber);
