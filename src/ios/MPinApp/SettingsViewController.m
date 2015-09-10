@@ -33,6 +33,7 @@
 #import "MFSideMenu.h"
 #import "ThemeManager.h"
 #import "ErrorHandler.h"
+#import "HelpViewController.h"
 
 
 #define NONE 0
@@ -299,7 +300,7 @@
     NSLog(@"Network DOWN Notification");
     [[ErrorHandler sharedManager] hideMessage];
     [self.view layoutIfNeeded];
-    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations:^{
+    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations: ^ {
         self.constraintNoNetworkViewHeight.constant = 36.0f;
         [self.view layoutIfNeeded];
     }];

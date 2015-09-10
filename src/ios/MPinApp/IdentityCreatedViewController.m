@@ -28,6 +28,8 @@
 #import "AccountSummaryViewController.h"
 #import "ThemeManager.h"
 #import "MFSideMenu.h"
+#import "HelpViewController.h"
+#import "MenuViewController.h"
 
 @interface IdentityCreatedViewController ( ) {
     MPin *sdk;
@@ -157,7 +159,7 @@
 
 #pragma mark - My methods -
 
-- ( void )showPinPad:(NSNotification *)notification
+- ( void )showPinPad:( NSNotification * )notification
 {
     [[ErrorHandler sharedManager] hideMessage];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
@@ -204,9 +206,20 @@
 
 - ( IBAction )gotoIDList:( id )sender
 {
-    [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
-    NSDictionary *config = [[ConfigurationManager sharedManager] getSelectedConfiguration];
-    [self startAuthenticationFlow:self.user forService:[config [kSERVICE_TYPE] intValue]];
+    if ( [[ConfigurationManager sharedManager] isFirstTimeAddIdentity] )
+    {
+        MenuViewController *menuVC = (MenuViewController *)self.menuContainerViewController.leftMenuViewController;
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:[NSBundle mainBundle]];
+        HelpViewController *vcHelp = [storyboard instantiateViewControllerWithIdentifier:@"HelpViewController"];
+        vcHelp.helpMode = HELP_AN;
+        [menuVC setCenter:vcHelp];
+    }
+    else
+    {
+        [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
+        NSDictionary *config = [[ConfigurationManager sharedManager] getSelectedConfiguration];
+        [self startAuthenticationFlow:self.user forService:[config [kSERVICE_TYPE] intValue]];
+    }
 }
 
 #pragma mark - Alert view delegate -
@@ -226,7 +239,7 @@
 {
     NSLog(@"Network DOWN Notification");
     [self.view layoutIfNeeded];
-    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations:^{
+    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations: ^ {
         self.constraintNoNetworkViewHeight.constant = 36.0f;
         [self.view layoutIfNeeded];
     }];

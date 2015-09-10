@@ -1091,6 +1091,45 @@
             </objects>
             <point key="canvasLocation" x="-209" y="-660"/>
         </scene>
+        <!--Help View Controller-->
+        <scene sceneID="KGP-vS-vAl">
+            <objects>
+                <viewController storyboardIdentifier="HelpViewController" id="DDl-wy-d6K" customClass="HelpViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="asv-iy-lR3"/>
+                        <viewControllerLayoutGuide type="bottom" id="XYo-5b-Q6r"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ai2-Es-YmL">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SYs-Cr-QGa" customClass="SwipeView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="DDl-wy-d6K" id="tEF-Bh-bgx"/>
+                                    <outlet property="delegate" destination="DDl-wy-d6K" id="mI2-QO-8pa"/>
+                                </connections>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.30196078431372547" green="0.71372549019607845" blue="0.67450980392156867" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="SYs-Cr-QGa" firstAttribute="leading" secondItem="Ai2-Es-YmL" secondAttribute="leading" id="PPg-9h-vbx"/>
+                            <constraint firstItem="SYs-Cr-QGa" firstAttribute="top" secondItem="asv-iy-lR3" secondAttribute="bottom" id="Y6k-Nl-Pcp"/>
+                            <constraint firstAttribute="trailing" secondItem="SYs-Cr-QGa" secondAttribute="trailing" id="n4p-Sc-2ns"/>
+                            <constraint firstItem="XYo-5b-Q6r" firstAttribute="top" secondItem="SYs-Cr-QGa" secondAttribute="bottom" id="zVE-Yw-Di3"/>
+                        </constraints>
+                    </view>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="swipeView" destination="SYs-Cr-QGa" id="kdy-Xg-HZy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rNX-sq-Hxf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="463" y="5"/>
+        </scene>
         <!--About-->
         <scene sceneID="wpL-Ok-Piy">
             <objects>
@@ -1763,11 +1802,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="UcR-db-Qwx">
-                                <rect key="frame" x="0.0" y="68" width="300" height="240"/>
+                                <rect key="frame" x="0.0" y="68" width="300" height="360"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="6sH-4H-Vqt"/>
-                                    <constraint firstAttribute="height" constant="240" id="cD2-x8-2kk"/>
+                                    <constraint firstAttribute="height" constant="360" id="cD2-x8-2kk"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MenuTableViewCell" rowHeight="60" id="a98-yl-LOR" customClass="MenuTableViewCell">

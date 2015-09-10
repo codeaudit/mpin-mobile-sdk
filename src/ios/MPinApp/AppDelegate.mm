@@ -31,14 +31,17 @@
 #import "NetworkMonitor.h"
 #import "NetworkDownViewController.h"
 #import "AFNetworkReachabilityManager.h"
-#import "ANAuthenticationSuccessful.h";
+#import "ANAuthenticationSuccessful.h"
 #import "Utilities.h"
+#import "HelpViewController.h"
+#import "ConfigurationManager.h"
 #import "IUser.h"
 
 @interface AppDelegate ()
 {
     MFSideMenuContainerViewController *container;
     NetworkDownViewController *vcNetworkDown;
+    HelpViewController *vcHelp;
     BOOL boolRestartFlow;
     
     MPin *sdk;
@@ -79,6 +82,7 @@
     _vcUserList = [storyboard instantiateViewControllerWithIdentifier:@"UserListViewController"];
     
     vcNetworkDown = [storyboard instantiateViewControllerWithIdentifier:@"NetworkDownViewController"];
+    vcHelp = [storyboard instantiateViewControllerWithIdentifier:@"HelpViewController"];
     
 	UIViewController *leftSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"MenuViewController"];
 
@@ -88,14 +92,22 @@
 
 	self.window.rootViewController = container;
     
+    [ApplicationManager sharedManager];
+    [NetworkMonitor sharedManager];
+    
     if (![NetworkMonitor isNetworkAvailable])
     {
         [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:vcNetworkDown]];
         container.panMode = MFSideMenuPanModeNone;
     }
+    else if ([[ConfigurationManager sharedManager] isFirstTimeLaunch])
+    {
+        [self firstTimeLaunch];
+    }
     
     [ApplicationManager sharedManager];
     [NetworkMonitor sharedManager];
+    
     
     sdk  = [[MPin alloc] init];
     sdk.delegate = self;
@@ -196,7 +208,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
 
     MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
-    MFSideMenuContainerViewController *container = (MFSideMenuContainerViewController *)self.window.rootViewController;
     [[ErrorHandler sharedManager] presentMessageInViewController:((UINavigationController *)container.centerViewController).topViewController
                                                      errorString:mpinStatus.errorMessage
                                             addActivityIndicator:YES
@@ -211,7 +222,6 @@
     pinpadViewController.title = kEnterPin;
     pinpadViewController.currentUser = [notification.userInfo objectForKey:kUser];
     pinpadViewController.boolSetupPin = YES;
-    MFSideMenuContainerViewController *container = (MFSideMenuContainerViewController *)self.window.rootViewController;
     [((UINavigationController *)container.centerViewController).topViewController.navigationController pushViewController:pinpadViewController animated:YES];
 }
 
@@ -258,6 +268,15 @@
 }
 
 
+-( void) firstTimeLaunch
+{
+    NSLog(@"Appdelegate : First time");
+    
+    [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:vcHelp]];
+    vcHelp.helpMode = HELP_QUICK_START;
+    container.panMode = MFSideMenuPanModeNone;
+}
+
 -( void) connectionDown
 {
     NSLog(@"Appdelegate : Connection Down");
@@ -268,8 +287,17 @@
 -( void) connectionUp
 {
     NSLog(@"Appdelegate : Connection Up");
-    [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
-    container.panMode = MFSideMenuPanModeDefault;
+    if ([[ConfigurationManager sharedManager] isFirstTimeLaunch])
+    {
+        [self firstTimeLaunch];
+    }
+    else
+    {
+        [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
+        [_vcUserList setBackend];
+        container.panMode = MFSideMenuPanModeDefault;
+    }
+    
 }
 
 - ( void ) setDeviceTokenString:(NSData *) dToken {
