@@ -25,6 +25,7 @@
 #import "AccessNumberViewController.h"
 #import "MPin+AsyncOperations.h"
 #import "SuperViewController.h"
+#import "NotificationService.h"
 
 @interface UserListTableViewCell : UITableViewCell
 
@@ -35,7 +36,7 @@
 
 @end
 
-@interface UserListViewController : SuperViewController <UITableViewDataSource, UITableViewDelegate, AccessNumberDelegate, MPinSDKDelegate>
+@interface UserListViewController : SuperViewController <UITableViewDataSource, UITableViewDelegate, AccessNumberDelegate, MPinSDKDelegate, NotificationDelegate>
 
 
 - ( void ) invalidate;

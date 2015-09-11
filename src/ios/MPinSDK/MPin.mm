@@ -222,6 +222,14 @@ typedef sdk::Context Context;
 }
 
 + ( id<IUser> ) getIUserById:(NSString *) userId {
+    if( userId == nil ) return nil;
+    if ([@"" isEqualToString:userId]) return nil;
+    
+    NSArray * users = [MPin listUsers];
+    
+    for (User * user in users)
+        if ( [userId isEqualToString:[user getIdentity]] )
+            return user;
     
     return nil;
 }

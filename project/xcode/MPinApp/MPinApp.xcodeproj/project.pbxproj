@@ -301,6 +301,22 @@
 		96F7EA8E1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA8B1B1C49F200A68A03 /* HockeySDK.framework */; };
 		96F7EA8F1B1C49F300A68A03 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F7EA8B1B1C49F200A68A03 /* HockeySDK.framework */; };
 		C1A44EE9BAB1DEBF8C368A7C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8967D6B49D70B9963207D4 /* libPods.a */; };
+		FE0646C51BA165110000EE1B /* SMSRegistrationMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = FE0646C41BA165110000EE1B /* SMSRegistrationMessage.m */; };
+		FE0646C61BA165110000EE1B /* SMSRegistrationMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = FE0646C41BA165110000EE1B /* SMSRegistrationMessage.m */; };
+		FE0646C71BA165110000EE1B /* SMSRegistrationMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = FE0646C41BA165110000EE1B /* SMSRegistrationMessage.m */; };
+		FE0646C81BA165110000EE1B /* SMSRegistrationMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = FE0646C41BA165110000EE1B /* SMSRegistrationMessage.m */; };
+		FE0646CB1BA1656B0000EE1B /* APNAuthenticationMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = FE0646CA1BA1656B0000EE1B /* APNAuthenticationMessage.m */; };
+		FE0646CC1BA1656B0000EE1B /* APNAuthenticationMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = FE0646CA1BA1656B0000EE1B /* APNAuthenticationMessage.m */; };
+		FE0646CD1BA1656B0000EE1B /* APNAuthenticationMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = FE0646CA1BA1656B0000EE1B /* APNAuthenticationMessage.m */; };
+		FE0646CE1BA1656B0000EE1B /* APNAuthenticationMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = FE0646CA1BA1656B0000EE1B /* APNAuthenticationMessage.m */; };
+		FE0646D11BA1776B0000EE1B /* NotificationMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = FE0646D01BA1776B0000EE1B /* NotificationMessage.m */; };
+		FE0646D21BA1776B0000EE1B /* NotificationMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = FE0646D01BA1776B0000EE1B /* NotificationMessage.m */; };
+		FE0646D31BA1776B0000EE1B /* NotificationMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = FE0646D01BA1776B0000EE1B /* NotificationMessage.m */; };
+		FE0646D41BA1776B0000EE1B /* NotificationMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = FE0646D01BA1776B0000EE1B /* NotificationMessage.m */; };
+		FE0646D71BA2E2B40000EE1B /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = FE0646D61BA2E2B40000EE1B /* NotificationService.m */; };
+		FE0646D81BA2E2B40000EE1B /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = FE0646D61BA2E2B40000EE1B /* NotificationService.m */; };
+		FE0646D91BA2E2B40000EE1B /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = FE0646D61BA2E2B40000EE1B /* NotificationService.m */; };
+		FE0646DA1BA2E2B40000EE1B /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = FE0646D61BA2E2B40000EE1B /* NotificationService.m */; };
 		FE148D3F1A2F0FB7007E83EF /* Constants.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3C1A2F0FB7007E83EF /* Constants.h */; };
 		FE148D401A2F0FB7007E83EF /* MPin.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3D1A2F0FB7007E83EF /* MPin.h */; };
 		FE148D411A2F0FB7007E83EF /* MpinStatus.h in Resources */ = {isa = PBXBuildFile; fileRef = FE148D3E1A2F0FB7007E83EF /* MpinStatus.h */; };
@@ -457,6 +473,14 @@
 		96F7EA891B1C497400A68A03 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		96F7EA8B1B1C49F200A68A03 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = "../../../../../../Downloads/HockeySDK-iOS/HockeySDKCrashOnly/HockeySDK.framework"; sourceTree = "<group>"; };
 		D2C36EBE5499747947972F44 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
+		FE0646C31BA165110000EE1B /* SMSRegistrationMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMSRegistrationMessage.h; path = ../../../../src/ios/MPinApp/SMSRegistrationMessage.h; sourceTree = "<group>"; };
+		FE0646C41BA165110000EE1B /* SMSRegistrationMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMSRegistrationMessage.m; path = ../../../../src/ios/MPinApp/SMSRegistrationMessage.m; sourceTree = "<group>"; };
+		FE0646C91BA1656B0000EE1B /* APNAuthenticationMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APNAuthenticationMessage.h; path = ../../../../src/ios/MPinApp/APNAuthenticationMessage.h; sourceTree = "<group>"; };
+		FE0646CA1BA1656B0000EE1B /* APNAuthenticationMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APNAuthenticationMessage.m; path = ../../../../src/ios/MPinApp/APNAuthenticationMessage.m; sourceTree = "<group>"; };
+		FE0646CF1BA1776B0000EE1B /* NotificationMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotificationMessage.h; path = ../../../../src/ios/MPinApp/NotificationMessage.h; sourceTree = "<group>"; };
+		FE0646D01BA1776B0000EE1B /* NotificationMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotificationMessage.m; path = ../../../../src/ios/MPinApp/NotificationMessage.m; sourceTree = "<group>"; };
+		FE0646D51BA2E2B40000EE1B /* NotificationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotificationService.h; path = ../../../../src/ios/MPinApp/NotificationService.h; sourceTree = "<group>"; };
+		FE0646D61BA2E2B40000EE1B /* NotificationService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotificationService.m; path = ../../../../src/ios/MPinApp/NotificationService.m; sourceTree = "<group>"; };
 		FE148D3C1A2F0FB7007E83EF /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../../../src/ios/MPinSDK/Constants.h; sourceTree = "<group>"; };
 		FE148D3D1A2F0FB7007E83EF /* MPin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MPin.h; path = ../../../src/ios/MPinSDK/MPin.h; sourceTree = "<group>"; };
 		FE148D3E1A2F0FB7007E83EF /* MpinStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MpinStatus.h; path = ../../../src/ios/MPinSDK/MpinStatus.h; sourceTree = "<group>"; };
@@ -850,6 +874,14 @@
 				FE8129661ABAB61B008677CE /* MPin+AsyncOperations.m */,
 				969316D01B70AEB30003B6C9 /* NetworkMonitor.h */,
 				969316D11B70AEB30003B6C9 /* NetworkMonitor.m */,
+				FE0646CF1BA1776B0000EE1B /* NotificationMessage.h */,
+				FE0646D01BA1776B0000EE1B /* NotificationMessage.m */,
+				FE0646C31BA165110000EE1B /* SMSRegistrationMessage.h */,
+				FE0646C41BA165110000EE1B /* SMSRegistrationMessage.m */,
+				FE0646C91BA1656B0000EE1B /* APNAuthenticationMessage.h */,
+				FE0646CA1BA1656B0000EE1B /* APNAuthenticationMessage.m */,
+				FE0646D51BA2E2B40000EE1B /* NotificationService.h */,
+				FE0646D61BA2E2B40000EE1B /* NotificationService.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -1454,6 +1486,7 @@
 				96130E251AEE4867005D2A86 /* UIViewController+Helper.m in Sources */,
 				963485D31B5E1EDB001F2C71 /* QREditorViewController.m in Sources */,
 				96130E261AEE4867005D2A86 /* NSString+Helper.m in Sources */,
+				FE0646D91BA2E2B40000EE1B /* NotificationService.m in Sources */,
 				96130E271AEE4867005D2A86 /* AddIdentityViewController.m in Sources */,
 				96130E281AEE4867005D2A86 /* BackButton.m in Sources */,
 				96130E291AEE4867005D2A86 /* PinPadViewController.m in Sources */,
@@ -1461,6 +1494,7 @@
 				96C3B6AD1B81C511000CF693 /* SuperViewController.m in Sources */,
 				96130E2B1AEE4867005D2A86 /* SettingsViewCell.m in Sources */,
 				96130E2C1AEE4867005D2A86 /* AboutViewController.m in Sources */,
+				FE0646D31BA1776B0000EE1B /* NotificationMessage.m in Sources */,
 				96130E2D1AEE4867005D2A86 /* ThemeManager.m in Sources */,
 				FE298B7D1B3ABBD80071E6B3 /* QRViewController.m in Sources */,
 				96130E2E1AEE4867005D2A86 /* AddSettingViewController.m in Sources */,
@@ -1470,6 +1504,7 @@
 				96130E311AEE4867005D2A86 /* OTPViewController.m in Sources */,
 				96130E321AEE4867005D2A86 /* TextFieldTableViewCell.m in Sources */,
 				96130E331AEE4867005D2A86 /* AccessNumberViewController.m in Sources */,
+				FE0646C71BA165110000EE1B /* SMSRegistrationMessage.m in Sources */,
 				963485EB1B5E755C001F2C71 /* Utilities.m in Sources */,
 				96130E341AEE4867005D2A86 /* UIColor+Helper.m in Sources */,
 				968591B81AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
@@ -1486,6 +1521,7 @@
 				96130E3D1AEE4867005D2A86 /* MenuTableViewCell.m in Sources */,
 				96130E3E1AEE4867005D2A86 /* OptionSelectTableViewCell.m in Sources */,
 				96130E3F1AEE4867005D2A86 /* UserListViewController.m in Sources */,
+				FE0646CD1BA1656B0000EE1B /* APNAuthenticationMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1503,6 +1539,7 @@
 				96130E6F1AEE490A005D2A86 /* UIViewController+Helper.m in Sources */,
 				963485D41B5E1EDB001F2C71 /* QREditorViewController.m in Sources */,
 				96130E701AEE490A005D2A86 /* NSString+Helper.m in Sources */,
+				FE0646DA1BA2E2B40000EE1B /* NotificationService.m in Sources */,
 				96130E711AEE490A005D2A86 /* AddIdentityViewController.m in Sources */,
 				96130E721AEE490A005D2A86 /* BackButton.m in Sources */,
 				96130E731AEE490A005D2A86 /* PinPadViewController.m in Sources */,
@@ -1510,6 +1547,7 @@
 				96C3B6AE1B81C511000CF693 /* SuperViewController.m in Sources */,
 				96130E751AEE490A005D2A86 /* SettingsViewCell.m in Sources */,
 				96130E761AEE490A005D2A86 /* AboutViewController.m in Sources */,
+				FE0646D41BA1776B0000EE1B /* NotificationMessage.m in Sources */,
 				96130E771AEE490A005D2A86 /* ThemeManager.m in Sources */,
 				FE298B7E1B3ABBD80071E6B3 /* QRViewController.m in Sources */,
 				96130E781AEE490A005D2A86 /* AddSettingViewController.m in Sources */,
@@ -1519,6 +1557,7 @@
 				96130E7B1AEE490A005D2A86 /* OTPViewController.m in Sources */,
 				96130E7C1AEE490A005D2A86 /* TextFieldTableViewCell.m in Sources */,
 				96130E7D1AEE490A005D2A86 /* AccessNumberViewController.m in Sources */,
+				FE0646C81BA165110000EE1B /* SMSRegistrationMessage.m in Sources */,
 				963485EC1B5E755C001F2C71 /* Utilities.m in Sources */,
 				96130E7E1AEE490A005D2A86 /* UIColor+Helper.m in Sources */,
 				968591B91AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
@@ -1535,6 +1574,7 @@
 				96130E871AEE490A005D2A86 /* MenuTableViewCell.m in Sources */,
 				96130E881AEE490A005D2A86 /* OptionSelectTableViewCell.m in Sources */,
 				96130E891AEE490A005D2A86 /* UserListViewController.m in Sources */,
+				FE0646CE1BA1656B0000EE1B /* APNAuthenticationMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1552,6 +1592,7 @@
 				9649BC901AC16D1000B9F41B /* AccountSummaryViewController.m in Sources */,
 				963485D21B5E1EDB001F2C71 /* QREditorViewController.m in Sources */,
 				9649BC911AC16D1000B9F41B /* UIViewController+Helper.m in Sources */,
+				FE0646D81BA2E2B40000EE1B /* NotificationService.m in Sources */,
 				9649BC921AC16D1000B9F41B /* AddIdentityViewController.m in Sources */,
 				96B27CAC1ACACE92007145C2 /* MPin+AsyncOperations.m in Sources */,
 				9649BC931AC16D1000B9F41B /* BackButton.m in Sources */,
@@ -1559,6 +1600,7 @@
 				96C3B6AC1B81C511000CF693 /* SuperViewController.m in Sources */,
 				9649BC951AC16D1000B9F41B /* MenuViewController.m in Sources */,
 				9649BC961AC16D1000B9F41B /* SettingsViewCell.m in Sources */,
+				FE0646D21BA1776B0000EE1B /* NotificationMessage.m in Sources */,
 				96C88F461AC42B6E00A5F27A /* AboutViewController.m in Sources */,
 				FE298B7C1B3ABBD80071E6B3 /* QRViewController.m in Sources */,
 				9649BC991AC16D1000B9F41B /* ThemeManager.m in Sources */,
@@ -1568,6 +1610,7 @@
 				9649BC9C1AC16D1000B9F41B /* main.m in Sources */,
 				9649BC9E1AC16D1000B9F41B /* OTPViewController.m in Sources */,
 				96F78E1D1B05E5B8005C2C7D /* ErrorHandler.m in Sources */,
+				FE0646C61BA165110000EE1B /* SMSRegistrationMessage.m in Sources */,
 				963485EA1B5E755C001F2C71 /* Utilities.m in Sources */,
 				9649BC9F1AC16D1000B9F41B /* TextFieldTableViewCell.m in Sources */,
 				9649BCA01AC16D1000B9F41B /* AccessNumberViewController.m in Sources */,
@@ -1584,6 +1627,7 @@
 				9649BCA81AC16D1000B9F41B /* OptionSelectTableViewCell.m in Sources */,
 				96C88F471AC42B7D00A5F27A /* ConfigurationManager.m in Sources */,
 				9649BCA91AC16D1000B9F41B /* UserListViewController.m in Sources */,
+				FE0646CC1BA1656B0000EE1B /* APNAuthenticationMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1601,6 +1645,7 @@
 				FEAA2CCE1ACEBCB700EED79F /* NSString+Helper.m in Sources */,
 				963485D11B5E1EDB001F2C71 /* QREditorViewController.m in Sources */,
 				FE148D6B1A2F13D0007E83EF /* AddIdentityViewController.m in Sources */,
+				FE0646D71BA2E2B40000EE1B /* NotificationService.m in Sources */,
 				964B121D1A93921C00FFB67A /* BackButton.m in Sources */,
 				FE148D6F1A2F13D0007E83EF /* PinPadViewController.m in Sources */,
 				9649BC841AC045E900B9F41B /* MenuViewController.m in Sources */,
@@ -1608,6 +1653,7 @@
 				96C3B6AB1B81C511000CF693 /* SuperViewController.m in Sources */,
 				96F62A281AC311D000B25B53 /* AboutViewController.m in Sources */,
 				961957461A960E9900C93604 /* ThemeManager.m in Sources */,
+				FE0646D11BA1776B0000EE1B /* NotificationMessage.m in Sources */,
 				FE72C3481A6EA6960082F14D /* AddSettingViewController.m in Sources */,
 				FE298B7B1B3ABBD80071E6B3 /* QRViewController.m in Sources */,
 				FEFA50111A7148E5002D6E24 /* DigitPadViewController.m in Sources */,
@@ -1617,6 +1663,7 @@
 				9699B2521AADF7F0008AA313 /* TextFieldTableViewCell.m in Sources */,
 				FEFA500E1A7143DB002D6E24 /* AccessNumberViewController.m in Sources */,
 				968D0A441A7B93C00037841D /* UIColor+Helper.m in Sources */,
+				FE0646C51BA165110000EE1B /* SMSRegistrationMessage.m in Sources */,
 				963485E91B5E755C001F2C71 /* Utilities.m in Sources */,
 				968591B61AF0BEFC00726E63 /* LocalizationManager.m in Sources */,
 				961957491A97276100C93604 /* ConfigListTableViewCell.m in Sources */,
@@ -1633,6 +1680,7 @@
 				968E7A571AA0818F00A276A7 /* MenuTableViewCell.m in Sources */,
 				9699B2551AADF812008AA313 /* OptionSelectTableViewCell.m in Sources */,
 				FE148D701A2F13D0007E83EF /* UserListViewController.m in Sources */,
+				FE0646CB1BA1656B0000EE1B /* APNAuthenticationMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

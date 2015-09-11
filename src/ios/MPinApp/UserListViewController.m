@@ -24,6 +24,9 @@
 
 
 
+#import "AppDelegate.h"
+
+
 #import "IUser.h"
 #import "Constants.h"
 #import "MFSideMenu.h"
@@ -198,7 +201,7 @@ static NSString *const kAN = @"AN";
         }
 
         [self showBottomBar:NO];
-        [self startAuthenticationFlow];
+        /// [self startAuthenticationFlow];
     }
     else
     {
@@ -503,11 +506,23 @@ static NSString *const kAN = @"AN";
 
 - ( IBAction )btnAddIDTap:( id )sender
 {
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    NSString * json = @"{\"aps\": {\"alert\": \"M-Pin\"}, \"hash_user_id\": \"55b3fa483f5ea594d880ea075d0b9bd6278c2c5ca25187e78fb2a389ab02d2d8\", \"mobileToken\": \"8043957\"}";
+    NSDictionary * alert = [[NSDictionary alloc] initWithObjectsAndKeys:json, @"alert", nil];
+    NSDictionary * aps = [[NSDictionary alloc] initWithObjectsAndKeys:alert, @"aps", nil];
+                            
+                            
+    [appDelegate application:nil didReceiveRemoteNotification:aps fetchCompletionHandler:nil];
+    
+    /*
+    
     if ( [[ConfigurationManager sharedManager] isEmpty] )
         return;
 
     UIViewController *addViewController = [storyboard instantiateViewControllerWithIdentifier:@"Add"];
     [self.navigationController pushViewController:addViewController animated:YES];
+     */
 }
 
 - ( IBAction )btnEditTap:( id )sender
@@ -741,14 +756,14 @@ static NSString *const kAN = @"AN";
 
 -( void ) unRegisterObservers
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
+   // [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_UP_NOTIFICATION" object:nil];
 }
 
 - ( void ) registerObservers
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad: ) name:kShowPinPadNotification object:nil];
+    // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad: ) name:kShowPinPadNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkUp ) name:@"NETWORK_UP_NOTIFICATION" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkDown ) name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
 }
