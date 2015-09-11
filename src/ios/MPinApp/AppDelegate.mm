@@ -246,8 +246,7 @@
         [self.notificationService postNotification:self.apnAuthMessage];
         self.apnAuthMessage = nil;
     }
-    
-    [self processNotification:self.userInfo];
+
 }
 
 
