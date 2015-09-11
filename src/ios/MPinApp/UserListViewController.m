@@ -49,6 +49,9 @@
 #import "SettingsManager.h"
 #import "NetworkMonitor.h"
 
+#import "SMSRegistrationMessage.h"
+#import "APNAuthenticationMessage.h"
+
 @import LocalAuthentication;
 
 #define ON_LOGOUT 403
@@ -201,6 +204,7 @@ static NSString *const kAN = @"AN";
         }
 
         [self showBottomBar:NO];
+        /// TODO :: UNCOMENT THIS LATER
         /// [self startAuthenticationFlow];
     }
     else
@@ -506,6 +510,8 @@ static NSString *const kAN = @"AN";
 
 - ( IBAction )btnAddIDTap:( id )sender
 {
+    
+    /// TODO :: FIX THIS
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
     NSString * json = @"{\"aps\": {\"alert\": \"M-Pin\"}, \"hash_user_id\": \"55b3fa483f5ea594d880ea075d0b9bd6278c2c5ca25187e78fb2a389ab02d2d8\", \"mobileToken\": \"8043957\"}";
@@ -756,14 +762,14 @@ static NSString *const kAN = @"AN";
 
 -( void ) unRegisterObservers
 {
-   // [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_UP_NOTIFICATION" object:nil];
 }
 
 - ( void ) registerObservers
 {
-    // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad: ) name:kShowPinPadNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad: ) name:kShowPinPadNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkUp ) name:@"NETWORK_UP_NOTIFICATION" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkDown ) name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
 }
@@ -774,7 +780,7 @@ static NSString *const kAN = @"AN";
     PinPadViewController *pinpadViewController = [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];
     pinpadViewController.sdk = sdk;
     pinpadViewController.sdk.delegate = pinpadViewController;
-    pinpadViewController.currentUser = currentUser;
+    pinpadViewController.currentUser = [notification.userInfo objectForKey:kUser];
     pinpadViewController.boolShouldShowBackButton = YES;
     pinpadViewController.title = kEnterPin;
     switch ( [currentUser getState] )
@@ -784,6 +790,8 @@ static NSString *const kAN = @"AN";
         break;
 
     case STARTED_REGISTRATION:
+        /// TODO :: FIX THIS
+        pinpadViewController.boolIsSMS = YES;
         pinpadViewController.boolSetupPin = YES;
         break;
 
@@ -792,6 +800,52 @@ static NSString *const kAN = @"AN";
     }
     NSLog(@"Calling PinPad from UserList");
     [self.navigationController pushViewController:pinpadViewController animated:YES];
+}
+
+- ( void ) OnReceiveNotification:( id ) sender message:(NotificationMessage *) message {
+    if ([message isMemberOfClass:[SMSRegistrationMessage class]]) {
+        
+        id<IUser> user = [MPin MakeNewUser:message.userID];
+        [sdk VerifyUser:user mpinId:((SMSRegistrationMessage *)message).mpinId activationKey:((SMSRegistrationMessage *)message).activateKey];
+        return;
+    }
+    
+    if ([message isMemberOfClass:[APNAuthenticationMessage class]]) {
+        id<IUser> user = [MPin getIUserById:message.userID];
+        
+        /* if ([user getState] != ACTIVATED) {
+         MFSideMenuContainerViewController *c = (MFSideMenuContainerViewController *)self.window.rootViewController;
+         [[ErrorHandler sharedManager] presentMessageInViewController:((UINavigationController *)c.centerViewController).topViewController
+         errorString:[NSString stringWithFormat:@"The user with ID  = %@ is not in ACTIVATED STATE!", userID]
+         addActivityIndicator:YES
+         minShowTime:0];
+         
+         return;
+         }*/
+        
+        [sdk AuthenticateAN:user accessNumber:((APNAuthenticationMessage *)message).accessNumber askForFingerprint:NO];
+        return;
+    }
+}
+
+- ( void ) OnNotificationError:( id ) sender error:( NSError * ) error {
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                     errorString:error.localizedDescription
+                                            addActivityIndicator:YES
+                                                     minShowTime:0];
+}
+
+- ( void ) OnVerifyUserompleted:( id ) sender user:( const id<IUser>) user {
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [sdk FinishRegistration:user pushNotificationIdentifier:appDelegate.pimToken];
+}
+
+- ( void ) OnVerifyUserError:( id ) sender error:( NSError * ) error {
+    MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                     errorString:mpinStatus.errorMessage
+                                            addActivityIndicator:YES
+                                                     minShowTime:0];
 }
 
 @end

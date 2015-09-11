@@ -43,35 +43,11 @@
     MFSideMenuContainerViewController *container;
     NetworkDownViewController *vcNetworkDown;
     BOOL boolRestartFlow;
-    
-    MPin *sdk;
 }
 
 @property (nonatomic, retain) SMSRegistrationMessage * smsRegMessage;
 @property (nonatomic, retain) APNAuthenticationMessage * apnAuthMessage;
 @property (nonatomic, retain) NotificationService * notificationService;
-
-
-
-
-
-@property ( nonatomic, retain ) NSString* strDeviceToken;
-
-
-
-@property ( nonatomic, retain ) NSDictionary * userInfo;
-@property ( nonatomic, retain ) NSURL * url;
-
-
-
-
-- ( void ) setDeviceTokenString:(NSData *) dToken;
-- ( void ) showPinPad:(id<IUser>) user;
-
-
-/// TODO :: refactor this code in another class
-- ( void ) processNotification:(NSDictionary *) userInfo;
-- ( void ) processSMSURL:( NSURL * ) url;
 
 @end
 
@@ -121,18 +97,8 @@
     [ApplicationManager sharedManager];
     [NetworkMonitor sharedManager];
     
-    
-    /// TODO :: REMOVE THIS
-    sdk  = [[MPin alloc] init];
-    sdk.delegate = self;
-
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad: ) name:kShowPinPadNotification object:nil];
-
-    /// END
-    
-    // self.notificationService = [[NotificationService alloc] init];
-    // self.notificationService.delegate = _vcUserList;
+    self.notificationService = [[NotificationService alloc] init];
+    self.notificationService.delegate = _vcUserList;
 
 	return YES;
 }
@@ -179,61 +145,13 @@
         return;
     }
     
-    id<IUser> user = [MPin getIUserById:userID];
-    
-    /* if ([user getState] != ACTIVATED) {
-     MFSideMenuContainerViewController *c = (MFSideMenuContainerViewController *)self.window.rootViewController;
-     [[ErrorHandler sharedManager] presentMessageInViewController:((UINavigationController *)c.centerViewController).topViewController
-     errorString:[NSString stringWithFormat:@"The user with ID  = %@ is not in ACTIVATED STATE!", userID]
-     addActivityIndicator:YES
-     minShowTime:0];
-     
-     return;
-     }*/
-    
-    
-    self.userInfo = nil;
-    sdk.delegate = self;
-    [sdk AuthenticateAN:user accessNumber:an askForFingerprint:NO];
-   
 }
-
-- ( void ) processSMSURL:( NSURL * ) url {
-    if (url == nil) return;
-    
-    NSDictionary * urlParams = [Utilities urlQueryParamsToDictianary:[url query]];
-    NSString * mpinId = [urlParams objectForKey:@"mpinId"];
-    NSString * activateKey = [urlParams objectForKey:@"activateKey"];
-    NSString * hash_user_id = [urlParams objectForKey:@"hash_user_id"];
-    
-    NSString * fromHexMpinId = [Utilities stringFromHexString:mpinId];
-    NSError *error = nil;
-    NSDictionary *mpinIdJSON = [NSJSONSerialization JSONObjectWithData:[fromHexMpinId dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
-    if(error != nil) {
-        [[ErrorHandler sharedManager] presentMessageInViewController:((UINavigationController *)container.centerViewController).topViewController
-                                                         errorString:[NSString stringWithFormat:@"Failed to parse mpinId json: %@", mpinId]
-                                                addActivityIndicator:YES
-                                                         minShowTime:0];
-        
-        return;
-    }
-    
-    NSString * userID = mpinIdJSON[@"userID"];
-    if (hash_user_id !=  nil) {
-        [[NSUserDefaults standardUserDefaults] setObject:userID forKey:hash_user_id];
-    }
-    id<IUser> user = [MPin MakeNewUser:userID];
-    sdk.delegate = self;
-    self.url = nil;
-    [sdk VerifyUser:user mpinId:mpinId activationKey:activateKey];
-    return;
-}
-
 
 - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken
 {
     self.devToken = devToken;
-    [self setDeviceTokenString:devToken];
+    self.pimToken = [[devToken description] stringByTrimmingCharactersInSet: [NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    self.pimToken  = [ self.pimToken  stringByReplacingOccurrencesOfString:@" " withString:@""];
     NSLog(@"%@", devToken.description);
 }
 
@@ -243,15 +161,27 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))handler
 {
-   // if () {
-        
-    // }
+    self.apnAuthMessage  = [[APNAuthenticationMessage alloc] initWith:userInfo];
+    if (application.applicationState == UIApplicationStateActive) {
+       [self.notificationService postNotification:self.apnAuthMessage];
+        self.apnAuthMessage = nil;
+    }
     
-    
-    // self.apnAuthMessage  = [[APNAuthenticationMessage alloc] initWith:userInfo];
-    self.userInfo = userInfo;
     handler(UIBackgroundFetchResultNewData);
 }
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    self.smsRegMessage = [[SMSRegistrationMessage alloc] initWith:url];
+    
+    if (application.applicationState == UIApplicationStateActive) {
+        [self.notificationService postNotification:self.smsRegMessage];
+        self.smsRegMessage = nil;
+    }
+    
+    return YES;
+}
+
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     boolRestartFlow = NO;
@@ -265,77 +195,6 @@
         boolRestartFlow = YES;
     }
 
-}
-
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-    // self.smsRegMessage = [[SMSRegistrationMessage alloc] initWith:url];
-    self.url = url;
-    return YES;
-}
-
-
-- ( void ) OnVerifyUserompleted:( id ) sender user:( const id<IUser>) user {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad: ) name:kShowPinPadNotification object:nil];
-    [sdk FinishRegistration:user pushNotificationIdentifier:self.strDeviceToken];
-}
-- ( void ) OnVerifyUserError:( id ) sender error:( NSError * ) error {
-    
-    MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
-    MFSideMenuContainerViewController *c = (MFSideMenuContainerViewController *)self.window.rootViewController;
-    [[ErrorHandler sharedManager] presentMessageInViewController:((UINavigationController *)c.centerViewController).topViewController
-                                                     errorString:mpinStatus.errorMessage
-                                            addActivityIndicator:YES
-                                                     minShowTime:0];
-
-}
-
-
-- ( void )OnFinishRegistrationCompleted:( id )sender user:( const id<IUser>)user
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
-}
-
-- ( void )OnFinishRegistrationError:( id )sender error:( NSError * )error
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
-    MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
-    MFSideMenuContainerViewController *c = (MFSideMenuContainerViewController *)self.window.rootViewController;
-    [[ErrorHandler sharedManager] presentMessageInViewController:((UINavigationController *)c.centerViewController).topViewController
-                                                     errorString:mpinStatus.errorMessage
-                                            addActivityIndicator:YES
-                                                     minShowTime:0];
-}
-
-- ( void )showPinPad:(NSNotification *)notification  {
-    
-    id<IUser> user = [notification.userInfo objectForKey:kUser];
-    
-    UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-    PinPadViewController *pinpadViewController = [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];
-    pinpadViewController.sdk = sdk;
-    pinpadViewController.sdk.delegate = pinpadViewController;
-    pinpadViewController.boolShouldShowBackButton = YES;
-    pinpadViewController.title = kEnterPin;
-    pinpadViewController.currentUser = user;
-    
-    switch ( [user getState] )
-    {
-        case REGISTERED:
-            pinpadViewController.boolSetupPin = NO;
-            break;
-            
-        case STARTED_REGISTRATION:
-            pinpadViewController.boolIsSMS = YES;
-            pinpadViewController.boolSetupPin = YES;
-            break;
-            
-        default:
-            break;
-    }
-
-    MFSideMenuContainerViewController *c = (MFSideMenuContainerViewController *)self.window.rootViewController;
-    [((UINavigationController *)c.centerViewController).topViewController.navigationController pushViewController:pinpadViewController animated:NO];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -378,7 +237,7 @@
     }];
     
     
-    /* if (self.smsRegMessage != nil) {
+    if (self.smsRegMessage != nil) {
         [self.notificationService postNotification:self.smsRegMessage];
         self.smsRegMessage = nil;
     }
@@ -386,9 +245,8 @@
     if (self.apnAuthMessage != nil) {
         [self.notificationService postNotification:self.apnAuthMessage];
         self.apnAuthMessage = nil;
-    } */
+    }
     
-    [self processSMSURL:self.url];
     [self processNotification:self.userInfo];
 }
 
@@ -406,10 +264,4 @@
     [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
     container.panMode = MFSideMenuPanModeDefault;
 }
-
-- ( void ) setDeviceTokenString:(NSData *) dToken {
-    self.strDeviceToken = [[dToken description] stringByTrimmingCharactersInSet: [NSCharacterSet characterSetWithCharactersInString:@"<>"]];
-    self.strDeviceToken  = [ self.strDeviceToken  stringByReplacingOccurrencesOfString:@" " withString:@""];
-}
-
 @end
