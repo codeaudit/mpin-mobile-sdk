@@ -20,12 +20,12 @@ namespace MPinDemo
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class AppIntro : Page
+    public sealed partial class AppQuide: Page
     {
         private MainPage rootPage = null;
         object passedParameters;
 
-        public AppIntro()
+        public AppQuide()
         {
             this.InitializeComponent();
         }
@@ -44,7 +44,7 @@ namespace MPinDemo
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {   
             Frame mainFrame = rootPage.FindName("MainFrame") as Frame;            
-            if (!mainFrame.Navigate(typeof(BlankPage1), passedParameters))
+            if (!mainFrame.Navigate(typeof(BlankPage1), passedParameters == null ? string.Empty : passedParameters))
             {
                 throw new Exception("Failed to go to the initial screen.");
             }

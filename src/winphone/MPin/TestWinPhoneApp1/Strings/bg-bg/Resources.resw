@@ -495,4 +495,13 @@
   <data name="IntroSimpler.Text" xml:space="preserve">
     <value>Много по-лесно е от използването на парола, както и по-сигурно.</value>
   </data>
+  <data name="GuideButton.Label" xml:space="preserve">
+    <value>кратко ръководство</value>
+  </data>
+  <data name="QuideDownload.Text" xml:space="preserve">
+    <value>Изтегли и настрой своя M-Pin сървър.</value>
+  </data>
+  <data name="QuideUse.Text" xml:space="preserve">
+    <value>Може да използвате M-Pin mobile за да се аутентикирате в собственото си приложение. Просто трябва да отидете на страницата на M-Pin, да си смъкнете сървъра и да следвате инструкциите от там за да го настроите.</value>
+  </data>
 </root>

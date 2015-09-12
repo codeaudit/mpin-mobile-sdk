@@ -161,7 +161,7 @@ namespace MPinDemo
             Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
             if (mainFrame.BackStack.Count == 1 && 
                 ((mainFrame.BackStack[0] as PageStackEntry).SourcePageType.Equals(typeof(NoNetworkScreen)) ||
-                 (mainFrame.BackStack[0] as PageStackEntry).SourcePageType.Equals(typeof(AppIntro))))
+                 (mainFrame.BackStack[0] as PageStackEntry).SourcePageType.Equals(typeof(AppQuide))))
             {
                 mainFrame.BackStack.RemoveAt(mainFrame.BackStack.Count - 1);
             }
@@ -700,7 +700,16 @@ namespace MPinDemo
 
             SetControlsIsEnabled(null, true, false);
         }
-
+        
+        private void GuideButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
+            if (!mainFrame.Navigate(typeof(AppQuide)))
+            {
+                throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
+            }
+        }
         #endregion // handlers            
+
     }
 }

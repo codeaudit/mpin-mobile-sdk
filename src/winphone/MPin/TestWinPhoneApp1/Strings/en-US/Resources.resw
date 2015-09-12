@@ -501,4 +501,13 @@ All existing identities will be deleted.</value>
   <data name="IntroSimpler.Text" xml:space="preserve">
     <value>It's much simpler than a password and more secure.</value>
   </data>
+  <data name="GuideButton.Label" xml:space="preserve">
+    <value>quick start quide</value>
+  </data>
+  <data name="QuideDownload.Text" xml:space="preserve">
+    <value>Download and setup your own M-Pin server.</value>
+  </data>
+  <data name="QuideUse.Text" xml:space="preserve">
+    <value>You can use M-Pin mobile to authenticate in your own apps. Just go to M-Pin webpage, download the server and follow the instructions there to set it up on your machine.</value>
+  </data>
 </root>

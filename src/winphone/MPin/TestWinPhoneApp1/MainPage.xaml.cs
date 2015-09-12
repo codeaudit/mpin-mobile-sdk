@@ -102,7 +102,7 @@ namespace MPinDemo
 
                 if (IsTheFirstAppLaunch())
                 {
-                    if (!MainFrame.Navigate(typeof(AppIntro), passed))
+                    if (!MainFrame.Navigate(typeof(AppQuide), passed))
                     {
                         throw new Exception("Failed to create starup screen");
                     }
