@@ -52,14 +52,17 @@ namespace MPinDemo
 
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
-            IntroPivot.SelectedIndex++;
+            IntroView.SelectedIndex++;
         }
 
         private void IntroPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            bool isLastItem = IntroPivot.SelectedIndex == IntroPivot.Items.Count - 1;
+            if (IntroView == null || IntroView.Items == null || IntroView.Items.Count == 0)
+                return;
+
+            bool isLastItem = IntroView.SelectedIndex == IntroView.Items.Count - 1;
             NextButton.Visibility = SkipButton.Visibility = !isLastItem ? Visibility.Visible : Visibility.Collapsed;
-            DoneButton.Visibility = isLastItem ? Visibility.Visible : Visibility.Collapsed;
+            DoneButton.Visibility = isLastItem ? Visibility.Visible : Visibility.Collapsed;                        
         }
     }
 }

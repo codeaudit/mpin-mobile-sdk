@@ -17,112 +17,105 @@
 
         <TextBlock x:Uid="IntroTitle" Style="{StaticResource TitleStyle}" Margin="24" />
 
-        <Pivot x:Name="IntroPivot" SelectionChanged="IntroPivot_SelectionChanged" Grid.Row="1">
-            <PivotItem>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+        <FlipView x:Name="IntroView" Grid.Row="1" SelectionChanged="IntroPivot_SelectionChanged">
 
-                    <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Width="104" Height="173">
-                        <Path Fill="{ThemeResource ApplicationForegroundThemeBrush}" StrokeThickness="0"
+            <Grid x:Name="FirstItem">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Width="104" Height="173">
+                    <Path Fill="{ThemeResource ApplicationForegroundThemeBrush}" StrokeThickness="0"
                               Data="M22.000,109.000 L22.000,100.000 L83.000,100.000 L83.000,109.000 L22.000,109.000 ZM22.000,84.000 L83.000,84.000 L83.000,93.000 L22.000,93.000 L22.000,84.000 Z" />
-                        <Path Fill="{ThemeResource ApplicationForegroundThemeBrush}" StrokeThickness="0"
-                              Data="M94.000,173.000 L10.000,173.000 C4.477,173.000 -0.000,168.523 -0.000,163.000 L-0.000,10.000 C-0.000,4.477 4.477,0.000 10.000,0.000 L94.000,0.000 C99.523,0.000 104.000,4.477 104.000,10.000 L104.000,163.000 C104.000,168.523 99.523,173.000 94.000,173.000 ZM94.812,12.906 C94.812,11.249 93.469,9.906 91.813,9.906 L12.187,9.906 C10.531,9.906 9.188,11.249 9.188,12.906 L9.188,150.219 C9.188,151.876 10.531,153.219 12.187,153.219 L91.813,153.219 C93.469,153.219 94.812,151.876 94.812,150.219 L94.812,12.906 ZM52.000,67.000 C44.300,67.000 38.000,60.700 38.000,53.000 C38.000,45.300 44.300,39.000 52.000,39.000 C59.700,39.000 66.000,45.300 66.000,53.000 C66.000,60.700 59.700,67.000 52.000,67.000 ZM52.000,43.200 C49.620,43.200 47.800,45.020 47.800,47.400 C47.800,49.780 49.620,51.600 52.000,51.600 C54.380,51.600 56.200,49.780 56.200,47.400 C56.200,45.020 54.380,43.200 52.000,43.200 ZM52.000,54.260 C49.200,54.260 43.600,55.800 43.600,58.600 C45.420,61.260 48.500,63.080 52.000,63.080 C55.500,63.080 58.580,61.260 60.400,58.600 C60.400,55.800 54.800,54.260 52.000,54.260 Z" />                        
-                    </Canvas>
+                    <Path Fill="{ThemeResource ApplicationForegroundThemeBrush}" StrokeThickness="0"
+                              Data="M94.000,173.000 L10.000,173.000 C4.477,173.000 -0.000,168.523 -0.000,163.000 L-0.000,10.000 C-0.000,4.477 4.477,0.000 10.000,0.000 L94.000,0.000 C99.523,0.000 104.000,4.477 104.000,10.000 L104.000,163.000 C104.000,168.523 99.523,173.000 94.000,173.000 ZM94.812,12.906 C94.812,11.249 93.469,9.906 91.813,9.906 L12.187,9.906 C10.531,9.906 9.188,11.249 9.188,12.906 L9.188,150.219 C9.188,151.876 10.531,153.219 12.187,153.219 L91.813,153.219 C93.469,153.219 94.812,151.876 94.812,150.219 L94.812,12.906 ZM52.000,67.000 C44.300,67.000 38.000,60.700 38.000,53.000 C38.000,45.300 44.300,39.000 52.000,39.000 C59.700,39.000 66.000,45.300 66.000,53.000 C66.000,60.700 59.700,67.000 52.000,67.000 ZM52.000,43.200 C49.620,43.200 47.800,45.020 47.800,47.400 C47.800,49.780 49.620,51.600 52.000,51.600 C54.380,51.600 56.200,49.780 56.200,47.400 C56.200,45.020 54.380,43.200 52.000,43.200 ZM52.000,54.260 C49.200,54.260 43.600,55.800 43.600,58.600 C45.420,61.260 48.500,63.080 52.000,63.080 C55.500,63.080 58.580,61.260 60.400,58.600 C60.400,55.800 54.800,54.260 52.000,54.260 Z" />
+                </Canvas>
 
-                    <TextBlock x:Uid="IntroCreate" Style="{StaticResource IdentityTextBlock}" Grid.Row="1"/>
-                    <TextBlock x:Uid="IntroEnterEmail" Style="{StaticResource MainTextBlock}" Grid.Row="2"/>
+                <TextBlock x:Uid="IntroCreate" Style="{StaticResource IdentityTextBlock}" Grid.Row="1"/>
+                <TextBlock x:Uid="IntroEnterEmail" Style="{StaticResource MainTextBlock}" Grid.Row="2"/>
 
-                </Grid>
-            </PivotItem>
+            </Grid>
 
-            <PivotItem>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+            <Grid x:Name="SecondItem">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-                    <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Width="181" Height="146">
-                        <Rectangle Fill="{ThemeResource ApplicationForegroundThemeBrush}" RadiusX="3" RadiusY="3" Width="148.375" Height="102.688" Canvas.Left="16.313" Canvas.Top="14.656" />
-                        <Path StrokeThickness="0" Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Width="181" Height="146">
+                    <Rectangle Fill="{ThemeResource ApplicationForegroundThemeBrush}" RadiusX="3" RadiusY="3" Width="148.375" Height="102.688" Canvas.Left="16.313" Canvas.Top="14.656" />
+                    <Path StrokeThickness="0" Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                           Data="M164.000,118.000 L102.062,69.900 L90.929,78.510 L79.436,69.959 L16.000,118.000 L16.000,110.235 L74.264,66.111 L16.000,22.765 L16.000,15.000 L79.436,62.194 L79.532,62.121 L91.000,71.000 L102.094,62.125 L102.161,62.176 L164.000,15.000 L164.000,22.000 L107.105,66.000 L164.000,110.000 L164.000,118.000 Z"/>
-                        <Ellipse Fill="{ThemeResource PhoneAccentBrush}" Width="75" Height="75" Canvas.Left="106" Canvas.Top="71" />
-                        <Path Fill="{ThemeResource ApplicationForegroundThemeBrush}" StrokeThickness="0"
+                    <Ellipse Fill="{ThemeResource PhoneAccentBrush}" Width="75" Height="75" Canvas.Left="106" Canvas.Top="71" />
+                    <Path Fill="{ThemeResource ApplicationForegroundThemeBrush}" StrokeThickness="0"
                               Data="M126.000,111.000 L122.000,115.000 L138.000,131.000 L171.000,97.000 L167.000,93.000 L138.000,122.000 L126.000,111.000 Z" />
-                    </Canvas>
+                </Canvas>
 
-                    <TextBlock x:Uid="IntroConfirm" Style="{StaticResource IdentityTextBlock}" Grid.Row="1" />
-                    <TextBlock x:Uid="IntroClickLink" Style="{StaticResource MainTextBlock}" Grid.Row="2" TextWrapping="Wrap"/>
+                <TextBlock x:Uid="IntroConfirm" Style="{StaticResource IdentityTextBlock}" Grid.Row="1" />
+                <TextBlock x:Uid="IntroClickLink" Style="{StaticResource MainTextBlock}" Grid.Row="2" TextWrapping="Wrap"/>
 
-                </Grid>
-            </PivotItem>
+            </Grid>
 
-            <PivotItem>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+            <Grid x:Name="ThirdItem">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-                    <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Width="181" Height="179">
+                <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Width="181" Height="179">
 
-                        <Rectangle Fill="{ThemeResource ApplicationForegroundThemeBrush}" RadiusX="10" RadiusY="10" Width="78.75" Height="78.594" Canvas.Left="49.313" Canvas.Top="66.688" />
-                        <Path Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" StrokeThickness="0"
+                    <Rectangle Fill="{ThemeResource ApplicationForegroundThemeBrush}" RadiusX="10" RadiusY="10" Width="78.75" Height="78.594" Canvas.Left="49.313" Canvas.Top="66.688" />
+                    <Path Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" StrokeThickness="0"
                               Data="M128.000,125.017 L128.000,127.448 L102.087,127.448 L102.087,146.000 L99.651,146.000 L99.651,127.448 L76.100,127.448 L76.100,146.000 L73.665,146.000 L73.665,127.448 L49.000,127.448 L49.000,125.017 L73.665,125.017 L73.665,106.379 L49.000,106.379 L49.000,103.948 L73.665,103.948 L73.665,86.931 L49.000,86.931 L49.000,84.500 L73.665,84.500 L73.665,67.000 L76.100,67.000 L76.100,84.500 L99.651,84.500 L99.651,67.000 L102.087,67.000 L102.087,84.500 L128.000,84.500 L128.000,86.931 L102.087,86.931 L102.087,103.948 L128.000,103.948 L128.000,106.379 L102.087,106.379 L102.087,125.017 L128.000,125.017 ZM99.651,86.931 L76.100,86.931 L76.100,103.948 L99.651,103.948 L99.651,86.931 ZM99.651,106.379 L76.100,106.379 L76.100,125.017 L99.651,125.017 L99.651,106.379 Z" />
 
-                        <Path Fill="{ThemeResource ApplicationForegroundThemeBrush}" StrokeThickness="0"
+                    <Path Fill="{ThemeResource ApplicationForegroundThemeBrush}" StrokeThickness="0"
                               Data="M0.000,32.000 L0.000,27.000 L181.000,27.000 L181.000,32.000 L0.000,32.000 Z" />
-                        <Path Fill="{ThemeResource PhoneAccentBrush}" StrokeThickness="0"
+                    <Path Fill="{ThemeResource PhoneAccentBrush}" StrokeThickness="0"
                               Data="M121.671,145.167 C121.671,145.167 120.344,144.895 118.652,144.164 C115.630,142.858 111.006,141.227 107.580,145.167 C102.001,151.584 119.658,163.221 119.658,163.221 C119.658,163.221 134.470,177.996 142.808,177.263 C151.312,176.517 165.558,170.736 168.976,163.221 C172.807,154.801 172.988,149.275 169.983,142.158 C166.978,135.040 163.973,123.301 157.000,123.000 C151.861,122.778 149.853,126.109 149.853,126.109 C149.853,126.109 148.726,122.962 143.814,123.100 C141.216,123.173 138.782,127.112 138.782,127.112 C138.782,127.112 137.709,123.950 133.749,124.103 C129.155,124.281 128.717,128.115 128.717,128.115 L120.665,111.064 C120.665,111.064 118.268,108.002 113.619,110.061 C108.970,112.120 109.593,117.082 109.593,117.082 L121.671,145.167 Z" />
-                        <Ellipse Stroke="{ThemeResource PhoneAccentBrush}" Fill="Transparent" Width="33" Height="33" Canvas.Left="100" Canvas.Top="100" StrokeThickness="4" />
-                        
-                        <Grid Width="181" Margin="0,-10,0,0">
-                            <TextBlock Text="****" HorizontalAlignment="Center" FontSize="48" Foreground="{ThemeResource PhoneAccentBrush}"/>
-                        </Grid>
+                    <Ellipse Stroke="{ThemeResource PhoneAccentBrush}" Fill="Transparent" Width="33" Height="33" Canvas.Left="100" Canvas.Top="100" StrokeThickness="4" />
 
-                    </Canvas>
+                    <Grid Width="181" Margin="0,-10,0,0">
+                        <TextBlock Text="****" HorizontalAlignment="Center" FontSize="48" Foreground="{ThemeResource PhoneAccentBrush}"/>
+                    </Grid>
 
-                    <TextBlock x:Uid="IntroPin" Style="{StaticResource IdentityTextBlock}" Grid.Row="1"/>
-                    <TextBlock x:Uid="IntroSimpler" Style="{StaticResource MainTextBlock}" Grid.Row="2"  TextWrapping="Wrap"/>
+                </Canvas>
 
-                </Grid>
-            </PivotItem>
+                <TextBlock x:Uid="IntroPin" Style="{StaticResource IdentityTextBlock}" Grid.Row="1"/>
+                <TextBlock x:Uid="IntroSimpler" Style="{StaticResource MainTextBlock}" Grid.Row="2"  TextWrapping="Wrap"/>
 
-            <PivotItem>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+            </Grid>
 
-                    <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Width="104" Height="173">
-                        <Path StrokeThickness="0" Fill="{ThemeResource ApplicationForegroundThemeBrush}"
+            <Grid x:Name="FourthItem">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Width="104" Height="173">
+                    <Path StrokeThickness="0" Fill="{ThemeResource ApplicationForegroundThemeBrush}"
                           Data="M94.000,173.000 L10.000,173.000 C4.477,173.000 -0.000,168.523 -0.000,163.000 L-0.000,10.000 C-0.000,4.477 4.477,0.000 10.000,0.000 L94.000,0.000 C99.523,0.000 104.000,4.477 104.000,10.000 L104.000,163.000 C104.000,168.523 99.523,173.000 94.000,173.000 ZM94.812,12.906 C94.812,11.249 93.469,9.906 91.813,9.906 L12.187,9.906 C10.531,9.906 9.188,11.249 9.188,12.906 L9.188,150.219 C9.188,151.876 10.531,153.219 12.187,153.219 L91.813,153.219 C93.469,153.219 94.812,151.876 94.812,150.219 L94.812,12.906 Z"/>
-                        <Rectangle Fill="{ThemeResource PhoneAccentBrush}" RadiusX="8" RadiusY="8" Width="61" Height="48" Canvas.Left="22" Canvas.Top="76" />
-                        <Path Fill="{ThemeResource PhoneAccentBrush}" StrokeThickness="0"
+                    <Rectangle Fill="{ThemeResource PhoneAccentBrush}" RadiusX="8" RadiusY="8" Width="61" Height="48" Canvas.Left="22" Canvas.Top="76" />
+                    <Path Fill="{ThemeResource PhoneAccentBrush}" StrokeThickness="0"
                               Data="M64.000,100.425 L64.000,67.500 C64.000,61.149 58.851,56.000 52.500,56.000 C46.149,56.000 41.000,61.149 41.000,67.500 L41.000,101.033 C34.431,97.227 30.000,90.138 30.000,82.000 L30.000,67.000 C30.000,54.850 39.850,45.000 52.000,45.000 C64.150,45.000 74.000,54.850 74.000,67.000 L74.000,82.000 C74.000,89.720 70.016,96.499 64.000,100.425 Z" />
-                    </Canvas>
+                </Canvas>
 
-                    <TextBlock x:Uid="IntroReady" Style="{StaticResource IdentityTextBlock}" Grid.Row="1"/>
-                    <TextBlock x:Uid="IntroFinish" Style="{StaticResource MainTextBlock}" Grid.Row="2" TextWrapping="Wrap"/>
+                <TextBlock x:Uid="IntroReady" Style="{StaticResource IdentityTextBlock}" Grid.Row="1"/>
+                <TextBlock x:Uid="IntroFinish" Style="{StaticResource MainTextBlock}" Grid.Row="2" TextWrapping="Wrap"/>
 
-                </Grid>
-            </PivotItem>
-        </Pivot>
+            </Grid>
+        </FlipView>
 
         <StackPanel Grid.Row="2" Margin="0,24,0,0">
             <Rectangle Height="1" Fill="{ThemeResource ApplicationForegroundThemeBrush}" Stretch="UniformToFill" Margin="-12, 0, -12, 0"/>
             <Grid Margin="0,6,0,6">
                 <Button x:Name="SkipButton" x:Uid="SkipButton" Click="AppBarButton_Click" HorizontalAlignment="Left" BorderThickness="0"/>
                 <Button x:Name="NextButton" x:Uid="NextButton" Click="NextButton_Click" HorizontalAlignment="Right" BorderThickness="0"/>
-                <Button x:Name="DoneButton" x:Uid="DoneButton" Click="AppBarButton_Click" HorizontalAlignment="Right" BorderThickness="0"/>
+                <Button x:Name="DoneButton" x:Uid="DoneButton" Click="AppBarButton_Click" HorizontalAlignment="Right" BorderThickness="0" Visibility="Collapsed"/>
             </Grid>
         </StackPanel>
     </Grid>
