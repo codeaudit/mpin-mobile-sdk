@@ -488,6 +488,8 @@
     helpView.lblDesc.numberOfLines = 0;
     CGFloat size = helpView.lblDesc.font.pointSize;
     [helpView.lblDesc setMinimumScaleFactor:10.0 / size];
+    [helpView.lblSubTitle setMinimumScaleFactor:14.0 / helpView.lblSubTitle.font.pointSize];
+    helpView.lblSubTitle.adjustsFontSizeToFitWidth = YES;
     helpView.lblDesc.baselineAdjustment = UIBaselineAdjustmentAlignBaselines;
 }
 
