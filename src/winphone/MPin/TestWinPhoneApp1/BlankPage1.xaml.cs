@@ -59,11 +59,13 @@ namespace MPinDemo
 
         private const string SelectedService = "ServiceSetIndex";
         private const string SelectedUser = "SelectedUser";
+        private const string FirstConfigurationsSeenString = "FirstConfigurationsSeenTime";
         private bool isInitialLoad = false;
         private bool isServiceAdding = false;
         private MainPage rootPage = null;
         private CoreDispatcher dispatcher;
         private Backend ExBackend;
+        private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         internal static ApplicationDataContainer RoamingSettings = ApplicationData.Current.RoamingSettings;
         private static Controller controller = null;
         private static bool showUsers = true;
@@ -275,6 +277,19 @@ namespace MPinDemo
             }
 
             return false;
+        }
+
+        private bool IsTheFirstConfigurationRun()
+        {
+            if (!localSettings.Values.Keys.Contains(FirstConfigurationsSeenString))
+            {
+                localSettings.Values.Add(FirstConfigurationsSeenString, 1);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         #region State
@@ -531,6 +546,17 @@ namespace MPinDemo
 
         private void MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!isInitialLoad && this.MainPivot.SelectedIndex == 0 && IsTheFirstConfigurationRun())
+            {
+                Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
+                if (!mainFrame.Navigate(typeof(MPinServerQuide)))
+                {
+                    throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
+                }
+
+                return;
+            }
+
             SelectAppBarButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? controller.DataModel.SelectedBackend != null : UsersListBox.SelectedItem != null;
             DeleteButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? ServicesList.Items.Count > 0 : UsersListBox.Items.Count > 0;
             ResetPinButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Collapsed : Visibility.Visible;
@@ -576,9 +602,13 @@ namespace MPinDemo
             // reset the pivot item header to properly display it on initial load 
             UsersPivotItem.Header = " " + UsersPivotItem.Header.ToString().Trim();
 
-            if (UsersListBox != null && UsersListBox.ItemsSource != null)
+            if (UsersListBox != null)
             {
-                UsersListBox.SelectedItem = this.SavedSelectedUser;
+                if (UsersListBox.ItemsSource != null)
+                {
+                    UsersListBox.SelectedItem = this.SavedSelectedUser;
+                }
+
                 isInitialLoad = false;
             }
         }

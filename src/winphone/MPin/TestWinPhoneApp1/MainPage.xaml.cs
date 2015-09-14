@@ -48,7 +48,7 @@ namespace MPinDemo
         private DispatcherTimer timer;
         private string parameter = string.Empty;
         private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-        private static string RunTimeString = "RunTime";
+        private const string RunTimeString = "RunTime";
         #endregion // Fields
 
         #region C'tor

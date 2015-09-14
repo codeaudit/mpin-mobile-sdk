@@ -478,13 +478,13 @@
     <value>ПРОПУСНИ</value>
   </data>
   <data name="IntroClickLink.Text" xml:space="preserve">
-    <value>Изберете линка от пощата си и сте готови да зададете своя ПИН.</value>
+    <value>Изберете линка от пощата си и сте готови да зададете своя ПИН</value>
   </data>
   <data name="IntroConfirm.Text" xml:space="preserve">
     <value>Потвърдете пощата си</value>
   </data>
   <data name="IntroFinish.Text" xml:space="preserve">
-    <value>Може да използвате създадения от вас потребител по всяко време.</value>
+    <value>Може да използвате създадения от вас потребител по всяко време</value>
   </data>
   <data name="IntroPin.Text" xml:space="preserve">
     <value>Създайте своя ПИН</value>
@@ -493,7 +493,7 @@
     <value>Това е всичко!</value>
   </data>
   <data name="IntroSimpler.Text" xml:space="preserve">
-    <value>Много по-лесно е от използването на парола, както и по-сигурно.</value>
+    <value>Много по-лесно е от използването на парола, както и по-сигурно</value>
   </data>
   <data name="GuideButton.Label" xml:space="preserve">
     <value>кратко ръководство</value>
@@ -502,7 +502,7 @@
     <value>Изтегли и настрой своя M-Pin сървър.</value>
   </data>
   <data name="QuideUse.Text" xml:space="preserve">
-    <value>Може да използвате M-Pin mobile за да удостоверите самоличността си в собственото си приложение. Просто трябва да отидете на страницата на M-Pin, да си смъкнете сървъра и да следвате инструкциите от там за да го настроите.</value>
+    <value>Посетете certivox.com/products, изберете между M-Pin Core и M-Pin SSO и следвайте онлайн инструкциите за инсталация.</value>
   </data>
   <data name="AddServiceText.Text" xml:space="preserve">
     <value>Добави конфигурация</value>

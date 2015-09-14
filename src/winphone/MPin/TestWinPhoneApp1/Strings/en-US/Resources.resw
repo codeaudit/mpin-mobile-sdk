@@ -484,13 +484,13 @@ All existing identities will be deleted.</value>
     <value>SKIP</value>
   </data>
   <data name="IntroClickLink.Text" xml:space="preserve">
-    <value>Click the link in the email and you are ready to choose your PIN.</value>
+    <value>Click the link in the email and you are ready to choose your PIN</value>
   </data>
   <data name="IntroConfirm.Text" xml:space="preserve">
     <value>Confirm your email</value>
   </data>
   <data name="IntroFinish.Text" xml:space="preserve">
-    <value>You can now use your M-Pin identity any time  you want.</value>
+    <value>You can now use your M-Pin identity any time  you want</value>
   </data>
   <data name="IntroPin.Text" xml:space="preserve">
     <value>Create your PIN</value>
@@ -499,16 +499,16 @@ All existing identities will be deleted.</value>
     <value>You are ready to go!</value>
   </data>
   <data name="IntroSimpler.Text" xml:space="preserve">
-    <value>It's much simpler than a password and more secure.</value>
+    <value>It's much simpler than a password and more secure</value>
   </data>
   <data name="GuideButton.Label" xml:space="preserve">
     <value>quick start quide</value>
   </data>
   <data name="QuideDownload.Text" xml:space="preserve">
-    <value>Download and setup your own M-Pin server.</value>
+    <value>Download and setup your own M-Pin server</value>
   </data>
   <data name="QuideUse.Text" xml:space="preserve">
-    <value>You can use M-Pin mobile to authenticate in your own apps. Just go to M-Pin webpage, download the server and follow the instructions there to set it up on your machine.</value>
+    <value>Visit certivox.com/products, choose from M-Pin Core or M-Pin SSO, then follow the online installation instructions</value>
   </data>
   <data name="AddServiceText.Text" xml:space="preserve">
     <value>Add Service</value>
@@ -520,10 +520,10 @@ All existing identities will be deleted.</value>
     <value>get your own M-Pin server</value>
   </data>
   <data name="QuideAddServer.Text" xml:space="preserve">
-    <value>Add your server to the mobile app.</value>
+    <value>Add your server to the mobile app</value>
   </data>
   <data name="QuideDesc.Text" xml:space="preserve">
-    <value>Simply hit the "plus" button, enter the URL from your M-Pin server and you are ready to authenticate apps and services using M-Pin mobile app.</value>
+    <value>Simply hit “+” on the next screen then enter the name and URL of your M-Pin Server and you are ready to authenticate to your service using this app</value>
   </data>
   <data name="QuideTitle.Text" xml:space="preserve">
     <value>Create your own M-Pin Server</value>
