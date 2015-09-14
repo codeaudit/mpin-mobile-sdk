@@ -17,7 +17,7 @@
 
         <TextBlock x:Uid="IntroTitle" Style="{StaticResource TitleStyle}" Margin="24" />
 
-        <FlipView x:Name="IntroView" Grid.Row="1" SelectionChanged="IntroPivot_SelectionChanged">
+        <FlipView x:Name="IntroView" Grid.Row="1" SelectionChanged="IntroView_SelectionChanged">
 
             <Grid x:Name="FirstItem">
                 <Grid.RowDefinitions>

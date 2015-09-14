@@ -127,10 +127,10 @@
     <value>Добави</value>
   </data>
   <data name="AuthTB.Text" xml:space="preserve">
-    <value>СТАТУС ПРИ АУТЕНТИЦАКИЯТА</value>
+    <value>СТАТУС ПРИ УДОСТОВЕРЯВАНЕТО НА САМОЛИЧНОСТТА</value>
   </data>
   <data name="BlockedUser.Text" xml:space="preserve">
-    <value>Твърде много неуспешни опити за аутентикация!</value>
+    <value>Твърде много неуспешни опити за удостоверяване на самоличността!</value>
   </data>
   <data name="ConfirmButton.Content" xml:space="preserve">
     <value>Потвърдих самоличността си, продължи.</value>
@@ -145,7 +145,7 @@
     <value>Грешка: </value>
   </data>
   <data name="ErrorAuth" xml:space="preserve">
-    <value>Неуспешна аутентикация! Грешка: </value>
+    <value>Неуспешно удостоверяване на самоличността! Грешка: </value>
   </data>
   <data name="ExistingUser" xml:space="preserve">
     <value>Избраният потребител вече съществува за избраната конфигурация!</value>
@@ -158,11 +158,11 @@
   </data>
   <data name="IncorrectAccessNumber" xml:space="preserve">
     <value>Невалиден входен номер!
-Неуспешна аутентикация!</value>
+Неуспешно удостоверяване на самоличността!</value>
   </data>
   <data name="IncorrectPin" xml:space="preserve">
     <value>Неправилен ПИН!
-Неуспешна аутентикация!</value>
+Неуспешно удостоверяване на самоличността!</value>
   </data>
   <data name="InitializationFailed" xml:space="preserve">
     <value>Грешка при стартирането на MPinSDK: статус = {0}. Моля, опитайте отново!</value>
@@ -213,7 +213,7 @@
     <value>Статус на конфигурацията: </value>
   </data>
   <data name="SuccessfulAuth" xml:space="preserve">
-    <value>Успешна аутентикация!</value>
+    <value>Успешно удостоверяване на самоличността!</value>
   </data>
   <data name="TimeLeftTB.Text" xml:space="preserve">
     <value>Оставащо време:</value>
@@ -417,7 +417,7 @@
     <value>ВЪВЕДЕТЕ ВХОДЕН НОМЕР</value>
   </data>
   <data name="IdentityCreatedNotification.Text" xml:space="preserve">
-    <value>Успешно добавен потребител! Вече може да се аутентикирате посредством този потребител.</value>
+    <value>Успешно добавен потребител! Вече може да използвате този потребител за удостоверяване на самоличността.</value>
   </data>
   <data name="IdentityCreatedTitle.Text" xml:space="preserve">
     <value>СЪЗДАДЕН ПОТРЕБИТЕЛ</value>
@@ -502,6 +502,24 @@
     <value>Изтегли и настрой своя M-Pin сървър.</value>
   </data>
   <data name="QuideUse.Text" xml:space="preserve">
-    <value>Може да използвате M-Pin mobile за да се аутентикирате в собственото си приложение. Просто трябва да отидете на страницата на M-Pin, да си смъкнете сървъра и да следвате инструкциите от там за да го настроите.</value>
+    <value>Може да използвате M-Pin mobile за да удостоверите самоличността си в собственото си приложение. Просто трябва да отидете на страницата на M-Pin, да си смъкнете сървъра и да следвате инструкциите от там за да го настроите.</value>
+  </data>
+  <data name="AddServiceText.Text" xml:space="preserve">
+    <value>Добави конфигурация</value>
+  </data>
+  <data name="AddText.Text" xml:space="preserve">
+    <value>Добави</value>
+  </data>
+  <data name="MPinServerButton.Label" xml:space="preserve">
+    <value>вземи своя M-Pin сървър</value>
+  </data>
+  <data name="QuideAddServer.Text" xml:space="preserve">
+    <value>Добави своя сървър към мобилното приложение.</value>
+  </data>
+  <data name="QuideDesc.Text" xml:space="preserve">
+    <value>Натиснете бутона плюс, въведет адреса на своя M-Pin сървър и сте готови да удостоверите самоличността си към своето приложение и услугите на M-Pin мобилното приложение.</value>
+  </data>
+  <data name="QuideTitle.Text" xml:space="preserve">
+    <value>Създайте собствен M-Pin сървър</value>
   </data>
 </root>

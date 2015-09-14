@@ -709,6 +709,15 @@ namespace MPinDemo
                 throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
             }
         }
+
+        private void MPinServerButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
+            if (!mainFrame.Navigate(typeof(MPinServerQuide)))
+            {
+                throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
+            }
+        }
         #endregion // handlers            
 
     }

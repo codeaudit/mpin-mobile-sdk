@@ -7,7 +7,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <Page.Resources>
+        <Style x:Key="RectangleStyle" TargetType="Rectangle">
+            <Setter Property="StrokeLineJoin" Value="Round" />
+            <Setter Property="StrokeThickness" Value="5" />
+            <Setter Property="Stroke" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
+        </Style>
+    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -15,64 +21,70 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock x:Uid="IntroTitle" Style="{StaticResource TitleStyle}" Margin="24" />
+        <TextBlock x:Uid="QuideTitle" Style="{StaticResource TitleStyle}" Margin="24" />
 
-        <Pivot x:Name="IntroPivot" SelectionChanged="IntroPivot_SelectionChanged" Grid.Row="1">
-            <PivotItem>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+        <FlipView x:Name="MainView" SelectionChanged="MainView_SelectionChanged" Grid.Row="1">
 
-                    <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Width="147" Height="116">
-                        <Rectangle Width="120" Height="30" RadiusX="5" RadiusY="5" Canvas.Left="19.5" Canvas.Top="74" StrokeLineJoin="Round" StrokeThickness="5" Stroke="Red" />
-                        <Ellipse Width="7" Height="7" Canvas.Left="16" Canvas.Top="86" Fill="Green"/>
-                        
-                        <Path Fill="{ThemeResource ApplicationForegroundThemeBrush}" StrokeThickness="0"
-                              Data="M22.000,109.000 L22.000,100.000 L83.000,100.000 L83.000,109.000 L22.000,109.000 ZM22.000,84.000 L83.000,84.000 L83.000,93.000 L22.000,93.000 L22.000,84.000 Z" />
-                        <Path Fill="{ThemeResource ApplicationForegroundThemeBrush}" StrokeThickness="0"
-                              Data="M94.000,173.000 L10.000,173.000 C4.477,173.000 -0.000,168.523 -0.000,163.000 L-0.000,10.000 C-0.000,4.477 4.477,0.000 10.000,0.000 L94.000,0.000 C99.523,0.000 104.000,4.477 104.000,10.000 L104.000,163.000 C104.000,168.523 99.523,173.000 94.000,173.000 ZM94.812,12.906 C94.812,11.249 93.469,9.906 91.813,9.906 L12.187,9.906 C10.531,9.906 9.188,11.249 9.188,12.906 L9.188,150.219 C9.188,151.876 10.531,153.219 12.187,153.219 L91.813,153.219 C93.469,153.219 94.812,151.876 94.812,150.219 L94.812,12.906 ZM52.000,67.000 C44.300,67.000 38.000,60.700 38.000,53.000 C38.000,45.300 44.300,39.000 52.000,39.000 C59.700,39.000 66.000,45.300 66.000,53.000 C66.000,60.700 59.700,67.000 52.000,67.000 ZM52.000,43.200 C49.620,43.200 47.800,45.020 47.800,47.400 C47.800,49.780 49.620,51.600 52.000,51.600 C54.380,51.600 56.200,49.780 56.200,47.400 C56.200,45.020 54.380,43.200 52.000,43.200 ZM52.000,54.260 C49.200,54.260 43.600,55.800 43.600,58.600 C45.420,61.260 48.500,63.080 52.000,63.080 C55.500,63.080 58.580,61.260 60.400,58.600 C60.400,55.800 54.800,54.260 52.000,54.260 Z" />
-                    </Canvas>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-                    <TextBlock x:Uid="QuideDownload" Style="{StaticResource IdentityTextBlock}" Grid.Row="1" TextWrapping="Wrap"/>
-                    <TextBlock x:Uid="QuideUse" Style="{StaticResource MainTextBlock}" Grid.Row="2"  TextWrapping="Wrap"/>
+                <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Width="147" Height="116">
+                    <Rectangle Width="120" Height="30" RadiusX="5" RadiusY="5" Canvas.Left="2" Canvas.Top="74" Style="{StaticResource RectangleStyle}"/>
+                    <Ellipse Width="7" Height="7" Canvas.Left="16" Canvas.Top="86" Fill="{ThemeResource PhoneAccentBrush}"/>
 
-                </Grid>
-            </PivotItem>
+                    <Rectangle Width="120" Height="30" RadiusX="5" RadiusY="5" Canvas.Left="2" Canvas.Top="2" Style="{StaticResource RectangleStyle}"/>
+                    <Ellipse Width="7" Height="7" Canvas.Left="16" Canvas.Top="14" Fill="{ThemeResource PhoneAccentBrush}" />
 
-            <PivotItem>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+                    <TextBlock Text="M-Pin" Canvas.Left="82" Canvas.Top="10" FontSize="12" />
+                    <Ellipse Width="7" Height="7" Canvas.Left="16" Canvas.Top="50" Fill="{ThemeResource PhoneAccentBrush}" />
+                    <Rectangle Width="120" Height="30" RadiusX="5" RadiusY="5" Canvas.Left="2" Canvas.Top="38" Style="{StaticResource RectangleStyle}" />
 
-                    <!--Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Width="181" Height="146">
-                        <Rectangle Fill="{ThemeResource ApplicationForegroundThemeBrush}" RadiusX="3" RadiusY="3" Width="148.375" Height="102.688" Canvas.Left="16.313" Canvas.Top="14.656" />
-                        <Path StrokeThickness="0" Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                          Data="M164.000,118.000 L102.062,69.900 L90.929,78.510 L79.436,69.959 L16.000,118.000 L16.000,110.235 L74.264,66.111 L16.000,22.765 L16.000,15.000 L79.436,62.194 L79.532,62.121 L91.000,71.000 L102.094,62.125 L102.161,62.176 L164.000,15.000 L164.000,22.000 L107.105,66.000 L164.000,110.000 L164.000,118.000 Z"/>
-                        <Ellipse Fill="{ThemeResource PhoneAccentBrush}" Width="75" Height="75" Canvas.Left="106" Canvas.Top="71" />
-                        <Path Fill="{ThemeResource ApplicationForegroundThemeBrush}" StrokeThickness="0"
-                              Data="M126.000,111.000 L122.000,115.000 L138.000,131.000 L171.000,97.000 L167.000,93.000 L138.000,122.000 L126.000,111.000 Z" />
-                    </Canvas>
+                    <Ellipse Width="56" Height="56" Canvas.Left="91" Canvas.Top="60" Fill="{ThemeResource PhoneAccentBrush}" />
+                    <Path Fill="{ThemeResource ApplicationForegroundThemeBrush}" StrokeThickness="0"
+                              Data="M126.000,89.000 L120.000,89.000 L120.000,95.000 L118.000,95.000 L118.000,89.000 L112.000,89.000 L112.000,87.000 L118.000,87.000 L118.000,81.000 L120.000,81.000 L120.000,87.000 L126.000,87.000 L126.000,89.000 Z" />
+                </Canvas>
 
-                    <TextBlock x:Uid="IntroConfirm" Style="{StaticResource IdentityTextBlock}" Grid.Row="1" />
-                    <TextBlock x:Uid="IntroClickLink" Style="{StaticResource MainTextBlock}" Grid.Row="2" TextWrapping="Wrap"/>-->
+                <TextBlock x:Uid="QuideDownload" Style="{StaticResource IdentityTextBlock}" Grid.Row="1" TextWrapping="Wrap"/>
+                <TextBlock x:Uid="QuideUse" Style="{StaticResource MainTextBlock}" Grid.Row="2"  TextWrapping="Wrap"/>
 
-                </Grid>
-            </PivotItem>
+            </Grid>
 
-        </Pivot>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Width="104" Height="173">
+
+                    <Rectangle Width="61" Height="9" Canvas.Left="22" Canvas.Top="53" Fill="{ThemeResource ApplicationForegroundThemeBrush}"/>
+                    <Rectangle Width="61" Height="9" Canvas.Left="22" Canvas.Top="69" Fill="{ThemeResource ApplicationForegroundThemeBrush}"/>
+                    <Rectangle Width="61" Height="19" Canvas.Left="23" Canvas.Top="123" Fill="{ThemeResource PhoneAccentBrush}" RadiusX="3" RadiusY="3"/>
+                    <Grid Width="104" Height="114" Canvas.Left="0" Canvas.Top="26">
+                        <TextBlock x:Uid="AddText" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                        <TextBlock x:Uid="AddServiceText" FontSize="12" HorizontalAlignment="Center"/>
+                    </Grid>                    
+                    <Path StrokeThickness="0" Fill="{ThemeResource ApplicationForegroundThemeBrush}"
+                          Data="M94.000,173.000 L10.000,173.000 C4.477,173.000 -0.000,168.523 -0.000,163.000 L-0.000,10.000 C-0.000,4.477 4.477,0.000 10.000,0.000 L94.000,0.000 C99.523,0.000 104.000,4.477 104.000,10.000 L104.000,163.000 C104.000,168.523 99.523,173.000 94.000,173.000 ZM94.812,12.906 C94.812,11.249 93.469,9.906 91.813,9.906 L12.187,9.906 C10.531,9.906 9.188,11.249 9.188,12.906 L9.188,150.219 C9.188,151.876 10.531,153.219 12.187,153.219 L91.813,153.219 C93.469,153.219 94.812,151.876 94.812,150.219 L94.812,12.906 Z"/>
+                </Canvas>
+
+                <TextBlock x:Uid="QuideAddServer" Style="{StaticResource IdentityTextBlock}" Grid.Row="1" TextWrapping="Wrap"/>
+                <TextBlock x:Uid="QuideDesc" Style="{StaticResource MainTextBlock}" Grid.Row="2" TextWrapping="Wrap"/>
+
+            </Grid>
+        </FlipView>
 
         <StackPanel Grid.Row="2" Margin="0,24,0,0">
             <Rectangle Height="1" Fill="{ThemeResource ApplicationForegroundThemeBrush}" Stretch="UniformToFill" Margin="-12, 0, -12, 0"/>
             <Grid Margin="0,6,0,6">
                 <Button x:Name="SkipButton" x:Uid="SkipButton" Click="AppBarButton_Click" HorizontalAlignment="Left" BorderThickness="0"/>
                 <Button x:Name="NextButton" x:Uid="NextButton" Click="NextButton_Click" HorizontalAlignment="Right" BorderThickness="0"/>
-                <Button x:Name="DoneButton" x:Uid="DoneButton" Click="AppBarButton_Click" HorizontalAlignment="Right" BorderThickness="0"/>
+                <Button x:Name="DoneButton" x:Uid="DoneButton" Click="AppBarButton_Click" HorizontalAlignment="Right" BorderThickness="0" Visibility="Collapsed"/>
             </Grid>
         </StackPanel>
     </Grid>

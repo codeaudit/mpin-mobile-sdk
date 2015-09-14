@@ -55,7 +55,7 @@ namespace MPinDemo
             IntroView.SelectedIndex++;
         }
 
-        private void IntroPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void IntroView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (IntroView == null || IntroView.Items == null || IntroView.Items.Count == 0)
                 return;

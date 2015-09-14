@@ -510,4 +510,22 @@ All existing identities will be deleted.</value>
   <data name="QuideUse.Text" xml:space="preserve">
     <value>You can use M-Pin mobile to authenticate in your own apps. Just go to M-Pin webpage, download the server and follow the instructions there to set it up on your machine.</value>
   </data>
+  <data name="AddServiceText.Text" xml:space="preserve">
+    <value>Add Service</value>
+  </data>
+  <data name="AddText.Text" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="MPinServerButton.Label" xml:space="preserve">
+    <value>get your own M-Pin server</value>
+  </data>
+  <data name="QuideAddServer.Text" xml:space="preserve">
+    <value>Add your server to the mobile app.</value>
+  </data>
+  <data name="QuideDesc.Text" xml:space="preserve">
+    <value>Simply hit the "plus" button, enter the URL from your M-Pin server and you are ready to authenticate apps and services using M-Pin mobile app.</value>
+  </data>
+  <data name="QuideTitle.Text" xml:space="preserve">
+    <value>Create your own M-Pin Server</value>
+  </data>
 </root>

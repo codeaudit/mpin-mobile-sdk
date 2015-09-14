@@ -23,8 +23,7 @@ namespace MPinDemo
     public sealed partial class MPinServerQuide : Page
     {
         private MainPage rootPage = null;
-        object passedParameters;
-
+        
         public MPinServerQuide()
         {
             this.InitializeComponent();
@@ -38,13 +37,12 @@ namespace MPinDemo
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             rootPage = MainPage.Current;
-            this.passedParameters = e.Parameter;
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
             Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
-            if (!mainFrame.Navigate(typeof(BlankPage1), passedParameters))
+            if (!mainFrame.Navigate(typeof(BlankPage1), string.Empty))
             {
                 throw new Exception("Failed to go to the initial screen.");
             }
@@ -52,12 +50,15 @@ namespace MPinDemo
 
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
-            IntroPivot.SelectedIndex++;
+            MainView.SelectedIndex++;
         }
 
-        private void IntroPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void MainView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            bool isLastItem = IntroPivot.SelectedIndex == IntroPivot.Items.Count - 1;
+            if (MainView == null || MainView.Items == null || MainView.Items.Count == 0)
+                return;
+
+            bool isLastItem = MainView.SelectedIndex == MainView.Items.Count - 1;
             NextButton.Visibility = SkipButton.Visibility = !isLastItem ? Visibility.Visible : Visibility.Collapsed;
             DoneButton.Visibility = isLastItem ? Visibility.Visible : Visibility.Collapsed;
         }
