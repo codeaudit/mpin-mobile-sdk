@@ -21,7 +21,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock x:Uid="QuideTitle" Style="{StaticResource TitleStyle}" Margin="24" />
+        <TextBlock x:Uid="QuideTitle" Style="{StaticResource TitleStyle}" Margin="0, 24, 0, 24" />
 
         <FlipView x:Name="MainView" SelectionChanged="MainView_SelectionChanged" Grid.Row="1">
 

@@ -528,4 +528,13 @@ All existing identities will be deleted.</value>
   <data name="QuideTitle.Text" xml:space="preserve">
     <value>Create your own M-Pin Server</value>
   </data>
+  <data name="ANGuideDesc.Text" xml:space="preserve">
+    <value>Login to discuss.certivox.com on your desktop browser and choose "Sign in with phone"</value>
+  </data>
+  <data name="ANQuideGet.Text" xml:space="preserve">
+    <value>Get your Access Number</value>
+  </data>
+  <data name="ANQuideTitle.Text" xml:space="preserve">
+    <value>Login to the Certivox community</value>
+  </data>
 </root>

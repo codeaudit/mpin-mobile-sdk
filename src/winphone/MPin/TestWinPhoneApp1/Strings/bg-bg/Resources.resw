@@ -522,4 +522,13 @@
   <data name="QuideTitle.Text" xml:space="preserve">
     <value>Създайте собствен M-Pin сървър</value>
   </data>
+  <data name="ANGuideDesc.Text" xml:space="preserve">
+    <value>Влезте на discuss.certivox.com от своя дектоп браузър и изберете "Sign in with phone"</value>
+  </data>
+  <data name="ANQuideGet.Text" xml:space="preserve">
+    <value>Вземете собствен Номер за Достъп</value>
+  </data>
+  <data name="ANQuideTitle.Text" xml:space="preserve">
+    <value>Вход в Certivox общността</value>
+  </data>
 </root>
