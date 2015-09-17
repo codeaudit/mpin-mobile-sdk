@@ -41,10 +41,10 @@ import com.certivox.mpinsdk.R;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 
 
-public class SplashActivity extends ActionBarActivity {
+public class SplashActivity extends AppCompatActivity {
 
     private AppInstanceInfoDao mInstructionsDao;
 

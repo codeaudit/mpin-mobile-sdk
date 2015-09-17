@@ -34,15 +34,16 @@ package com.certivox.adapters;
 
 import java.util.List;
 
+import com.certivox.models.User;
+import com.certivox.mpinsdk.R;
+
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.certivox.models.User;
-import com.certivox.mpinsdk.R;
 
 
 public class UsersAdapter extends BaseAdapter {
@@ -102,13 +103,13 @@ public class UsersAdapter extends BaseAdapter {
         User user = getItem(position);
         holder.textView.setText(user.getId());
         if (user.isUserSelected()) {
-            holder.textView.setBackgroundColor(mContext.getResources().getColor(R.color.selected_item_background));
+            holder.textView.setBackgroundColor(ContextCompat.getColor(mContext,R.color.selected_item_background));
             holder.textView.setCompoundDrawablesWithIntrinsicBounds(
-                    mContext.getResources().getDrawable(R.drawable.ic_avatar_selected), null, null, null);
+                    ContextCompat.getDrawable(mContext,R.drawable.ic_avatar_selected), null, null, null);
         } else {
-            holder.textView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+            holder.textView.setBackgroundColor(ContextCompat.getColor(mContext,R.color.white));
             holder.textView.setCompoundDrawablesWithIntrinsicBounds(
-                    mContext.getResources().getDrawable(R.drawable.ic_avatar), null, null, null);
+                    ContextCompat.getDrawable(mContext,R.drawable.ic_avatar), null, null, null);
         }
 
         return convertView;

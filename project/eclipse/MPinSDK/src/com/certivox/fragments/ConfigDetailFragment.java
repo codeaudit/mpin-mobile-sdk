@@ -32,7 +32,11 @@
 package com.certivox.fragments;
 
 
-import android.app.Activity;
+import com.certivox.constants.FragmentTags;
+import com.certivox.controllers.MPinController;
+import com.certivox.models.Config;
+import com.certivox.mpinsdk.R;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -46,11 +50,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-
-import com.certivox.constants.FragmentTags;
-import com.certivox.controllers.MPinController;
-import com.certivox.models.Config;
-import com.certivox.mpinsdk.R;
 
 
 public class ConfigDetailFragment extends MPinFragment implements OnClickListener {
