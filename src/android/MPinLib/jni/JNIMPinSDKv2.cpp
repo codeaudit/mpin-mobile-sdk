@@ -107,10 +107,16 @@ static jobject nRestartRegistration(JNIEnv* env, jobject jobj, jlong jptr, jobje
 	return MakeJavaStatus(env, sdk->RestartRegistration(JavaToMPinUser(env, juser), JavaToStdString(env, juserData)));
 }
 
-static jobject nConfirmRegistration(JNIEnv* env, jobject jobj, jlong jptr, jobject juser)
+static jobject nVerifyUser(JNIEnv* env, jobject jobj, jlong jptr, jobject juser, jstring jmpinId, jstring jactivationKey)
 {
 	MPinSDKv2* sdk = (MPinSDKv2*) jptr;
-	return MakeJavaStatus(env, sdk->ConfirmRegistration(JavaToMPinUser(env, juser)));
+	return MakeJavaStatus(env, sdk->VerifyUser(JavaToMPinUser(env, juser), JavaToStdString(env, jmpinId), JavaToStdString(env, jactivationKey)));
+}
+
+static jobject nConfirmRegistration(JNIEnv* env, jobject jobj, jlong jptr, jobject juser, jstring jpushMessageIdentifier)
+{
+	MPinSDKv2* sdk = (MPinSDKv2*) jptr;
+	return MakeJavaStatus(env, sdk->ConfirmRegistration(JavaToMPinUser(env, juser), JavaToStdString(env, jpushMessageIdentifier)));
 }
 
 static jobject nFinishRegistration(JNIEnv* env, jobject jobj, jlong jptr, jobject juser, jstring jpin)
@@ -247,7 +253,8 @@ static JNINativeMethod g_methodsMPinSDKv2[] =
 	NATIVE_METHOD(nMakeNewUser, "(JLjava/lang/String;Ljava/lang/String;)Lcom/certivox/models/User;"),
 	NATIVE_METHOD(nStartRegistration, "(JLcom/certivox/models/User;Ljava/lang/String;)Lcom/certivox/models/Status;"),
 	NATIVE_METHOD(nRestartRegistration, "(JLcom/certivox/models/User;Ljava/lang/String;)Lcom/certivox/models/Status;"),
-	NATIVE_METHOD(nConfirmRegistration, "(JLcom/certivox/models/User;)Lcom/certivox/models/Status;"),
+	NATIVE_METHOD(nVerifyUser, "(JLcom/certivox/models/User;Ljava/lang/String;Ljava/lang/String;)Lcom/certivox/models/Status;"),
+	NATIVE_METHOD(nConfirmRegistration, "(JLcom/certivox/models/User;Ljava/lang/String;)Lcom/certivox/models/Status;"),
 	NATIVE_METHOD(nFinishRegistration, "(JLcom/certivox/models/User;Ljava/lang/String;)Lcom/certivox/models/Status;"),
 	NATIVE_METHOD(nStartAuthentication, "(JLcom/certivox/models/User;)Lcom/certivox/models/Status;"),
 	NATIVE_METHOD(nCheckAccessNumber, "(JLjava/lang/String;)Lcom/certivox/models/Status;"),
