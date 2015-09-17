@@ -44,8 +44,8 @@ static NSString *const kUSER = @"currentUser";
 - ( void ) OnRestartRegistrationCompleted:( id ) sender user:( const id<IUser>) user;
 - ( void ) OnRestartRegistrationError:( id ) sender error:( NSError * ) error;
 
-- ( void ) OnActivateUserRegisteredBySMSCompleted:( id ) sender;
-- ( void ) OnActivateUserRegisteredBySMSError:( id ) sender error:( NSError * ) error;
+- ( void ) OnVerifyUserompleted:( id ) sender user:( const id<IUser>) user;
+- ( void ) OnVerifyUserError:( id ) sender error:( NSError * ) error;
 
 - ( void ) OnFinishRegistrationCompleted:( id ) sender user:( const id<IUser>) user;
 - ( void ) OnFinishRegistrationError:( id ) sender error:( NSError * ) error;
@@ -81,7 +81,8 @@ static NSString *const kUSER = @"currentUser";
 - ( void ) RestartRegistration:( const id<IUser>) user;
 - ( void ) RestartRegistration:( const id<IUser>)user userData:( NSString * ) userData;
 - ( void ) FinishRegistration:( const id<IUser>) user;
-- ( void ) RegisterUserBySMS:(NSString* ) mpinId activationKey:(NSString *) activationKey;
+- ( void ) FinishRegistration:(const id<IUser>)user pushNotificationIdentifier:(NSString *) pushNotificationIdentifier;
+- ( void ) VerifyUser:(const id<IUser>)user mpinId:(NSString* ) mpinId activationKey:(NSString *) activationKey;
 - ( void ) Authenticate:( const id<IUser>) user askForFingerprint:( BOOL )boolAskForFingerprint;
 - ( void ) AuthenticateOTP:( id<IUser>) user askForFingerprint:( BOOL )boolAskForFingerprint;
 - ( void ) AuthenticateAN:( id<IUser>) user accessNumber:( NSString * ) an askForFingerprint:( BOOL )boolAskForFingerprint;

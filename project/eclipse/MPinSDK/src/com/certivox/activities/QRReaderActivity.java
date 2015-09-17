@@ -90,6 +90,12 @@ public class QRReaderActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr_reader);
 
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onResume();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         init();
 

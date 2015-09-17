@@ -68,7 +68,8 @@ public:
 
     Status StartRegistration(INOUT UserPtr user, const String& userData = "");
     Status RestartRegistration(INOUT UserPtr user, const String& userData = "");
-    Status ConfirmRegistration(INOUT UserPtr user);
+    Status VerifyUser(INOUT UserPtr user, const String& mpinId, const String& activationKey);
+    Status ConfirmRegistration(INOUT UserPtr user, const String& pushMessageIdentifier = "");
     Status FinishRegistration(INOUT UserPtr user, const String& pin);
 
     Status StartAuthentication(INOUT UserPtr user);

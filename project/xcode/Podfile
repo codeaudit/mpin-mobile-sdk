@@ -6,4 +6,5 @@ pod 'ATMHud@dhoerl', '~> 3.0.0'
 source 'https://github.com/mikefrederick/MFSideMenu.git'
 pod 'MFSideMenu', '~> 0.5.5'
 pod 'AFNetworking', '~> 2.5'
-pod 'OCMock’
+pod 'OCMock'
+pod 'SwipeView'
