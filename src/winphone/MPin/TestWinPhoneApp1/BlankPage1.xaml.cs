@@ -60,7 +60,6 @@ namespace MPinDemo
         private const string SelectedService = "ServiceSetIndex";
         private const string SelectedUser = "SelectedUser";
         private const string FirstConfigurationsSeenString = "FirstConfigurationsSeenTime";
-        private const string IsMPinConnectAuthenticatedString = "IsMPinConnectAuthenticated";
         private bool isInitialLoad = false;
         private bool isServiceAdding = false;
         private MainPage rootPage = null;
@@ -172,17 +171,6 @@ namespace MPinDemo
 
         internal void Select()
         {
-            if (this.MainPivot.SelectedIndex == 1 && controller.DataModel.SelectedBackend.Name == "M-Pin Connect" && IsMPinConnectFirstAuthentication())
-            {
-                Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
-                if (!mainFrame.Navigate(typeof(AccessNumberQuide), this))
-                {
-                    throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
-                }
-
-                return;
-            }
-
             switch (this.MainPivot.SelectedIndex)
             {
                 case 0:
@@ -296,19 +284,6 @@ namespace MPinDemo
             if (!localSettings.Values.Keys.Contains(FirstConfigurationsSeenString))
             {
                 localSettings.Values.Add(FirstConfigurationsSeenString, 1);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        private bool IsMPinConnectFirstAuthentication()
-        {
-            if (!localSettings.Values.Keys.Contains(IsMPinConnectAuthenticatedString))
-            {
-                localSettings.Values.Add(IsMPinConnectAuthenticatedString, 1);
                 return true;
             }
             else

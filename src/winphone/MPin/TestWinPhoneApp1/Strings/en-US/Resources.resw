@@ -158,7 +158,7 @@
   </data>
   <data name="IncorrectAccessNumber" xml:space="preserve">
     <value>Incorrect Access Number! 
-Unsuccessfull authenitecation!</value>
+Unsuccessfull authentication!</value>
   </data>
   <data name="IncorrectPin" xml:space="preserve">
     <value>Incorrect PIN! 

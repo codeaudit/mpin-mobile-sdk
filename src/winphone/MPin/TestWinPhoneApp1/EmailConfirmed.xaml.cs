@@ -42,6 +42,7 @@ namespace MPinDemo
     {
         #region fields
         private MainPage rootPage = null;
+
         #endregion // fields
 
         #region C'tor
@@ -53,6 +54,8 @@ namespace MPinDemo
         #endregion // C'tor
 
         #region Members
+        Controller Controller { get; set; }
+
         private User _user;
         public User User
         {
@@ -79,9 +82,11 @@ namespace MPinDemo
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             rootPage = MainPage.Current;
-            if (e.Parameter != null)
+            List<object> data = e.Parameter as List<object>;
+            if (data != null && data.Count == 2 && data[0].GetType().Equals(typeof(User)) && data[1].GetType().Equals(typeof(Controller)))
             {
-                this.User = e.Parameter as User;
+                this.User = data[0] as User;
+                this.Controller = data[1] as Controller;
             }
         }
 

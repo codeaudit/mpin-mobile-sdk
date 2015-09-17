@@ -34,6 +34,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System.Linq;
+using Windows.Storage;
 
 namespace MPinDemo.Models
 {
@@ -42,10 +43,12 @@ namespace MPinDemo.Models
         #region Fields
         private const string DefautRpsPrefix = "rps";
         private const string ConfigBackend = "backend";
+        private const string IsMPinConnectAuthenticatedString = "IsMPinConnectAuthenticated";
         private bool skipProcessing;
         private static CoreDispatcher dispatcher;
         private static MainPage rootPage = null;
         private int selectedServicesIndex = -1;
+        private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
         private static MPin sdk;
         #endregion // Fields
@@ -378,19 +381,43 @@ namespace MPinDemo.Models
                     break;
 
                 case User.State.StartedRegistration:
-                    mainFrame.Navigate(typeof(EmailConfirmed), this.DataModel.CurrentUser);
+                    mainFrame.Navigate(typeof(EmailConfirmed), new List<object> {this.DataModel.CurrentUser, this});
                     break;
 
                 case User.State.Registered:
                     if (this.DataModel.CurrentService.Type == ConfigurationType.Online)
                     {
-                        mainFrame.Navigate(typeof(AccessNumberScreen), new List<string> { this.DataModel.CurrentUser.Id, sdk.GetClientParam("accessNumberDigits") });
+                        List<string> anParams = new List<string> { this.DataModel.CurrentUser.Id, sdk.GetClientParam("accessNumberDigits") };
+                        if (IsMPinConnectFirstAuthentication())
+                        {
+                            mainFrame.Navigate(typeof(AccessNumberQuide), anParams);
+                        }
+                        else
+                        {
+                            mainFrame.Navigate(typeof(AccessNumberScreen), anParams);
+                        }
                     }
                     else
                     {
                         await ShowAuthenticate();
                     }
                     break;
+            }
+        }
+
+        private bool IsMPinConnectFirstAuthentication()
+        {
+            if (this.DataModel.SelectedBackend.Name.ToLower() != "m-pin connect")
+                return false;
+
+            if (!localSettings.Values.Keys.Contains(IsMPinConnectAuthenticatedString))
+            {
+                localSettings.Values.Add(IsMPinConnectAuthenticatedString, 1);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -443,7 +470,7 @@ namespace MPinDemo.Models
             if (user.UserState == User.State.StartedRegistration)
             {
                 Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-                mainFrame.Navigate(typeof(EmailConfirmed), this.DataModel.CurrentUser);
+                mainFrame.Navigate(typeof(EmailConfirmed), new List<object> { this.DataModel.CurrentUser, this});
             }
             else if (user.UserState == User.State.Activated)
             {
@@ -451,7 +478,7 @@ namespace MPinDemo.Models
             }
         }
 
-        private static async Task<Status> Finish(User user)
+        private async Task<Status> Finish(User user)
         {
             Status st = null;
             await Task.Factory.StartNew(() =>
@@ -467,7 +494,7 @@ namespace MPinDemo.Models
                     {
                         // successful registration
                         Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-                        mainFrame.Navigate(typeof(IdentityCreated), user);
+                        mainFrame.Navigate(typeof(IdentityCreated), new List<object>() { user, this });
                     }
                     else
                     {
@@ -533,8 +560,8 @@ namespace MPinDemo.Models
             }
         }
 
-      
-        internal static async Task<Status> OnEmailConfirmed(User user)
+
+        internal async Task<Status> OnEmailConfirmed(User user)
         {
             Debug.Assert(user.UserState == User.State.StartedRegistration);
             Task.WaitAll();
@@ -648,7 +675,7 @@ namespace MPinDemo.Models
                     this.DataModel.CurrentUser = parameter as User;
                     break;
 
-                case "InitialLoad":                
+                case "InitialLoad":
                     await ProcessUser();
                     break;
 
@@ -713,7 +740,7 @@ namespace MPinDemo.Models
                     await this.DataModel.MergeConfigurations(newBackends);
                     if (shouldReconnect)
                     {
-                        await ConnectToService();                        
+                        await ConnectToService();
                     }
                     break;
 

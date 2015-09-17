@@ -22,8 +22,8 @@ namespace MPinDemo
     /// </summary>
     public sealed partial class AccessNumberQuide : Page
     {
-        //private MainPage rootPage = null;
-        private BlankPage1 currentPage = null;
+        private object passedParams;
+        private MainPage rootPage = null;
 
         public AccessNumberQuide()
         {
@@ -37,20 +37,17 @@ namespace MPinDemo
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            //rootPage = MainPage.Current;
-            currentPage = e.Parameter as BlankPage1;
-            if (currentPage == null)
-                throw new ArgumentException("The navigated page should be passed for proper navigation further!");
+            rootPage = MainPage.Current;
+            passedParams = e.Parameter;            
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            currentPage.Select();
-            //Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
-            //if (!mainFrame.Navigate(typeof(BlankPage1), string.Empty))
-            //{
-            //    throw new Exception("Failed to go to the initial screen.");
-            //}
+        {            
+            Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
+            if (!mainFrame.Navigate(typeof(AccessNumberScreen), passedParams))
+            {
+                throw new Exception("Failed to go to the initial screen.");
+            }
         }
     }
 }

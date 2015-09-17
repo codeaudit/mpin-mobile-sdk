@@ -27,6 +27,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using System.Linq;
+using System;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -71,10 +73,27 @@ namespace MPinDemo
                 this.AccessNumberLength.Text = string.Format(ResourceLoader.GetForCurrentView().GetString("AccessNumberLength"), this.ANLength);
                 this.AccessNumberTB.MaxLength = this.ANLength;
             }
-            
+
             //This code opens up the keyboard when you navigate to the page.
             this.AccessNumberTB.UpdateLayout();
             this.AccessNumberTB.Focus(FocusState.Keyboard);
+
+            ClearBackStack();
+        }
+
+        private void ClearBackStack()
+        {
+            ClearFrame(typeof(AccessNumberQuide));
+            ClearFrame(typeof(IdentityCreated));
+        }
+
+        private void ClearFrame(Type typeToRemove)
+        {
+            Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
+            if (mainFrame != null && mainFrame.BackStack.Any(item => item.SourcePageType.Equals(typeToRemove)))
+            {
+                mainFrame.BackStack.Remove(mainFrame.BackStack.First(item => item.SourcePageType.Equals(typeToRemove)));
+            }
         }
 
         private void Done_Click(object sender, RoutedEventArgs e)
