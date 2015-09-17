@@ -55,6 +55,7 @@ public class SelectionCircles extends View {
     private List<Integer> mSelectedPositions;
     private CircleStyle   mSelectedStyle;
     private CircleStyle   mDefaultStyle;
+    private float         mHollowWidth;
     private int           mGravity;
 
 
@@ -89,7 +90,6 @@ public class SelectionCircles extends View {
         } else {
             mCirclesCount = circlesCount;
         }
-        invalidate();
         requestLayout();
     }
 
@@ -109,7 +109,6 @@ public class SelectionCircles extends View {
             }
         }
         invalidate();
-        requestLayout();
     }
 
 
@@ -117,7 +116,6 @@ public class SelectionCircles extends View {
         if (position >= 0 && position < mCirclesCount) {
             mSelectedPositions.add(position);
             invalidate();
-            requestLayout();
         }
     }
 
@@ -128,21 +126,18 @@ public class SelectionCircles extends View {
             mSelectedPositions.add(i);
         }
         invalidate();
-        requestLayout();
     }
 
 
     public void deselectAll() {
         mSelectedPositions.clear();
         invalidate();
-        requestLayout();
     }
 
 
     public void deselectPosition(int position) {
         if (mSelectedPositions.remove(Integer.valueOf(position))) {
             invalidate();
-            requestLayout();
         }
     }
 
@@ -169,7 +164,6 @@ public class SelectionCircles extends View {
     public void setDistanceBetweenCircles(float distance) {
         if (distance > 0 && distance != mDistanceBetweenCircles) {
             mDistanceBetweenCircles = distance;
-            invalidate();
             requestLayout();
         }
     }
@@ -184,7 +178,6 @@ public class SelectionCircles extends View {
         if (defaultColor != mDefaultColor) {
             mDefaultColor = defaultColor;
             invalidate();
-            requestLayout();
         }
     }
 
@@ -198,7 +191,6 @@ public class SelectionCircles extends View {
         if (selectedColor != mSelectedColor) {
             mSelectedColor = selectedColor;
             invalidate();
-            requestLayout();
         }
     }
 
@@ -207,7 +199,6 @@ public class SelectionCircles extends View {
         if (selectedStyle != null && selectedStyle != mSelectedStyle) {
             mSelectedStyle = selectedStyle;
             invalidate();
-            requestLayout();
         }
     }
 
@@ -216,7 +207,6 @@ public class SelectionCircles extends View {
         if (defaultStyle != null && defaultStyle != mDefaultStyle) {
             mDefaultStyle = defaultStyle;
             invalidate();
-            requestLayout();
         }
     }
 
@@ -309,6 +299,7 @@ public class SelectionCircles extends View {
         Resources res = getContext().getResources();
         mCircleDiameter = res.getDimension(R.dimen.scDefaultCircleDiameter);
         mDistanceBetweenCircles = res.getDimension(R.dimen.scDefaultDistanceBetweenCircles);
+        mHollowWidth = res.getDimension(R.dimen.scDefaultHollowStyleWidth);
         mDefaultColor = mSelectedColor = Color.BLACK;
         mCirclesCount = 0;
         mDefaultStyle = CircleStyle.HOLLOW;
@@ -350,6 +341,7 @@ public class SelectionCircles extends View {
         switch (style) {
         case HOLLOW:
             paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeWidth(mHollowWidth);
             break;
         case FILLED:
         default:

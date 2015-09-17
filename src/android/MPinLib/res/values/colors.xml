@@ -3,6 +3,7 @@
 
     <color name="white">#FAFAFA</color>
     <color name="gray">#E0E0E0</color>
+    <color name="light_green">#4DB6AC</color>
     <color name="primaryColor">#607D8B</color>
     <color name="textColor">#7D7D7D</color>
     <color name="pin_number_text_color">#455a64</color>

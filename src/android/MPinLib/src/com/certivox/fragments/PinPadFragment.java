@@ -136,15 +136,18 @@ public class PinPadFragment extends Fragment {
 
 
     public void showWrongPin() {
-        setEmptyPin();
+        mSelectionCircles.selectAll();
+        mSelectionCircles.setSelectedColor((getResources().getColor(R.color.orange)));
         mWrongPinTextView.setVisibility(View.VISIBLE);
-        mSelectionCircles.setDefaultColor(getResources().getColor(R.color.orange));
     }
 
 
     public void hideWrongPin() {
-        mWrongPinTextView.setVisibility(View.INVISIBLE);
-        mSelectionCircles.setDefaultColor(getResources().getColor(R.color.primaryColor));
+        if (mWrongPinTextView.getVisibility() == View.VISIBLE) {
+            setEmptyPin();
+            mWrongPinTextView.setVisibility(View.INVISIBLE);
+            mSelectionCircles.setSelectedColor(getResources().getColor(R.color.light_green));
+        }
     }
 
 
@@ -216,6 +219,7 @@ public class PinPadFragment extends Fragment {
                 if (mInput.length() >= mPinLength) {
                     return;
                 }
+                hideWrongPin();
                 final int id = view.getId();
                 if (id == R.id.pinpad_key_0) {
                     mInput.append('0');
@@ -247,7 +251,6 @@ public class PinPadFragment extends Fragment {
                                                     if (id == R.id.pinpad_key_9) {
                                                         mInput.append('9');
                                                     }
-                hideWrongPin();
                 mSelectionCircles.selectPosition(mInput.length() - 1);
                 updateButtons();
             }
