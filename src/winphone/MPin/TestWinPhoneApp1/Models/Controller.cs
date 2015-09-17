@@ -407,7 +407,7 @@ namespace MPinDemo.Models
 
         private bool IsMPinConnectFirstAuthentication()
         {
-            if (this.DataModel.SelectedBackend.Name.ToLower() != "m-pin connect")
+            if (this.DataModel.SelectedBackend.Name.ToLower() != "m-pin connect" || this.DataModel.SelectedBackend.BackendUrl.ToLower() != "https://m-pin.my.id")
                 return false;
 
             if (!localSettings.Values.Keys.Contains(IsMPinConnectAuthenticatedString))
