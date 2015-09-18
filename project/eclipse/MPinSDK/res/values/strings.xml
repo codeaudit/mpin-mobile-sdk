@@ -76,8 +76,8 @@
 
 
     <!-- Access number -->
-    <string name="access_number_text">Enter the %1$s-digit Access Number</string>
-    <string name="access_number_info">You can find the Access Number on the Online login page.</string>
+    <string name="access_number_text">Enter a %1$s Digit Access Number for:</string>
+    <string name="access_number_info">Get one on your desktop browser at:</string>
     <!-- Access number end -->
 
 
