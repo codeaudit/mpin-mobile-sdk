@@ -39,7 +39,7 @@ import com.certivox.mpinsdk.R;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,7 +48,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 
-public class ImportConfigsActivity extends ActionBarActivity {
+public class ImportConfigsActivity extends AppCompatActivity {
 
     private ListView                mListView;
     private Toolbar                 mToolbar;
