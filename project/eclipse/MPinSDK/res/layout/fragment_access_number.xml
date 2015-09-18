@@ -33,15 +33,37 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/access_number_info"
+        android:id="@+id/access_number_service_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/access_number_title"
         android:gravity="center"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:textColor="@color/base_text_color"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/access_number_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/access_number_service_name"
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:text="@string/access_number_info"
         android:textColor="@color/base_text_color"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/access_number_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/access_number_info"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:gravity="center"
+        android:textColor="@color/green"
         android:textSize="14sp" />
 
     <EditText
