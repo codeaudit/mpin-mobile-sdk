@@ -37,6 +37,8 @@ import java.io.Serializable;
 
 public final class Config implements Serializable {
 
+    private static final long serialVersionUID = 2099011559794500062L;
+
     private long    mId;
     private String  mTitle;
     private String  mBackendUrl;

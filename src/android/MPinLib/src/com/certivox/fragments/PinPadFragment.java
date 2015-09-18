@@ -39,7 +39,8 @@ import com.certivox.view.SelectionCircles;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -101,9 +102,9 @@ public class PinPadFragment extends Fragment {
         super.onResume();
         if (mUser != null) {
             if (mUser.getState().equals(User.State.REGISTERED)) {
-                ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.enter_pin_title);
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.enter_pin_title);
             } else {
-                ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.setup_pin_title);
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.setup_pin_title);
             }
         } else {
             showErrorDialog();
@@ -137,7 +138,7 @@ public class PinPadFragment extends Fragment {
 
     public void showWrongPin() {
         mSelectionCircles.selectAll();
-        mSelectionCircles.setSelectedColor((getResources().getColor(R.color.orange)));
+        mSelectionCircles.setSelectedColor(ContextCompat.getColor(getActivity(),R.color.orange));
         mWrongPinTextView.setVisibility(View.VISIBLE);
     }
 
@@ -146,7 +147,7 @@ public class PinPadFragment extends Fragment {
         if (mWrongPinTextView.getVisibility() == View.VISIBLE) {
             setEmptyPin();
             mWrongPinTextView.setVisibility(View.INVISIBLE);
-            mSelectionCircles.setSelectedColor(getResources().getColor(R.color.light_green));
+            mSelectionCircles.setSelectedColor(ContextCompat.getColor(getActivity(),R.color.light_green));
         }
     }
 
@@ -276,6 +277,7 @@ public class PinPadFragment extends Fragment {
     }
 
 
+    //TODO: 
     public String getPin() {
         synchronized (this) {
             try {
