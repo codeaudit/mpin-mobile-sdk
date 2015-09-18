@@ -2,22 +2,20 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="src">
-      <UniqueIdentifier>{8d8eb6a0-6fa5-40bc-98d7-c54ff7d5cef3}</UniqueIdentifier>
+      <UniqueIdentifier>{b08028e5-325e-4d98-9ed6-62a072998eb9}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\contexts">
-      <UniqueIdentifier>{1f200816-1a1d-4f18-8207-e039c8911a1a}</UniqueIdentifier>
+      <UniqueIdentifier>{6913b55c-3bd8-43d9-bdcd-7baf662a91e0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\tests\cmdline_test.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tests\contexts\cmdline_context.cpp">
+    <ClCompile Include="..\..\tests\unit_tests_v2.cpp" />
+    <ClCompile Include="..\..\tests\contexts\auto_context_v2.cpp">
       <Filter>src\contexts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\tests\contexts\cmdline_context.h">
+    <ClInclude Include="..\..\tests\contexts\auto_context_v2.h">
       <Filter>src\contexts</Filter>
     </ClInclude>
   </ItemGroup>

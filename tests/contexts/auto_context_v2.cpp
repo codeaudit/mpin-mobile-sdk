@@ -22,13 +22,9 @@ the following links:
    http://www.certivox.com/about-certivox/patents/
 */
 
-/*
- * MPinSDK::IContext and all related interfaces implementation for command line test client
- */
-
-#include "cmdline_context_v2.h"
+#include "auto_context_v2.h"
 #include "../common/http_request.h"
-#include "../common/file_storage.h"
+#include "../common/memory_storage.h"
 
 #include <iostream>
 #include <fstream>
@@ -38,33 +34,29 @@ typedef MPinSDKv2::IHttpRequest IHttpRequest;
 typedef MPinSDKv2::CryptoType CryptoType;
 typedef MPinSDKv2::UserPtr UserPtr;
 
-/*
- * Context class impl
- */
-
-CmdLineContextV2::CmdLineContextV2(const String& usersFile, const String& tokensFile)
+AutoContextV2::AutoContextV2()
 {
-    m_nonSecureStorage = new FileStorage(usersFile);
-    m_secureStorage = new FileStorage(tokensFile);
+    m_nonSecureStorage = new MemoryStorage();
+    m_secureStorage = new MemoryStorage();
 }
 
-CmdLineContextV2::~CmdLineContextV2()
+AutoContextV2::~AutoContextV2()
 {
     delete m_nonSecureStorage;
     delete m_secureStorage;
 }
 
-IHttpRequest * CmdLineContextV2::CreateHttpRequest() const
+IHttpRequest * AutoContextV2::CreateHttpRequest() const
 {
     return new HttpRequest();
 }
 
-void CmdLineContextV2::ReleaseHttpRequest(IN IHttpRequest *request) const
+void AutoContextV2::ReleaseHttpRequest(IN IHttpRequest *request) const
 {
     delete request;
 }
 
-MPinSDK::IStorage * CmdLineContextV2::GetStorage(IStorage::Type type) const
+MPinSDK::IStorage * AutoContextV2::GetStorage(IStorage::Type type) const
 {
     if(type == IStorage::SECURE)
     {
@@ -74,7 +66,7 @@ MPinSDK::IStorage * CmdLineContextV2::GetStorage(IStorage::Type type) const
     return m_nonSecureStorage;
 }
 
-CryptoType CmdLineContextV2::GetMPinCryptoType() const
+CryptoType AutoContextV2::GetMPinCryptoType() const
 {
     return MPinSDK::CRYPTO_NON_TEE;
 }

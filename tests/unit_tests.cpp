@@ -23,10 +23,9 @@ the following links:
 */
 
 #include "core/mpin_sdk.h"
-#include "core/utils.h"
 #include "contexts/auto_context.h"
-#include "contexts/http_request.h"
-#include "CvThread.h"
+#include "common/http_request.h"
+#include "common/access_number_thread.h"
 #include "CvTime.h"
 #include "CvLogger.h"
 
@@ -334,61 +333,6 @@ BOOST_AUTO_TEST_CASE(testAuthenticateOTP)
     sdk.DeleteUser(user);
 }
 
-class AccessNumberThread : public CvShared::CvThread
-{
-public:
-    void Start(const String& backend, const String& webOTT)
-    {
-        m_backend = backend;
-        m_webOTT = webOTT;
-        Create(NULL);
-    }
-
-    virtual long Body(void*)
-    {
-        HttpRequest req;
-        HttpRequest::StringMap headers;
-        headers.Put("Content-Type", "application/json");
-        headers.Put("Accept", "*/*");
-
-        util::JsonObject json;
-        json["webOTT"] = json::String(m_webOTT);
-        String payload = json.ToString();
-
-        String url = String().Format("%s/rps/accessnumber", m_backend.c_str());
-
-        int retryCount = 0;
-        while(req.GetHttpStatusCode() != 200 && retryCount++ < MAX_TRIES)
-        {
-            CvShared::SleepFor(CvShared::Millisecs(RETRY_INTERVAL_MILLISEC).Value());
-
-            req.SetHeaders(headers);
-            req.SetContent(payload);
-            req.Execute(MPinSDK::IHttpRequest::POST, url);
-        }
-
-        url = sdk.GetClientParam("authenticateURL");
-        json.Clear();
-        util::JsonObject mpinResponse;
-        mpinResponse.Parse(req.GetResponseData().c_str());
-        json["mpinResponse"] = mpinResponse;
-        payload = json.ToString();
-
-        req.SetHeaders(headers);
-        req.SetContent(payload);
-        req.Execute(MPinSDK::IHttpRequest::POST, url);
-
-        return 0;
-    }
-
-    static const int MAX_TRIES = 5;
-    static const int RETRY_INTERVAL_MILLISEC = 1000;
-
-private:
-    String m_backend;
-    String m_webOTT;
-};
-
 static AccessNumberThread g_accessNumberThread;
 
 BOOST_AUTO_TEST_CASE(testAuthenticateAN1)
@@ -427,7 +371,7 @@ BOOST_AUTO_TEST_CASE(testAuthenticateAN1)
     BOOST_CHECK(accessNumber.length() > 0);
 
     // Start access number thread
-    g_accessNumberThread.Start(backend, json.GetStringParam("webOTT"));
+    g_accessNumberThread.Start(backend, json.GetStringParam("webOTT"), sdk.GetClientParam("authenticateURL"));
 
     // Authenticate with access number
     s = sdk.AuthenticateAN(user, accessNumber);
@@ -484,7 +428,7 @@ BOOST_AUTO_TEST_CASE(testAuthenticateAN2)
     }
 
     // Start access number thread
-    g_accessNumberThread.Start(backend, json.GetStringParam("webOTT"));
+    g_accessNumberThread.Start(backend, json.GetStringParam("webOTT"), sdk.GetClientParam("authenticateURL"));
 
     // Authenticate with access number
     s = sdk.AuthenticateAN(user, accessNumber);
