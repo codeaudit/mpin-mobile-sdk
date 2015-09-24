@@ -170,7 +170,11 @@ namespace MPinDemo
         {
             TestBackendButton.IsEnabled = false;
             Status status = await Controller.TestBackend(this.Backend);
-            rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("ServiceStatus") + status.StatusCode, status.StatusCode != 0 ? MainPage.NotifyType.ErrorMessage : MainPage.NotifyType.StatusMessage);
+            if (status != null)
+            {
+                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("ServiceStatus") + status.StatusCode, status.StatusCode != 0 ? MainPage.NotifyType.ErrorMessage : MainPage.NotifyType.StatusMessage);
+            }
+
             TestBackendButton.IsEnabled = true;
         }
 

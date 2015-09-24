@@ -94,6 +94,8 @@ namespace MPinDemo
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             Status s = await Controller.OnEmailConfirmed(this.User);
+            if (s == null)
+                return;
 
             string errorMsg = s == null
                 ? string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblem"), User.Id, User.UserState)
@@ -115,6 +117,9 @@ namespace MPinDemo
                 lock (Window.Current.Content)
                 {
                     Status st = Controller.RestartRegistration(this.User);
+                    if (st == null)
+                        return;
+
                     if (st.StatusCode != Status.Code.OK)
                     {
                         Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;

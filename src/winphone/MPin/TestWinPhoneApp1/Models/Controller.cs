@@ -35,6 +35,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System.Linq;
 using Windows.Storage;
+using Windows.Foundation;
 
 namespace MPinDemo.Models
 {
@@ -154,6 +155,9 @@ namespace MPinDemo.Models
         private async Task<bool> ConnectToService()
         {
             Status status = await ProcessServiceChanged();
+            if (status == null)
+                return false;
+
             bool isOk = status != null && status.StatusCode == Status.Code.OK;
             rootPage.NotifyUser(!isOk
                 ? string.Format(ResourceLoader.GetForCurrentView().GetString("InitializationFailed"), (status == null ? "null" : status.StatusCode.ToString()))
@@ -183,6 +187,12 @@ namespace MPinDemo.Models
 
         private Status InitService()
         {
+            if (!rootPage.IsInternetConnected)
+            {
+                DisplayNoNetworkMessage();
+                return null;
+            }
+
             if (!string.IsNullOrEmpty(this.DataModel.CurrentService.BackendUrl))
             {
                 IDictionary<string, string> config = new Dictionary<string, string>();
@@ -198,9 +208,41 @@ namespace MPinDemo.Models
             return null;
         }
 
+        internal static async void DisplayNoNetworkMessage()
+        {
+            var content = new ContentDialog();
+            var panel = new StackPanel();
+            panel.Children.Add(new TextBlock
+            {
+                Text = ResourceLoader.GetForCurrentView().GetString("NoConnection"),
+                FontWeight = Windows.UI.Text.FontWeights.SemiBold,
+                TextWrapping = TextWrapping.Wrap,
+                Margin = new Thickness(0, 24, 0, 24)
+            });
+
+            panel.Children.Add(new TextBlock
+            {
+                Text = ResourceLoader.GetForCurrentView().GetString("NoInternet"),
+                TextWrapping = TextWrapping.Wrap
+            });
+
+            content.Content = panel;
+            content.PrimaryButtonText = ResourceLoader.GetForCurrentView().GetString("OkString");
+            
+            var r = content.ShowAsync();
+            await Task.Delay(TimeSpan.FromSeconds(5));
+            r.Cancel();
+        }
+
         bool set;
         private async Task<Status> ProcessServiceChanged()
         {
+            if (!rootPage.IsInternetConnected)
+            {
+                DisplayNoNetworkMessage();
+                return null;
+            }
+
             Status status = null;
             if (!set)
             {
@@ -227,6 +269,12 @@ namespace MPinDemo.Models
 
         internal static async Task<Status> TestBackend(Backend backend)
         {
+            if (!rootPage.IsInternetConnected)
+            {
+                DisplayNoNetworkMessage();
+                return null;
+            }
+
             if (backend != null && backend.BackendUrl != null)
             {
                 Status status = null;
@@ -274,7 +322,7 @@ namespace MPinDemo.Models
             this.DataModel.BackendsList.Add(backend);
             this.NewAddedServiceIndex = this.DataModel.BackendsList.IndexOf(backend);
             Status status = await Controller.TestBackend(backend);
-            if (status.StatusCode != Status.Code.OK)
+            if (status != null && status.StatusCode != Status.Code.OK)
                 rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("ServiceStatus") + status.StatusCode, MainPage.NotifyType.ErrorMessage);
         }
 
@@ -337,7 +385,7 @@ namespace MPinDemo.Models
             }
 
             Status status = await Controller.TestBackend(editBackend);
-            if (status.StatusCode != Status.Code.OK)
+            if (status != null && status.StatusCode != Status.Code.OK)
                 rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("ServiceStatus") + status.StatusCode, MainPage.NotifyType.ErrorMessage);
         }
         #endregion // services
@@ -345,6 +393,11 @@ namespace MPinDemo.Models
         #region users
         internal void UpdateUsersList()
         {
+            if (!rootPage.IsInternetConnected)
+            {
+                return;
+            }
+
             List<User> users = new List<User>();
             sdk.ListUsers(users);
             DataModel.UsersList = new System.Collections.ObjectModel.ObservableCollection<User>(users);
@@ -352,6 +405,7 @@ namespace MPinDemo.Models
 
         private async Task ProcessUser()
         {
+
             if (this.DataModel.CurrentUser == null)
             {
                 //if (this.DataModel.UsersList.Count > 0)
@@ -381,10 +435,16 @@ namespace MPinDemo.Models
                     break;
 
                 case User.State.StartedRegistration:
-                    mainFrame.Navigate(typeof(EmailConfirmed), new List<object> {this.DataModel.CurrentUser, this});
+                    mainFrame.Navigate(typeof(EmailConfirmed), new List<object> { this.DataModel.CurrentUser, this });
                     break;
 
                 case User.State.Registered:
+                    if (!rootPage.IsInternetConnected)
+                    {
+                        DisplayNoNetworkMessage();
+                        return;
+                    }
+
                     if (this.DataModel.CurrentService.Type == ConfigurationType.Online)
                     {
                         List<string> anParams = new List<string> { this.DataModel.CurrentUser.Id, sdk.GetClientParam("accessNumberDigits") };
@@ -423,6 +483,12 @@ namespace MPinDemo.Models
 
         internal void AddNewUser()
         {
+            if (!rootPage.IsInternetConnected)
+            {
+                DisplayNoNetworkMessage();
+                return;
+            }
+
             // Add a user
             if (string.IsNullOrEmpty(this.DataModel.CurrentService.BackendUrl))
             {
@@ -459,6 +525,12 @@ namespace MPinDemo.Models
 
         public static Status RestartRegistration(User user)
         {
+            if (!rootPage.IsInternetConnected)
+            {
+                DisplayNoNetworkMessage();
+                return null;
+            }
+
             if (user != null)
                 return sdk.RestartRegistration(user);
 
@@ -467,10 +539,13 @@ namespace MPinDemo.Models
 
         private async Task FinishUserRegistration(User user)
         {
+            if (user == null)
+                return;
+
             if (user.UserState == User.State.StartedRegistration)
             {
                 Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-                mainFrame.Navigate(typeof(EmailConfirmed), new List<object> { this.DataModel.CurrentUser, this});
+                mainFrame.Navigate(typeof(EmailConfirmed), new List<object> { this.DataModel.CurrentUser, this });
             }
             else if (user.UserState == User.State.Activated)
             {
@@ -480,6 +555,12 @@ namespace MPinDemo.Models
 
         private async Task<Status> Finish(User user)
         {
+            if (!rootPage.IsInternetConnected)
+            {
+                DisplayNoNetworkMessage();
+                return null;
+            }
+
             Status st = null;
             await Task.Factory.StartNew(() =>
             {
@@ -510,6 +591,12 @@ namespace MPinDemo.Models
 
         private async Task<User> AddAndRegisterUser(List<string> data)
         {
+            if (!rootPage.IsInternetConnected)
+            {
+                DisplayNoNetworkMessage();
+                return null;
+            }
+
             string eMail = data[0];
             this.DeviceName = data[1] ?? string.Empty;
             User user = null;
@@ -603,6 +690,12 @@ namespace MPinDemo.Models
 
         internal async Task ResetPIN(User user)
         {
+            if (!rootPage.IsInternetConnected)
+            {
+                DisplayNoNetworkMessage();
+                return;
+            }
+
             await Task.Factory.StartNew(() =>
             {
                 sdk.DeleteUser(user);
@@ -694,6 +787,12 @@ namespace MPinDemo.Models
                     break;
 
                 case "AccessNumber":
+                    if (!rootPage.IsInternetConnected)
+                    {
+                        DisplayNoNetworkMessage();
+                        return;
+                    }
+
                     await ShowAuthenticate(parameter.ToString());
                     break;
 

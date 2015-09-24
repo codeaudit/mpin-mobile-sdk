@@ -531,4 +531,7 @@
   <data name="ANQuideTitle.Text" xml:space="preserve">
     <value>Вход в Certivox общността</value>
   </data>
+  <data name="OkString" xml:space="preserve">
+    <value>добре</value>
+  </data>
 </root>
