@@ -64,10 +64,17 @@
     UIUserNotificationType types = UIUserNotificationTypeBadge |
     UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
     
-    UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-    
-    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
-    [application registerForRemoteNotifications];
+    // By request of TDL
+    // If there is environment variable called PUSH_NOTIFICATIONS and the value of this variable is STOP, this will prevent registration for 
+    NSString *strRegisterNotifications = [[[NSProcessInfo processInfo] environment] objectForKey:@"PUSH_NOTIFICATIONS"];
+    if (![strRegisterNotifications isEqualToString:@"STOP"])
+    {
+        UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+        
+        [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+        [application registerForRemoteNotifications];
+        
+    }
 
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 
