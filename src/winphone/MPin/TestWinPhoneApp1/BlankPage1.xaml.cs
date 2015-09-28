@@ -554,6 +554,7 @@ namespace MPinDemo
                     throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
                 }
 
+                showUsers = false;
                 return;
             }
 
