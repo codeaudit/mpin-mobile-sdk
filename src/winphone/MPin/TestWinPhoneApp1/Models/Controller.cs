@@ -447,7 +447,7 @@ namespace MPinDemo.Models
 
                     if (this.DataModel.CurrentService.Type == ConfigurationType.Online)
                     {
-                        List<string> anParams = new List<string> { this.DataModel.CurrentUser.Id, sdk.GetClientParam("accessNumberDigits") };
+                        List<string> anParams = new List<string> { this.DataModel.CurrentUser.Id, sdk.GetClientParam("accessNumberDigits"), this.DataModel.CurrentService.BackendUrl, this.DataModel.CurrentService.Name };
                         if (IsMPinConnectFirstAuthentication())
                         {
                             mainFrame.Navigate(typeof(AccessNumberQuide), anParams);

@@ -197,6 +197,9 @@ namespace MPinDemo
             if (!string.IsNullOrEmpty(param) && param.Equals("HardwareBack"))
                 controller.IsUserInProcessing = false;
 
+            if (!string.IsNullOrEmpty(param) && param.Equals("PinEntered"))
+                forceDisable = true;
+
             bool deactivateAll = forceDisable ? isInProgress : controller.IsUserInProcessing;
             Progress.Visibility = deactivateAll ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
             BottomCommandBar.IsEnabled = !deactivateAll;

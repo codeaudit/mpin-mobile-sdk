@@ -11,11 +11,15 @@
     <StackPanel>
         <TextBlock x:Uid="ANTitle" Style="{StaticResource TitleStyle}"/>
         <TextBlock x:Name="ANUser" Style="{StaticResource IdentityTextBlock}"/>
-        <TextBlock x:Uid="AccessNumberTB"  Style="{StaticResource MainTextBlock}"/>
-        <TextBox x:Name="AccessNumberTB" TextChanged="AccessNumberTB_TextChanged" KeyUp="AccessNumberTB_KeyUp"/>
-        <TextBlock x:Name="AccessNumberLength"  Style="{StaticResource MainTextBlock}"/>
 
-        <Button x:Uid="AccessNumberButton" x:Name="DoneButton" Click="Done_Click" IsEnabled="False" />
+        <TextBox x:Name="AccessNumber" TextChanged="AccessNumberTB_TextChanged" KeyUp="AccessNumberTB_KeyUp" Padding="0"  Margin="0, 6, 0, 6" />
+
+        <TextBlock x:Name="AccessNumberTB" Style="{StaticResource MainTextBlock}" Margin="0, 12, 0, 0" Foreground="{ThemeResource PhoneAccentBrush}" FontSize="22" />
+        <TextBlock x:Name="ANName" Style="{StaticResource MainTextBlock}" Margin="0" Padding="0"/>
+        <TextBlock x:Uid="ANServiceInfo" Style="{StaticResource MainTextBlock}" Margin="0" Padding="0"/>
+        <TextBlock x:Name="ANUrl" Style="{StaticResource MainTextBlock}"  Margin="0" Padding="0"/>
+        
+        <Button x:Uid="AccessNumberButton" x:Name="DoneButton" Click="Done_Click" IsEnabled="False"  Margin="0, 12, 0, 12"/>
 
     </StackPanel>
 </Page>

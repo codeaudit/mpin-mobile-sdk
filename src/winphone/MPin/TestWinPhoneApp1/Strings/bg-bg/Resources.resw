@@ -120,8 +120,8 @@
   <data name="AccessNumberButton.Content" xml:space="preserve">
     <value>Готово</value>
   </data>
-  <data name="AccessNumberTB.Text" xml:space="preserve">
-    <value>Въведете номер за достъп</value>
+  <data name="ANTB" xml:space="preserve">
+    <value>Въведете {0} цифрен Номер за Достъп за:</value>
   </data>
   <data name="AddServiceButton.Content" xml:space="preserve">
     <value>Добави</value>
@@ -232,9 +232,6 @@
   </data>
   <data name="SelectAppBarButton.Label" xml:space="preserve">
     <value>избери</value>
-  </data>
-  <data name="AccessNumberLength" xml:space="preserve">
-    <value>Въведете {0} цифрен номер за достъп</value>
   </data>
   <data name="NavigationFailedExceptionMessage" xml:space="preserve">
     <value>Възникна проблем при навигацията!</value>
@@ -533,5 +530,8 @@
   </data>
   <data name="OkString" xml:space="preserve">
     <value>добре</value>
+  </data>
+  <data name="ANServiceInfo.Text" xml:space="preserve">
+    <value>Вземи такъв от десктоп браузъра си на:</value>
   </data>
 </root>

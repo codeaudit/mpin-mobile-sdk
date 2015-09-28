@@ -54,7 +54,7 @@ namespace MPinDemo
             name.NameValue = InputScopeNameValue.Number;
             scope.Names.Add(name);
 
-            this.AccessNumberTB.InputScope = scope;
+            this.AccessNumber.InputScope = scope;
         }
 
         /// <summary>
@@ -65,20 +65,27 @@ namespace MPinDemo
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             List<string> data = e.Parameter as List<string>;
-            if (data != null && data.Count == 2)
+            if (data != null && data.Count == 4)
             {
                 ANUser.Text = data[0].ToString();
+                ANUrl.Text = RemoveHTTP(data[2].ToString());
+                ANName.Text = data[3].ToString();
 
                 this.ANLength = int.Parse(data[1]);
-                this.AccessNumberLength.Text = string.Format(ResourceLoader.GetForCurrentView().GetString("AccessNumberLength"), this.ANLength);
-                this.AccessNumberTB.MaxLength = this.ANLength;
+                this.AccessNumber.MaxLength = this.ANLength;
+                this.AccessNumberTB.Text = string.Format(ResourceLoader.GetForCurrentView().GetString("ANTB"), this.ANLength);
             }
 
             //This code opens up the keyboard when you navigate to the page.
-            this.AccessNumberTB.UpdateLayout();
-            this.AccessNumberTB.Focus(FocusState.Keyboard);
+            this.AccessNumber.UpdateLayout();
+            this.AccessNumber.Focus(FocusState.Keyboard);
 
             ClearBackStack();
+        }
+
+        private string RemoveHTTP(string link)
+        {
+            return link.Remove(0, link.IndexOf("://") + 3);
         }
 
         private void ClearBackStack()
@@ -104,12 +111,12 @@ namespace MPinDemo
         private void ProcessAN()
         {
             Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-            mainFrame.GoBack(new List<object>() { "AccessNumber", this.AccessNumberTB.Text });
+            mainFrame.GoBack(new List<object>() { "AccessNumber", this.AccessNumber.Text });
         }
 
         void AccessNumberTB_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.DoneButton.IsEnabled = this.AccessNumberTB.Text.Length == this.ANLength;
+            this.DoneButton.IsEnabled = this.AccessNumber.Text.Length == this.ANLength;
         }
 
         private void AccessNumberTB_KeyUp(object sender, KeyRoutedEventArgs e)
