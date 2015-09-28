@@ -32,23 +32,22 @@
 package com.certivox.fragments;
 
 
+import com.certivox.activities.MPinActivity;
+import com.certivox.controllers.MPinController;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View.OnClickListener;
-
-import com.certivox.activities.MPinActivity;
-import com.certivox.controllers.MPinController;
 
 
 public abstract class MPinFragment extends Fragment implements Handler.Callback {
 
     private static final String TAG = MPinFragment.class.getCanonicalName();
 
-    private Handler             mHandler;
+    private Handler mHandler;
 
 
     abstract protected void initViews();
@@ -63,9 +62,10 @@ public abstract class MPinFragment extends Fragment implements Handler.Callback 
     abstract protected String getFragmentTag();
 
 
+    // TODO: replace this deprecated method with onAttach(Context context) after converting to use the
+    // android.support.v4.Fragment class
     @Override
     public void onAttach(Activity activity) {
-        Log.i(TAG, "Fragment on Attach");
         super.onAttach(activity);
         mHandler = new Handler(this);
 
@@ -87,7 +87,6 @@ public abstract class MPinFragment extends Fragment implements Handler.Callback 
 
     @Override
     public void onDetach() {
-        Log.i(TAG, "Fragment on Detach");
         super.onDetach();
         getMPinController().removeOutboxHandler(mHandler);
     }
@@ -99,7 +98,7 @@ public abstract class MPinFragment extends Fragment implements Handler.Callback 
 
 
     protected void setToolbarTitle(int resId) {
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(resId);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(resId);
     }
 
 

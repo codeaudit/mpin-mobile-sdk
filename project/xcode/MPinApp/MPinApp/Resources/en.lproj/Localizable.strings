@@ -7,7 +7,10 @@
 /* menu */
 "MENUVC_OPTION_0" = "IDENTITY LIST";
 "MENUVC_OPTION_1" = "CONFIGURATION LIST";
-"MENUVC_OPTION_2" = "ABOUT";
+"MENUVC_OPTION_2" = "QUICK START GUIDE";
+"MENUVC_OPTION_3" = "GET YOUR OWN M-Pin SERVER";
+"MENUVC_OPTION_4" = "ABOUT";
+
 
 /* User list */
 "USERLISTVC_TITLE" = "Identity List";
@@ -169,3 +172,34 @@
 "LOGIN_OTP"                             = "OTP Login";
 "LOADING"                               = "LOADING";
 "CONNECTION_WAS_LOST"                   = "No Internet Connection";
+
+/* USER GUIDE SCREEN */
+"SETUP_MPIN_TITLE"                      = "Setup your phone to use M-Pin";
+
+"SETUP_MPIN_SUBTITLE_0"                 = "Create an identity";
+"SETUP_MPIN_SUBTITLE_1"                 = "Confirm your email";
+"SETUP_MPIN_SUBTITLE_2"                 = "Create your PIN";
+"SETUP_MPIN_SUBTITLE_3"                 = "You are ready to go!";
+
+"SETUP_MPIN_DESC_0"                     = "Enter your email address to register.";
+"SETUP_MPIN_DESC_1"                     = "Click the link in the email and you are ready \n to choose your PIN.";
+"SETUP_MPIN_DESC_2"                     = "It's much simpler than a password \n and more secure.";
+"SETUP_MPIN_DESC_3"                     = "You can now use your M-Pin identity any \n time you want.";
+
+"SETUP_SERVER_TITLE"                    = "Get your own M-Pin Server";
+
+"SETUP_SERVER_SUBTITLE_0"               = "Download and setup your own M-Pin Server";
+"SETUP_SERVER_SUBTITLE_1"               = "Add your server to this app";
+
+"SETUP_SERVER_DESC_0"                   = "Visit certivox.com/products, choose from M-Pin Core or M-Pin SSO, then follow the online installation instructions.";
+"SETUP_SERVER_DESC_1"                   = "Simply hit “+” on the next screen then enter the name and URL \n of your M-Pin Server and you are ready to authenticate \n to your service using this app.";
+
+"SETUP_AN_TITLE"                        = "Login to the Certivox community";
+
+"SETUP_AN_SUBTITLE_0"                   = "Get your Access Number";
+
+"SETUP_AN_DESC_0"                       = "Login to discuss.certivox.com on your desktop browser and choose \"Sign in with phone\".";
+
+"SETUP_BTN_DONE"                        = "DONE";
+"SETUP_BTN_SKIP"                        = "SKIP";
+

@@ -54,6 +54,8 @@ public class AccessNumberFragment extends MPinFragment {
 
     private View                mView;
     private TextView            mAccessNumberTitle;
+    private TextView            mAccessNumberServiceName;
+    private TextView            mAccessNumberUrl;
 
     private TextView            mUserEmail;
     private TextView            mDigit0;
@@ -132,9 +134,14 @@ public class AccessNumberFragment extends MPinFragment {
     protected void initViews() {
         setToolbarTitle(R.string.access_number_title);
         mAccessNumberTitle = (TextView) mView.findViewById(R.id.access_number_title);
-
         mAccessNumberTitle.setText(String.format(getResources().getString(R.string.access_number_text),
                 mAccessNumberLength));
+
+        mAccessNumberServiceName = (TextView) mView.findViewById(R.id.access_number_service_name);
+        mAccessNumberServiceName.setText(getMPinController().getActiveConfiguration().getTitle());
+
+        mAccessNumberUrl = (TextView) mView.findViewById(R.id.access_number_url);
+        mAccessNumberUrl.setText(getMPinController().getActiveConfiguration().getBackendUrl());
 
         mAccessNumberEditText = (EditText) mView.findViewById(R.id.pinpad_input);
         mAccessNumberEditText.setRawInputType(InputType.TYPE_CLASS_TEXT);
