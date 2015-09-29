@@ -62,6 +62,7 @@ namespace MPinDemo
         private const string FirstConfigurationsSeenString = "FirstConfigurationsSeenTime";
         private bool isInitialLoad = false;
         private bool isServiceAdding = false;
+        private bool shouldSetSelectedUser = false;
         private MainPage rootPage = null;
         private CoreDispatcher dispatcher;
         private Backend ExBackend;
@@ -116,7 +117,7 @@ namespace MPinDemo
         {   
             rootPage = MainPage.Current;
             ClearBackStackIfNecessary();
-            SetControlsIsEnabled(e.Parameter.ToString());
+            SetControlsIsEnabled(PrioritizeParameters((Window.Current.Content as Frame).GetNavigationData(), e.Parameter));
 
             List<object> data = (Window.Current.Content as Frame).GetNavigationData() as List<object>;
             if (data != null && data.Count == 2)
@@ -157,6 +158,14 @@ namespace MPinDemo
         #endregion
 
         #region methods
+
+        private string PrioritizeParameters(object extensionParam, object methodParam)
+        {
+            if (extensionParam != null && extensionParam.GetType().Equals(typeof(string)))
+                return extensionParam.ToString();
+
+            return methodParam.ToString();
+        }
 
         private void ClearBackStackIfNecessary()
         {
@@ -481,7 +490,7 @@ namespace MPinDemo
             DeleteButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? ServicesList.Items.Count > 0 : UsersListBox.Items.Count > 0;
 
             UsersListBox.ScrollIntoView(UsersListBox.SelectedItem);
-            if (isInitialLoad)
+            if (isInitialLoad || shouldSetSelectedUser)
             {
                 controller.DataModel.CurrentUser = UsersListBox.SelectedItem as User;
                 isInitialLoad = false;
@@ -549,6 +558,9 @@ namespace MPinDemo
 
         private void MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!isInitialLoad )
+                showUsers = this.MainPivot.SelectedIndex == 1;
+
             if (!isInitialLoad && this.MainPivot.SelectedIndex == 0 && IsTheFirstConfigurationRun())
             {
                 Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
@@ -557,7 +569,6 @@ namespace MPinDemo
                     throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
                 }
 
-                showUsers = false;
                 return;
             }
 
@@ -612,6 +623,10 @@ namespace MPinDemo
                 {
                     UsersListBox.SelectedItem = this.SavedSelectedUser;
                 }
+                else if (isInitialLoad)
+                {
+                    shouldSetSelectedUser = true;
+                }
 
                 isInitialLoad = false;
             }
@@ -650,7 +665,7 @@ namespace MPinDemo
                 selectedServiceIndex = controller.NewAddedServiceIndex;
             }
 
-            if (!showUsers && controller.DataModel.BackendsList.Count > selectedServiceIndex && selectedServiceIndex > -1)
+            if (!showUsers && controller.DataModel.BackendsList != null && controller.DataModel.BackendsList.Count > selectedServiceIndex && selectedServiceIndex > -1)
             {
                 // select a service after being edited/added
                 controller.DataModel.SelectedBackend = controller.DataModel.BackendsList[selectedServiceIndex];
