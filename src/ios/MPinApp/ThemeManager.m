@@ -132,8 +132,8 @@
     {
         AccessNumberViewController *myVc = (AccessNumberViewController *)vc;
         myVc.lblEmail.textColor = [[SettingsManager sharedManager] color6];
-        myVc.lblNote.textColor = [[SettingsManager sharedManager] color9];
-        myVc.lblNote.font = [UIFont fontWithName:@"OpenSans-Semibold" size:12.];
+        myVc.lblServiceName.textColor = [[SettingsManager sharedManager] color9];
+        myVc.lblServiceName.font = [UIFont fontWithName:@"OpenSans-Semibold" size:12.];
         [self setupLoginButton:myVc.btnLogin];
     }
 
@@ -438,9 +438,9 @@
     helpView.lblDesc = [[UILabel alloc] initWithFrame:CGRectMake(10, intPart * 10 + 10, screenWidth - 20, intPart * 2)];
 
     helpView.pageControl = [[PageControl alloc] initWithFrame:CGRectMake(10, screenHeight - 55 - intPart * 2, screenWidth - 20, intPart * 2 - 30)];
-    helpView.btnSkip = [[UIButton alloc] initWithFrame:CGRectMake(0, screenHeight - 55 - 20, screenWidth / 2, 55)];
-    helpView.btnNext = [[UIButton alloc] initWithFrame:CGRectMake(screenWidth / 2, screenHeight - 55 - 20, screenWidth / 2, 55)];
-    UILabel *lblSpacer = [[UILabel alloc] initWithFrame:CGRectMake(0, screenHeight - 55 - 21, screenWidth, 1)];
+    helpView.btnSkip = [[UIButton alloc] initWithFrame:CGRectMake(0, screenHeight - 55 , screenWidth / 2, 55)];
+    helpView.btnNext = [[UIButton alloc] initWithFrame:CGRectMake(screenWidth / 2, screenHeight - 55 , screenWidth / 2, 55)];
+    UILabel *lblSpacer = [[UILabel alloc] initWithFrame:CGRectMake(0, screenHeight - 55 - 1, screenWidth, 1)];
     lblSpacer.backgroundColor = [[SettingsManager sharedManager] color11];
     [helpView addSubview:lblSpacer];
     
