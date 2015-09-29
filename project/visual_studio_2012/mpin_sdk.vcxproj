@@ -93,7 +93,6 @@
     <ClCompile Include="..\..\src\core\crypto\fp4.c" />
     <ClCompile Include="..\..\src\core\crypto\gcm.c" />
     <ClCompile Include="..\..\src\core\crypto\hash.c" />
-    <ClCompile Include="..\..\src\core\crypto\maxstack.c" />
     <ClCompile Include="..\..\src\core\crypto\mpin.c" />
     <ClCompile Include="..\..\src\core\crypto\oct.c" />
     <ClCompile Include="..\..\src\core\crypto\pair.c" />
