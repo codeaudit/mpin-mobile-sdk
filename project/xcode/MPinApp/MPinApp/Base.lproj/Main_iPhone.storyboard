@@ -65,6 +65,7 @@
             <string>OpenSans</string>
             <string>OpenSans</string>
             <string>OpenSans</string>
+            <string>OpenSans</string>
         </mutableArray>
         <mutableArray key="OpenSans-Semibold.ttf">
             <string>OpenSans-Semibold</string>
@@ -2222,30 +2223,28 @@
                                         <rect key="frame" x="8" y="9" width="584" height="120"/>
                                         <subviews>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3vd-WA-VFg">
-                                                <rect key="frame" x="152" y="0.0" width="280" height="40"/>
+                                                <rect key="frame" x="8" y="0.0" width="576" height="40"/>
                                                 <accessibility key="accessibilityConfiguration" hint="user identity" label=""/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="280" id="OS9-L8-abF"/>
-                                                    <constraint firstAttribute="height" constant="40" id="WGs-pg-cbc"/>
+                                                    <constraint firstAttribute="height" constant="40" id="wkb-Ut-wgj"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="if0-ie-xL7">
-                                                <rect key="frame" x="152" y="80" width="280" height="40"/>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4qR-jT-fKJ">
+                                                <rect key="frame" x="0.0" y="40" width="584" height="24"/>
+                                                <accessibility key="accessibilityConfiguration" hint="user identity" label=""/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="280" id="9EP-fb-K8e"/>
-                                                    <constraint firstAttribute="height" constant="40" id="MaW-Pb-A7f"/>
+                                                    <constraint firstAttribute="height" constant="24" id="cTK-T0-lYT"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="bottom" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wre-aR-q40">
-                                                <rect key="frame" x="172" y="40" width="240" height="40"/>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wre-aR-q40">
+                                                <rect key="frame" x="52" y="72" width="481" height="40"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="240" id="7Pk-IX-DY0"/>
                                                     <constraint firstAttribute="height" constant="40" id="DZt-LS-9T3"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="26"/>
@@ -2254,14 +2253,22 @@
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="centerX" secondItem="3vd-WA-VFg" secondAttribute="centerX" id="7rJ-uz-KDd"/>
-                                            <constraint firstItem="if0-ie-xL7" firstAttribute="top" secondItem="wre-aR-q40" secondAttribute="bottom" id="Gs0-0c-itW"/>
-                                            <constraint firstItem="3vd-WA-VFg" firstAttribute="top" secondItem="qMd-Hk-Tn1" secondAttribute="top" id="UTY-Ms-r8X"/>
+                                            <constraint firstAttribute="trailing" secondItem="3vd-WA-VFg" secondAttribute="trailing" id="1hx-S2-9Oj"/>
+                                            <constraint firstItem="3vd-WA-VFg" firstAttribute="trailing" secondItem="4qR-jT-fKJ" secondAttribute="trailing" id="FAc-Ji-AnI"/>
+                                            <constraint firstItem="wre-aR-q40" firstAttribute="leading" secondItem="qMd-Hk-Tn1" secondAttribute="leading" constant="52" id="MDX-eF-61P"/>
+                                            <constraint firstAttribute="trailing" secondItem="wre-aR-q40" secondAttribute="trailing" constant="51" id="f1J-Cq-L1P"/>
                                             <constraint firstAttribute="centerX" secondItem="wre-aR-q40" secondAttribute="centerX" id="n7O-nF-VOK"/>
-                                            <constraint firstAttribute="centerX" secondItem="if0-ie-xL7" secondAttribute="centerX" id="pLS-Ff-pCM"/>
+                                            <constraint firstItem="3vd-WA-VFg" firstAttribute="leading" secondItem="qMd-Hk-Tn1" secondAttribute="leadingMargin" id="rvq-pG-zok"/>
+                                            <constraint firstItem="3vd-WA-VFg" firstAttribute="top" secondItem="qMd-Hk-Tn1" secondAttribute="top" id="sbP-a1-67D"/>
+                                            <constraint firstItem="wre-aR-q40" firstAttribute="top" secondItem="4qR-jT-fKJ" secondAttribute="bottom" constant="8" id="xep-F6-GTN"/>
                                             <constraint firstAttribute="height" constant="120" id="yG0-K9-vqM"/>
-                                            <constraint firstItem="if0-ie-xL7" firstAttribute="top" secondItem="3vd-WA-VFg" secondAttribute="bottom" constant="40" id="yHR-wd-TOx"/>
+                                            <constraint firstItem="4qR-jT-fKJ" firstAttribute="top" secondItem="3vd-WA-VFg" secondAttribute="bottom" id="zKI-uh-aEE"/>
                                         </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="n7O-nF-VOK"/>
+                                            </mask>
+                                        </variation>
                                     </view>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rye-ho-WKq">
                                         <rect key="frame" x="8" y="135" width="584" height="304"/>
@@ -2459,10 +2466,20 @@
                                     <constraint firstItem="qMd-Hk-Tn1" firstAttribute="top" secondItem="OIe-ib-OpQ" secondAttribute="top" constant="9" id="7mM-PH-a99"/>
                                     <constraint firstAttribute="bottom" secondItem="Rye-ho-WKq" secondAttribute="bottom" constant="8" id="8cK-V9-n7d"/>
                                     <constraint firstItem="Rye-ho-WKq" firstAttribute="leading" secondItem="OIe-ib-OpQ" secondAttribute="leading" constant="8" id="R3x-Si-Ujd"/>
+                                    <constraint firstItem="wre-aR-q40" firstAttribute="leading" secondItem="OIe-ib-OpQ" secondAttribute="leading" constant="8" id="ahi-sS-ud6"/>
                                     <constraint firstAttribute="trailing" secondItem="qMd-Hk-Tn1" secondAttribute="trailing" constant="8" id="ajE-FX-hEo"/>
                                     <constraint firstAttribute="trailing" secondItem="Rye-ho-WKq" secondAttribute="trailing" constant="8" id="jhK-zF-GjN"/>
+                                    <constraint firstAttribute="trailing" secondItem="wre-aR-q40" secondAttribute="trailing" constant="59" id="lGW-CA-72v"/>
+                                    <constraint firstItem="4qR-jT-fKJ" firstAttribute="leading" secondItem="OIe-ib-OpQ" secondAttribute="leading" constant="8" id="v2Q-Pg-XzP"/>
+                                    <constraint firstAttribute="trailing" secondItem="4qR-jT-fKJ" secondAttribute="trailing" constant="8" id="vWi-G3-5DI"/>
                                     <constraint firstItem="Rye-ho-WKq" firstAttribute="top" secondItem="qMd-Hk-Tn1" secondAttribute="bottom" constant="6" id="vjL-oi-Kmq"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="ajE-FX-hEo"/>
+                                        <exclude reference="ahi-sS-ud6"/>
+                                    </mask>
+                                </variation>
                             </view>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bbg-uU-EZe">
                                 <rect key="frame" x="0.0" y="64" width="600" height="36"/>
@@ -2518,7 +2535,7 @@
                         <outlet property="imgViewNetworkDown" destination="bkQ-QZ-s6V" id="wjS-8k-w0L"/>
                         <outlet property="lblEmail" destination="3vd-WA-VFg" id="QWp-oG-bRw"/>
                         <outlet property="lblNetworkDownMessage" destination="cgA-c5-80M" id="4XE-uD-wLB"/>
-                        <outlet property="lblNote" destination="if0-ie-xL7" id="52a-Ji-RxG"/>
+                        <outlet property="lblServiceName" destination="4qR-jT-fKJ" id="0PR-o4-AjV"/>
                         <outlet property="txtAN" destination="wre-aR-q40" id="7Sw-U3-Jaz"/>
                         <outlet property="viewNoNetwork" destination="Bbg-uU-EZe" id="jYA-pu-qTF"/>
                     </connections>

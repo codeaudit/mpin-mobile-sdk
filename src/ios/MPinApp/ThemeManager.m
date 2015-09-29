@@ -132,8 +132,8 @@
     {
         AccessNumberViewController *myVc = (AccessNumberViewController *)vc;
         myVc.lblEmail.textColor = [[SettingsManager sharedManager] color6];
-        myVc.lblNote.textColor = [[SettingsManager sharedManager] color9];
-        myVc.lblNote.font = [UIFont fontWithName:@"OpenSans-Semibold" size:12.];
+        myVc.lblServiceName.textColor = [[SettingsManager sharedManager] color9];
+        myVc.lblServiceName.font = [UIFont fontWithName:@"OpenSans-Semibold" size:12.];
         [self setupLoginButton:myVc.btnLogin];
     }
 
