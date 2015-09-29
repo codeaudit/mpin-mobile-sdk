@@ -184,6 +184,7 @@ namespace MPinDemo
             {
                 case 0:
                     this.ExBackend = controller.DataModel.CurrentService;
+                    SetControlsIsEnabled(null, true);
                     controller.DataModel.CurrentService = controller.DataModel.SelectedBackend;
                     break;
 
@@ -527,6 +528,8 @@ namespace MPinDemo
                         // if the connection to the service is unsuccessful -> set the previous successful service.
                         controller.DataModel.SelectedBackend = this.ExBackend;
                     }
+                    // restore the screen 
+                    SetControlsIsEnabled(null, true, false);
                     break;
 
                 case "IsUserInProcessing":
@@ -557,10 +560,7 @@ namespace MPinDemo
         }
 
         private void MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (!isInitialLoad )
-                showUsers = this.MainPivot.SelectedIndex == 1;
-
+        {        
             if (!isInitialLoad && this.MainPivot.SelectedIndex == 0 && IsTheFirstConfigurationRun())
             {
                 Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
@@ -569,7 +569,13 @@ namespace MPinDemo
                     throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
                 }
 
+                showUsers = false;
                 return;
+            }
+
+            if (!isInitialLoad)
+            {
+                showUsers = this.MainPivot.SelectedIndex == 1;
             }
 
             SelectAppBarButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? controller.DataModel.SelectedBackend != null : UsersListBox.SelectedItem != null;
