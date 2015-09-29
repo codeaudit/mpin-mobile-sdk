@@ -9,9 +9,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\tests\contexts\http_request.cpp">
-      <Filter>src\contexts</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\tests\cmdline_v2_test.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -20,9 +17,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\tests\contexts\http_request.h">
-      <Filter>src\contexts</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\tests\contexts\cmdline_context_v2.h">
       <Filter>src\contexts</Filter>
     </ClInclude>

@@ -30,7 +30,6 @@
 		FE298BCB1B3BFD220071E6B3 /* fp4.c in Sources */ = {isa = PBXBuildFile; fileRef = FE298B901B3BFD220071E6B3 /* fp4.c */; };
 		FE298BCD1B3BFD220071E6B3 /* gcm.c in Sources */ = {isa = PBXBuildFile; fileRef = FE298B911B3BFD220071E6B3 /* gcm.c */; };
 		FE298BCF1B3BFD220071E6B3 /* hash.c in Sources */ = {isa = PBXBuildFile; fileRef = FE298B921B3BFD220071E6B3 /* hash.c */; };
-		FE298BD11B3BFD220071E6B3 /* maxstack.c in Sources */ = {isa = PBXBuildFile; fileRef = FE298B931B3BFD220071E6B3 /* maxstack.c */; };
 		FE298BD31B3BFD220071E6B3 /* mpin.c in Sources */ = {isa = PBXBuildFile; fileRef = FE298B941B3BFD220071E6B3 /* mpin.c */; };
 		FE298BD51B3BFD220071E6B3 /* oct.c in Sources */ = {isa = PBXBuildFile; fileRef = FE298B961B3BFD220071E6B3 /* oct.c */; };
 		FE298BD71B3BFD220071E6B3 /* pair.c in Sources */ = {isa = PBXBuildFile; fileRef = FE298B971B3BFD220071E6B3 /* pair.c */; };
@@ -94,7 +93,6 @@
 		FE298B901B3BFD220071E6B3 /* fp4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fp4.c; sourceTree = "<group>"; };
 		FE298B911B3BFD220071E6B3 /* gcm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gcm.c; sourceTree = "<group>"; };
 		FE298B921B3BFD220071E6B3 /* hash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hash.c; sourceTree = "<group>"; };
-		FE298B931B3BFD220071E6B3 /* maxstack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = maxstack.c; sourceTree = "<group>"; };
 		FE298B941B3BFD220071E6B3 /* mpin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mpin.c; sourceTree = "<group>"; };
 		FE298B951B3BFD220071E6B3 /* mpin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mpin.h; sourceTree = "<group>"; };
 		FE298B961B3BFD220071E6B3 /* oct.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = oct.c; sourceTree = "<group>"; };
@@ -181,7 +179,6 @@
 				FE298B901B3BFD220071E6B3 /* fp4.c */,
 				FE298B911B3BFD220071E6B3 /* gcm.c */,
 				FE298B921B3BFD220071E6B3 /* hash.c */,
-				FE298B931B3BFD220071E6B3 /* maxstack.c */,
 				FE298B941B3BFD220071E6B3 /* mpin.c */,
 				FE298B951B3BFD220071E6B3 /* mpin.h */,
 				FE298B961B3BFD220071E6B3 /* oct.c */,
@@ -336,7 +333,6 @@
 				FE298BC51B3BFD220071E6B3 /* fp.c in Sources */,
 				FE298BEA1B3BFD220071E6B3 /* utils.cpp in Sources */,
 				FE298BD91B3BFD220071E6B3 /* rand.c in Sources */,
-				FE298BD11B3BFD220071E6B3 /* maxstack.c in Sources */,
 				FE298BE61B3BFD220071E6B3 /* mpin_crypto_non_tee.cpp in Sources */,
 				FE298BC31B3BFD220071E6B3 /* ff.c in Sources */,
 				FE298BB91B3BFD220071E6B3 /* big.c in Sources */,

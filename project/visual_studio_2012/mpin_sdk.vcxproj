@@ -38,7 +38,16 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)bin\$(ProjectName)\$(Configuration)\</OutDir>
+    <IntDir>bin\$(ProjectName)\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)bin\$(ProjectName)\$(Configuration)\</OutDir>
+    <IntDir>bin\$(ProjectName)\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)</TargetName>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -84,7 +93,6 @@
     <ClCompile Include="..\..\src\core\crypto\fp4.c" />
     <ClCompile Include="..\..\src\core\crypto\gcm.c" />
     <ClCompile Include="..\..\src\core\crypto\hash.c" />
-    <ClCompile Include="..\..\src\core\crypto\maxstack.c" />
     <ClCompile Include="..\..\src\core\crypto\mpin.c" />
     <ClCompile Include="..\..\src\core\crypto\oct.c" />
     <ClCompile Include="..\..\src\core\crypto\pair.c" />

@@ -130,6 +130,10 @@
 		9614F8CF1A9E1EC500337080 /* AccountSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9614F8CE1A9E1EC500337080 /* AccountSummaryViewController.m */; };
 		961957461A960E9900C93604 /* ThemeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 961957451A960E9900C93604 /* ThemeManager.m */; };
 		961957491A97276100C93604 /* ConfigListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 961957481A97276100C93604 /* ConfigListTableViewCell.m */; };
+		9620FB311BBAAF8A00DC15EF /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9620FB301BBAAF8A00DC15EF /* libc++.tbd */; };
+		9620FB321BBAAFBA00DC15EF /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9620FB301BBAAF8A00DC15EF /* libc++.tbd */; };
+		9620FB331BBAAFC400DC15EF /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9620FB301BBAAF8A00DC15EF /* libc++.tbd */; };
+		9620FB341BBAAFD000DC15EF /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9620FB301BBAAF8A00DC15EF /* libc++.tbd */; };
 		963485D11B5E1EDB001F2C71 /* QREditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 963485D01B5E1EDB001F2C71 /* QREditorViewController.m */; };
 		963485D21B5E1EDB001F2C71 /* QREditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 963485D01B5E1EDB001F2C71 /* QREditorViewController.m */; };
 		963485D31B5E1EDB001F2C71 /* QREditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 963485D01B5E1EDB001F2C71 /* QREditorViewController.m */; };
@@ -380,6 +384,7 @@
 		961957451A960E9900C93604 /* ThemeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThemeManager.m; path = ../../../../src/ios/MPinApp/ThemeManager.m; sourceTree = "<group>"; };
 		961957471A97276100C93604 /* ConfigListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfigListTableViewCell.h; path = ../../../../src/ios/MPinApp/ConfigListTableViewCell.h; sourceTree = "<group>"; };
 		961957481A97276100C93604 /* ConfigListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConfigListTableViewCell.m; path = ../../../../src/ios/MPinApp/ConfigListTableViewCell.m; sourceTree = "<group>"; };
+		9620FB301BBAAF8A00DC15EF /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		963485CF1B5E1EDB001F2C71 /* QREditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QREditorViewController.h; path = ../../../../src/ios/MPinApp/QREditorViewController.h; sourceTree = "<group>"; };
 		963485D01B5E1EDB001F2C71 /* QREditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QREditorViewController.m; path = ../../../../src/ios/MPinApp/QREditorViewController.m; sourceTree = "<group>"; };
 		963485E71B5E755C001F2C71 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utilities.h; path = ../../../../src/ios/MPinApp/Utilities.h; sourceTree = "<group>"; };
@@ -522,6 +527,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9620FB331BBAAFC400DC15EF /* libc++.tbd in Frameworks */,
 				963485F11B5F812C001F2C71 /* AVFoundation.framework in Frameworks */,
 				96925FB81B467EFB000D5AFA /* SystemConfiguration.framework in Frameworks */,
 				96925FB71B467EF3000D5AFA /* Security.framework in Frameworks */,
@@ -542,6 +548,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9620FB341BBAAFD000DC15EF /* libc++.tbd in Frameworks */,
 				963485F21B5F8131001F2C71 /* AVFoundation.framework in Frameworks */,
 				96925FBF1B467FB3000D5AFA /* AssetsLibrary.framework in Frameworks */,
 				96130E8D1AEE490A005D2A86 /* CoreGraphics.framework in Frameworks */,
@@ -562,6 +569,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9620FB321BBAAFBA00DC15EF /* libc++.tbd in Frameworks */,
 				963485F01B5F8127001F2C71 /* AVFoundation.framework in Frameworks */,
 				96AE72741B440ADC00171D05 /* AssetsLibrary.framework in Frameworks */,
 				96AE72731B440AD100171D05 /* CoreText.framework in Frameworks */,
@@ -582,6 +590,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9620FB311BBAAF8A00DC15EF /* libc++.tbd in Frameworks */,
 				963485EF1B5F811F001F2C71 /* AVFoundation.framework in Frameworks */,
 				96F7EA8A1B1C497400A68A03 /* SystemConfiguration.framework in Frameworks */,
 				96F7EA881B1C496900A68A03 /* Security.framework in Frameworks */,
@@ -882,6 +891,7 @@
 		FE4900191A1A3CEB000030A4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9620FB301BBAAF8A00DC15EF /* libc++.tbd */,
 				964C6E011B7C703000D33D62 /* libOCMock.a */,
 				963485EE1B5F811F001F2C71 /* AVFoundation.framework */,
 				96F7EA891B1C497400A68A03 /* SystemConfiguration.framework */,
