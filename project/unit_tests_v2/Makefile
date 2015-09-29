@@ -7,7 +7,7 @@ SRC_DIR = ../..
 BUILD_DIR = build
 OUTPUT_DIR = dist
 # Output file
-EXECUTABLE = $(OUTPUT_DIR)/unit_tests
+EXECUTABLE = $(OUTPUT_DIR)/unit_tests_v2
 
 # Includes
 INCLUDE_DIRS = -I $(SRC_DIR)/src -I$(SRC_DIR)/src/core -I$(SRC_DIR)/ext/cvshared/cpp/include -I$(SRC_DIR)/ext/boost
@@ -80,7 +80,7 @@ SRC = $(call add_src_dir, src/core)
 SRC += $(call add_src_dir_including, ext/cvshared/cpp, \
 		%linux/CvHttpRequest.cpp %linux/CvThread.cpp %linux/CvLogger.cpp %linux/CvMutex.cpp %CvString.cpp %CvTime.cpp %CvXcode.cpp)
 SRC += $(call add_src_dir_including, tests, \
-        %auto_context.cpp %access_number_thread.cpp %memory_storage.cpp %http_request.cpp %unit_tests.cpp)
+        %auto_context_v2.cpp %access_number_thread.cpp %memory_storage.cpp %http_request.cpp %unit_tests_v2.cpp)
 
 # Generate a list of object files
 OBJ = $(call cpp_to_obj, $(call c_to_obj, $(SRC)))

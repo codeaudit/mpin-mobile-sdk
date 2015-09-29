@@ -22,59 +22,42 @@ the following links:
    http://www.certivox.com/about-certivox/patents/
 */
 
-/*
- * MPinSDK::IContext and all related interfaces implementation for command line test client
- */
-
-#include "cmdline_context_v2.h"
-#include "../common/http_request.h"
-#include "../common/file_storage.h"
+#include "file_storage.h"
 
 #include <iostream>
 #include <fstream>
 
-typedef MPinSDKv2::String String;
-typedef MPinSDKv2::IHttpRequest IHttpRequest;
-typedef MPinSDKv2::CryptoType CryptoType;
-typedef MPinSDKv2::UserPtr UserPtr;
+typedef MPinSDK::String String;
+using std::fstream;
+using std::stringbuf;
 
-/*
- * Context class impl
- */
-
-CmdLineContextV2::CmdLineContextV2(const String& usersFile, const String& tokensFile)
+FileStorage::FileStorage(const String& fileName) : m_fileName(fileName)
 {
-    m_nonSecureStorage = new FileStorage(usersFile);
-    m_secureStorage = new FileStorage(tokensFile);
 }
 
-CmdLineContextV2::~CmdLineContextV2()
+bool FileStorage::SetData(const String& data)
 {
-    delete m_nonSecureStorage;
-    delete m_secureStorage;
+    fstream file(m_fileName.c_str(), fstream::out);
+    file.clear();
+    file.seekp(fstream::beg);
+    file << data;
+    file.close();
+
+    return true;
 }
 
-IHttpRequest * CmdLineContextV2::CreateHttpRequest() const
+bool FileStorage::GetData(String &data)
 {
-    return new HttpRequest();
+    fstream file(m_fileName.c_str(), fstream::in);
+    stringbuf buf;
+    file >> &buf;
+    data = buf.str();
+    file.close();
+
+    return true;
 }
 
-void CmdLineContextV2::ReleaseHttpRequest(IN IHttpRequest *request) const
+const String& FileStorage::GetErrorMessage() const
 {
-    delete request;
-}
-
-MPinSDK::IStorage * CmdLineContextV2::GetStorage(IStorage::Type type) const
-{
-    if(type == IStorage::SECURE)
-    {
-        return m_secureStorage;
-    }
-
-    return m_nonSecureStorage;
-}
-
-CryptoType CmdLineContextV2::GetMPinCryptoType() const
-{
-    return MPinSDK::CRYPTO_NON_TEE;
+    return m_errorMessage;
 }

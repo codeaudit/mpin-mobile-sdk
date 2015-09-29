@@ -22,46 +22,51 @@ the following links:
    http://www.certivox.com/about-certivox/patents/
 */
 
-/* 
-	How to determine maximum stack usage
-	1. Compile this file *with no optimization*, for example gcc -c maxstack.c
-	2. Rename your main() function to mymain()
-	3. Compile with normal level of optimization, linking to maxstack.o for example gcc maxstack.o -O3 myprogram.c -o myprogam
-	4. Execute myprogram
-	5. Program runs, at end prints out maximum stack usage
+#include "auto_context_v2.h"
+#include "../common/http_request.h"
+#include "../common/memory_storage.h"
 
-	Caveat Code!
-	Mike Scott October 2014
-*/
+#include <iostream>
+#include <fstream>
 
-#include <stdio.h>
+typedef MPinSDKv2::String String;
+typedef MPinSDKv2::IHttpRequest IHttpRequest;
+typedef MPinSDKv2::CryptoType CryptoType;
+typedef MPinSDKv2::UserPtr UserPtr;
 
-#define MAXSTACK 65536  /* greater than likely stack requirement */
-
-extern void mymain();
-
-void start()
+AutoContextV2::AutoContextV2()
 {
-	char stack[MAXSTACK];
-	int i;
-	for (i=0;i<MAXSTACK;i++) stack[i]=0x55;
+    m_nonSecureStorage = new MemoryStorage();
+    m_secureStorage = new MemoryStorage();
 }
 
-void finish()
+AutoContextV2::~AutoContextV2()
 {
-	char stack[MAXSTACK];
-	int i;
-	for (i=0;i<MAXSTACK;i++)
-		if (stack[i]!=0x55) break;
-	printf("Max Stack usage = %d\n",MAXSTACK-i);
+    delete m_nonSecureStorage;
+    delete m_secureStorage;
 }
 
-int main()
+IHttpRequest * AutoContextV2::CreateHttpRequest() const
 {
- start();
+    return new HttpRequest();
+}
 
- mymain();
+void AutoContextV2::ReleaseHttpRequest(IN IHttpRequest *request) const
+{
+    delete request;
+}
 
- finish();
- return 0;
+MPinSDK::IStorage * AutoContextV2::GetStorage(IStorage::Type type) const
+{
+    if(type == IStorage::SECURE)
+    {
+        return m_secureStorage;
+    }
+
+    return m_nonSecureStorage;
+}
+
+CryptoType AutoContextV2::GetMPinCryptoType() const
+{
+    return MPinSDK::CRYPTO_NON_TEE;
 }

@@ -22,59 +22,50 @@ the following links:
    http://www.certivox.com/about-certivox/patents/
 */
 
-/*
- * MPinSDK::IContext and all related interfaces implementation for command line test client
- */
-
-#include "cmdline_context_v2.h"
+#include "access_number_thread.h"
 #include "../common/http_request.h"
-#include "../common/file_storage.h"
+#include "CvTime.h"
 
-#include <iostream>
-#include <fstream>
-
-typedef MPinSDKv2::String String;
-typedef MPinSDKv2::IHttpRequest IHttpRequest;
-typedef MPinSDKv2::CryptoType CryptoType;
-typedef MPinSDKv2::UserPtr UserPtr;
-
-/*
- * Context class impl
- */
-
-CmdLineContextV2::CmdLineContextV2(const String& usersFile, const String& tokensFile)
+void AccessNumberThread::Start(const String& backend, const String& webOTT, const String& authenticateURL)
 {
-    m_nonSecureStorage = new FileStorage(usersFile);
-    m_secureStorage = new FileStorage(tokensFile);
+    m_backend = backend;
+    m_webOTT = webOTT;
+    m_authenticateURL = authenticateURL;
+    Create(NULL);
 }
 
-CmdLineContextV2::~CmdLineContextV2()
+long AccessNumberThread::Body(void*)
 {
-    delete m_nonSecureStorage;
-    delete m_secureStorage;
-}
+    HttpRequest req;
+    HttpRequest::StringMap headers;
+    headers.Put("Content-Type", "application/json");
+    headers.Put("Accept", "*/*");
 
-IHttpRequest * CmdLineContextV2::CreateHttpRequest() const
-{
-    return new HttpRequest();
-}
+    util::JsonObject json;
+    json["webOTT"] = json::String(m_webOTT);
+    String payload = json.ToString();
 
-void CmdLineContextV2::ReleaseHttpRequest(IN IHttpRequest *request) const
-{
-    delete request;
-}
+    String url = String().Format("%s/rps/accessnumber", m_backend.c_str());
 
-MPinSDK::IStorage * CmdLineContextV2::GetStorage(IStorage::Type type) const
-{
-    if(type == IStorage::SECURE)
+    int retryCount = 0;
+    while(req.GetHttpStatusCode() != 200 && retryCount++ < MAX_TRIES)
     {
-        return m_secureStorage;
+        CvShared::SleepFor(CvShared::Millisecs(RETRY_INTERVAL_MILLISEC).Value());
+
+        req.SetHeaders(headers);
+        req.SetContent(payload);
+        req.Execute(MPinSDK::IHttpRequest::POST, url);
     }
 
-    return m_nonSecureStorage;
-}
+    json.Clear();
+    util::JsonObject mpinResponse;
+    mpinResponse.Parse(req.GetResponseData().c_str());
+    json["mpinResponse"] = mpinResponse;
+    payload = json.ToString();
 
-CryptoType CmdLineContextV2::GetMPinCryptoType() const
-{
-    return MPinSDK::CRYPTO_NON_TEE;
+    req.SetHeaders(headers);
+    req.SetContent(payload);
+    req.Execute(MPinSDK::IHttpRequest::POST, m_authenticateURL);
+
+    return 0;
 }

@@ -22,59 +22,29 @@ the following links:
    http://www.certivox.com/about-certivox/patents/
 */
 
-/*
- * MPinSDK::IContext and all related interfaces implementation for command line test client
- */
+#ifndef _AUTO_CONTEXT_V2_H_
+#define _AUTO_CONTEXT_V2_H_
 
-#include "cmdline_context_v2.h"
-#include "../common/http_request.h"
-#include "../common/file_storage.h"
+#include "core/mpin_sdk_v2.h"
 
-#include <iostream>
-#include <fstream>
-
-typedef MPinSDKv2::String String;
-typedef MPinSDKv2::IHttpRequest IHttpRequest;
-typedef MPinSDKv2::CryptoType CryptoType;
-typedef MPinSDKv2::UserPtr UserPtr;
-
-/*
- * Context class impl
- */
-
-CmdLineContextV2::CmdLineContextV2(const String& usersFile, const String& tokensFile)
+class AutoContextV2 : public MPinSDKv2::IContext
 {
-    m_nonSecureStorage = new FileStorage(usersFile);
-    m_secureStorage = new FileStorage(tokensFile);
-}
+public:
+    typedef MPinSDKv2::String String;
+    typedef MPinSDKv2::IHttpRequest IHttpRequest;
+    typedef MPinSDKv2::IStorage IStorage;
+    typedef MPinSDKv2::CryptoType CryptoType;
 
-CmdLineContextV2::~CmdLineContextV2()
-{
-    delete m_nonSecureStorage;
-    delete m_secureStorage;
-}
+    AutoContextV2();
+    ~AutoContextV2();
+    virtual IHttpRequest * CreateHttpRequest() const;
+    virtual void ReleaseHttpRequest(IN IHttpRequest *request) const;
+    virtual IStorage * GetStorage(IStorage::Type type) const;
+    virtual CryptoType GetMPinCryptoType() const;
 
-IHttpRequest * CmdLineContextV2::CreateHttpRequest() const
-{
-    return new HttpRequest();
-}
+private:
+    IStorage *m_nonSecureStorage;
+    IStorage *m_secureStorage;
+};
 
-void CmdLineContextV2::ReleaseHttpRequest(IN IHttpRequest *request) const
-{
-    delete request;
-}
-
-MPinSDK::IStorage * CmdLineContextV2::GetStorage(IStorage::Type type) const
-{
-    if(type == IStorage::SECURE)
-    {
-        return m_secureStorage;
-    }
-
-    return m_nonSecureStorage;
-}
-
-CryptoType CmdLineContextV2::GetMPinCryptoType() const
-{
-    return MPinSDK::CRYPTO_NON_TEE;
-}
+#endif // _AUTO_CONTEXT_V2_H_
