@@ -533,6 +533,10 @@ namespace MPinDemo
                     {
                         // if the connection to the service is unsuccessful -> set the previous successful service.
                         controller.DataModel.SelectedBackend = this.ExBackend;
+                        if (controller.DataModel.SelectedBackend ==  null)
+                        {
+                            this.MainPivot.SelectedItem = this.ServicesPivotItem;
+                        }
                     }
                     // restore the screen 
                     SetControlsIsEnabled(null, true, false);
