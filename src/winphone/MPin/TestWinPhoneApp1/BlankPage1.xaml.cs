@@ -63,13 +63,14 @@ namespace MPinDemo
         private bool isInitialLoad = false;
         private bool isServiceAdding = false;
         private bool shouldSetSelectedUser = false;
+        private static bool showUsers = true;
+        private bool showUsersSet = false;
         private MainPage rootPage = null;
         private CoreDispatcher dispatcher;
         private Backend ExBackend;
         private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         internal static ApplicationDataContainer RoamingSettings = ApplicationData.Current.RoamingSettings;
         private static Controller controller = null;
-        private static bool showUsers = true;
         private static int selectedServiceIndex;
         private BarcodeReader _barcodeReader;
         private static readonly IEnumerable<string> SupportedImageFileTypes = new List<string> { ".jpeg", ".jpg", ".png" };
@@ -118,15 +119,16 @@ namespace MPinDemo
             rootPage = MainPage.Current;
             ClearBackStackIfNecessary();
             SetControlsIsEnabled(PrioritizeParameters((Window.Current.Content as Frame).GetNavigationData(), e.Parameter));
-
+            
             List<object> data = (Window.Current.Content as Frame).GetNavigationData() as List<object>;
             if (data != null && data.Count == 2)
             {
                 string command = data[0].ToString();
                 showUsers = !command.Contains("Service");
+                showUsersSet = true;
                 isServiceAdding = command == "AddService";
                 ProcessControlsOperations(command);
-                await controller.ProcessNavigation(command, data[1]);
+                await controller.ProcessNavigation(command, data[1]);                
             }
             else
             {
@@ -199,6 +201,9 @@ namespace MPinDemo
             List<string> commandsToDisableScreen = new List<string>() { "AddUser", "SignIn"};
             if (commandsToDisableScreen.Contains(command))
                 SetControlsIsEnabled(null, true);
+
+            if (command.Equals("AddUser"))
+                    shouldSetSelectedUser = false;
         }
 
         private void SetControlsIsEnabled(string param, bool forceDisable = false, bool isInProgress = true)
@@ -573,7 +578,7 @@ namespace MPinDemo
                 return;
             }
 
-            if (!isInitialLoad)
+            if (!isInitialLoad && !showUsersSet)
             {
                 showUsers = this.MainPivot.SelectedIndex == 1;
             }
