@@ -63,6 +63,7 @@ namespace MPinDemo
         private bool isInitialLoad = false;
         private bool isServiceAdding = false;
         private bool shouldSetSelectedUser = false;
+        private bool skipSelectingUserAfterLoad = false;
         private static bool showUsers = true;
         private bool showUsersSet = false;
         private MainPage rootPage = null;
@@ -115,11 +116,11 @@ namespace MPinDemo
         /// <param name="e">Event data that describes how this page was reached.
         /// This parameter is typically used to configure the page.</param>
         protected async override void OnNavigatedTo(NavigationEventArgs e)
-        {   
+        {
             rootPage = MainPage.Current;
             ClearBackStackIfNecessary();
             SetControlsIsEnabled(PrioritizeParameters((Window.Current.Content as Frame).GetNavigationData(), e.Parameter));
-            
+
             List<object> data = (Window.Current.Content as Frame).GetNavigationData() as List<object>;
             if (data != null && data.Count == 2)
             {
@@ -128,11 +129,11 @@ namespace MPinDemo
                 showUsersSet = true;
                 isServiceAdding = command == "AddService";
                 ProcessControlsOperations(command);
-                await controller.ProcessNavigation(command, data[1]);                
+                await controller.ProcessNavigation(command, data[1]);
             }
             else
             {
-                string param = GetAllPossiblePassedParams(e.Parameter);                
+                string param = GetAllPossiblePassedParams(e.Parameter);
                 isInitialLoad = !string.IsNullOrEmpty(param) && param.Equals("InitialLoad");
             }
 
@@ -172,7 +173,7 @@ namespace MPinDemo
         private void ClearBackStackIfNecessary()
         {
             Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
-            if (mainFrame.BackStack.Count == 1 && 
+            if (mainFrame.BackStack.Count == 1 &&
                 ((mainFrame.BackStack[0] as PageStackEntry).SourcePageType.Equals(typeof(NoNetworkScreen)) ||
                  (mainFrame.BackStack[0] as PageStackEntry).SourcePageType.Equals(typeof(AppQuide))))
             {
@@ -198,12 +199,12 @@ namespace MPinDemo
 
         private void ProcessControlsOperations(string command)
         {
-            List<string> commandsToDisableScreen = new List<string>() { "AddUser", "SignIn"};
+            List<string> commandsToDisableScreen = new List<string>() { "AddUser", "SignIn" };
             if (commandsToDisableScreen.Contains(command))
                 SetControlsIsEnabled(null, true);
 
             if (command.Equals("AddUser"))
-                    shouldSetSelectedUser = false;
+                skipSelectingUserAfterLoad = true;
         }
 
         private void SetControlsIsEnabled(string param, bool forceDisable = false, bool isInProgress = true)
@@ -496,7 +497,7 @@ namespace MPinDemo
             DeleteButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? ServicesList.Items.Count > 0 : UsersListBox.Items.Count > 0;
 
             UsersListBox.ScrollIntoView(UsersListBox.SelectedItem);
-            if (isInitialLoad || shouldSetSelectedUser)
+            if (isInitialLoad || (shouldSetSelectedUser && !skipSelectingUserAfterLoad))
             {
                 controller.DataModel.CurrentUser = UsersListBox.SelectedItem as User;
                 isInitialLoad = false;
@@ -565,7 +566,7 @@ namespace MPinDemo
         }
 
         private void MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {        
+        {
             if (!isInitialLoad && this.MainPivot.SelectedIndex == 0 && IsTheFirstConfigurationRun())
             {
                 Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
@@ -760,7 +761,7 @@ namespace MPinDemo
 
             SetControlsIsEnabled(null, true, false);
         }
-        
+
         private void GuideButton_Click(object sender, RoutedEventArgs e)
         {
             Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
@@ -778,6 +779,6 @@ namespace MPinDemo
                 throw new Exception(ResourceLoader.GetForCurrentView().GetString("NavigationFailedExceptionMessage"));
             }
         }
-        #endregion // handlers            
+        #endregion // handlers
     }
 }
