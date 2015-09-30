@@ -508,7 +508,7 @@ namespace MPinDemo
 
         private void ServicesList_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            SelectAppBarButton.IsEnabled = EditButton.IsEnabled = controller.DataModel.SelectedBackend != null;
+            SelectAppBarButton.IsEnabled = EditButton.IsEnabled = true;
             ServicesList.ScrollIntoView(controller.DataModel.SelectedBackend);
         }
 
