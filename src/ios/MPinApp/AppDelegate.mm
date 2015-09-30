@@ -103,50 +103,6 @@
 	return YES;
 }
 
-- ( void ) processNotification:(NSDictionary *) userInfo {
-    
-    if(userInfo == nil) return;
-    
-    NSLog(@"%@", userInfo[@"aps"][@"alert"]);
-    NSString * JsonNotificationData = userInfo[@"aps"][@"alert"];
-    
-    NSError *error = nil;
-    NSDictionary *notificationDictionary = [NSJSONSerialization JSONObjectWithData:[JsonNotificationData dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
-    if(error != nil) {
-        [[ErrorHandler sharedManager] presentMessageInViewController:((UINavigationController *)container.centerViewController).topViewController
-                                                         errorString:@"Failed to parse PushNotification JSON data"
-                                                addActivityIndicator:YES
-                                                         minShowTime:0];
-        
-        return;
-    }
-    
-    NSString * hash_user_id =  notificationDictionary[@"hash_user_id"];
-    NSString * an = notificationDictionary[@"mobileToken"];
-    
-    if (hash_user_id == nil || an == nil) {
-        MFSideMenuContainerViewController *c = (MFSideMenuContainerViewController *)self.window.rootViewController;
-        [[ErrorHandler sharedManager] presentMessageInViewController:((UINavigationController *)c.centerViewController).topViewController
-                                                         errorString:@"APNS: invalid user id or accessnumber received!"
-                                                addActivityIndicator:YES
-                                                         minShowTime:0];
-        return;
-    }
-    
-    NSString * userID = [[NSUserDefaults standardUserDefaults] objectForKey:hash_user_id];
-    
-    
-    if (userID == nil) {
-        MFSideMenuContainerViewController *c = (MFSideMenuContainerViewController *)self.window.rootViewController;
-        [[ErrorHandler sharedManager] presentMessageInViewController:((UINavigationController *)c.centerViewController).topViewController
-                                                         errorString:@"APNS :: there is no such user"
-                                                addActivityIndicator:YES
-                                                         minShowTime:0];
-        return;
-    }
-    
-}
-
 - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken
 {
     self.devToken = devToken;

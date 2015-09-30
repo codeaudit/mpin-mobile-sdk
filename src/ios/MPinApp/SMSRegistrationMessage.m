@@ -20,13 +20,13 @@ static NSString *kUserId = @"userID";
     if ( self = [super init] )
     {
         if (url == nil) {
-            self.error = [NSError errorWithDomain:@"SMSRegMessage: Invalid URL passed!" code:-1 userInfo:nil];
+            self.error = [NSError errorWithDomain:@"SMSRegMessage: Invalid URL provided!" code:-1 userInfo:nil];
             return self;
         }
         
         NSDictionary * urlParams = [Utilities urlQueryParamsToDictianary:[url query]];
         if (urlParams == nil) {
-            self.error = [NSError errorWithDomain:[NSString stringWithFormat:@"SMSRegMessage: bad url query params: %@", [url query] ] code:-1 userInfo:nil];
+            self.error = [NSError errorWithDomain:[NSString stringWithFormat:@"SMSRegMessage: bad url query parameters: %@", [url query] ] code:-1 userInfo:nil];
             return self;
         }
         
@@ -35,7 +35,7 @@ static NSString *kUserId = @"userID";
         NSString * hash_user_id = [urlParams objectForKey:kHashUserId];
         
         if ((hexMpinId == nil) || (activateKey ==  nil) || ( hash_user_id == nil )) {
-            self.error = [NSError errorWithDomain:[NSString stringWithFormat:@"SMSRegMessage: Missing one or more of the params! -  %@", [url query] ] code:-1 userInfo:nil];
+            self.error = [NSError errorWithDomain:[NSString stringWithFormat:@"SMSRegMessage: Missing one or more of the parameters! -  %@", [url query] ] code:-1 userInfo:nil];
             return self;
         }
         
