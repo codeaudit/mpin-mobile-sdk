@@ -67,15 +67,24 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad: ) name:kShowPinPadNotification object:nil];
     _lblEmail.text = _strEmail;
     _txtAN.text = @"";
-    [_txtAN setBottomBorder:[[SettingsManager sharedManager] color7] width:2.f alpha:.5f];
+    _txtAN.font = [UIFont fontWithName:@"OpenSans-Semibold" size:16.f];
+    [_txtAN setBottomBorder:[[SettingsManager sharedManager] color5] width:1.f alpha:.5f];
     NSString *strANLenght       = [MPin GetClientParam:constStrAccessNumberLenghtKey];
 
     intAccessNumberLenght = [strANLenght intValue];
+    _txtAN.placeholder = [NSString stringWithFormat:NSLocalizedString(@"ACCESSNUMBERVC_NOTE", @""), intAccessNumberLenght];
+
     max = intAccessNumberLenght;
     self.title = NSLocalizedString(@"ACCESSNUMBERVC_TITLE", @"");
-    _lblNote.text = [NSString stringWithFormat:NSLocalizedString(@"ACCESSNUMBERVC_NOTE", @""), intAccessNumberLenght];
     [[ThemeManager sharedManager] beautifyViewController:self];
     [self registerObservers];
+    NSArray *settings = [[NSUserDefaults standardUserDefaults] objectForKey:@"settings"];
+    NSInteger intSelectedConfiguration = [[NSUserDefaults standardUserDefaults] integerForKey:@"currentSelectionIndex"];
+    NSDictionary *dictConfiguration = settings [intSelectedConfiguration];
+    _lblServiceName.font = [UIFont fontWithName:@"OpenSans" size:14.f];
+    _lblServiceName.textColor = [[SettingsManager sharedManager] color2];
+    _lblServiceName.text = [NSString stringWithFormat:@"/ %@ /" , dictConfiguration [@"CONFIG_NAME"]];
+
 }
 
 - ( void ) viewDidAppear:( BOOL )animated
@@ -119,10 +128,15 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
 
 - ( IBAction )numberSelectedAction:( id )sender
 {
+    if (_txtAN.text.length > 14)
+    {
+        [self clear];
+    }
     if ( [self.strNumber length] >= intAccessNumberLenght )
     {
         return;
     }
+    _txtAN.font = [UIFont fontWithName:@"OpenSans" size:30.f];
     UIButton *button = (UIButton *) sender;
     if ( ++numberIndex >= max )
     {
@@ -130,6 +144,7 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
     }
     self.strNumber = [self.strNumber stringByAppendingString:button.titleLabel.text];
     self.txtAN.text =  [NSString stringWithFormat:@"%@ %@",self.txtAN.text, button.titleLabel.text];
+    self.txtAN.textColor = [[SettingsManager sharedManager] color2];
 }
 
 - ( void ) clear
@@ -138,6 +153,7 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
     self.strNumber = @"";
     [self enableNumButtons];
     _txtAN.text = @"";
+    _txtAN.font = [UIFont fontWithName:@"OpenSans-Semibold" size:16.f];
 }
 
 - ( IBAction )clearAction:( id )sender

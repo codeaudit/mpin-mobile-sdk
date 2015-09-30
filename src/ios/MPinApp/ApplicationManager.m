@@ -68,11 +68,15 @@ static NSString *constStrConnectionTimeoutNotification = @"ConnectionTimeoutNoti
 
 - ( void ) OnSetBackendCompleted:( id ) sender
 {
-    MFSideMenuContainerViewController *container = (MFSideMenuContainerViewController *)appdelegate.window.rootViewController;
-    if ( [( (UINavigationController *)container.centerViewController ).topViewController isMemberOfClass:[UserListViewController class]] )
+    id container = (MFSideMenuContainerViewController *)appdelegate.window.rootViewController;
+    if ([container isMemberOfClass:[MFSideMenuContainerViewController class]])
     {
-        [(UserListViewController *)( ( (UINavigationController *)container.centerViewController ).topViewController )invalidate];
+//        if ( [( (UINavigationController *)container.centerViewController ).topViewController isMemberOfClass:[UserListViewController class]] )
+//        {
+//            [(UserListViewController *)( ( (UINavigationController *)container.centerViewController ).topViewController )invalidate];
+//        }
     }
+    
 }
 
 - ( void ) OnSetBackendError:( id ) sender error:( NSError * ) error;

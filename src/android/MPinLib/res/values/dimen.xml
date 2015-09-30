@@ -3,4 +3,9 @@
 
     <dimen name="pin_button_height">50dp</dimen>
 
+    <!-- SelectionCircles dimensions -->
+    <dimen name="scDefaultCircleDiameter">10dp</dimen>
+    <dimen name="scDefaultDistanceBetweenCircles">10dp</dimen>
+    <dimen name="scDefaultHollowStyleWidth">2dp</dimen>
+
 </resources>

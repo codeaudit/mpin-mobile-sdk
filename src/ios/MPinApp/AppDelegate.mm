@@ -31,8 +31,10 @@
 #import "NetworkMonitor.h"
 #import "NetworkDownViewController.h"
 #import "AFNetworkReachabilityManager.h"
-#import "ANAuthenticationSuccessful.h";
+#import "ANAuthenticationSuccessful.h"
 #import "Utilities.h"
+#import "HelpViewController.h"
+#import "ConfigurationManager.h"
 #import "IUser.h"
 #import "SMSRegistrationMessage.h"
 #import "APNAuthenticationMessage.h"
@@ -42,6 +44,7 @@
 {
     MFSideMenuContainerViewController *container;
     NetworkDownViewController *vcNetworkDown;
+    HelpViewController *vcHelp;
     BOOL boolRestartFlow;
 }
 
@@ -61,10 +64,17 @@
     UIUserNotificationType types = UIUserNotificationTypeBadge |
     UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
     
-    UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-    
-    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
-    [application registerForRemoteNotifications];
+    // By request of TDL
+    // If there is environment variable called PUSH_NOTIFICATIONS and the value of this variable is STOP, this will prevent registration for 
+    NSString *strRegisterNotifications = [[[NSProcessInfo processInfo] environment] objectForKey:@"PUSH_NOTIFICATIONS"];
+    if (![strRegisterNotifications isEqualToString:@"STOP"])
+    {
+        UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+        
+        [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+        [application registerForRemoteNotifications];
+        
+    }
 
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 
@@ -79,6 +89,7 @@
     _vcUserList = [storyboard instantiateViewControllerWithIdentifier:@"UserListViewController"];
     
     vcNetworkDown = [storyboard instantiateViewControllerWithIdentifier:@"NetworkDownViewController"];
+    vcHelp = [storyboard instantiateViewControllerWithIdentifier:@"HelpViewController"];
     
 	UIViewController *leftSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"MenuViewController"];
 
@@ -88,10 +99,17 @@
 
 	self.window.rootViewController = container;
     
+    [ApplicationManager sharedManager];
+    [NetworkMonitor sharedManager];
+    
     if (![NetworkMonitor isNetworkAvailable])
     {
         [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:vcNetworkDown]];
         container.panMode = MFSideMenuPanModeNone;
+    }
+    else if ([[ConfigurationManager sharedManager] isFirstTimeLaunch])
+    {
+        [self firstTimeLaunch];
     }
     
     [ApplicationManager sharedManager];
@@ -206,6 +224,15 @@
 }
 
 
+-( void) firstTimeLaunch
+{
+    NSLog(@"Appdelegate : First time");
+    
+    [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:vcHelp]];
+    vcHelp.helpMode = HELP_QUICK_START;
+    container.panMode = MFSideMenuPanModeNone;
+}
+
 -( void) connectionDown
 {
     NSLog(@"Appdelegate : Connection Down");
@@ -216,7 +243,16 @@
 -( void) connectionUp
 {
     NSLog(@"Appdelegate : Connection Up");
-    [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
-    container.panMode = MFSideMenuPanModeDefault;
+    if ([[ConfigurationManager sharedManager] isFirstTimeLaunch])
+    {
+        [self firstTimeLaunch];
+    }
+    else
+    {
+        [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
+        [_vcUserList setBackend];
+        container.panMode = MFSideMenuPanModeDefault;
+    }
+    
 }
 @end

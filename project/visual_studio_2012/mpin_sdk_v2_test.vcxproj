@@ -38,7 +38,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)bin\$(ProjectName)\$(Configuration)\</OutDir>
+    <IntDir>bin\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)bin\$(ProjectName)\$(Configuration)\</OutDir>
+    <IntDir>bin\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -68,15 +75,16 @@
   <ItemGroup>
     <ClCompile Include="..\..\tests\cmdline_v2_test.cpp" />
     <ClCompile Include="..\..\tests\contexts\cmdline_context_v2.cpp" />
-    <ClCompile Include="..\..\tests\contexts\http_request.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\tests\contexts\cmdline_context_v2.h" />
-    <ClInclude Include="..\..\tests\contexts\http_request.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="mpin_sdk.vcxproj">
       <Project>{c47bb154-f9df-4c88-81c0-a27510a16840}</Project>
+    </ProjectReference>
+    <ProjectReference Include="mpin_sdk_test_common.vcxproj">
+      <Project>{ab7741c8-a26b-4d8d-a0bc-806b5ac86cd9}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

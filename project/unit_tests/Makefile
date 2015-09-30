@@ -76,10 +76,11 @@ endef
 # $(call add_src_dir_including, <a directory>, <include pattern>)
 # All directories are specified relatively to $(SRC_DIR).
 # The patterns must contain the % character to match a portion of the full file pathname.
-SRC = $(call add_src_dir_excluding, src/core, %ARM32.c %Linux32.c %Win32.c %Win64.c)
+SRC = $(call add_src_dir, src/core)
 SRC += $(call add_src_dir_including, ext/cvshared/cpp, \
 		%linux/CvHttpRequest.cpp %linux/CvThread.cpp %linux/CvLogger.cpp %linux/CvMutex.cpp %CvString.cpp %CvTime.cpp %CvXcode.cpp)
-SRC += $(call add_src_dir_including, tests, %auto_context.cpp %http_request.cpp %unit_tests.cpp)
+SRC += $(call add_src_dir_including, tests, \
+        %auto_context.cpp %access_number_thread.cpp %memory_storage.cpp %http_request.cpp %unit_tests.cpp)
 
 # Generate a list of object files
 OBJ = $(call cpp_to_obj, $(call c_to_obj, $(SRC)))

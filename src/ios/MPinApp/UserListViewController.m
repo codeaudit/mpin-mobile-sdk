@@ -41,6 +41,7 @@
 #import "OTPViewController.h"
 #import "IdentityBlockedViewController.h"
 #import "MenuViewController.h"
+#import "HelpViewController.h"
 
 #pragma mark - import managers -
 #import "ThemeManager.h"
@@ -129,6 +130,10 @@ static NSString *const kAN = @"AN";
     storedBackendURL = [[ConfigurationManager sharedManager] getSelectedConfiguration] [@"backend"];
     sdk = [[MPin alloc] init];
     sdk.delegate = self;
+}
+
+-( void ) setBackend
+{
     [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
 }
 
@@ -138,11 +143,13 @@ static NSString *const kAN = @"AN";
 
     sdk.delegate = self;
 
+
     [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
 
     self.users = [MPin listUsers];
     [(MenuViewController *)self.menuContainerViewController.leftMenuViewController setConfiguration];
     [[ThemeManager sharedManager] beautifyViewController:self];
+    
 }
 
 - ( void )viewWillDisappear:( BOOL )animated // Called when the view is dismissed, covered or otherwise hidden. Default does nothing
@@ -774,7 +781,7 @@ static NSString *const kAN = @"AN";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkDown ) name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
 }
 
-- ( void )showPinPad:(NSNotification *)notification
+- ( void )showPinPad:( NSNotification * )notification
 {
     [[ErrorHandler sharedManager] hideMessage];
     PinPadViewController *pinpadViewController = [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];

@@ -35,30 +35,6 @@ package com.certivox.activities;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
-import net.hockeyapp.android.CrashManager;
-import net.hockeyapp.android.FeedbackManager;
-import net.hockeyapp.android.UpdateManager;
-import android.app.AlertDialog;
-import android.app.FragmentTransaction;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.certivox.constants.FragmentTags;
 import com.certivox.constants.IntentConstants;
 import com.certivox.controllers.MPinController;
@@ -80,10 +56,34 @@ import com.certivox.models.Config;
 import com.certivox.models.OTP;
 import com.certivox.mpinsdk.R;
 
+import android.app.AlertDialog;
+import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.FeedbackManager;
+import net.hockeyapp.android.UpdateManager;
 
-public class MPinActivity extends ActionBarActivity implements OnClickListener, Handler.Callback {
 
-    private static final String TAG    = MPinActivity.class.getSimpleName();
+public class MPinActivity extends AppCompatActivity implements OnClickListener, Handler.Callback {
+
+    private static final String TAG = MPinActivity.class.getSimpleName();
 
     // Needed for Hockey App
     private static final String APP_ID = "08b0417545be2304b7ce45ef43e30daf";
@@ -97,7 +97,7 @@ public class MPinActivity extends ActionBarActivity implements OnClickListener, 
         ON_CREATE, ON_STOP, ON_POST_RESUME, ON_DESTROY;
     };
 
-    private ActivityStates        mActivityLifecycleState;
+    private ActivityStates mActivityLifecycleState;
 
     // Views
     private Toolbar               mToolbar;

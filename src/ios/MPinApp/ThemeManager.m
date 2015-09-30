@@ -43,6 +43,9 @@
 #import "ANAuthenticationSuccessful.h"
 #import "NetworkDownViewController.h"
 #import "NetworkMonitor.h"
+#import "ThemeManager.h"
+#import "HelpViewController.h"
+#import "HelpDataView.h"
 
 @interface ThemeManager ( )
 {
@@ -99,6 +102,12 @@
         myVc.lblMessage.font = [UIFont fontWithName:@"OpenSans-Semibold" size:22.f];
     }
     else
+    if ( [vc isMemberOfClass:[HelpViewController class]] )
+    {
+        HelpViewController *myVc = (HelpViewController *)vc;
+        myVc.view.backgroundColor = [UIColor whiteColor];
+    }
+    else
     if ( [vc isMemberOfClass:[NetworkDownViewController class]] )
     {
         NetworkDownViewController *myVc = (NetworkDownViewController *)vc;
@@ -123,8 +132,8 @@
     {
         AccessNumberViewController *myVc = (AccessNumberViewController *)vc;
         myVc.lblEmail.textColor = [[SettingsManager sharedManager] color6];
-        myVc.lblNote.textColor = [[SettingsManager sharedManager] color9];
-        myVc.lblNote.font = [UIFont fontWithName:@"OpenSans-Semibold" size:12.];
+        myVc.lblServiceName.textColor = [[SettingsManager sharedManager] color9];
+        myVc.lblServiceName.font = [UIFont fontWithName:@"OpenSans-Semibold" size:12.];
         [self setupLoginButton:myVc.btnLogin];
     }
 
@@ -298,7 +307,6 @@
         myVc.title = NSLocalizedString(@"USERLISTVC_TITLE", @"");
         [myVc.btnDelete setTitle:NSLocalizedString(@"KEY_DELETE", @"") forState:UIControlStateNormal];
     }
-
     else
     {
         for ( int i = 0; i < [( (UIViewController *)vc ).view.subviews count]; i++ )
@@ -358,7 +366,8 @@
 {
     if ( [superVc isMemberOfClass:[MenuViewController class]]
          || [superVc isMemberOfClass:[ANAuthenticationSuccessful class]]
-         || [superVc isMemberOfClass:[NetworkDownViewController class]] )
+         || [superVc isMemberOfClass:[NetworkDownViewController class]]
+         || [superVc isMemberOfClass:[HelpViewController class]] )
     {
         return;
     }
@@ -369,7 +378,7 @@
         superVc.lblNetworkDownMessage.textColor = [[SettingsManager sharedManager] color7];
         superVc.lblNetworkDownMessage.text = NSLocalizedString(@"CONNECTION_WAS_LOST", @"Connection was lost");
         superVc.lblNetworkDownMessage.font = [UIFont fontWithName:@"OpenSans" size:14.f];
-        
+
         if ( boolReachabilityManagerReady == NO )
         {
             superVc.constraintNoNetworkViewHeight.constant = 0;
@@ -412,6 +421,78 @@
         vc.constraintNoNetworkViewHeight.constant = 0.0f;
         [vc.view layoutIfNeeded];
     }];
+}
+
+- ( void ) customiseHelpView: ( HelpDataView * ) helpView
+{
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenHeight = screenRect.size.height;
+    CGFloat screenWidth = screenRect.size.width;
+
+    NSInteger intPart = ceil(screenHeight / 17);
+
+    helpView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    helpView.lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, screenWidth - 20, intPart * 1.5)];
+    helpView.imgArt = [[UIImageView alloc] initWithFrame:CGRectMake( 10, intPart * 3, screenWidth - 20, intPart * 6)];
+    helpView.lblSubTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, intPart * 9 + 10, screenWidth - 20, intPart)];
+    helpView.lblDesc = [[UILabel alloc] initWithFrame:CGRectMake(10, intPart * 10 + 10, screenWidth - 20, intPart * 2)];
+
+    helpView.pageControl = [[PageControl alloc] initWithFrame:CGRectMake(10, screenHeight - 55 - intPart * 2, screenWidth - 20, intPart * 2 - 30)];
+    helpView.btnSkip = [[UIButton alloc] initWithFrame:CGRectMake(0, screenHeight - 55 , screenWidth / 2, 55)];
+    helpView.btnNext = [[UIButton alloc] initWithFrame:CGRectMake(screenWidth / 2, screenHeight - 55 , screenWidth / 2, 55)];
+    UILabel *lblSpacer = [[UILabel alloc] initWithFrame:CGRectMake(0, screenHeight - 55 - 1, screenWidth, 1)];
+    lblSpacer.backgroundColor = [[SettingsManager sharedManager] color11];
+    [helpView addSubview:lblSpacer];
+    
+    helpView.lblTitle.textAlignment = NSTextAlignmentCenter;
+    helpView.lblTitle.backgroundColor = [[SettingsManager sharedManager] color0];
+    [helpView addSubview:helpView.lblTitle];
+
+    helpView.lblSubTitle.textAlignment = NSTextAlignmentCenter;
+    helpView.lblSubTitle.backgroundColor = [UIColor whiteColor];
+    [helpView addSubview:helpView.lblSubTitle];
+
+    helpView.lblDesc.textAlignment = NSTextAlignmentCenter;
+    helpView.lblDesc.backgroundColor = [[SettingsManager sharedManager] color0];
+    helpView.lblDesc.adjustsFontSizeToFitWidth = YES;
+    [helpView addSubview:helpView.lblDesc];
+
+    helpView.btnSkip.backgroundColor = [[SettingsManager sharedManager] color0];
+    [helpView.btnSkip setTitle:NSLocalizedString(@"SETUP_BTN_SKIP",  @"SKIP") forState:UIControlStateNormal];
+    [helpView.btnSkip setTitleColor:[[SettingsManager sharedManager] color10] forState:UIControlStateNormal];
+    [helpView.btnSkip.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:18.f]];
+    [helpView addSubview:helpView.btnSkip];
+
+    helpView.btnNext.backgroundColor = [[SettingsManager sharedManager] color10];
+    [helpView addSubview:helpView.btnNext];
+
+    helpView.imgArt.backgroundColor = [UIColor whiteColor];
+    helpView.imgArt.contentMode = UIViewContentModeScaleAspectFit;
+    [helpView addSubview:helpView.imgArt];
+
+    helpView.lblDesc.textColor = helpView.lblSubTitle.textColor = helpView.lblTitle.textColor = [[SettingsManager sharedManager] color7];
+//    helpView.lblSubTitle.textColor = [[SettingsManager sharedManager] color4];
+//    helpView.lblTitle.textColor = [[SettingsManager sharedManager] color4];
+
+    helpView.lblDesc.font         = [UIFont fontWithName:@"OpenSans" size:11.f];
+    helpView.lblSubTitle.font     = [UIFont fontWithName:@"OpenSans" size:15.f];
+    helpView.lblTitle.font        = [UIFont fontWithName:@"OpenSans" size:15.f];
+
+    helpView.pageControl.backgroundColor = [[SettingsManager sharedManager] color0];
+    helpView.pageControl.pageIndicatorTintColor           = [[SettingsManager sharedManager] color4];
+    helpView.pageControl.currentPageIndicatorTintColor    = [[SettingsManager sharedManager] color10];
+    helpView.pageControl.userInteractionEnabled = NO;
+    [helpView addSubview:helpView.pageControl];
+    helpView.lblTitle.numberOfLines = 0;
+    helpView.lblSubTitle.numberOfLines = 0;
+    helpView.lblDesc.numberOfLines = 0;
+
+    helpView.lblTitle.adjustsFontSizeToFitWidth = YES;
+    helpView.lblSubTitle.adjustsFontSizeToFitWidth = YES;
+
+    CGFloat size = helpView.lblDesc.font.pointSize;
+    [helpView.lblDesc setMinimumScaleFactor:10.0 / size];
+    helpView.lblDesc.baselineAdjustment = UIBaselineAdjustmentAlignBaselines;
 }
 
 @end

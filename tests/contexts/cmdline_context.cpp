@@ -27,7 +27,8 @@ the following links:
  */
 
 #include "cmdline_context.h"
-#include "http_request.h"
+#include "../common/http_request.h"
+#include "../common/file_storage.h"
 
 #include <iostream>
 #include <fstream>
@@ -38,47 +39,6 @@ typedef MPinSDK::IPinPad IPinPad;
 typedef MPinSDK::CryptoType CryptoType;
 typedef MPinSDK::UserPtr UserPtr;
 using namespace std;
-
-/*
- * Storage class impl
- */
-
-class FileStorage : public MPinSDK::IStorage
-{
-public:
-    FileStorage(const String& fileName) : m_fileName(fileName) {}
-
-    virtual bool SetData(const String& data)
-    {
-        fstream file(m_fileName.c_str(), fstream::out);
-        file.clear();
-        file.seekp(fstream::beg);
-        file << data;
-        file.close();
-
-        return true;
-    }
-
-    virtual bool GetData(String &data)
-    {
-        fstream file(m_fileName.c_str(), fstream::in);
-        stringbuf buf;
-        file >> &buf;
-        data = buf.str();
-        file.close();
-
-        return true;
-    }
-
-    virtual const String& GetErrorMessage() const
-    {
-        return m_errorMessage;
-    }
-
-private:
-    String m_fileName;
-    String m_errorMessage;
-};
 
 /*
  * Pinpad class impl

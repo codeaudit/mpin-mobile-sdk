@@ -34,23 +34,23 @@ package com.certivox.activities;
 
 import java.util.ArrayList;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.support.v7.app.ActionBarActivity;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.ImageButton;
-
 import com.certivox.adapters.GuidePagerAdapter;
 import com.certivox.constants.IntentConstants;
 import com.certivox.enums.GuideFragmentsEnum;
 import com.certivox.mpinsdk.R;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ImageButton;
 
-public class GuideActivity extends ActionBarActivity {
+
+public class GuideActivity extends AppCompatActivity {
 
     private static final String TAG = GuideActivity.class.getCanonicalName();
 
@@ -87,7 +87,7 @@ public class GuideActivity extends ActionBarActivity {
                 .getSerializableExtra(IntentConstants.FRAGMENT_LIST);
         GuidePagerAdapter guidePagerAdapter = new GuidePagerAdapter(fragmentList, getSupportFragmentManager());
         mViewPager.setAdapter(guidePagerAdapter);
-        mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+        mViewPager.addOnPageChangeListener(new OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int pageNumber) {

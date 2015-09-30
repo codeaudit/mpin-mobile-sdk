@@ -27,15 +27,17 @@
 @class MenuTableViewCell;
 @class ATMHud;
 @class SuperViewController;
+@class HelpDataView;
 
 @interface ThemeManager : NSObject
 
-+ ( ThemeManager * )sharedManager;
-- ( void )beautifyViewController:( id )vc;
-- ( void )customiseMenuCell:( MenuTableViewCell * )cell;
-- ( void )customiseConfigurationListCell:( ConfigListTableViewCell * )cell;
++ ( ThemeManager * ) sharedManager;
+- ( void ) beautifyViewController:( id )vc;
+- ( void ) customiseMenuCell:( MenuTableViewCell * )cell;
+- ( void ) customiseConfigurationListCell:( ConfigListTableViewCell * )cell;
 - ( void ) setupErrorViewInViewController: ( SuperViewController * ) superVc;
 - ( void ) showNetworkDown:( SuperViewController * )vc;
 - ( void ) hideNetworkDown:( SuperViewController * )vc;
+- ( void ) customiseHelpView: ( HelpDataView * ) helpView;
 
 @end

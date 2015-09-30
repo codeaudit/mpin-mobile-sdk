@@ -84,9 +84,6 @@
     <ClCompile Include="..\..\src\core\crypto\hash.c">
       <Filter>src\core\crypto</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\maxstack.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\core\crypto\mpin.c">
       <Filter>src\core\crypto</Filter>
     </ClCompile>

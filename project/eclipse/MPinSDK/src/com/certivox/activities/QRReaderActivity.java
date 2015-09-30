@@ -33,11 +33,10 @@
 package com.certivox.activities;
 
 
-import net.sourceforge.zbar.Config;
-import net.sourceforge.zbar.Image;
-import net.sourceforge.zbar.ImageScanner;
-import net.sourceforge.zbar.Symbol;
-import net.sourceforge.zbar.SymbolSet;
+import com.certivox.constants.IntentConstants;
+import com.certivox.mpinsdk.R;
+import com.certivox.view.CameraPreview;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -45,18 +44,18 @@ import android.hardware.Camera;
 import android.hardware.Camera.AutoFocusCallback;
 import android.hardware.Camera.PreviewCallback;
 import android.hardware.Camera.Size;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
-import android.widget.TextView;
+import net.sourceforge.zbar.Config;
+import net.sourceforge.zbar.Image;
+import net.sourceforge.zbar.ImageScanner;
+import net.sourceforge.zbar.Symbol;
+import net.sourceforge.zbar.SymbolSet;
 
-import com.certivox.constants.IntentConstants;
-import com.certivox.mpinsdk.R;
-import com.certivox.view.CameraPreview;
 
-
-public class QRReaderActivity extends Activity {
+public class QRReaderActivity extends AppCompatActivity {
 
     static {
         System.loadLibrary("iconv");
@@ -90,6 +89,12 @@ public class QRReaderActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr_reader);
 
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onResume();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         init();
 

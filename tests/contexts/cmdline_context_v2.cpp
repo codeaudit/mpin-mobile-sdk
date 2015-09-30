@@ -27,7 +27,8 @@ the following links:
  */
 
 #include "cmdline_context_v2.h"
-#include "http_request.h"
+#include "../common/http_request.h"
+#include "../common/file_storage.h"
 
 #include <iostream>
 #include <fstream>
@@ -36,48 +37,6 @@ typedef MPinSDKv2::String String;
 typedef MPinSDKv2::IHttpRequest IHttpRequest;
 typedef MPinSDKv2::CryptoType CryptoType;
 typedef MPinSDKv2::UserPtr UserPtr;
-using namespace std;
-
-/*
- * Storage class impl
- */
-
-class FileStorageV2 : public MPinSDKv2::IStorage
-{
-public:
-    FileStorageV2(const String& fileName) : m_fileName(fileName) {}
-
-    virtual bool SetData(const String& data)
-    {
-        fstream file(m_fileName.c_str(), fstream::out);
-        file.clear();
-        file.seekp(fstream::beg);
-        file << data;
-        file.close();
-
-        return true;
-    }
-
-    virtual bool GetData(String &data)
-    {
-        fstream file(m_fileName.c_str(), fstream::in);
-        stringbuf buf;
-        file >> &buf;
-        data = buf.str();
-        file.close();
-
-        return true;
-    }
-
-    virtual const String& GetErrorMessage() const
-    {
-        return m_errorMessage;
-    }
-
-private:
-    String m_fileName;
-    String m_errorMessage;
-};
 
 /*
  * Context class impl
@@ -85,8 +44,8 @@ private:
 
 CmdLineContextV2::CmdLineContextV2(const String& usersFile, const String& tokensFile)
 {
-    m_nonSecureStorage = new FileStorageV2(usersFile);
-    m_secureStorage = new FileStorageV2(tokensFile);
+    m_nonSecureStorage = new FileStorage(usersFile);
+    m_secureStorage = new FileStorage(tokensFile);
 }
 
 CmdLineContextV2::~CmdLineContextV2()

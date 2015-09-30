@@ -39,7 +39,7 @@
 
 @property( nonatomic,weak ) IBOutlet UIView *viewANContainer;
 @property( nonatomic,weak ) IBOutlet UILabel *lblEmail;
-@property( nonatomic,weak ) IBOutlet UILabel *lblNote;
+@property( nonatomic,weak ) IBOutlet UILabel *lblServiceName;
 @property( nonatomic,weak ) IBOutlet UITextField *txtAN;
 @property( nonatomic,weak ) IBOutlet UIButton *btnLogin;
 
