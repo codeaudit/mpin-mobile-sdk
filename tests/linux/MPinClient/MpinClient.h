@@ -104,7 +104,7 @@ private:
 	public:
 		CPinPad()	{}
 		virtual ~CPinPad()	{}
-		virtual String Show(Mode mode) { return m_pin; }
+		virtual String Show(MPinSDK::UserPtr user, Mode mode) { return m_pin; }
 
 		void SetPin( const String& aPin )	{ m_pin = aPin; }
 
