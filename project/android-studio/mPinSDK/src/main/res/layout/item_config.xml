@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:paddingBottom="20dp"
+    android:paddingEnd="20dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingStart="20dp"
+    android:paddingTop="20dp" >
+
+    <RadioButton
+        android:id="@+id/toggle_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:clickable="false" />
+
+    <TextView
+        android:id="@+id/item_config_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/toggle_button"
+        android:layout_toRightOf="@+id/toggle_button"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+        android:textColor="@color/base_text_color"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/item_config_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_config_title"
+        android:layout_toEndOf="@+id/toggle_button"
+        android:layout_toRightOf="@+id/toggle_button"
+        android:textColor="@color/base_gray_color"
+        android:textSize="14sp" />
+
+    <RelativeLayout
+        android:id="@+id/item_config_additional_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_config_url"
+        android:layout_toEndOf="@id/toggle_button"
+        android:layout_toRightOf="@id/toggle_button" />
+
+</RelativeLayout>
