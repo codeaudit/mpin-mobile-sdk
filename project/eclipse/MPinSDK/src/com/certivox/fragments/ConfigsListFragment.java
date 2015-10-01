@@ -34,8 +34,10 @@ package com.certivox.fragments;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -50,8 +52,10 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.certivox.activities.QRReaderActivity;
 import com.certivox.adapters.ConfigurationListAdapter;
 import com.certivox.constants.FragmentTags;
+import com.certivox.constants.IntentConstants;
 import com.certivox.controllers.MPinController;
 import com.certivox.models.Config;
 import com.certivox.mpinsdk.R;
@@ -65,7 +69,8 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
     private ListView                 mListView;
     private ConfigurationListAdapter mAdapter;
     private ImageButton              mAddServiceButton;
-    private long                     mSelectedConfiguraionId;
+    private long                     mSelectedConfigId;
+    private Config                   mSelectedConfig;
 
 
     @Override
@@ -85,7 +90,7 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
 
             @Override
             public void onClick(View v) {
-                if (mSelectedConfiguraionId == -1) {
+                if (mSelectedConfigId == -1) {
                     showNoSelectedConfigurationDialog();
                 } else
                     if (getMPinController().getActiveConfiguration() == null) {
@@ -111,7 +116,12 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
         setToolbarTitle(R.string.select_service_toolbar_title);
 
         mView = inflater.inflate(R.layout.fragment_configs_list, container, false);
-        mSelectedConfiguraionId = -1;
+        mSelectedConfig = getMPinController().getActiveConfiguration();
+        if (mSelectedConfig != null) {
+            mSelectedConfigId = mSelectedConfig.getId();
+        } else {
+            mSelectedConfigId = -1;
+        }
         disableDrawer();
         initViews();
 
@@ -122,6 +132,12 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
         initAdapter();
     }
 
@@ -130,7 +146,7 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
     public boolean handleMessage(Message msg) {
         switch (msg.what) {
         case MPinController.MESSAGE_CONFIGURATION_DELETED:
-            mSelectedConfiguraionId = -1;
+            mSelectedConfigId = -1;
             mAdapter.updateConfigsList(getMPinController().getConfigurationsList());
             return true;
         case MPinController.MESSAGE_CONFIGURATION_CHANGED:
@@ -155,6 +171,19 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
 
 
     @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (mSelectedConfig != null && mSelectedConfig.isDefault()) {
+            menu.findItem(R.id.configs_list_edit).setEnabled(false);
+            menu.findItem(R.id.configs_list_delete).setEnabled(false);
+        } else {
+            menu.findItem(R.id.configs_list_edit).setEnabled(true);
+            menu.findItem(R.id.configs_list_delete).setEnabled(true);
+        }
+    }
+
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.select_config:
@@ -168,6 +197,9 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
             return true;
         case R.id.configs_list_delete:
             onDeleteConfig();
+            return true;
+        case R.id.configs_scan_qr:
+            startQRCodeScanning();
             return true;
         default:
             return false;
@@ -188,8 +220,10 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        mSelectedConfiguraionId = view.getId();
-        mAdapter.setSelectedfigurationId(mSelectedConfiguraionId);
+        mSelectedConfigId = view.getId();
+        mAdapter.setSelected(position);
+        mSelectedConfig = getMPinController().getConfiguration((int) mSelectedConfigId);
+        getActivity().invalidateOptionsMenu();
     }
 
 
@@ -201,23 +235,50 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
     }
 
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IntentConstants.QR_CODE_RESULT) {
+            switch (resultCode) {
+            case Activity.RESULT_OK:
+                String url = data.getStringExtra(IntentConstants.QR_CODE_URL);
+                getMPinController().handleQRCodeUrl(url);
+                break;
+            case Activity.RESULT_CANCELED:
+                break;
+            default:
+                break;
+            }
+        }
+    }
+
+
     private void initAdapter() {
         List<Config> listConfigurations = getMPinController().getConfigurationsList();
-        mSelectedConfiguraionId = getMPinController().getActiveConfigurationId();
-
-        mAdapter = new ConfigurationListAdapter(getActivity().getApplicationContext(), listConfigurations,
-                mSelectedConfiguraionId);
-
+        mSelectedConfigId = getMPinController().getActiveConfigurationId();
+        int selectedPos = -1;
+        for (int i = 0; i < listConfigurations.size(); i++) {
+            Config config = listConfigurations.get(i);
+            if (config.getId() == mSelectedConfigId) {
+                selectedPos = i;
+            }
+        }
+        if (selectedPos == -1) {
+            mAdapter = new ConfigurationListAdapter(getActivity().getApplicationContext(), listConfigurations);
+        } else {
+            mAdapter = new ConfigurationListAdapter(getActivity().getApplicationContext(), listConfigurations,
+                    selectedPos);
+        }
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(this);
     }
 
 
     private void onSelectConfig() {
-        if (mSelectedConfiguraionId == -1) {
+        if (mSelectedConfigId == -1) {
             showNoSelectedConfigurationDialog();
         } else {
-            getMPinController().handleMessage(MPinController.MESSAGE_ON_SELECT_CONFIGURATION, mSelectedConfiguraionId);
+            getMPinController().handleMessage(MPinController.MESSAGE_ON_SELECT_CONFIGURATION, mSelectedConfigId);
         }
     }
 
@@ -228,32 +289,28 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
 
 
     private void onEditConfig() {
-        if (mSelectedConfiguraionId == -1) {
+        if (mSelectedConfigId == -1) {
             showNoSelectedConfigurationDialog();
         } else {
-            getMPinController().handleMessage(MPinController.MESSAGE_ON_EDIT_CONFIGURATION, mSelectedConfiguraionId);
+            getMPinController().handleMessage(MPinController.MESSAGE_ON_EDIT_CONFIGURATION, mSelectedConfigId);
         }
     }
 
 
     private void onDeleteConfig() {
-        Config config = getMPinController().getConfiguration((int) mSelectedConfiguraionId);
-        if (config.getId() == -1) {
+        if (mSelectedConfig == null || mSelectedConfig.getId() == -1) {
             showNoSelectedConfigurationDialog();
         } else
-            if (!config.isDefault()) {
-                new AlertDialog.Builder(getActivity()).setTitle("Delete configuration")
-                        .setMessage("This action will also delete all identities, associated with this configuration.")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            new AlertDialog.Builder(getActivity()).setTitle("Delete configuration")
+                    .setMessage("This action will also delete all identities, associated with this configuration.")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                getMPinController().handleMessage(MPinController.MESSAGE_DELETE_CONFIGURATION,
-                                        mSelectedConfiguraionId);
-                            }
-                        }).setNegativeButton("Cancel", null).show();
-            }
-
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            getMPinController().handleMessage(MPinController.MESSAGE_DELETE_CONFIGURATION,
+                                    mSelectedConfigId);
+                        }
+                    }).setNegativeButton("Cancel", null).show();
     }
 
 
@@ -266,5 +323,11 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
     private void showNoActivatedConfigurationDialog() {
         new AlertDialog.Builder(getActivity()).setTitle("No activated configuration")
                 .setMessage("Please, activate a configuration").setPositiveButton("OK", null).show();
+    }
+
+
+    private void startQRCodeScanning() {
+        Intent startQRCodeActivityIntent = new Intent(getActivity(), QRReaderActivity.class);
+        startActivityForResult(startQRCodeActivityIntent, IntentConstants.QR_CODE_RESULT);
     }
 }

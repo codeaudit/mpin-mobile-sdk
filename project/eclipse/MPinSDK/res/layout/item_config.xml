@@ -41,4 +41,12 @@
         android:textColor="@color/base_gray_color"
         android:textSize="14sp" />
 
+    <RelativeLayout
+        android:id="@+id/item_config_additional_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_config_url"
+        android:layout_toEndOf="@id/toggle_button"
+        android:layout_toRightOf="@id/toggle_button" />
+
 </RelativeLayout>

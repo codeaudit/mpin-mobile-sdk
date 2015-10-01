@@ -61,4 +61,11 @@
 -( void ) setDeviceName:( NSString * ) devName;
 
 -( NSInteger ) configurationExists: ( NSDictionary * ) configuration;
+
+-(BOOL) isFirstTimeLaunch;
+-(BOOL) isFirstTimeServerSettings;
+-(BOOL) isFirstTimeAddIdentity;
+
+
+
 @end

@@ -133,7 +133,12 @@ Status MPinSDKv2::RestartRegistration(INOUT UserPtr user, const String& userData
     return m_v1Sdk.RestartRegistration(user, userData);
 }
 
-Status MPinSDKv2::ConfirmRegistration(INOUT UserPtr user)
+Status MPinSDKv2::VerifyUser(INOUT UserPtr user, const String& mpinId, const String& activationKey)
+{
+    return m_v1Sdk.VerifyUser(user, mpinId, activationKey);
+}
+
+Status MPinSDKv2::ConfirmRegistration(INOUT UserPtr user, const String& pushMessageIdentifier)
 {
     Status s = m_v1Sdk.CheckIfBackendIsSet();
     if(s != Status::OK)
@@ -161,6 +166,11 @@ Status MPinSDKv2::ConfirmRegistration(INOUT UserPtr user)
     String regOTT = user->GetRegOTT();
 
     String url = String().Format("%s/%s?regOTT=%s", m_v1Sdk.m_clientSettings.GetStringParam("signatureURL"), mpinIdHex.c_str(), regOTT.c_str());
+    if(!pushMessageIdentifier.empty())
+    {
+        url += "&pmiToken=" + pushMessageIdentifier;
+    }
+
     HttpResponse response = m_v1Sdk.MakeGetRequest(url);
     if(response.GetStatus() != HttpResponse::HTTP_OK)
     {

@@ -34,19 +34,17 @@ package com.certivox.fragments;
 
 import com.certivox.models.User;
 import com.certivox.mpin.R;
+import com.certivox.view.SelectionCircles;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.text.InputType;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -68,7 +66,7 @@ public class PinPadFragment extends Fragment {
     private TextView            mDigit9;
     private ImageButton         mButtonLogin;
     private ImageButton         mButtonClear;
-    private EditText            mPinEditText;
+    private SelectionCircles    mSelectionCircles;
     private TextView            mWrongPinTextView;
     private OnClickListener     mOnDigitClickListener;
     private int                 mPinLength = 4;
@@ -86,17 +84,6 @@ public class PinPadFragment extends Fragment {
     }
 
 
-    public TextView getTitle() {
-        return mPinEditText;
-    }
-
-
-    private void setPinInput(String input) {
-        mPinEditText.setText(input);
-        mPinEditText.setSelection(mPinEditText.getText().length());
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.pinpad_layout, container, false);
@@ -111,20 +98,13 @@ public class PinPadFragment extends Fragment {
 
 
     @Override
-    public void onStart() {
-        super.onStart();
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-    }
-
-
-    @Override
     public void onResume() {
         super.onResume();
         if (mUser != null) {
             if (mUser.getState().equals(User.State.REGISTERED)) {
-                ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.enter_pin_title);
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.enter_pin_title);
             } else {
-                ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.setup_pin_title);
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.setup_pin_title);
             }
         } else {
             showErrorDialog();
@@ -136,12 +116,8 @@ public class PinPadFragment extends Fragment {
         mUserEmail = (TextView) mView.findViewById(R.id.user_email);
         mUserEmail.setText(mUser.getId());
 
-        mPinEditText = (EditText) mView.findViewById(R.id.pinpad_input);
-        mPinEditText.setRawInputType(InputType.TYPE_CLASS_TEXT);
-        mPinEditText.setTextIsSelectable(true);
-        mPinEditText.setLongClickable(false);
-        mPinEditText.setClickable(false);
-        mPinEditText.requestFocus();
+        mSelectionCircles = (SelectionCircles) mView.findViewById(R.id.pin_pad_circles);
+        mSelectionCircles.setCount(mPinLength);
 
         mWrongPinTextView = (TextView) mView.findViewById(R.id.wrong_pin);
         mDigit0 = (TextView) mView.findViewById(R.id.pinpad_key_0);
@@ -161,25 +137,26 @@ public class PinPadFragment extends Fragment {
 
 
     public void showWrongPin() {
-        mIsPinSet = false;
-        mInput.setLength(0);
-        updateInput();
+        mSelectionCircles.selectAll();
+        mSelectionCircles.setSelectedColor(ContextCompat.getColor(getActivity(),R.color.orange));
         mWrongPinTextView.setVisibility(View.VISIBLE);
-        mPinEditText.getBackground().setColorFilter(getResources().getColor(R.color.orange), PorterDuff.Mode.SRC_ATOP);
     }
 
 
     public void hideWrongPin() {
-        mWrongPinTextView.setVisibility(View.INVISIBLE);
-        mPinEditText.getBackground().setColorFilter(getResources().getColor(R.color.primaryColor),
-                PorterDuff.Mode.SRC_ATOP);
+        if (mWrongPinTextView.getVisibility() == View.VISIBLE) {
+            setEmptyPin();
+            mWrongPinTextView.setVisibility(View.INVISIBLE);
+            mSelectionCircles.setSelectedColor(ContextCompat.getColor(getActivity(),R.color.light_green));
+        }
     }
 
 
     private void setEmptyPin() {
         mIsPinSet = false;
         mInput.setLength(0);
-        updateInput();
+        mSelectionCircles.deselectAll();
+        updateButtons();
     }
 
 
@@ -202,9 +179,12 @@ public class PinPadFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                if (mInput.length() > 0) {
-                    mInput.setLength(mInput.length() - 1);
-                    updateInput();
+                int inputLength = mInput.length();
+                if (inputLength > 0) {
+                    int newLenght = inputLength - 1;
+                    mInput.setLength(newLenght);
+                    mSelectionCircles.deselectPosition(newLenght);
+                    updateButtons();
                 }
             }
         });
@@ -240,6 +220,7 @@ public class PinPadFragment extends Fragment {
                 if (mInput.length() >= mPinLength) {
                     return;
                 }
+                hideWrongPin();
                 final int id = view.getId();
                 if (id == R.id.pinpad_key_0) {
                     mInput.append('0');
@@ -271,7 +252,8 @@ public class PinPadFragment extends Fragment {
                                                     if (id == R.id.pinpad_key_9) {
                                                         mInput.append('9');
                                                     }
-                updateInput();
+                mSelectionCircles.selectPosition(mInput.length() - 1);
+                updateButtons();
             }
         };
 
@@ -295,6 +277,7 @@ public class PinPadFragment extends Fragment {
     }
 
 
+    //TODO: 
     public String getPin() {
         synchronized (this) {
             try {
@@ -311,18 +294,7 @@ public class PinPadFragment extends Fragment {
     }
 
 
-    private void updateInput() {
-        if (mInput.length() < 1) {
-            setPinInput("");
-        } else {
-            hideWrongPin();
-            String pin = "";
-            for (int i = 0; i < mInput.length(); ++i) {
-                pin += '*';
-            }
-            setPinInput(pin);
-        }
-
+    private void updateButtons() {
         mButtonLogin.setEnabled(mInput.length() == mPinLength);
         mButtonClear.setEnabled(mInput.length() > 0);
     }

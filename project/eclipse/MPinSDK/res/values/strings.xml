@@ -40,6 +40,15 @@
     <string name="select_config">Select Configuration</string>
     <!-- Menu titles end -->
 
+
+    <!-- Context Menu titles -->
+    <string name="select_config_context_menu">Select Configuration</string>
+    <string name="new_config_context_menu">New</string>
+    <string name="edit_config_context_menu">Edit</string>
+    <string name="delete_config_context_menu">Delete</string>
+    <string name="scan_qr_config_context_menu">Scan QR Code</string>
+    <!-- Context Menu titles end -->
+
     <string name="add_identity_button">Add an identity</string>
     <string name="app_name">CertiVox M-Pin</string>
     <string name="loading">Loading</string>
@@ -67,8 +76,8 @@
 
 
     <!-- Access number -->
-    <string name="access_number_text">Enter the %1$s-digit Access Number</string>
-    <string name="access_number_info">You can find the Access Number on the Online login page.</string>
+    <string name="access_number_text">Enter a %1$s Digit Access Number for:</string>
+    <string name="access_number_info">Get one on your desktop browser at:</string>
     <!-- Access number end -->
 
 
@@ -150,6 +159,16 @@
     <string name="gd_add_server_to_app_content">Simply hit “+” on the next screen then enter the name and URL of your M-Pin Server and you are ready to authenticate to your service using this app.</string>
     <!-- Guide end -->
 
+
+    <!-- Select configs activity -->
+    <string name="import_configs_title">Import configurations</string>
+    <string name="import_configs_confirm_overrides_title">Overrides selected</string>
+    <string name="import_configs_confirm_overrides_text">Are you sure you want to override the configurations with duplicated names?</string>
+    <string name="import_configs_confirm_active_config_override_title">Active configuration override</string>
+    <string name="import_configs_confirm_active_config_override_text">Overwrite the URL for the active service?\nAll existing identities will be deleted.</string>
+    <string name="import_configs_duplicated_config_info">Duplicate</string>
+    <!-- Select configs activity -->
+
     <string name="logout">Logout</string>
 
     <!-- Dialogs -->
@@ -164,12 +183,15 @@
     <string name="try_again">Try again</string>
     <string name="user_not_authorized">You are not authorized! Please contact the service administrator or try again later.</string>
     <string name="button_ok">OK</string>
+    <string name="button_cancel">Cancel</string>
     <string name="invalid_url_address_title">Invalid URL address</string>
     <string name="invalid_backend_title">Invalid URL</string>
     <string name="invalid_backend_content">M-PIN Server URL is not valid</string>
     <string name="correct_url_title">Success</string>
     <string name="correct_url_content">The backend URL is correct!</string>
     <string name="empty_title_content">Service name field is empty</string>
+    <string name="read_qr_error_title">Error reading QR code</string>
+    <string name="read_qr_error_content">Unexpected error occurred, try again!</string>
     <!-- Dialogs end -->
 
 

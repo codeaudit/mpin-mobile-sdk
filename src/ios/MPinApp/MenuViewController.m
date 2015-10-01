@@ -32,16 +32,14 @@
 #import "ThemeManager.h"
 #import "ConfigurationManager.h"
 #import "AFHTTPRequestOperationManager.h"
+#import "HelpViewController.h"
 
-
-#define USER_LIST 0
-#define SETTINGS 1
-#define ABOUT 2
 
 @interface MenuViewController ( ) {
-    AboutViewController *vcAbout;
-    SettingsViewController *vcSettings;
-    UserListViewController *vcUserList;
+    AboutViewController     *vcAbout;
+    SettingsViewController  *vcSettings;
+    UserListViewController  *vcUserList;
+    HelpViewController      *vcHelp;
 }
 
 @end
@@ -53,11 +51,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     vcAbout = [self.storyboard instantiateViewControllerWithIdentifier:@"AboutViewController"];
-    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-    vcAbout = [self.storyboard instantiateViewControllerWithIdentifier:@"AboutViewController"];
-    vcUserList = appDelegate.vcUserList;
-    vcSettings = [self.storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
-    // Keep the next line here
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    vcUserList  = appDelegate.vcUserList;
+    vcAbout     = [self.storyboard instantiateViewControllerWithIdentifier:@"AboutViewController"];
+    vcSettings  = [self.storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
+    vcHelp      = [self.storyboard instantiateViewControllerWithIdentifier:@"HelpViewController"];
     [[ThemeManager sharedManager] beautifyViewController:self];
 }
 
@@ -70,7 +68,6 @@
 -( void ) viewDidAppear:( BOOL )animated
 {
     [super viewDidAppear:animated];
-    
 }
 
 - ( void )didReceiveMemoryWarning
@@ -93,7 +90,7 @@
 
 - ( NSInteger )tableView:( UITableView * )tableView numberOfRowsInSection:( NSInteger )section
 {
-    return 3;
+    return 5;
 }
 
 - ( UITableViewCell * )tableView:( UITableView * )tableView cellForRowAtIndexPath:( NSIndexPath * )indexPath
@@ -119,15 +116,23 @@
         ( (MenuTableViewCell *)cell ).lblMenuID.text = NSLocalizedString(@"MENUVC_OPTION_1",@"");
         break;
 
-    case ABOUT:
+    case QUICK_START:
         ( (MenuTableViewCell *)cell ).lblMenuID.text = NSLocalizedString(@"MENUVC_OPTION_2",@"");
+        break;
+
+    case GET_SERVER:
+        ( (MenuTableViewCell *)cell ).lblMenuID.text = NSLocalizedString(@"MENUVC_OPTION_3",@"");
+        break;
+
+    case ABOUT:
+        ( (MenuTableViewCell *)cell ).lblMenuID.text = NSLocalizedString(@"MENUVC_OPTION_4",@"");
         break;
     }
 }
 
 - ( void )tableView:( UITableView * )tableView didSelectRowAtIndexPath:( NSIndexPath * )indexPath
 {
-    UIViewController *vc = vcUserList;
+    UIViewController *vc;
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
@@ -138,18 +143,37 @@
         break;
 
     case SETTINGS:
-        vc = vcSettings;
+        if ( [[ConfigurationManager sharedManager] isFirstTimeServerSettings] )
+        {
+            vcHelp.helpMode = HELP_SERVER;
+            vc = vcHelp;
+        }
+        else
+        {
+            vc = vcSettings;
+        }
+
+        break;
+
+    case QUICK_START:
+        vcHelp.helpMode = HELP_QUICK_START;
+        vc = vcHelp;
+        break;
+
+    case GET_SERVER:
+        vcHelp.helpMode = HELP_SERVER;
+        vc = vcHelp;
         break;
 
     case ABOUT:
         vc = vcAbout;
         break;
+
+    default:
+        vc = vcUserList;
     }
 
-    UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
-    NSArray *controllers = @ [vc];
-    navigationController.viewControllers = controllers;
-    [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+    [self setCenter:vc];
 }
 
 - ( void )setCenterWithID:( int )vcId
@@ -168,9 +192,25 @@
     case ABOUT:
         vc = vcAbout;
         break;
+
+    case QUICK_START:
+        vcHelp.helpMode = HELP_QUICK_START;
+        vc = vcHelp;
+        break;
+
+    case GET_SERVER:
+        vcHelp.helpMode = HELP_SERVER;
+        vc = vcHelp;
+        break;
     }
 
+    [self setCenter:vc];
+}
+
+- ( void ) setCenter:( UIViewController * )vc
+{
     UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+    [navigationController setNavigationBarHidden:NO animated:NO];
     NSArray *controllers = @ [vc];
     navigationController.viewControllers = controllers;
     [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];

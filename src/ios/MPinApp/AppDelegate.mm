@@ -31,17 +31,26 @@
 #import "NetworkMonitor.h"
 #import "NetworkDownViewController.h"
 #import "AFNetworkReachabilityManager.h"
-#import "ANAuthenticationSuccessful.h";
+#import "ANAuthenticationSuccessful.h"
 #import "Utilities.h"
+#import "HelpViewController.h"
+#import "ConfigurationManager.h"
+#import "IUser.h"
+#import "SMSRegistrationMessage.h"
+#import "APNAuthenticationMessage.h"
+#import "NotificationService.h"
 
 @interface AppDelegate ()
 {
     MFSideMenuContainerViewController *container;
     NetworkDownViewController *vcNetworkDown;
+    HelpViewController *vcHelp;
     BOOL boolRestartFlow;
-    
 }
-- ( void )showPinPad:(id<IUser>) user;
+
+@property (nonatomic, retain) SMSRegistrationMessage * smsRegMessage;
+@property (nonatomic, retain) APNAuthenticationMessage * apnAuthMessage;
+@property (nonatomic, retain) NotificationService * notificationService;
 
 @end
 
@@ -55,10 +64,17 @@
     UIUserNotificationType types = UIUserNotificationTypeBadge |
     UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
     
-    UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-    
-    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
-    [application registerForRemoteNotifications];
+    // By request of TDL
+    // If there is environment variable called PUSH_NOTIFICATIONS and the value of this variable is STOP, this will prevent registration for 
+    NSString *strRegisterNotifications = [[[NSProcessInfo processInfo] environment] objectForKey:@"PUSH_NOTIFICATIONS"];
+    if (![strRegisterNotifications isEqualToString:@"STOP"])
+    {
+        UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+        
+        [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+        [application registerForRemoteNotifications];
+        
+    }
 
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 
@@ -73,6 +89,7 @@
     _vcUserList = [storyboard instantiateViewControllerWithIdentifier:@"UserListViewController"];
     
     vcNetworkDown = [storyboard instantiateViewControllerWithIdentifier:@"NetworkDownViewController"];
+    vcHelp = [storyboard instantiateViewControllerWithIdentifier:@"HelpViewController"];
     
 	UIViewController *leftSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"MenuViewController"];
 
@@ -82,20 +99,33 @@
 
 	self.window.rootViewController = container;
     
+    [ApplicationManager sharedManager];
+    [NetworkMonitor sharedManager];
+    
     if (![NetworkMonitor isNetworkAvailable])
     {
         [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:vcNetworkDown]];
         container.panMode = MFSideMenuPanModeNone;
     }
+    else if ([[ConfigurationManager sharedManager] isFirstTimeLaunch])
+    {
+        [self firstTimeLaunch];
+    }
     
     [ApplicationManager sharedManager];
     [NetworkMonitor sharedManager];
+    
+    self.notificationService = [[NotificationService alloc] init];
+    self.notificationService.delegate = _vcUserList;
+
 	return YES;
 }
 
 - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken
 {
     self.devToken = devToken;
+    self.pimToken = [[devToken description] stringByTrimmingCharactersInSet: [NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    self.pimToken  = [ self.pimToken  stringByReplacingOccurrencesOfString:@" " withString:@""];
     NSLog(@"%@", devToken.description);
 }
 
@@ -105,8 +135,27 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))handler
 {
-    NSLog(@"%@", userInfo[@"aps"][@"token"]);
+    self.apnAuthMessage  = [[APNAuthenticationMessage alloc] initWith:userInfo];
+    if (application.applicationState == UIApplicationStateActive) {
+       [self.notificationService postNotification:self.apnAuthMessage];
+        self.apnAuthMessage = nil;
+    }
+    
+    handler(UIBackgroundFetchResultNewData);
 }
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    self.smsRegMessage = [[SMSRegistrationMessage alloc] initWith:url];
+    
+    if (application.applicationState == UIApplicationStateActive) {
+        [self.notificationService postNotification:self.smsRegMessage];
+        self.smsRegMessage = nil;
+    }
+    
+    return YES;
+}
+
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     boolRestartFlow = NO;
@@ -120,42 +169,6 @@
         boolRestartFlow = YES;
     }
 
-}
-
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-    NSDictionary * urlParams = [Utilities urlQueryParamsToDictianary:[url query]];
-    MPin *sdk  = [[MPin alloc] init];
-    sdk.delegate = self;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad: ) name:kShowPinPadNotification object:nil];
-    [sdk RegisterUserBySMS:[urlParams objectForKey:@"mpinId"] activationKey:[urlParams objectForKey:@"activateKey"]];
-    return YES;
-}
-
-- ( void ) OnActivateUserRegisteredBySMSCompleted:( id ) sender {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
-}
-- ( void ) OnActivateUserRegisteredBySMSError:( id ) sender error:( NSError * ) error {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
-    
-    MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
-    MFSideMenuContainerViewController *container = (MFSideMenuContainerViewController *)self.window.rootViewController;
-    [[ErrorHandler sharedManager] presentMessageInViewController:((UINavigationController *)container.centerViewController).topViewController
-                                                     errorString:mpinStatus.errorMessage
-                                            addActivityIndicator:YES
-                                                     minShowTime:0];
-}
-
-- ( void )showPinPad:(NSNotification *)notification  {
-    UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-    PinPadViewController *pinpadViewController = [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];
-    pinpadViewController.boolShouldShowBackButton = YES;
-    pinpadViewController.boolIsSMS = YES;
-    pinpadViewController.title = kEnterPin;
-    pinpadViewController.currentUser = [notification.userInfo objectForKey:kUser];
-    pinpadViewController.boolSetupPin = YES;
-    MFSideMenuContainerViewController *container = (MFSideMenuContainerViewController *)self.window.rootViewController;
-    [((UINavigationController *)container.centerViewController).topViewController.navigationController pushViewController:pinpadViewController animated:YES];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -177,8 +190,6 @@
     }];
 }
 
-
-
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     if (![NetworkMonitor isNetworkAvailable])
@@ -198,8 +209,29 @@
     } completion:^(BOOL finished) {
         [colourView removeFromSuperview];
     }];
+    
+    
+    if (self.smsRegMessage != nil) {
+        [self.notificationService postNotification:self.smsRegMessage];
+        self.smsRegMessage = nil;
+    }
+    
+    if (self.apnAuthMessage != nil) {
+        [self.notificationService postNotification:self.apnAuthMessage];
+        self.apnAuthMessage = nil;
+    }
+
 }
 
+
+-( void) firstTimeLaunch
+{
+    NSLog(@"Appdelegate : First time");
+    
+    [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:vcHelp]];
+    vcHelp.helpMode = HELP_QUICK_START;
+    container.panMode = MFSideMenuPanModeNone;
+}
 
 -( void) connectionDown
 {
@@ -211,8 +243,16 @@
 -( void) connectionUp
 {
     NSLog(@"Appdelegate : Connection Up");
-    [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
-    container.panMode = MFSideMenuPanModeDefault;
+    if ([[ConfigurationManager sharedManager] isFirstTimeLaunch])
+    {
+        [self firstTimeLaunch];
+    }
+    else
+    {
+        [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
+        [_vcUserList setBackend];
+        container.panMode = MFSideMenuPanModeDefault;
+    }
+    
 }
-
 @end

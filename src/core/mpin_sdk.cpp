@@ -858,7 +858,7 @@ Status MPinSDK::RequestRegistration(UserPtr user, const String& userData)
     return Status(Status::OK);
 }
 
-Status MPinSDK::RegisterUserBySMS(UserPtr user, const String& mpinId, const String &  activationKey)
+Status MPinSDK::VerifyUser(UserPtr user, const String& mpinId, const String &  activationKey)
 {
     Status s = CheckIfBackendIsSet();
     if(s != Status::OK)
@@ -893,11 +893,8 @@ Status MPinSDK::RegisterUserBySMS(UserPtr user, const String& mpinId, const Stri
     user->SetStartedRegistration(mpinId, regOTT);
     AddUser(user);
     s = WriteUsersToStorage();
-    if(s != Status::OK) {
-        return s;
-    }
     
-    return FinishRegistration(user);
+    return s;
 }
 
 Status MPinSDK::FinishRegistration(UserPtr user, const String & pushMessageIdentifier)

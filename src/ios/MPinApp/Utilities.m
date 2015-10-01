@@ -47,6 +47,7 @@
 }
 
 +(NSDictionary *) urlQueryParamsToDictianary:(NSString *) urlQuery {
+    if (urlQuery == nil) return nil;
     
     NSMutableDictionary *queryStringDictionary = [[NSMutableDictionary alloc] init];
     NSArray *urlComponents = [urlQuery componentsSeparatedByString:@"&"];
@@ -61,6 +62,25 @@
     }
     
     return queryStringDictionary;
+}
+
++ (NSString *)stringFromHexString:(NSString *)hexString {
+    
+    // The hex codes should all be two characters.
+    if (([hexString length] % 2) != 0)
+        return nil;
+    
+    NSMutableString *string = [NSMutableString string];
+    
+    for (NSInteger i = 0; i < [hexString length]; i += 2) {
+        
+        NSString *hex = [hexString substringWithRange:NSMakeRange(i, 2)];
+        unsigned int decimalValue = 0;
+        sscanf([hex UTF8String], "%x", &decimalValue);
+        [string appendFormat:@"%c", decimalValue];
+    }
+    
+    return string;
 }
 
 @end

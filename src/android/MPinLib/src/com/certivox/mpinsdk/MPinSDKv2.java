@@ -47,8 +47,8 @@ public class MPinSDKv2 implements Closeable {
 
     public static final String CONFIG_BACKEND = "backend";
 
-	public MPinSDKv2(Context context, Map<String, String> config) {
-        mPtr = nConstruct(context, config);
+	public MPinSDKv2() {
+        mPtr = nConstruct();
     }
 
     @Override
@@ -65,6 +65,10 @@ public class MPinSDKv2 implements Closeable {
         super.finalize();
     }
 
+    public Status Init(Map<String, String> config, Context context) {
+    	return nInit(mPtr, config, context);
+    }
+    
     public Status TestBackend(String server) {
         return nTestBackend(mPtr, server);
     }
@@ -105,8 +109,16 @@ public class MPinSDKv2 implements Closeable {
         return nRestartRegistration(mPtr, user, userData);
     }
 
+    public Status VerifyUser(User user, String mpinId, String activationKey) {
+    	return nVerifyUser(mPtr, user, mpinId, activationKey);
+    }
+    
     public Status ConfirmRegistration(User user) {
-    	return nConfirmRegistration(mPtr, user);
+    	return nConfirmRegistration(mPtr, user, "");
+    }
+
+    public Status ConfirmRegistration(User user, String pushMessageIdentifier) {
+    	return nConfirmRegistration(mPtr, user, pushMessageIdentifier);
     }
 
     public Status FinishRegistration(User user, String pin) {
@@ -163,8 +175,9 @@ public class MPinSDKv2 implements Closeable {
 
     private long mPtr;
 
-    private native long nConstruct(Context context, Map<String, String> config);
+    private native long nConstruct();
     private native void nDestruct(long ptr);
+    private native Status nInit(long ptr, Map<String, String> config, Context context);
     private native Status nTestBackend(long ptr, String server);
     private native Status nTestBackendRPS(long ptr, String server, String rpsPrefix);
     private native Status nSetBackend(long ptr, String server);
@@ -172,7 +185,8 @@ public class MPinSDKv2 implements Closeable {
     private native User nMakeNewUser(long ptr, String id, String deviceName);
     private native Status nStartRegistration(long ptr, User user, String userData);
     private native Status nRestartRegistration(long ptr, User user, String userData);
-    private native Status nConfirmRegistration(long ptr, User user);
+    private native Status nVerifyUser(long ptr, User user, String mpinId, String activationKey);
+    private native Status nConfirmRegistration(long ptr, User user, String pushMessageIdentifier);
     private native Status nFinishRegistration(long ptr, User user, String pin);
     private native Status nStartAuthentication(long ptr, User user);
     private native Status nCheckAccessNumber(long ptr, String accessNumber);

@@ -25,6 +25,7 @@
 #import "AccessNumberViewController.h"
 #import "MPin+AsyncOperations.h"
 #import "SuperViewController.h"
+#import "NotificationService.h"
 
 @interface UserListTableViewCell : UITableViewCell
 
@@ -35,13 +36,13 @@
 
 @end
 
-@interface UserListViewController : SuperViewController <UITableViewDataSource, UITableViewDelegate, AccessNumberDelegate, MPinSDKDelegate>
+@interface UserListViewController : SuperViewController <UITableViewDataSource, UITableViewDelegate, AccessNumberDelegate, MPinSDKDelegate, NotificationDelegate>
 
 
 - ( void ) invalidate;
 - ( IBAction )showLeftMenuPressed:( id )sender;
 - ( IBAction )btnAuthTap:( id )sender;
-
+- (void) setBackend;
 @property( nonatomic, weak ) IBOutlet UIView             *viewButtonsContainer;
 @property( nonatomic, weak ) IBOutlet UITableView        *table;
 @property( nonatomic, weak ) IBOutlet UIButton           *btnReset;

@@ -32,7 +32,12 @@
 package com.certivox.models;
 
 
-public final class Config {
+import java.io.Serializable;
+
+
+public final class Config implements Serializable {
+
+    private static final long serialVersionUID = 2099011559794500062L;
 
     private long    mId;
     private String  mTitle;
@@ -45,6 +50,8 @@ public final class Config {
 
     public Config() {
         mId = -1;
+        mRequestOtp = false;
+        mRequestAccessNumber = false;
     }
 
 

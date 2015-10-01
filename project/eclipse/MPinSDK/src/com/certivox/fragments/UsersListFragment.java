@@ -34,6 +34,12 @@ package com.certivox.fragments;
 
 import java.util.List;
 
+import com.certivox.adapters.UsersAdapter;
+import com.certivox.constants.FragmentTags;
+import com.certivox.controllers.MPinController;
+import com.certivox.models.User;
+import com.certivox.mpinsdk.R;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -49,12 +55,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-
-import com.certivox.adapters.UsersAdapter;
-import com.certivox.constants.FragmentTags;
-import com.certivox.controllers.MPinController;
-import com.certivox.models.User;
-import com.certivox.mpinsdk.R;
 
 
 public class UsersListFragment extends MPinFragment implements OnClickListener, AdapterView.OnItemClickListener {
