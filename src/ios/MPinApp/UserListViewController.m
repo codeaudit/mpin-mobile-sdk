@@ -93,7 +93,7 @@ static NSString *const kAN = @"AN";
 - ( void )hideBottomBar:( BOOL )animated;
 - ( void )startAuthenticationFlow;
 
-- ( void )showPinPad;
+- ( void )showPinPad:( NSNotification * )notification;
 
 - ( IBAction )btnAddIDTap:( id )sender;
 - ( IBAction )btnEditTap:( id )sender;
@@ -211,8 +211,7 @@ static NSString *const kAN = @"AN";
         }
 
         [self showBottomBar:NO];
-        /// TODO :: UNCOMENT THIS LATER
-        /// [self startAuthenticationFlow];
+        [self startAuthenticationFlow];
     }
     else
     {
@@ -518,24 +517,11 @@ static NSString *const kAN = @"AN";
 - ( IBAction )btnAddIDTap:( id )sender
 {
     
-    /// TODO :: FIX THIS
-    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    
-    NSString * json = @"{\"aps\": {\"alert\": \"M-Pin\"}, \"hash_user_id\": \"55b3fa483f5ea594d880ea075d0b9bd6278c2c5ca25187e78fb2a389ab02d2d8\", \"mobileToken\": \"8043957\"}";
-    NSDictionary * alert = [[NSDictionary alloc] initWithObjectsAndKeys:json, @"alert", nil];
-    NSDictionary * aps = [[NSDictionary alloc] initWithObjectsAndKeys:alert, @"aps", nil];
-                            
-                            
-    [appDelegate application:nil didReceiveRemoteNotification:aps fetchCompletionHandler:nil];
-    
-    /*
-    
     if ( [[ConfigurationManager sharedManager] isEmpty] )
         return;
 
     UIViewController *addViewController = [storyboard instantiateViewControllerWithIdentifier:@"Add"];
     [self.navigationController pushViewController:addViewController animated:YES];
-     */
 }
 
 - ( IBAction )btnEditTap:( id )sender
@@ -797,8 +783,6 @@ static NSString *const kAN = @"AN";
         break;
 
     case STARTED_REGISTRATION:
-        /// TODO :: FIX THIS
-        pinpadViewController.boolIsSMS = YES;
         pinpadViewController.boolSetupPin = YES;
         break;
 
