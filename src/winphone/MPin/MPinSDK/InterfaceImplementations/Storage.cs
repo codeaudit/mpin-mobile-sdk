@@ -34,7 +34,7 @@ namespace MPinSDK
     class Storage : IStorage
     {        
         #region Fields
-        StorageFolder roamingFolder = null;
+        StorageFolder localFolder = null;
         public const string MPIN_STORAGE = "tokens.json"; 
         public const string USER_STORAGE = "users.json";  
 
@@ -51,7 +51,7 @@ namespace MPinSDK
         #region C'tor
         public Storage(StorageType type) : base()
         {
-            roamingFolder = ApplicationData.Current.RoamingFolder;
+            localFolder = ApplicationData.Current.LocalFolder;
             
             path = type == StorageType.SECURE ? MPIN_STORAGE : USER_STORAGE;
             this.Data = string.Empty;
@@ -106,11 +106,11 @@ namespace MPinSDK
             StorageFile file;
             if (await IsFilePresent(path))
             {
-                file = await roamingFolder.GetFileAsync(path);
+                file = await localFolder.GetFileAsync(path);
             }
             else
             {
-                file = await roamingFolder.CreateFileAsync(path, CreationCollisionOption.ReplaceExisting);
+                file = await localFolder.CreateFileAsync(path, CreationCollisionOption.ReplaceExisting);
             }
 
             return file;
@@ -118,7 +118,7 @@ namespace MPinSDK
 
         private async Task<bool> IsFilePresent(string fileName)
         {
-            var allfiles = await roamingFolder.GetFilesAsync();
+            var allfiles = await localFolder.GetFilesAsync();
             foreach (var storageFile in allfiles)
             {
                 if (storageFile.Name == fileName)

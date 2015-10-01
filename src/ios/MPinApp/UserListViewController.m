@@ -24,6 +24,9 @@
 
 
 
+#import "AppDelegate.h"
+
+
 #import "IUser.h"
 #import "Constants.h"
 #import "MFSideMenu.h"
@@ -46,6 +49,9 @@
 #import "ConfigurationManager.h"
 #import "SettingsManager.h"
 #import "NetworkMonitor.h"
+
+#import "SMSRegistrationMessage.h"
+#import "APNAuthenticationMessage.h"
 
 @import LocalAuthentication;
 
@@ -87,7 +93,7 @@ static NSString *const kAN = @"AN";
 - ( void )hideBottomBar:( BOOL )animated;
 - ( void )startAuthenticationFlow;
 
-- ( void )showPinPad;
+- ( void )showPinPad:( NSNotification * )notification;
 
 - ( IBAction )btnAddIDTap:( id )sender;
 - ( IBAction )btnEditTap:( id )sender;
@@ -510,6 +516,7 @@ static NSString *const kAN = @"AN";
 
 - ( IBAction )btnAddIDTap:( id )sender
 {
+    
     if ( [[ConfigurationManager sharedManager] isEmpty] )
         return;
 
@@ -766,7 +773,7 @@ static NSString *const kAN = @"AN";
     PinPadViewController *pinpadViewController = [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];
     pinpadViewController.sdk = sdk;
     pinpadViewController.sdk.delegate = pinpadViewController;
-    pinpadViewController.currentUser = currentUser;
+    pinpadViewController.currentUser = [notification.userInfo objectForKey:kUser];
     pinpadViewController.boolShouldShowBackButton = YES;
     pinpadViewController.title = kEnterPin;
     switch ( [currentUser getState] )
@@ -784,6 +791,52 @@ static NSString *const kAN = @"AN";
     }
     NSLog(@"Calling PinPad from UserList");
     [self.navigationController pushViewController:pinpadViewController animated:YES];
+}
+
+- ( void ) OnReceiveNotification:( id ) sender message:(NotificationMessage *) message {
+    if ([message isMemberOfClass:[SMSRegistrationMessage class]]) {
+        
+        id<IUser> user = [MPin MakeNewUser:message.userID];
+        [sdk VerifyUser:user mpinId:((SMSRegistrationMessage *)message).mpinId activationKey:((SMSRegistrationMessage *)message).activateKey];
+        return;
+    }
+    
+    if ([message isMemberOfClass:[APNAuthenticationMessage class]]) {
+        id<IUser> user = [MPin getIUserById:message.userID];
+        
+        /* if ([user getState] != ACTIVATED) {
+         MFSideMenuContainerViewController *c = (MFSideMenuContainerViewController *)self.window.rootViewController;
+         [[ErrorHandler sharedManager] presentMessageInViewController:((UINavigationController *)c.centerViewController).topViewController
+         errorString:[NSString stringWithFormat:@"The user with ID  = %@ is not in ACTIVATED STATE!", userID]
+         addActivityIndicator:YES
+         minShowTime:0];
+         
+         return;
+         }*/
+        
+        [sdk AuthenticateAN:user accessNumber:((APNAuthenticationMessage *)message).accessNumber askForFingerprint:NO];
+        return;
+    }
+}
+
+- ( void ) OnNotificationError:( id ) sender error:( NSError * ) error {
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                     errorString:error.localizedDescription
+                                            addActivityIndicator:YES
+                                                     minShowTime:0];
+}
+
+- ( void ) OnVerifyUserompleted:( id ) sender user:( const id<IUser>) user {
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [sdk FinishRegistration:user pushNotificationIdentifier:appDelegate.pimToken];
+}
+
+- ( void ) OnVerifyUserError:( id ) sender error:( NSError * ) error {
+    MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                     errorString:mpinStatus.errorMessage
+                                            addActivityIndicator:YES
+                                                     minShowTime:0];
 }
 
 @end

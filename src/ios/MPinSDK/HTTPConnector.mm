@@ -105,6 +105,8 @@ namespace net {
             }
         }
         
+        [request addValue:@"ios" forHTTPHeaderField:@"X-MIRACL-OS-Class"];
+        
         if(!m_bodyData.empty()) {
             request.HTTPBody =  [[NSString stringWithUTF8String:m_bodyData.c_str()] dataUsingEncoding:NSUTF8StringEncoding];
         }

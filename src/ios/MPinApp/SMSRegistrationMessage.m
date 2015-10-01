@@ -1,3 +1,4 @@
+//
 /*
  Copyright (c) 2012-2015, Certivox
  All rights reserved.
@@ -23,64 +24,58 @@
  */
 
 
+
+#import "SMSRegistrationMessage.h"
 #import "Utilities.h"
 
+@implementation SMSRegistrationMessage
 
+static NSString *kmpinid = @"mpinId";
+static NSString *kActivateKey = @"activateKey";
+static NSString *kUserId = @"userID";
 
-@implementation Utilities
-
-+( enum SERVICES ) ServerJSONConfigTypeToService_type:( NSString * ) jsonTypeName
-{
-    if ( [kJSON_TYPE_MOBILE isEqualToString:jsonTypeName] )
-    {
-        return LOGIN_ON_MOBILE;
-    }
-    else
-    if ( [kJSON_TYPE_ONLINE isEqualToString:jsonTypeName] )
-    {
-        return LOGIN_ONLINE;
-    }
-    else
-    {
-        return LOGIN_WITH_OTP;
-    }
-}
-
-+(NSDictionary *) urlQueryParamsToDictianary:(NSString *) urlQuery {
-    if (urlQuery == nil) return nil;
+- ( id ) initWith:( NSURL * ) url {
     
-    NSMutableDictionary *queryStringDictionary = [[NSMutableDictionary alloc] init];
-    NSArray *urlComponents = [urlQuery componentsSeparatedByString:@"&"];
-    
-    for (NSString *keyValuePair in urlComponents)
+    if ( self = [super init] )
     {
-        NSArray *pairComponents = [keyValuePair componentsSeparatedByString:@"="];
-        NSString *key = [[pairComponents firstObject] stringByRemovingPercentEncoding];
-        NSString *value = [[pairComponents lastObject] stringByRemovingPercentEncoding];
+        if (url == nil) {
+            self.error = [NSError errorWithDomain:@"SMSRegMessage: Invalid URL provided!" code:-1 userInfo:nil];
+            return self;
+        }
         
-        [queryStringDictionary setObject:value forKey:key];
+        NSDictionary * urlParams = [Utilities urlQueryParamsToDictianary:[url query]];
+        if (urlParams == nil) {
+            self.error = [NSError errorWithDomain:[NSString stringWithFormat:@"SMSRegMessage: bad url query parameters: %@", [url query] ] code:-1 userInfo:nil];
+            return self;
+        }
+        
+        NSString * hexMpinId = [urlParams objectForKey:kmpinid];
+        NSString * activateKey = [urlParams objectForKey:kActivateKey];
+        NSString * hash_user_id = [urlParams objectForKey:kHashUserId];
+        
+        if ((hexMpinId == nil) || (activateKey ==  nil) || ( hash_user_id == nil )) {
+            self.error = [NSError errorWithDomain:[NSString stringWithFormat:@"SMSRegMessage: Missing one or more of the parameters! -  %@", [url query] ] code:-1 userInfo:nil];
+            return self;
+        }
+        
+        NSString * jsonMpinId = [Utilities stringFromHexString:hexMpinId];
+        NSError *error = nil;
+        NSDictionary *dictMpinId = [NSJSONSerialization JSONObjectWithData:[jsonMpinId dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
+        if(error != nil) {
+            self.error = error;
+            return self;
+        }
+        
+        NSString * userID = dictMpinId[kUserId];
+        if( ![self setUserID:userID forHashValue:hash_user_id]) return self;
+        
+        self.mpinId = hexMpinId;
+        self.activateKey = activateKey;
     }
     
-    return queryStringDictionary;
+    return self;
 }
 
-+ (NSString *)stringFromHexString:(NSString *)hexString {
-    
-    // The hex codes should all be two characters.
-    if (([hexString length] % 2) != 0)
-        return nil;
-    
-    NSMutableString *string = [NSMutableString string];
-    
-    for (NSInteger i = 0; i < [hexString length]; i += 2) {
-        
-        NSString *hex = [hexString substringWithRange:NSMakeRange(i, 2)];
-        unsigned int decimalValue = 0;
-        sscanf([hex UTF8String], "%x", &decimalValue);
-        [string appendFormat:@"%c", decimalValue];
-    }
-    
-    return string;
-}
+
 
 @end

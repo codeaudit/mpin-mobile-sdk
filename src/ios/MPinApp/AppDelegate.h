@@ -26,9 +26,12 @@
 #import "UserListViewController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, MPinSDKDelegate>
-@property ( strong, nonatomic ) UIWindow *window;
-@property ( strong, nonatomic ) UserListViewController *vcUserList;
-@property ( strong, nonatomic ) NSData *devToken;
+
+@property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) UserListViewController *vcUserList;
+@property (strong, nonatomic) NSData *devToken;
+@property ( nonatomic, retain ) NSString* pimToken;
+
 
 -( void ) connectionDown;
 -( void ) connectionUp;
