@@ -1,3 +1,4 @@
+//
 /*
  Copyright (c) 2012-2015, Certivox
  All rights reserved.
@@ -23,64 +24,19 @@
  */
 
 
-#import "Utilities.h"
+
+#import <Foundation/Foundation.h>
+
+static NSString *kHashUserId = @"hash_user_id";
+
+@interface NotificationMessage : NSObject
+
+@property (nonatomic, retain ) NSString * userID;
+@property ( nonatomic, retain ) NSError * error;
 
 
+- ( BOOL ) setUserID:(NSString *) userID forHashValue:(NSString *) hash_user_id;
 
-@implementation Utilities
-
-+( enum SERVICES ) ServerJSONConfigTypeToService_type:( NSString * ) jsonTypeName
-{
-    if ( [kJSON_TYPE_MOBILE isEqualToString:jsonTypeName] )
-    {
-        return LOGIN_ON_MOBILE;
-    }
-    else
-    if ( [kJSON_TYPE_ONLINE isEqualToString:jsonTypeName] )
-    {
-        return LOGIN_ONLINE;
-    }
-    else
-    {
-        return LOGIN_WITH_OTP;
-    }
-}
-
-+(NSDictionary *) urlQueryParamsToDictianary:(NSString *) urlQuery {
-    if (urlQuery == nil) return nil;
-    
-    NSMutableDictionary *queryStringDictionary = [[NSMutableDictionary alloc] init];
-    NSArray *urlComponents = [urlQuery componentsSeparatedByString:@"&"];
-    
-    for (NSString *keyValuePair in urlComponents)
-    {
-        NSArray *pairComponents = [keyValuePair componentsSeparatedByString:@"="];
-        NSString *key = [[pairComponents firstObject] stringByRemovingPercentEncoding];
-        NSString *value = [[pairComponents lastObject] stringByRemovingPercentEncoding];
-        
-        [queryStringDictionary setObject:value forKey:key];
-    }
-    
-    return queryStringDictionary;
-}
-
-+ (NSString *)stringFromHexString:(NSString *)hexString {
-    
-    // The hex codes should all be two characters.
-    if (([hexString length] % 2) != 0)
-        return nil;
-    
-    NSMutableString *string = [NSMutableString string];
-    
-    for (NSInteger i = 0; i < [hexString length]; i += 2) {
-        
-        NSString *hex = [hexString substringWithRange:NSMakeRange(i, 2)];
-        unsigned int decimalValue = 0;
-        sscanf([hex UTF8String], "%x", &decimalValue);
-        [string appendFormat:@"%c", decimalValue];
-    }
-    
-    return string;
-}
+- ( NSString * ) getUserID:(NSString *) hash_user_id;
 
 @end

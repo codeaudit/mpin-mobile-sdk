@@ -1,3 +1,4 @@
+//
 /*
  Copyright (c) 2012-2015, Certivox
  All rights reserved.
@@ -22,65 +23,27 @@
  http://www.certivox.com/about-certivox/patents/
  */
 
+#import "NotificationMessage.h"
 
-#import "Utilities.h"
+@implementation NotificationMessage
 
-
-
-@implementation Utilities
-
-+( enum SERVICES ) ServerJSONConfigTypeToService_type:( NSString * ) jsonTypeName
-{
-    if ( [kJSON_TYPE_MOBILE isEqualToString:jsonTypeName] )
-    {
-        return LOGIN_ON_MOBILE;
+- ( BOOL ) setUserID:(NSString *) userID forHashValue:(NSString *) hash_user_id {
+    if ( hash_user_id ==  nil || userID == nil ) {
+        self.error = [NSError errorWithDomain:@"hash_user_id or userID are nil" code:-1 userInfo:nil];
+        return NO;
     }
-    else
-    if ( [kJSON_TYPE_ONLINE isEqualToString:jsonTypeName] )
-    {
-        return LOGIN_ONLINE;
-    }
-    else
-    {
-        return LOGIN_WITH_OTP;
-    }
+    [[NSUserDefaults standardUserDefaults] setObject:userID forKey:hash_user_id];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    return YES;
 }
 
-+(NSDictionary *) urlQueryParamsToDictianary:(NSString *) urlQuery {
-    if (urlQuery == nil) return nil;
-    
-    NSMutableDictionary *queryStringDictionary = [[NSMutableDictionary alloc] init];
-    NSArray *urlComponents = [urlQuery componentsSeparatedByString:@"&"];
-    
-    for (NSString *keyValuePair in urlComponents)
-    {
-        NSArray *pairComponents = [keyValuePair componentsSeparatedByString:@"="];
-        NSString *key = [[pairComponents firstObject] stringByRemovingPercentEncoding];
-        NSString *value = [[pairComponents lastObject] stringByRemovingPercentEncoding];
-        
-        [queryStringDictionary setObject:value forKey:key];
-    }
-    
-    return queryStringDictionary;
+
+
+- ( NSString * ) getUserID:(NSString *) hash_user_id {
+    if (hash_user_id == nil) return nil;
+    return  [[NSUserDefaults standardUserDefaults] objectForKey:hash_user_id];;
 }
 
-+ (NSString *)stringFromHexString:(NSString *)hexString {
-    
-    // The hex codes should all be two characters.
-    if (([hexString length] % 2) != 0)
-        return nil;
-    
-    NSMutableString *string = [NSMutableString string];
-    
-    for (NSInteger i = 0; i < [hexString length]; i += 2) {
-        
-        NSString *hex = [hexString substringWithRange:NSMakeRange(i, 2)];
-        unsigned int decimalValue = 0;
-        sscanf([hex UTF8String], "%x", &decimalValue);
-        [string appendFormat:@"%c", decimalValue];
-    }
-    
-    return string;
-}
+
 
 @end

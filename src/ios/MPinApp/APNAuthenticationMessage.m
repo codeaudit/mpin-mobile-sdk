@@ -1,3 +1,4 @@
+//
 /*
  Copyright (c) 2012-2015, Certivox
  All rights reserved.
@@ -22,65 +23,55 @@
  http://www.certivox.com/about-certivox/patents/
  */
 
+#import "APNAuthenticationMessage.h"
 
-#import "Utilities.h"
+static NSString *kAPS = @"aps";
+static NSString *kAlert = @"alert";
+static NSString *kAccessNumber = @"mobileToken";
 
+@implementation APNAuthenticationMessage
 
-
-@implementation Utilities
-
-+( enum SERVICES ) ServerJSONConfigTypeToService_type:( NSString * ) jsonTypeName
-{
-    if ( [kJSON_TYPE_MOBILE isEqualToString:jsonTypeName] )
+- ( id ) initWith:( NSDictionary * ) userInfo {
+    if ( self = [super init] )
     {
-        return LOGIN_ON_MOBILE;
-    }
-    else
-    if ( [kJSON_TYPE_ONLINE isEqualToString:jsonTypeName] )
-    {
-        return LOGIN_ONLINE;
-    }
-    else
-    {
-        return LOGIN_WITH_OTP;
-    }
-}
-
-+(NSDictionary *) urlQueryParamsToDictianary:(NSString *) urlQuery {
-    if (urlQuery == nil) return nil;
-    
-    NSMutableDictionary *queryStringDictionary = [[NSMutableDictionary alloc] init];
-    NSArray *urlComponents = [urlQuery componentsSeparatedByString:@"&"];
-    
-    for (NSString *keyValuePair in urlComponents)
-    {
-        NSArray *pairComponents = [keyValuePair componentsSeparatedByString:@"="];
-        NSString *key = [[pairComponents firstObject] stringByRemovingPercentEncoding];
-        NSString *value = [[pairComponents lastObject] stringByRemovingPercentEncoding];
+        if( userInfo == nil )     {
+            self.error = [NSError errorWithDomain:@"APNAuthMessage user info is nil" code:-1 userInfo:nil];
+            return self;
+        }
+        if( userInfo[kAPS] == nil ) {
+            self.error = [NSError errorWithDomain:@"UserInfo missing aps: field" code:-1 userInfo:nil];
+            return self;
+        }
+        if( userInfo[kAPS][kAlert] == nil ) {
+            self.error = [NSError errorWithDomain:@"UserInfo missing alert: field" code:-1 userInfo:nil];
+            return self;
+        }
         
-        [queryStringDictionary setObject:value forKey:key];
-    }
-    
-    return queryStringDictionary;
-}
-
-+ (NSString *)stringFromHexString:(NSString *)hexString {
-    
-    // The hex codes should all be two characters.
-    if (([hexString length] % 2) != 0)
-        return nil;
-    
-    NSMutableString *string = [NSMutableString string];
-    
-    for (NSInteger i = 0; i < [hexString length]; i += 2) {
+        NSString * JsonNotificationData = userInfo[kAPS][kAlert];
+        NSError *error = nil;
+        NSDictionary *notificationDictionary = [NSJSONSerialization JSONObjectWithData:[JsonNotificationData dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
+        if(error != nil) {
+            self.error = error;
+            return self;
+        }
         
-        NSString *hex = [hexString substringWithRange:NSMakeRange(i, 2)];
-        unsigned int decimalValue = 0;
-        sscanf([hex UTF8String], "%x", &decimalValue);
-        [string appendFormat:@"%c", decimalValue];
+        NSString * hash_user_id =  notificationDictionary[kHashUserId];
+        self.accessNumber = notificationDictionary[kAccessNumber];
+        
+        if (hash_user_id == nil || self.accessNumber == nil) {
+            self.error = [NSError errorWithDomain:@"Invalid AccessNumber or hash_user_id" code:-1 userInfo:nil];
+            return self;
+        }
+        
+        self.userID = [self getUserID:hash_user_id];
+        
+        if (self.userID == nil) {
+            self.error = [NSError errorWithDomain:@"UserID is nil. It has not been stored proporly in the persistent storage!" code:-1 userInfo:nil];
+            return self;
+        }
+
     }
-    
-    return string;
+    return self;
 }
 
 @end
