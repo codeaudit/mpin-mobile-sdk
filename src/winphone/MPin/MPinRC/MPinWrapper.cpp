@@ -143,12 +143,12 @@ MPinRC::StatusWrapper^ MPinWrapper::RestartRegistration(MPinRC::UserWrapper^ use
 	return ref new MPinRC::StatusWrapper(st.GetStatusCode(), st.GetErrorMessage());
 }
 
-MPinRC::StatusWrapper^ MPinWrapper::RegisterUserBySMS(MPinRC::UserWrapper^ user, Platform::String^ mpinId, Platform::String^ activationKey)
+MPinRC::StatusWrapper^ MPinWrapper::VerifyUser(MPinRC::UserWrapper^ user, Platform::String^ mpinId, Platform::String^ activationKey)
 {
 	MPinSDK::String nativeMpinId = ToNativeString(mpinId);
 	MPinSDK::String nativeActivationKey = ToNativeString(activationKey);
 
-	MPinSDK::Status st = sdk->RegisterUserBySMS(user->user, nativeMpinId, nativeActivationKey);
+	MPinSDK::Status st = sdk->VerifyUser(user->user, nativeMpinId, nativeActivationKey);
 	return ref new MPinRC::StatusWrapper(st.GetStatusCode(), st.GetErrorMessage());
 }
 

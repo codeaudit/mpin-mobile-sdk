@@ -167,7 +167,7 @@ namespace MPinSDK
         /// <param name="mpinId">The mpin identifier.</param>
         /// <param name="activationKey">The activation key.</param>
         /// <returns></returns>
-        public Status RegisterUserBySMS(string mpinId, string activationKey)
+        public Status VerifyUser(string mpinId, string activationKey)
         {
             if (string.IsNullOrEmpty(mpinId) || string.IsNullOrEmpty(activationKey))
                 return new Status(-1, ResourceLoader.GetForCurrentView().GetString("NullUser"));
@@ -180,7 +180,7 @@ namespace MPinSDK
             User user = MakeNewUser(userId);
             lock(lockObject)
             {
-                sw = mPtr.RegisterUserBySMS(user.Wrapper, mpinId, activationKey);
+                sw = mPtr.VerifyUser(user.Wrapper, mpinId, activationKey);
             }
 
             return new Status(sw.Code, sw.Error);
