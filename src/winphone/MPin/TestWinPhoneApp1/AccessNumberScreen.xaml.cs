@@ -53,7 +53,7 @@ namespace MPinDemo
 
             name.NameValue = InputScopeNameValue.Number;
             scope.Names.Add(name);
-
+            
             this.AccessNumber.InputScope = scope;
         }
 
@@ -77,8 +77,8 @@ namespace MPinDemo
             }
 
             //This code opens up the keyboard when you navigate to the page.
-            this.AccessNumber.UpdateLayout();
-            this.AccessNumber.Focus(FocusState.Keyboard);
+            this.ANReadOnly.UpdateLayout();
+            this.ANReadOnly.Focus(FocusState.Keyboard);
 
             ClearBackStack();
         }
@@ -117,6 +117,7 @@ namespace MPinDemo
         void AccessNumberTB_TextChanged(object sender, TextChangedEventArgs e)
         {
             this.DoneButton.IsEnabled = this.AccessNumber.Text.Length == this.ANLength;
+            this.ANReadOnly.Text = this.AccessNumber.Text;
         }
 
         private void AccessNumberTB_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -125,6 +126,22 @@ namespace MPinDemo
             {
                 ProcessAN();
             }
+        }
+
+        private void ANReadOnly_GotFocus(object sender, RoutedEventArgs e)
+        {
+            this.AccessNumber.UpdateLayout();
+            this.AccessNumber.Focus(FocusState.Keyboard);
+        }
+
+        private void AccessNumber_LostFocus(object sender, RoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(this.ANReadOnly, "Normal", true);
+        }
+
+        private void AccessNumber_GotFocus(object sender, RoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(this.ANReadOnly, "Focused", true);
         }
 
     }
