@@ -2498,6 +2498,189 @@
 			};
 			name = Release;
 		};
+		FE1A92E51BBE769C006C73A9 /* Tisho */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Tisho;
+		};
+		FE1A92E61BBE769C006C73A9 /* Tisho */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 424F5ACA40BA9B3F96DAFF57 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Certivox/CertivoxMPin.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = "CertiVox M-Pin";
+				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "../**";
+				VERSIONING_SYSTEM = "apple-generic";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Tisho;
+		};
+		FE1A92E71BBE769C006C73A9 /* Tisho */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 424F5ACA40BA9B3F96DAFF57 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/DimensionData/DDMPin.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/MPin-fkvltgzbxheajafuhhxznfslxxnp/Build/Products/Release-iphoneos",
+					"/Users/tihomirganev/Projects/project/xcode/Pods/build/Debug-iphoneos",
+				);
+				PRODUCT_NAME = "DD MPin";
+				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "../**";
+				VERSIONING_SYSTEM = "apple-generic";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Tisho;
+		};
+		FE1A92E81BBE769C006C73A9 /* Tisho */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 424F5ACA40BA9B3F96DAFF57 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/NTTComSecurity/NTTComSecurityMPin.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = "NTTComSecurity MPin";
+				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "../**";
+				VERSIONING_SYSTEM = "apple-generic";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Tisho;
+		};
+		FE1A92E91BBE769C006C73A9 /* Tisho */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 424F5ACA40BA9B3F96DAFF57 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"/Users/tihomirganev/Downloads/HockeySDK-iOS/HockeySDKCrashOnly",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MPinApp/MPinApp-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Olswang/OlswangMPin.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = "Olswang MPin";
+				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "../**";
+				VERSIONING_SYSTEM = "apple-generic";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Tisho;
+		};
+		FE1A92EA1BBE769C006C73A9 /* Tisho */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/../Pods/**",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
+				INFOPLIST_FILE = "Certivox MPin Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/tihomirganev/Projects/mpin-mobile/project/xcode/Pods/../build/Debug-iphoneos",
+				);
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CertiVox M-Pin.app/CertiVox M-Pin";
+			};
+			name = Tisho;
+		};
 		FE49004A1A1A3CEB000030A4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2570,6 +2753,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9604B7811B73935B00FF6D6A /* Debug */,
+				FE1A92EA1BBE769C006C73A9 /* Tisho */,
 				9604B7821B73935B00FF6D6A /* QA */,
 				9604B7831B73935B00FF6D6A /* Release */,
 				9604B7841B73935B00FF6D6A /* AppStore */,
@@ -2582,6 +2766,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				96130E601AEE4867005D2A86 /* Debug */,
+				FE1A92E81BBE769C006C73A9 /* Tisho */,
 				96130E611AEE4867005D2A86 /* QA */,
 				96130E621AEE4867005D2A86 /* Release */,
 				96130E631AEE4867005D2A86 /* AppStore */,
@@ -2594,6 +2779,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				96130EAA1AEE490A005D2A86 /* Debug */,
+				FE1A92E91BBE769C006C73A9 /* Tisho */,
 				96130EAB1AEE490A005D2A86 /* QA */,
 				96130EAC1AEE490A005D2A86 /* Release */,
 				96130EAD1AEE490A005D2A86 /* AppStore */,
@@ -2606,6 +2792,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9649BCC81AC16D1000B9F41B /* Debug */,
+				FE1A92E71BBE769C006C73A9 /* Tisho */,
 				969D25AF1ACD2F9B0035294E /* QA */,
 				969D25B31ACD331C0035294E /* Release */,
 				966053501ACD38B60003DE7D /* AppStore */,
@@ -2618,6 +2805,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FE49004A1A1A3CEB000030A4 /* Debug */,
+				FE1A92E51BBE769C006C73A9 /* Tisho */,
 				969D25AC1ACD2F9B0035294E /* QA */,
 				969D25B01ACD331C0035294E /* Release */,
 				9660534D1ACD38B60003DE7D /* AppStore */,
@@ -2630,6 +2818,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FE49004D1A1A3CEB000030A4 /* Debug */,
+				FE1A92E61BBE769C006C73A9 /* Tisho */,
 				969D25AD1ACD2F9B0035294E /* QA */,
 				969D25B11ACD331C0035294E /* Release */,
 				9660534E1ACD38B60003DE7D /* AppStore */,
