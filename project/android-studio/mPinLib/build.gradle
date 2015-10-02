@@ -37,6 +37,10 @@ android {
 // call regular ndk-build(.cmd) script from app directory
 task ndkBuild(type: Exec) {
     def ndkDir = plugins.getPlugin('com.android.library').sdkHandler.getNdkFolder()
+    if (ndkDir == null) {
+        // if ndkDir is not set try with ANDROID_NDK env var
+        ndkDir = System.getenv("ANDROID_NDK")
+    }
     if (Os.isFamily(Os.FAMILY_WINDOWS)) {
         commandLine "$ndkDir/ndk-build.cmd", '-C', file('src/main').absolutePath
     } else {
