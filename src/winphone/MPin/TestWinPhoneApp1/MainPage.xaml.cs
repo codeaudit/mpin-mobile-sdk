@@ -27,6 +27,7 @@ using System.Diagnostics;
 using System.Net.NetworkInformation;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
+using Windows.Graphics.Display;
 using Windows.Networking.Connectivity;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -58,6 +59,7 @@ namespace MPinDemo
             this.Loaded += MainPage_Loaded;
             Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             NetworkInformation.NetworkStatusChanged += NetworkInformation_NetworkStatusChanged;
+            DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait;
 
             // This is a static public property that allows downstream pages to get a handle to the MainPage instance
             // in order to call methods that are in this class.
