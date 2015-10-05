@@ -41,6 +41,10 @@ task ndkBuild(type: Exec) {
         // if ndkDir is not set try with ANDROID_NDK env var
         ndkDir = System.getenv("ANDROID_NDK")
     }
+
+    if (ndkDir == null) {
+        throw new GradleException('Cannot retrieve Anroid NDK location. Set it either in local.properties or as ANDROID_NDK env var')
+    }
     if (Os.isFamily(Os.FAMILY_WINDOWS)) {
         commandLine "$ndkDir/ndk-build.cmd", '-C', file('src/main').absolutePath
     } else {

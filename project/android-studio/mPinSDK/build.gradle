@@ -1,5 +1,13 @@
 apply plugin: 'com.android.application'
 
+
+def getVersionCode = { ->
+
+    def code = project.hasProperty('versionCode') ? versionCode.toInteger() : 3
+    println "VersionCode is set to $code"
+    return code
+}
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
@@ -8,6 +16,9 @@ android {
         applicationId "com.certivox.mpinsdk"
         minSdkVersion 16
         targetSdkVersion 23
+        versionCode getVersionCode()
+        versionName "1.1.0"
+        archivesBaseName = "MPinSDK_$versionName.$versionCode"
 
         testApplicationId "com.certivox.mpinsdk.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
