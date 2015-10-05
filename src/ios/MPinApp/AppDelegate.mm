@@ -46,6 +46,7 @@
     NetworkDownViewController *vcNetworkDown;
     HelpViewController *vcHelp;
     BOOL boolRestartFlow;
+    BOOL isFirstTime;
 }
 
 @property (nonatomic, retain) SMSRegistrationMessage * smsRegMessage;
@@ -59,6 +60,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     boolRestartFlow = NO;
+    isFirstTime = YES;
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     
@@ -196,6 +198,12 @@
     if (boolRestartFlow && [NetworkMonitor isNetworkAvailable])
     {
         boolRestartFlow = !boolRestartFlow;
+        [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
+        [_vcUserList invalidate];
+    }
+    
+    if (isFirstTime &&[NetworkMonitor isNetworkAvailable]) {
+        isFirstTime = false;
         [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
         [_vcUserList invalidate];
     }
