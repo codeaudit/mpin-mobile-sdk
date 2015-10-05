@@ -85,9 +85,11 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     [self unRegisterObservers];
 }
 
+
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
+    
     [self registerObservers];
     [[ThemeManager sharedManager] beautifyViewController:self];
     sdk = [[MPin alloc] init];
@@ -118,6 +120,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 
 - ( void )textFieldDidBeginEditing:( UITextField * )textField
 {
+    [_tblView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:textField.tag inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     self.currentResponder = textField;
 }
 
@@ -223,6 +226,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
         {
             ( (TextFieldTableViewCell *)cell ).txtText.text = [[ConfigurationManager sharedManager]
                                                                getNameAtIndex:_selectedIndex];
+            ( (TextFieldTableViewCell *)cell ).txtText.tag = indexPath.row;
         }
         break;
 
@@ -233,6 +237,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
         {
             ( (TextFieldTableViewCell *)cell ).txtText.text = strURL;
         }
+        ( (TextFieldTableViewCell *)cell ).txtText.tag = indexPath.row;
         break;
 
     case 2:
@@ -243,26 +248,8 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
             ( (TextFieldTableViewCell *)cell ).txtText.text = [[ConfigurationManager sharedManager]
                                                                getPrefixAtIndex:_selectedIndex];
         }
+        ( (TextFieldTableViewCell *)cell ).txtText.tag = indexPath.row;
         break;
-
-//    case 3:
-//        ( (OptionSelectTableViewCell *)cell ).lblName.text = NSLocalizedString(@"LOGIN_MOBILE_APP", @"");
-//        switch ( _service )
-//        {
-//        case LOGIN_ON_MOBILE:
-//            [( (OptionSelectTableViewCell *)cell )setServiceSelected:YES];
-//            break;
-//
-//        case LOGIN_ONLINE:
-//            [( (OptionSelectTableViewCell *)cell )setServiceSelected:NO];
-//            break;
-//
-//        case LOGIN_WITH_OTP:
-//            [( (OptionSelectTableViewCell *)cell )setServiceSelected:NO];
-//            break;
-//        }
-//
-//        break;
 
     case 3:
         ( (OptionSelectTableViewCell *)cell ).lblName.text = NSLocalizedString(@"LOGIN_ONLINE_SESSION", @"");
@@ -529,6 +516,30 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 
 #pragma mark - NSNotification handlers -
 
+- (void)keyboardDidShow: (NSNotification *) notification
+{
+    NSLog(@"Keyboard shown");
+    CGFloat height = [[notification.userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size.height;
+    ;
+    [self.view layoutIfNeeded];
+    
+    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations: ^ {
+        self.constraintTableViewBottomSpace.constant = height;
+        [self.view layoutIfNeeded];
+    }];
+
+}
+
+- (void)keyboardDidHide: (NSNotification *) notification
+{
+    NSLog(@"Keyboard closed");
+    [UIView animateWithDuration:kFltNoNetworkMessageAnimationDuration animations: ^ {
+        self.constraintTableViewBottomSpace.constant = 0;
+        [self.view layoutIfNeeded];
+    }];
+    
+}
+
 -( void ) networkUp
 {
     [[ThemeManager sharedManager] hideNetworkDown:self];
@@ -549,10 +560,22 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_UP_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+
 }
 
 - ( void ) registerObservers
 {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShow:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkUp ) name:@"NETWORK_UP_NOTIFICATION" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkDown ) name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
 }

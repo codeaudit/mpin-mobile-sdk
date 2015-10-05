@@ -61,20 +61,17 @@
     boolRestartFlow = NO;
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-    UIUserNotificationType types = UIUserNotificationTypeBadge |
-    UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
     
-    // By request of TDL
-    // If there is environment variable called PUSH_NOTIFICATIONS and the value of this variable is STOP, this will prevent registration for 
-    NSString *strRegisterNotifications = [[[NSProcessInfo processInfo] environment] objectForKey:@"PUSH_NOTIFICATIONS"];
-    if (![strRegisterNotifications isEqualToString:@"STOP"])
-    {
+    
+#ifdef NOTIFICATIONS
+    #if NOTIFICATIONS
+        UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
         UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
         
         [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
         [application registerForRemoteNotifications];
-        
-    }
+    #endif
+#endif
 
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 
