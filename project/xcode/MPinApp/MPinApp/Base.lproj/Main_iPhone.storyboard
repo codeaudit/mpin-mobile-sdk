@@ -1069,7 +1069,7 @@
                                                         <constraint firstAttribute="height" constant="30" id="nzx-eU-Xth"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="alphabet"/>
                                                     <connections>
                                                         <action selector="textFieldReturn:" destination="bcE-3s-QxM" eventType="editingDidEndOnExit" id="K9C-pb-2aT"/>
                                                     </connections>
@@ -1143,7 +1143,7 @@
                                 <animations/>
                                 <color key="backgroundColor" red="0.30196078430000001" green="0.41568627450000001" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="55" id="FIJ-p3-knI"/>
+                                    <constraint firstAttribute="height" constant="55" id="wbH-gt-Mkv"/>
                                 </constraints>
                                 <state key="normal" title="Test configuration"/>
                                 <connections>
@@ -1155,16 +1155,16 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="FvQ-kZ-Hpw" secondAttribute="trailing" id="0tf-MM-Rgv"/>
                             <constraint firstAttribute="trailing" secondItem="hdo-M8-Qju" secondAttribute="trailing" id="1c2-hw-98Q"/>
-                            <constraint firstItem="FvQ-kZ-Hpw" firstAttribute="leading" secondItem="Z5P-N3-rRg" secondAttribute="leadingMargin" constant="-20" id="Fze-Al-Xdw"/>
+                            <constraint firstItem="FvQ-kZ-Hpw" firstAttribute="top" secondItem="hdo-M8-Qju" secondAttribute="bottom" id="40U-dy-pTV"/>
+                            <constraint firstItem="K54-IC-1av" firstAttribute="leading" secondItem="Z5P-N3-rRg" secondAttribute="leading" id="5fR-F5-pUS"/>
                             <constraint firstItem="hdo-M8-Qju" firstAttribute="leading" secondItem="Z5P-N3-rRg" secondAttribute="leading" id="Leu-0N-wKN"/>
-                            <constraint firstItem="X43-yg-Ph6" firstAttribute="top" secondItem="K54-IC-1av" secondAttribute="bottom" id="SX1-AE-200"/>
-                            <constraint firstAttribute="trailing" secondItem="K54-IC-1av" secondAttribute="trailing" id="bvx-Dm-mUi"/>
+                            <constraint firstItem="K54-IC-1av" firstAttribute="top" secondItem="FvQ-kZ-Hpw" secondAttribute="bottom" constant="-1" id="b1G-m3-t8E"/>
                             <constraint firstItem="hdo-M8-Qju" firstAttribute="top" secondItem="3TG-Xi-pn4" secondAttribute="bottom" id="dmO-ai-tMd"/>
-                            <constraint firstItem="K54-IC-1av" firstAttribute="top" secondItem="FvQ-kZ-Hpw" secondAttribute="bottom" constant="-1" id="j9g-T8-5GH"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="FvQ-kZ-Hpw" secondAttribute="trailing" constant="-20" id="rFz-6o-qvd"/>
-                            <constraint firstItem="K54-IC-1av" firstAttribute="leading" secondItem="Z5P-N3-rRg" secondAttribute="leading" id="rqp-MH-w7Y"/>
-                            <constraint firstItem="FvQ-kZ-Hpw" firstAttribute="top" secondItem="hdo-M8-Qju" secondAttribute="bottom" id="uc6-8Y-EK2"/>
+                            <constraint firstItem="X43-yg-Ph6" firstAttribute="top" secondItem="K54-IC-1av" secondAttribute="bottom" id="lej-W9-H0k"/>
+                            <constraint firstItem="FvQ-kZ-Hpw" firstAttribute="leading" secondItem="Z5P-N3-rRg" secondAttribute="leading" id="tUh-Wj-nwe"/>
+                            <constraint firstAttribute="trailing" secondItem="K54-IC-1av" secondAttribute="trailing" id="wPv-RK-BiP"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Add Configuration" id="188-gh-NOc">
@@ -1184,6 +1184,7 @@
                         <outlet property="btnDone" destination="ipm-rq-LrV" id="zu2-II-Iqi"/>
                         <outlet property="btnTestConfig" destination="K54-IC-1av" id="M3s-Ze-IFb"/>
                         <outlet property="constraintNoNetworkViewHeight" destination="cgP-9B-zEx" id="e3J-RL-5Ns"/>
+                        <outlet property="constraintTableViewBottomSpace" destination="lej-W9-H0k" id="drA-Xp-JDb"/>
                         <outlet property="imgViewNetworkDown" destination="R0V-wU-Qn2" id="i4U-4j-VLH"/>
                         <outlet property="lblNetworkDownMessage" destination="wlA-cV-Uma" id="YuD-Sj-P61"/>
                         <outlet property="tblView" destination="FvQ-kZ-Hpw" id="7QC-JN-yDe"/>
