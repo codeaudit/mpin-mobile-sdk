@@ -71,12 +71,9 @@ static NSString *constStrConnectionTimeoutNotification = @"ConnectionTimeoutNoti
     id container = (MFSideMenuContainerViewController *)appdelegate.window.rootViewController;
     if ([container isMemberOfClass:[MFSideMenuContainerViewController class]])
     {
-//        if ( [( (UINavigationController *)container.centerViewController ).topViewController isMemberOfClass:[UserListViewController class]] )
-//        {
-//            [(UserListViewController *)( ( (UINavigationController *)container.centerViewController ).topViewController )invalidate];
-//        }
+        /// TODO:: this is a quick and dirty fix to bug # 456 fix this later after refactoring code
+        [appdelegate freshLaunch];
     }
-    
 }
 
 - ( void ) OnSetBackendError:( id ) sender error:( NSError * ) error;
