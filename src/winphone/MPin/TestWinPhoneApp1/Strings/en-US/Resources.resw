@@ -543,4 +543,22 @@ All existing identities will be deleted.</value>
   <data name="ANServiceInfo.Text" xml:space="preserve">
     <value>Get one of your desktop browser at:</value>
   </data>
+  <data name="AboutBuiltOnLink.Content" xml:space="preserve">
+    <value>Built on the M-Pin Mobile SDK</value>
+  </data>
+  <data name="AboutHomepageLink.Content" xml:space="preserve">
+    <value>CertiVox Homepage</value>
+  </data>
+  <data name="AboutMobileAppLink.Content" xml:space="preserve">
+    <value>M-Pin Mobile Guide</value>
+  </data>
+  <data name="AboutProductSupportLink.Content" xml:space="preserve">
+    <value>Product Support</value>
+  </data>
+  <data name="AboutTermsCondLink.Content" xml:space="preserve">
+    <value>CertiVox Terms &amp;amp; Conditions</value>
+  </data>
+  <data name="AboutValuesLink.Content" xml:space="preserve">
+    <value>Values / Security / Privicy</value>
+  </data>
 </root>
