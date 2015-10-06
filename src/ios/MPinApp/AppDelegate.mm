@@ -65,16 +65,16 @@
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     
     
-#ifdef NOTIFICATIONS
-    #if NOTIFICATIONS
-        UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
-        UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-        
-        [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
-        [application registerForRemoteNotifications];
-    #endif
-#endif
-
+//#ifdef NOTIFICATIONS
+//    #if NOTIFICATIONS
+//        UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+//        UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+//        
+//        [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+//        [application registerForRemoteNotifications];
+//    #endif
+//#endif
+//
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 
     [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:[SettingsManager sharedManager].strHockeyAppID];
