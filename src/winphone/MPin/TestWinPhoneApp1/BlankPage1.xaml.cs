@@ -63,7 +63,7 @@ namespace MPinDemo
         private bool isInitialLoad = false;
         private bool isServiceAdding = false;
         private bool shouldSetSelectedUser = false;
-        private bool skipSelectingUserAfterLoad = false;
+        private static bool skipSelectingUserAfterLoad = false;
         private static bool showUsers = true;
         private bool showUsersSet = false;
         private MainPage rootPage = null;
@@ -525,6 +525,7 @@ namespace MPinDemo
             {
                 controller.DataModel.CurrentUser = UsersListBox.SelectedItem as User;
                 isInitialLoad = false;
+                skipSelectingUserAfterLoad = false;
             }
 
             SavePropertyState(SelectedUser, UsersListBox.SelectedIndex);
