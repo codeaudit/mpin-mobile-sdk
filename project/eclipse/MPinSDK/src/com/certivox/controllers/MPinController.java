@@ -361,11 +361,16 @@ public class MPinController extends Controller {
                 if (isNetworkAvailable()) {
                     Status status = getSdk().TestBackend(backendUrl);
                     Log.i(TAG, "TEST BACKEND STATUS = " + status);
-
-                    if (status.getStatusCode() == Status.Code.OK) {
+                    switch (status.getStatusCode() ) {
+                    case OK:
                         notifyOutboxHandlers(MESSAGE_VALID_BACKEND, 0, 0, null);
-                    } else {
+                        break;
+                    case NETWORK_ERROR:
+                        notifyOutboxHandlers(MESSAGE_NETWORK_ERROR, 0, 0, null);
+                        break;
+                    default:
                         notifyOutboxHandlers(MESSAGE_INVALID_BACKEND, 0, 0, null);
+                        break;
                     }
                 } else {
                     notifyOutboxHandlers(MESSAGE_NO_INTERNET_ACCESS, 0, 0, null);
