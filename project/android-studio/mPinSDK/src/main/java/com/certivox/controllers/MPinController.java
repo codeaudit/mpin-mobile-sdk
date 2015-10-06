@@ -383,12 +383,16 @@ public class MPinController extends Controller {
             public void run() {
                 if (isNetworkAvailable()) {
                     Status status = getSdk().TestBackend(config.getBackendUrl());
-
-                    if (status.getStatusCode() == Status.Code.OK) {
+                    switch (status.getStatusCode()) {
+                    case OK:
                         mConfigsDao.saveOrUpdate(config);
                         notifyOutboxHandlers(MESSAGE_CONFIGURATION_SAVED, 0, 0, null);
                         notifyOutboxHandlers(MESSAGE_SHOW_CONFIGURATIONS_LIST, 0, 0, null);
-                    } else {
+                        break;
+                    case NETWORK_ERROR:
+                        notifyOutboxHandlers(MESSAGE_NETWORK_ERROR, 0, 0, null);
+                        break;
+                    default:
                         notifyOutboxHandlers(MESSAGE_INVALID_BACKEND, 0, 0, null);
                     }
                 } else {
