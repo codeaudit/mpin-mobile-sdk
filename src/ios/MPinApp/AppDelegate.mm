@@ -39,6 +39,7 @@
 #import "SMSRegistrationMessage.h"
 #import "APNAuthenticationMessage.h"
 #import "NotificationService.h"
+#import "OTPViewController.h"
 
 @interface AppDelegate ()
 {
@@ -167,7 +168,10 @@
         [c.centerViewController popToRootViewControllerAnimated:NO];
         boolRestartFlow = YES;
     }
-
+    
+    if ([centerNavigationController.topViewController  isMemberOfClass:[OTPViewController class]]){
+        [centerNavigationController popToRootViewControllerAnimated:NO];
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -226,7 +230,6 @@
 - (void) freshLaunch {
     if (isFirstTime) {
         isFirstTime = false;
-        [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
         [_vcUserList invalidate];
     }
 }
