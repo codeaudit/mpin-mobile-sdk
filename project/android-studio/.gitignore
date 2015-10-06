@@ -31,11 +31,10 @@ proguard/
 # Android Studio captures folder
 captures/
 
+# Android Studio files
 *.iws
+*.iws
+*.iml
 
 # Unnecessary files under .idea/
-.idea/libraries
-.idea/tasks.xml
-.idea/vcs.xml
-.idea/workspace.xml
-.idea/modules.xml
+**/.idea
