@@ -202,12 +202,6 @@
         [_vcUserList invalidate];
     }
     
-    if (isFirstTime &&[NetworkMonitor isNetworkAvailable]) {
-        isFirstTime = false;
-        [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
-        [_vcUserList invalidate];
-    }
-
     UIView *colourView = [self.window viewWithTag:1234];
     [UIView animateWithDuration:0.5 animations:^{
         colourView.alpha = 0;
@@ -226,6 +220,15 @@
         self.apnAuthMessage = nil;
     }
 
+}
+
+/// TODO:: this is a quick and dirty fix to bug # 456 fix this later after refactoring code
+- (void) freshLaunch {
+    if (isFirstTime) {
+        isFirstTime = false;
+        [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
+        [_vcUserList invalidate];
+    }
 }
 
 
