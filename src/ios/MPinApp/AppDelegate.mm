@@ -226,7 +226,7 @@
 - (void) freshLaunch {
     if (isFirstTime) {
         isFirstTime = false;
-        [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
+        // [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
         [_vcUserList invalidate];
     }
 }
