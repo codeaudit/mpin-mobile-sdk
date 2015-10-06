@@ -37,4 +37,4 @@ captures/
 *.iml
 
 # Unnecessary files under .idea/
-**/.idea
+**/.idea/
