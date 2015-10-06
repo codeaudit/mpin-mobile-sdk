@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2012-2015, Certivox All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
  * following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following
  * disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
  * following disclaimer in the documentation and/or other materials provided with the distribution.
- * 
+ *
  * 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote
  * products derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
@@ -20,21 +20,17 @@
  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * 
+ *
  * For full details regarding our CertiVox terms of service please refer to the following links:
- * 
+ *
  * * Our Terms and Conditions - http://www.certivox.com/about-certivox/terms-and-conditions/
- * 
+ *
  * * Our Security and Privacy - http://www.certivox.com/about-certivox/security-privacy/
- * 
+ *
  * * Our Statement of Position and Our Promise on Software Patents - http://www.certivox.com/about-certivox/patents/
  ******************************************************************************/
 package com.certivox.fragments;
 
-
-import com.certivox.models.User;
-import com.certivox.mpin.R;
-import com.certivox.view.SelectionCircles;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -47,6 +43,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.certivox.models.User;
+import com.certivox.mpin.R;
+import com.certivox.view.SelectionCircles;
 
 
 public class PinPadFragment extends Fragment {
@@ -137,8 +137,9 @@ public class PinPadFragment extends Fragment {
 
 
     public void showWrongPin() {
+        clearPin();
         mSelectionCircles.selectAll();
-        mSelectionCircles.setSelectedColor(ContextCompat.getColor(getActivity(),R.color.orange));
+        mSelectionCircles.setSelectedColor(ContextCompat.getColor(getActivity(), R.color.orange));
         mWrongPinTextView.setVisibility(View.VISIBLE);
     }
 
@@ -147,14 +148,19 @@ public class PinPadFragment extends Fragment {
         if (mWrongPinTextView.getVisibility() == View.VISIBLE) {
             setEmptyPin();
             mWrongPinTextView.setVisibility(View.INVISIBLE);
-            mSelectionCircles.setSelectedColor(ContextCompat.getColor(getActivity(),R.color.light_green));
+            mSelectionCircles.setSelectedColor(ContextCompat.getColor(getActivity(), R.color.light_green));
         }
     }
 
 
-    private void setEmptyPin() {
+    private void clearPin() {
         mIsPinSet = false;
         mInput.setLength(0);
+    }
+
+
+    private void setEmptyPin() {
+        clearPin();
         mSelectionCircles.deselectAll();
         updateButtons();
     }
