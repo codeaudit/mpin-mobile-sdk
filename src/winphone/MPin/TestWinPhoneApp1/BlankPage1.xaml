@@ -168,6 +168,8 @@
                 <AppBarButton x:Uid="DeleteButton" x:Name="DeleteButton" Icon="Delete" Click="Delete_Click" />
                 <AppBarButton x:Uid="EditButton" x:Name="EditButton" Click="EditButton_Click" />
                 <AppBarButton x:Uid="ResetPinButton" x:Name="ResetPinButton" Click="ResetPinButton_Click" Visibility="Collapsed" />
+                <AppBarButton x:Uid="GuideButton" Click="GuideButton_Click" />
+                <AppBarButton x:Uid="MPinServerButton" Click="MPinServerButton_Click" />
                 <AppBarButton x:Uid="AboutButton" x:Name="AboutButton" Click="AboutButton_Click" />
                 <AppBarButton x:Uid="UpdateCheckButton" x:Name="UpdateCheckButton" Click="CheckForUpdate_Click" />
             </CommandBar.SecondaryCommands>

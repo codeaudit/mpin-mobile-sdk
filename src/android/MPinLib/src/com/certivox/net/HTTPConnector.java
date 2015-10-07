@@ -60,6 +60,8 @@ public class HTTPConnector implements IHTTPRequest {
     private Hashtable<String, String> responseHeaders;
     private String                    responseData;
 
+    private final static String OS_CLASS_HEADER = "X-MIRACL-OS-Class";
+    private final static String OS_CLASS_VALUE = "android";
 
     // / only for test !!!!
     public String getContent() {
@@ -132,6 +134,8 @@ public class HTTPConnector implements IHTTPRequest {
                     }
                 }
             }
+            
+            connection.setRequestProperty(OS_CLASS_HEADER, OS_CLASS_VALUE);
 
             if (!TextUtils.isEmpty(requestBody)) {
                 dos = new DataOutputStream(connection.getOutputStream());

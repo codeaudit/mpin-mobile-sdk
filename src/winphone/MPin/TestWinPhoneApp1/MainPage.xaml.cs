@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
+using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
 using Windows.Networking.Connectivity;
 using Windows.Storage;
@@ -47,7 +48,7 @@ namespace MPinDemo
         private DispatcherTimer timer;
         private string parameter = string.Empty;
         private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-        private static string RunTimeString = "RunTime";
+        private const string RunTimeString = "RunTime";
         #endregion // Fields
 
         #region C'tor
@@ -101,7 +102,7 @@ namespace MPinDemo
 
                 if (IsTheFirstAppLaunch())
                 {
-                    if (!MainFrame.Navigate(typeof(AppIntro), passed))
+                    if (!MainFrame.Navigate(typeof(AppQuide), passed))
                     {
                         throw new Exception("Failed to create starup screen");
                     }
@@ -193,6 +194,24 @@ namespace MPinDemo
                 NotifyUser(this.IsInternetConnected ? string.Empty : ResourceLoader.GetForCurrentView().GetString("NoConnection"), NotifyType.ErrorMessage, false);
             }
         }
+
+        #region uri associations
+        private ProtocolActivatedEventArgs _protocolEventArgs = null;
+        public ProtocolActivatedEventArgs ProtocolEvent
+        {
+            get { return _protocolEventArgs; }
+            set { _protocolEventArgs = value; }
+        }
+
+        public void NavigateToProtocolPage()//Type pageTypeToNavigete)
+        {
+            //ScenarioFrame.Navigate(pageTypeToNavigete, this.ProtocolEvent.Uri); 
+
+            parameter = this.ProtocolEvent.Uri.ToString(); // -> should be mpin://?mpinId=value1&activateKey=value2
+            // TODO??? call blankPage1(parameter), koito tr da izwika ot controllera to call RegisterUserBySMS(value1, value2); вместо FinishRegistration(..)
+        }
+        #endregion 
+
 
         #region notification
         /// <summary>

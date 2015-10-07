@@ -125,7 +125,6 @@ static NSString *const constStrConnectionTimeoutNotification = @"ConnectionTimeo
 
 - ( void ) SetBackend:( const NSDictionary * ) config
 {
-    // TODO :: notify listeners
     if ( config == nil )
         return;
 
