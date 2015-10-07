@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2012-2015, Certivox All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
  * following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following
  * disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
  * following disclaimer in the documentation and/or other materials provided with the distribution.
- * 
+ *
  * 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote
  * products derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
@@ -20,13 +20,13 @@
  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * 
+ *
  * For full details regarding our CertiVox terms of service please refer to the following links:
- * 
+ *
  * * Our Terms and Conditions - http://www.certivox.com/about-certivox/terms-and-conditions/
- * 
+ *
  * * Our Security and Privacy - http://www.certivox.com/about-certivox/security-privacy/
- * 
+ *
  * * Our Statement of Position and Our Promise on Software Patents - http://www.certivox.com/about-certivox/patents/
  ******************************************************************************/
 package com.certivox.fragments;
@@ -40,13 +40,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -63,7 +58,7 @@ import com.certivox.mpinsdk.R;
 
 public class ConfigsListFragment extends MPinFragment implements OnClickListener, AdapterView.OnItemClickListener {
 
-    private String                   TAG = ConfigsListFragment.class.getCanonicalName();
+    private String TAG = ConfigsListFragment.class.getCanonicalName();
 
     private View                     mView;
     private ListView                 mListView;
@@ -116,12 +111,7 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
         setToolbarTitle(R.string.select_service_toolbar_title);
 
         mView = inflater.inflate(R.layout.fragment_configs_list, container, false);
-        mSelectedConfig = getMPinController().getActiveConfiguration();
-        if (mSelectedConfig != null) {
-            mSelectedConfigId = mSelectedConfig.getId();
-        } else {
-            mSelectedConfigId = -1;
-        }
+        setSelectedConfiguration();
         disableDrawer();
         initViews();
 
@@ -146,8 +136,8 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
     public boolean handleMessage(Message msg) {
         switch (msg.what) {
         case MPinController.MESSAGE_CONFIGURATION_DELETED:
-            mSelectedConfigId = -1;
-            mAdapter.updateConfigsList(getMPinController().getConfigurationsList());
+            setSelectedConfiguration();
+            mAdapter.updateConfigsList(getMPinController().getConfigurationsList(), getSelectedPosition());
             return true;
         case MPinController.MESSAGE_CONFIGURATION_CHANGED:
             Toast.makeText(getActivity(), "Configuration activated!", Toast.LENGTH_SHORT).show();
@@ -253,10 +243,20 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
     }
 
 
+    private void setSelectedConfiguration() {
+        mSelectedConfig = getMPinController().getActiveConfiguration();
+        if (mSelectedConfig != null) {
+            mSelectedConfigId = mSelectedConfig.getId();
+        } else {
+            mSelectedConfigId = -1;
+        }
+    }
+
+
     private void initAdapter() {
         List<Config> listConfigurations = getMPinController().getConfigurationsList();
         mSelectedConfigId = getMPinController().getActiveConfigurationId();
-        int selectedPos = -1;
+        int selectedPos = getSelectedPosition();
         for (int i = 0; i < listConfigurations.size(); i++) {
             Config config = listConfigurations.get(i);
             if (config.getId() == mSelectedConfigId) {
@@ -271,6 +271,20 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
         }
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(this);
+    }
+
+
+    private int getSelectedPosition() {
+        List<Config> listConfigurations = getMPinController().getConfigurationsList();
+        int selectedPos = -1;
+        for (int i = 0; i < listConfigurations.size(); i++) {
+            Config config = listConfigurations.get(i);
+            if (config.getId() == mSelectedConfigId) {
+                selectedPos = i;
+            }
+        }
+
+        return selectedPos;
     }
 
 

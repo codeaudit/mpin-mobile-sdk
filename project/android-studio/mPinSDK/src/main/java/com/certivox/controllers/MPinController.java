@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2012-2015, Certivox All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
  * following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following
  * disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
  * following disclaimer in the documentation and/or other materials provided with the distribution.
- * 
+ *
  * 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote
  * products derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
@@ -20,24 +20,17 @@
  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * 
+ *
  * For full details regarding our CertiVox terms of service please refer to the following links:
- * 
+ *
  * * Our Terms and Conditions - http://www.certivox.com/about-certivox/terms-and-conditions/
- * 
+ *
  * * Our Security and Privacy - http://www.certivox.com/about-certivox/security-privacy/
- * 
+ *
  * * Our Statement of Position and Our Promise on Software Patents - http://www.certivox.com/about-certivox/patents/
  ******************************************************************************/
 package com.certivox.controllers;
 
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.json.JSONArray;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -49,7 +42,6 @@ import android.os.HandlerThread;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.certivox.activities.GuideActivity;
 import com.certivox.constants.ConfigConstant;
 import com.certivox.constants.FragmentTags;
@@ -57,16 +49,17 @@ import com.certivox.constants.IntentConstants;
 import com.certivox.dal.AppInstanceInfoDao;
 import com.certivox.dal.ConfigsDao;
 import com.certivox.enums.GuideFragmentsEnum;
-import com.certivox.models.Config;
-import com.certivox.models.CreateIdentityConfig;
-import com.certivox.models.MakeNewUserInfo;
-import com.certivox.models.OTP;
-import com.certivox.models.Status;
-import com.certivox.models.User;
+import com.certivox.models.*;
 import com.certivox.models.User.State;
 import com.certivox.mpinsdk.Mpin;
 import com.certivox.mpinsdk.R;
 import com.certivox.net.HttpConnector;
+import org.json.JSONArray;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class MPinController extends Controller {
@@ -362,11 +355,16 @@ public class MPinController extends Controller {
                 if (isNetworkAvailable()) {
                     Status status = getSdk().TestBackend(backendUrl);
                     Log.i(TAG, "TEST BACKEND STATUS = " + status);
-
-                    if (status.getStatusCode() == Status.Code.OK) {
+                    switch (status.getStatusCode()) {
+                    case OK:
                         notifyOutboxHandlers(MESSAGE_VALID_BACKEND, 0, 0, null);
-                    } else {
+                        break;
+                    case NETWORK_ERROR:
+                        notifyOutboxHandlers(MESSAGE_NETWORK_ERROR, 0, 0, null);
+                        break;
+                    default:
                         notifyOutboxHandlers(MESSAGE_INVALID_BACKEND, 0, 0, null);
+                        break;
                     }
                 } else {
                     notifyOutboxHandlers(MESSAGE_NO_INTERNET_ACCESS, 0, 0, null);
@@ -385,12 +383,16 @@ public class MPinController extends Controller {
             public void run() {
                 if (isNetworkAvailable()) {
                     Status status = getSdk().TestBackend(config.getBackendUrl());
-
-                    if (status.getStatusCode() == Status.Code.OK) {
+                    switch (status.getStatusCode()) {
+                    case OK:
                         mConfigsDao.saveOrUpdate(config);
                         notifyOutboxHandlers(MESSAGE_CONFIGURATION_SAVED, 0, 0, null);
                         notifyOutboxHandlers(MESSAGE_SHOW_CONFIGURATIONS_LIST, 0, 0, null);
-                    } else {
+                        break;
+                    case NETWORK_ERROR:
+                        notifyOutboxHandlers(MESSAGE_NETWORK_ERROR, 0, 0, null);
+                        break;
+                    default:
                         notifyOutboxHandlers(MESSAGE_INVALID_BACKEND, 0, 0, null);
                     }
                 } else {
@@ -694,12 +696,13 @@ public class MPinController extends Controller {
 
 
     private void onSignIn() {
+        Log.i(TAG, "On Sign in");
         notifyOutboxHandlers(MESSAGE_START_WORK_IN_PROGRESS, 0, 0, null);
         mWorkerHandler.post(new Runnable() {
 
             @Override
             public void run() {
-                Log.i(TAG, getCurrentUser().getState().toString());
+                Log.i(TAG, "Current user state = " + getCurrentUser().getState().toString());
                 switch (getCurrentUser().getState()) {
                 case INVALID:
                     break;
