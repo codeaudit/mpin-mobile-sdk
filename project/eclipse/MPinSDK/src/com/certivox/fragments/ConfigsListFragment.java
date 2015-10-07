@@ -63,7 +63,7 @@ import com.certivox.mpinsdk.R;
 
 public class ConfigsListFragment extends MPinFragment implements OnClickListener, AdapterView.OnItemClickListener {
 
-    private String                   TAG = ConfigsListFragment.class.getCanonicalName();
+    private String TAG = ConfigsListFragment.class.getCanonicalName();
 
     private View                     mView;
     private ListView                 mListView;
@@ -117,6 +117,8 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
 
         mView = inflater.inflate(R.layout.fragment_configs_list, container, false);
         setSelectedConfiguration();
+
+
         disableDrawer();
         initViews();
 
@@ -134,6 +136,8 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
     public void onResume() {
         super.onResume();
         initAdapter();
+        // TODO awful workaround for when there are newly imported configurations which have urls that haven`t been tested
+        getMPinController().handleMessage(MPinController.MESSAGE_CHECK_BACKEND_URL, mSelectedConfig.getBackendUrl());
     }
 
 
