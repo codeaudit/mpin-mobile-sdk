@@ -39,6 +39,7 @@
 #import "SMSRegistrationMessage.h"
 #import "APNAuthenticationMessage.h"
 #import "NotificationService.h"
+#import "OTPViewController.h"
 
 @interface AppDelegate ()
 {
@@ -46,6 +47,7 @@
     NetworkDownViewController *vcNetworkDown;
     HelpViewController *vcHelp;
     BOOL boolRestartFlow;
+    BOOL isFirstTime;
 }
 
 @property (nonatomic, retain) SMSRegistrationMessage * smsRegMessage;
@@ -59,23 +61,21 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     boolRestartFlow = NO;
+    isFirstTime = YES;
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-    UIUserNotificationType types = UIUserNotificationTypeBadge |
-    UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
     
-    // By request of TDL
-    // If there is environment variable called PUSH_NOTIFICATIONS and the value of this variable is STOP, this will prevent registration for 
-    NSString *strRegisterNotifications = [[[NSProcessInfo processInfo] environment] objectForKey:@"PUSH_NOTIFICATIONS"];
-    if (![strRegisterNotifications isEqualToString:@"STOP"])
-    {
-        UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-        
-        [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
-        [application registerForRemoteNotifications];
-        
-    }
-
+    
+//#ifdef NOTIFICATIONS
+//    #if NOTIFICATIONS
+//        UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+//        UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+//        
+//        [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+//        [application registerForRemoteNotifications];
+//    #endif
+//#endif
+//
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 
     [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:[SettingsManager sharedManager].strHockeyAppID];
@@ -168,7 +168,10 @@
         [c.centerViewController popToRootViewControllerAnimated:NO];
         boolRestartFlow = YES;
     }
-
+    
+    if ([centerNavigationController.topViewController  isMemberOfClass:[OTPViewController class]]){
+        [centerNavigationController popToRootViewControllerAnimated:NO];
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -202,7 +205,7 @@
         [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
         [_vcUserList invalidate];
     }
-
+    
     UIView *colourView = [self.window viewWithTag:1234];
     [UIView animateWithDuration:0.5 animations:^{
         colourView.alpha = 0;
@@ -221,6 +224,14 @@
         self.apnAuthMessage = nil;
     }
 
+}
+
+/// TODO:: this is a quick and dirty fix to bug # 456 fix this later after refactoring code
+- (void) freshLaunch {
+    if (isFirstTime) {
+        isFirstTime = false;
+        [_vcUserList invalidate];
+    }
 }
 
 

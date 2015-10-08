@@ -35,5 +35,6 @@
 
 -( void ) connectionDown;
 -( void ) connectionUp;
+- (void) freshLaunch;
 
 @end

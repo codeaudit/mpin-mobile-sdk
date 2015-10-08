@@ -42,45 +42,23 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/580510450/CvMutex.o \
 	${OBJECTDIR}/_ext/580510450/CvSemaphore.o \
 	${OBJECTDIR}/_ext/580510450/CvThread.o \
-	${OBJECTDIR}/_ext/1341795113/aesGcmWrapper.o \
-	${OBJECTDIR}/_ext/1341795113/certivox.o \
-	${OBJECTDIR}/_ext/1341795113/eccsiWrapper.o \
-	${OBJECTDIR}/_ext/1341795113/eccsi_c.o \
-	${OBJECTDIR}/_ext/1341795113/mpinWrapper.o \
-	${OBJECTDIR}/_ext/1341795113/mpin_c.o \
-	${OBJECTDIR}/_ext/1341795113/mraes.o \
-	${OBJECTDIR}/_ext/1341795113/mralloc.o \
-	${OBJECTDIR}/_ext/1341795113/mrarth0.o \
-	${OBJECTDIR}/_ext/1341795113/mrarth1.o \
-	${OBJECTDIR}/_ext/1341795113/mrarth2.o \
-	${OBJECTDIR}/_ext/1341795113/mrarth3.o \
-	${OBJECTDIR}/_ext/1341795113/mrbits.o \
-	${OBJECTDIR}/_ext/1341795113/mrcombaLinux64.o \
-	${OBJECTDIR}/_ext/1341795113/mrcore.o \
-	${OBJECTDIR}/_ext/1341795113/mrcurve.o \
-	${OBJECTDIR}/_ext/1341795113/mrecn2.o \
-	${OBJECTDIR}/_ext/1341795113/mrgcd.o \
-	${OBJECTDIR}/_ext/1341795113/mrgcm.o \
-	${OBJECTDIR}/_ext/1341795113/mrio1.o \
-	${OBJECTDIR}/_ext/1341795113/mrjack.o \
-	${OBJECTDIR}/_ext/1341795113/mrlucas.o \
-	${OBJECTDIR}/_ext/1341795113/mrmonty.o \
-	${OBJECTDIR}/_ext/1341795113/mrmuldvLinux64.o \
-	${OBJECTDIR}/_ext/1341795113/mrpower.o \
-	${OBJECTDIR}/_ext/1341795113/mrprime.o \
-	${OBJECTDIR}/_ext/1341795113/mrrand.o \
-	${OBJECTDIR}/_ext/1341795113/mrshs.o \
-	${OBJECTDIR}/_ext/1341795113/mrshs256.o \
-	${OBJECTDIR}/_ext/1341795113/mrsmall.o \
-	${OBJECTDIR}/_ext/1341795113/mrsroot.o \
-	${OBJECTDIR}/_ext/1341795113/mrstrong.o \
-	${OBJECTDIR}/_ext/1341795113/mrxgcd.o \
-	${OBJECTDIR}/_ext/1341795113/mrzzn2.o \
-	${OBJECTDIR}/_ext/1341795113/mrzzn2b.o \
-	${OBJECTDIR}/_ext/1341795113/mrzzn4.o \
-	${OBJECTDIR}/_ext/1341795113/octet.o \
-	${OBJECTDIR}/_ext/1341795113/sakkeWrapper.o \
-	${OBJECTDIR}/_ext/1341795113/sakke_bn_c.o \
+	${OBJECTDIR}/_ext/1341795113/aes.o \
+	${OBJECTDIR}/_ext/1341795113/big.o \
+	${OBJECTDIR}/_ext/1341795113/ecp.o \
+	${OBJECTDIR}/_ext/1341795113/ecp2.o \
+	${OBJECTDIR}/_ext/1341795113/ff.o \
+	${OBJECTDIR}/_ext/1341795113/fp.o \
+	${OBJECTDIR}/_ext/1341795113/fp12.o \
+	${OBJECTDIR}/_ext/1341795113/fp2.o \
+	${OBJECTDIR}/_ext/1341795113/fp4.o \
+	${OBJECTDIR}/_ext/1341795113/gcm.o \
+	${OBJECTDIR}/_ext/1341795113/hash.o \
+	${OBJECTDIR}/_ext/1341795113/mpin.o \
+	${OBJECTDIR}/_ext/1341795113/oct.o \
+	${OBJECTDIR}/_ext/1341795113/pair.o \
+	${OBJECTDIR}/_ext/1341795113/rand.o \
+	${OBJECTDIR}/_ext/1341795113/rom.o \
+	${OBJECTDIR}/_ext/1341795113/version.o \
 	${OBJECTDIR}/_ext/608447161/mpin_crypto_non_tee.o \
 	${OBJECTDIR}/_ext/608447161/mpin_sdk.o \
 	${OBJECTDIR}/_ext/608447161/utils.o \
@@ -148,200 +126,90 @@ ${OBJECTDIR}/_ext/580510450/CvThread.o: ../../../ext/cvshared/cpp/linux/CvThread
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -I../../../src/core/crypto -I../../../src/core -I../../../ext/cvshared/cpp/include -I../../../src/core/json -I../../../src/core/utf8 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/580510450/CvThread.o ../../../ext/cvshared/cpp/linux/CvThread.cpp
 
-${OBJECTDIR}/_ext/1341795113/aesGcmWrapper.o: ../../../src/core/crypto/aesGcmWrapper.c 
+${OBJECTDIR}/_ext/1341795113/aes.o: ../../../src/core/crypto/aes.c 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/aesGcmWrapper.o ../../../src/core/crypto/aesGcmWrapper.c
+	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/aes.o ../../../src/core/crypto/aes.c
 
-${OBJECTDIR}/_ext/1341795113/certivox.o: ../../../src/core/crypto/certivox.c 
+${OBJECTDIR}/_ext/1341795113/big.o: ../../../src/core/crypto/big.c 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/certivox.o ../../../src/core/crypto/certivox.c
+	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/big.o ../../../src/core/crypto/big.c
 
-${OBJECTDIR}/_ext/1341795113/eccsiWrapper.o: ../../../src/core/crypto/eccsiWrapper.c 
+${OBJECTDIR}/_ext/1341795113/ecp.o: ../../../src/core/crypto/ecp.c 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/eccsiWrapper.o ../../../src/core/crypto/eccsiWrapper.c
+	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/ecp.o ../../../src/core/crypto/ecp.c
 
-${OBJECTDIR}/_ext/1341795113/eccsi_c.o: ../../../src/core/crypto/eccsi_c.c 
+${OBJECTDIR}/_ext/1341795113/ecp2.o: ../../../src/core/crypto/ecp2.c 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/eccsi_c.o ../../../src/core/crypto/eccsi_c.c
+	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/ecp2.o ../../../src/core/crypto/ecp2.c
 
-${OBJECTDIR}/_ext/1341795113/mpinWrapper.o: ../../../src/core/crypto/mpinWrapper.c 
+${OBJECTDIR}/_ext/1341795113/ff.o: ../../../src/core/crypto/ff.c 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mpinWrapper.o ../../../src/core/crypto/mpinWrapper.c
+	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/ff.o ../../../src/core/crypto/ff.c
 
-${OBJECTDIR}/_ext/1341795113/mpin_c.o: ../../../src/core/crypto/mpin_c.c 
+${OBJECTDIR}/_ext/1341795113/fp.o: ../../../src/core/crypto/fp.c 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mpin_c.o ../../../src/core/crypto/mpin_c.c
+	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/fp.o ../../../src/core/crypto/fp.c
 
-${OBJECTDIR}/_ext/1341795113/mraes.o: ../../../src/core/crypto/mraes.c 
+${OBJECTDIR}/_ext/1341795113/fp12.o: ../../../src/core/crypto/fp12.c 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mraes.o ../../../src/core/crypto/mraes.c
+	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/fp12.o ../../../src/core/crypto/fp12.c
 
-${OBJECTDIR}/_ext/1341795113/mralloc.o: ../../../src/core/crypto/mralloc.c 
+${OBJECTDIR}/_ext/1341795113/fp2.o: ../../../src/core/crypto/fp2.c 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mralloc.o ../../../src/core/crypto/mralloc.c
+	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/fp2.o ../../../src/core/crypto/fp2.c
 
-${OBJECTDIR}/_ext/1341795113/mrarth0.o: ../../../src/core/crypto/mrarth0.c 
+${OBJECTDIR}/_ext/1341795113/fp4.o: ../../../src/core/crypto/fp4.c 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrarth0.o ../../../src/core/crypto/mrarth0.c
+	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/fp4.o ../../../src/core/crypto/fp4.c
 
-${OBJECTDIR}/_ext/1341795113/mrarth1.o: ../../../src/core/crypto/mrarth1.c 
+${OBJECTDIR}/_ext/1341795113/gcm.o: ../../../src/core/crypto/gcm.c 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrarth1.o ../../../src/core/crypto/mrarth1.c
+	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/gcm.o ../../../src/core/crypto/gcm.c
 
-${OBJECTDIR}/_ext/1341795113/mrarth2.o: ../../../src/core/crypto/mrarth2.c 
+${OBJECTDIR}/_ext/1341795113/hash.o: ../../../src/core/crypto/hash.c 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrarth2.o ../../../src/core/crypto/mrarth2.c
+	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/hash.o ../../../src/core/crypto/hash.c
 
-${OBJECTDIR}/_ext/1341795113/mrarth3.o: ../../../src/core/crypto/mrarth3.c 
+${OBJECTDIR}/_ext/1341795113/mpin.o: ../../../src/core/crypto/mpin.c 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrarth3.o ../../../src/core/crypto/mrarth3.c
+	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mpin.o ../../../src/core/crypto/mpin.c
 
-${OBJECTDIR}/_ext/1341795113/mrbits.o: ../../../src/core/crypto/mrbits.c 
+${OBJECTDIR}/_ext/1341795113/oct.o: ../../../src/core/crypto/oct.c 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrbits.o ../../../src/core/crypto/mrbits.c
+	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/oct.o ../../../src/core/crypto/oct.c
 
-${OBJECTDIR}/_ext/1341795113/mrcombaLinux64.o: ../../../src/core/crypto/mrcombaLinux64.c 
+${OBJECTDIR}/_ext/1341795113/pair.o: ../../../src/core/crypto/pair.c 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrcombaLinux64.o ../../../src/core/crypto/mrcombaLinux64.c
+	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/pair.o ../../../src/core/crypto/pair.c
 
-${OBJECTDIR}/_ext/1341795113/mrcore.o: ../../../src/core/crypto/mrcore.c 
+${OBJECTDIR}/_ext/1341795113/rand.o: ../../../src/core/crypto/rand.c 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrcore.o ../../../src/core/crypto/mrcore.c
+	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/rand.o ../../../src/core/crypto/rand.c
 
-${OBJECTDIR}/_ext/1341795113/mrcurve.o: ../../../src/core/crypto/mrcurve.c 
+${OBJECTDIR}/_ext/1341795113/rom.o: ../../../src/core/crypto/rom.c 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrcurve.o ../../../src/core/crypto/mrcurve.c
+	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/rom.o ../../../src/core/crypto/rom.c
 
-${OBJECTDIR}/_ext/1341795113/mrecn2.o: ../../../src/core/crypto/mrecn2.c 
+${OBJECTDIR}/_ext/1341795113/version.o: ../../../src/core/crypto/version.c 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrecn2.o ../../../src/core/crypto/mrecn2.c
-
-${OBJECTDIR}/_ext/1341795113/mrgcd.o: ../../../src/core/crypto/mrgcd.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrgcd.o ../../../src/core/crypto/mrgcd.c
-
-${OBJECTDIR}/_ext/1341795113/mrgcm.o: ../../../src/core/crypto/mrgcm.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrgcm.o ../../../src/core/crypto/mrgcm.c
-
-${OBJECTDIR}/_ext/1341795113/mrio1.o: ../../../src/core/crypto/mrio1.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrio1.o ../../../src/core/crypto/mrio1.c
-
-${OBJECTDIR}/_ext/1341795113/mrjack.o: ../../../src/core/crypto/mrjack.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrjack.o ../../../src/core/crypto/mrjack.c
-
-${OBJECTDIR}/_ext/1341795113/mrlucas.o: ../../../src/core/crypto/mrlucas.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrlucas.o ../../../src/core/crypto/mrlucas.c
-
-${OBJECTDIR}/_ext/1341795113/mrmonty.o: ../../../src/core/crypto/mrmonty.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrmonty.o ../../../src/core/crypto/mrmonty.c
-
-${OBJECTDIR}/_ext/1341795113/mrmuldvLinux64.o: ../../../src/core/crypto/mrmuldvLinux64.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrmuldvLinux64.o ../../../src/core/crypto/mrmuldvLinux64.c
-
-${OBJECTDIR}/_ext/1341795113/mrpower.o: ../../../src/core/crypto/mrpower.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrpower.o ../../../src/core/crypto/mrpower.c
-
-${OBJECTDIR}/_ext/1341795113/mrprime.o: ../../../src/core/crypto/mrprime.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrprime.o ../../../src/core/crypto/mrprime.c
-
-${OBJECTDIR}/_ext/1341795113/mrrand.o: ../../../src/core/crypto/mrrand.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrrand.o ../../../src/core/crypto/mrrand.c
-
-${OBJECTDIR}/_ext/1341795113/mrshs.o: ../../../src/core/crypto/mrshs.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrshs.o ../../../src/core/crypto/mrshs.c
-
-${OBJECTDIR}/_ext/1341795113/mrshs256.o: ../../../src/core/crypto/mrshs256.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrshs256.o ../../../src/core/crypto/mrshs256.c
-
-${OBJECTDIR}/_ext/1341795113/mrsmall.o: ../../../src/core/crypto/mrsmall.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrsmall.o ../../../src/core/crypto/mrsmall.c
-
-${OBJECTDIR}/_ext/1341795113/mrsroot.o: ../../../src/core/crypto/mrsroot.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrsroot.o ../../../src/core/crypto/mrsroot.c
-
-${OBJECTDIR}/_ext/1341795113/mrstrong.o: ../../../src/core/crypto/mrstrong.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrstrong.o ../../../src/core/crypto/mrstrong.c
-
-${OBJECTDIR}/_ext/1341795113/mrxgcd.o: ../../../src/core/crypto/mrxgcd.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrxgcd.o ../../../src/core/crypto/mrxgcd.c
-
-${OBJECTDIR}/_ext/1341795113/mrzzn2.o: ../../../src/core/crypto/mrzzn2.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrzzn2.o ../../../src/core/crypto/mrzzn2.c
-
-${OBJECTDIR}/_ext/1341795113/mrzzn2b.o: ../../../src/core/crypto/mrzzn2b.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrzzn2b.o ../../../src/core/crypto/mrzzn2b.c
-
-${OBJECTDIR}/_ext/1341795113/mrzzn4.o: ../../../src/core/crypto/mrzzn4.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/mrzzn4.o ../../../src/core/crypto/mrzzn4.c
-
-${OBJECTDIR}/_ext/1341795113/octet.o: ../../../src/core/crypto/octet.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/octet.o ../../../src/core/crypto/octet.c
-
-${OBJECTDIR}/_ext/1341795113/sakkeWrapper.o: ../../../src/core/crypto/sakkeWrapper.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/sakkeWrapper.o ../../../src/core/crypto/sakkeWrapper.c
-
-${OBJECTDIR}/_ext/1341795113/sakke_bn_c.o: ../../../src/core/crypto/sakke_bn_c.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1341795113
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/sakke_bn_c.o ../../../src/core/crypto/sakke_bn_c.c
+	$(COMPILE.c) -O2 -I../../../src/core/crypto -I../../../src/core -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1341795113/version.o ../../../src/core/crypto/version.c
 
 ${OBJECTDIR}/_ext/608447161/mpin_crypto_non_tee.o: ../../../src/core/mpin_crypto_non_tee.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/608447161

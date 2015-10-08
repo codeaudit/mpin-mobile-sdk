@@ -63,7 +63,7 @@ import com.certivox.mpinsdk.R;
 
 public class ConfigsListFragment extends MPinFragment implements OnClickListener, AdapterView.OnItemClickListener {
 
-    private String                   TAG = ConfigsListFragment.class.getCanonicalName();
+    private String TAG = ConfigsListFragment.class.getCanonicalName();
 
     private View                     mView;
     private ListView                 mListView;
@@ -116,12 +116,9 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
         setToolbarTitle(R.string.select_service_toolbar_title);
 
         mView = inflater.inflate(R.layout.fragment_configs_list, container, false);
-        mSelectedConfig = getMPinController().getActiveConfiguration();
-        if (mSelectedConfig != null) {
-            mSelectedConfigId = mSelectedConfig.getId();
-        } else {
-            mSelectedConfigId = -1;
-        }
+        setSelectedConfiguration();
+
+
         disableDrawer();
         initViews();
 
@@ -139,6 +136,8 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
     public void onResume() {
         super.onResume();
         initAdapter();
+        // TODO awful workaround for when there are newly imported configurations which have urls that haven`t been tested
+        getMPinController().handleMessage(MPinController.MESSAGE_CHECK_BACKEND_URL, mSelectedConfig.getBackendUrl());
     }
 
 
@@ -146,8 +145,8 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
     public boolean handleMessage(Message msg) {
         switch (msg.what) {
         case MPinController.MESSAGE_CONFIGURATION_DELETED:
-            mSelectedConfigId = -1;
-            mAdapter.updateConfigsList(getMPinController().getConfigurationsList());
+            setSelectedConfiguration();
+            mAdapter.updateConfigsList(getMPinController().getConfigurationsList(), getSelectedPosition());
             return true;
         case MPinController.MESSAGE_CONFIGURATION_CHANGED:
             Toast.makeText(getActivity(), "Configuration activated!", Toast.LENGTH_SHORT).show();
@@ -252,11 +251,20 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
         }
     }
 
-
+    
+    private void setSelectedConfiguration() {
+        mSelectedConfig = getMPinController().getActiveConfiguration();
+        if (mSelectedConfig != null) {
+            mSelectedConfigId = mSelectedConfig.getId();
+        } else {
+            mSelectedConfigId = -1;
+        }
+    }
+    
     private void initAdapter() {
         List<Config> listConfigurations = getMPinController().getConfigurationsList();
         mSelectedConfigId = getMPinController().getActiveConfigurationId();
-        int selectedPos = -1;
+        int selectedPos = getSelectedPosition();
         for (int i = 0; i < listConfigurations.size(); i++) {
             Config config = listConfigurations.get(i);
             if (config.getId() == mSelectedConfigId) {
@@ -272,7 +280,19 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(this);
     }
-
+    
+    private int getSelectedPosition() {
+        List<Config> listConfigurations = getMPinController().getConfigurationsList();
+        int selectedPos = -1;
+        for (int i = 0; i < listConfigurations.size(); i++) {
+            Config config = listConfigurations.get(i);
+            if (config.getId() == mSelectedConfigId) {
+                selectedPos = i;
+            }
+        }
+        
+        return selectedPos;
+    }
 
     private void onSelectConfig() {
         if (mSelectedConfigId == -1) {
