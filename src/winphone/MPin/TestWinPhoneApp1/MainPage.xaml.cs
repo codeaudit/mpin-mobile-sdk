@@ -205,12 +205,11 @@ namespace MPinDemo
             set { _protocolEventArgs = value; }
         }
 
-        public void NavigateToProtocolPage()//Type pageTypeToNavigete)
+        public void NavigateToProtocolPage()
         {
             //ScenarioFrame.Navigate(pageTypeToNavigete, this.ProtocolEvent.Uri); 
-
             parameter = this.ProtocolEvent.Uri.ToString(); // -> should be mpin://?mpinId=value1&activateKey=value2
-            // TODO??? call blankPage1(parameter), koito tr da izwika ot controllera to call RegisterUserBySMS(value1, value2); вместо FinishRegistration(..)
+            // TODO: SMS flow: call blankPage1(parameter) which should call controllera.VerifyUser(value1, value2); instead of FinishRegistration(..)
         }
         #endregion 
 
