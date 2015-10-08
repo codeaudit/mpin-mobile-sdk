@@ -366,7 +366,6 @@ ContextProxy::ContextProxy(MPinRC::IContext^ context)
 {
 	this->managedContext = context;
 
-	// TODO: check if the pin pad is created
 	MPinRC::IPinPad^ managedPad = this->managedContext->GetPinPad();
 	pinPadProxy.SetPinPad(managedPad);
 }

@@ -63,7 +63,7 @@ namespace MPinDemo
         private bool isInitialLoad = false;
         private bool isServiceAdding = false;
         private bool shouldSetSelectedUser = false;
-        private bool skipSelectingUserAfterLoad = false;
+        private static bool skipSelectingUserAfterLoad = false;
         private static bool showUsers = true;
         private bool showUsersSet = false;
         private MainPage rootPage = null;
@@ -298,7 +298,31 @@ namespace MPinDemo
             return false;
         }
 
-        private bool IsTheFirstConfigurationRun()
+        private bool IsTheFirstConfigurationManualRun(IList<object> addedItems, IList<object> removedItems)
+        {
+            if (CheckIfManualPivotItemChanged(addedItems, removedItems))
+            {
+                return CheckFirstConfigurationsLocalSettings();
+            }
+
+            return false;
+        }
+
+        private bool CheckIfManualPivotItemChanged(IList<object> addedItems, IList<object> removedItems)
+        {
+            // check if the configurations are manually displayed, i.e. the user goes to the serveces itself
+            if (addedItems.Count != 1 || removedItems.Count != 1)
+                return false;
+
+            PivotItem added = addedItems[0] as PivotItem;
+            PivotItem removed = removedItems[0] as PivotItem;
+            if (!added.Equals(ServicesPivotItem) || !removed.Equals(UsersPivotItem))
+                return false;
+
+            return true;
+        }
+
+        private bool CheckFirstConfigurationsLocalSettings()
         {
             if (!localSettings.Values.Keys.Contains(FirstConfigurationsSeenString))
             {
@@ -501,6 +525,7 @@ namespace MPinDemo
             {
                 controller.DataModel.CurrentUser = UsersListBox.SelectedItem as User;
                 isInitialLoad = false;
+                skipSelectingUserAfterLoad = false;
             }
 
             SavePropertyState(SelectedUser, UsersListBox.SelectedIndex);
@@ -571,7 +596,7 @@ namespace MPinDemo
 
         private void MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!isInitialLoad && this.MainPivot.SelectedIndex == 0 && IsTheFirstConfigurationRun())
+            if (!isInitialLoad && this.MainPivot.SelectedIndex == 0 && IsTheFirstConfigurationManualRun(e.AddedItems, e.RemovedItems))
             {
                 Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
                 if (!mainFrame.Navigate(typeof(MPinServerQuide)))
