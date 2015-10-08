@@ -39,6 +39,7 @@
 #import "SMSRegistrationMessage.h"
 #import "APNAuthenticationMessage.h"
 #import "NotificationService.h"
+#import "OTPViewController.h"
 
 @interface AppDelegate ()
 {
@@ -65,16 +66,16 @@
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     
     
-#ifdef NOTIFICATIONS
-    #if NOTIFICATIONS
-        UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
-        UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-        
-        [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
-        [application registerForRemoteNotifications];
-    #endif
-#endif
-
+//#ifdef NOTIFICATIONS
+//    #if NOTIFICATIONS
+//        UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+//        UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+//        
+//        [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+//        [application registerForRemoteNotifications];
+//    #endif
+//#endif
+//
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 
     [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:[SettingsManager sharedManager].strHockeyAppID];
@@ -167,7 +168,10 @@
         [c.centerViewController popToRootViewControllerAnimated:NO];
         boolRestartFlow = YES;
     }
-
+    
+    if ([centerNavigationController.topViewController  isMemberOfClass:[OTPViewController class]]){
+        [centerNavigationController popToRootViewControllerAnimated:NO];
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -202,12 +206,6 @@
         [_vcUserList invalidate];
     }
     
-    if (isFirstTime &&[NetworkMonitor isNetworkAvailable]) {
-        isFirstTime = false;
-        [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
-        [_vcUserList invalidate];
-    }
-
     UIView *colourView = [self.window viewWithTag:1234];
     [UIView animateWithDuration:0.5 animations:^{
         colourView.alpha = 0;
@@ -226,6 +224,14 @@
         self.apnAuthMessage = nil;
     }
 
+}
+
+/// TODO:: this is a quick and dirty fix to bug # 456 fix this later after refactoring code
+- (void) freshLaunch {
+    if (isFirstTime) {
+        isFirstTime = false;
+        [_vcUserList invalidate];
+    }
 }
 
 

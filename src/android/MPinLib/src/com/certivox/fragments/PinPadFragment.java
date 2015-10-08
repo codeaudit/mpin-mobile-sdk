@@ -137,6 +137,7 @@ public class PinPadFragment extends Fragment {
 
 
     public void showWrongPin() {
+        clearPin();
         mSelectionCircles.selectAll();
         mSelectionCircles.setSelectedColor(ContextCompat.getColor(getActivity(),R.color.orange));
         mWrongPinTextView.setVisibility(View.VISIBLE);
@@ -151,10 +152,13 @@ public class PinPadFragment extends Fragment {
         }
     }
 
-
-    private void setEmptyPin() {
+    private void clearPin() {
         mIsPinSet = false;
         mInput.setLength(0);
+    }
+    
+    private void setEmptyPin() {
+        clearPin();
         mSelectionCircles.deselectAll();
         updateButtons();
     }

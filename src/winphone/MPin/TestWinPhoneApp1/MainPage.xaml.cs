@@ -27,6 +27,7 @@ using System.Diagnostics;
 using System.Net.NetworkInformation;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
+using Windows.Graphics.Display;
 using Windows.Networking.Connectivity;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -58,6 +59,7 @@ namespace MPinDemo
             this.Loaded += MainPage_Loaded;
             Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             NetworkInformation.NetworkStatusChanged += NetworkInformation_NetworkStatusChanged;
+            DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait;
 
             // This is a static public property that allows downstream pages to get a handle to the MainPage instance
             // in order to call methods that are in this class.
@@ -203,12 +205,11 @@ namespace MPinDemo
             set { _protocolEventArgs = value; }
         }
 
-        public void NavigateToProtocolPage()//Type pageTypeToNavigete)
+        public void NavigateToProtocolPage()
         {
             //ScenarioFrame.Navigate(pageTypeToNavigete, this.ProtocolEvent.Uri); 
-
             parameter = this.ProtocolEvent.Uri.ToString(); // -> should be mpin://?mpinId=value1&activateKey=value2
-            // TODO??? call blankPage1(parameter), koito tr da izwika ot controllera to call RegisterUserBySMS(value1, value2); вместо FinishRegistration(..)
+            // TODO: SMS flow: call blankPage1(parameter) which should call controllera.VerifyUser(value1, value2); instead of FinishRegistration(..)
         }
         #endregion 
 

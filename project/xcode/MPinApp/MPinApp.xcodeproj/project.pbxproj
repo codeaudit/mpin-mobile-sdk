@@ -1977,7 +1977,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
-					"NOTIFICATIONS=1",
+					"NOTIFICATIONS=0",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Certivox/CertivoxMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -2070,7 +2070,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
-					"NOTIFICATIONS=1",
+					"NOTIFICATIONS=0",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Certivox/CertivoxMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -2261,7 +2261,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
-					"NOTIFICATIONS=1",
+					"NOTIFICATIONS=0",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/MPinApp/Resources/Certivox/CertivoxMPin.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
