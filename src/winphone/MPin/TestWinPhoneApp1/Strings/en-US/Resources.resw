@@ -345,7 +345,7 @@ Unsuccessfull authentication!</value>
     <value>Build: </value>
   </data>
   <data name="AboutTitle.Text" xml:space="preserve">
-    <value>CertiVox M-Pin</value>
+    <value>CERTIVOX M-PIN</value>
   </data>
   <data name="EmptyURL" xml:space="preserve">
     <value>Empty url string!</value>
