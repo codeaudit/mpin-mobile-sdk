@@ -47,6 +47,7 @@
 }
 
 +(NSDictionary *) urlQueryParamsToDictianary:(NSString *) urlQuery {
+    if (urlQuery == nil) return nil;
     
     NSMutableDictionary *queryStringDictionary = [[NSMutableDictionary alloc] init];
     NSArray *urlComponents = [urlQuery componentsSeparatedByString:@"&"];

@@ -120,17 +120,17 @@
   <data name="AccessNumberButton.Content" xml:space="preserve">
     <value>Готово</value>
   </data>
-  <data name="AccessNumberTB.Text" xml:space="preserve">
-    <value>Въведете номер за достъп</value>
+  <data name="ANTB" xml:space="preserve">
+    <value>Въведете {0} цифрен Номер за Достъп за:</value>
   </data>
   <data name="AddServiceButton.Content" xml:space="preserve">
     <value>Добави</value>
   </data>
   <data name="AuthTB.Text" xml:space="preserve">
-    <value>СТАТУС ПРИ АУТЕНТИЦАКИЯТА</value>
+    <value>СТАТУС ПРИ УДОСТОВЕРЯВАНЕТО НА САМОЛИЧНОСТТА</value>
   </data>
   <data name="BlockedUser.Text" xml:space="preserve">
-    <value>Твърде много неуспешни опити за аутентикация!</value>
+    <value>Твърде много неуспешни опити за удостоверяване на самоличността!</value>
   </data>
   <data name="ConfirmButton.Content" xml:space="preserve">
     <value>Потвърдих самоличността си, продължи.</value>
@@ -145,7 +145,7 @@
     <value>Грешка: </value>
   </data>
   <data name="ErrorAuth" xml:space="preserve">
-    <value>Неуспешна аутентикация! Грешка: </value>
+    <value>Неуспешно удостоверяване на самоличността! Грешка: </value>
   </data>
   <data name="ExistingUser" xml:space="preserve">
     <value>Избраният потребител вече съществува за избраната конфигурация!</value>
@@ -158,11 +158,11 @@
   </data>
   <data name="IncorrectAccessNumber" xml:space="preserve">
     <value>Невалиден входен номер!
-Неуспешна аутентикация!</value>
+Неуспешно удостоверяване на самоличността!</value>
   </data>
   <data name="IncorrectPin" xml:space="preserve">
     <value>Неправилен ПИН!
-Неуспешна аутентикация!</value>
+Неуспешно удостоверяване на самоличността!</value>
   </data>
   <data name="InitializationFailed" xml:space="preserve">
     <value>Грешка при стартирането на MPinSDK: статус = {0}. Моля, опитайте отново!</value>
@@ -213,7 +213,7 @@
     <value>Статус на конфигурацията: </value>
   </data>
   <data name="SuccessfulAuth" xml:space="preserve">
-    <value>Успешна аутентикация!</value>
+    <value>Успешно удостоверяване на самоличността!</value>
   </data>
   <data name="TimeLeftTB.Text" xml:space="preserve">
     <value>Оставащо време:</value>
@@ -232,9 +232,6 @@
   </data>
   <data name="SelectAppBarButton.Label" xml:space="preserve">
     <value>избери</value>
-  </data>
-  <data name="AccessNumberLength" xml:space="preserve">
-    <value>Въведете {0} цифрен номер за достъп</value>
   </data>
   <data name="NavigationFailedExceptionMessage" xml:space="preserve">
     <value>Възникна проблем при навигацията!</value>
@@ -348,7 +345,7 @@
     <value>Build: </value>
   </data>
   <data name="AboutTitle.Text" xml:space="preserve">
-    <value>CertiVox M-Pin</value>
+    <value>CERTIVOX M-PIN</value>
   </data>
   <data name="EmptyURL" xml:space="preserve">
     <value>Адресът на сървъра е празен!</value>
@@ -417,7 +414,7 @@
     <value>ВЪВЕДЕТЕ ВХОДЕН НОМЕР</value>
   </data>
   <data name="IdentityCreatedNotification.Text" xml:space="preserve">
-    <value>Успешно добавен потребител! Вече може да се аутентикирате посредством този потребител.</value>
+    <value>Успешно добавен потребител! Вече може да използвате този потребител за удостоверяване на самоличността.</value>
   </data>
   <data name="IdentityCreatedTitle.Text" xml:space="preserve">
     <value>СЪЗДАДЕН ПОТРЕБИТЕЛ</value>
@@ -476,5 +473,83 @@
   </data>
   <data name="SkipButton.Content" xml:space="preserve">
     <value>ПРОПУСНИ</value>
+  </data>
+  <data name="IntroClickLink.Text" xml:space="preserve">
+    <value>Изберете линка от пощата си и сте готови да зададете своя ПИН</value>
+  </data>
+  <data name="IntroConfirm.Text" xml:space="preserve">
+    <value>Потвърдете пощата си</value>
+  </data>
+  <data name="IntroFinish.Text" xml:space="preserve">
+    <value>Може да използвате създадения от вас потребител по всяко време</value>
+  </data>
+  <data name="IntroPin.Text" xml:space="preserve">
+    <value>Създайте своя ПИН</value>
+  </data>
+  <data name="IntroReady.Text" xml:space="preserve">
+    <value>Това е всичко!</value>
+  </data>
+  <data name="IntroSimpler.Text" xml:space="preserve">
+    <value>Много по-лесно е от използването на парола, както и по-сигурно</value>
+  </data>
+  <data name="GuideButton.Label" xml:space="preserve">
+    <value>кратко ръководство</value>
+  </data>
+  <data name="QuideDownload.Text" xml:space="preserve">
+    <value>Изтегли и настрой своя M-Pin сървър.</value>
+  </data>
+  <data name="QuideUse.Text" xml:space="preserve">
+    <value>Посетете certivox.com/products, изберете между M-Pin Core и M-Pin SSO и следвайте онлайн инструкциите за инсталация.</value>
+  </data>
+  <data name="AddServiceText.Text" xml:space="preserve">
+    <value>Добави конфигурация</value>
+  </data>
+  <data name="AddText.Text" xml:space="preserve">
+    <value>Добави</value>
+  </data>
+  <data name="MPinServerButton.Label" xml:space="preserve">
+    <value>вземи своя M-Pin сървър</value>
+  </data>
+  <data name="QuideAddServer.Text" xml:space="preserve">
+    <value>Добави своя сървър към мобилното приложение.</value>
+  </data>
+  <data name="QuideDesc.Text" xml:space="preserve">
+    <value>Натиснете бутона плюс, въведет адреса на своя M-Pin сървър и сте готови да удостоверите самоличността си към своето приложение и услугите на M-Pin мобилното приложение.</value>
+  </data>
+  <data name="QuideTitle.Text" xml:space="preserve">
+    <value>Създайте собствен M-Pin сървър</value>
+  </data>
+  <data name="ANGuideDesc.Text" xml:space="preserve">
+    <value>Влезте на discuss.certivox.com от своя дектоп браузър и изберете "Sign in with phone"</value>
+  </data>
+  <data name="ANQuideGet.Text" xml:space="preserve">
+    <value>Вземете собствен Номер за Достъп</value>
+  </data>
+  <data name="ANQuideTitle.Text" xml:space="preserve">
+    <value>Вход в Certivox общността</value>
+  </data>
+  <data name="OkString" xml:space="preserve">
+    <value>добре</value>
+  </data>
+  <data name="ANServiceInfo.Text" xml:space="preserve">
+    <value>Вземи такъв от десктоп браузъра си на:</value>
+  </data>
+  <data name="AboutBuiltOnLink.Content" xml:space="preserve">
+    <value>Билд на M-Pin Mobile SDK</value>
+  </data>
+  <data name="AboutHomepageLink.Content" xml:space="preserve">
+    <value>Личната страница на CertiVox</value>
+  </data>
+  <data name="AboutMobileAppLink.Content" xml:space="preserve">
+    <value>M-Pin Мобилно Ръководство</value>
+  </data>
+  <data name="AboutProductSupportLink.Content" xml:space="preserve">
+    <value>Поддръжка на продуктите</value>
+  </data>
+  <data name="AboutTermsCondLink.Content" xml:space="preserve">
+    <value>Условия за ползване на CertiVox продуктите</value>
+  </data>
+  <data name="AboutValuesLink.Content" xml:space="preserve">
+    <value>Ценности / Сигурност / Лично пространство</value>
   </data>
 </root>

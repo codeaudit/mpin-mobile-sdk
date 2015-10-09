@@ -86,14 +86,17 @@
     <Compile Include="About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AccessNumberQuide.xaml.cs">
+      <DependentUpon>AccessNumberQuide.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AccessNumberScreen.xaml.cs">
       <DependentUpon>AccessNumberScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AppIntro.xaml.cs">
-      <DependentUpon>AppIntro.xaml</DependentUpon>
+    <Compile Include="AppQuide.xaml.cs">
+      <DependentUpon>AppQuide.xaml</DependentUpon>
     </Compile>
     <Compile Include="AuthenticationScreen.xaml.cs">
       <DependentUpon>AuthenticationScreen.xaml</DependentUpon>
@@ -124,6 +127,9 @@
     <Compile Include="Models\AppDataModel.cs" />
     <Compile Include="Models\Backend.cs" />
     <Compile Include="Models\Controller.cs" />
+    <Compile Include="MPinServerQuide.xaml.cs">
+      <DependentUpon>MPinServerQuide.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NoNetworkScreen.xaml.cs">
       <DependentUpon>NoNetworkScreen.xaml</DependentUpon>
     </Compile>
@@ -143,7 +149,6 @@
   <ItemGroup>
     <Content Include="Assets\Logo.scale-240.png" />
     <Content Include="Assets\qr_scan.png" />
-    <Content Include="Assets\select.png" />
     <Content Include="Assets\SmallLogo.scale-240.png" />
     <Content Include="Assets\SplashScreen.scale-240.png" />
     <Content Include="Assets\Square71x71Logo.scale-240.png" />
@@ -161,11 +166,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="AccessNumberQuide.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AccessNumberScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AppIntro.xaml">
+    <Page Include="AppQuide.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -200,6 +209,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MPinServerQuide.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NoNetworkScreen.xaml">
       <SubType>Designer</SubType>

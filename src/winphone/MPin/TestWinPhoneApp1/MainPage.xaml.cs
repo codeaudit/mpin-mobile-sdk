@@ -25,7 +25,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
+using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
+using Windows.Graphics.Display;
 using Windows.Networking.Connectivity;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -47,7 +49,7 @@ namespace MPinDemo
         private DispatcherTimer timer;
         private string parameter = string.Empty;
         private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-        private static string RunTimeString = "RunTime";
+        private const string RunTimeString = "RunTime";
         #endregion // Fields
 
         #region C'tor
@@ -57,6 +59,7 @@ namespace MPinDemo
             this.Loaded += MainPage_Loaded;
             Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             NetworkInformation.NetworkStatusChanged += NetworkInformation_NetworkStatusChanged;
+            DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait;
 
             // This is a static public property that allows downstream pages to get a handle to the MainPage instance
             // in order to call methods that are in this class.
@@ -101,7 +104,7 @@ namespace MPinDemo
 
                 if (IsTheFirstAppLaunch())
                 {
-                    if (!MainFrame.Navigate(typeof(AppIntro), passed))
+                    if (!MainFrame.Navigate(typeof(AppQuide), passed))
                     {
                         throw new Exception("Failed to create starup screen");
                     }
@@ -193,6 +196,23 @@ namespace MPinDemo
                 NotifyUser(this.IsInternetConnected ? string.Empty : ResourceLoader.GetForCurrentView().GetString("NoConnection"), NotifyType.ErrorMessage, false);
             }
         }
+
+        #region uri associations
+        private ProtocolActivatedEventArgs _protocolEventArgs = null;
+        public ProtocolActivatedEventArgs ProtocolEvent
+        {
+            get { return _protocolEventArgs; }
+            set { _protocolEventArgs = value; }
+        }
+
+        public void NavigateToProtocolPage()
+        {
+            //ScenarioFrame.Navigate(pageTypeToNavigete, this.ProtocolEvent.Uri); 
+            parameter = this.ProtocolEvent.Uri.ToString(); // -> should be mpin://?mpinId=value1&activateKey=value2
+            // TODO: SMS flow: call blankPage1(parameter) which should call controllera.VerifyUser(value1, value2); instead of FinishRegistration(..)
+        }
+        #endregion 
+
 
         #region notification
         /// <summary>

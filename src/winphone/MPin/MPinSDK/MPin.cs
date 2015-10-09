@@ -30,6 +30,7 @@ using MPinRC;
 using Windows.UI.Core;
 using Windows.ApplicationModel.Resources;
 using System.Diagnostics;
+using Windows.Data.Json;
 
 namespace MPinSDK
 {
@@ -155,6 +156,31 @@ namespace MPinSDK
             lock (lockObject)
             {
                 sw = mPtr.RestartRegistration(user.Wrapper, userData);
+            }
+
+            return new Status(sw.Code, sw.Error);
+        }
+
+        /// <summary>
+        /// A method used to registers a user using the SMS flow.
+        /// </summary>
+        /// <param name="mpinId">The mpin identifier.</param>
+        /// <param name="activationKey">The activation key.</param>
+        /// <returns></returns>
+        public Status VerifyUser(string mpinId, string activationKey)
+        {
+            if (string.IsNullOrEmpty(mpinId) || string.IsNullOrEmpty(activationKey))
+                return new Status(-1, ResourceLoader.GetForCurrentView().GetString("NullUser"));
+            // TODOOO: check what is passed from the server and how to parse it
+
+            JsonObject mpinIdJSON = JsonObject.Parse(mpinId);
+
+            StatusWrapper sw;
+            string userId = mpinIdJSON.GetNamedString("userID"); // extract from json..
+            User user = MakeNewUser(userId);
+            lock(lockObject)
+            {
+                sw = mPtr.VerifyUser(user.Wrapper, mpinId, activationKey);
             }
 
             return new Status(sw.Code, sw.Error);

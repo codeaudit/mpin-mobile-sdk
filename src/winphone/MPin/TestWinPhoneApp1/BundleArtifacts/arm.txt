@@ -1,3 +1,3 @@
-MainPackage=C:\Work\CVXnew\mpin-mobile-sdk\src\winphone\MPin\TestWinPhoneApp1\bin\ARM\MPinConnect\MPinDemo_1.1.3.1_Bundle\MPinDemo_1.1.3.1_ARM_MPinConnect.appx
-SymbolPackage=C:\Work\CVXnew\mpin-mobile-sdk\src\winphone\MPin\TestWinPhoneApp1\AppPackages\MPinDemo_1.1.3.1_MPinConnect_Test\MPinDemo_1.1.3.1_ARM_MPinConnect.appxsym
-ResourcePack=C:\Work\CVXnew\mpin-mobile-sdk\src\winphone\MPin\TestWinPhoneApp1\bin\ARM\MPinConnect\MPinDemo_1.1.3.1_Bundle\MPinDemo_1.1.3.1_language-bg.appx
+MainPackage=C:\Work\CVXnew\mpin-mobile-sdk\src\winphone\MPin\TestWinPhoneApp1\bin\ARM\MPinConnect\MPinDemo_1.0.0.0_Bundle\MPinDemo_1.0.0.0_ARM_MPinConnect.appx
+SymbolPackage=C:\Work\CVXnew\mpin-mobile-sdk\src\winphone\MPin\TestWinPhoneApp1\AppPackages\MPinDemo_1.0.0.0_MPinConnect_Test\MPinDemo_1.0.0.0_ARM_MPinConnect.appxsym
+ResourcePack=C:\Work\CVXnew\mpin-mobile-sdk\src\winphone\MPin\TestWinPhoneApp1\bin\ARM\MPinConnect\MPinDemo_1.0.0.0_Bundle\MPinDemo_1.0.0.0_language-bg.appx
