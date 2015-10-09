@@ -32,6 +32,14 @@
 package com.certivox.adapters;
 
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import com.certivox.models.Config;
+import com.certivox.mpinsdk.R;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,13 +48,6 @@ import android.widget.BaseAdapter;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.certivox.models.Config;
-import com.certivox.mpinsdk.R;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 
 public class ConfigurationListAdapter extends BaseAdapter {
@@ -70,11 +71,9 @@ public class ConfigurationListAdapter extends BaseAdapter {
     }
 
 
-    public void updateConfigsList(List<Config> configList, long selectedConf) {
+    public void updateConfigsList(List<Config> configList, int selected) {
         mConfigsList.clear();
-        setSelected(new int[] {
-                (int) selectedConf
-        });
+        setSelected(new int[] {selected});
         mConfigsList.addAll(configList);
         notifyDataSetChanged();
     }
