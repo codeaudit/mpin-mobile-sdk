@@ -63,7 +63,7 @@ import com.certivox.mpinsdk.R;
 
 public class ConfigsListFragment extends MPinFragment implements OnClickListener, AdapterView.OnItemClickListener {
 
-    private String TAG = ConfigsListFragment.class.getCanonicalName();
+    private String                   TAG = ConfigsListFragment.class.getCanonicalName();
 
     private View                     mView;
     private ListView                 mListView;
@@ -118,7 +118,6 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
         mView = inflater.inflate(R.layout.fragment_configs_list, container, false);
         setSelectedConfiguration();
 
-
         disableDrawer();
         initViews();
 
@@ -136,8 +135,12 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
     public void onResume() {
         super.onResume();
         initAdapter();
-        // TODO awful workaround for when there are newly imported configurations which have urls that haven`t been tested
-        getMPinController().handleMessage(MPinController.MESSAGE_CHECK_BACKEND_URL, mSelectedConfig.getBackendUrl());
+        // TODO awful workaround for when there are newly imported configurations which have urls that haven`t been
+        // tested
+        if (mAdapter.getCount() > 0) {
+            Config config = (Config) mAdapter.getItem(0);
+            getMPinController().handleMessage(MPinController.MESSAGE_CHECK_BACKEND_URL, config.getBackendUrl());
+        }
     }
 
 
@@ -251,7 +254,7 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
         }
     }
 
-    
+
     private void setSelectedConfiguration() {
         mSelectedConfig = getMPinController().getActiveConfiguration();
         if (mSelectedConfig != null) {
@@ -260,7 +263,8 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
             mSelectedConfigId = -1;
         }
     }
-    
+
+
     private void initAdapter() {
         List<Config> listConfigurations = getMPinController().getConfigurationsList();
         mSelectedConfigId = getMPinController().getActiveConfigurationId();
@@ -280,7 +284,8 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(this);
     }
-    
+
+
     private int getSelectedPosition() {
         List<Config> listConfigurations = getMPinController().getConfigurationsList();
         int selectedPos = -1;
@@ -290,9 +295,10 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
                 selectedPos = i;
             }
         }
-        
+
         return selectedPos;
     }
+
 
     private void onSelectConfig() {
         if (mSelectedConfigId == -1) {
