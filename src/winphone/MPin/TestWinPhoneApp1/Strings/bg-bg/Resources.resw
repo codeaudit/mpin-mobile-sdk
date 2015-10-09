@@ -345,7 +345,7 @@
     <value>Build: </value>
   </data>
   <data name="AboutTitle.Text" xml:space="preserve">
-    <value>CertiVox M-Pin</value>
+    <value>CERTIVOX M-PIN</value>
   </data>
   <data name="EmptyURL" xml:space="preserve">
     <value>Адресът на сървъра е празен!</value>
@@ -533,5 +533,23 @@
   </data>
   <data name="ANServiceInfo.Text" xml:space="preserve">
     <value>Вземи такъв от десктоп браузъра си на:</value>
+  </data>
+  <data name="AboutBuiltOnLink.Content" xml:space="preserve">
+    <value>Билд на M-Pin Mobile SDK</value>
+  </data>
+  <data name="AboutHomepageLink.Content" xml:space="preserve">
+    <value>Личната страница на CertiVox</value>
+  </data>
+  <data name="AboutMobileAppLink.Content" xml:space="preserve">
+    <value>M-Pin Мобилно Ръководство</value>
+  </data>
+  <data name="AboutProductSupportLink.Content" xml:space="preserve">
+    <value>Поддръжка на продуктите</value>
+  </data>
+  <data name="AboutTermsCondLink.Content" xml:space="preserve">
+    <value>Условия за ползване на CertiVox продуктите</value>
+  </data>
+  <data name="AboutValuesLink.Content" xml:space="preserve">
+    <value>Ценности / Сигурност / Лично пространство</value>
   </data>
 </root>
