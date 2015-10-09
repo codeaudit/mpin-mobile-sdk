@@ -169,14 +169,14 @@
     [(MenuViewController *)self.menuContainerViewController.leftMenuViewController setConfiguration];
     [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"CONFIGURATIONS_CONFIG_CHANGED",@"Configuration changed")
      addActivityIndicator:NO
-     hideAfter:6];
+     hideAfter:2];
     [_tableView reloadData];
 }
 
 - ( void )OnSetBackendError:( id )sender error:( NSError * )error
 {
     MpinStatus *status = ( error.userInfo ) [kMPinSatus];
-    [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(status.statusCodeAsString, @"UNKNOWN ERROR") addActivityIndicator:NO hideAfter:6];
+    [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(status.statusCodeAsString, @"UNKNOWN ERROR") addActivityIndicator:NO hideAfter:5];
     [_tableView reloadData];
 }
 

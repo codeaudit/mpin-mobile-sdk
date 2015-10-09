@@ -477,7 +477,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 
     [[ErrorHandler sharedManager] updateMessage:[NSString stringWithFormat:@"%@", message]
      addActivityIndicator:NO
-     hideAfter:6];
+     hideAfter:5];
     [_btnDone setEnabled:YES];
 }
 

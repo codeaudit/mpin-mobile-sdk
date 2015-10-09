@@ -282,47 +282,47 @@ static NSMutableArray *kCircles;
             break;
 
         case CRYPTO_ERROR:
-            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"CRYPTO_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"CRYPTO_ERROR", @"Request error") addActivityIndicator:NO hideAfter:5];
             break;
 
         case STORAGE_ERROR:
-            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"STORAGE_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"STORAGE_ERROR", @"Request error") addActivityIndicator:NO hideAfter:5];
             break;
 
         case NETWORK_ERROR:
-            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"NETWORK_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"NETWORK_ERROR", @"Request error") addActivityIndicator:NO hideAfter:5];
             break;
 
         case RESPONSE_PARSE_ERROR:
-            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"RESPONSE_PARSE_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"RESPONSE_PARSE_ERROR", @"Request error") addActivityIndicator:NO hideAfter:5];
             break;
 
         case FLOW_ERROR:
-            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"FLOW_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"FLOW_ERROR", @"Request error") addActivityIndicator:NO hideAfter:5];
             break;
 
         case IDENTITY_NOT_AUTHORIZED:
-            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"IDENTITY_NOT_AUTHORIZED", @"Request error") addActivityIndicator:NO hideAfter:6];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"IDENTITY_NOT_AUTHORIZED", @"Request error") addActivityIndicator:NO hideAfter:5];
             break;
 
         case IDENTITY_NOT_VERIFIED:
-            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"IDENTITY_NOT_VERIFIED", @"Request error") addActivityIndicator:NO hideAfter:6];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"IDENTITY_NOT_VERIFIED", @"Request error") addActivityIndicator:NO hideAfter:5];
             break;
 
         case REQUEST_EXPIRED:
-            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"REQUEST_EXPIRED", @"Request error") addActivityIndicator:NO hideAfter:6];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"REQUEST_EXPIRED", @"Request error") addActivityIndicator:NO hideAfter:5];
             break;
 
         case REVOKED:
-            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"REVOKED", @"Request error") addActivityIndicator:NO hideAfter:6];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"REVOKED", @"Request error") addActivityIndicator:NO hideAfter:5];
             break;
 
         case HTTP_SERVER_ERROR:
-            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"HTTP_SERVER_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"HTTP_SERVER_ERROR", @"Request error") addActivityIndicator:NO hideAfter:5];
             break;
 
         case HTTP_REQUEST_ERROR:
-            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"HTTP_REQUEST_ERROR", @"Request error") addActivityIndicator:NO hideAfter:6];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(@"HTTP_REQUEST_ERROR", @"Request error") addActivityIndicator:NO hideAfter:5];
             break;
 
         case       PIN_INPUT_CANCELED:
@@ -370,7 +370,7 @@ static NSMutableArray *kCircles;
         {
             [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(mpinStatus.statusCodeAsString, mpinStatus.errorMessage)
              addActivityIndicator:NO
-             hideAfter:6];
+             hideAfter:5];
 
             dispatch_after(dispatch_time( DISPATCH_TIME_NOW, (int64_t)( 2.0 * NSEC_PER_SEC ) ), dispatch_get_main_queue(), ^ {
                     [self.navigationController popViewControllerAnimated:YES];
@@ -387,12 +387,12 @@ static NSMutableArray *kCircles;
             break;
 
         case HTTP_REQUEST_ERROR:
-            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR") addActivityIndicator:NO hideAfter:6.0];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR") addActivityIndicator:NO hideAfter:5.0];
 
             break;
 
         default:
-            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR") addActivityIndicator:NO hideAfter:6.0];
+            [[ErrorHandler sharedManager] updateMessage:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR") addActivityIndicator:NO hideAfter:5.0];
             break;
         }
     }
