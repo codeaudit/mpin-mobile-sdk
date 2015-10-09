@@ -2181,10 +2181,10 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The configurations marked in red are duplicates. " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="nUg-ZG-vNR">
-                                <rect key="frame" x="16" y="66" width="568" height="21"/>
+                                <rect key="frame" x="16" y="68" width="568" height="25"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="aGP-6Q-K8l"/>
+                                    <constraint firstAttribute="height" constant="25" id="aGP-6Q-K8l"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -2239,7 +2239,7 @@
                         <constraints>
                             <constraint firstItem="551-2O-702" firstAttribute="top" secondItem="eeI-hd-Jgm" secondAttribute="bottom" constant="56" id="02M-eI-BUB"/>
                             <constraint firstItem="eeI-hd-Jgm" firstAttribute="top" secondItem="MUr-Jz-RYa" secondAttribute="bottom" constant="62" id="1ns-lG-zCC"/>
-                            <constraint firstItem="nUg-ZG-vNR" firstAttribute="top" secondItem="MUr-Jz-RYa" secondAttribute="bottom" constant="-2" id="8he-oa-F0g"/>
+                            <constraint firstItem="nUg-ZG-vNR" firstAttribute="top" secondItem="MUr-Jz-RYa" secondAttribute="bottom" id="8he-oa-F0g"/>
                             <constraint firstItem="MUr-Jz-RYa" firstAttribute="leading" secondItem="Mdh-zH-dGW" secondAttribute="leadingMargin" constant="-4" id="Ekb-n1-vRP"/>
                             <constraint firstItem="nUg-ZG-vNR" firstAttribute="trailing" secondItem="Mdh-zH-dGW" secondAttribute="trailingMargin" constant="4" id="I98-zH-ZBJ"/>
                             <constraint firstAttribute="trailing" secondItem="9My-o0-wDg" secondAttribute="trailing" id="QFe-HB-LPJ"/>
