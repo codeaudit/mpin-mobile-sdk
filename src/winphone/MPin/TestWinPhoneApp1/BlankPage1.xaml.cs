@@ -614,7 +614,9 @@ namespace MPinDemo
             }
 
             SelectAppBarButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? controller.DataModel.SelectedBackend != null : UsersListBox.SelectedItem != null;
-            DeleteButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? ServicesList.Items.Count > 0 : UsersListBox.Items.Count > 0;
+            DeleteButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? 
+                controller.DataModel.BackendsList != null && controller.DataModel.BackendsList.Count > 0 : 
+                controller.DataModel.UsersList != null && controller.DataModel.UsersList.Count > 0;
             ResetPinButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Collapsed : Visibility.Visible;
             AddAppBarButton.Icon = new SymbolIcon(this.MainPivot.SelectedIndex == 0 ? Symbol.Add : Symbol.AddFriend);
 

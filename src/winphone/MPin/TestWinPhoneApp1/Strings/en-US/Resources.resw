@@ -318,7 +318,7 @@ Unsuccessfull authentication!</value>
     <value>Service URL</value>
   </data>
   <data name="DeleteServiceConfirmation" xml:space="preserve">
-    <value>Are you sure you want to delete configuration "{0}"?</value>
+    <value>If you delete this configuration you will not be able to log into this service unless you recreate this configuration</value>
   </data>
   <data name="EmptyTitle" xml:space="preserve">
     <value>The service name cannot be empty!</value>
@@ -560,5 +560,8 @@ All existing identities will be deleted.</value>
   </data>
   <data name="AboutValuesLink.Content" xml:space="preserve">
     <value>Values / Security / Privicy</value>
+  </data>
+  <data name="CancelString" xml:space="preserve">
+    <value>cancel</value>
   </data>
 </root>

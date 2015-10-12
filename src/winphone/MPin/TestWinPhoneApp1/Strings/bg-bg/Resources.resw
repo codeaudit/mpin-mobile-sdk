@@ -318,7 +318,7 @@
     <value>Адрес на Кофигурацията</value>
   </data>
   <data name="DeleteServiceConfirmation" xml:space="preserve">
-    <value>Сигурни ли сте, че искате да изтриете конфигурация "{0}"?</value>
+    <value>Ако изтриете тази конфигурация, няма да можете да се свържете към този сървис докато не пресъздадете отново конфигуратицята</value>
   </data>
   <data name="EmptyTitle" xml:space="preserve">
     <value>Моля, задайте заглавие на конфигурацията!</value>
@@ -551,5 +551,8 @@
   </data>
   <data name="AboutValuesLink.Content" xml:space="preserve">
     <value>Ценности / Сигурност / Лично пространство</value>
+  </data>
+  <data name="CancelString" xml:space="preserve">
+    <value>прекрати</value>
   </data>
 </root>

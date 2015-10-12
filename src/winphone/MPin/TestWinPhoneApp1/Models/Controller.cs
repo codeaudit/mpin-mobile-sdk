@@ -299,9 +299,9 @@ namespace MPinDemo.Models
                     return;
                 }
 
-                var confirmation = new MessageDialog(string.Format(ResourceLoader.GetForCurrentView().GetString("DeleteServiceConfirmation"), backend.Name));
-                confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("YesCommand")));
-                confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("NoCommand")));
+                var confirmation = new MessageDialog(ResourceLoader.GetForCurrentView().GetString("DeleteServiceConfirmation"));
+                confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("OkString")));
+                confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("CancelString")));
                 confirmation.DefaultCommandIndex = 1;
                 var result = await confirmation.ShowAsync();
                 if (result.Equals(confirmation.Commands[0]))
