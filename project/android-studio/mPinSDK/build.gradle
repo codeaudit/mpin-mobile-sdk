@@ -1,0 +1,68 @@
+apply plugin: 'com.android.application'
+
+def getPropertyOrDefault = { String propertyName, defaultValue ->
+    return project.hasProperty(propertyName) ? project.getProperties().get(propertyName) : defaultValue
+}
+
+def getProperty = { String propertyName ->
+    if (project.hasProperty(propertyName)) {
+        return project.getProperties().get(propertyName)
+    } else {
+        throw new GradleException("Property $propertyName is required, but was not provided")
+    }
+}
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
+
+    defaultConfig {
+        applicationId "com.certivox.mpinsdk"
+        minSdkVersion 16
+        targetSdkVersion 23
+        versionCode getPropertyOrDefault("versionCode", 3) as Integer
+        versionName "1.1.0"
+        archivesBaseName = "MPinSDK_$versionName.$versionCode"
+
+        testApplicationId "com.certivox.mpinsdk.test"
+        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+    }
+
+
+    signingConfigs {
+        release {
+            if (project.hasProperty("storeFile")) {
+                storeFile file(getProperty("storeFile"))
+                storePassword getProperty("storePassword")
+                keyAlias getProperty("keyAlias")
+                keyPassword getProperty("keyPassword")
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            if (project.hasProperty("storeFile")) {
+                // Only sign if a storeFile is set as property
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+}
+
+dependencies {
+    compile project(':mPinLib')
+    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile files('libs/HockeySDK-3.5.0.jar')
+    compile files('libs/zbar.jar')
+    androidTestCompile 'com.android.support.test:runner:0.4'
+    androidTestCompile 'com.android.support.test:rules:0.4'
+
+}
