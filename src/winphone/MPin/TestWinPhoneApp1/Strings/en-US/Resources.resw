@@ -556,7 +556,7 @@ All existing identities will be deleted.</value>
     <value>Product Support</value>
   </data>
   <data name="AboutTermsCondLink.Content" xml:space="preserve">
-    <value>CertiVox Terms &amp;amp; Conditions</value>
+    <value>CertiVox Terms &amp; Conditions</value>
   </data>
   <data name="AboutValuesLink.Content" xml:space="preserve">
     <value>Values / Security / Privicy</value>
