@@ -128,6 +128,15 @@ namespace MPinDemo
                 }
             }
         }
+        
+        internal void Clear()
+        {
+            if (MainFrame != null && MainFrame.SourcePageType.Equals(typeof(OtpScreen)))
+            {
+                OtpScreen page = MainFrame.Content as OtpScreen;
+                page.Otp.TtlSeconds = 0;
+            }
+        }
 
         private bool IsTheFirstAppLaunch()
         {
@@ -212,8 +221,7 @@ namespace MPinDemo
             // TODO: SMS flow: call blankPage1(parameter) which should call controllera.VerifyUser(value1, value2); instead of FinishRegistration(..)
         }
         #endregion 
-
-
+        
         #region notification
         /// <summary>
         /// Used to display messages to the user
@@ -293,6 +301,5 @@ namespace MPinDemo
 
         #endregion // notification
         #endregion // Methods
-
     }
 }

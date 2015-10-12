@@ -188,13 +188,18 @@ namespace MPinDemo
             var deferral = e.SuspendingOperation.GetDeferral();
 
             Frame currentFrame = Window.Current.Content as Frame;
+
             if (currentFrame.SourcePageType.Equals(typeof(BlankPage1)))
             {
                 BlankPage1 page = currentFrame.Content as BlankPage1;
                 page.Clear();
             }
+            else if (currentFrame.SourcePageType.Equals(typeof(MainPage)))
+            {
+                MainPage page = currentFrame.Content as MainPage;
+                page.Clear();
+            }
 
-            // TODO: Save application state and stop any background activity
             deferral.Complete();
         }
         
