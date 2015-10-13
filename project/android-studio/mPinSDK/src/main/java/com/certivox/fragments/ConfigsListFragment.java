@@ -327,28 +327,28 @@ public class ConfigsListFragment extends MPinFragment implements OnClickListener
         if (mSelectedConfig == null || mSelectedConfig.getId() == -1) {
             showNoSelectedConfigurationDialog();
         } else
-            new AlertDialog.Builder(getActivity()).setTitle("Delete configuration")
-                    .setMessage("This action will also delete all identities, associated with this configuration.")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            new AlertDialog.Builder(getActivity()).setTitle(R.string.configuration_list_delete_config_warning_dialog_title)
+                    .setMessage(R.string.configuration_list_delete_config_warning_dialog_text)
+                    .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             getMPinController().handleMessage(MPinController.MESSAGE_DELETE_CONFIGURATION,
-                                    mSelectedConfigId);
+                                                                     mSelectedConfigId);
                         }
-                    }).setNegativeButton("Cancel", null).show();
+                    }).setNegativeButton(R.string.button_cancel, null).show();
     }
 
 
     private void showNoSelectedConfigurationDialog() {
-        new AlertDialog.Builder(getActivity()).setTitle("No selected configuration")
-                .setMessage("Please, choose a configuration").setPositiveButton("OK", null).show();
+        new AlertDialog.Builder(getActivity()).setTitle(R.string.configuration_list_no_selected_config_dialog_title)
+                .setMessage(R.string.configuration_list_no_selected_config_dialog_text).setPositiveButton(R.string.button_ok, null).show();
     }
 
 
     private void showNoActivatedConfigurationDialog() {
-        new AlertDialog.Builder(getActivity()).setTitle("No activated configuration")
-                .setMessage("Please, activate a configuration").setPositiveButton("OK", null).show();
+        new AlertDialog.Builder(getActivity()).setTitle(R.string.configuration_list_no_activated_config_dialog_title)
+                .setMessage(R.string.configuration_list_no_activated_config_dialog_text).setPositiveButton(R.string.button_ok, null).show();
     }
 
 
