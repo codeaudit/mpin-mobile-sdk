@@ -110,7 +110,7 @@
 "WARNING_USER_WILL_BE_DELETED"              = "User \"%@\" will be deleted!";
 "WARNING_CANNOT_EDIT_PREDEFINED_CONFIG"     = "Predefined configurations cannot be edited.";
 "WARNING_CANNOT_DELETE_PREDEFINED_CONFIG"   = "Predefined configurations cannot be deleted.";
-"WARNING_THIS_WILL_DELETE_ALL_IDS"          = "This action will also delete all identities, associated with this configuration.";
+"WARNING_THIS_WILL_DELETE_ALL_IDS"          = "If you delete this configuration you will not be able to log into this service unless you recreate this configuration.";
 "WARNING_VERIFY_FINGER"                     = "Verify fingerprint";
 "WARNING_OVERWRITING_CONFIGURATIONS"        = "Some of the configurations will be overwritten. Please confirm.";
 

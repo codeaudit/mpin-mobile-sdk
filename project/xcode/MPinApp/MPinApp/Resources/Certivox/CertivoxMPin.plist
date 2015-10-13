@@ -32,9 +32,14 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1597</string>
+	<string>1601</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>UIAppFonts</key>
 	<array>
 		<string>OpenSans-Bold.ttf</string>

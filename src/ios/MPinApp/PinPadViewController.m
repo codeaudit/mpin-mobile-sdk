@@ -36,7 +36,8 @@
 #import "OTPViewController.h"
 #import "ANAuthenticationSuccessful.h"
 #import "IdentityBlockedViewController.h"
-
+#import "IdentityCreatedViewController.h"
+#import "ConfirmEmailViewController.h"
 #define PIN_LENGTH 4
 
 static NSMutableArray *kCircles;
@@ -152,7 +153,7 @@ static NSMutableArray *kCircles;
     [MPin sendPin:self.strNumber];
     [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"" addActivityIndicator:YES minShowTime:0];
     NSLog(@"sendPIN: %@", self.strNumber);
-    if (self.boolIsSMS) {
+    if (self.boolIsSMS || self.boolSetupPin) {
         [self popToRoot];
     }
 }
@@ -240,6 +241,35 @@ static NSMutableArray *kCircles;
 }
 
 #pragma mark - SDK Handlers -
+
+- ( void )OnFinishRegistrationCompleted:( id )sender user:( const id<IUser>)user
+{
+    IdentityCreatedViewController *vcIDCreated = (IdentityCreatedViewController *)[[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"IdentityCreatedViewController"];
+    vcIDCreated.user = user;
+    vcIDCreated.strEmail = [user getIdentity];
+    [self.navigationController pushViewController:vcIDCreated animated:YES];
+}
+
+- ( void )OnFinishRegistrationError:( id )sender error:( NSError * )error
+{
+    switch ( error.code )
+    {
+        case IDENTITY_NOT_VERIFIED:
+        {
+            [[ErrorHandler sharedManager] hideMessage];
+            ConfirmEmailViewController *cevc = (ConfirmEmailViewController *)[[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"ConfirmEmailViewController"];
+            cevc.iuser = ( error.userInfo ) [kUSER];
+            [self.navigationController pushViewController:cevc animated:YES];
+        }
+            break;
+            
+        case HTTP_SERVER_ERROR:
+            [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:NSLocalizedString(@"HTTP_SERVER_ERROR", @"SERVER ERROR.  PLEASE CONTACT YOUR SYSTEM ADMINISTRATOR.") addActivityIndicator:NO minShowTime:3];
+            
+        default:
+            break;
+    }
+}
 
 - ( void )OnAuthenticateOTPCompleted:( id )sender user:( id<IUser>)user otp:( OTP * )otp
 {
