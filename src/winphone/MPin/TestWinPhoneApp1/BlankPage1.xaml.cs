@@ -751,7 +751,7 @@ namespace MPinDemo
             await captureManager.StartPreviewAsync();
         }
 
-        private async void AppBarButton_Click(object sender, RoutedEventArgs e)
+        private async void TakePictureButton_Click(object sender, RoutedEventArgs e)
         {
             SetControlsVisibility(false);
             SetControlsIsEnabled(null, true);

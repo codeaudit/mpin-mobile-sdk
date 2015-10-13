@@ -40,7 +40,7 @@ namespace MPinDemo
                     case ConfigurationType.Online:
                         return ResourceLoader.GetForCurrentView().GetString("OnlineLogin");
                     case ConfigurationType.OTP:
-                        return ResourceLoader.GetForCurrentView().GetString("OnlineLogin");
+                        return ResourceLoader.GetForCurrentView().GetString("OTPLogin");
                 }
             }
             catch
