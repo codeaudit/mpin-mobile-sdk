@@ -180,7 +180,11 @@ namespace MPinDemo
             switch (this.MainPivot.SelectedIndex)
             {
                 case 0:
-                    this.ExBackend = controller.DataModel.CurrentService;
+                    if (controller.IsValidService)
+                    {
+                        this.ExBackend = controller.DataModel.CurrentService;
+                    }
+
                     SetControlsIsEnabled(null, true);
                     controller.DataModel.CurrentService = controller.DataModel.SelectedBackend;                    
                     break;
