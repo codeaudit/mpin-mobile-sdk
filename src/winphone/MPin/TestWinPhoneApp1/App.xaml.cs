@@ -183,7 +183,7 @@ namespace MPinDemo
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
 
@@ -192,12 +192,12 @@ namespace MPinDemo
             if (currentFrame.SourcePageType.Equals(typeof(BlankPage1)))
             {
                 BlankPage1 page = currentFrame.Content as BlankPage1;
-                page.Clear();
+                await page.Clear();
             }
             else if (currentFrame.SourcePageType.Equals(typeof(MainPage)))
             {
                 MainPage page = currentFrame.Content as MainPage;
-                page.Clear();
+                await page.Clear();
             }
 
             deferral.Complete();

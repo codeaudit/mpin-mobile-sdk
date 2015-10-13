@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
 using Windows.Graphics.Display;
@@ -129,13 +130,21 @@ namespace MPinDemo
             }
         }
         
-        internal void Clear()
+        internal async Task Clear()
         {
-            if (MainFrame != null && MainFrame.SourcePageType.Equals(typeof(OtpScreen)))
+            if (MainFrame != null)
             {
-                OtpScreen page = MainFrame.Content as OtpScreen;
-                page.Otp.TtlSeconds = 0;
-            }
+                if (MainFrame.SourcePageType.Equals(typeof(OtpScreen)))
+                {
+                    OtpScreen page = MainFrame.Content as OtpScreen;
+                    page.Otp.TtlSeconds = 0;
+                }
+                else if (MainFrame.SourcePageType.Equals(typeof(BlankPage1)))
+                {
+                    BlankPage1 page = MainFrame.Content as BlankPage1;
+                    await page.Clear();
+                }
+            }            
         }
 
         private bool IsTheFirstAppLaunch()

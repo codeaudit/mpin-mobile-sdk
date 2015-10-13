@@ -193,7 +193,7 @@ namespace MPinDemo
                 }
                 else
                 {
-                    MobileLoginRadioButton.Focus(FocusState.Keyboard);
+                    OnlineLoginRadioButton.Focus(FocusState.Keyboard);
                 }
             }
         }
