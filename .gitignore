@@ -14,6 +14,8 @@
 /project/eclipse/AndroidMpinSDK/libs/mips64/libAndroidMpinSDK.so
 /project/eclipse/AndroidMpinSDK/libs/x86/libAndroidMpinSDK.so
 /project/eclipse/AndroidMpinSDK/libs/x86_64/libAndroidMpinSDK.so
+/project/android-studio/mPinLib/src/main/libs/armeabi-v7a/libAndroidMpinSDK.so
+/project/android-studio/mPinLib/src/main/libs/x86/libAndroidMpinSDK.so
 src/android/MPinLib/project.properties
 src/android/v7/
 .indexes
