@@ -101,7 +101,7 @@ namespace MPinDemo
             this.backend.PropertyChanged += backend_PropertyChanged;
             this.ConfigTitle.Text = ResourceLoader.GetForCurrentView().GetString(isAdding ? "ConfigTitleAdd" : "ConfigTitleEdit");
 
-            if (this.Backend == null || this.Backend.Type == ConfigurationType.Mobile)
+            if (this.Backend == null || this.Backend.Type == ConfigurationType.Online)
             {
                 MobileLoginRadioButton.IsChecked = true;
             }

@@ -35,12 +35,12 @@ namespace MPinDemo
                 ConfigurationType type = (ConfigurationType)value;
                 switch (type)
                 {
-                    case ConfigurationType.Mobile:
-                        return ResourceLoader.GetForCurrentView().GetString("MobileLogin");
+                    //case ConfigurationType.Mobile:
+                    //    return ResourceLoader.GetForCurrentView().GetString("MobileLogin");
                     case ConfigurationType.Online:
                         return ResourceLoader.GetForCurrentView().GetString("OnlineLogin");
                     case ConfigurationType.OTP:
-                        return ResourceLoader.GetForCurrentView().GetString("OTPLogin");
+                        return ResourceLoader.GetForCurrentView().GetString("OnlineLogin");
                 }
             }
             catch

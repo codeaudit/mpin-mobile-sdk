@@ -291,7 +291,7 @@ namespace MPinDemo.Models
 
         internal async Task DeleteService(Backend backend, bool canBeDeleted)
         {
-            if (this.DataModel.BackendsList.Contains(backend))
+            if (this.DataModel.BackendsList != null && this.DataModel.BackendsList.Contains(backend))
             {
                 if (!canBeDeleted)
                 {
