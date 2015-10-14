@@ -564,4 +564,7 @@ All existing identities will be deleted.</value>
   <data name="CancelString" xml:space="preserve">
     <value>cancel</value>
   </data>
+  <data name="BlockedUserTB.Text" xml:space="preserve">
+    <value>Wrong PIN entered too many times. Your identity has been blocked. You can either select a different identity, reset your PIN or remove your blocked identity.</value>
+  </data>
 </root>
