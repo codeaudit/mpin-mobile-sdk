@@ -112,6 +112,15 @@
     <string name="add_service">Add Service</string>
     <!-- Configuration Edit end -->
 
+    <!-- Configuration List -->
+    <string name="configuration_list_delete_config_warning_dialog_text">If you delete this configuration you will not be able to log into this service unless you recreate this configuration</string>
+    <string name="configuration_list_delete_config_warning_dialog_title">Delete configuration</string>
+    <string name="configuration_list_no_selected_config_dialog_title">No selected configuration</string>
+    <string name="configuration_list_no_selected_config_dialog_text">Please, choose a configuration</string>
+    <string name="configuration_list_no_activated_config_dialog_title">No activated configuration</string>
+    <string name="configuration_list_no_activated_config_dialog_text">Please, activate a configuration</string>
+    <!-- Configuration List end -->
+
 
     <!-- About -->
     <string name="about_title">About</string>
