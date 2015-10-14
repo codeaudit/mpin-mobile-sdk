@@ -186,7 +186,11 @@ namespace MPinDemo
                     }
 
                     SetControlsIsEnabled(null, true);
-                    controller.DataModel.CurrentService = controller.DataModel.SelectedBackend;                    
+                    controller.DataModel.CurrentService = controller.DataModel.SelectedBackend;
+                    if (controller.IsValidService)
+                    {
+                        UsersListBox.SelectedItem = null;
+                    }
                     break;
 
                 case 1:
@@ -683,13 +687,17 @@ namespace MPinDemo
                     shouldSetSelectedUser = true;
                 }
 
-                isInitialLoad = false;
+                if (this.SavedSelectedUser != null && this.SavedSelectedUser.Equals(UsersListBox.SelectedItem))
+                {
+                    // if the selection did not happen - we rely on the LayoutUpdated event to set it
+                    isInitialLoad = false;
+                }
             }
         }
 
         private void UsersListBox_LayoutUpdated(object sender, object e)
         {
-            if (UsersListBox != null && UsersListBox.ItemsSource != null && this.SavedSelectedUser != null && UsersListBox.SelectedItem == null)
+            if (UsersListBox != null && UsersListBox.ItemsSource != null && this.SavedSelectedUser != null && UsersListBox.SelectedItem == null && isInitialLoad)
             {
                 UsersListBox.SelectedItem = this.SavedSelectedUser;
                 isInitialLoad = false;
