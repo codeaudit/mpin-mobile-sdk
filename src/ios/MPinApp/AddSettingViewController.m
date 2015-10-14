@@ -298,10 +298,6 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 {
     switch ( indexPath.row )
     {
-//    case 3:
-//        _service = LOGIN_ON_MOBILE;
-//        break;
-
     case 3:
         _service = LOGIN_ONLINE;
         break;
