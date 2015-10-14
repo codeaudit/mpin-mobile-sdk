@@ -39,7 +39,7 @@ namespace MPinDemo
     public sealed partial class App : Application
     {
         private TransitionCollection transitions;
-        
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -51,7 +51,7 @@ namespace MPinDemo
             this.Resuming += this.OnResuming;
             HockeyClient.Current.Configure("584408f872a0f7e10991ddb9954b3eb3");
         }
-                
+
         //internal static Frame RootFrame;
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -71,8 +71,8 @@ namespace MPinDemo
 
             // When the navigation stack isn't restored navigate to the first page,
             // configuring the new page by passing required information as a navigation
-            // parameter
-            if (rootFrame != null && !rootFrame.Navigate(typeof(MainPage), e.Arguments))
+            // parameter            
+            if (rootFrame != null && !MPinSDK.Common.Extensions.Navigate(rootFrame, typeof(MainPage), e.Arguments))
             {
                 throw new Exception("Failed to create initial page");
             }
@@ -202,7 +202,7 @@ namespace MPinDemo
 
             deferral.Complete();
         }
-        
+
         async void OnResuming(object sender, object e)
         {
             Frame currentFrame = Window.Current.Content as Frame;
