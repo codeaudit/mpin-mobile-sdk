@@ -410,8 +410,14 @@ namespace MPinDemo
             DeviceInformation deviceID = (await DeviceInformation.FindAllAsync(DeviceClass.VideoCapture))
                 .FirstOrDefault(x => x.EnclosureLocation != null && x.EnclosureLocation.Panel == desiredCamera);
 
-            if (deviceID != null) return deviceID;
-            else throw new Exception(string.Format("Camera of type {0} doesn't exist.", desiredCamera));
+            if (deviceID != null)
+            {                
+                return deviceID;
+            }
+            else
+            {           
+                throw new Exception(string.Format("Camera of type {0} doesn't exist.", desiredCamera));
+            }
         }
 
         internal async Task Clear()
@@ -431,14 +437,19 @@ namespace MPinDemo
         }
 
         private async Task<WriteableBitmap> GetImage()
-        {
+        {            
+            if (captureManager == null)
+            {
+                return null;
+            }
+
             StorageFile photoFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("qrCode.jpg", CreationCollisionOption.ReplaceExisting);
 
             // take a photo with choosen Encoding
             await captureManager.CapturePhotoToStorageFileAsync(ImageEncodingProperties.CreateJpeg(), photoFile);
-
+       
             await captureManager.StopPreviewAsync();
-
+       
             var data = await FileIO.ReadBufferAsync(photoFile);
             // create a stream from the file
             var ms = new InMemoryRandomAccessStream();
@@ -457,12 +468,17 @@ namespace MPinDemo
 
             // load the writable bitmap from the stream
             await wb.SetSourceAsync(ms);
-
+    
             return wb;
         }
 
         private async Task SendRequest(String serviceURL, Windows.Web.Http.HttpMethod http_method)
         {
+            if (string.IsNullOrEmpty(serviceURL))
+            {
+                throw new ArgumentException("Empty service url to connect to!");
+            }
+
             HttpClient httpClient = new HttpClient();
             CancellationTokenSource cts = new CancellationTokenSource();
             try
@@ -740,7 +756,7 @@ namespace MPinDemo
 
         private async void HardwareButtons_BackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
         {
-            if (PhotoContainer.Visibility == Windows.UI.Xaml.Visibility.Visible)
+            if (PhotoContainer != null && captureManager != null && PhotoContainer.Visibility == Windows.UI.Xaml.Visibility.Visible)
             {
                 await captureManager.StopPreviewAsync();
                 SetControlsVisibility(false);
@@ -769,6 +785,12 @@ namespace MPinDemo
             SetControlsIsEnabled(null, true);
 
             var wb = await GetImage();
+            if (wb == null)
+            {
+                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("ImageProblem"), MainPage.NotifyType.ErrorMessage);
+                return;
+            }
+
             Result result = _barcodeReader.Decode(wb);
             if (result != null)
             {

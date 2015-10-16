@@ -558,4 +558,7 @@
   <data name="BlockedUserTB.Text" xml:space="preserve">
     <value>Грешен ПИН е въведен твърде много пъти. Потребителят е блокиран. Можете да изберете друг потребител, да зададете нов ПИН или да премахнете потребителя от листата. </value>
   </data>
+  <data name="ImageProblem" xml:space="preserve">
+    <value>Възникна проблем с APIто на камерата! Моля, рестартирайте апликацията!</value>
+  </data>
 </root>
