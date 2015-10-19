@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/green"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/guide_controls_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+        <Button
+            style="@style/GuideButton"
+            android:id="@+id/guide_skip_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@string/skip_button_title"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/guide_done_button"
+            style="@style/GuideButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="@string/done_button_title"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/guide_next_button"
+            style="@style/GuideButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_navigate_next"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/guide_controls_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@id/guide_controls_container"
+        android:background="@color/swans_down" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_above="@id/guide_controls_separator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </android.support.v4.view.ViewPager>
+
+</RelativeLayout>

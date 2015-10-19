@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp" >
+
+    <TextView
+        android:id="@+id/user_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:drawableLeft="@drawable/ic_avatar"
+        android:drawableStart="@drawable/ic_avatar"
+        android:gravity="center"
+        android:textColor="@color/base_text_color"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/otp_title_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_email"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/otp_title_label"
+        android:textColor="@color/green"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/otp_info_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/otp_title_label"
+        android:gravity="center"
+        android:text="@string/otp_info_label"
+        android:textColor="@color/base_text_color"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/otp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/otp_info_label"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@string/font_roboto"
+        android:gravity="center_horizontal"
+        android:textColor="@color/base_text_color"
+        android:textSize="36sp" />
+
+    <ProgressBar
+        android:id="@+id/otp_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/otp"
+        android:max="10000"
+        android:padding="6dp" />
+
+    <TextView
+        android:id="@+id/otp_time_left"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/otp_progress"
+        android:gravity="center_horizontal"
+        android:text="99 sec"
+        android:textColor="@color/green"
+        android:textSize="12sp" />
+
+</RelativeLayout>

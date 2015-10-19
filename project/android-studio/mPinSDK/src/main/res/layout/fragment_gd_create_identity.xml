@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/GuideContent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/gd_create_identity_title"
+        style="@style/GuideTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="@string/gd_first_start_title"
+        android:textSize="28sp" />
+
+    <ImageView
+        android:id="@+id/gd_create_identity_image"
+        style="@style/GuideImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/gd_create_identity_subtitle"
+        android:layout_below="@id/gd_create_identity_title"
+        android:src="@drawable/ic_gd_create_identity" />
+
+    <TextView
+        android:id="@+id/gd_create_identity_subtitle"
+        style="@style/GuideTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/gd_create_identity_content"
+        android:text="@string/gd_create_identity_title"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/gd_create_identity_content"
+        style="@style/GuideTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/gd_create_identity_content"
+        android:textSize="18sp" />
+
+</RelativeLayout>

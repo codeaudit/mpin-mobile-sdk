@@ -1,0 +1,22 @@
+<resources>
+
+    <string name="app_name">MPinLib</string>
+    <string name="enter_pin_title">Enter PIN</string>
+    <string name="setup_pin_title">Setup PIN</string>
+    <string name="wrong_pin">Wrong PIN. Try again!</string>
+    <string name="add_identitiy">Create new identitiy</string>
+    <string name="login_button">Login</string>
+    <string name="delete_button">Delete character</string>
+    <string name="user_avatar">User avatar</string>
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="six">6</string>
+    <string name="seven">7</string>
+    <string name="eight">8</string>
+    <string name="nine">9</string>
+    <string name="zero">0</string>
+
+</resources>
