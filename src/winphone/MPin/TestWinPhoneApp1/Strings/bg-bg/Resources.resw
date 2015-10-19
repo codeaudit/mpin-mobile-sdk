@@ -392,7 +392,7 @@
   <data name="SaveConfigurationBarButton.Label" xml:space="preserve">
     <value>запази</value>
   </data>
-  <data name="OverideDiplicates" xml:space="preserve">
+  <data name="OverwriteDiplicates" xml:space="preserve">
     <value>Сигурен ли си, че искаш да презапишеш конфигурациите със съвпадащи имена?</value>
   </data>
   <data name="NoQRCode" xml:space="preserve">
@@ -437,7 +437,7 @@
   <data name="ReadConfigurationTitle.Text" xml:space="preserve">
     <value>ПРОЧЕТЕНИ КОНФИГУРАЦИИ</value>
   </data>
-  <data name="OverideActiveService" xml:space="preserve">
+  <data name="OverwriteActiveService" xml:space="preserve">
     <value>Избрали сте да презапишете адреса на активната конфигурация.
 Ако продължите, всички съществуващи потребители ще бъдат изтрити.</value>
   </data>

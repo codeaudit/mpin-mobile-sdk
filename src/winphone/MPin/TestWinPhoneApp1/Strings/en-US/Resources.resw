@@ -392,8 +392,8 @@ Unsuccessfull authentication!</value>
   <data name="SaveConfigurationBarButton.Label" xml:space="preserve">
     <value>save</value>
   </data>
-  <data name="OverideDiplicates" xml:space="preserve">
-    <value>Are you sure you want to override the configurations with duplicates name?</value>
+  <data name="OverwriteDiplicates" xml:space="preserve">
+    <value>Are you sure you want to overwrite the configurations with duplicates name?</value>
   </data>
   <data name="NoQRCode" xml:space="preserve">
     <value>No QRCode symbol is found!</value>
@@ -443,7 +443,7 @@ Unsuccessfull authentication!</value>
   <data name="ReadConfigurationTitle.Text" xml:space="preserve">
     <value>SCANNED SERVICES</value>
   </data>
-  <data name="OverideActiveService" xml:space="preserve">
+  <data name="OverwriteActiveService" xml:space="preserve">
     <value>Overwrite the URL for the active service?
 All existing identities will be deleted.</value>
   </data>
