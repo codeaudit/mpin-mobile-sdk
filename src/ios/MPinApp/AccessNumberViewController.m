@@ -67,7 +67,7 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad: ) name:kShowPinPadNotification object:nil];
     _lblEmail.text = _strEmail;
     _txtAN.text = @"";
-    _txtAN.font = [UIFont fontWithName:@"OpenSans-Semibold" size:16.f];
+    _txtAN.font = [UIFont fontWithName:@"OpenSans-Semibold" size:12.f];
     [_txtAN setBottomBorder:[[SettingsManager sharedManager] color5] width:1.f alpha:.5f];
     NSString *strANLenght       = [MPin GetClientParam:constStrAccessNumberLenghtKey];
 
@@ -153,7 +153,7 @@ const NSString *constStrAccessNumberUseCheckSum = @"accessNumberUseCheckSum";
     self.strNumber = @"";
     [self enableNumButtons];
     _txtAN.text = @"";
-    _txtAN.font = [UIFont fontWithName:@"OpenSans-Semibold" size:16.f];
+    _txtAN.font = [UIFont fontWithName:@"OpenSans-Semibold" size:12.f];
 }
 
 - ( IBAction )clearAction:( id )sender

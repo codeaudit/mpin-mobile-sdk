@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/primaryColor"
+        android:minHeight="?attr/actionBarSize"
+        app:popupTheme="@style/Theme.AppCompat.Light"
+        app:theme="@style/toolbarTheme" >
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:gravity="center_horizontal" >
+
+        <!-- Activty content -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray" >
+
+            <TextView
+                android:id="@+id/no_network_connection_message_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:drawableLeft="@drawable/ic_no_connection"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_no_connection"
+                android:gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/no_network_connection_message"
+                android:visibility="gone" />
+
+            <FrameLayout
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/no_network_connection_message_id" >
+            </FrameLayout>
+        </RelativeLayout>
+        <!-- Activty content end -->
+
+
+        <!-- The navigation drawer -->
+
+        <LinearLayout
+            android:id="@+id/navigation_drawer_container"
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@color/white"
+            android:clickable="true"
+            android:orientation="vertical"
+            android:paddingTop="12dp" >
+
+            <TextView
+                android:id="@+id/drawer_title"
+                style="@style/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:text="@string/drawer_subtitle" />
+
+            <TextView
+                android:id="@+id/active_service_id"
+                style="@style/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:text="@string/drawer_no_service" />
+
+            <TextView
+                android:id="@+id/active_service_url_id"
+                style="@style/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:text="@string/drawer_no_service_url" />
+
+            <LinearLayout
+                android:id="@+id/action_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="25dp" >
+
+                <TextView
+                    android:id="@+id/change_identitiy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/drawer_selector"
+                    android:clickable="true"
+                    android:drawableLeft="@drawable/ic_account"
+                    android:drawablePadding="20dp"
+                    android:drawableStart="@drawable/ic_account"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:text="@string/change_identitiy"
+                    android:textColor="@color/button_selector_white_textcolor"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/change_service"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/drawer_selector"
+                    android:clickable="true"
+                    android:drawableLeft="@drawable/ic_settings"
+                    android:drawablePadding="20dp"
+                    android:drawableStart="@drawable/ic_settings"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:text="@string/change_service"
+                    android:textColor="@color/button_selector_white_textcolor"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/about"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/drawer_selector"
+                    android:clickable="true"
+                    android:drawableLeft="@drawable/ic_about"
+                    android:drawablePadding="20dp"
+                    android:drawableStart="@drawable/ic_about"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:text="@string/about"
+                    android:textColor="@color/button_selector_white_textcolor"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/quick_start_guide"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/drawer_selector"
+                    android:clickable="true"
+                    android:drawableLeft="@drawable/ic_quick_start"
+                    android:drawablePadding="20dp"
+                    android:drawableStart="@drawable/ic_quick_start"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:text="@string/quick_start_guide"
+                    android:textColor="@color/button_selector_white_textcolor"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/m_pin_server_guide"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/drawer_selector"
+                    android:clickable="true"
+                    android:drawableLeft="@drawable/ic_create_server"
+                    android:drawablePadding="20dp"
+                    android:drawableStart="@drawable/ic_create_server"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:text="@string/m_pin_server_guide"
+                    android:textColor="@color/button_selector_white_textcolor"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+        <!-- The navigation drawer end -->
+    </android.support.v4.widget.DrawerLayout>
+
+    <RelativeLayout
+        android:id="@+id/loader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:clickable="true"
+        android:visibility="gone" >
+
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+
+</RelativeLayout>
