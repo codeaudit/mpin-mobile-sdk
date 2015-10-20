@@ -12,7 +12,7 @@
 
         <TextBlock x:Uid="BlockedUserTitle"  Style="{StaticResource TitleStyle}" />
         <TextBlock x:Name="BlockedUser" Style="{StaticResource IdentityTextBlock}" />
-        <TextBlock x:Uid="BlockedUserTB" TextWrapping="WrapWholeWords" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MainTextBlock}"/>
+        <TextBlock x:Uid="BlockedUserTB" TextWrapping="WrapWholeWords" Style="{StaticResource MainTextBlock}"/>
     
         <Button x:Uid="IdsButton"  Click="GoIdentities_Click"/>
         <Button x:Uid="RemoveUserButton" Click="RemoveUserButton_Click" />

@@ -95,7 +95,7 @@ namespace MPinDemo
             dispatcher = Window.Current.Dispatcher;
             this.DataContext = controller.DataModel;
             controller.PropertyChanged += controller_PropertyChanged;
-
+       
             _barcodeReader = new BarcodeReader
             {
                 Options = new DecodingOptions()
@@ -148,14 +148,8 @@ namespace MPinDemo
 
         protected async override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            Clear();
-            base.OnNavigatedFrom(e);
-            if (controller != null)
-            {
-                await controller.Dispose();
-            }
-
-            SavePropertyState(SelectedService, controller.DataModel.BackendsList.IndexOf(controller.DataModel.SelectedBackend));
+            await Clear();
+            base.OnNavigatedFrom(e);            
         }
 
         #endregion
@@ -186,9 +180,17 @@ namespace MPinDemo
             switch (this.MainPivot.SelectedIndex)
             {
                 case 0:
-                    this.ExBackend = controller.DataModel.CurrentService;
+                    if (controller.IsValidService)
+                    {
+                        this.ExBackend = controller.DataModel.CurrentService;
+                    }
+
                     SetControlsIsEnabled(null, true);
                     controller.DataModel.CurrentService = controller.DataModel.SelectedBackend;
+                    if (controller.IsValidService)
+                    {
+                        UsersListBox.SelectedItem = null;
+                    }
                     break;
 
                 case 1:
@@ -408,28 +410,46 @@ namespace MPinDemo
             DeviceInformation deviceID = (await DeviceInformation.FindAllAsync(DeviceClass.VideoCapture))
                 .FirstOrDefault(x => x.EnclosureLocation != null && x.EnclosureLocation.Panel == desiredCamera);
 
-            if (deviceID != null) return deviceID;
-            else throw new Exception(string.Format("Camera of type {0} doesn't exist.", desiredCamera));
+            if (deviceID != null)
+            {                
+                return deviceID;
+            }
+            else
+            {           
+                throw new Exception(string.Format("Camera of type {0} doesn't exist.", desiredCamera));
+            }
         }
 
-        internal void Clear()
+        internal async Task Clear()
         {
             if (captureManager != null)
             {
                 captureManager.Dispose();
                 captureManager = null;
             }
+
+            if (controller != null)
+            {
+                await controller.Dispose();
+            }
+
+            SavePropertyState(SelectedService, controller.DataModel.BackendsList.IndexOf(controller.DataModel.SelectedBackend));
         }
 
         private async Task<WriteableBitmap> GetImage()
-        {
+        {            
+            if (captureManager == null)
+            {
+                return null;
+            }
+
             StorageFile photoFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("qrCode.jpg", CreationCollisionOption.ReplaceExisting);
 
             // take a photo with choosen Encoding
             await captureManager.CapturePhotoToStorageFileAsync(ImageEncodingProperties.CreateJpeg(), photoFile);
-
+       
             await captureManager.StopPreviewAsync();
-
+       
             var data = await FileIO.ReadBufferAsync(photoFile);
             // create a stream from the file
             var ms = new InMemoryRandomAccessStream();
@@ -448,12 +468,17 @@ namespace MPinDemo
 
             // load the writable bitmap from the stream
             await wb.SetSourceAsync(ms);
-
+    
             return wb;
         }
 
         private async Task SendRequest(String serviceURL, Windows.Web.Http.HttpMethod http_method)
         {
+            if (string.IsNullOrEmpty(serviceURL))
+            {
+                throw new ArgumentException("Empty service url to connect to!");
+            }
+
             HttpClient httpClient = new HttpClient();
             CancellationTokenSource cts = new CancellationTokenSource();
             try
@@ -505,7 +530,6 @@ namespace MPinDemo
         #region handlers
         private void Select_Click(object sender, RoutedEventArgs e)
         {
-
             Select();
         }
 
@@ -533,7 +557,7 @@ namespace MPinDemo
 
         private void ServicesList_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            SelectAppBarButton.IsEnabled = EditButton.IsEnabled = true;
+            SelectAppBarButton.IsEnabled = EditButton.IsEnabled = DeleteButton.IsEnabled = true;
             ServicesList.ScrollIntoView(controller.DataModel.SelectedBackend);
         }
 
@@ -558,8 +582,9 @@ namespace MPinDemo
                     {
                         // if the connection to the service is unsuccessful -> set the previous successful service.
                         controller.DataModel.SelectedBackend = this.ExBackend;
-                        if (controller.DataModel.SelectedBackend ==  null)
+                        if (controller.DataModel.SelectedBackend == null)
                         {
+                            // do not navigate to users -> stay at services untill the user select a valid one
                             this.MainPivot.SelectedItem = this.ServicesPivotItem;
                         }
                     }
@@ -570,7 +595,7 @@ namespace MPinDemo
                 case "IsUserInProcessing":
                     // adding user to the server is async - reenable the page, if it is unsuccessful
                     SetControlsIsEnabled(null);
-                    break;
+                    break;                    
             }
         }
 
@@ -614,7 +639,9 @@ namespace MPinDemo
             }
 
             SelectAppBarButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? controller.DataModel.SelectedBackend != null : UsersListBox.SelectedItem != null;
-            DeleteButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? ServicesList.Items.Count > 0 : UsersListBox.Items.Count > 0;
+            DeleteButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? 
+                controller.DataModel.BackendsList != null && controller.DataModel.BackendsList.Count > 0 : 
+                controller.DataModel.UsersList != null && controller.DataModel.UsersList.Count > 0;
             ResetPinButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Collapsed : Visibility.Visible;
             AddAppBarButton.Icon = new SymbolIcon(this.MainPivot.SelectedIndex == 0 ? Symbol.Add : Symbol.AddFriend);
 
@@ -634,7 +661,7 @@ namespace MPinDemo
                 case 0:
                     if (controller.DataModel.SelectedBackend != null && !string.IsNullOrEmpty(controller.DataModel.SelectedBackend.BackendUrl))
                     {
-                        await controller.DeleteService(controller.DataModel.SelectedBackend, controller.DataModel.BackendsList.IndexOf(controller.DataModel.SelectedBackend) >= AppDataModel.PredefinedServicesCount);
+                        await controller.DeleteService(controller.DataModel.SelectedBackend, controller.DataModel.BackendsList.IndexOf(controller.DataModel.SelectedBackend) >= AppDataModel.PredefinedServicesCount);                                                
                     }
                     break;
 
@@ -643,9 +670,16 @@ namespace MPinDemo
                     if (user != null)
                     {
                         await controller.DeleteUser(user);
+
                     }
                     break;
             }
+
+            SelectAppBarButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ? controller.DataModel.SelectedBackend != null : UsersListBox.SelectedItem != null;
+            DeleteButton.IsEnabled = this.MainPivot.SelectedIndex == 0 ?
+                ServicesList.SelectedItem != null :
+                UsersListBox.SelectedItem != null;
+            ResetPinButton.Visibility = this.MainPivot.SelectedIndex == 0 ? Visibility.Collapsed : Visibility.Visible;
         }
 
         private async void ResetPinButton_Click(object sender, RoutedEventArgs e)
@@ -669,13 +703,17 @@ namespace MPinDemo
                     shouldSetSelectedUser = true;
                 }
 
-                isInitialLoad = false;
+                if (this.SavedSelectedUser != null && this.SavedSelectedUser.Equals(UsersListBox.SelectedItem))
+                {
+                    // if the selection did not happen - we rely on the LayoutUpdated event to set it
+                    isInitialLoad = false;
+                }
             }
         }
 
         private void UsersListBox_LayoutUpdated(object sender, object e)
         {
-            if (UsersListBox != null && UsersListBox.ItemsSource != null && this.SavedSelectedUser != null && UsersListBox.SelectedItem == null)
+            if (UsersListBox != null && UsersListBox.ItemsSource != null && this.SavedSelectedUser != null && UsersListBox.SelectedItem == null && isInitialLoad)
             {
                 UsersListBox.SelectedItem = this.SavedSelectedUser;
                 isInitialLoad = false;
@@ -718,7 +756,7 @@ namespace MPinDemo
 
         private async void HardwareButtons_BackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
         {
-            if (PhotoContainer.Visibility == Windows.UI.Xaml.Visibility.Visible)
+            if (PhotoContainer != null && captureManager != null && PhotoContainer.Visibility == Windows.UI.Xaml.Visibility.Visible)
             {
                 await captureManager.StopPreviewAsync();
                 SetControlsVisibility(false);
@@ -741,12 +779,18 @@ namespace MPinDemo
             await captureManager.StartPreviewAsync();
         }
 
-        private async void AppBarButton_Click(object sender, RoutedEventArgs e)
+        private async void TakePictureButton_Click(object sender, RoutedEventArgs e)
         {
             SetControlsVisibility(false);
             SetControlsIsEnabled(null, true);
 
             var wb = await GetImage();
+            if (wb == null)
+            {
+                rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("ImageProblem"), MainPage.NotifyType.ErrorMessage);
+                return;
+            }
+
             Result result = _barcodeReader.Decode(wb);
             if (result != null)
             {

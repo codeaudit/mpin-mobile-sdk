@@ -25,7 +25,7 @@
             <TextBlock x:Uid="RPSPrefix"  Style="{StaticResource DescTextBlock}"/>
             <TextBox x:Name="RpsTB" Text="{Binding RpsPrefix, Mode=TwoWay}" KeyUp="TextBox_KeyUp"/>
 
-            <RadioButton x:Uid="MobileLoginRadioButton" x:Name="MobileLoginRadioButton" GroupName="Login" IsChecked="{Binding Path=Type, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Mobile, Mode=TwoWay}"/>
+            <RadioButton x:Uid="MobileLoginRadioButton" x:Name="MobileLoginRadioButton" GroupName="Login" IsChecked="{Binding Path=Type, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Mobile, Mode=TwoWay}" Visibility="Collapsed"/>
             <RadioButton x:Uid="OnlineLoginRadioButton" x:Name="OnlineLoginRadioButton" GroupName="Login" IsChecked="{Binding Path=Type, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Online, Mode=TwoWay}"/>
             <RadioButton x:Uid="OTPLoginRadioButton" x:Name="OTPLoginRadioButton" GroupName="Login"  IsChecked="{Binding Path=Type, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=OTP, Mode=TwoWay}"/>
 

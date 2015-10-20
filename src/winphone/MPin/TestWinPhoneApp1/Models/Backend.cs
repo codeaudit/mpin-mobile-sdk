@@ -167,7 +167,7 @@ namespace MPinDemo.Models
         private ConfigurationType ParseType(string typeString)
         {
             if (string.IsNullOrEmpty(typeString))
-                return ConfigurationType.Mobile;
+                return ConfigurationType.Online;
 
             switch (typeString)
             {
@@ -176,7 +176,7 @@ namespace MPinDemo.Models
                 case "otp":
                     return ConfigurationType.OTP;
                 default:
-                    return ConfigurationType.Mobile;
+                    return ConfigurationType.Online;
             }
         }
 
@@ -207,7 +207,7 @@ namespace MPinDemo.Models
 
     public enum ConfigurationType
     {
-        Mobile,
+        //Mobile,
         Online,
         OTP
     }

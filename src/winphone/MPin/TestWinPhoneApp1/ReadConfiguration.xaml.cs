@@ -111,7 +111,7 @@ namespace MPinDemo
             
             if (areDuplicatesSelected)
             {
-                var confirmation = new MessageDialog(ResourceLoader.GetForCurrentView().GetString("OverideDiplicates"));
+                var confirmation = new MessageDialog(ResourceLoader.GetForCurrentView().GetString("OverwriteDiplicates"));
                 confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("YesCommand")));
                 confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("NoCommand")));
                 confirmation.DefaultCommandIndex = 1;
@@ -123,7 +123,7 @@ namespace MPinDemo
                 }
                 else if (BlankPage1.IsActiveConfigurationURLChanged(ExistentsIndexes, this.Configurations))
                 {
-                    var activeServiceConfirmation = new MessageDialog(ResourceLoader.GetForCurrentView().GetString("OverideActiveService"));
+                    var activeServiceConfirmation = new MessageDialog(ResourceLoader.GetForCurrentView().GetString("OverwriteActiveService"));
                     activeServiceConfirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("YesCommand")));
                     activeServiceConfirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("NoCommand")));
                     activeServiceConfirmation.DefaultCommandIndex = 1;

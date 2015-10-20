@@ -318,7 +318,7 @@
     <value>Адрес на Кофигурацията</value>
   </data>
   <data name="DeleteServiceConfirmation" xml:space="preserve">
-    <value>Сигурни ли сте, че искате да изтриете конфигурация "{0}"?</value>
+    <value>Ако изтриете тази конфигурация, няма да можете да се свържете към този сървис докато не пресъздадете отново конфигуратицята</value>
   </data>
   <data name="EmptyTitle" xml:space="preserve">
     <value>Моля, задайте заглавие на конфигурацията!</value>
@@ -392,7 +392,7 @@
   <data name="SaveConfigurationBarButton.Label" xml:space="preserve">
     <value>запази</value>
   </data>
-  <data name="OverideDiplicates" xml:space="preserve">
+  <data name="OverwriteDiplicates" xml:space="preserve">
     <value>Сигурен ли си, че искаш да презапишеш конфигурациите със съвпадащи имена?</value>
   </data>
   <data name="NoQRCode" xml:space="preserve">
@@ -437,7 +437,7 @@
   <data name="ReadConfigurationTitle.Text" xml:space="preserve">
     <value>ПРОЧЕТЕНИ КОНФИГУРАЦИИ</value>
   </data>
-  <data name="OverideActiveService" xml:space="preserve">
+  <data name="OverwriteActiveService" xml:space="preserve">
     <value>Избрали сте да презапишете адреса на активната конфигурация.
 Ако продължите, всички съществуващи потребители ще бъдат изтрити.</value>
   </data>
@@ -551,5 +551,14 @@
   </data>
   <data name="AboutValuesLink.Content" xml:space="preserve">
     <value>Ценности / Сигурност / Лично пространство</value>
+  </data>
+  <data name="CancelString" xml:space="preserve">
+    <value>прекрати</value>
+  </data>
+  <data name="BlockedUserTB.Text" xml:space="preserve">
+    <value>Грешен ПИН е въведен твърде много пъти. Потребителят е блокиран. Можете да изберете друг потребител, да зададете нов ПИН или да премахнете потребителя от листата. </value>
+  </data>
+  <data name="ImageProblem" xml:space="preserve">
+    <value>Възникна проблем с APIто на камерата! Моля, рестартирайте апликацията!</value>
   </data>
 </root>

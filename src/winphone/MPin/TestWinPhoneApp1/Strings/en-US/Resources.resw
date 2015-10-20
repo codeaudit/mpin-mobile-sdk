@@ -318,7 +318,7 @@ Unsuccessfull authentication!</value>
     <value>Service URL</value>
   </data>
   <data name="DeleteServiceConfirmation" xml:space="preserve">
-    <value>Are you sure you want to delete configuration "{0}"?</value>
+    <value>If you delete this configuration you will not be able to log into this service unless you recreate this configuration</value>
   </data>
   <data name="EmptyTitle" xml:space="preserve">
     <value>The service name cannot be empty!</value>
@@ -392,8 +392,8 @@ Unsuccessfull authentication!</value>
   <data name="SaveConfigurationBarButton.Label" xml:space="preserve">
     <value>save</value>
   </data>
-  <data name="OverideDiplicates" xml:space="preserve">
-    <value>Are you sure you want to override the configurations with duplicates name?</value>
+  <data name="OverwriteDiplicates" xml:space="preserve">
+    <value>Are you sure you want to overwrite the configurations with duplicates name?</value>
   </data>
   <data name="NoQRCode" xml:space="preserve">
     <value>No QRCode symbol is found!</value>
@@ -443,7 +443,7 @@ Unsuccessfull authentication!</value>
   <data name="ReadConfigurationTitle.Text" xml:space="preserve">
     <value>SCANNED SERVICES</value>
   </data>
-  <data name="OverideActiveService" xml:space="preserve">
+  <data name="OverwriteActiveService" xml:space="preserve">
     <value>Overwrite the URL for the active service?
 All existing identities will be deleted.</value>
   </data>
@@ -556,9 +556,18 @@ All existing identities will be deleted.</value>
     <value>Product Support</value>
   </data>
   <data name="AboutTermsCondLink.Content" xml:space="preserve">
-    <value>CertiVox Terms &amp;amp; Conditions</value>
+    <value>CertiVox Terms &amp; Conditions</value>
   </data>
   <data name="AboutValuesLink.Content" xml:space="preserve">
     <value>Values / Security / Privicy</value>
+  </data>
+  <data name="CancelString" xml:space="preserve">
+    <value>cancel</value>
+  </data>
+  <data name="BlockedUserTB.Text" xml:space="preserve">
+    <value>Wrong PIN entered too many times. Your identity has been blocked. You can either select a different identity, reset your PIN or remove your blocked identity.</value>
+  </data>
+  <data name="ImageProblem" xml:space="preserve">
+    <value>Problem with the camera API! Please, restart you app!</value>
   </data>
 </root>

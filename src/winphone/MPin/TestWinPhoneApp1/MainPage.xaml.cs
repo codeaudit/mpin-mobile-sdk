@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
 using Windows.Graphics.Display;
@@ -128,6 +129,23 @@ namespace MPinDemo
                 }
             }
         }
+        
+        internal async Task Clear()
+        {
+            if (MainFrame != null)
+            {
+                if (MainFrame.SourcePageType.Equals(typeof(OtpScreen)))
+                {
+                    OtpScreen page = MainFrame.Content as OtpScreen;
+                    page.Otp.TtlSeconds = 0;
+                }
+                else if (MainFrame.SourcePageType.Equals(typeof(BlankPage1)))
+                {
+                    BlankPage1 page = MainFrame.Content as BlankPage1;
+                    await page.Clear();
+                }
+            }            
+        }
 
         private bool IsTheFirstAppLaunch()
         {
@@ -212,8 +230,7 @@ namespace MPinDemo
             // TODO: SMS flow: call blankPage1(parameter) which should call controllera.VerifyUser(value1, value2); instead of FinishRegistration(..)
         }
         #endregion 
-
-
+        
         #region notification
         /// <summary>
         /// Used to display messages to the user
@@ -293,6 +310,5 @@ namespace MPinDemo
 
         #endregion // notification
         #endregion // Methods
-
     }
 }

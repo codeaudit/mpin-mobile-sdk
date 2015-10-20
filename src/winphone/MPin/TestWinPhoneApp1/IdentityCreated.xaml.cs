@@ -59,7 +59,7 @@ namespace MPinDemo
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-            mainFrame.GoBack(string.Empty);
+            mainFrame.GoBack("Identities");
         }
     }
 }

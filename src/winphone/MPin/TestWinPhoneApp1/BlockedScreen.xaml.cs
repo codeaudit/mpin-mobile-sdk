@@ -79,7 +79,7 @@ namespace MPinDemo
         private void GoIdentities_Click(object sender, RoutedEventArgs e)
         {
             Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-            mainFrame.GoBack(new List<object>() { "BlockedUser", string.Empty });
+            mainFrame.GoBack("Identities");
         }
 
         private void RemoveUserButton_Click(object sender, RoutedEventArgs e)
