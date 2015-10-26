@@ -698,6 +698,7 @@ Status MPinSDK::GetClientSettings(const String& backend, const String& rpsPrefix
         *clientSettings = response.GetJsonData();
     }
 
+    
     return Status(Status::OK);
 }
 

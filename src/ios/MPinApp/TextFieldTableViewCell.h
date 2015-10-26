@@ -27,5 +27,6 @@
 
 @property (nonatomic, weak) IBOutlet UILabel* lblName;
 @property (nonatomic, weak) IBOutlet UITextField* txtText;
+@property (nonatomic) BOOL boolFirstLoad;
 
 @end

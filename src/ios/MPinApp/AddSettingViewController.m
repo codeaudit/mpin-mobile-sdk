@@ -47,6 +47,11 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 @property ( nonatomic, strong ) UITextField *txtMPINServiceNAME;
 @property ( nonatomic, strong ) UITextField *txtMPINServiceURL;
 @property ( nonatomic, strong ) UITextField *txtMPINServiceRPSPrefix;
+
+@property ( nonatomic, strong ) NSString *strMPINServiceNAME;
+@property ( nonatomic, strong ) NSString *strMPINServiceURL;
+@property ( nonatomic, strong ) NSString *strMPINServiceRPSPrefix;
+
 @property ( nonatomic, strong ) UIImageView *imgViewLoginToBrowser;
 @property ( nonatomic, strong ) UIImageView *imgViewRequestOTP;
 @property ( nonatomic ) NSInteger intConfigurationType;
@@ -152,14 +157,13 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
         TextFieldTableViewCell *cell0 =
             [tableView dequeueReusableCellWithIdentifier:@"ConfigCell0"];
         if ( cell0 == nil )
-            cell0 = [[TextFieldTableViewCell alloc]
-                     initWithStyle:UITableViewCellStyleDefault
-                     reuseIdentifier:@"ConfigCell0"];
+            cell0 = [[TextFieldTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                  reuseIdentifier:@"ConfigCell0"];
         [cell0.txtText setBottomBorder:[[SettingsManager sharedManager] color5]
-         width:2.f
-         alpha:.5f];
-        _txtMPINServiceNAME = cell0.txtText;
+                                 width:2.f
+                                 alpha:.5f];
 
+        
         return cell0;
     }
 
@@ -174,8 +178,8 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
         [cell0.txtText setBottomBorder:[[SettingsManager sharedManager] color5]
          width:2.f
          alpha:.5f];
-        _txtMPINServiceURL = cell0.txtText;
 
+        
         return cell0;
     }
 
@@ -190,8 +194,8 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
         [cell0.txtText setBottomBorder:[[SettingsManager sharedManager] color5]
          width:2.f
          alpha:.5f];
-        _txtMPINServiceRPSPrefix = cell0.txtText;
 
+        
         return cell0;
     }
 
@@ -222,33 +226,49 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
     case 0:
         ( (TextFieldTableViewCell *)cell ).lblName.text = NSLocalizedString(@"ADDCONFIGVC_NAME",@"");
         ( (TextFieldTableViewCell *)cell ).txtText.placeholder = NSLocalizedString(@"ADDCONFIGVC_NAME",@"");
-        if ( _isEdit )
+        _txtMPINServiceNAME = ( (TextFieldTableViewCell *)cell ).txtText;
+        if ( _isEdit && _strMPINServiceNAME == nil )
         {
             ( (TextFieldTableViewCell *)cell ).txtText.text = [[ConfigurationManager sharedManager]
                                                                getNameAtIndex:_selectedIndex];
-            ( (TextFieldTableViewCell *)cell ).txtText.tag = indexPath.row;
         }
+        else
+        {
+            ( (TextFieldTableViewCell *)cell ).txtText.text = _strMPINServiceNAME;
+        }
+            
+        
+            
         break;
 
     case 1:
         ( (TextFieldTableViewCell *)cell ).lblName.text = NSLocalizedString(@"ADDCONFIGVC_URL",@"");
         ( (TextFieldTableViewCell *)cell ).txtText.placeholder = NSLocalizedString(@"ADDCONFIGVC_URL",@"");
-        if ( _isEdit )
+        _txtMPINServiceURL = ( (TextFieldTableViewCell *)cell ).txtText;
+        if ( _isEdit  && _strMPINServiceURL == nil )
         {
             ( (TextFieldTableViewCell *)cell ).txtText.text = strURL;
         }
-        ( (TextFieldTableViewCell *)cell ).txtText.tag = indexPath.row;
+        else
+        {
+            ( (TextFieldTableViewCell *)cell ).txtText.text = _strMPINServiceURL;
+        }
+            
         break;
 
     case 2:
         ( (TextFieldTableViewCell *)cell ).lblName.text = NSLocalizedString(@"ADDCONFIGVC_PREFIX",@"");
         ( (TextFieldTableViewCell *)cell ).txtText.placeholder = NSLocalizedString(@"ADDCONFIGVC_PREFIX",@"");
-        if ( _isEdit )
+        _txtMPINServiceRPSPrefix = ( (TextFieldTableViewCell *)cell ).txtText;
+        if ( _isEdit  && _strMPINServiceRPSPrefix == nil )
         {
             ( (TextFieldTableViewCell *)cell ).txtText.text = [[ConfigurationManager sharedManager]
                                                                getPrefixAtIndex:_selectedIndex];
         }
-        ( (TextFieldTableViewCell *)cell ).txtText.tag = indexPath.row;
+        else
+        {
+            ( (TextFieldTableViewCell *)cell ).txtText.text = _strMPINServiceRPSPrefix;
+        }
         break;
 
     case 3:
@@ -298,10 +318,6 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 {
     switch ( indexPath.row )
     {
-//    case 3:
-//        _service = LOGIN_ON_MOBILE;
-//        break;
-
     case 3:
         _service = LOGIN_ONLINE;
         break;
@@ -310,6 +326,9 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
         _service = LOGIN_WITH_OTP;
         break;
     }
+    _strMPINServiceNAME = _txtMPINServiceNAME.text;
+    _strMPINServiceURL = _txtMPINServiceURL.text;
+    _strMPINServiceRPSPrefix = _txtMPINServiceRPSPrefix.text;
     [_tblView reloadData];
 }
 
@@ -477,7 +496,7 @@ static NSString *const kErrorTitle = @"Validation ERROR!";
 
     [[ErrorHandler sharedManager] updateMessage:[NSString stringWithFormat:@"%@", message]
      addActivityIndicator:NO
-     hideAfter:6];
+     hideAfter:5];
     [_btnDone setEnabled:YES];
 }
 
