@@ -133,9 +133,23 @@ typedef sdk::Context Context;
     return [[MpinStatus alloc] initWith:(MPinStatus)s.GetStatusCode() errorMessage:[NSString stringWithUTF8String:s.GetErrorMessage().c_str()]];
 }
 
++ (MpinStatus*) VerifyUser:(const id<IUser>)user mpinId:(NSString* ) mpinId activationKey:(NSString *) activationKey {
+    [lock lock];
+    Status s = mpin.VerifyUser([((User *) user) getUserPtr], [mpinId UTF8String], [activationKey UTF8String]);
+    [lock unlock];
+    return [[MpinStatus alloc] initWith:(MPinStatus)s.GetStatusCode() errorMessage:[NSString stringWithUTF8String:s.GetErrorMessage().c_str()]];
+}
+
 + (MpinStatus*) FinishRegistration:(const id<IUser>) user {
     [lock lock];
     Status s = mpin.FinishRegistration([((User *) user) getUserPtr]);
+    [lock unlock];
+    return [[MpinStatus alloc] initWith:(MPinStatus)s.GetStatusCode() errorMessage:[NSString stringWithUTF8String:s.GetErrorMessage().c_str()]];
+}
+
++ (MpinStatus*)FinishRegistration:(const id<IUser>)user pushNotificationIdentifier:(NSString *) pushNotificationIdentifier {
+    [lock lock];
+    Status s = mpin.FinishRegistration([((User *) user) getUserPtr], [pushNotificationIdentifier UTF8String]);
     [lock unlock];
     return [[MpinStatus alloc] initWith:(MPinStatus)s.GetStatusCode() errorMessage:[NSString stringWithUTF8String:s.GetErrorMessage().c_str()]];
 }
@@ -206,6 +220,20 @@ typedef sdk::Context Context;
     }
     return users;
 }
+
++ ( id<IUser> ) getIUserById:(NSString *) userId {
+    if( userId == nil ) return nil;
+    if ([@"" isEqualToString:userId]) return nil;
+    
+    NSArray * users = [MPin listUsers];
+    
+    for (User * user in users)
+        if ( [userId isEqualToString:[user getIdentity]] )
+            return user;
+    
+    return nil;
+}
+
 
 +(void) sendPin:(const NSString *) pin {
     Context *ctx = Context::Instance();

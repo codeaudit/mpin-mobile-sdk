@@ -197,6 +197,7 @@ public:
 
     private:
         friend class MPinSDK;
+        friend class MPinSDKv2;
         User(const String& id, const String& deviceName);
         const String& GetDeviceName() const;
         const String& GetMPinIdHex() const;
@@ -221,6 +222,10 @@ public:
         String m_mpinIdHex;
         String m_regOTT;
         TimePermitCache m_timePermitCache;
+        String m_timePermitShare1;
+        String m_timePermitShare2;
+        String m_clientSecret1;
+        String m_clientSecret2;
     };
 
 	class OTP
@@ -247,7 +252,8 @@ public:
     UserPtr MakeNewUser(const String& id, const String& deviceName = "") const;
     Status StartRegistration(INOUT UserPtr user, const String& userData = "");
     Status RestartRegistration(INOUT UserPtr user, const String& userData = "");
-    Status FinishRegistration(INOUT UserPtr user);
+    Status VerifyUser(UserPtr user, const String& mpinId, const String &  activationKey);
+    Status FinishRegistration(INOUT UserPtr user, const String & pushMessageIdentifier = "");
     Status Authenticate(INOUT UserPtr user);
     Status Authenticate(INOUT UserPtr user, OUT String& authResultData);
     Status AuthenticateOTP(INOUT UserPtr user, OUT OTP& otp);
@@ -360,6 +366,8 @@ private:
     static const int AN_WITH_CHECKSUM_LEN = 7;
 
 private:
+    friend class MPinSDKv2;
+
     typedef std::map<String, UserPtr> UsersMap;
     typedef std::map<UserPtr, LogoutData> LogoutDataMap;
     

@@ -120,20 +120,17 @@
   <data name="AccessNumberButton.Content" xml:space="preserve">
     <value>Готово</value>
   </data>
-  <data name="AccessNumberTB.Text" xml:space="preserve">
-    <value>Въведете номер за достъп</value>
+  <data name="ANTB" xml:space="preserve">
+    <value>Въведете {0} цифрен Номер за Достъп за:</value>
   </data>
   <data name="AddServiceButton.Content" xml:space="preserve">
     <value>Добави</value>
   </data>
   <data name="AuthTB.Text" xml:space="preserve">
-    <value>Потребител:</value>
+    <value>СТАТУС ПРИ УДОСТОВЕРЯВАНЕТО НА САМОЛИЧНОСТТА</value>
   </data>
-  <data name="BlockedUser" xml:space="preserve">
-    <value>Потребителят {0} е в статус БЛОКИРАН! Твърде много неуспешни опити за аутентикация!</value>
-  </data>
-  <data name="ConfigurationTB.Text" xml:space="preserve">
-    <value>Моля, изберете конфигурация:</value>
+  <data name="BlockedUser.Text" xml:space="preserve">
+    <value>Твърде много неуспешни опити за удостоверяване на самоличността!</value>
   </data>
   <data name="ConfirmButton.Content" xml:space="preserve">
     <value>Потвърдих самоличността си, продължи.</value>
@@ -142,13 +139,13 @@
     <value>Изберете връзката от пощата си за да потвърдите самоличността си и да продължите напред. </value>
   </data>
   <data name="EmailTB.Text" xml:space="preserve">
-    <value>Изпратихме ви поща на:</value>
+    <value>ПОТВЪРЖДЕНИЕ НА РЕГИСТРАЦИЯТА</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Грешка: </value>
   </data>
   <data name="ErrorAuth" xml:space="preserve">
-    <value>НЕ е аутентикиран! Грешка: </value>
+    <value>Неуспешно удостоверяване на самоличността! Грешка: </value>
   </data>
   <data name="ExistingUser" xml:space="preserve">
     <value>Избраният потребител вече съществува за избраната конфигурация!</value>
@@ -160,10 +157,12 @@
     <value>Върни се към списъка с потребители</value>
   </data>
   <data name="IncorrectAccessNumber" xml:space="preserve">
-    <value>НЕ е аутентикиран поради грешен входен номер. </value>
+    <value>Невалиден входен номер!
+Неуспешно удостоверяване на самоличността!</value>
   </data>
   <data name="IncorrectPin" xml:space="preserve">
-    <value>НЕ е аутентикиран поради неправилно въведен ПИН!</value>
+    <value>Неправилен ПИН!
+Неуспешно удостоверяване на самоличността!</value>
   </data>
   <data name="InitializationFailed" xml:space="preserve">
     <value>Грешка при стартирането на MPinSDK: статус = {0}. Моля, опитайте отново!</value>
@@ -175,7 +174,7 @@
     <value>Съзадай акаунт</value>
   </data>
   <data name="NewUserIdTB.Text" xml:space="preserve">
-    <value>Адрес на поща:</value>
+    <value>Въведете адрес на поща</value>
   </data>
   <data name="NoSelectedUser" xml:space="preserve">
     <value>Няма избран потребител!</value>
@@ -190,10 +189,10 @@
     <value>Невалиден формат на имейл адрес!</value>
   </data>
   <data name="Otp2TB.Text" xml:space="preserve">
-    <value> е: </value>
+    <value>ВАШАТА ПАРОЛА</value>
   </data>
   <data name="OtpTB.Text" xml:space="preserve">
-    <value>OTP номера за</value>
+    <value>Може да използвате следната парола за достъп</value>
   </data>
   <data name="RegistrationProblem" xml:space="preserve">
     <value>Появи се проблем по време на регистрацията. Моля, опитайте отново!</value>
@@ -214,7 +213,7 @@
     <value>Статус на конфигурацията: </value>
   </data>
   <data name="SuccessfulAuth" xml:space="preserve">
-    <value>е успешно аутентикиран!</value>
+    <value>Успешно удостоверяване на самоличността!</value>
   </data>
   <data name="TimeLeftTB.Text" xml:space="preserve">
     <value>Оставащо време:</value>
@@ -234,9 +233,6 @@
   <data name="SelectAppBarButton.Label" xml:space="preserve">
     <value>избери</value>
   </data>
-  <data name="AccessNumberLength" xml:space="preserve">
-    <value>Въведете {0} цифрен номер за достъп</value>
-  </data>
   <data name="NavigationFailedExceptionMessage" xml:space="preserve">
     <value>Възникна проблем при навигацията!</value>
   </data>
@@ -250,7 +246,7 @@
     <value>Задай нов ПИН</value>
   </data>
   <data name="ResetPinButton.Label" xml:space="preserve">
-    <value>Задай нов ПИН</value>
+    <value>задай нов ПИН</value>
   </data>
   <data name="TestBackendButton.Content" xml:space="preserve">
     <value>Пробвай избраната конфигурация</value>
@@ -265,7 +261,7 @@
     <value>Сигурни ли сте, че искате да изтриете потребител {0}?</value>
   </data>
   <data name="AboutButton.Label" xml:space="preserve">
-    <value>Информация</value>
+    <value>информация</value>
   </data>
   <data name="About.Text" xml:space="preserve">
     <value>Windows Phone примерно приложение</value>
@@ -276,14 +272,11 @@
   <data name="AllRightsReserved.Text" xml:space="preserve">
     <value>Всички права запазени.</value>
   </data>
-  <data name="ANUser" xml:space="preserve">
-    <value>Здравей, {0}!</value>
-  </data>
   <data name="CertivoxLtd" xml:space="preserve">
     <value>Copyright {0} 2015, CertiVox UK Ltd</value>
   </data>
   <data name="DeviceNameTB.Text" xml:space="preserve">
-    <value>Име на устройство:</value>
+    <value>Име на устройство</value>
   </data>
   <data name="SuccessfulRegistration" xml:space="preserve">
     <value>Успешно регистриран потребител {0}!</value>
@@ -292,7 +285,7 @@
     <value>Добави Конфигурация</value>
   </data>
   <data name="EditButton.Label" xml:space="preserve">
-    <value>Редактирай Кофигурацията</value>
+    <value>редактирай кофигурацията</value>
   </data>
   <data name="EditService" xml:space="preserve">
     <value>Редактирай</value>
@@ -325,7 +318,7 @@
     <value>Адрес на Кофигурацията</value>
   </data>
   <data name="DeleteServiceConfirmation" xml:space="preserve">
-    <value>Сигурни ли сте, че искате да изтриете конфигурация "{0}"?</value>
+    <value>Ако изтриете тази конфигурация, няма да можете да се свържете към този сървис докато не пресъздадете отново конфигуратицята</value>
   </data>
   <data name="EmptyTitle" xml:space="preserve">
     <value>Моля, задайте заглавие на конфигурацията!</value>
@@ -346,13 +339,13 @@
     <value>Некоректен формат на адреса на конфигурацията!</value>
   </data>
   <data name="UpdateCheckButton.Label" xml:space="preserve">
-    <value>Проверка за нова версия</value>
+    <value>проверка за нова версия</value>
   </data>
   <data name="AboutBuild" xml:space="preserve">
     <value>Build: </value>
   </data>
   <data name="AboutTitle.Text" xml:space="preserve">
-    <value>CertiVox M-Pin</value>
+    <value>CERTIVOX M-PIN</value>
   </data>
   <data name="EmptyURL" xml:space="preserve">
     <value>Адресът на сървъра е празен!</value>
@@ -399,10 +392,173 @@
   <data name="SaveConfigurationBarButton.Label" xml:space="preserve">
     <value>запази</value>
   </data>
-  <data name="OverideDiplicates" xml:space="preserve">
+  <data name="OverwriteDiplicates" xml:space="preserve">
     <value>Сигурен ли си, че искаш да презапишеш конфигурациите със съвпадащи имена?</value>
   </data>
   <data name="NoQRCode" xml:space="preserve">
     <value>Не е открит QRCode символ!</value>
+  </data>
+  <data name="BusyText.Text" xml:space="preserve">
+    <value>Свързване със сървъра...</value>
+  </data>
+  <data name="TakePictureButton.Label" xml:space="preserve">
+    <value>снимай</value>
+  </data>
+  <data name="DuplicateName" xml:space="preserve">
+    <value>Конфигурация с такова име вече съществува!</value>
+  </data>
+  <data name="AddUserTitle.Text" xml:space="preserve">
+    <value>ДОБАВЕТЕ ПОТРЕБИТЕЛ</value>
+  </data>
+  <data name="ANTitle.Text" xml:space="preserve">
+    <value>ВЪВЕДЕТЕ ВХОДЕН НОМЕР</value>
+  </data>
+  <data name="IdentityCreatedNotification.Text" xml:space="preserve">
+    <value>Успешно добавен потребител! Вече може да използвате този потребител за удостоверяване на самоличността.</value>
+  </data>
+  <data name="IdentityCreatedTitle.Text" xml:space="preserve">
+    <value>СЪЗДАДЕН ПОТРЕБИТЕЛ</value>
+  </data>
+  <data name="IdentityListButton.Content" xml:space="preserve">
+    <value>Върни се към списъка с потребители</value>
+  </data>
+  <data name="SignInButton.Content" xml:space="preserve">
+    <value>Вход с този потребител</value>
+  </data>
+  <data name="BlockedUserTitle.Text" xml:space="preserve">
+    <value>БЛОКИРАН ПОТРЕБИТЕЛ</value>
+  </data>
+  <data name="MainPageTitle.Text" xml:space="preserve">
+    <value>M-PIN</value>
+  </data>
+  <data name="OtpTitle.Text" xml:space="preserve">
+    <value>ЕДНОКРАТНА ПАРОЛА ЗА ДОСТЪП</value>
+  </data>
+  <data name="ReadConfigurationTitle.Text" xml:space="preserve">
+    <value>ПРОЧЕТЕНИ КОНФИГУРАЦИИ</value>
+  </data>
+  <data name="OverwriteActiveService" xml:space="preserve">
+    <value>Избрали сте да презапишете адреса на активната конфигурация.
+Ако продължите, всички съществуващи потребители ще бъдат изтрити.</value>
+  </data>
+  <data name="NoNetworkMessage.Text" xml:space="preserve">
+    <value>Няма достъп до Интернет мрежа! Този екран автоматично ще се затвори когато достъпа бъде възстановен.</value>
+  </data>
+  <data name="NoNetworkTitle.Text" xml:space="preserve">
+    <value>НЕВАЛИДНА МРЕЖА</value>
+  </data>
+  <data name="NoConnection" xml:space="preserve">
+    <value>Няма връзка с Интернет</value>
+  </data>
+  <data name="UserNotConfirmed" xml:space="preserve">
+    <value>Самоличността все още не е потвърдена!</value>
+  </data>
+  <data name="EmailSent" xml:space="preserve">
+    <value>Моля, проверете си пощата и следвайте инструкциите за активиране!</value>
+  </data>
+  <data name="DoneButton.Content" xml:space="preserve">
+    <value>ГОТОВО</value>
+  </data>
+  <data name="IntroCreate.Text" xml:space="preserve">
+    <value>Създаване на профил</value>
+  </data>
+  <data name="IntroEnterEmail.Text" xml:space="preserve">
+    <value>Въведете адрес на поща за регистрация</value>
+  </data>
+  <data name="IntroTitle.Text" xml:space="preserve">
+    <value>Настройки на телефона за да използва M-Pin</value>
+  </data>
+  <data name="NextButton.Content" xml:space="preserve">
+    <value> &gt; </value>
+  </data>
+  <data name="SkipButton.Content" xml:space="preserve">
+    <value>ПРОПУСНИ</value>
+  </data>
+  <data name="IntroClickLink.Text" xml:space="preserve">
+    <value>Изберете линка от пощата си и сте готови да зададете своя ПИН</value>
+  </data>
+  <data name="IntroConfirm.Text" xml:space="preserve">
+    <value>Потвърдете пощата си</value>
+  </data>
+  <data name="IntroFinish.Text" xml:space="preserve">
+    <value>Може да използвате създадения от вас потребител по всяко време</value>
+  </data>
+  <data name="IntroPin.Text" xml:space="preserve">
+    <value>Създайте своя ПИН</value>
+  </data>
+  <data name="IntroReady.Text" xml:space="preserve">
+    <value>Това е всичко!</value>
+  </data>
+  <data name="IntroSimpler.Text" xml:space="preserve">
+    <value>Много по-лесно е от използването на парола, както и по-сигурно</value>
+  </data>
+  <data name="GuideButton.Label" xml:space="preserve">
+    <value>кратко ръководство</value>
+  </data>
+  <data name="QuideDownload.Text" xml:space="preserve">
+    <value>Изтегли и настрой своя M-Pin сървър.</value>
+  </data>
+  <data name="QuideUse.Text" xml:space="preserve">
+    <value>Посетете certivox.com/products, изберете между M-Pin Core и M-Pin SSO и следвайте онлайн инструкциите за инсталация.</value>
+  </data>
+  <data name="AddServiceText.Text" xml:space="preserve">
+    <value>Добави конфигурация</value>
+  </data>
+  <data name="AddText.Text" xml:space="preserve">
+    <value>Добави</value>
+  </data>
+  <data name="MPinServerButton.Label" xml:space="preserve">
+    <value>вземи своя M-Pin сървър</value>
+  </data>
+  <data name="QuideAddServer.Text" xml:space="preserve">
+    <value>Добави своя сървър към мобилното приложение.</value>
+  </data>
+  <data name="QuideDesc.Text" xml:space="preserve">
+    <value>Натиснете бутона плюс, въведет адреса на своя M-Pin сървър и сте готови да удостоверите самоличността си към своето приложение и услугите на M-Pin мобилното приложение.</value>
+  </data>
+  <data name="QuideTitle.Text" xml:space="preserve">
+    <value>Създайте собствен M-Pin сървър</value>
+  </data>
+  <data name="ANGuideDesc.Text" xml:space="preserve">
+    <value>Влезте на discuss.certivox.com от своя дектоп браузър и изберете "Sign in with phone"</value>
+  </data>
+  <data name="ANQuideGet.Text" xml:space="preserve">
+    <value>Вземете собствен Номер за Достъп</value>
+  </data>
+  <data name="ANQuideTitle.Text" xml:space="preserve">
+    <value>Вход в Certivox общността</value>
+  </data>
+  <data name="OkString" xml:space="preserve">
+    <value>добре</value>
+  </data>
+  <data name="ANServiceInfo.Text" xml:space="preserve">
+    <value>Вземи такъв от десктоп браузъра си на:</value>
+  </data>
+  <data name="AboutBuiltOnLink.Content" xml:space="preserve">
+    <value>Билд на M-Pin Mobile SDK</value>
+  </data>
+  <data name="AboutHomepageLink.Content" xml:space="preserve">
+    <value>Личната страница на CertiVox</value>
+  </data>
+  <data name="AboutMobileAppLink.Content" xml:space="preserve">
+    <value>M-Pin Мобилно Ръководство</value>
+  </data>
+  <data name="AboutProductSupportLink.Content" xml:space="preserve">
+    <value>Поддръжка на продуктите</value>
+  </data>
+  <data name="AboutTermsCondLink.Content" xml:space="preserve">
+    <value>Условия за ползване на CertiVox продуктите</value>
+  </data>
+  <data name="AboutValuesLink.Content" xml:space="preserve">
+    <value>Ценности / Сигурност / Лично пространство</value>
+  </data>
+  <data name="CancelString" xml:space="preserve">
+    <value>прекрати</value>
+  </data>
+  <data name="BlockedUserTB.Text" xml:space="preserve">
+    <value>Грешен ПИН е въведен твърде много пъти. Потребителят е блокиран. Можете да изберете друг потребител, да зададете нов ПИН или да премахнете потребителя от листата. </value>
+  </data>
+  <data name="ImageProblem" xml:space="preserve">
+    <value>Възникна проблем с APIто на камерата! Моля, рестартирайте апликацията!</value>
   </data>
 </root>

@@ -114,11 +114,15 @@ namespace MPinDemo
             {
                 rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NotValidMail"), MainPage.NotifyType.ErrorMessage);
             }
-            else
+            else if (rootPage.IsInternetConnected)
             {
                 CacheDeviceName();
                 Frame mainFrame = rootPage.FindName("MainFrame") as Frame;
                 mainFrame.GoBack(new List<object>() { "AddUser", new List<string> { this.UserId.Text, DeviceName.Text } });
+            }
+            else
+            {
+                Controller.DisplayNoNetworkMessage();
             }
         }
 

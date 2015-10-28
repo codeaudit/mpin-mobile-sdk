@@ -1,27 +1,30 @@
 /*
- Copyright (c) 2012-2015, Certivox
- All rights reserved.
- 
- Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
- 
- 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
- 
- 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
- 
- 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
- 
- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- 
- For full details regarding our CertiVox terms of service please refer to
- the following links:
+   Copyright (c) 2012-2015, Certivox
+   All rights reserved.
+
+   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+   1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+   2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+   3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+   For full details regarding our CertiVox terms of service please refer to
+   the following links:
  * Our Terms and Conditions -
- http://www.certivox.com/about-certivox/terms-and-conditions/
+   http://www.certivox.com/about-certivox/terms-and-conditions/
  * Our Security and Privacy -
- http://www.certivox.com/about-certivox/security-privacy/
+   http://www.certivox.com/about-certivox/security-privacy/
  * Our Statement of Position and Our Promise on Software Patents -
- http://www.certivox.com/about-certivox/patents/
+   http://www.certivox.com/about-certivox/patents/
  */
 
+
+
+#import "AppDelegate.h"
 
 
 #import "IUser.h"
@@ -38,12 +41,17 @@
 #import "OTPViewController.h"
 #import "IdentityBlockedViewController.h"
 #import "MenuViewController.h"
+#import "HelpViewController.h"
 
 #pragma mark - import managers -
 #import "ThemeManager.h"
 #import "SettingsManager.h"
 #import "ConfigurationManager.h"
 #import "SettingsManager.h"
+#import "NetworkMonitor.h"
+
+#import "SMSRegistrationMessage.h"
+#import "APNAuthenticationMessage.h"
 
 @import LocalAuthentication;
 
@@ -85,7 +93,7 @@ static NSString *const kAN = @"AN";
 - ( void )hideBottomBar:( BOOL )animated;
 - ( void )startAuthenticationFlow;
 
-- ( void )showPinPad;
+- ( void )showPinPad:( NSNotification * )notification;
 
 - ( IBAction )btnAddIDTap:( id )sender;
 - ( IBAction )btnEditTap:( id )sender;
@@ -119,37 +127,42 @@ static NSString *const kAN = @"AN";
     self.automaticallyAdjustsScrollViewInsets = NO;
     storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
     [self hideBottomBar:NO];
-    [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:@"Initializing" addActivityIndicator:YES minShowTime:0];
     storedBackendURL = [[ConfigurationManager sharedManager] getSelectedConfiguration] [@"backend"];
+    sdk = [[MPin alloc] init];
+    sdk.delegate = self;
+}
+
+-( void ) setBackend
+{
+    [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
 }
 
 - ( void )viewWillAppear:( BOOL )animated
 {
     [super viewWillAppear:animated];
 
-    sdk = [[MPin alloc] init];
     sdk.delegate = self;
-    NSString *config = [[ConfigurationManager sharedManager] getSelectedConfiguration] [@"backend"];
 
-    // Executed if for some reason backend url is changed in other controllers
-    // For example - QR Scanned backends can overwrite the selected backend and the url maybe will be different
-    if ( ![storedBackendURL isEqualToString:config] )
-    {
-        [sdk SetBackend:[[ConfigurationManager sharedManager] getSelectedConfiguration]];
-    }
 
     [self.menuContainerViewController setPanMode:MFSideMenuPanModeDefault];
-    [[ThemeManager sharedManager] beautifyViewController:self];
+
     self.users = [MPin listUsers];
     [(MenuViewController *)self.menuContainerViewController.leftMenuViewController setConfiguration];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-     name:kShowPinPadNotification
-     object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad ) name:kShowPinPadNotification object:nil];
+    [[ThemeManager sharedManager] beautifyViewController:self];
+    
+}
+
+- ( void )viewWillDisappear:( BOOL )animated // Called when the view is dismissed, covered or otherwise hidden. Default does nothing
+{
+    [super viewWillDisappear:animated];
+    [self unRegisterObservers];
 }
 
 - ( void )viewDidAppear:( BOOL )animated
 {
+    [super viewDidAppear:animated];
+    [self registerObservers];
+
     if ( [self.users count] == 0 )
     {
         [self hideBottomBar:NO];
@@ -172,12 +185,6 @@ static NSString *const kAN = @"AN";
     {
         [self hideBottomBar:NO];
     }
-}
-
--( void ) viewWillDisappear:( BOOL )animated
-{
-    [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
 }
 
 - ( void ) invalidate
@@ -392,7 +399,7 @@ static NSString *const kAN = @"AN";
         [[ErrorHandler sharedManager] presentMessageInViewController:self
          errorString:NSLocalizedString(@"ERROR_OTP_NOT_SUPPORTED",  @"OTP is not supported!")
          addActivityIndicator:NO
-         minShowTime:0];
+         minShowTime:3];
 
         return;
     }
@@ -408,7 +415,7 @@ static NSString *const kAN = @"AN";
     [[ErrorHandler sharedManager] presentMessageInViewController:self
      errorString:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR")
      addActivityIndicator:NO
-     minShowTime:0];
+     minShowTime:3];
 }
 
 - ( void )OnAuthenticateAccessNumberCompleted:( id )sender user:( id<IUser>)user
@@ -416,7 +423,7 @@ static NSString *const kAN = @"AN";
     [[ErrorHandler sharedManager] presentMessageInViewController:self
      errorString:NSLocalizedString(@"HUD_AUTH_SUCCESS", @"")
      addActivityIndicator:NO
-     minShowTime:0];
+     minShowTime:3];
 }
 
 - ( void )OnAuthenticateAccessNumberError:( id )sender error:( NSError * )error
@@ -441,7 +448,7 @@ static NSString *const kAN = @"AN";
         MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
         [[ErrorHandler sharedManager] presentMessageInViewController:self errorString:NSLocalizedString(mpinStatus.statusCodeAsString, @"UNKNOWN ERROR")
          addActivityIndicator:NO
-         minShowTime:0];
+         minShowTime:3];
     } break;
     }
 }
@@ -481,14 +488,14 @@ static NSString *const kAN = @"AN";
             [[ErrorHandler sharedManager] presentMessageInViewController:self
              errorString:NSLocalizedString(@"INCORRECT_PIN",  @"Wrong MPIN or Access Number!")
              addActivityIndicator:NO
-             minShowTime:0];
+             minShowTime:3];
             break;
 
         default:
             [[ErrorHandler sharedManager] presentMessageInViewController:self
              errorString:mpinStatus.errorMessage
              addActivityIndicator:NO
-             minShowTime:0];
+             minShowTime:3];
             break;
         }
     }
@@ -509,6 +516,7 @@ static NSString *const kAN = @"AN";
 
 - ( IBAction )btnAddIDTap:( id )sender
 {
+    
     if ( [[ConfigurationManager sharedManager] isEmpty] )
         return;
 
@@ -596,6 +604,7 @@ static NSString *const kAN = @"AN";
                 sdk.delegate = nil;
                 accessViewController.strEmail = [currentUser getIdentity];
                 accessViewController.currentUser = currentUser;
+                self.title = @"";
                 [self.navigationController pushViewController:accessViewController animated:YES];
                 break;
 
@@ -729,15 +738,42 @@ static NSString *const kAN = @"AN";
     }
 }
 
-#pragma mark - Notifications handlers -
+#pragma mark - NSNotification handlers -
 
-- ( void )showPinPad
+-( void ) networkUp
+{
+    [[ThemeManager sharedManager] hideNetworkDown:self];
+    [_table reloadData];
+}
+
+-( void ) networkDown
+{
+    NSLog(@"Network DOWN Notification");
+
+    [[ThemeManager sharedManager] showNetworkDown:self];
+}
+
+-( void ) unRegisterObservers
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowPinPadNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NETWORK_UP_NOTIFICATION" object:nil];
+}
+
+- ( void ) registerObservers
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( showPinPad: ) name:kShowPinPadNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkUp ) name:@"NETWORK_UP_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( networkDown ) name:@"NETWORK_DOWN_NOTIFICATION" object:nil];
+}
+
+- ( void )showPinPad:( NSNotification * )notification
 {
     [[ErrorHandler sharedManager] hideMessage];
     PinPadViewController *pinpadViewController = [storyboard instantiateViewControllerWithIdentifier:@"pinpad"];
     pinpadViewController.sdk = sdk;
     pinpadViewController.sdk.delegate = pinpadViewController;
-    pinpadViewController.currentUser = currentUser;
+    pinpadViewController.currentUser = [notification.userInfo objectForKey:kUser];
     pinpadViewController.boolShouldShowBackButton = YES;
     pinpadViewController.title = kEnterPin;
     switch ( [currentUser getState] )
@@ -755,6 +791,52 @@ static NSString *const kAN = @"AN";
     }
     NSLog(@"Calling PinPad from UserList");
     [self.navigationController pushViewController:pinpadViewController animated:YES];
+}
+
+- ( void ) OnReceiveNotification:( id ) sender message:(NotificationMessage *) message {
+    if ([message isMemberOfClass:[SMSRegistrationMessage class]]) {
+        
+        id<IUser> user = [MPin MakeNewUser:message.userID];
+        [sdk VerifyUser:user mpinId:((SMSRegistrationMessage *)message).mpinId activationKey:((SMSRegistrationMessage *)message).activateKey];
+        return;
+    }
+    
+    if ([message isMemberOfClass:[APNAuthenticationMessage class]]) {
+        id<IUser> user = [MPin getIUserById:message.userID];
+        
+        /* if ([user getState] != ACTIVATED) {
+         MFSideMenuContainerViewController *c = (MFSideMenuContainerViewController *)self.window.rootViewController;
+         [[ErrorHandler sharedManager] presentMessageInViewController:((UINavigationController *)c.centerViewController).topViewController
+         errorString:[NSString stringWithFormat:@"The user with ID  = %@ is not in ACTIVATED STATE!", userID]
+         addActivityIndicator:YES
+         minShowTime:0];
+         
+         return;
+         }*/
+        
+        [sdk AuthenticateAN:user accessNumber:((APNAuthenticationMessage *)message).accessNumber askForFingerprint:NO];
+        return;
+    }
+}
+
+- ( void ) OnNotificationError:( id ) sender error:( NSError * ) error {
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                     errorString:error.localizedDescription
+                                            addActivityIndicator:YES
+                                                     minShowTime:0];
+}
+
+- ( void ) OnVerifyUserompleted:( id ) sender user:( const id<IUser>) user {
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [sdk FinishRegistration:user pushNotificationIdentifier:appDelegate.pimToken];
+}
+
+- ( void ) OnVerifyUserError:( id ) sender error:( NSError * ) error {
+    MpinStatus *mpinStatus = ( error.userInfo ) [kMPinSatus];
+    [[ErrorHandler sharedManager] presentMessageInViewController:self
+                                                     errorString:mpinStatus.errorMessage
+                                            addActivityIndicator:YES
+                                                     minShowTime:0];
 }
 
 @end

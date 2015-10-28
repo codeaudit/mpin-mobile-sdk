@@ -1,0 +1,92 @@
+﻿<Page
+    x:Class="MPinDemo.MPinServerQuide"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MPinDemo"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <Style x:Key="RectangleStyle" TargetType="Rectangle">
+            <Setter Property="StrokeLineJoin" Value="Round" />
+            <Setter Property="StrokeThickness" Value="5" />
+            <Setter Property="Stroke" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Uid="QuideTitle" Style="{StaticResource TitleStyle}" Margin="0, 24, 0, 24" />
+
+        <FlipView x:Name="MainView" SelectionChanged="MainView_SelectionChanged" Grid.Row="1">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Width="147" Height="116">
+                    <Rectangle Width="120" Height="30" RadiusX="5" RadiusY="5" Canvas.Left="2" Canvas.Top="74" Style="{StaticResource RectangleStyle}"/>
+                    <Ellipse Width="7" Height="7" Canvas.Left="16" Canvas.Top="86" Fill="{ThemeResource PhoneAccentBrush}"/>
+
+                    <Rectangle Width="120" Height="30" RadiusX="5" RadiusY="5" Canvas.Left="2" Canvas.Top="2" Style="{StaticResource RectangleStyle}"/>
+                    <Ellipse Width="7" Height="7" Canvas.Left="16" Canvas.Top="14" Fill="{ThemeResource PhoneAccentBrush}" />
+
+                    <TextBlock Text="M-Pin" Canvas.Left="82" Canvas.Top="10" FontSize="12" />
+                    <Ellipse Width="7" Height="7" Canvas.Left="16" Canvas.Top="50" Fill="{ThemeResource PhoneAccentBrush}" />
+                    <Rectangle Width="120" Height="30" RadiusX="5" RadiusY="5" Canvas.Left="2" Canvas.Top="38" Style="{StaticResource RectangleStyle}" />
+
+                    <Ellipse Width="56" Height="56" Canvas.Left="91" Canvas.Top="60" Fill="{ThemeResource PhoneAccentBrush}" />
+                    <Path Fill="{ThemeResource ApplicationForegroundThemeBrush}" StrokeThickness="0"
+                              Data="M126.000,89.000 L120.000,89.000 L120.000,95.000 L118.000,95.000 L118.000,89.000 L112.000,89.000 L112.000,87.000 L118.000,87.000 L118.000,81.000 L120.000,81.000 L120.000,87.000 L126.000,87.000 L126.000,89.000 Z" />
+                </Canvas>
+
+                <TextBlock x:Uid="QuideDownload" Style="{StaticResource IdentityTextBlock}" Grid.Row="1" TextWrapping="Wrap"/>
+                <TextBlock x:Uid="QuideUse" Style="{StaticResource MainTextBlock}" Grid.Row="2"  TextWrapping="Wrap"/>
+
+            </Grid>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Width="104" Height="173">
+
+                    <Rectangle Width="61" Height="9" Canvas.Left="22" Canvas.Top="53" Fill="{ThemeResource ApplicationForegroundThemeBrush}"/>
+                    <Rectangle Width="61" Height="9" Canvas.Left="22" Canvas.Top="69" Fill="{ThemeResource ApplicationForegroundThemeBrush}"/>
+                    <Rectangle Width="61" Height="19" Canvas.Left="23" Canvas.Top="123" Fill="{ThemeResource PhoneAccentBrush}" RadiusX="3" RadiusY="3"/>
+                    <Grid Width="104" Height="114" Canvas.Left="0" Canvas.Top="26">
+                        <TextBlock x:Uid="AddText" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                        <TextBlock x:Uid="AddServiceText" FontSize="12" HorizontalAlignment="Center"/>
+                    </Grid>                    
+                    <Path StrokeThickness="0" Fill="{ThemeResource ApplicationForegroundThemeBrush}"
+                          Data="M94.000,173.000 L10.000,173.000 C4.477,173.000 -0.000,168.523 -0.000,163.000 L-0.000,10.000 C-0.000,4.477 4.477,0.000 10.000,0.000 L94.000,0.000 C99.523,0.000 104.000,4.477 104.000,10.000 L104.000,163.000 C104.000,168.523 99.523,173.000 94.000,173.000 ZM94.812,12.906 C94.812,11.249 93.469,9.906 91.813,9.906 L12.187,9.906 C10.531,9.906 9.188,11.249 9.188,12.906 L9.188,150.219 C9.188,151.876 10.531,153.219 12.187,153.219 L91.813,153.219 C93.469,153.219 94.812,151.876 94.812,150.219 L94.812,12.906 Z"/>
+                </Canvas>
+
+                <TextBlock x:Uid="QuideAddServer" Style="{StaticResource IdentityTextBlock}" Grid.Row="1" TextWrapping="Wrap"/>
+                <TextBlock x:Uid="QuideDesc" Style="{StaticResource MainTextBlock}" Grid.Row="2" TextWrapping="Wrap"/>
+
+            </Grid>
+        </FlipView>
+
+        <StackPanel Grid.Row="2" Margin="0,24,0,0">
+            <Rectangle Height="1" Fill="{ThemeResource ApplicationForegroundThemeBrush}" Stretch="UniformToFill" Margin="-12, 0, -12, 0"/>
+            <Grid Margin="0,6,0,6">
+                <Button x:Name="SkipButton" x:Uid="SkipButton" Click="AppBarButton_Click" HorizontalAlignment="Left" BorderThickness="0"/>
+                <Button x:Name="NextButton" x:Uid="NextButton" Click="NextButton_Click" HorizontalAlignment="Right" BorderThickness="0"/>
+                <Button x:Name="DoneButton" x:Uid="DoneButton" Click="AppBarButton_Click" HorizontalAlignment="Right" BorderThickness="0" Visibility="Collapsed"/>
+            </Grid>
+        </StackPanel>
+    </Grid>
+
+</Page>

@@ -23,33 +23,59 @@
  http://www.certivox.com/about-certivox/patents/
  */
 
-
+#import <HockeySDK/HockeySDK.h>
 #import "AppDelegate.h"
 #import "Constants.h"
 #import "MFSideMenuContainerViewController.h"
-#import "SettingsManager.h"
-#import "OTPViewController.h"
-#import "AFNetworkReachabilityManager.h"
 #import "ApplicationManager.h"
-#import <HockeySDK/HockeySDK.h>
+#import "NetworkMonitor.h"
+#import "NetworkDownViewController.h"
+#import "AFNetworkReachabilityManager.h"
+#import "ANAuthenticationSuccessful.h"
+#import "Utilities.h"
+#import "HelpViewController.h"
+#import "ConfigurationManager.h"
+#import "IUser.h"
+#import "SMSRegistrationMessage.h"
+#import "APNAuthenticationMessage.h"
+#import "NotificationService.h"
+#import "OTPViewController.h"
 
 @interface AppDelegate ()
+{
+    MFSideMenuContainerViewController *container;
+    NetworkDownViewController *vcNetworkDown;
+    HelpViewController *vcHelp;
+    BOOL boolRestartFlow;
+    BOOL isFirstTime;
+}
+
+@property (nonatomic, retain) SMSRegistrationMessage * smsRegMessage;
+@property (nonatomic, retain) APNAuthenticationMessage * apnAuthMessage;
+@property (nonatomic, retain) NotificationService * notificationService;
+
 @end
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    boolRestartFlow = NO;
+    isFirstTime = YES;
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-    UIUserNotificationType types = UIUserNotificationTypeBadge |
-    UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
     
-    UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
     
-    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
-    [application registerForRemoteNotifications];
-
-    
+//#ifdef NOTIFICATIONS
+//    #if NOTIFICATIONS
+//        UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+//        UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+//        
+//        [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+//        [application registerForRemoteNotifications];
+//    #endif
+//#endif
+//
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 
     [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:[SettingsManager sharedManager].strHockeyAppID];
@@ -57,26 +83,49 @@
     [[BITHockeyManager sharedHockeyManager] startManager];
     [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
     
+	container = (MFSideMenuContainerViewController *)self.window.rootViewController;
+    
 	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:[NSBundle mainBundle]];
-
-	MFSideMenuContainerViewController *container = (MFSideMenuContainerViewController *)self.window.rootViewController;
-	_vcUserList = [storyboard instantiateViewControllerWithIdentifier:@"UserListViewController"];
-
+    _vcUserList = [storyboard instantiateViewControllerWithIdentifier:@"UserListViewController"];
+    
+    vcNetworkDown = [storyboard instantiateViewControllerWithIdentifier:@"NetworkDownViewController"];
+    vcHelp = [storyboard instantiateViewControllerWithIdentifier:@"HelpViewController"];
+    
 	UIViewController *leftSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"MenuViewController"];
 
+    [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
+    
 	[container setLeftMenuViewController:leftSideMenuViewController];
-	[container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
 
 	self.window.rootViewController = container;
     
     [ApplicationManager sharedManager];
+    [NetworkMonitor sharedManager];
     
+    if (![NetworkMonitor isNetworkAvailable])
+    {
+        [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:vcNetworkDown]];
+        container.panMode = MFSideMenuPanModeNone;
+    }
+    else if ([[ConfigurationManager sharedManager] isFirstTimeLaunch])
+    {
+        [self firstTimeLaunch];
+    }
+    
+    [ApplicationManager sharedManager];
+    [NetworkMonitor sharedManager];
+    
+    self.notificationService = [[NotificationService alloc] init];
+    self.notificationService.delegate = _vcUserList;
+
 	return YES;
 }
 
 - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken
 {
     self.devToken = devToken;
+    self.pimToken = [[devToken description] stringByTrimmingCharactersInSet: [NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    self.pimToken  = [ self.pimToken  stringByReplacingOccurrencesOfString:@" " withString:@""];
     NSLog(@"%@", devToken.description);
 }
 
@@ -86,24 +135,47 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))handler
 {
-    NSLog(@"%@", userInfo[@"aps"][@"token"]);
-}
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    MFSideMenuContainerViewController *container = (MFSideMenuContainerViewController *)self.window.rootViewController;
-    if ([((UINavigationController *)container.centerViewController).topViewController  isMemberOfClass:[OTPViewController class]]){
-        [((UINavigationController *)container.centerViewController) popToRootViewControllerAnimated:NO];
+    self.apnAuthMessage  = [[APNAuthenticationMessage alloc] initWith:userInfo];
+    if (application.applicationState == UIApplicationStateActive) {
+       [self.notificationService postNotification:self.apnAuthMessage];
+        self.apnAuthMessage = nil;
     }
+    
+    handler(UIBackgroundFetchResultNewData);
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    return NO;
+    self.smsRegMessage = [[SMSRegistrationMessage alloc] initWith:url];
+    
+    if (application.applicationState == UIApplicationStateActive) {
+        [self.notificationService postNotification:self.smsRegMessage];
+        self.smsRegMessage = nil;
+    }
+    
+    return YES;
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application {
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    boolRestartFlow = NO;
+    MFSideMenuContainerViewController *c = (MFSideMenuContainerViewController *)self.window.rootViewController;
     
-    // fill screen with our own colour
+    UINavigationController *centerNavigationController = c.centerViewController;
+    if ([centerNavigationController.topViewController isKindOfClass:[UserListViewController class]]
+        || [centerNavigationController.topViewController isKindOfClass:[ANAuthenticationSuccessful class]])
+    {
+        [c.centerViewController popToRootViewControllerAnimated:NO];
+        boolRestartFlow = YES;
+    }
+    
+    if ([centerNavigationController.topViewController  isMemberOfClass:[OTPViewController class]]){
+        [centerNavigationController popToRootViewControllerAnimated:NO];
+    }
+}
+
+- (void)applicationWillResignActive:(UIApplication *)application
+{
     UIView *protectionView = [[UIView alloc]initWithFrame:self.window.frame];
     protectionView.backgroundColor = [UIColor whiteColor];
     protectionView.tag = 1234;
@@ -115,25 +187,83 @@
     imgView.contentMode = UIViewContentModeCenter;
     imgView.backgroundColor = [[SettingsManager sharedManager] color10];
     [self.window bringSubviewToFront:protectionView];
-    
     // fade in the view
     [UIView animateWithDuration:0.5 animations:^{
         protectionView.alpha = 1;
     }];
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    if (![NetworkMonitor isNetworkAvailable])
+    {
+        [self connectionDown];
+    }
+    if (boolRestartFlow && [NetworkMonitor isNetworkAvailable])
+    {
+        boolRestartFlow = !boolRestartFlow;
+        [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
+        [_vcUserList invalidate];
+    }
     
-    // grab a reference to our coloured view
     UIView *colourView = [self.window viewWithTag:1234];
-    
-    // fade away colour view from main view
     [UIView animateWithDuration:0.5 animations:^{
         colourView.alpha = 0;
     } completion:^(BOOL finished) {
-        // remove when finished fading
         [colourView removeFromSuperview];
     }];
+    
+    
+    if (self.smsRegMessage != nil) {
+        [self.notificationService postNotification:self.smsRegMessage];
+        self.smsRegMessage = nil;
+    }
+    
+    if (self.apnAuthMessage != nil) {
+        [self.notificationService postNotification:self.apnAuthMessage];
+        self.apnAuthMessage = nil;
+    }
+
 }
 
+/// TODO:: this is a quick and dirty fix to bug # 456 fix this later after refactoring code
+- (void) freshLaunch {
+    if (isFirstTime) {
+        isFirstTime = false;
+        [_vcUserList invalidate];
+    }
+}
+
+
+-( void) firstTimeLaunch
+{
+    NSLog(@"Appdelegate : First time");
+    
+    [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:vcHelp]];
+    vcHelp.helpMode = HELP_QUICK_START;
+    container.panMode = MFSideMenuPanModeNone;
+}
+
+-( void) connectionDown
+{
+    NSLog(@"Appdelegate : Connection Down");
+    [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:vcNetworkDown]];
+    container.panMode = MFSideMenuPanModeNone;
+}
+
+-( void) connectionUp
+{
+    NSLog(@"Appdelegate : Connection Up");
+    if ([[ConfigurationManager sharedManager] isFirstTimeLaunch])
+    {
+        [self firstTimeLaunch];
+    }
+    else
+    {
+        [container setCenterViewController:[[UINavigationController alloc] initWithRootViewController:_vcUserList]];
+        [_vcUserList setBackend];
+        container.panMode = MFSideMenuPanModeDefault;
+    }
+    
+}
 @end

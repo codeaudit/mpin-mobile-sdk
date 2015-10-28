@@ -5,7 +5,7 @@
     xmlns:local="using:MPinDemo"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+    mc:Ignorable="d" 
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
@@ -13,15 +13,26 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock x:Uid="AboutTitle" FontSize="26"/>
-            <TextBlock x:Uid="About" FontSize="20" />
-            <TextBlock x:Name="Certivox"  Text="&#xA9;" FontSize="16"/>
-            <TextBlock x:Uid="AllRightsReserved" FontSize="16" />
-            <HyperlinkButton NavigateUri="https://www.certivox.com/about-certivox/terms-and-conditions" Content="CertiVox Terms &amp; Conditions" FontSize="14"/>
+
+        <StackPanel>
+            <TextBlock x:Uid="AboutTitle" Style="{StaticResource TitleStyle}"/>
+
+            <TextBlock x:Uid="About" FontSize="20" Style="{StaticResource IdentityTextBlock}"/>
+
+            <TextBlock x:Name="Certivox" Text="&#xA9;" FontSize="16"  Style="{StaticResource MainTextBlock}"/>
+            <TextBlock x:Uid="AllRightsReserved" FontSize="16"   Style="{StaticResource MainTextBlock}" Margin="0"/>
+
+            <StackPanel Margin="0, 12, 0, 12">
+                <HyperlinkButton x:Uid="AboutMobileAppLink" NavigateUri="https://www.certivox.com/mobile-app" />
+                <HyperlinkButton x:Uid="AboutBuiltOnLink" NavigateUri="https://github.com/CertiVox" />
+                <HyperlinkButton x:Uid="AboutHomepageLink" NavigateUri="https://www.certivox.com/" />
+                <HyperlinkButton x:Uid="AboutProductSupportLink" NavigateUri="https://www.certivox.com/support" />
+                <HyperlinkButton x:Uid="AboutTermsCondLink" NavigateUri="https://www.certivox.com/about-certivox/terms-and-conditions" />
+                <HyperlinkButton x:Uid="AboutValuesLink" NavigateUri="https://www.certivox.com/about-certivox/security-privacy" />
+            </StackPanel>
         </StackPanel>
 
-        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="1" >
+        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="1" Margin="0, 0, 0, 12">
             <TextBlock x:Name="VersionTB" FontSize="16"/>
             <TextBlock x:Name="BuildTB" FontSize="16" />
         </StackPanel>

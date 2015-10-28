@@ -27,6 +27,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using System.Linq;
+using System;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -51,8 +53,8 @@ namespace MPinDemo
 
             name.NameValue = InputScopeNameValue.Number;
             scope.Names.Add(name);
-
-            this.AccessNumberTB.InputScope = scope;
+            
+            this.AccessNumber.InputScope = scope;
         }
 
         /// <summary>
@@ -63,18 +65,42 @@ namespace MPinDemo
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             List<string> data = e.Parameter as List<string>;
-            if (data != null && data.Count == 2)
+            if (data != null && data.Count == 4)
             {
-                ANUser.Text = string.Format(ResourceLoader.GetForCurrentView().GetString("ANUser"), data[0]);
+                ANUser.Text = data[0].ToString();
+                ANUrl.Text = RemoveHTTP(data[2].ToString());
+                ANName.Text = data[3].ToString();
 
                 this.ANLength = int.Parse(data[1]);
-                this.AccessNumberLength.Text = string.Format(ResourceLoader.GetForCurrentView().GetString("AccessNumberLength"), this.ANLength);
-                this.AccessNumberTB.MaxLength = this.ANLength;
+                this.AccessNumber.MaxLength = this.ANLength;
+                this.AccessNumberTB.Text = string.Format(ResourceLoader.GetForCurrentView().GetString("ANTB"), this.ANLength);
             }
-            
+
             //This code opens up the keyboard when you navigate to the page.
-            this.AccessNumberTB.UpdateLayout();
-            this.AccessNumberTB.Focus(FocusState.Keyboard);
+            this.ANReadOnly.UpdateLayout();
+            this.ANReadOnly.Focus(FocusState.Keyboard);
+
+            ClearBackStack();
+        }
+
+        private string RemoveHTTP(string link)
+        {
+            return link.Remove(0, link.IndexOf("://") + 3);
+        }
+
+        private void ClearBackStack()
+        {
+            ClearFrame(typeof(AccessNumberQuide));
+            ClearFrame(typeof(IdentityCreated));
+        }
+
+        private void ClearFrame(Type typeToRemove)
+        {
+            Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
+            if (mainFrame != null && mainFrame.BackStack.Any(item => item.SourcePageType.Equals(typeToRemove)))
+            {
+                mainFrame.BackStack.Remove(mainFrame.BackStack.First(item => item.SourcePageType.Equals(typeToRemove)));
+            }
         }
 
         private void Done_Click(object sender, RoutedEventArgs e)
@@ -85,12 +111,13 @@ namespace MPinDemo
         private void ProcessAN()
         {
             Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-            mainFrame.GoBack(new List<object>() { "AccessNumber", this.AccessNumberTB.Text });
+            mainFrame.GoBack(new List<object>() { "AccessNumber", this.AccessNumber.Text });
         }
 
         void AccessNumberTB_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.DoneButton.IsEnabled = this.AccessNumberTB.Text.Length == this.ANLength;
+            this.DoneButton.IsEnabled = this.AccessNumber.Text.Length == this.ANLength;
+            this.ANReadOnly.Text = this.AccessNumber.Text;
         }
 
         private void AccessNumberTB_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -99,6 +126,22 @@ namespace MPinDemo
             {
                 ProcessAN();
             }
+        }
+
+        private void ANReadOnly_GotFocus(object sender, RoutedEventArgs e)
+        {
+            this.AccessNumber.UpdateLayout();
+            this.AccessNumber.Focus(FocusState.Keyboard);
+        }
+
+        private void AccessNumber_LostFocus(object sender, RoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(this.ANReadOnly, "Normal", true);
+        }
+
+        private void AccessNumber_GotFocus(object sender, RoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(this.ANReadOnly, "Focused", true);
         }
 
     }

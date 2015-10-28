@@ -26,6 +26,8 @@
 #import "Constants.h"
 #import <objc/runtime.h>
 #import "AFNetworkReachabilityManager.h"
+#import "NSString+Helper.h"
+
 @import LocalAuthentication;
 
 static char const *const delegateKey = "delegateKey";
@@ -123,7 +125,6 @@ static NSString *const constStrConnectionTimeoutNotification = @"ConnectionTimeo
 
 - ( void ) SetBackend:( const NSDictionary * ) config
 {
-    // TODO :: notify listeners
     if ( config == nil )
         return;
 
@@ -176,7 +177,7 @@ static NSString *const constStrConnectionTimeoutNotification = @"ConnectionTimeo
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
         MpinStatus *mpinStatus = [MPin RestartRegistration:user userData:userData];
-
+        NSLog(@"Status code: %@", mpinStatus.statusCodeAsString);
         dispatch_async(dispatch_get_main_queue(), ^ (void) {
             if ( self.delegate == nil )
                 return;
@@ -214,15 +215,54 @@ static NSString *const constStrConnectionTimeoutNotification = @"ConnectionTimeo
     [self RestartRegistration:user userData:@""];
 }
 
-- ( void )FinishRegistration:( const id<IUser>)user
-{
+- ( void ) VerifyUser:(const id<IUser>)user mpinId:(NSString* ) mpinId activationKey:(NSString *) activationKey {
+    
+    if ([NSString isBlank:mpinId] || [NSString isBlank:activationKey])  return;
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-        MpinStatus *mpinStatus = [MPin FinishRegistration:user];
-
+        MpinStatus *mpinStatus = [MPin VerifyUser:user mpinId:mpinId activationKey:activationKey];
+        
         dispatch_async(dispatch_get_main_queue(), ^ (void) {
             if ( self.delegate == nil )
                 return;
+            
+            if ( mpinStatus.status == OK )
+            {
+                if ( [(NSObject *)self.delegate respondsToSelector:@selector( OnVerifyUserompleted:user:)] )
+                {
+                    [self.delegate OnVerifyUserompleted:self user:user];
+                }
+            }
+            else
+            {
+                if ( [(NSObject *)self.delegate respondsToSelector:@selector( OnVerifyUserError:error: )] )
+                {
+                    [self.delegate OnVerifyUserError:self
+                                                        error:[NSError errorWithDomain:@"SDK"
+                                                                                  code:mpinStatus.status
+                                                                              userInfo:@{kMPinSatus : mpinStatus,
+                                                                                         kUSER : @"TODO  ::  return USER" }
+                                                               ]
+                     ];
+                }
+            }
+        });
+    });
+    
+}
 
+
+- ( void ) FinishRegistration:(const id<IUser>)user pushNotificationIdentifier:(NSString *) pushNotificationIdentifier {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        
+        MpinStatus *mpinStatus = nil;
+        if (pushNotificationIdentifier == nil)      mpinStatus = [MPin FinishRegistration:user];
+        else mpinStatus = [MPin FinishRegistration:user pushNotificationIdentifier:pushNotificationIdentifier];
+        
+        dispatch_async(dispatch_get_main_queue(), ^ (void) {
+            if ( self.delegate == nil )
+                return;
+            
             if ( mpinStatus.status == OK )
             {
                 if ( [(NSObject *)self.delegate respondsToSelector:@selector( OnFinishRegistrationCompleted:user: )] )
@@ -235,15 +275,22 @@ static NSString *const constStrConnectionTimeoutNotification = @"ConnectionTimeo
                 if ( [(NSObject *)self.delegate respondsToSelector:@selector( OnFinishRegistrationError:error: )] )
                 {
                     [self.delegate OnFinishRegistrationError:self
-                     error:[NSError errorWithDomain:@"SDK"
-                            code:mpinStatus.status
-                            userInfo:@{kMPinSatus : mpinStatus,kUSER : user}
-                     ]
-                    ];
+                                                       error:[NSError errorWithDomain:@"SDK"
+                                                                                 code:mpinStatus.status
+                                                                             userInfo:@{kMPinSatus : mpinStatus,kUSER : user}
+                                                              ]
+                     ];
                 }
             }
         });
     });
+
+    
+}
+
+- ( void )FinishRegistration:( const id<IUser>)user
+{
+    [self FinishRegistration:user pushNotificationIdentifier:nil];
 }
 
 - ( void )Authenticate:( const id<IUser>)user askForFingerprint:( BOOL )boolAskForFingerprint
@@ -345,6 +392,7 @@ static NSString *const constStrConnectionTimeoutNotification = @"ConnectionTimeo
 
 - ( void )AuthenticateOTP:( id<IUser>)user askForFingerprint:( BOOL )boolAskForFingerprint
 {
+    NSLog(@"AuthenticateOTP");
     dispatch_async(dispatch_get_main_queue(), ^ (void){
         LAContext *context = [[LAContext alloc] init];
         NSError *error;

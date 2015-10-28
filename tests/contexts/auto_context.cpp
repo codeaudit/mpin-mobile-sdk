@@ -27,7 +27,8 @@ the following links:
  */
 
 #include "auto_context.h"
-#include "http_request.h"
+#include "../common/http_request.h"
+#include "../common/memory_storage.h"
 
 #include <iostream>
 #include <fstream>
@@ -37,37 +38,6 @@ typedef MPinSDK::IHttpRequest IHttpRequest;
 typedef MPinSDK::IPinPad IPinPad;
 typedef MPinSDK::CryptoType CryptoType;
 typedef MPinSDK::UserPtr UserPtr;
-
-/*
- * Storage class impl
- */
-
-class MemoryStorage : public MPinSDK::IStorage
-{
-public:
-    MemoryStorage() {}
-
-    virtual bool SetData(const String& data)
-    {
-        m_data = data;
-        return true;
-    }
-
-    virtual bool GetData(String &data)
-    {
-        data = m_data;
-        return true;
-    }
-
-    virtual const String& GetErrorMessage() const
-    {
-        return m_errorMessage;
-    }
-
-private:
-    String m_data;
-    String m_errorMessage;
-};
 
 /*
  * Pinpad class impl

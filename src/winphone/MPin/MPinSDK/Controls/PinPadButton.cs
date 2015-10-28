@@ -25,16 +25,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace MPinSDK.Controls
 {
-    class PinPadButton : Button
+    internal class PinPadButton : Button
     {
+        internal static SolidColorBrush DarkThemeBackground = new SolidColorBrush(new Color() {R = 54, G = 54, B = 54, A = 255});
+        internal static SolidColorBrush LightThemeBackground = new SolidColorBrush(Colors.Transparent);
+
         public PinPadButton()
         {
             this.DefaultStyleKey = typeof(PinPadButton);
+            this.Background = Application.Current.RequestedTheme.Equals(ApplicationTheme.Light) ? LightThemeBackground : DarkThemeBackground;
         }
-        
     }
 }

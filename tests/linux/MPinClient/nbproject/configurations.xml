@@ -15,23 +15,10 @@
       </logicalFolder>
       <logicalFolder name="f1" displayName="crypto" projectFiles="true">
         <itemPath>../../../src/core/crypto/DLLDefines.h</itemPath>
-        <itemPath>../../../src/core/crypto/MPinCryptoConfig.h</itemPath>
-        <itemPath>../../../src/core/crypto/aesGcmWrapper.h</itemPath>
-        <itemPath>../../../src/core/crypto/certivox.h</itemPath>
-        <itemPath>../../../src/core/crypto/eccsiWrapper.h</itemPath>
-        <itemPath>../../../src/core/crypto/eccsi_c.h</itemPath>
-        <itemPath>../../../src/core/crypto/miracl.h</itemPath>
-        <itemPath>../../../src/core/crypto/mirdef.gcc</itemPath>
-        <itemPath>../../../src/core/crypto/mirdef.h</itemPath>
-        <itemPath>../../../src/core/crypto/mirdef.lc32</itemPath>
-        <itemPath>../../../src/core/crypto/mirdef.lc64</itemPath>
-        <itemPath>../../../src/core/crypto/mirdef.wc32</itemPath>
-        <itemPath>../../../src/core/crypto/mirdef.wc64</itemPath>
-        <itemPath>../../../src/core/crypto/mpinWrapper.h</itemPath>
-        <itemPath>../../../src/core/crypto/mpin_c.h</itemPath>
-        <itemPath>../../../src/core/crypto/octet.h</itemPath>
-        <itemPath>../../../src/core/crypto/sakkeWrapper.h</itemPath>
-        <itemPath>../../../src/core/crypto/sakke_bn_c.h</itemPath>
+        <itemPath>../../../src/core/crypto/clint.h</itemPath>
+        <itemPath>../../../src/core/crypto/mpin.h</itemPath>
+        <itemPath>../../../src/core/crypto/platform.h</itemPath>
+        <itemPath>../../../src/core/crypto/version.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f3" displayName="cvshared" projectFiles="true">
         <itemPath>../../../ext/cvshared/cpp/include/CvHttpRequest.h</itemPath>
@@ -55,53 +42,23 @@
         <itemPath>../../../src/core/utils.cpp</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="crypto" projectFiles="true">
-        <itemPath>../../../src/core/crypto/aesGcmWrapper.c</itemPath>
-        <itemPath>../../../src/core/crypto/certivox.c</itemPath>
-        <itemPath>../../../src/core/crypto/eccsiWrapper.c</itemPath>
-        <itemPath>../../../src/core/crypto/eccsi_c.c</itemPath>
-        <itemPath>../../../src/core/crypto/mpinWrapper.c</itemPath>
-        <itemPath>../../../src/core/crypto/mpin_c.c</itemPath>
-        <itemPath>../../../src/core/crypto/mraes.c</itemPath>
-        <itemPath>../../../src/core/crypto/mralloc.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrarth0.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrarth1.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrarth2.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrarth3.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrbits.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrcombaARM32.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrcombaLinux32.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrcombaLinux64.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrcombaWin32.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrcombaWin64.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrcore.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrcurve.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrecn2.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrgcd.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrgcm.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrio1.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrjack.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrlucas.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrmonty.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrmuldvARM32.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrmuldvLinux32.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrmuldvLinux64.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrmuldvWin32.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrmuldvWin64.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrpower.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrprime.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrrand.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrshs.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrshs256.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrsmall.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrsroot.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrstrong.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrxgcd.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrzzn2.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrzzn2b.c</itemPath>
-        <itemPath>../../../src/core/crypto/mrzzn4.c</itemPath>
-        <itemPath>../../../src/core/crypto/octet.c</itemPath>
-        <itemPath>../../../src/core/crypto/sakkeWrapper.c</itemPath>
-        <itemPath>../../../src/core/crypto/sakke_bn_c.c</itemPath>
+        <itemPath>../../../src/core/crypto/aes.c</itemPath>
+        <itemPath>../../../src/core/crypto/big.c</itemPath>
+        <itemPath>../../../src/core/crypto/ecp.c</itemPath>
+        <itemPath>../../../src/core/crypto/ecp2.c</itemPath>
+        <itemPath>../../../src/core/crypto/ff.c</itemPath>
+        <itemPath>../../../src/core/crypto/fp.c</itemPath>
+        <itemPath>../../../src/core/crypto/fp12.c</itemPath>
+        <itemPath>../../../src/core/crypto/fp2.c</itemPath>
+        <itemPath>../../../src/core/crypto/fp4.c</itemPath>
+        <itemPath>../../../src/core/crypto/gcm.c</itemPath>
+        <itemPath>../../../src/core/crypto/hash.c</itemPath>
+        <itemPath>../../../src/core/crypto/mpin.c</itemPath>
+        <itemPath>../../../src/core/crypto/oct.c</itemPath>
+        <itemPath>../../../src/core/crypto/pair.c</itemPath>
+        <itemPath>../../../src/core/crypto/rand.c</itemPath>
+        <itemPath>../../../src/core/crypto/rom.c</itemPath>
+        <itemPath>../../../src/core/crypto/version.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f3" displayName="cvshared" projectFiles="true">
         <itemPath>../../../ext/cvshared/cpp/linux/CvHttpRequest.cpp</itemPath>
@@ -243,183 +200,50 @@
             tool="3"
             flavor2="0">
       </item>
-      <item path="../../../src/core/crypto/MPinCryptoConfig.h"
+      <item path="../../../src/core/crypto/aes.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/big.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/clint.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/ecp.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/ecp2.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/ff.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/fp.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/fp12.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/fp2.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/fp4.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/gcm.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/hash.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/mpin.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/mpin.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/oct.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/pair.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/platform.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="../../../src/core/crypto/aesGcmWrapper.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
+      <item path="../../../src/core/crypto/rand.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="../../../src/core/crypto/aesGcmWrapper.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
+      <item path="../../../src/core/crypto/rom.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="../../../src/core/crypto/certivox.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
+      <item path="../../../src/core/crypto/version.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="../../../src/core/crypto/certivox.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/eccsiWrapper.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/eccsiWrapper.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/eccsi_c.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/eccsi_c.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/miracl.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mirdef.gcc"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mirdef.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mirdef.lc32"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mirdef.lc64"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mirdef.wc32"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mirdef.wc64"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mpinWrapper.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mpinWrapper.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mpin_c.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mpin_c.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mraes.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mralloc.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrarth0.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrarth1.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrarth2.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrarth3.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrbits.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrcombaLinux64.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrcore.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrcurve.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrecn2.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrgcd.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrgcm.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrio1.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrjack.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrlucas.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrmonty.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrmuldvLinux64.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrpower.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrprime.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrrand.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrshs.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrshs256.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrsmall.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrsroot.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrstrong.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrxgcd.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrzzn2.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrzzn2b.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrzzn4.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/octet.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/octet.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/sakkeWrapper.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/sakkeWrapper.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/sakke_bn_c.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/sakke_bn_c.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
+      <item path="../../../src/core/crypto/version.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="../../../src/core/cv_shared_ptr.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -580,183 +404,50 @@
             tool="3"
             flavor2="0">
       </item>
-      <item path="../../../src/core/crypto/MPinCryptoConfig.h"
+      <item path="../../../src/core/crypto/aes.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/big.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/clint.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/ecp.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/ecp2.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/ff.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/fp.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/fp12.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/fp2.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/fp4.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/gcm.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/hash.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/mpin.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/mpin.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/oct.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/pair.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../../src/core/crypto/platform.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="../../../src/core/crypto/aesGcmWrapper.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
+      <item path="../../../src/core/crypto/rand.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="../../../src/core/crypto/aesGcmWrapper.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
+      <item path="../../../src/core/crypto/rom.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="../../../src/core/crypto/certivox.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
+      <item path="../../../src/core/crypto/version.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="../../../src/core/crypto/certivox.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/eccsiWrapper.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/eccsiWrapper.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/eccsi_c.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/eccsi_c.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/miracl.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mirdef.gcc"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mirdef.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mirdef.lc32"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mirdef.lc64"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mirdef.wc32"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mirdef.wc64"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mpinWrapper.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mpinWrapper.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mpin_c.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mpin_c.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mraes.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mralloc.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrarth0.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrarth1.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrarth2.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrarth3.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrbits.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrcombaLinux64.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrcore.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrcurve.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrecn2.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrgcd.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrgcm.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrio1.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrjack.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrlucas.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrmonty.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrmuldvLinux64.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrpower.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrprime.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrrand.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrshs.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrshs256.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrsmall.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrsroot.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrstrong.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrxgcd.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrzzn2.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrzzn2b.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/mrzzn4.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/octet.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/octet.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/sakkeWrapper.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/sakkeWrapper.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/sakke_bn_c.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
-      </item>
-      <item path="../../../src/core/crypto/sakke_bn_c.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
+      <item path="../../../src/core/crypto/version.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="../../../src/core/cv_shared_ptr.h" ex="false" tool="3" flavor2="0">
       </item>

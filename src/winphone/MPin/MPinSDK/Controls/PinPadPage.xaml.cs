@@ -38,6 +38,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.ApplicationModel.Resources;
+using Windows.Graphics.Display;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -50,6 +51,7 @@ namespace MPinSDK.Controls
     sealed partial class PinPadPage : Page
     {
         PinPad pinPadClassControl;
+        DisplayOrientations originalOrientation;
 
         public PinPadPage()
         {
@@ -83,6 +85,9 @@ namespace MPinSDK.Controls
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            this.originalOrientation = DisplayInformation.AutoRotationPreferences;
+            DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait;
+
             List<object> data = e.Parameter as List<object>;
             if (data != null && data.Count == 3)
             {
@@ -92,9 +97,16 @@ namespace MPinSDK.Controls
 
                 if (pinPadClassControl != null && doAuthenticate != null)
                 {
-                    PinMailTB.Text = ResourceLoader.GetForCurrentView("MPinSDK/Resources").GetString(doAuthenticate.Value ? "PinPadAuthentication" : "PinPadRegistration") + userId; 
+                    PinMailTB.Text = ResourceLoader.GetForCurrentView("MPinSDK/Resources").GetString(doAuthenticate.Value ? "PinPadAuthentication" : "PinPadRegistration");
+                    IdentityMailTB.Text = userId;
                 }
             }         
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            DisplayInformation.AutoRotationPreferences = this.originalOrientation;
         }
 
         void PinPad_PinEntered(object sender, PinPadEventArgs e)

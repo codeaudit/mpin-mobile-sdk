@@ -15,15 +15,9 @@
     <ClCompile Include="..\..\tests\contexts\cmdline_context.cpp">
       <Filter>src\contexts</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\tests\contexts\http_request.cpp">
-      <Filter>src\contexts</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\tests\contexts\cmdline_context.h">
-      <Filter>src\contexts</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\tests\contexts\http_request.h">
       <Filter>src\contexts</Filter>
     </ClInclude>
   </ItemGroup>

@@ -698,6 +698,7 @@ Status MPinSDK::GetClientSettings(const String& backend, const String& rpsPrefix
         *clientSettings = response.GetJsonData();
     }
 
+    
     return Status(Status::OK);
 }
 
@@ -858,7 +859,46 @@ Status MPinSDK::RequestRegistration(UserPtr user, const String& userData)
     return Status(Status::OK);
 }
 
-Status MPinSDK::FinishRegistration(UserPtr user)
+Status MPinSDK::VerifyUser(UserPtr user, const String& mpinId, const String &  activationKey)
+{
+    Status s = CheckIfBackendIsSet();
+    if(s != Status::OK)
+    {
+        return s;
+    }
+
+    s = CheckUserState(user, User::INVALID);
+    if(s != Status::OK)
+    {
+        return s;
+    }
+    
+    String url = m_clientSettings.GetStringParam("mobileVerifyURL");
+    
+    util::JsonObject body;
+    body["mpin_id"] = json::String(mpinId);
+    body["activate_key"] = json::String(activationKey);
+    
+    HttpResponse response = MakeRequest(url, IHttpRequest::POST, body);
+    
+    if(response.GetStatus() != HttpResponse::HTTP_OK)
+    {
+        Status s;
+        s.SetStatusCode(Status::IDENTITY_NOT_VERIFIED);
+        s.SetErrorMessage("Identity not verified");
+        return s;
+    }
+
+    String regOTT = response.GetJsonData().GetStringParam("regOTT");
+
+    user->SetStartedRegistration(mpinId, regOTT);
+    AddUser(user);
+    s = WriteUsersToStorage();
+    
+    return s;
+}
+
+Status MPinSDK::FinishRegistration(UserPtr user, const String & pushMessageIdentifier)
 {
     Status s = CheckIfBackendIsSet();
     if(s != Status::OK)
@@ -886,6 +926,10 @@ Status MPinSDK::FinishRegistration(UserPtr user)
     String regOTT = user->GetRegOTT();
 
     String url = String().Format("%s/%s?regOTT=%s", m_clientSettings.GetStringParam("signatureURL"), mpinIdHex.c_str(), regOTT.c_str());
+    if(pushMessageIdentifier != "") {
+        url = url + "&pmiToken=" + pushMessageIdentifier;
+    }
+    
     HttpResponse response = MakeGetRequest(url);
     if(response.GetStatus() != HttpResponse::HTTP_OK)
     {
@@ -1066,7 +1110,7 @@ Status MPinSDK::AuthenticateImpl(INOUT UserPtr user, const String& accessNumber,
     requestData.Clear();
     requestData["pass"] = json::Number(2);
     requestData["OTP"] = json::Boolean(otp != NULL ? true : false);
-    requestData["WID"] = json::String( accessNumber.empty() ? "0" : accessNumber );
+    requestData["WID"] = json::String(accessNumber.empty() ? "0" : accessNumber);
     requestData["V"] = json::String(util::HexEncode(v));
     requestData["mpin_id"] = json::String(mpinIdHex);
 

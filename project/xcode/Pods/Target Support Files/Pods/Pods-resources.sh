@@ -60,22 +60,32 @@ install_resource()
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "ATMHud@dhoerl/11-x.png"
   install_resource "ATMHud@dhoerl/19-check.png"
+  install_resource "${BUILT_PRODUCTS_DIR}/HockeySDKResources.bundle"
+fi
+if [[ "$CONFIGURATION" == "Tisho" ]]; then
+  install_resource "ATMHud@dhoerl/11-x.png"
+  install_resource "ATMHud@dhoerl/19-check.png"
+  install_resource "${BUILT_PRODUCTS_DIR}/HockeySDKResources.bundle"
 fi
 if [[ "$CONFIGURATION" == "QA" ]]; then
   install_resource "ATMHud@dhoerl/11-x.png"
   install_resource "ATMHud@dhoerl/19-check.png"
+  install_resource "${BUILT_PRODUCTS_DIR}/HockeySDKResources.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "ATMHud@dhoerl/11-x.png"
   install_resource "ATMHud@dhoerl/19-check.png"
+  install_resource "${BUILT_PRODUCTS_DIR}/HockeySDKResources.bundle"
 fi
 if [[ "$CONFIGURATION" == "AppStore" ]]; then
   install_resource "ATMHud@dhoerl/11-x.png"
   install_resource "ATMHud@dhoerl/19-check.png"
+  install_resource "${BUILT_PRODUCTS_DIR}/HockeySDKResources.bundle"
 fi
 if [[ "$CONFIGURATION" == "AdHoc" ]]; then
   install_resource "ATMHud@dhoerl/11-x.png"
   install_resource "ATMHud@dhoerl/19-check.png"
+  install_resource "${BUILT_PRODUCTS_DIR}/HockeySDKResources.bundle"
 fi
 
 rsync -avr --copy-links --no-relative --exclude '*/.svn/*' --files-from="$RESOURCES_TO_COPY" / "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

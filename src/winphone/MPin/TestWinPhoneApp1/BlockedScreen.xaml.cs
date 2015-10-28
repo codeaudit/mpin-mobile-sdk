@@ -69,7 +69,7 @@ namespace MPinDemo
                 this.User = data[0] as User;
                 if (this.User != null)
                 {
-                    BlockedUesrTB.Text = string.Format(ResourceLoader.GetForCurrentView().GetString("BlockedUser"), this.User.Id);
+                    BlockedUser.Text = this.User.Id;
                 }
             }
         }
@@ -79,7 +79,7 @@ namespace MPinDemo
         private void GoIdentities_Click(object sender, RoutedEventArgs e)
         {
             Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-            mainFrame.GoBack(new List<object>() { "BlockedUser", string.Empty });
+            mainFrame.GoBack("Identities");
         }
 
         private void RemoveUserButton_Click(object sender, RoutedEventArgs e)

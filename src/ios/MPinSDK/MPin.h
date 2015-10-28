@@ -43,12 +43,13 @@
               deviceName:(const NSString*)devName;
 
 + (void)DeleteUser:(const id<IUser>)user;
-
 + (MpinStatus*)StartRegistration:(const id<IUser>)user;
 + (MpinStatus*)RestartRegistration:(const id<IUser>)user;
 + (MpinStatus*)StartRegistration:(const id<IUser>)user userData:(NSString *) userData;
 + (MpinStatus*)RestartRegistration:(const id<IUser>)user userData:(NSString *) userData;
 + (MpinStatus*)FinishRegistration:(const id<IUser>)user;
++ (MpinStatus*)FinishRegistration:(const id<IUser>)user pushNotificationIdentifier:(NSString *) pushNotificationIdentifier;
++ (MpinStatus*) VerifyUser:(const id<IUser>)user mpinId:(NSString* ) mpinId activationKey:(NSString *) activationKey;
 
 + (MpinStatus*)Authenticate:(const id<IUser>)user;
 + (MpinStatus*)Authenticate:(const id<IUser>)user authResultData:(NSString **)authResultData;
@@ -59,6 +60,7 @@
 + (Boolean)CanLogout:(const id<IUser>)user;
 
 + (NSMutableArray*)listUsers;
++ ( id<IUser> ) getIUserById:(NSString *) userId;
 
 + (NSString *) GetClientParam:(const NSString *) key;
 

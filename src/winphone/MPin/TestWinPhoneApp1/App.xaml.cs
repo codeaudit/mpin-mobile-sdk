@@ -39,7 +39,7 @@ namespace MPinDemo
     public sealed partial class App : Application
     {
         private TransitionCollection transitions;
-        
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -51,7 +51,7 @@ namespace MPinDemo
             this.Resuming += this.OnResuming;
             HockeyClient.Current.Configure("584408f872a0f7e10991ddb9954b3eb3");
         }
-                
+
         //internal static Frame RootFrame;
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -67,7 +67,63 @@ namespace MPinDemo
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
-                        
+            Frame rootFrame = CreateRootFrame();
+
+            // When the navigation stack isn't restored navigate to the first page,
+            // configuring the new page by passing required information as a navigation
+            // parameter            
+            if (rootFrame != null && !MPinSDK.Common.Extensions.Navigate(rootFrame, typeof(MainPage), e.Arguments))
+            {
+                throw new Exception("Failed to create initial page");
+            }
+
+            //RootFrame = rootFrame;
+            // Ensure the current window is active
+            Window.Current.Activate();
+
+            await HockeyClient.Current.SendCrashesAsync();
+#if WINDOWS_PHONE_APP
+            await HockeyClient.Current.CheckForAppUpdateAsync();
+#endif
+        }
+
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            base.OnActivated(args);
+            if (args.Kind == ActivationKind.Protocol)
+            {
+                ProtocolActivatedEventArgs protocolArgs = args as ProtocolActivatedEventArgs;
+
+                // TODO: Handle URI activation
+                // The received URI is eventArgs.Uri.AbsoluteUri
+
+                Frame rootFrame = CreateRootFrame();
+                if (rootFrame.Content == null)
+                {
+                    if (!rootFrame.Navigate(typeof(MainPage)))
+                    {
+                        throw new Exception("Failed to create initial page");
+                    }
+                }
+
+                //var p = rootFrame.Content as UriAssociations;
+                ////p.FileEvent = null;
+                //p.ProtocolEvent = eventArgs;
+                //p.NavigateToProtocolPage(typeof(UserID));
+                ////rootFrame.Navigate(typeof(UserID), eventArgs.Uri);
+
+                var p = rootFrame.Content as MainPage;
+                p.ProtocolEvent = protocolArgs;
+                p.NavigateToProtocolPage();
+
+                // Ensure the current window is active
+                Window.Current.Activate();
+
+            }
+        }
+
+        private Frame CreateRootFrame()
+        {
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -80,10 +136,10 @@ namespace MPinDemo
                 // TODO: change this value to a cache size that is appropriate for your application
                 rootFrame.CacheSize = 1;
 
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    // TODO: Load state from previously suspended application
-                }
+                //if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                //{
+                //    // TODO: Load state from previously suspended application
+                //}
 
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
@@ -103,24 +159,9 @@ namespace MPinDemo
 
                 rootFrame.ContentTransitions = null;
                 rootFrame.Navigated += this.RootFrame_FirstNavigated;
-
-                // When the navigation stack isn't restored navigate to the first page,
-                // configuring the new page by passing required information as a navigation
-                // parameter
-                if (!rootFrame.Navigate(typeof(MainPage), e.Arguments))
-                {
-                    throw new Exception("Failed to create initial page");
-                }
             }
 
-            //RootFrame = rootFrame;
-            // Ensure the current window is active
-            Window.Current.Activate();
-
-            await HockeyClient.Current.SendCrashesAsync();
-#if WINDOWS_PHONE_APP
-            await HockeyClient.Current.CheckForAppUpdateAsync();
-#endif
+            return rootFrame;
         }
 
         /// <summary>
@@ -142,21 +183,26 @@ namespace MPinDemo
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
 
             Frame currentFrame = Window.Current.Content as Frame;
+
             if (currentFrame.SourcePageType.Equals(typeof(BlankPage1)))
             {
                 BlankPage1 page = currentFrame.Content as BlankPage1;
-                page.Clear();
+                await page.Clear();
+            }
+            else if (currentFrame.SourcePageType.Equals(typeof(MainPage)))
+            {
+                MainPage page = currentFrame.Content as MainPage;
+                await page.Clear();
             }
 
-            // TODO: Save application state and stop any background activity
             deferral.Complete();
         }
-        
+
         async void OnResuming(object sender, object e)
         {
             Frame currentFrame = Window.Current.Content as Frame;

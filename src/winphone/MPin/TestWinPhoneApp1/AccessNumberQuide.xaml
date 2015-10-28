@@ -1,0 +1,52 @@
+﻿<Page
+    x:Class="MPinDemo.AccessNumberQuide"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MPinDemo"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Uid="ANQuideTitle" Style="{StaticResource TitleStyle}" Margin="0, 24, 0,24" />
+
+        <Grid x:Name="FirstItem" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Width="179" Height="116">
+                <Path Fill="{ThemeResource ApplicationForegroundThemeBrush}" StrokeThickness="0"
+                              Data="M157.792,67.007 C151.463,74.500 142.036,79.259 131.500,79.259 C121.443,79.259 112.394,74.926 106.088,68.016 C94.760,73.848 87.000,85.702 87.000,99.388 L87.000,115.994 L179.000,115.994 L179.000,99.388 C179.000,84.863 170.263,72.395 157.792,67.007 Z" />
+                <Ellipse Width="57" Height="57" Canvas.Left="103" Canvas.Top="17" Fill="{ThemeResource ApplicationForegroundThemeBrush}"/>
+                <Path Fill="{ThemeResource PhoneAccentBrush}" StrokeThickness="0" 
+                              Data="M22.000,116.008 L22.000,108.779 C22.000,96.020 28.932,84.874 39.257,78.832 C44.265,83.421 50.944,86.226 58.281,86.226 C66.073,86.226 73.123,83.065 78.216,77.962 C78.210,77.968 78.204,77.974 78.198,77.981 C89.371,83.784 97.000,95.394 97.000,108.779 L97.000,116.008 L22.000,116.008 Z" />
+                <Ellipse Width="46" Height="46" Fill="{ThemeResource PhoneAccentBrush}" Canvas.Left="35" Canvas.Top="35" />
+                <Path Fill="{ThemeResource ApplicationForegroundThemeBrush}" StrokeThickness="0"
+                      Data="M0.004,17.472 C0.004,7.827 10.523,0.008 23.499,0.008 C36.476,0.008 46.996,7.827 46.996,17.472 C46.996,25.725 39.291,32.636 28.937,34.460 C29.780,37.547 31.186,41.187 33.392,43.005 C29.141,43.013 24.949,38.706 22.075,34.901 C9.763,34.353 0.004,26.760 0.004,17.472 Z" />
+                <Path Fill="{ThemeResource PhoneAccentBrush}" StrokeThickness="0"
+                      Data="M28.2,26H17.8c-1,0-1.8-0.9-1.8-1.9v-7.7c0-1.1,0.8-1.9,1.8-1.9l0,0v-2.2c0-2.9,2.3-5.3,5-5.3c2.8,0,5,2.4,5,5.3v2.2h0.2c1,0,1.8,0.9,1.8,1.9v7.7C30,25.1,29.2,26,28.2,26z M25.6,12.2c0-1.5-1.2-2.8-2.6-2.8s-2.6,1.2-2.6,2.8v2.2h5.3V12.2z" />
+            </Canvas>
+
+            <TextBlock x:Uid="ANQuideGet" Style="{StaticResource IdentityTextBlock}" Grid.Row="1"/>
+            <TextBlock x:Uid="ANGuideDesc" Style="{StaticResource MainTextBlock}" Grid.Row="2" TextWrapping="Wrap"/>
+
+        </Grid>
+
+        <StackPanel Grid.Row="2" Margin="0,24,0,0">
+            <Rectangle Height="1" Fill="{ThemeResource ApplicationForegroundThemeBrush}" Stretch="UniformToFill" Margin="-12, 0, -12, 0"/>
+            <Grid Margin="0,6,0,6">                
+                <Button x:Name="DoneButton" x:Uid="DoneButton" Click="AppBarButton_Click" HorizontalAlignment="Right" BorderThickness="0"/>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Page>

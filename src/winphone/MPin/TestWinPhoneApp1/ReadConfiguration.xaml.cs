@@ -38,7 +38,7 @@ using Windows.UI.Xaml.Navigation;
 namespace MPinDemo
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// A page used to display the configurations list returned from a server JSON which URI has been scanned by a QRCode.
     /// </summary>
     public sealed partial class ReadConfiguration : Page, INotifyPropertyChanged
     {
@@ -111,7 +111,7 @@ namespace MPinDemo
             
             if (areDuplicatesSelected)
             {
-                var confirmation = new MessageDialog(ResourceLoader.GetForCurrentView().GetString("OverideDiplicates"));
+                var confirmation = new MessageDialog(ResourceLoader.GetForCurrentView().GetString("OverwriteDiplicates"));
                 confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("YesCommand")));
                 confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("NoCommand")));
                 confirmation.DefaultCommandIndex = 1;
@@ -120,6 +120,19 @@ namespace MPinDemo
                 {
                     // if no set, back to the configurations list to select
                     return;
+                }
+                else if (BlankPage1.IsActiveConfigurationURLChanged(ExistentsIndexes, this.Configurations))
+                {
+                    var activeServiceConfirmation = new MessageDialog(ResourceLoader.GetForCurrentView().GetString("OverwriteActiveService"));
+                    activeServiceConfirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("YesCommand")));
+                    activeServiceConfirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("NoCommand")));
+                    activeServiceConfirmation.DefaultCommandIndex = 1;
+                    var res = await activeServiceConfirmation.ShowAsync();
+                    if (res.Equals(activeServiceConfirmation.Commands[1]))
+                    {
+                        // if no set, back to the configurations list to select
+                        return;
+                    }
                 }
             }
 

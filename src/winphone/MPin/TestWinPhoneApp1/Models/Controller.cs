@@ -34,6 +34,8 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System.Linq;
+using Windows.Storage;
+using Windows.Foundation;
 
 namespace MPinDemo.Models
 {
@@ -42,11 +44,12 @@ namespace MPinDemo.Models
         #region Fields
         private const string DefautRpsPrefix = "rps";
         private const string ConfigBackend = "backend";
+        private const string IsMPinConnectAuthenticatedString = "IsMPinConnectAuthenticated";
         private bool skipProcessing;
-        private CoreDispatcher dispatcher;
-        private MainPage rootPage = null;
+        private static CoreDispatcher dispatcher;
+        private static MainPage rootPage = null;
         private int selectedServicesIndex = -1;
-        public EventHandler<EventArgs> ScannedServicesLoaded;
+        private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
         private static MPin sdk;
         #endregion // Fields
@@ -118,20 +121,13 @@ namespace MPinDemo.Models
         /// <param name="e">The <see cref="System.ComponentModel.PropertyChangedEventArgs"/> instance containing the event data.</param>
         async void DataModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            // TODO: check for memory leaks - http://stackoverflow.com/questions/12133551/c-sharp-events-memory-leak
             switch (e.PropertyName)
             {
                 case "CurrentService":
                     bool isOk = false;
                     if (!string.IsNullOrEmpty(this.DataModel.CurrentService.BackendUrl))
                     {
-                        Status status = await ProcessServiceChanged();
-                        isOk = status != null && status.StatusCode == Status.Code.OK;
-                        rootPage.NotifyUser(!isOk
-                            ? string.Format(ResourceLoader.GetForCurrentView().GetString("InitializationFailed"), (status == null ? "null" : status.StatusCode.ToString()))
-                            : ResourceLoader.GetForCurrentView().GetString("ServiceSet"),
-                            !isOk ? MainPage.NotifyType.ErrorMessage : MainPage.NotifyType.StatusMessage);
-
+                        isOk = await ConnectToService();
                         UpdateServices(isOk);
                     }
 
@@ -156,6 +152,20 @@ namespace MPinDemo.Models
             }
         }
 
+        private async Task<bool> ConnectToService()
+        {
+            Status status = await ProcessServiceChanged();
+            if (status == null)
+                return false;
+
+            bool isOk = status != null && status.StatusCode == Status.Code.OK;
+            rootPage.NotifyUser(!isOk
+                ? string.Format(ResourceLoader.GetForCurrentView().GetString("InitializationFailed"), (status == null ? "null" : status.StatusCode.ToString()))
+                : ResourceLoader.GetForCurrentView().GetString("ServiceSet"),
+                !isOk ? MainPage.NotifyType.ErrorMessage : MainPage.NotifyType.StatusMessage);
+            return isOk;
+        }
+
         private void UpdateServices(bool isSet)
         {
             foreach (var service in DataModel.BackendsList)
@@ -163,11 +173,6 @@ namespace MPinDemo.Models
                 service.IsSet = service.Equals(DataModel.CurrentService) && isSet ? true : false;
             }
         }
-
-        //static void CurrentService_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        //{
-        //    TODO:  maybe reconnect to the service.... on service editing
-        //}
 
         #endregion // handlers
 
@@ -182,6 +187,12 @@ namespace MPinDemo.Models
 
         private Status InitService()
         {
+            if (!rootPage.IsInternetConnected)
+            {
+                DisplayNoNetworkMessage();
+                return null;
+            }
+
             if (!string.IsNullOrEmpty(this.DataModel.CurrentService.BackendUrl))
             {
                 IDictionary<string, string> config = new Dictionary<string, string>();
@@ -197,9 +208,41 @@ namespace MPinDemo.Models
             return null;
         }
 
+        internal static async void DisplayNoNetworkMessage()
+        {
+            var content = new ContentDialog();
+            var panel = new StackPanel();
+            panel.Children.Add(new TextBlock
+            {
+                Text = ResourceLoader.GetForCurrentView().GetString("NoConnection"),
+                FontWeight = Windows.UI.Text.FontWeights.SemiBold,
+                TextWrapping = TextWrapping.Wrap,
+                Margin = new Thickness(0, 24, 0, 24)
+            });
+
+            panel.Children.Add(new TextBlock
+            {
+                Text = ResourceLoader.GetForCurrentView().GetString("NoInternet"),
+                TextWrapping = TextWrapping.Wrap
+            });
+
+            content.Content = panel;
+            content.PrimaryButtonText = ResourceLoader.GetForCurrentView().GetString("OkString");
+            
+            var r = content.ShowAsync();
+            await Task.Delay(TimeSpan.FromSeconds(5));
+            r.Cancel();
+        }
+
         bool set;
         private async Task<Status> ProcessServiceChanged()
         {
+            if (!rootPage.IsInternetConnected)
+            {
+                DisplayNoNetworkMessage();
+                return null;
+            }
+
             Status status = null;
             if (!set)
             {
@@ -224,16 +267,14 @@ namespace MPinDemo.Models
             await this.DataModel.SaveServices();
         }
 
-        public static Status RestartRegistration(User user)
-        {
-            if (user != null)
-                return sdk.RestartRegistration(user);
-
-            return new Status(-1, "No user!");
-        }
-
         internal static async Task<Status> TestBackend(Backend backend)
         {
+            if (!rootPage.IsInternetConnected)
+            {
+                DisplayNoNetworkMessage();
+                return null;
+            }
+
             if (backend != null && backend.BackendUrl != null)
             {
                 Status status = null;
@@ -250,7 +291,7 @@ namespace MPinDemo.Models
 
         internal async Task DeleteService(Backend backend, bool canBeDeleted)
         {
-            if (this.DataModel.BackendsList.Contains(backend))
+            if (this.DataModel.BackendsList != null && this.DataModel.BackendsList.Contains(backend))
             {
                 if (!canBeDeleted)
                 {
@@ -258,9 +299,9 @@ namespace MPinDemo.Models
                     return;
                 }
 
-                var confirmation = new MessageDialog(string.Format(ResourceLoader.GetForCurrentView().GetString("DeleteServiceConfirmation"), backend.Name));
-                confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("YesCommand")));
-                confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("NoCommand")));
+                var confirmation = new MessageDialog(ResourceLoader.GetForCurrentView().GetString("DeleteServiceConfirmation"));
+                confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("OkString")));
+                confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("CancelString")));
                 confirmation.DefaultCommandIndex = 1;
                 var result = await confirmation.ShowAsync();
                 if (result.Equals(confirmation.Commands[0]))
@@ -281,7 +322,7 @@ namespace MPinDemo.Models
             this.DataModel.BackendsList.Add(backend);
             this.NewAddedServiceIndex = this.DataModel.BackendsList.IndexOf(backend);
             Status status = await Controller.TestBackend(backend);
-            if (status.StatusCode != Status.Code.OK)
+            if (status != null && status.StatusCode != Status.Code.OK)
                 rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("ServiceStatus") + status.StatusCode, MainPage.NotifyType.ErrorMessage);
         }
 
@@ -344,7 +385,7 @@ namespace MPinDemo.Models
             }
 
             Status status = await Controller.TestBackend(editBackend);
-            if (status.StatusCode != Status.Code.OK)
+            if (status != null && status.StatusCode != Status.Code.OK)
                 rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("ServiceStatus") + status.StatusCode, MainPage.NotifyType.ErrorMessage);
         }
         #endregion // services
@@ -352,6 +393,11 @@ namespace MPinDemo.Models
         #region users
         internal void UpdateUsersList()
         {
+            if (!rootPage.IsInternetConnected)
+            {
+                return;
+            }
+
             List<User> users = new List<User>();
             sdk.ListUsers(users);
             DataModel.UsersList = new System.Collections.ObjectModel.ObservableCollection<User>(users);
@@ -359,6 +405,7 @@ namespace MPinDemo.Models
 
         private async Task ProcessUser()
         {
+
             if (this.DataModel.CurrentUser == null)
             {
                 //if (this.DataModel.UsersList.Count > 0)
@@ -372,7 +419,7 @@ namespace MPinDemo.Models
             switch (this.DataModel.CurrentUser.UserState)
             {
                 case User.State.Activated:
-                    await FinishRegistration(this.DataModel.CurrentUser);
+                    await FinishUserRegistration(this.DataModel.CurrentUser);
                     break;
 
                 case User.State.Blocked:
@@ -388,13 +435,27 @@ namespace MPinDemo.Models
                     break;
 
                 case User.State.StartedRegistration:
-                    mainFrame.Navigate(typeof(EmailConfirmed), this.DataModel.CurrentUser);
+                    mainFrame.Navigate(typeof(EmailConfirmed), new List<object> { this.DataModel.CurrentUser, this });
                     break;
 
                 case User.State.Registered:
+                    if (!rootPage.IsInternetConnected)
+                    {
+                        DisplayNoNetworkMessage();
+                        return;
+                    }
+
                     if (this.DataModel.CurrentService.Type == ConfigurationType.Online)
                     {
-                        mainFrame.Navigate(typeof(AccessNumberScreen), new List<string> { this.DataModel.CurrentUser.Id, sdk.GetClientParam("accessNumberDigits") });
+                        List<string> anParams = new List<string> { this.DataModel.CurrentUser.Id, sdk.GetClientParam("accessNumberDigits"), this.DataModel.CurrentService.BackendUrl, this.DataModel.CurrentService.Name };
+                        if (IsMPinConnectFirstAuthentication())
+                        {
+                            mainFrame.Navigate(typeof(AccessNumberQuide), anParams);
+                        }
+                        else
+                        {
+                            mainFrame.Navigate(typeof(AccessNumberScreen), anParams);
+                        }
                     }
                     else
                     {
@@ -404,8 +465,30 @@ namespace MPinDemo.Models
             }
         }
 
+        private bool IsMPinConnectFirstAuthentication()
+        {
+            if (this.DataModel.SelectedBackend.Name.ToLower() != "m-pin connect" || this.DataModel.SelectedBackend.BackendUrl.ToLower() != "https://m-pin.my.id")
+                return false;
+
+            if (!localSettings.Values.Keys.Contains(IsMPinConnectAuthenticatedString))
+            {
+                localSettings.Values.Add(IsMPinConnectAuthenticatedString, 1);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         internal void AddNewUser()
         {
+            if (!rootPage.IsInternetConnected)
+            {
+                DisplayNoNetworkMessage();
+                return;
+            }
+
             // Add a user
             if (string.IsNullOrEmpty(this.DataModel.CurrentService.BackendUrl))
             {
@@ -435,51 +518,85 @@ namespace MPinDemo.Models
 
                 this.skipProcessing = currentValue;
             }
-            this.isUserInProcessing = false;
+            this.IsUserInProcessing = false;
 
-            await FinishRegistration(user);
+            await FinishUserRegistration(user);
         }
 
-        private async Task FinishRegistration(User user)
+        public static Status RestartRegistration(User user)
         {
-            Status st = null;
+            if (!rootPage.IsInternetConnected)
+            {
+                DisplayNoNetworkMessage();
+                return null;
+            }
+
+            if (user != null)
+                return sdk.RestartRegistration(user);
+
+            return new Status(-1, "No user!");
+        }
+
+        private async Task FinishUserRegistration(User user)
+        {
+            if (user == null)
+                return;
+
             if (user.UserState == User.State.StartedRegistration)
             {
                 Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
-                mainFrame.Navigate(typeof(EmailConfirmed), this.DataModel.CurrentUser);
+                mainFrame.Navigate(typeof(EmailConfirmed), new List<object> { this.DataModel.CurrentUser, this });
             }
             else if (user.UserState == User.State.Activated)
             {
-                await Task.Factory.StartNew(() =>
-                {
-                    st = sdk.FinishRegistration(user);
-                });
+                await Finish(user);
+            }
+        }
 
-                if (st != null)
+        private async Task<Status> Finish(User user)
+        {
+            if (!rootPage.IsInternetConnected)
+            {
+                DisplayNoNetworkMessage();
+                return null;
+            }
+
+            Status st = null;
+            await Task.Factory.StartNew(() =>
+            {
+                st = sdk.FinishRegistration(user);
+            });
+
+            if (st != null)
+            {
+                await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    if (st.StatusCode == Status.Code.OK)
+                    {
+                        // successful registration
+                        Frame mainFrame = MainPage.Current.FindName("MainFrame") as Frame;
+                        mainFrame.Navigate(typeof(IdentityCreated), new List<object>() { user, this });
+                    }
+                    else
                     {
                         rootPage.NotifyUser(
-                            st.StatusCode == Status.Code.OK
-                                ? string.Format(ResourceLoader.GetForCurrentView().GetString("SuccessfulRegistration"), user.Id)
-                                : string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblemReason"), user.Id, st.ErrorMessage),
-                            st.StatusCode == Status.Code.OK
-                                ? MainPage.NotifyType.StatusMessage
-                                : MainPage.NotifyType.ErrorMessage);
-                    });
-                }
+                            string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblemReason"), user.Id, st.ErrorMessage),
+                            MainPage.NotifyType.ErrorMessage);
+                    }
+                });
             }
-            //else
-            //{
-            //    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //    {
-            //        rootPage.NotifyUser(string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblem"), user.Id, user.UserState), MainPage.NotifyType.ErrorMessage);
-            //    });
-            //}
+
+            return st;
         }
 
         private async Task<User> AddAndRegisterUser(List<string> data)
         {
+            if (!rootPage.IsInternetConnected)
+            {
+                DisplayNoNetworkMessage();
+                return null;
+            }
+
             string eMail = data[0];
             this.DeviceName = data[1] ?? string.Empty;
             User user = null;
@@ -530,41 +647,13 @@ namespace MPinDemo.Models
             }
         }
 
-        private async Task ShowCreatingNewIdentity(User user, Status reason)
+
+        internal async Task<Status> OnEmailConfirmed(User user)
         {
-            Status s = null;
-            if (user != null && user.UserState == User.State.StartedRegistration)
-            {
-                s = await OnEmailConfirmed();
-            }
-
-            string errorMsg = s == null
-                ? string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblem"), user.Id, user.UserState)
-                : s.StatusCode != Status.Code.OK ? string.Format(ResourceLoader.GetForCurrentView().GetString("UserRegistrationProblemReason"), user.Id, s.ErrorMessage) : string.Empty;
-
-            if (!string.IsNullOrEmpty(errorMsg))
-            {
-                await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    rootPage.NotifyUser(errorMsg, MainPage.NotifyType.ErrorMessage);
-                });
-            }
-        }
-
-        private async Task<Status> OnEmailConfirmed()
-        {
-            Debug.Assert(this.DataModel.CurrentUser.UserState == User.State.StartedRegistration);
-
+            Debug.Assert(user.UserState == User.State.StartedRegistration);
             Task.WaitAll();
 
-            Status s = null;
-            User user = this.DataModel.CurrentUser;
-            await Task.Factory.StartNew(() =>
-            {
-                s = sdk.FinishRegistration(user);
-            });
-
-            return s;
+            return await Finish(user);
         }
 
         internal static bool IfUserExists(string id)
@@ -583,7 +672,16 @@ namespace MPinDemo.Models
 
         internal async Task DeleteUser(User user)
         {
-            var confirmation = new MessageDialog(string.Format(ResourceLoader.GetForCurrentView().GetString("DeleteUserConfirmation"), this.DataModel.CurrentUser.Id));
+            if (user == null)
+            {
+                await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    rootPage.NotifyUser(ResourceLoader.GetForCurrentView().GetString("NoSelectedUser"), MainPage.NotifyType.ErrorMessage);
+                });
+                return;
+            }
+
+            var confirmation = new MessageDialog(string.Format(ResourceLoader.GetForCurrentView().GetString("DeleteUserConfirmation"), user.Id));
             confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("YesCommand")));
             confirmation.Commands.Add(new UICommand(ResourceLoader.GetForCurrentView().GetString("NoCommand")));
             confirmation.DefaultCommandIndex = 1;
@@ -601,6 +699,12 @@ namespace MPinDemo.Models
 
         internal async Task ResetPIN(User user)
         {
+            if (!rootPage.IsInternetConnected)
+            {
+                DisplayNoNetworkMessage();
+                return;
+            }
+
             await Task.Factory.StartNew(() =>
             {
                 sdk.DeleteUser(user);
@@ -669,6 +773,10 @@ namespace MPinDemo.Models
                     await EditServiceInfo(parameter as Backend);
                     break;
 
+                case "SignIn":
+                    this.DataModel.CurrentUser = parameter as User;
+                    break;
+
                 case "InitialLoad":
                     await ProcessUser();
                     break;
@@ -685,13 +793,15 @@ namespace MPinDemo.Models
                     {
                         await NotConfirmedIdentity();
                     }
-                    else
-                    {
-                        await ShowCreatingNewIdentity(this.DataModel.CurrentUser, null);
-                    }
                     break;
 
                 case "AccessNumber":
+                    if (!rootPage.IsInternetConnected)
+                    {
+                        DisplayNoNetworkMessage();
+                        return;
+                    }
+
                     await ShowAuthenticate(parameter.ToString());
                     break;
 
@@ -734,9 +844,12 @@ namespace MPinDemo.Models
                         return;
                     }
 
+                    bool shouldReconnect = newBackends.Any(item => item.Name.Equals(this.DataModel.CurrentService.Name));
                     await this.DataModel.MergeConfigurations(newBackends);
-                    if (ScannedServicesLoaded != null)
-                        ScannedServicesLoaded(this, null);
+                    if (shouldReconnect)
+                    {
+                        await ConnectToService();
+                    }
                     break;
 
                 default:

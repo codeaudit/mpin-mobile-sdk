@@ -84,9 +84,6 @@
     <ClCompile Include="..\..\src\core\crypto\hash.c">
       <Filter>src\core\crypto</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\core\crypto\maxstack.c">
-      <Filter>src\core\crypto</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\core\crypto\mpin.c">
       <Filter>src\core\crypto</Filter>
     </ClCompile>
@@ -106,6 +103,9 @@
       <Filter>src\core\crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\core\utils.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\mpin_sdk_v2.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
   </ItemGroup>
@@ -192,6 +192,9 @@
       <Filter>src\core\crypto</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\core\utils.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\mpin_sdk_v2.h">
       <Filter>src\core</Filter>
     </ClInclude>
   </ItemGroup>

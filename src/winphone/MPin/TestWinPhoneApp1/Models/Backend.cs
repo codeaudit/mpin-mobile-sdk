@@ -23,6 +23,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -31,6 +32,7 @@ using Windows.Data.Json;
 
 namespace MPinDemo.Models
 {
+    [DebuggerDisplay("{Name}", Name = "{BackendUrl}")]
     public class Backend: INotifyPropertyChanged
     {
         public const string DEFAULT_RPS_PREFIX = "rps";
@@ -165,7 +167,7 @@ namespace MPinDemo.Models
         private ConfigurationType ParseType(string typeString)
         {
             if (string.IsNullOrEmpty(typeString))
-                return ConfigurationType.Mobile;
+                return ConfigurationType.Online;
 
             switch (typeString)
             {
@@ -174,7 +176,7 @@ namespace MPinDemo.Models
                 case "otp":
                     return ConfigurationType.OTP;
                 default:
-                    return ConfigurationType.Mobile;
+                    return ConfigurationType.Online;
             }
         }
 
@@ -205,7 +207,7 @@ namespace MPinDemo.Models
 
     public enum ConfigurationType
     {
-        Mobile,
+        //Mobile,
         Online,
         OTP
     }
